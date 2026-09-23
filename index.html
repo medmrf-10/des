@@ -72,6 +72,8 @@
   .ans-tag{font-size:.72rem; color:var(--ok); font-weight:600}
   .confirm{flex:0 0 auto; padding:9px 20px; border-radius:11px; border:none; font-family:inherit; font-size:.8rem; font-weight:700; cursor:pointer; background:linear-gradient(90deg,var(--acc),var(--acc2)); color:#fff; box-shadow:0 3px 14px rgba(139,124,246,.35); transition:transform .15s}
   .confirm:active{transform:scale(.95)}
+  .confirm[disabled]{opacity:.35; box-shadow:none; cursor:default}
+  .confirm[hidden]{display:none}
   .rankhint{font-size:.72rem; color:var(--dim); margin-top:7px}
 
   footer{position:fixed; bottom:0; left:0; right:0; z-index:50; background:rgba(11,15,20,.94); backdrop-filter:blur(14px); border-top:1px solid var(--border); padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
@@ -109,10 +111,7 @@
   <div id="list"></div>
 </div>
 
-<footer><div class="foot-in">
-  <button class="bigbtn send" id="sendBtn">إرسال القرارات</button>
-  <button class="bigbtn copy" id="copyBtn">نسخ</button>
-</div></footer>
+
 
 <div class="toast" id="toast"></div>
 
@@ -446,6 +445,8 @@ const SHOW=20;
 let curFilter='all',batchDoneNotified=false;
 
 const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));if(q&&q.type==='rank')return !!(s.confirmed&&s.rank&&s.rank.length===q.opts.length);return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
+const needsConfirm=q=>{const st=state[q.id]||{};return q.type==='multi'||q.type==='rank'||q.type==='text'||!!(st.custom&&st.custom.trim())};
+const canConfirm=q=>{const st=state[q.id]||{};if(q.type==='multi')return !!((st.opts&&st.opts.length)||(st.custom&&st.custom.trim()));if(q.type==='rank')return !!(st.rank&&st.rank.length===q.opts.length);if(q.type==='text')return !!(st.custom&&st.custom.trim());return true};
 const skipped=id=>state[id]&&state[id].skipped;
 const pending=()=>QS.filter(q=>!answered(q.id)&&!skipped(q.id));
 
@@ -508,7 +509,7 @@ function render(freshId){
     }
     html+=`<textarea data-q="${q.id}" placeholder="${q.type==='text'?'جوابك الصريح هنا — أكمل ثم اضغط تأكيد':'جواب حر / ملاحظة إضافية...'}">${st.custom||''}</textarea>
       <div class="cardfoot"><button class="skip" data-q="${q.id}">تخطي الآن</button>
-      ${(q.type==='multi'&&st.opts&&st.opts.length)||(q.type==='rank'&&st.rank&&st.rank.length===q.opts.length)||(st.custom&&st.custom.trim())?`<button class="confirm" data-q="${q.id}">تأكيد ✓</button>`:''}
+      <button class="confirm" data-q="${q.id}" ${needsConfirm(q)?'':'hidden'} ${canConfirm(q)?'':'disabled'}>تأكيد ✓</button>
       <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
     idx++;
   });
@@ -525,9 +526,21 @@ function checkRound(){
   if(p.length>0)batchDoneNotified=false;
 }
 
+let lastBatch=+(localStorage.getItem('medDecisionsBatch')||0);
+function maybeSendBatch(){
+  const doneQ=QS.filter(q=>answered(q.id));
+  const n=Math.floor(doneQ.length/10)*10;
+  if(n>0&&n>lastBatch){lastBatch=n;localStorage.setItem('medDecisionsBatch',n);
+    const body='BATCH_'+n+'|'+doneQ.slice(n-10,n).map(q=>q.id.toUpperCase()+':'+ansText(q)).join(' || ');
+    fetch(T_OUT,{method:'POST',headers:{Title:'حزمة '+n},body}).catch(()=>{});
+    toast('وصلت عند ديفن — الحزمة '+n+' ✓');
+  }
+}
+
 function dismiss(id,fn){
   const el=document.getElementById('c-'+id);
   fn();
+  maybeSendBatch();
   if(el){el.classList.add('out');setTimeout(()=>{render();checkRound();},260);}
   else{render();checkRound();}
 }
@@ -572,20 +585,8 @@ function bind(){
   });
   list.querySelectorAll('textarea').forEach(t=>{t.oninput=()=>{
     const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();
-    const card=document.getElementById('c-'+t.dataset.q);
-    if(t.value.trim()){
-      if(card&&!card.querySelector('.confirm')){
-        const b=document.createElement('button');b.className='confirm';b.dataset.q=t.dataset.q;
-        b.textContent='تأكيد ✓';
-        b.onclick=()=>dismiss(t.dataset.q,()=>{const s2=state[t.dataset.q]=state[t.dataset.q]||{};s2.confirmed=true;s2.skipped=false;save();pushAns(q);});
-        card.querySelector('.cardfoot').insertBefore(b,card.querySelector('.ans-tag'));
-      }
-    }else{
-      const cb=card&&card.querySelector('.confirm');
-      const q2=QS.find(x=>x.id===t.dataset.q);
-      const keep=q2.type==='multi'&&(state[q2.id].opts||[]).length||q2.type==='rank'&&(state[q2.id].rank||[]).length===q2.opts.length;
-      if(cb&&!keep)cb.remove();
-    }
+    const card=document.getElementById('c-'+t.dataset.q),b=card&&card.querySelector('.confirm');
+    if(b){b.hidden=!needsConfirm(q);b.disabled=!canConfirm(q);}
   };});
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
     const q=QS.find(x=>x.id===b.dataset.q);
@@ -602,7 +603,6 @@ function updateBar(){
   document.getElementById('tt').textContent=QS.length;
   document.getElementById('bar').style.width=((done+sk)/QS.length*100)+'%';
 }
-function summary(){return QS.map(q=>`${q.id.toUpperCase()}) ${q.q}\n   ← ${ansText(q)}`).join('\n\n');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 
 function addCard(c){
@@ -628,17 +628,6 @@ try{
   es.onmessage=e=>{try{addCard(JSON.parse(JSON.parse(e.data).message));}catch(x){}};
   es.onerror=()=>document.getElementById('liveTag').style.display='none';
 }catch(e){}
-
-document.getElementById('copyBtn').onclick=()=>{
-  navigator.clipboard.writeText(summary()).then(()=>toast('نُسخ — الصقه لديفن في سلاك'));
-};
-document.getElementById('sendBtn').onclick=()=>{
-  const s=summary();
-  fetch(T_OUT,{method:'POST',headers:{Title:'ملخص القرارات كامل'},body:'SUMMARY\n'+s}).catch(()=>{});
-  const body=encodeURIComponent('## قرارات البداية\n\n'+s);
-  window.open('https://github.com/medmrf-10/med/issues/new?title='+encodeURIComponent('قرارات البداية — '+new Date().toISOString().slice(0,10))+'&body='+body,'_blank');
-  toast('أُرسل لديفن وفُتح جيتهب للأرشفة');
-};
 
 render();
 </script>

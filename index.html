@@ -229,7 +229,7 @@ function render(freshId){
     }
     html+=`<textarea data-q="${q.id}" placeholder="جواب حر / تعديل / توضيح...">${st.custom||''}</textarea>
       <div class="cardfoot"><button class="skip" data-q="${q.id}">${skipped(q.id)?'إلغاء التخطي':'تخطي الآن'}</button>
-      ${(q.type==='multi'&&st.opts&&st.opts.length)||((q.type==='text'||!q.opts)&&st.custom&&st.custom.trim())?`<button class="bigbtn send confirm" data-q="${q.id}" style="flex:0 0 auto;padding:8px 18px;font-size:.8rem">تأكيد ✓</button>`:''}
+      ${(q.type==='multi'&&st.opts&&st.opts.length)||(st.custom&&st.custom.trim())?`<button class="bigbtn send confirm" data-q="${q.id}" style="flex:0 0 auto;padding:8px 18px;font-size:.8rem">تأكيد ✓</button>`:''}
       <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
   });
   list.innerHTML=html;
@@ -260,26 +260,42 @@ function bind(){
       st.opts=st.opts||[];st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i];
       st.skipped=false;save();render();return;
     }
+    const st0=state[q.id];
+    if(st0&&st0.custom&&st0.custom.trim()){
+      const st=state[q.id]=state[q.id]||{};st.opts=[i];st.skipped=false;save();render();return;
+    }
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};
       st.opts=[i];st.skipped=false;save();pushAns(q);
     });
   });
-  list.querySelectorAll('.confirm').forEach(b=>b.onclick=()=>{
+  list.querySelectorAll('.confirm').forEach(b=>b.onclick=()=>{ 
     const q=QS.find(x=>x.id===b.dataset.q);
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};st.confirmed=true;st.skipped=false;save();pushAns(q);
     });
   });
   list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q);
+    const q=QS.find(x=>x.id===b.dataset.q),st0=state[q.id];
+    if(st0&&st0.custom&&st0.custom.trim()){
+      const st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();render();return;
+    }
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();pushAns(q);
     });
   });
-  list.querySelectorAll('textarea').forEach(t=>{t.onchange=()=>render();t.oninput=()=>{
-    const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();pushAns(q);
+  list.querySelectorAll('textarea').forEach(t=>{t.oninput=()=>{
+    const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();
     document.getElementById('c-'+t.dataset.q).classList.toggle('done',answered(t.dataset.q));
+    if(t.value.trim()){
+      const card=document.getElementById('c-'+t.dataset.q);
+      if(card&&!card.querySelector('.confirm')){
+        const b=document.createElement('button');b.className='bigbtn send confirm';b.dataset.q=t.dataset.q;
+        b.style.cssText='flex:0 0 auto;padding:8px 18px;font-size:.8rem';b.textContent='تأكيد ✓';
+        b.onclick=()=>dismiss(t.dataset.q,()=>{const s2=state[t.dataset.q]=state[t.dataset.q]||{};s2.confirmed=true;s2.skipped=false;save();pushAns(q);});
+        card.querySelector('.cardfoot').insertBefore(b,card.querySelector('.ans-tag'));
+      }
+    }
   };});
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
     const q=QS.find(x=>x.id===b.dataset.q);

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>قرارات البداية — محمد · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --card2:#1c2430; --border:#2d3748;
+    --txt:#e6edf3; --dim:#8b98a9; --acc:#7c6cf0; --acc2:#4cc2ff;
+    --ok:#3fb950; --warn:#d29922; --skip:#484f58;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+  body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh; padding-bottom:120px}
+  .wrap{max-width:640px; margin:0 auto; padding:0 14px}
+
+  header{position:sticky; top:0; z-index:50; background:rgba(13,17,23,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:14px 0 10px}
+  .head-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  h1{font-size:1.15rem; font-weight:700; background:linear-gradient(90deg,var(--acc),var(--acc2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+  .prog{font-size:.8rem; color:var(--dim); white-space:nowrap}
+  .prog b{color:var(--acc2); font-size:1rem}
+  .bar{height:5px; background:var(--card2); border-radius:99px; margin-top:8px; overflow:hidden}
+  .bar>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--acc),var(--acc2)); border-radius:99px; transition:width .4s cubic-bezier(.22,1,.36,1)}
+
+  .filters{display:flex; gap:8px; overflow-x:auto; padding:14px 0 4px; scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .fbtn{flex:0 0 auto; padding:7px 14px; border-radius:99px; border:1px solid var(--border); background:var(--card); color:var(--dim); font-family:inherit; font-size:.82rem; cursor:pointer; transition:all .2s}
+  .fbtn.on{background:linear-gradient(90deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; font-weight:600}
+  .fbtn .n{opacity:.7; font-size:.72rem; margin-inline-start:4px}
+
+  .sec-title{margin:22px 4px 10px; font-size:.85rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px}
+  .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
+
+  .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px; transition:border-color .3s, transform .15s}
+  .card:active{transform:scale(.995)}
+  .card.done{border-color:var(--ok); background:linear-gradient(180deg,rgba(63,185,80,.06),var(--card))}
+  .card.skipped{opacity:.55}
+  .qrow{display:flex; gap:10px; align-items:flex-start; margin-bottom:12px}
+  .qnum{flex:0 0 auto; min-width:26px; height:26px; border-radius:8px; background:var(--card2); border:1px solid var(--border); color:var(--acc2); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center; padding:0 6px}
+  .qtxt{font-size:.95rem; font-weight:600; line-height:1.55; flex:1}
+  .qtype{flex:0 0 auto; font-size:.65rem; color:var(--dim); background:var(--card2); padding:3px 8px; border-radius:6px; border:1px solid var(--border)}
+
+  .opts{display:flex; flex-direction:column; gap:8px}
+  .opt{display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:11px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-size:.88rem; transition:all .18s; text-align:right; width:100%; color:var(--txt); font-family:inherit}
+  .opt:hover{border-color:var(--acc)}
+  .opt .dot{flex:0 0 auto; width:16px; height:16px; border-radius:50%; border:2px solid var(--dim); transition:all .18s}
+  .opt.sq .dot{border-radius:5px}
+  .opt.sel{border-color:var(--acc); background:rgba(124,108,240,.12)}
+  .opt.sel .dot{background:var(--acc); border-color:var(--acc); box-shadow:0 0 0 3px rgba(124,108,240,.25)}
+
+  .rate{display:flex; gap:5px; flex-wrap:wrap}
+  .rnum{flex:1; min-width:32px; padding:10px 0; text-align:center; border-radius:9px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-size:.85rem; font-weight:600; color:var(--dim); transition:all .15s; font-family:inherit}
+  .rnum.sel{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; transform:scale(1.08)}
+
+  textarea{width:100%; min-height:44px; margin-top:10px; padding:10px 12px; border-radius:11px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:.88rem; resize:vertical; transition:border-color .2s}
+  textarea:focus{outline:none; border-color:var(--acc)}
+  textarea::placeholder{color:var(--skip); font-size:.82rem}
+
+  .cardfoot{display:flex; justify-content:space-between; align-items:center; margin-top:10px}
+  .skip{background:none; border:none; color:var(--dim); font-size:.75rem; cursor:pointer; font-family:inherit; padding:5px 8px}
+  .skip:hover{color:var(--warn)}
+  .ans-tag{font-size:.72rem; color:var(--ok); font-weight:600}
+
+  footer{position:fixed; bottom:0; left:0; right:0; z-index:50; background:rgba(13,17,23,.95); backdrop-filter:blur(12px); border-top:1px solid var(--border); padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
+  .foot-in{max-width:640px; margin:0 auto; display:flex; gap:10px}
+  .bigbtn{flex:1; padding:14px; border-radius:14px; border:none; font-family:inherit; font-size:.95rem; font-weight:700; cursor:pointer; transition:all .2s}
+  .send{background:linear-gradient(90deg,var(--acc),var(--acc2)); color:#fff; box-shadow:0 4px 20px rgba(124,108,240,.35)}
+  .send:active{transform:scale(.97)}
+  .send:disabled{opacity:.4; box-shadow:none}
+  .copy{flex:0 0 auto; padding:14px 18px; background:var(--card); color:var(--txt); border:1px solid var(--border)}
+
+  .toast{position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ok); color:#fff; padding:10px 22px; border-radius:99px; font-size:.85rem; font-weight:600; opacity:0; transition:all .3s; pointer-events:none; z-index:99}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .empty{text-align:center; color:var(--dim); padding:40px 20px; font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="head-row">
+    <h1>قرارات البداية</h1>
+    <div class="prog"><b id="dn">0</b> / <span id="tt">0</span></div>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+</div></header>
+
+<div class="wrap">
+  <div class="filters" id="filters"></div>
+  <div id="list"></div>
+</div>
+
+<footer><div class="foot-in">
+  <button class="bigbtn send" id="sendBtn">إرسال القرارات</button>
+  <button class="bigbtn copy" id="copyBtn">نسخ</button>
+</div></footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SECTIONS = [
+  {id:'strategy', name:'استراتيجية المنتج'},
+  {id:'work',     name:'طريقة عملنا'},
+  {id:'id',       name:'هوية وحالة'}
+];
+
+const QS = [
+ // ── استراتيجية ──
+ {id:'d01', sec:'strategy', type:'single', q:'الهدف الأول للبناء الجديد — وش نبني أولاً؟',
+  opts:['منصة تعلم تلتهم كورسات allCourses (learnmax)','أطلس المعرفة الإسلامية (wahy+rlg)','أداة إنتاج دروسك الشرعية (cog)','مدرب/أستاذ AI يعلّمني']},
+ {id:'d02', sec:'strategy', type:'single', q:'أول محتوى يدخل المنصة كتجربة حية؟',
+  opts:['had — خارطة أبو هدهود (33 كورساً كاملة)','jad — كورساتك الأربعة المكتملة','thrwt — فلاتر (6 كورسات)','isam — ASP.NET','sad — دبلومات مصطفى سعد','bnsoq — البزنس']},
+ {id:'d03', sec:'strategy', type:'single', q:'شكل «الذرة» المعتمد للمحتوى الجديد؟',
+  opts:['سطرية حرفية (نموذج rlg — أدق وأثقل)','معنوية بموضوع (نموذج akidsofi — أخف)','طبقتان: حفظ حرفي + فهرسة معنوية']},
+ {id:'d04', sec:'strategy', type:'multi', q:'وش تبغى داخل منصة التعلم الأولى؟ (اختر كل ما يطبق)',
+  opts:['قراءة المنهج منظماً بالترتيب','بحث فوري في كل الكورسات','أستاذ AI يسأل ويجاوب','بطاقات مراجعة متباعدة','تتبع تقدمك الحقيقي من المنصات','خريطة معرفية مرئية']},
+ {id:'d05', sec:'strategy', type:'single', q:'الفيديو/المصدر الأصلي داخل المنصة؟',
+  opts:['نصوص وخرائط فقط (خفيف)','نصوص + روابط للمنصة الأصلية','+ تحميل محلي لاحقاً']},
+ {id:'d06', sec:'strategy', type:'single', q:'لغة الواجهة الأولى؟',
+  opts:['عربي أول','إنجليزي أول','ثنائية من البداية']},
+ {id:'d07', sec:'strategy', type:'rate', q:'قيّم بصدق: مستوى استعدادك الحالي للبرمجة من 10 — نقطة البداية الحقيقية'},
+
+ // ── طريقة العمل ──
+ {id:'w01', sec:'work', type:'single', q:'عقد الدفعات الجديد (دفعة ≤ ساعتين + بطاقة تجربة بدقيقتين + سجل ميزات حي) — تعتمده؟',
+  opts:['أعتمده كما هو','أعتمده مع تعديل بنود (اكتبها بالأسفل)','أريد أخف / أشد من كذا']},
+ {id:'w02', sec:'work', type:'single', q:'حد الاستباقية — متى أشتغل دون أمر صريح؟',
+  opts:['حرية كاملة في ملفاتي وتجاربي','مبادرة بإشعار أول ثم انتظار موافقتك','لا شيء بلا أمر مكتوب']},
+ {id:'w03', sec:'work', type:'single', q:'جداول Markdown في الملفات؟',
+  opts:['ممنوعة كلياً','مسموحة في كل مكان','للملفات الداخلية فقط — مو اللي تقرأها']},
+ {id:'w04', sec:'work', type:'single', q:'قاعدة الأرقام الموحدة؟',
+  opts:['لاتينية دائماً (123)','عربية-هندية في النص (١٢٣)','حسب السياق']},
+ {id:'w05', sec:'work', type:'single', q:'مستودع البناء الجديد؟',
+  opts:['med — الفارغ الجاهز','ريبو جديد باسم جديد','داخل ريبو موجود (اكتبه)']},
+ {id:'w06', sec:'work', type:'single', q:'دور نوشن بعد الموقع؟',
+  opts:['نستغني عنه تدريجياً لصالح موقعنا','يبقى للمخططات/الكتابة فقط','يبقى مركزاً حتى يثبت البديل']},
+
+ // ── هوية وحالة ──
+ {id:'i01', sec:'id', type:'single', q:'«رامي» و«محمد» في الوثائق — شخص واحد؟', opts:['نعم واحد','لا، شخصان مختلفان']},
+ {id:'i02', sec:'id', type:'single', q:'المفاتيح المكشوفة نصياً في ملفاتك (OpenRouter، Gemini، كلمات مرور) — حالتها؟',
+  opts:['أبطلتها كلها','حية — ساعدني أبطلها','لا أعرف']},
+ {id:'i03', sec:'id', type:'single', q:'أي نسخة «تعلم» هي الحية رسمياً اليوم؟',
+  opts:['cog','learnmax/allCourses (الجديدة)','لا شيء حي — نبدأ من الصفر']},
+ {id:'i04', sec:'id', type:'single', q:'أولوية هذا الأسبوع فعلياً؟',
+  opts:['الكفاية المالية أولاً','المنظومة التعليمية أولاً','الاثنان بالتناوب']},
+ {id:'i05', sec:'id', type:'single', q:'قارئ rlg الجاهز — أنشره رابطاً عاماً؟',
+  opts:['نعم انشره','لا أبقه خاصاً','أرجئه لاحقاً']},
+];
+
+const state = JSON.parse(localStorage.getItem('medDecisions')||'{}');
+const list = document.getElementById('list');
+const filtersEl = document.getElementById('filters');
+let curFilter = 'all';
+
+const answered = id => { const s=state[id]; return s && ((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim())) };
+const skipped  = id => state[id] && state[id].skipped;
+
+function buildFilters(){
+  const cats=[{id:'all',n:'الكل'},...SECTIONS.map(s=>({id:s.id,n:s.name})),{id:'open',n:'غير المجاب'}];
+  filtersEl.innerHTML=cats.map(c=>{
+    const qs = c.id==='all'?QS : c.id==='open'?QS.filter(q=>!answered(q.id)&&!skipped(q.id)) : QS.filter(q=>q.sec===c.id);
+    const cnt = c.id==='open'?qs.length : qs.filter(q=>answered(q.id)).length+'/'+qs.length;
+    return `<button class="fbtn ${curFilter===c.id?'on':''}" data-f="${c.id}">${c.n}<span class="n">${cnt}</span></button>`;
+  }).join('');
+  filtersEl.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{curFilter=b.dataset.f;render()});
+}
+
+function render(){
+  buildFilters();
+  let html='', lastSec=null;
+  const vis = QS.filter(q=> curFilter==='all' ? true : curFilter==='open' ? (!answered(q.id)&&!skipped(q.id)) : q.sec===curFilter);
+  if(!vis.length) html='<div class="empty">كل أسئلة هذا القسم مُجابة — أحسنت</div>';
+  vis.forEach(q=>{
+    if(q.sec!==lastSec){ const s=SECTIONS.find(x=>x.id===q.sec); html+=`<div class="sec-title">${s.name}</div>`; lastSec=q.sec; }
+    const st=state[q.id]||{};
+    const typeLabel={single:'اختيار واحد',multi:'تعدد',rate:'تقييم /10',text:'حر'}[q.type];
+    html+=`<div class="card ${answered(q.id)?'done':''} ${skipped(q.id)?'skipped':''}" id="c-${q.id}">
+      <div class="qrow"><span class="qnum">${q.id.toUpperCase()}</span><div class="qtxt">${q.q}</div><span class="qtype">${typeLabel}</span></div>`;
+    if(q.type==='single'||q.type==='multi'){
+      html+='<div class="opts">'+q.opts.map((o,i)=>{
+        const sel=(st.opts||[]).includes(i)?'sel':'';
+        return `<button class="opt ${q.type==='multi'?'sq':''} ${sel}" data-q="${q.id}" data-i="${i}"><span class="dot"></span>${o}</button>`;
+      }).join('')+'</div>';
+    } else if(q.type==='rate'){
+      html+='<div class="rate">'+Array.from({length:10},(_,i)=>`<button class="rnum ${st.rate===i+1?'sel':''}" data-q="${q.id}" data-r="${i+1}">${i+1}</button>`).join('')+'</div>';
+    }
+    html+=`<textarea data-q="${q.id}" placeholder="جواب حر / تعديل / توضيح...">${st.custom||''}</textarea>
+      <div class="cardfoot"><button class="skip" data-q="${q.id}">${skipped(q.id)?'إلغاء التخطي':'تخطي الآن'}</button>
+      <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
+  });
+  list.innerHTML=html;
+  bind(); updateBar();
+}
+
+function bind(){
+  list.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const q=QS.find(x=>x.id===b.dataset.q), i=+b.dataset.i, st=state[q.id]=state[q.id]||{};
+    if(q.type==='single'){ st.opts=[i]; }
+    else { st.opts=st.opts||[]; st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i]; }
+    st.skipped=false; save(); render();
+  });
+  list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
+    const st=state[b.dataset.q]=state[b.dataset.q]||{}; st.rate=+b.dataset.r; st.skipped=false; save(); render();
+  });
+  list.querySelectorAll('textarea').forEach(t=>t.oninput=()=>{
+    const st=state[t.dataset.q]=state[t.dataset.q]||{}; st.custom=t.value; if(t.value.trim())st.skipped=false; save(); updateBar();
+    document.getElementById('c-'+t.dataset.q).classList.toggle('done',answered(t.dataset.q));
+  });
+  list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
+    const st=state[b.dataset.q]=state[b.dataset.q]||{}; st.skipped=!st.skipped; save(); render();
+  });
+}
+
+function save(){ localStorage.setItem('medDecisions',JSON.stringify(state)); }
+function updateBar(){
+  const done=QS.filter(q=>answered(q.id)).length, sk=QS.filter(q=>skipped(q.id)).length;
+  document.getElementById('dn').textContent=done+sk;
+  document.getElementById('tt').textContent=QS.length;
+  document.getElementById('bar').style.width=((done+sk)/QS.length*100)+'%';
+}
+
+function summary(){
+  return QS.map(q=>{
+    const st=state[q.id]||{}; let a='—';
+    if(st.skipped) a='[مُتخطّى]';
+    else {
+      const parts=[];
+      if(st.opts&&st.opts.length) parts.push(st.opts.map(i=>q.opts[i]).join(' + '));
+      if(st.rate!=null) parts.push(st.rate+'/10');
+      if(st.custom&&st.custom.trim()) parts.push('ملاحظة: '+st.custom.trim());
+      a=parts.join(' | ')||'—';
+    }
+    return `${q.id.toUpperCase()}) ${q.q}\n   ← ${a}`;
+  }).join('\n\n');
+}
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+
+document.getElementById('copyBtn').onclick=()=>{
+  navigator.clipboard.writeText(summary()).then(()=>toast('نُسخ — الصقه لديفن في سلاك'));
+};
+document.getElementById('sendBtn').onclick=()=>{
+  const body=encodeURIComponent('## قرارات البداية\n\n'+summary());
+  window.open('https://github.com/medmrf-10/med/issues/new?title='+encodeURIComponent('قرارات البداية — '+new Date().toISOString().slice(0,10))+'&body='+body,'_blank');
+};
+
+render();
+</script>
+</body>
+</html>

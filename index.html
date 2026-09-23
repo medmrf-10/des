@@ -55,6 +55,7 @@
   .opt:hover{border-color:var(--acc)}
   .opt .dot{flex:0 0 auto; width:16px; height:16px; border-radius:50%; border:2px solid var(--dim); transition:all .18s}
   .opt.sq .dot{border-radius:5px}
+  .opt .dot.rn{background:var(--acc);border-color:var(--acc);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
   .opt.sel{border-color:var(--acc); background:rgba(124,108,240,.12)}
   .opt.sel .dot{background:var(--acc); border-color:var(--acc); box-shadow:0 0 0 3px rgba(124,108,240,.25)}
 
@@ -185,7 +186,7 @@ const list=document.getElementById('list'), queueline=document.getElementById('q
 const SHOW=20;   // بطاقات ظاهرة — الباقي احتياطي
 let batchDoneNotified=false;
 
-const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
+const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));if(q&&q.type==='rank')return !!(s.confirmed&&s.rank&&s.rank.length===q.opts.length);return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
 const skipped =id=>state[id]&&state[id].skipped;
 const pending =()=>QS.filter(q=>!answered(q.id)&&!skipped(q.id));
 
@@ -193,6 +194,7 @@ function ansText(q){
   const st=state[q.id]||{},parts=[];
   if(st.skipped)return '[مُتخطّى]';
   if(st.opts&&st.opts.length)parts.push(st.opts.map(i=>q.opts?q.opts[i]:i).join(' + '));
+  if(st.rank&&st.rank.length)parts.push('ترتيب: '+st.rank.map(i=>q.opts?q.opts[i]:i).join(' › '));
   if(st.rate!=null)parts.push(st.rate+'/10');
   if(st.custom&&st.custom.trim())parts.push('ملاحظة: '+st.custom.trim());
   return parts.join(' | ')||'—';
@@ -216,7 +218,7 @@ function render(freshId){
   vis.forEach(q=>{
     if(q.sec!==lastSec){const s=SECTIONS.find(x=>x.id===q.sec);html+=`<div class="sec-title">${s.name}${q.sec==='new'?'<span class="new-dot"></span>':''}</div>`;lastSec=q.sec;}
     const st=state[q.id]||{};
-    const typeLabel={single:'اختيار واحد',multi:'تعدد',rate:'تقييم /10',text:'حر'}[q.type];
+    const typeLabel={single:'اختيار واحد',multi:'تعدد',rate:'تقييم /10',text:'جواب صريح',rank:'ترتيب أولويات'}[q.type];
     html+=`<div class="card ${answered(q.id)?'done':''} ${skipped(q.id)?'skipped':''} ${freshId===q.id?'fresh':''}" id="c-${q.id}">
       <div class="qrow"><span class="qnum">${q.id.toUpperCase()}</span><div class="qtxt">${q.q}</div><span class="qtype">${typeLabel}</span></div>`;
     if(q.type==='single'||q.type==='multi'){
@@ -226,10 +228,15 @@ function render(freshId){
       }).join('')+'</div>';
     }else if(q.type==='rate'){
       html+='<div class="rate">'+Array.from({length:10},(_,i)=>`<button class="rnum ${st.rate===i+1?'sel':''}" data-q="${q.id}" data-r="${i+1}">${i+1}</button>`).join('')+'</div>';
+    }else if(q.type==='rank'){
+      html+='<div class="opts">'+q.opts.map((o,i)=>{
+        const ord=(st.rank||[]).indexOf(i);
+        return `<button class="opt rankopt ${ord>-1?'sel':''}" data-q="${q.id}" data-i="${i}"><span class="dot ${ord>-1?'rn':''}">${ord>-1?ord+1:''}</span>${o}</button>`;
+      }).join('')+`</div><div style="font-size:.72rem;color:var(--dim);margin-top:6px">اضغط الخيارات بترتيب أولويتك — 1 الأهم · رتبت ${(st.rank||[]).length} من ${q.opts.length}</div>`;
     }
     html+=`<textarea data-q="${q.id}" placeholder="جواب حر / تعديل / توضيح...">${st.custom||''}</textarea>
       <div class="cardfoot"><button class="skip" data-q="${q.id}">${skipped(q.id)?'إلغاء التخطي':'تخطي الآن'}</button>
-      ${(q.type==='multi'&&st.opts&&st.opts.length)||(st.custom&&st.custom.trim())?`<button class="bigbtn send confirm" data-q="${q.id}" style="flex:0 0 auto;padding:8px 18px;font-size:.8rem">تأكيد ✓</button>`:''}
+      ${(q.type==='multi'&&st.opts&&st.opts.length)||(q.type==='rank'&&st.rank&&st.rank.length===q.opts.length)||(st.custom&&st.custom.trim())?`<button class="bigbtn send confirm" data-q="${q.id}" style="flex:0 0 auto;padding:8px 18px;font-size:.8rem">تأكيد ✓</button>`:''}
       <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
   });
   list.innerHTML=html;
@@ -274,6 +281,12 @@ function bind(){
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};st.confirmed=true;st.skipped=false;save();pushAns(q);
     });
+  });
+  list.querySelectorAll('.rankopt').forEach(b=>b.onclick=()=>{
+    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i,st=state[q.id]=state[q.id]||{};
+    st.rank=st.rank||[];
+    st.rank=st.rank.includes(i)?st.rank.filter(x=>x!==i):[...st.rank,i];
+    st.skipped=false;save();render();
   });
   list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
     const q=QS.find(x=>x.id===b.dataset.q),st0=state[q.id];

@@ -182,7 +182,7 @@ extra.forEach(c=>{ if(!QS.find(q=>q.id===c.id)) QS.push(c); });
 
 const state=JSON.parse(localStorage.getItem('medDecisions')||'{}');
 const list=document.getElementById('list'), queueline=document.getElementById('queueline');
-const SHOW=10;   // بطاقات ظاهرة — الباقي احتياطي
+const SHOW=20;   // بطاقات ظاهرة — الباقي احتياطي
 let batchDoneNotified=false;
 
 const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};

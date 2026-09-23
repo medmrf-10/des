@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>قرارات البداية — محمد · v3</title>
+<title>قرارات محمد — جولات العشرة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -24,11 +24,16 @@
   .bar{height:5px; background:var(--card2); border-radius:99px; margin-top:8px; overflow:hidden}
   .bar>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--acc),var(--acc2)); border-radius:99px; transition:width .4s cubic-bezier(.22,1,.36,1)}
 
-  .filters{display:flex; gap:8px; overflow-x:auto; padding:14px 0 4px; scrollbar-width:none}
-  .filters::-webkit-scrollbar{display:none}
-  .fbtn{flex:0 0 auto; padding:7px 14px; border-radius:99px; border:1px solid var(--border); background:var(--card); color:var(--dim); font-family:inherit; font-size:.82rem; cursor:pointer; transition:all .2s}
-  .fbtn.on{background:linear-gradient(90deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; font-weight:600}
-  .fbtn .n{opacity:.7; font-size:.72rem; margin-inline-start:4px}
+  .queueline{display:flex; justify-content:space-between; align-items:center; padding:14px 4px 4px; font-size:.78rem; color:var(--dim)}
+  .queueline b{color:var(--acc2)}
+
+  .card.out{animation:slideout .3s ease forwards}
+  @keyframes slideout{to{opacity:0; transform:translateX(-40px) scale(.95); max-height:0; margin-bottom:0; padding:0; border-width:0}}
+  .waitbox{text-align:center; padding:48px 22px; background:var(--card); border:1px dashed var(--acc); border-radius:16px; margin-top:18px}
+  .waitbox .wt{font-size:1.05rem; font-weight:700; margin-bottom:8px}
+  .waitbox .ws{font-size:.85rem; color:var(--dim); line-height:1.7}
+  .waitbox .spin{display:inline-block; width:14px; height:14px; border:2px solid var(--acc2); border-top-color:transparent; border-radius:99px; animation:sp 1s linear infinite; vertical-align:middle; margin-inline-start:6px}
+  @keyframes sp{to{transform:rotate(360deg)}}
 
   .sec-title{margin:22px 4px 10px; font-size:.85rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px}
   .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
@@ -93,7 +98,7 @@
 </div></header>
 
 <div class="wrap">
-  <div class="filters" id="filters"></div>
+  <div class="queueline" id="queueline"></div>
   <div id="list"></div>
 </div>
 
@@ -176,11 +181,13 @@ const extra = JSON.parse(localStorage.getItem('medDecisionsExtra')||'[]');
 extra.forEach(c=>{ if(!QS.find(q=>q.id===c.id)) QS.push(c); });
 
 const state=JSON.parse(localStorage.getItem('medDecisions')||'{}');
-const list=document.getElementById('list'), filtersEl=document.getElementById('filters');
-let curFilter='all';
+const list=document.getElementById('list'), queueline=document.getElementById('queueline');
+const SHOW=10;   // بطاقات ظاهرة — الباقي احتياطي
+let batchDoneNotified=false;
 
-const answered=id=>{const s=state[id];return s&&((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
+const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
 const skipped =id=>state[id]&&state[id].skipped;
+const pending =()=>QS.filter(q=>!answered(q.id)&&!skipped(q.id));
 
 function ansText(q){
   const st=state[q.id]||{},parts=[];
@@ -200,21 +207,12 @@ function pushAns(q){
   },400);
 }
 
-function buildFilters(){
-  const cats=[{id:'all',n:'الكل'},...SECTIONS.filter(s=>s.id!=='new'||QS.some(q=>q.sec==='new')).map(s=>({id:s.id,n:s.name})),{id:'open',n:'غير المجاب'}];
-  filtersEl.innerHTML=cats.map(c=>{
-    const qs=c.id==='all'?QS:c.id==='open'?QS.filter(q=>!answered(q.id)&&!skipped(q.id)):QS.filter(q=>q.sec===c.id);
-    const cnt=c.id==='open'?qs.length:qs.filter(q=>answered(q.id)).length+'/'+qs.length;
-    return `<button class="fbtn ${curFilter===c.id?'on':''}" data-f="${c.id}">${c.n}<span class="n">${cnt}</span></button>`;
-  }).join('');
-  filtersEl.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{curFilter=b.dataset.f;render()});
-}
-
 function render(freshId){
-  buildFilters();
+  const p=pending(), done=QS.filter(q=>answered(q.id)||skipped(q.id)).length;
+  const vis=p.slice(0,SHOW), reserve=p.length-vis.length;
+  queueline.innerHTML=p.length?`هذه الجولة: <b>${vis.length}</b> بطاقة${reserve?` — احتياطي جاهز: <b>${reserve}</b>`:' — هذه آخر بطاقات محملة'}`:`المُنجز: <b>${done}</b> / ${QS.length}`;
   let html='',lastSec=null;
-  const vis=QS.filter(q=>curFilter==='all'?true:curFilter==='open'?(!answered(q.id)&&!skipped(q.id)):q.sec===curFilter);
-  if(!vis.length)html='<div class="empty">كل أسئلة هذا القسم مُجابة — أحسنت</div>';
+  if(!vis.length)html=`<div class="waitbox"><div class="wt">خلصت الجولة — أحسنت <span class="spin"></span></div><div class="ws">ديفن استلم إجاباتك ويحللها الآن.<br>الجولة التالية (10 أسئلة أدقّ) تظهر هنا تلقائياً فور جاهزيتها.<br>العملية مستمرة حتى تقول أنت: توقف.</div></div>`;
   vis.forEach(q=>{
     if(q.sec!==lastSec){const s=SECTIONS.find(x=>x.id===q.sec);html+=`<div class="sec-title">${s.name}${q.sec==='new'?'<span class="new-dot"></span>':''}</div>`;lastSec=q.sec;}
     const st=state[q.id]||{};
@@ -231,28 +229,63 @@ function render(freshId){
     }
     html+=`<textarea data-q="${q.id}" placeholder="جواب حر / تعديل / توضيح...">${st.custom||''}</textarea>
       <div class="cardfoot"><button class="skip" data-q="${q.id}">${skipped(q.id)?'إلغاء التخطي':'تخطي الآن'}</button>
+      ${(q.type==='multi'&&st.opts&&st.opts.length)||((q.type==='text'||!q.opts)&&st.custom&&st.custom.trim())?`<button class="bigbtn send confirm" data-q="${q.id}" style="flex:0 0 auto;padding:8px 18px;font-size:.8rem">تأكيد ✓</button>`:''}
       <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
   });
   list.innerHTML=html;
   bind();updateBar();
 }
 
+function checkRound(){
+  const p=pending();
+  if(p.length===0&&!batchDoneNotified){
+    batchDoneNotified=true;
+    fetch(T_OUT,{method:'POST',headers:{Title:'انتهت الجولة'},body:`ROUND_DONE|أجاب/تخطى ${QS.length-p.length} من ${QS.length} — جاهز لتوليد الجولة التالية`}).catch(()=>{});
+  }
+  if(p.length>0)batchDoneNotified=false;
+}
+
+function dismiss(id,fn){
+  const el=document.getElementById('c-'+id);
+  fn();
+  if(el){el.classList.add('out');setTimeout(()=>{render();checkRound();},280);}
+  else{render();checkRound();}
+}
+
 function bind(){
   list.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i,st=state[q.id]=state[q.id]||{};
-    if(q.type==='single')st.opts=[i];
-    else{st.opts=st.opts||[];st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i];}
-    st.skipped=false;save();render();pushAns(q);
+    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i;
+    if(q.type==='multi'){
+      const st=state[q.id]=state[q.id]||{};
+      st.opts=st.opts||[];st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i];
+      st.skipped=false;save();render();return;
+    }
+    dismiss(q.id,()=>{
+      const st=state[q.id]=state[q.id]||{};
+      st.opts=[i];st.skipped=false;save();pushAns(q);
+    });
+  });
+  list.querySelectorAll('.confirm').forEach(b=>b.onclick=()=>{
+    const q=QS.find(x=>x.id===b.dataset.q);
+    dismiss(q.id,()=>{
+      const st=state[q.id]=state[q.id]||{};st.confirmed=true;st.skipped=false;save();pushAns(q);
+    });
   });
   list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q),st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();render();pushAns(q);
+    const q=QS.find(x=>x.id===b.dataset.q);
+    dismiss(q.id,()=>{
+      const st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();pushAns(q);
+    });
   });
-  list.querySelectorAll('textarea').forEach(t=>t.oninput=()=>{
+  list.querySelectorAll('textarea').forEach(t=>{t.onchange=()=>render();t.oninput=()=>{
     const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();pushAns(q);
     document.getElementById('c-'+t.dataset.q).classList.toggle('done',answered(t.dataset.q));
-  });
+  };});
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q),st=state[q.id]=state[q.id]||{};st.skipped=!st.skipped;save();render();pushAns(q);
+    const q=QS.find(x=>x.id===b.dataset.q);
+    dismiss(q.id,()=>{
+      const st=state[q.id]=state[q.id]||{};st.skipped=!st.skipped;save();pushAns(q);
+    });
   });
 }
 

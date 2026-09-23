@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>قرارات البداية — محمد · v2</title>
+<title>قرارات البداية — محمد · v3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -32,11 +32,14 @@
 
   .sec-title{margin:22px 4px 10px; font-size:.85rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px}
   .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
+  .sec-title .new-dot{width:7px;height:7px;border-radius:99px;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
   .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px; transition:border-color .3s, transform .15s}
   .card:active{transform:scale(.995)}
   .card.done{border-color:var(--ok); background:linear-gradient(180deg,rgba(63,185,80,.06),var(--card))}
   .card.skipped{opacity:.55}
+  .card.fresh{animation:pop .5s ease}
+  @keyframes pop{from{transform:scale(.96); border-color:var(--acc2)}}
   .qrow{display:flex; gap:10px; align-items:flex-start; margin-bottom:12px}
   .qnum{flex:0 0 auto; min-width:26px; height:26px; border-radius:8px; background:var(--card2); border:1px solid var(--border); color:var(--acc2); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center; padding:0 6px}
   .qtxt{font-size:.95rem; font-weight:600; line-height:1.55; flex:1}
@@ -74,13 +77,16 @@
   .toast{position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ok); color:#fff; padding:10px 22px; border-radius:99px; font-size:.85rem; font-weight:600; opacity:0; transition:all .3s; pointer-events:none; z-index:99}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   .empty{text-align:center; color:var(--dim); padding:40px 20px; font-size:.9rem}
+  .live{display:inline-flex; align-items:center; gap:5px; font-size:.65rem; color:var(--ok); margin-inline-start:8px}
+  .live i{width:6px;height:6px;border-radius:99px;background:var(--ok);animation:blink 1.6s infinite}
+  @keyframes blink{50%{opacity:.25}}
 </style>
 </head>
 <body>
 
 <header><div class="wrap">
   <div class="head-row">
-    <h1>قرارات البداية</h1>
+    <h1>قرارات البداية <span class="live" id="liveTag" style="display:none"><i></i>مباشر</span></h1>
     <div class="prog"><b id="dn">0</b> / <span id="tt">0</span></div>
   </div>
   <div class="bar"><i id="bar"></i></div>
@@ -99,89 +105,114 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SECTIONS = [
-  {id:'strategy', name:'استراتيجية المنتج'},
-  {id:'work',     name:'طريقة عملنا'},
-  {id:'id',       name:'هوية وحالة'}
+const NTFY='https://ntfy.sh';
+const T_OUT=NTFY+'/med-qz-x7k2-out';   // إجابات → ديفن
+const T_IN =NTFY+'/med-qz-x7k2-in';    // بطاقات جديدة → الصفحة
+const SECTIONS=[
+  {id:'strategy',name:'استراتيجية المنتج'},
+  {id:'work',name:'طريقة عملنا'},
+  {id:'id',name:'هوية وحالة'},
+  {id:'new',name:'أسئلة جديدة'},
 ];
 
-const QS = [
+const QS=[
  // ── استراتيجية ──
- {id:'d01', sec:'strategy', type:'single', q:'الهدف الأول للبناء الجديد — وش نبني أولاً؟',
+ {id:'d01',sec:'strategy',type:'single',q:'الهدف الأول للبناء الجديد — وش نبني أولاً؟',
   opts:['منصة تعلم تلتهم كورسات allCourses (learnmax)','أطلس المعرفة الإسلامية (wahy+rlg)','أداة إنتاج دروسك الشرعية (cog)','مدرب/أستاذ AI يعلّمني']},
- {id:'d02', sec:'strategy', type:'single', q:'أول محتوى يدخل المنصة كتجربة حية؟',
+ {id:'d02',sec:'strategy',type:'single',q:'أول محتوى يدخل المنصة كتجربة حية؟',
   opts:['had — خارطة أبو هدهود (33 كورساً كاملة)','jad — كورساتك الأربعة المكتملة','thrwt — فلاتر (6 كورسات)','isam — ASP.NET','sad — دبلومات مصطفى سعد','bnsoq — البزنس']},
- {id:'d03', sec:'strategy', type:'single', q:'شكل «الذرة» المعتمد للمحتوى الجديد؟',
+ {id:'d03',sec:'strategy',type:'single',q:'شكل «الذرة» المعتمد للمحتوى الجديد؟',
   opts:['سطرية حرفية (نموذج rlg — أدق وأثقل)','معنوية بموضوع (نموذج akidsofi — أخف)','طبقتان: حفظ حرفي + فهرسة معنوية']},
- {id:'d04', sec:'strategy', type:'multi', q:'وش تبغى داخل منصة التعلم الأولى؟ (اختر كل ما يطبق)',
+ {id:'d04',sec:'strategy',type:'multi',q:'وش تبغى داخل منصة التعلم الأولى؟ (اختر كل ما يطبق)',
   opts:['قراءة المنهج منظماً بالترتيب','بحث فوري في كل الكورسات','أستاذ AI يسأل ويجاوب','بطاقات مراجعة متباعدة','تتبع تقدمك الحقيقي من المنصات','خريطة معرفية مرئية']},
- {id:'d05', sec:'strategy', type:'single', q:'الفيديو/المصدر الأصلي داخل المنصة؟',
+ {id:'d05',sec:'strategy',type:'single',q:'الفيديو/المصدر الأصلي داخل المنصة؟',
   opts:['نصوص وخرائط فقط (خفيف)','نصوص + روابط للمنصة الأصلية','+ تحميل محلي لاحقاً']},
- {id:'d06', sec:'strategy', type:'single', q:'لغة الواجهة الأولى؟',
+ {id:'d06',sec:'strategy',type:'single',q:'لغة الواجهة الأولى؟',
   opts:['عربي أول','إنجليزي أول','ثنائية من البداية']},
- {id:'d07', sec:'strategy', type:'rate', q:'قيّم بصدق: مستوى استعدادك الحالي للبرمجة من 10 — نقطة البداية الحقيقية'},
+ {id:'d07',sec:'strategy',type:'rate',q:'قيّم بصدق: مستوى استعدادك الحالي للبرمجة من 10 — نقطة البداية الحقيقية'},
 
  // ── طريقة العمل ──
- {id:'w01', sec:'work', type:'single', q:'عقد الدفعات الجديد (دفعة ≤ ساعتين + بطاقة تجربة بدقيقتين + سجل ميزات حي) — تعتمده؟',
+ {id:'w01',sec:'work',type:'single',q:'عقد الدفعات الجديد (دفعة ≤ ساعتين + بطاقة تجربة بدقيقتين + سجل ميزات حي) — تعتمده؟',
   opts:['أعتمده كما هو','أعتمده مع تعديل بنود (اكتبها بالأسفل)','أريد أخف / أشد من كذا']},
- {id:'w02', sec:'work', type:'single', q:'حد الاستباقية — متى أشتغل دون أمر صريح؟',
+ {id:'w02',sec:'work',type:'single',q:'حد الاستباقية — متى أشتغل دون أمر صريح؟',
   opts:['حرية كاملة في ملفاتي وتجاربي','مبادرة بإشعار أول ثم انتظار موافقتك','لا شيء بلا أمر مكتوب']},
- {id:'w03', sec:'work', type:'single', q:'جداول Markdown في الملفات؟',
+ {id:'w03',sec:'work',type:'single',q:'جداول Markdown في الملفات؟',
   opts:['ممنوعة كلياً','مسموحة في كل مكان','للملفات الداخلية فقط — مو اللي تقرأها']},
- {id:'w04', sec:'work', type:'single', q:'قاعدة الأرقام الموحدة؟',
+ {id:'w04',sec:'work',type:'single',q:'قاعدة الأرقام الموحدة؟',
   opts:['لاتينية دائماً (123)','عربية-هندية في النص (١٢٣)','حسب السياق']},
- {id:'w05', sec:'work', type:'single', q:'مستودع البناء الجديد؟',
+ {id:'w05',sec:'work',type:'single',q:'مستودع البناء الجديد؟',
   opts:['med — الفارغ الجاهز','ريبو جديد باسم جديد','داخل ريبو موجود (اكتبه)']},
- {id:'w06', sec:'work', type:'single', q:'دور نوشن بعد الموقع؟',
+ {id:'w06',sec:'work',type:'single',q:'دور نوشن بعد الموقع؟',
   opts:['نستغني عنه تدريجياً لصالح موقعنا','يبقى للمخططات/الكتابة فقط','يبقى مركزاً حتى يثبت البديل']},
 
  // ── هوية وحالة ──
- {id:'i01', sec:'id', type:'single', q:'«رامي» و«محمد» في الوثائق — شخص واحد؟', opts:['نعم واحد','لا، شخصان مختلفان']},
- {id:'i02', sec:'id', type:'single', q:'المفاتيح المكشوفة نصياً في ملفاتك (OpenRouter، Gemini، كلمات مرور) — حالتها؟',
+ {id:'i01',sec:'id',type:'single',q:'«رامي» و«محمد» في الوثائق — شخص واحد؟',opts:['نعم واحد','لا، شخصان مختلفان']},
+ {id:'i02',sec:'id',type:'single',q:'المفاتيح المكشوفة نصياً في ملفاتك (OpenRouter، Gemini، كلمات مرور) — حالتها؟',
   opts:['أبطلتها كلها','حية — ساعدني أبطلها','لا أعرف']},
- {id:'i03', sec:'id', type:'single', q:'أي نسخة «تعلم» هي الحية رسمياً اليوم؟',
+ {id:'i03',sec:'id',type:'single',q:'أي نسخة «تعلم» هي الحية رسمياً اليوم؟',
   opts:['cog','learnmax/allCourses (الجديدة)','لا شيء حي — نبدأ من الصفر']},
- {id:'i04', sec:'id', type:'single', q:'أولوية هذا الأسبوع فعلياً؟',
+ {id:'i04',sec:'id',type:'single',q:'أولوية هذا الأسبوع فعلياً؟',
   opts:['الكفاية المالية أولاً','المنظومة التعليمية أولاً','الاثنان بالتناوب']},
- {id:'i05', sec:'id', type:'single', q:'قارئ rlg الجاهز — أنشره رابطاً عاماً؟',
+ {id:'i05',sec:'id',type:'single',q:'قارئ rlg الجاهز — أنشره رابطاً عاماً؟',
   opts:['نعم انشره','لا أبقه خاصاً','أرجئه لاحقاً']},
 ];
 
-const state = JSON.parse(localStorage.getItem('medDecisions')||'{}');
-const list = document.getElementById('list');
-const filtersEl = document.getElementById('filters');
-let curFilter = 'all';
+// بطاقات وصلت عبر ntfy (تحفظ محلياً)
+const extra = JSON.parse(localStorage.getItem('medDecisionsExtra')||'[]');
+extra.forEach(c=>{ if(!QS.find(q=>q.id===c.id)) QS.push(c); });
 
-const answered = id => { const s=state[id]; return s && ((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim())) };
-const skipped  = id => state[id] && state[id].skipped;
+const state=JSON.parse(localStorage.getItem('medDecisions')||'{}');
+const list=document.getElementById('list'), filtersEl=document.getElementById('filters');
+let curFilter='all';
+
+const answered=id=>{const s=state[id];return s&&((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
+const skipped =id=>state[id]&&state[id].skipped;
+
+function ansText(q){
+  const st=state[q.id]||{},parts=[];
+  if(st.skipped)return '[مُتخطّى]';
+  if(st.opts&&st.opts.length)parts.push(st.opts.map(i=>q.opts?q.opts[i]:i).join(' + '));
+  if(st.rate!=null)parts.push(st.rate+'/10');
+  if(st.custom&&st.custom.trim())parts.push('ملاحظة: '+st.custom.trim());
+  return parts.join(' | ')||'—';
+}
+
+// إرسال فوري لديفن عبر ntfy — كل ضغطة توصل
+let sendTimer={};
+function pushAns(q){
+  clearTimeout(sendTimer[q.id]);
+  sendTimer[q.id]=setTimeout(()=>{
+    fetch(T_OUT,{method:'POST',body:`${q.id.toUpperCase()}|${q.q} ← ${ansText(q)}`}).catch(()=>{});
+  },400);
+}
 
 function buildFilters(){
-  const cats=[{id:'all',n:'الكل'},...SECTIONS.map(s=>({id:s.id,n:s.name})),{id:'open',n:'غير المجاب'}];
+  const cats=[{id:'all',n:'الكل'},...SECTIONS.filter(s=>s.id!=='new'||QS.some(q=>q.sec==='new')).map(s=>({id:s.id,n:s.name})),{id:'open',n:'غير المجاب'}];
   filtersEl.innerHTML=cats.map(c=>{
-    const qs = c.id==='all'?QS : c.id==='open'?QS.filter(q=>!answered(q.id)&&!skipped(q.id)) : QS.filter(q=>q.sec===c.id);
-    const cnt = c.id==='open'?qs.length : qs.filter(q=>answered(q.id)).length+'/'+qs.length;
+    const qs=c.id==='all'?QS:c.id==='open'?QS.filter(q=>!answered(q.id)&&!skipped(q.id)):QS.filter(q=>q.sec===c.id);
+    const cnt=c.id==='open'?qs.length:qs.filter(q=>answered(q.id)).length+'/'+qs.length;
     return `<button class="fbtn ${curFilter===c.id?'on':''}" data-f="${c.id}">${c.n}<span class="n">${cnt}</span></button>`;
   }).join('');
   filtersEl.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{curFilter=b.dataset.f;render()});
 }
 
-function render(){
+function render(freshId){
   buildFilters();
-  let html='', lastSec=null;
-  const vis = QS.filter(q=> curFilter==='all' ? true : curFilter==='open' ? (!answered(q.id)&&!skipped(q.id)) : q.sec===curFilter);
-  if(!vis.length) html='<div class="empty">كل أسئلة هذا القسم مُجابة — أحسنت</div>';
+  let html='',lastSec=null;
+  const vis=QS.filter(q=>curFilter==='all'?true:curFilter==='open'?(!answered(q.id)&&!skipped(q.id)):q.sec===curFilter);
+  if(!vis.length)html='<div class="empty">كل أسئلة هذا القسم مُجابة — أحسنت</div>';
   vis.forEach(q=>{
-    if(q.sec!==lastSec){ const s=SECTIONS.find(x=>x.id===q.sec); html+=`<div class="sec-title">${s.name}</div>`; lastSec=q.sec; }
+    if(q.sec!==lastSec){const s=SECTIONS.find(x=>x.id===q.sec);html+=`<div class="sec-title">${s.name}${q.sec==='new'?'<span class="new-dot"></span>':''}</div>`;lastSec=q.sec;}
     const st=state[q.id]||{};
     const typeLabel={single:'اختيار واحد',multi:'تعدد',rate:'تقييم /10',text:'حر'}[q.type];
-    html+=`<div class="card ${answered(q.id)?'done':''} ${skipped(q.id)?'skipped':''}" id="c-${q.id}">
+    html+=`<div class="card ${answered(q.id)?'done':''} ${skipped(q.id)?'skipped':''} ${freshId===q.id?'fresh':''}" id="c-${q.id}">
       <div class="qrow"><span class="qnum">${q.id.toUpperCase()}</span><div class="qtxt">${q.q}</div><span class="qtype">${typeLabel}</span></div>`;
     if(q.type==='single'||q.type==='multi'){
       html+='<div class="opts">'+q.opts.map((o,i)=>{
         const sel=(st.opts||[]).includes(i)?'sel':'';
         return `<button class="opt ${q.type==='multi'?'sq':''} ${sel}" data-q="${q.id}" data-i="${i}"><span class="dot"></span>${o}</button>`;
       }).join('')+'</div>';
-    } else if(q.type==='rate'){
+    }else if(q.type==='rate'){
       html+='<div class="rate">'+Array.from({length:10},(_,i)=>`<button class="rnum ${st.rate===i+1?'sel':''}" data-q="${q.id}" data-r="${i+1}">${i+1}</button>`).join('')+'</div>';
     }
     html+=`<textarea data-q="${q.id}" placeholder="جواب حر / تعديل / توضيح...">${st.custom||''}</textarea>
@@ -189,58 +220,74 @@ function render(){
       <span class="ans-tag">${answered(q.id)?'مُجاب ✓':''}</span></div></div>`;
   });
   list.innerHTML=html;
-  bind(); updateBar();
+  bind();updateBar();
 }
 
 function bind(){
   list.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q), i=+b.dataset.i, st=state[q.id]=state[q.id]||{};
-    if(q.type==='single'){ st.opts=[i]; }
-    else { st.opts=st.opts||[]; st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i]; }
-    st.skipped=false; save(); render();
+    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i,st=state[q.id]=state[q.id]||{};
+    if(q.type==='single')st.opts=[i];
+    else{st.opts=st.opts||[];st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i];}
+    st.skipped=false;save();render();pushAns(q);
   });
   list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
-    const st=state[b.dataset.q]=state[b.dataset.q]||{}; st.rate=+b.dataset.r; st.skipped=false; save(); render();
+    const q=QS.find(x=>x.id===b.dataset.q),st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();render();pushAns(q);
   });
   list.querySelectorAll('textarea').forEach(t=>t.oninput=()=>{
-    const st=state[t.dataset.q]=state[t.dataset.q]||{}; st.custom=t.value; if(t.value.trim())st.skipped=false; save(); updateBar();
+    const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();pushAns(q);
     document.getElementById('c-'+t.dataset.q).classList.toggle('done',answered(t.dataset.q));
   });
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
-    const st=state[b.dataset.q]=state[b.dataset.q]||{}; st.skipped=!st.skipped; save(); render();
+    const q=QS.find(x=>x.id===b.dataset.q),st=state[q.id]=state[q.id]||{};st.skipped=!st.skipped;save();render();pushAns(q);
   });
 }
 
-function save(){ localStorage.setItem('medDecisions',JSON.stringify(state)); }
+function save(){localStorage.setItem('medDecisions',JSON.stringify(state));}
 function updateBar(){
-  const done=QS.filter(q=>answered(q.id)).length, sk=QS.filter(q=>skipped(q.id)).length;
+  const done=QS.filter(q=>answered(q.id)).length,sk=QS.filter(q=>skipped(q.id)).length;
   document.getElementById('dn').textContent=done+sk;
   document.getElementById('tt').textContent=QS.length;
   document.getElementById('bar').style.width=((done+sk)/QS.length*100)+'%';
 }
 
 function summary(){
-  return QS.map(q=>{
-    const st=state[q.id]||{}; let a='—';
-    if(st.skipped) a='[مُتخطّى]';
-    else {
-      const parts=[];
-      if(st.opts&&st.opts.length) parts.push(st.opts.map(i=>q.opts[i]).join(' + '));
-      if(st.rate!=null) parts.push(st.rate+'/10');
-      if(st.custom&&st.custom.trim()) parts.push('ملاحظة: '+st.custom.trim());
-      a=parts.join(' | ')||'—';
-    }
-    return `${q.id.toUpperCase()}) ${q.q}\n   ← ${a}`;
-  }).join('\n\n');
+  return QS.map(q=>`${q.id.toUpperCase()}) ${q.q}\n   ← ${ansText(q)}`).join('\n\n');
 }
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+// ── بطاقات جديدة من ديفن عبر ntfy ──
+function addCard(c){
+  if(!c||!c.id||!c.q)return;
+  if(c.del){const i=QS.findIndex(q=>q.id===c.del);if(i>-1)QS.splice(i,1);
+    const ex=extra.findIndex(q=>q.id===c.del);if(ex>-1)extra.splice(ex,1);
+    localStorage.setItem('medDecisionsExtra',JSON.stringify(extra));render();return;}
+  const i=QS.findIndex(q=>q.id===c.id);
+  if(i>-1)QS[i]=Object.assign(QS[i],c);else QS.push(c);
+  const ex=extra.findIndex(q=>q.id===c.id);
+  if(ex>-1)extra[ex]=c;else extra.push(c);
+  localStorage.setItem('medDecisionsExtra',JSON.stringify(extra));
+  toast('وصلت بطاقة جديدة: '+c.id.toUpperCase());render(c.id);
+}
+fetch(T_IN+'/json?poll=1&since=1w',{headers:{Accept:'application/json'}})
+  .then(r=>r.text()).then(t=>t.split('\n').filter(Boolean).forEach(l=>{
+    try{const m=JSON.parse(l);if(m.event==='message'&&m.message)addCard(JSON.parse(m.message));}catch(e){}
+  })).catch(()=>{});
+try{
+  const es=new EventSource(T_IN+'/sse');
+  es.onopen=()=>document.getElementById('liveTag').style.display='inline-flex';
+  es.onmessage=e=>{try{addCard(JSON.parse(JSON.parse(e.data).message));}catch(x){}};
+  es.onerror=()=>document.getElementById('liveTag').style.display='none';
+}catch(e){}
 
 document.getElementById('copyBtn').onclick=()=>{
   navigator.clipboard.writeText(summary()).then(()=>toast('نُسخ — الصقه لديفن في سلاك'));
 };
 document.getElementById('sendBtn').onclick=()=>{
-  const body=encodeURIComponent('## قرارات البداية\n\n'+summary());
+  const s=summary();
+  fetch(T_OUT,{method:'POST',headers:{Title:'ملخص القرارات كامل'},body:'SUMMARY\n'+s}).catch(()=>{});
+  const body=encodeURIComponent('## قرارات البداية\n\n'+s);
   window.open('https://github.com/medmrf-10/med/issues/new?title='+encodeURIComponent('قرارات البداية — '+new Date().toISOString().slice(0,10))+'&body='+body,'_blank');
+  toast('أُرسل لديفن وفُتح جيتهب للأرشفة');
 };
 
 render();

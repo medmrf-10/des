@@ -77,7 +77,7 @@ function home(){
 function profile(m){
   app.innerHTML=`<button class="back" onclick="location.hash=''">→ الفريق</button>
   <div class="phead">${avatar(m.name)}<div class="pname">${esc(m.name)}</div><div class="prole">${esc(m.role)}</div><div class="pportal">بوابة العضو — نبذاته وتقييم أعماله</div><div class="pbio">${esc(m.bio)}</div>
-  ${m.portal?`<div class="portallink"><span class="u">${esc(new URL(m.portal,location.href).href)}</span><button class="cp" data-u="${esc(new URL(m.portal,location.href).href)}">نسخ الرابط</button></div>`:''}</div>
+  ${m.portal?`<div class="portallink"><span class="u">${esc(new URL(m.portal,location.href).href)}</span><a class="cp" style="text-decoration:none" href="${esc(m.portal)}">افتح</a><button class="cp" data-u="${esc(new URL(m.portal,location.href).href)}">نسخ الرابط</button></div>`:''}</div>
   ${m.projects.length?m.projects.map((p,i)=>projHTML(m.id,i,p)).join(''):'<div class="empty">لا مشاريع معروضة بعد — تُضاف فور اعتمادها</div>'}`;
 }
 

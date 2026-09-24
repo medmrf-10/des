@@ -58,7 +58,8 @@ h1{font-size:1.6rem; font-weight:700; color:#ededed}
 <script>
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 const APPS=[
- {name:'فكرة اليوم',desc:'صورة ملهمة + اقتباس يومي + خاطرة تُحفظ — أول قطعة من «مجلد إبداعي»',url:'fikra/',icon:'ف'}
+ {name:'فكرة اليوم',desc:'صورة ملهمة + اقتباس يومي + خاطرة تُحفظ — أول قطعة من «مجلد إبداعي»',url:'fikra/',icon:'ف'},
+ {name:'الفريق',desc:'بروفايلات كل الأعضاء — ادخل على أي عضو وشاهد مشاريعه',url:'../',icon:'👥'}
 ];
 const el=document.getElementById('apps');
 el.innerHTML=APPS.length?APPS.map((a,i)=>`

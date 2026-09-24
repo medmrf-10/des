@@ -15,8 +15,9 @@
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
   body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(1200px 500px at 80% -10%, rgba(139,124,246,.08), transparent), var(--bg); color:var(--txt); min-height:100vh; padding-bottom:130px}
+  .wrap{max-width:640px; margin:0 auto; padding:0 16px}
 
-  header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:16px 0 12px}
+  header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:calc(16px + env(safe-area-inset-top)) 0 12px}
   .head-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
   h1{font-size:1.2rem; font-weight:700; background:linear-gradient(90deg,var(--acc),var(--acc2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-.3px}
   .prog{font-size:.8rem; color:var(--dim); white-space:nowrap}
@@ -62,7 +63,7 @@
   .rnum{flex:1; min-width:30px; padding:11px 0; text-align:center; border-radius:10px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-size:.85rem; font-weight:600; color:var(--dim); transition:all .15s; font-family:inherit}
   .rnum.sel{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; transform:scale(1.1); box-shadow:0 3px 12px rgba(94,200,255,.3)}
 
-  textarea{width:100%; min-height:46px; margin-top:11px; padding:11px 13px; border-radius:12px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:.87rem; resize:vertical; transition:border-color .2s; line-height:1.6}
+  textarea{width:100%; min-height:46px; margin-top:11px; padding:11px 13px; border-radius:12px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:16px; resize:vertical; transition:border-color .2s; line-height:1.6; field-sizing:content}
   textarea:focus{outline:none; border-color:var(--acc); box-shadow:0 0 0 3px rgba(139,124,246,.15)}
   textarea::placeholder{color:var(--skip); font-size:.8rem}
   .textonly textarea{margin-top:0}
@@ -85,6 +86,7 @@
   .copy{flex:0 0 auto; padding:14px 18px; background:var(--card); color:var(--txt); border:1px solid var(--border)}
 
   .toast{position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ok); color:#fff; padding:11px 24px; border-radius:99px; font-size:.85rem; font-weight:600; opacity:0; transition:all .3s; pointer-events:none; z-index:99; box-shadow:0 6px 24px rgba(70,201,109,.4)}
+  .toast.act{pointer-events:auto; cursor:pointer; background:var(--warn)}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   .inboxBtn{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border:0; border-radius:99px; padding:5px 14px; font-family:inherit; font-size:.78rem; font-weight:700; cursor:pointer; animation:pulse 1.6s ease infinite; vertical-align:middle}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
@@ -470,6 +472,44 @@ const QS=[
  {id:'g26',sec:'content',type:'single',q:'الأدوات كلها داخل ريبو med — لكن: قاعدة الذرات وملف تعلمك (FSRS، مستوياتك) مشتركة بين المنتجات أم منفصلة لكل باب؟',
   opts:['قاعدة واحدة مشتركة — ذرات الشريعة والبرمجة والإنجليزية في رسم واحد', 'منفصلة لكل باب — لا تلوث بين العلوم', 'مشتركة للتتبع لكن منفصلة للمحتوى', 'ابدأ منفصلة والدمج لاحقاً أسهل']},
 
+ // ══ دفعة آلية — جولة h ══
+ {id:'h01',sec:'new',type:'rank',q:'أول ثلاثة مخرجات ملموسة تبنى — رتّبها:',
+  opts:['خدمة التفسير: آية + كتاب ← مقطع التفسير (أسهل فهرس)', 'تفريغ أول سلسلة من الـ122 صوتية إلى نص نظيف', 'أول درس شرعي منتج كامل بأسلوبك', 'هيكل الموقع: مكتبة + بطاقة قرارات + سجل ميزات', 'وحدة مراجعة FSRS تعمل على أي محتوى']},
+ {id:'h02',sec:'islamic',type:'single',q:'باب الشريعة — أنت إمام تخطب الجمعة: هل خط الإنتاج يشمل الخطب أم الدروس المتسلسلة فقط؟',
+  opts:['الاثنان: الخطبة منتج أسبوعي قصير والدرس سلسلة طويلة', 'الدروس فقط الآن — الخطب لاحقاً', 'الخطب أولاً لأنها التزامك الأسبوعي الثابت', 'لا إنتاج خطب أصلاً — تُلقى ارتجالاً']},
+ {id:'h03',sec:'islamic',type:'single',q:'باب الشريعة — التزكية (الجفري/البوطي/حوى/ابن حفيظ في S05): باب مستقل في النظام أم فرع داخل الشريعة؟',
+  opts:['فرع داخل باب الشريعة — نفس الفهرس والأدوات', 'باب مستقل — طبيعتها تربوية لا معلوماتية', 'تُدمج داخل الدروس كأمثلة وتطبيقات لا كمحتوى', 'مؤجلة كلياً خارج الخطة الآن']},
+ {id:'h04',sec:'islamic',type:'single',q:'باب الشريعة — هيكل الدرس المنتج: قالب ثابت أم حر حسب الموضوع؟',
+  opts:['قالب ثابت: تمهيد ← نص الدليل ← شرح ← أمثلة ← خاتمة عملية', 'قالبان: درس علمي + موعظة تزكية', 'حر بالكامل — الموضوع يفرض شكله', 'الوكيل يقترح هيكلاً لكل درس وأنت تعتمد']},
+ {id:'h05',sec:'islamic',type:'single',q:'باب الشريعة — في الدرس النهائي: كم نصيب نص الشيخ الحرفي مقابل صياغتك؟',
+  opts:['أغلبه نص الشيخ موثقاً + ربط وتقديم منك', 'نصف نصف — اقتباسات بارزة داخل صياغتك', 'أغلبه صياغتك والشيخ مرجع مخفي في الهامش', 'يختلف بكل درس حسب قوة نص الشيخ']},
+ {id:'h06',sec:'islamic',type:'single',q:'باب الشريعة — ترتيب الدروس المنتجة في السلسلة: بأي منطق؟',
+  opts:['تسلسل المنهج الصارم — الباب الفقهي بترتيب الكتاب', 'مناسبات الأمة والمسجد أولاً (رمضان، عاشوراء، أحداث)', 'ما يحتاجه جمهورك حسب أسئلتهم', 'مزيج: خط منهجي طويل + دروس مناسبة تُقحم']},
+ {id:'h07',sec:'islamic',type:'single',q:'باب الشريعة — قلت نجرب على عينة ثم نعمم (T04): حجم العينة الأولى للفهرس/القص؟',
+  opts:['درس واحد كامل مفكك ومراجَع', 'كتاب واحد كامل من rlg', '20 موضوعاً فرعياً عبر 3 كتب', 'أصغر شيء يعمل — آية واحدة بثلاثة تفاسير']},
+ {id:'h08',sec:'islamic',type:'single',q:'باب الشريعة — الـ122 تفريغاً (cog): هل نفهرس البردوني/السريري فقط أولاً أم كل الشيوخ؟',
+  opts:['الشيخان المختاران فقط — عمق قبل السعة', 'الكل — الفهرس العام يحتاج تغطية واسعة', 'شيخ واحد كاملاً ثم نقرر', 'حسب العلم المختار أولاً (فقه/أصول/تزكية)']},
+ {id:'h09',sec:'content',type:'single',q:'باب البرمجة — منهج مسارك الجديد: عمود واحد أم مزيج كورسات؟',
+  opts:['عمود واحد (دبلوم مصطفى سعد) والباقي تمارين مساندة', 'مزيج مركّب: أفضل درس من كل منصة لكل موضوع', 'المنصات مادة خام فقط — الوكيل يبني منهجاً جديداً كلياً', 'كورس jad HTML/CSS عموداً لأنك بدأته فعلاً']},
+ {id:'h10',sec:'new',type:'single',q:'باب البرمجة — أين تحل التمارين المتدرجة فعلياً؟',
+  opts:['داخل الموقع — محرر متصفح يقيّم فوراً', 'في VSCode على الماك — بيئة احترافية حقيقية', 'الاثنان: موبايل للمراجعة وحاسوب للحل', 'ورقة وقلم للفهم ثم كود عند الجدية']},
+ {id:'h11',sec:'tech',type:'single',q:'باب البرمجة — «القائمة الجانبية» للتمارين الصعبة في نموذج مصطفى سعد: كيف تظهر في المنتج؟',
+  opts:['بطاقات عالقة تظهر أول كل جلسة حتى تُحل', 'يدخلون جدول FSRS — يعودون بموعد محسوب', 'قائمة تراجعها أنت يدوياً كل نهاية أسبوع', 'الوكيل يعيد تقديمها بصيغة أبسط ثم الأصل']},
+ {id:'h12',sec:'new',type:'single',q:'باب الإنجليزية — آلية «كلمة بفقرتها لا بالمقال»: كيف تعمل عملياً في الأداة؟',
+  opts:['تقرأ ملخصاً معرباً والكلمات الإنجليزية تظهر داخل فقراتها', 'فقرة إنجليزية + مفرداتها أسفلها قبل الانتقال', 'بطاقة كلمة مستقلة بمثالها من الفقرة فقط', 'الوكيل يولّد فقرة بمستوى i+1 من كلماتك المعروفة']},
+ {id:'h13',sec:'new',type:'single',q:'باب الإنجليزية — من 2334 ملخص shortform معرباً: أي صنف تبدأ به؟',
+  opts:['التقنية وعلوم الحاسوب — تخدم باب البرمجة', 'تطوير الذات والإنتاجية — دافعك الشخصي', 'السير والقيادة — مادة دروسك الخطابية', 'مزيج بترتيب اهتمامك — الوكيل يختار يومياً']},
+ {id:'h14',sec:'strategy',type:'single',q:'باب «العلوم المختلفة» (رابع أولوياتك) — ما أول علم يدخل بعد الثلاثة؟',
+  opts:['النحو العربي بمنهج العرقباوي — بوابة فهم النصوص الشرعية', 'التجويد/القراءات — لخدمة إمامتك', 'الرياضيات/المنطق — أساس البرمجة العميقة', 'لا رابع الآن — ثلاثة أبواب تكفي']},
+ {id:'h15',sec:'product',type:'single',q:'الوكيل المدرب — بعد خطئك في سؤال: قاعدة learnser القديمة كانت «شرح هادئ ← «فهمت» ← إعادة نفس السؤال». تثبت القاعدة؟',
+  opts:['تثبت حرفياً — نفس السؤال بعد الفهم', 'تثبت بسؤال مكافئ جديد لا نفسه', 'بلا إعادة فورية — FSRS يعيده بموعده', 'الوكيل يقرر السياق: فوراً أو مؤجلاً']},
+ {id:'h16',sec:'product',type:'single',q:'الوكيل المدرب — فرّق بين «السؤال المباشر» و«غير المباشر» اللذين ذكرتهما في D04:',
+  opts:['مباشر = استرجاع معلومة، غير مباشر = استنتاج/تطبيق عليها', 'مباشر = عن الذرة نفسها، غير مباشر = عن علاقتها بغيرها', 'مباشر = سؤال واضح، غير مباشر = موقف يكشف فهمك دون سؤال صريح', 'أشرحهما بمثالك أنت — مربع حر']},
+ {id:'h17',sec:'new',type:'single',q:'«مبادرة بإشعار أولاً» (W02) — الإشعار يصلك أين فعلياً؟',
+  opts:['داخل الموقع — شارة/جرس تراه عند فتحه', 'صفحة نوشن «وارد» يكتبها الوكيل', 'بطاقة قرار جديدة على موقع البطاقات', 'رسالة مباشرة على قناة ثابتة (تليغرام/إيميل)']},
+ {id:'h18',sec:'product',type:'single',q:'حراس مواصفتك القديمة: «اليوم يبدأ 4 فجراً + مراجعة مرة واحدة يومياً + لا بطاقة مكررة للنسيان» — تعتمدها في النسخة الأولى؟',
+  opts:['كلها تعتمد كما هي', 'اليوم 4 فجراً فقط — الباقي يحتاج تجربة', 'تؤجل كلها — FSRS الافتراضي يكفي أولاً', 'أعدّلها: أكتب حراسي الجدد']},
+
  // ══ دفعة الوكيل: محلل الكوربوس ══
  {id:'a01',sec:'content',type:'single',q:'أي كورس تبني عليه المنصة أولاً — «الكورس صفر» الذي يضبط معيار خط الإنتاج والسكيمة لكل ما بعده؟',
   opts:['كورس من حزمة أبو هدهود (أعمق كوربوس: 33 كورساً بخرائطها وتفريغاتها)', 'كورس جاد أنهيتَه 100% — تحويله لذرات مراجعة', 'كورس فلاتر لثروت سامي (مسارك التقني الحي حالياً)', 'دبلوم من دبلومات د. مصطفى سعد الخمسة', 'JS Essentials تحديداً لأنك عند 82% فيه — يختبر مسار الاستئناف']},
@@ -659,9 +699,10 @@ function bind(){
     if(b){b.hidden=!needsConfirm(q);b.disabled=!canConfirm(q);}
   };});
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q);
+    const q=QS.find(x=>x.id===b.dataset.q),prev=JSON.parse(JSON.stringify(state[q.id]||{}));
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};st.skipped=true;save();pushAns(q);
+      toast('تخطّيت البطاقة',()=>{state[q.id]=prev;state[q.id].skipped=false;save();render();checkRound();});
     });
   });
 }
@@ -673,7 +714,7 @@ function updateBar(){
   document.getElementById('tt').textContent=QS.length;
   document.getElementById('bar').style.width=((done+sk)/QS.length*100)+'%';
 }
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function toast(msg,undo){const t=document.getElementById('toast');t.textContent=msg+(undo?' — اضغط للتراجع':'');t.classList.add('show');t.classList.toggle('act',!!undo);clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.classList.remove('act')},2600);t.onclick=undo||null;}
 
 const inbox=JSON.parse(localStorage.getItem('medDecisionsInbox')||'[]');
 function saveExtra(){localStorage.setItem('medDecisionsExtraV6',JSON.stringify(extra));}

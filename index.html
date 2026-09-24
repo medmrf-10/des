@@ -15,8 +15,9 @@
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
   body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(1200px 500px at 80% -10%, rgba(139,124,246,.08), transparent), var(--bg); color:var(--txt); min-height:100vh; padding-bottom:130px}
+  .wrap{max-width:640px; margin:0 auto; padding:0 16px}
 
-  header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:16px 0 12px}
+  header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:calc(16px + env(safe-area-inset-top)) 0 12px}
   .head-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
   h1{font-size:1.2rem; font-weight:700; background:linear-gradient(90deg,var(--acc),var(--acc2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-.3px}
   .prog{font-size:.8rem; color:var(--dim); white-space:nowrap}
@@ -62,7 +63,7 @@
   .rnum{flex:1; min-width:30px; padding:11px 0; text-align:center; border-radius:10px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-size:.85rem; font-weight:600; color:var(--dim); transition:all .15s; font-family:inherit}
   .rnum.sel{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; transform:scale(1.1); box-shadow:0 3px 12px rgba(94,200,255,.3)}
 
-  textarea{width:100%; min-height:46px; margin-top:11px; padding:11px 13px; border-radius:12px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:.87rem; resize:vertical; transition:border-color .2s; line-height:1.6}
+  textarea{width:100%; min-height:46px; margin-top:11px; padding:11px 13px; border-radius:12px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:16px; resize:vertical; transition:border-color .2s; line-height:1.6; field-sizing:content}
   textarea:focus{outline:none; border-color:var(--acc); box-shadow:0 0 0 3px rgba(139,124,246,.15)}
   textarea::placeholder{color:var(--skip); font-size:.8rem}
   .textonly textarea{margin-top:0}
@@ -85,6 +86,7 @@
   .copy{flex:0 0 auto; padding:14px 18px; background:var(--card); color:var(--txt); border:1px solid var(--border)}
 
   .toast{position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ok); color:#fff; padding:11px 24px; border-radius:99px; font-size:.85rem; font-weight:600; opacity:0; transition:all .3s; pointer-events:none; z-index:99; box-shadow:0 6px 24px rgba(70,201,109,.4)}
+  .toast.act{pointer-events:auto; cursor:pointer; background:var(--warn)}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   .inboxBtn{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border:0; border-radius:99px; padding:5px 14px; font-family:inherit; font-size:.78rem; font-weight:700; cursor:pointer; animation:pulse 1.6s ease infinite; vertical-align:middle}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
@@ -697,9 +699,10 @@ function bind(){
     if(b){b.hidden=!needsConfirm(q);b.disabled=!canConfirm(q);}
   };});
   list.querySelectorAll('.skip').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q);
+    const q=QS.find(x=>x.id===b.dataset.q),prev=JSON.parse(JSON.stringify(state[q.id]||{}));
     dismiss(q.id,()=>{
       const st=state[q.id]=state[q.id]||{};st.skipped=true;save();pushAns(q);
+      toast('تخطّيت البطاقة',()=>{state[q.id]=prev;state[q.id].skipped=false;save();render();checkRound();});
     });
   });
 }
@@ -711,7 +714,7 @@ function updateBar(){
   document.getElementById('tt').textContent=QS.length;
   document.getElementById('bar').style.width=((done+sk)/QS.length*100)+'%';
 }
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function toast(msg,undo){const t=document.getElementById('toast');t.textContent=msg+(undo?' — اضغط للتراجع':'');t.classList.add('show');t.classList.toggle('act',!!undo);clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.classList.remove('act')},2600);t.onclick=undo||null;}
 
 const inbox=JSON.parse(localStorage.getItem('medDecisionsInbox')||'[]');
 function saveExtra(){localStorage.setItem('medDecisionsExtraV6',JSON.stringify(extra));}

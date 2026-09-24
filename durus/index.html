@@ -28,7 +28,7 @@ header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdro
 h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--acc),var(--acc2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
 .prog{font-size:.8rem; color:var(--dim); white-space:nowrap}
 .prog b{color:var(--acc2); font-size:1.05rem}
-.stats{font-size:.72rem; color:var(--dim); margin-top:6px; display:flex; gap:12px}
+.stats{font-size:.72rem; color:var(--dim); margin-top:6px; display:flex; gap:12px; align-items:center}
 .stats b{color:var(--acc2)}
 .search{margin-top:10px; position:relative}
 .search input{width:100%; padding:11px 14px; padding-inline-start:40px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--txt); font-family:inherit; font-size:.9rem; transition:border-color .2s}
@@ -64,7 +64,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .srow .sct{font-size:.7rem; color:var(--dim); background:var(--card2); border:1px solid var(--border); padding:3px 9px; border-radius:8px}
 .srow.on .snm{color:var(--acc2); font-weight:600}
 /* cards */
-.sec-title{margin:16px 4px 10px; font-size:.78rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px}
+.sec-title{margin:16px 4px 10px; font-size:.78rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px; position:sticky; top:150px; z-index:40; background:linear-gradient(rgba(11,15,20,.94),rgba(11,15,20,.88)); backdrop-filter:blur(8px); padding:6px 4px; border-radius:10px}
 .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
 .card{background:linear-gradient(160deg,var(--card),#111820); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; transition:border-color .3s; box-shadow:0 2px 12px rgba(0,0,0,.25); content-visibility:auto; contain-intrinsic-size:auto 220px}
 .few .card{animation:enter .4s cubic-bezier(.22,1,.36,1) both}
@@ -113,6 +113,9 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .sheikh-head .sn{font-weight:700;font-size:.92rem}
 .sheikh-head .ss{font-size:.68rem;color:var(--dim)}
 .empty{text-align:center; padding:50px 20px; color:var(--dim); font-size:.85rem}
+.totop{position:fixed; bottom:18px; inset-inline-start:18px; width:44px; height:44px; border-radius:50%; border:1px solid var(--border); background:var(--card2); color:var(--acc2); font-size:1.1rem; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .25s; z-index:60; box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.totop.show{opacity:1; pointer-events:auto}
+.hbtn{padding:6px 12px; border-radius:9px; border:1px solid var(--border); background:var(--card); color:var(--dim); font-family:inherit; font-size:.68rem; cursor:pointer}
 </style>
 </head>
 <body>
@@ -133,6 +136,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
   <div id="list"></div>
 </div>
 
+<button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="sheet-bg" id="sheetBg"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true">
   <div class="grab"></div>
@@ -188,7 +192,8 @@ function render(){
     (!F.q||(s.name||'').includes(F.q)||workNames(s.matn_id).includes(F.q)||workNames(s.sharh_id).includes(F.q)||workNames(s.hashiya_id).includes(F.q)||(s.comment||'').includes(F.q)));
   $('cnt').textContent=L.length;
   const totV=L.reduce((a,s)=>a+(s.cc||s.videos||0),0),totH=L.reduce((a,s)=>a+(s.hours||0),0);
-  $('stats').innerHTML=`<span><b>${totV.toLocaleString('en')}</b> مقطعاً</span><span><b>${totH.toFixed(0)}</b> ساعة</span><span><b>${new Set(L.map(s=>s.sheikh)).size}</b> مشايخ</span>`;
+  const nR=Object.keys(vals).length;
+  $('stats').innerHTML=`<span><b>${totV.toLocaleString('en')}</b> مقطعاً</span><span><b>${totH.toFixed(0)}</b> ساعة</span><span><b>${new Set(L.map(s=>s.sheikh)).size}</b> مشايخ</span>${nR?`<button class="hbtn" id="expBtn" style="margin-inline-start:auto">↓ تصدير تقييماتي (${nR})</button>`:''}`;
   const bySh={};
   L.forEach(s=>{(bySh[s.sheikh]=bySh[s.sheikh]||[]).push(s)});
   const order=Object.keys(bySh).sort((a,b)=>bySh[b].length-bySh[a].length);
@@ -278,6 +283,12 @@ $('list').addEventListener('click',async e=>{
   e.target.parentElement.innerHTML=cl.map(clipHTML).join('');
 });
 let qt;$('q').oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{F.q=e.target.value.trim();render()},180)};
+addEventListener('scroll',()=>$('totop').classList.toggle('show',scrollY>900),{passive:true});
+$('stats').addEventListener('click',e=>{
+  if(e.target.id!=='expBtn')return;
+  const data={exported:new Date().toISOString(),ratings:Object.fromEntries(Object.entries(vals).map(([id,v])=>[SERIES.find(s=>s.id==id)?.name||id,v]))};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,1)],{type:'application/json'}));a.download='turath-ratings.json';a.click();
+});
 pillsKind();render();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

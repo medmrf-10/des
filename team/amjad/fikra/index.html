@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>فكرة اليوم</title>
+<meta name="theme-color" content="#0b0f1a">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f1a;--card:#141b2e;--card2:#1a2238;--border:#2a3350;--txt:#f5f1e8;--dim:#8b93b0;--acc:#c9a24b;--acc2:#e8c97a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(900px 500px at 80% -10%,rgba(201,162,75,.10),transparent 60%),var(--bg);color:var(--txt);font-family:'Amiri','Noto Naskh Arabic',serif;min-height:100dvh}
+main{max-width:520px;margin:0 auto;padding:18px 16px 70px}
+.top{text-align:center;padding:10px 0 16px}
+.top h1{font-size:1.4rem;color:var(--acc2);font-weight:700}
+.top .d{font-size:.78rem;color:var(--dim);margin-top:5px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:14px;animation:enter .5s cubic-bezier(.22,1,.36,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}}
+.img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.q{padding:18px 18px 14px;text-align:center}
+.q .txt{font-size:1.12rem;line-height:2;font-weight:700}
+.q .src{font-size:.74rem;color:var(--acc2);margin-top:8px}
+.note{padding:0 18px 18px}
+.note .lbl{font-size:.72rem;color:var(--acc2);letter-spacing:.04em;margin-bottom:7px;display:flex;justify-content:space-between}
+.note .lbl .sv{font-size:.66rem;color:var(--dim)}
+textarea{width:100%;min-height:90px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--txt);font-family:inherit;font-size:.92rem;line-height:1.9;padding:12px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--acc)}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.nav button{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--acc2);font-family:inherit;font-size:.8rem;padding:8px 16px;cursor:pointer}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav .t{font-size:.78rem;color:var(--dim)}
+.hist{margin-top:8px}
+.hist .h{font-size:.74rem;color:var(--acc2);margin:16px 2px 8px;letter-spacing:.04em}
+.hd{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin-bottom:8px;cursor:pointer;display:flex;gap:10px;align-items:center}
+.hd:hover{border-color:var(--acc)}
+.hd .dd{font-size:.7rem;color:var(--dim);flex:0 0 auto}
+.hd .nn{font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.back{display:inline-block;color:var(--dim);text-decoration:none;font-size:.78rem;margin-bottom:12px}
+</style>
+</head>
+<body>
+<main>
+<a class="back" href="../">→ بوابة أمجد</a>
+<div class="top"><h1>فكرة اليوم</h1><div class="d" id="dday"></div></div>
+<div class="nav"><button id="pv">اليوم السابق</button><span class="t" id="nt"></span><button id="nx">اليوم التالي</button></div>
+<div class="card">
+  <img class="img" id="im" alt="">
+  <div class="q"><div class="txt" id="qt"></div><div class="src" id="qs"></div></div>
+  <div class="note"><div class="lbl"><span>خاطرتك عنها</span><span class="sv" id="sv"></span></div><textarea id="ta" placeholder="اكتب ما ألهمتك إياه الصورة والاقتباس…"></textarea></div>
+</div>
+<div class="hist"><div class="h" id="hh" style="display:none">خواطرك السابقة</div><div id="hl"></div></div>
+</main>
+<script>
+const IMGS=[1,2,3,4,5,6].map(n=>'img/'+n+'.png');
+const QUOTES=[
+ {t:'وإذا كانت النفوس كباراً، تعبت في مرادها الأجساد',s:'أحمد شوقي'},
+ {t:'ما نفع بيت لا يُبنى، ولا عيش يخشى',s:'المتنبي'},
+ {t:'من لم يمت عبداً مات حرّاً',s:'أحمد شوقي'},
+ {t:'العلم في الصغر كالنقش على الحجر',s:'حكمة عربية'},
+ {t:'إذا لم تجد ما تُحب أن تقرأ، فاكتب ما تحب أن يُقرأ',s:'منسوب'},
+ {t:'الكتاب خير جليس في الزمان',s:'ابن المقفع'},
+ {t:'على قدر أهل العزم تأتي العزائم',s:'المتنبي'},
+ {t:'ومن يتسلم الجبالَ تجد له من طرقها إلى الثريا طريقا',s:'الطغرائي'},
+ {t:'الخيال أهم من المعرفة؛ المعرفة محدودة والخيال يطوّق العالم',s:'ألبرت أينشتاين'},
+ {t:'اقرأ كتاباً جيداً ثلاث مرات أنفع لك من قراءة ثلاثة كتب جيدة',s:'عباس محمود العقاد'},
+ {t:'من جدّ وجد، ومن زرع حصد',s:'مثل عربي'},
+ {t:'القلوب أوعية، والخير ما امتلأ منها بالخير',s:'حكمة'},
+ {t:'إن الله جميل يحب الجمال',s:'حديث نبوي'},
+ {t:'ما كل ما يتمنى المرء يدركهُ، تجري الرياح بما لا تشتهي السفن',s:'المتنبي'}];
+const KEY='fikra_days';
+let days=JSON.parse(localStorage.getItem(KEY)||'{}');
+const fmt=d=>d.toISOString().slice(0,10);
+let off=0;
+const $=i=>document.getElementById(i);
+const today=new Date();
+$('dday').textContent=today.toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+function dayIndex(d){
+  const s=new Date(d.getFullYear(),0,0);
+  return Math.floor((d-s)/864e5);
+}
+function render(){
+  const d=new Date();d.setDate(d.getDate()+off);
+  const di=dayIndex(d);
+  $('im').src=IMGS[di%IMGS.length];
+  const q=QUOTES[di%QUOTES.length];
+  $('qt').textContent='«'+q.t+'»';
+  $('qs').textContent='— '+q.s;
+  $('nt').textContent=off===0?'اليوم':d.toLocaleDateString('ar-DZ',{day:'numeric',month:'long'});
+  $('nx').disabled=off>=0;
+  $('ta').value=days[fmt(d)]||'';
+  $('sv').textContent='';
+  hist();
+}
+$('ta').addEventListener('input',()=>{
+  const d=new Date();d.setDate(d.getDate()+off);
+  const v=$('ta').value.trim();
+  if(v)days[fmt(d)]=$('ta').value;else delete days[fmt(d)];
+  localStorage.setItem(KEY,JSON.stringify(days));
+  $('sv').textContent='حُفظ';
+  hist();
+});
+$('pv').onclick=()=>{off--;render()};
+$('nx').onclick=()=>{off++;render()};
+function hist(){
+  const ks=Object.keys(days).filter(k=>days[k]&&days[k].trim()).sort().reverse();
+  $('hh').style.display=ks.length?'':'none';
+  $('hl').innerHTML=ks.map(k=>`<div class="hd" data-k="${k}"><span class="dd">${k}</span><span class="nn">${days[k].replace(/</g,'&lt;')}</span></div>`).join('');
+}
+$('hl').addEventListener('click',e=>{
+  const hd=e.target.closest('.hd');if(!hd)return;
+  const k=hd.dataset.k,now=fmt(new Date());
+  off=-Math.round((new Date(now)-new Date(k))/864e5);
+  render();scrollTo(0,0);
+});
+render();
+</script>
+</body>
+</html>

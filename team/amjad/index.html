@@ -15,12 +15,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff}
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
   background:
-    radial-gradient(900px 400px at 85% -5%, rgba(139,124,246,.12), transparent 60%),
-    radial-gradient(700px 400px at 10% 100%, rgba(94,200,255,.07), transparent 60%),
+    radial-gradient(900px 400px at 85% -5%, rgba(201,162,75,.10), transparent 60%),
+    radial-gradient(700px 400px at 10% 100%, rgba(232,201,122,.06), transparent 60%),
     radial-gradient(circle at 50% 50%, rgba(255,255,255,.015) 1px, transparent 1px),
     var(--bg);
   background-size:auto,auto,28px 28px,auto;
@@ -46,6 +46,7 @@ h1{font-size:1.6rem; font-weight:700; color:#ededed}
 .foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:#46c96d; margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
 @keyframes pul{50%{opacity:.4}}
 </style>
+<link rel="stylesheet" href="/des/shared/theme.css">
 </head>
 <body>
 <div class="wrap">
@@ -71,5 +72,6 @@ el.innerHTML=APPS.length?APPS.map((a,i)=>`
   `<div class="empty"><div class="big">بوابتك جاهزة</div>
    لا مواقع بعد — اطلب من Devin في قناة الفريق بناء موقعك الأول<br>وسيُضاف هنا فوراً ويُخطرك به.</div>`;
 </script>
+<script src="/des/shared/feedback.js" data-pid="amjad-home" data-title="بوابة أمجد" defer></script>
 </body>
 </html>

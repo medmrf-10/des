@@ -1,0 +1,18 @@
+/* المنظومة — نظام تصميم موحد (v1) */
+:root{
+  --bg:#0b0f1a;
+  --card:#141b2e;
+  --card2:#1a2238;
+  --border:#2a3350;
+  --txt:#f5f1e8;
+  --dim:#8b93b0;
+  --acc:#c9a24b;
+  --acc2:#e8c97a;
+  --acc3:#8b7cf6;
+  --ok:#46c96d;
+  --r-lg:18px;
+  --r-md:12px;
+  --r-sm:8px;
+  --font-ar:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;
+  --font-ui:'IBM Plex Sans Arabic','Amiri','Noto Naskh Arabic',system-ui,sans-serif;
+}

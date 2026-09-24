@@ -17,7 +17,7 @@
 <style>
 :root{
   --bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f;
-  --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff;
+  --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a;
   --ok:#46c96d; --warn:#e0a93e; --gold:#f0c75e; --bgt:rgba(11,15,20,.92);
 }
 body[data-t="omari"]{--bg:#0a120d; --card:#111f16; --card2:#1a2e20; --border:#2a4531; --txt:#f2ecda; --dim:#9fae9e; --acc:#d4af37; --acc2:#79c99e; --bgt:rgba(10,18,13,.94)}
@@ -27,7 +27,7 @@ body[data-t="waraq"]{background:radial-gradient(1200px 500px at 80% -10%, rgba(1
 body[data-t="lajward"]{--bg:#090d1a; --card:#101728; --card2:#182236; --border:#2b3a58; --txt:#eaf0fb; --dim:#8d9bc0; --acc:#e8b86d; --acc2:#6fa8ff; --bgt:rgba(9,13,26,.94)}
 body[data-t="lajward"]{background:radial-gradient(1200px 500px at 80% -10%, rgba(232,184,109,.06), transparent), var(--bg)}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
-body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(1200px 500px at 80% -10%, rgba(139,124,246,.08), transparent), var(--bg); color:var(--txt); min-height:100vh}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(1200px 500px at 80% -10%, rgba(201,162,75,.08), transparent), var(--bg); color:var(--txt); min-height:100vh}
 .wrap{max-width:720px; margin:0 auto; padding:0 14px}
 header{position:sticky; top:0; z-index:50; background:var(--bgt); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:calc(14px + env(safe-area-inset-top)) 0 10px; transition:transform .3s cubic-bezier(.22,1,.36,1)}
 body.hh header{transform:translateY(-105%)}
@@ -142,6 +142,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .totop.show{opacity:1; pointer-events:auto}
 .hbtn{padding:6px 12px; border-radius:9px; border:1px solid var(--border); background:var(--card); color:var(--dim); font-family:inherit; font-size:.68rem; cursor:pointer}
 </style>
+<link rel="stylesheet" href="/des/shared/theme.css">
 </head>
 <body>
 <header><div class="wrap">
@@ -420,5 +421,6 @@ const th0=localStorage.getItem('durus_theme')||'';if(th0)document.body.dataset.t
 updPicks();render();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
+<script src="/des/shared/feedback.js" data-pid="turath" data-title="مكتبة Turath" defer></script>
 </body>
 </html>

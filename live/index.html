@@ -25,6 +25,19 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Noto Naskh Arabic','T
 .btn{width:56px;height:56px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.3rem;cursor:pointer}
 .btn.big{width:72px;height:72px;font-size:1.7rem;background:linear-gradient(140deg,#c9a24b,#8a6a2f);color:#0b0f1a;border:none}
 .time{font-size:.78rem;color:#8b93b0;text-align:center;margin-top:8px;font-variant-numeric:tabular-nums}
+.idx{position:fixed;inset:0;background:rgba(5,8,16,.6);backdrop-filter:blur(3px);z-index:50;display:none}
+.idx.open{display:block}
+.sheet{position:absolute;bottom:0;left:0;right:0;max-height:62dvh;background:#131a2a;border-radius:22px 22px 0 0;border-top:1px solid #3a4670;display:flex;flex-direction:column;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sheet .hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #232b45;font-size:.85rem;color:#e8c97a}
+.sheet .cl{background:none;border:none;color:#8b93b0;font-size:1.1rem;cursor:pointer}
+.sheet .list{overflow-y:auto;padding:6px 0 20px}
+.it{display:flex;align-items:baseline;gap:10px;width:100%;background:none;border:none;color:#dde2f2;font-family:inherit;font-size:.95rem;text-align:right;padding:10px 18px;cursor:pointer}
+.it .t{color:#8b93b0;font-size:.68rem;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.it .x{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it.now{color:#ffd98a}
+.it:hover{background:#1a2238}
+.ibtn{background:#1a2238;border:1px solid #3a4670;border-radius:10px;color:#e8c97a;font-family:inherit;font-size:.78rem;padding:7px 16px;cursor:pointer;margin-top:10px}
 </style>
 </head>
 <body>
@@ -42,13 +55,20 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Noto Naskh Arabic','T
     <button class="btn" id="fwd">+١٥</button>
   </div>
   <div class="time" id="time">0:00 / 8:20</div>
+  <div class="row" style="margin-top:6px"><button class="ibtn" id="idx">≡ الفهرس</button></div>
+</div>
+<div class="idx" id="idxov">
+  <div class="sheet">
+    <div class="hd"><span>فهرس الدرس</span><button class="cl" id="idxcl">✕</button></div>
+    <div class="list" id="idxlist"></div>
+  </div>
 </div>
 <audio id="au" src="aju.mp3" preload="auto"></audio>
 <script>
 const au=document.getElementById('au'),ph=document.getElementById('ph'),fill=document.getElementById('fill'),
       play=document.getElementById('play'),tm=document.getElementById('time'),bar=document.getElementById('bar');
 let phrases=[];
-fetch('phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0)});
+fetch('phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0);buildIdx()});
 let curPi=-1,curWi=-1,spans=[];
 function render(cur){
   let pi=-1;for(let i=0;i<phrases.length;i++){if(phrases[i].s<=cur)pi=i;else break}
@@ -78,6 +98,23 @@ document.getElementById('back').onclick=()=>au.currentTime=Math.max(0,au.current
 document.getElementById('fwd').onclick=()=>au.currentTime=Math.min(au.duration||0,au.currentTime+15);
 bar.onclick=e=>{const r=bar.getBoundingClientRect();au.currentTime=au.duration*((r.right-e.clientX)/r.width)};
 setInterval(()=>{tm.textContent=fmt(au.currentTime)+' / '+fmt(au.duration||0)},250);
+const idxov=document.getElementById('idxov'),idxlist=document.getElementById('idxlist');
+function buildIdx(){
+  idxlist.innerHTML=phrases.map((p,i)=>`<button class="it" data-s="${p.s}"><span class="t">${fmt(p.s)}</span><span class="x">${p.ws.slice(0,4).map(o=>o.w).join(' ')}${p.ws.length>4?'…':''}</span></button>`).join('');
+}
+idxlist.addEventListener('click',e=>{
+  const it=e.target.closest('.it');if(!it)return;
+  au.currentTime=+it.dataset.s;
+  idxov.classList.remove('open');
+  if(au.paused){au.play();play.textContent='❚❚'}
+});
+document.getElementById('idx').onclick=()=>{
+  idxov.classList.add('open');
+  idxlist.querySelectorAll('.it').forEach((el,i)=>el.classList.toggle('now',i===curPi));
+  const n=idxlist.querySelector('.now');if(n)n.scrollIntoView({block:'center'});
+};
+document.getElementById('idxcl').onclick=()=>idxov.classList.remove('open');
+idxov.onclick=e=>{if(e.target===idxov)idxov.classList.remove('open')};
 </script>
 </body>
 </html>

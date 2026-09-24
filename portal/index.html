@@ -44,7 +44,6 @@ h1{font-size:1.6rem; font-weight:700; color:#ededed}
 .app .ds{font-size:.78rem; color:var(--dim); margin-top:5px; line-height:1.65}
 .app .go{color:var(--acc2); font-size:1rem; margin-inline-start:auto; transition:transform .2s}
 .app:hover .go{transform:translateX(-4px)}
-.seclbl{font-size:.72rem; font-weight:700; color:var(--dim); letter-spacing:.06em; margin:22px 4px 10px}
 .foot{margin-top:30px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
 .foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ok,#46c96d); margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
 @keyframes pul{50%{opacity:.4}}
@@ -75,8 +74,6 @@ h1{font-size:1.6rem; font-weight:700; color:#ededed}
     <div><div class="nm">فريق العمل</div><div class="ds">نبذات الأعضاء ومشاريعهم — تجارب الأفكار</div></div>
     <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
   </a>
-  <div class="seclbl">بوابات الفريق</div>
-  <div id="member-portals"></div>
   <div class="foot"><span class="pulse"></span>كل الأنظمة تعمل · تحديث مستمر</div>
 </div>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
@@ -84,14 +81,6 @@ fetch('../durus/data.js').then(r=>r.text()).then(t=>{
   const m=t.match(/const SERIES=(\[.*?\]);/s); if(!m)return;
   const S=JSON.parse(m[1]); const n=S.length,c=S.reduce((a,s)=>a+(s.cc||s.videos||0),0);
   document.getElementById('turath-ds').textContent=`مكتبة التراث — ${n.toLocaleString('en')} سلسلة، ${c.toLocaleString('en')} مقطعاً`;
-}).catch(()=>{});
-fetch('../team/members.json').then(r=>r.json()).then(ms=>{
-  const w=document.getElementById('member-portals');
-  w.innerHTML=ms.map((m,i)=>`<a class="app" style="animation-delay:${.18+i*.06}s" href="../team/#${m.id}">
-    <div class="av ltr" style="background:linear-gradient(135deg,#c9a24b,#8a6a2f)">${(m.name||'?').trim()[0]}</div>
-    <div><div class="nm">بوابة ${m.name}</div><div class="ds">${m.role} — ${m.projects.length?m.projects.length+' مشروع/نبذة':'بانتظار مشاريعه'} · قيّم أعماله هنا</div></div>
-    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-  </a>`).join('');
 }).catch(()=>{});</script>
 </body>
 </html>

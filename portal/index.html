@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Portal</title>
+<title>البوابة الموحدة</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b0f14">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Portal">
+<meta name="apple-mobile-web-app-title" content="البوابة">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff}
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff; --gold:#e8c97a}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
   background:
@@ -24,133 +24,122 @@ body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
     radial-gradient(circle at 50% 50%, rgba(255,255,255,.015) 1px, transparent 1px),
     var(--bg);
   background-size:auto,auto,28px 28px,auto;
-  color:var(--txt); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.wrap{max-width:460px; width:100%; padding:24px 18px}
+  color:var(--txt); min-height:100vh; padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:520px; margin:0 auto; padding:24px 16px}
 .kick{display:inline-block; font-size:.62rem; font-weight:700; letter-spacing:.14em; color:var(--acc2); border:1px solid rgba(94,200,255,.35); padding:4px 12px; border-radius:99px; margin-bottom:10px}
-h1{font-size:1.6rem; font-weight:700; color:#ededed}
-.sub{color:var(--dim); font-size:.82rem; margin-top:6px; margin-bottom:26px; line-height:1.6}
-.app{display:flex; align-items:center; gap:16px; background:rgba(19,26,34,.72); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:20px; padding:20px; margin-bottom:14px; text-decoration:none; color:var(--txt); transition:transform .2s,border-color .2s,box-shadow .2s; animation:enter .4s cubic-bezier(.22,1,.36,1) both; box-shadow:0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06); position:relative; overflow:hidden}
-.app::before{content:''; position:absolute; inset:0; background:radial-gradient(400px 120px at 80% 0%, rgba(139,124,246,.10), transparent); opacity:0; transition:opacity .25s}
-.app:hover::before{opacity:1}
-.app:active{transform:scale(.985)}
-.app:hover{border-color:rgba(139,124,246,.5); transform:translateY(-1px); box-shadow:0 6px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08)}
-.app:nth-child(2){animation-delay:.06s}
-.app:nth-child(3){animation-delay:.12s}
-@keyframes enter{from{opacity:0; transform:translateY(14px)}}
-.av{width:52px; height:52px; border-radius:15px; flex:0 0 auto; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.1)}
-.av img{width:100%; height:100%; object-fit:cover; display:block}
-.av.ltr{display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; font-weight:700; font-size:1.15rem}
-.app .nm{font-weight:700; font-size:.95rem}
-.app .ds{font-size:.78rem; color:var(--dim); margin-top:5px; line-height:1.65}
-.app .go{color:var(--acc2); font-size:1rem; margin-inline-start:auto; transition:transform .2s}
-.app:hover .go{transform:translateX(-4px)}
-.seclbl{font-size:.72rem; font-weight:700; color:var(--dim); letter-spacing:.06em; margin:24px 4px 10px}
-.chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px}
+h1{font-size:1.55rem; font-weight:700; color:#ededed}
+.sub{color:var(--dim); font-size:.82rem; margin-top:6px; margin-bottom:20px; line-height:1.6}
+.search{display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:10px 14px; margin-bottom:12px}
+.search input{flex:1; background:none; border:none; color:var(--txt); font-family:inherit; font-size:.9rem}
+.search input:focus{outline:none}
+.search svg{color:var(--dim); flex:0 0 auto}
+.fgroup{margin-bottom:10px}
+.fgroup .fl{font-size:.64rem; color:var(--dim); letter-spacing:.06em; margin:0 4px 6px; display:block}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
 .chip{background:var(--card); border:1px solid var(--border); border-radius:99px; color:var(--dim); font-family:inherit; font-size:.7rem; padding:6px 14px; cursor:pointer}
 .chip.on{background:linear-gradient(135deg,rgba(139,124,246,.25),rgba(94,200,255,.15)); border-color:var(--acc); color:var(--txt)}
-.proj{background:rgba(19,26,34,.72); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; animation:enter .4s cubic-bezier(.22,1,.36,1) both}
-.pt{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.pt .t{font-weight:700; font-size:.92rem; flex:1}
-.badge{font-size:.62rem; font-weight:700; padding:3px 10px; border-radius:99px; border:1px solid var(--border); color:var(--acc2)}
-.badge.f{color:var(--dim)}
-.pd{font-size:.78rem; color:var(--dim); margin-top:7px; line-height:1.65}
-.pu{display:inline-block; margin-top:9px; color:var(--acc2); font-size:.75rem; text-decoration:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px}
+.count{font-size:.68rem; color:var(--dim); margin:14px 4px 10px}
+.proj{background:rgba(19,26,34,.72); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; animation:enter .4s cubic-bezier(.22,1,.36,1) both; box-shadow:0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06)}
+@keyframes enter{from{opacity:0; transform:translateY(14px)}}
+.pt{display:flex; align-items:center; gap:10px}
+.pic{width:44px; height:44px; border-radius:12px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; font-weight:700; font-size:1.05rem}
+.pt .tt{flex:1; min-width:0}
+.pt .t{font-weight:700; font-size:.93rem}
+.pt .m{font-size:.66rem; color:var(--dim); margin-top:2px}
+.badge{font-size:.6rem; font-weight:700; padding:3px 10px; border-radius:99px; border:1px solid var(--border); color:var(--acc2); flex:0 0 auto}
+.pd{font-size:.78rem; color:var(--dim); margin-top:9px; line-height:1.65}
+.prow{display:flex; align-items:center; gap:8px; margin-top:11px}
+.pu{color:var(--acc2); font-size:.75rem; text-decoration:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px}
 .pu:hover{background:var(--card2)}
-.ptools{display:flex; gap:8px; margin-top:10px}
-.ptool{background:none; border:1px solid var(--border); border-radius:8px; color:var(--dim); font-family:inherit; font-size:.68rem; padding:4px 10px; cursor:pointer}
-.ptool:hover{color:var(--acc2); border-color:var(--acc)}
+.pu.dis{color:var(--dim); border-style:dashed; pointer-events:none}
+.spc{flex:1}
+.ptool{background:none; border:1px solid var(--border); border-radius:8px; color:var(--dim); font-family:inherit; font-size:.68rem; padding:5px 10px; cursor:pointer}
+.ptool:hover,.ptool.open{color:var(--gold); border-color:rgba(232,201,122,.5)}
 .csec{border-top:1px dashed var(--border); margin-top:10px; padding-top:10px; display:none}
 .csec.open{display:block}
 .cm{font-size:.76rem; color:var(--txt); background:var(--bg); border-radius:8px; padding:8px 10px; margin-bottom:6px; line-height:1.6}
 .cm .n{color:var(--acc2); font-size:.66rem; display:block; margin-bottom:2px}
-.sg{font-size:.76rem; color:var(--dim); background:var(--bg); border:1px dashed rgba(201,162,75,.4); border-radius:8px; padding:8px 10px; margin-bottom:6px; line-height:1.6}
-.sg .st{color:#e8c97a; font-size:.62rem; display:block; margin-bottom:2px}
+.sg{font-size:.76rem; color:var(--dim); background:var(--bg); border:1px dashed rgba(232,201,122,.4); border-radius:8px; padding:8px 10px; margin-bottom:6px; line-height:1.6}
+.sg .st{color:var(--gold); font-size:.62rem; display:block; margin-bottom:2px}
+.sg.ok{border-style:solid; border-color:rgba(70,201,109,.4)}
+.sg.ok .st{color:#46c96d}
 .cin{display:flex; gap:6px; margin-top:8px}
 .cin input{flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--txt); font-family:inherit; font-size:.78rem; padding:8px 10px}
 .cin input:focus{outline:none; border-color:var(--acc)}
 .cin button{background:linear-gradient(135deg,var(--acc),var(--acc2)); border:none; border-radius:8px; color:#0b0f14; font-family:inherit; font-size:.72rem; font-weight:700; padding:8px 14px; cursor:pointer}
-.foot{margin-top:30px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
-.foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ok,#46c96d); margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
+.empty{text-align:center; color:var(--dim); font-size:.84rem; padding:30px; border:1px dashed var(--border); border-radius:18px}
+.foot{margin-top:26px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
+.foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:#46c96d; margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
 @keyframes pul{50%{opacity:.4}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="kick">المنظومة</div>
-  <h1>البوابة</h1>
-  <div class="sub">كل المواقع في مكان واحد — مدخل موحد لكل تطبيقاتك</div>
-  <a class="app" href="../">
-    <div class="av"><img src="icon-decisions-192.png" alt=""></div>
-    <div><div class="nm">بطاقات القرارات</div><div class="ds">أسئلة القرارات بين الوكلاء — تصويت وحسم</div></div>
-    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-  </a>
-  <a class="app" href="../durus/">
-    <div class="av"><img src="../durus/icon-192.png" alt="Turath"></div>
-    <div><div class="nm">Turath</div><div class="ds" id="turath-ds">مكتبة التراث — السلاسل والمقاطع والتقييم</div></div>
-    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-  </a>
-  <a class="app" href="../live/">
-    <div class="av" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#c9a24b,#8a6a2f);border-radius:16px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M8 5v14l11-7z"/></svg></div>
-    <div><div class="nm">الدروس الحية</div><div class="ds">صوت + نص يتحرك كلمة-كلمة — تجربة الدرس الحي الأولى</div></div>
-    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-  </a>
-  <a class="app" href="../team/">
-    <div class="av" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#8b7cf6,#5ec8ff);border-radius:16px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
-    <div><div class="nm">فريق العمل</div><div class="ds">نبذات الأعضاء ومشاريعهم — تجارب الأفكار</div></div>
-    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-  </a>
-  <div class="seclbl">المشاريع — كل شيء في مكان واحد</div>
-  <div class="chips" id="chips"></div>
+  <div class="kick">المنظومة · الفريق</div>
+  <h1>البوابة الموحدة</h1>
+  <div class="sub">كل المواقع والمشاريع في مكان واحد — فلتر بالصانع أو المجال، علّق، واقترح تعديلات</div>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="q" placeholder="ابحث عن مشروع…"></div>
+  <div class="fgroup"><span class="fl">الصانع</span><div class="chips" id="mchips"></div></div>
+  <div class="fgroup"><span class="fl">المجال</span><div class="chips" id="fchips"></div></div>
+  <div class="count" id="cnt"></div>
   <div id="projs"></div>
-  <div class="foot"><span class="pulse"></span>كل الأنظمة تعمل · تحديث مستمر</div>
+  <div class="foot"><span class="pulse"></span>بوابة موحّدة · تحديث مستمر</div>
 </div>
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-fetch('../durus/data.js').then(r=>r.text()).then(t=>{
-  const m=t.match(/const SERIES=(\[.*?\]);/s); if(!m)return;
-  const S=JSON.parse(m[1]); const n=S.length,c=S.reduce((a,s)=>a+(s.cc||s.videos||0),0);
-  document.getElementById('turath-ds').textContent=`مكتبة التراث — ${n.toLocaleString('en')} سلسلة، ${c.toLocaleString('en')} مقطعاً`;
-}).catch(()=>{});
-
-const PJ={all:[],fm:'الكل',ff:'الكل'};
+<script>
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const PJ={all:[],fm:'الكل',ff:'الكل',q:''};
 const cmts=JSON.parse(localStorage.getItem('portal_comments')||'{}');
 const sgts=JSON.parse(localStorage.getItem('portal_suggestions')||'{}');
 const saveC=()=>localStorage.setItem('portal_comments',JSON.stringify(cmts));
 const saveS=()=>localStorage.setItem('portal_suggestions',JSON.stringify(sgts));
 const escH=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function chipRow(id,vals,cur,key){
+  document.getElementById(id).innerHTML=
+    `<button class="chip${cur==='الكل'?' on':''}" data-${key}="الكل">الكل</button>`+
+    vals.map(v=>`<button class="chip${cur===v?' on':''}" data-${key}="${escH(v)}">${escH(v)}</button>`).join('');
+}
 function projCard(p,i){
   const cs=cmts[p.id]||[],ss=sgts[p.id]||[];
+  const pend=ss.filter(x=>x.st==='pending').length;
   return `<div class="proj" style="animation-delay:${i*.05}s">
-    <div class="pt"><span class="t">${escH(p.title)}</span><span class="badge">${escH(p.maker)}</span><span class="badge f">${escH(p.field)}</span></div>
+    <div class="pt">
+      <div class="pic">${escH(p.icon||p.title[0])}</div>
+      <div class="tt"><div class="t">${escH(p.title)}</div><div class="m">${escH(p.maker)} · ${escH(p.field)}</div></div>
+      ${p.url?'':'<span class="badge">قيد التخطيط</span>'}
+    </div>
     <div class="pd">${escH(p.desc)}</div>
-    ${p.url?`<a class="pu" href="${escH(p.url)}">فتح المشروع ←</a>`:'<span class="pd" style="font-size:.68rem">قيد التخطيط — لا رابط بعد</span>'}
-    <div class="ptools">
-      <button class="ptool" data-act="c" data-p="${p.id}">تعليقات (${cs.length})</button>
-      <button class="ptool" data-act="s" data-p="${p.id}">اقتراح تعديل (${ss.filter(x=>x.st==='pending').length} معلّق)</button>
+    <div class="prow">
+      ${p.url?`<a class="pu" href="${escH(p.url)}">فتح المشروع ←</a>`:'<span class="pu dis">لا رابط بعد</span>'}
+      <span class="spc"></span>
+      <button class="ptool" data-act="c" data-p="${p.id}">تعليقات ${cs.length?`(${cs.length})`:''}</button>
+      <button class="ptool" data-act="s" data-p="${p.id}">اقتراح ${pend?`(${pend} معلّق)`:''}</button>
     </div>
     <div class="csec" id="c-${p.id}">
-      ${cs.map(c=>`<div class="cm"><span class="n">${escH(c.n)}</span>${escH(c.t)}</div>`).join('')||'<div class="cm" style="color:var(--dim)">لا تعليقات بعد</div>'}
+      ${cs.map(c=>`<div class="cm"><span class="n">${escH(c.n)}</span>${escH(c.t)}</div>`).join('')||'<div class="cm" style="color:var(--dim)">لا تعليقات بعد — كن أول من يعلّق</div>'}
       <div class="cin"><input placeholder="اسمك — تعليقك" data-in="${p.id}"><button data-add="c" data-p="${p.id}">أضف</button></div>
     </div>
     <div class="csec" id="s-${p.id}">
-      ${ss.map(s=>`<div class="sg"><span class="st">${s.st==='pending'?'⏳ بانتظار موافقة الصانع':'✓ مقبول'} — ${escH(s.n)}</span>${escH(s.t)}</div>`).join('')||'<div class="sg">لا اقتراحات بعد</div>'}
+      ${ss.map(s=>`<div class="sg${s.st==='ok'?' ok':''}"><span class="st">${s.st==='pending'?'⏳ بانتظار موافقة الصانع':'✓ مقبول'} — ${escH(s.n)}</span>${escH(s.t)}</div>`).join('')||'<div class="sg">لا اقتراحات بعد</div>'}
       <div class="cin"><input placeholder="اسمك — اقتراحك للصانع" data-ins="${p.id}"><button data-add="s" data-p="${p.id}">أرسل</button></div>
     </div>
   </div>`;
 }
 function renderPJ(){
   const ms=[...new Set(PJ.all.map(p=>p.maker))],fs=[...new Set(PJ.all.map(p=>p.field))];
-  document.getElementById('chips').innerHTML=
-    `<button class="chip${PJ.fm==='الكل'?' on':''}" data-m="الكل">كل الصنّاع</button>`+ms.map(m=>`<button class="chip${PJ.fm===m?' on':''}" data-m="${escH(m)}">${escH(m)}</button>`).join('')+
-    `<span style="width:100%"></span>`+
-    `<button class="chip${PJ.ff==='الكل'?' on':''}" data-f="الكل">كل المجالات</button>`+fs.map(f=>`<button class="chip${PJ.ff===f?' on':''}" data-f="${escH(f)}">${escH(f)}</button>`).join('');
-  const list=PJ.all.filter(p=>(PJ.fm==='الكل'||p.maker===PJ.fm)&&(PJ.ff==='الكل'||p.field===PJ.ff));
-  document.getElementById('projs').innerHTML=list.map(projCard).join('');
+  chipRow('mchips',ms,PJ.fm,'m');chipRow('fchips',fs,PJ.ff,'f');
+  const list=PJ.all.filter(p=>
+    (PJ.fm==='الكل'||p.maker===PJ.fm)&&
+    (PJ.ff==='الكل'||p.field===PJ.ff)&&
+    (!PJ.q||p.title.includes(PJ.q)||p.desc.includes(PJ.q)||p.maker.includes(PJ.q)));
+  document.getElementById('cnt').textContent=list.length===PJ.all.length?`${list.length} مشروعاً`:`${list.length} من ${PJ.all.length} مشروعاً`;
+  document.getElementById('projs').innerHTML=list.map(projCard).join('')||'<div class="empty">لا مشاريع تطابق الفلتر</div>';
 }
+document.getElementById('q').addEventListener('input',e=>{PJ.q=e.target.value.trim();renderPJ()});
 document.addEventListener('click',e=>{
   const ch=e.target.closest('.chip');
   if(ch){if(ch.dataset.m)PJ.fm=ch.dataset.m;if(ch.dataset.f)PJ.ff=ch.dataset.f;renderPJ();return}
   const tb=e.target.closest('.ptool');
-  if(tb){document.getElementById(tb.dataset.act+'-'+tb.dataset.p).classList.toggle('open');return}
+  if(tb){const sec=document.getElementById(tb.dataset.act+'-'+tb.dataset.p);sec.classList.toggle('open');tb.classList.toggle('open',sec.classList.contains('open'));return}
   const ad=e.target.closest('[data-add]');
   if(ad){
     const pid=ad.dataset.p,kind=ad.dataset.add;
@@ -163,6 +152,18 @@ document.addEventListener('click',e=>{
     document.getElementById(kind+'-'+pid).classList.add('open');
   }
 });
-fetch('projects.json').then(r=>r.json()).then(P=>{PJ.all=P;renderPJ()});</script>
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const inp=e.target;if(!inp.dataset.in&&!inp.dataset.ins)return;
+    const pid=inp.dataset.in||inp.dataset.ins,kind=inp.dataset.in?'c':'s';
+    const v=inp.value.trim();if(!v)return;
+    const d=v.includes('—')?{n:v.split('—')[0].trim(),t:v.split('—').slice(1).join('—').trim()}:{n:'عضو',t:v};
+    if(kind==='c'){(cmts[pid]=cmts[pid]||[]).push(d);saveC()}
+    else{(sgts[pid]=sgts[pid]||[]).push({...d,st:'pending'});saveS()}
+    renderPJ();document.getElementById(kind+'-'+pid).classList.add('open');
+  }
+});
+fetch('projects.json').then(r=>r.json()).then(P=>{PJ.all=P;renderPJ()});
+</script>
 </body>
 </html>

@@ -50,9 +50,8 @@ fetch('words.json').then(r=>r.json()).then(w=>{
   render(0);
 });
 function render(cur){
-  // آخر كلمة بدأت قبل الآن
-  let k=0;while(k<words.length-1&&words[k+1].s<=cur)k++;
-  const lo=Math.max(0,k-ctx),hi=Math.min(words.length-1,k+ctx);
+  let k=-1;while(k<words.length-1&&words[k+1].s<=cur)k++;
+  const lo=Math.max(0,k-ctx),hi=Math.min(words.length-1,Math.max(k,0)+ctx);
   line.innerHTML='';
   for(let i=lo;i<=hi;i++){const e=els[i];e.className='w'+(i<k?' past':i===k?' now':'');line.appendChild(e);}
 }

@@ -53,7 +53,9 @@ h1{font-size:1.6rem; font-weight:700; color:#ededed}
   <div class="foot"><span class="pulse"></span>بوابة أمجد · الفريق</div>
 </div>
 <script>
-const APPS=[];
+const APPS=[
+ {name:'فكرة اليوم',desc:'صورة ملهمة + اقتباس يومي + خاطرة تُحفظ — أول قطعة من «مجلد إبداعي»',url:'fikra/',icon:'ف'}
+];
 const el=document.getElementById('apps');
 el.innerHTML=APPS.length?APPS.map((a,i)=>`
   <a class="app" style="animation-delay:${i*.06}s" href="${a.url}">

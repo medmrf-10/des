@@ -73,7 +73,8 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .kindb{flex:0 0 auto; font-size:.66rem; font-weight:700; color:#ffd58a; background:rgba(224,169,62,.12); border:1px solid rgba(224,169,62,.35); padding:4px 10px; border-radius:8px}
 .cstats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px}
 .stat{background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:8px 10px; text-align:center}
-.stat .v{font-size:.92rem; font-weight:700; color:var(--acc2)}
+.stat .v{font-size:.92rem; font-weight:700; color:var(--acc2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; display:block}
+.stat .k{display:block}
 .stat .k{font-size:.62rem; color:var(--dim); margin-top:2px}
 .works{margin-top:12px; display:flex; flex-direction:column; gap:6px}
 .wrow{display:flex; align-items:center; gap:8px; font-size:.78rem}
@@ -139,6 +140,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 const vals=JSON.parse(localStorage.getItem('durus_vals')||'{}');
 const W={}; WORKS.forEach(w=>W[w.id]=w);
 let F={sh:'',kinds:new Set(),q:''};
+const expanded={};
 const $=s=>document.getElementById(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const fmtH=h=>h?h.toFixed(1):'';
@@ -181,9 +183,13 @@ function render(){
   const bySh={};
   L.forEach(s=>{(bySh[s.sheikh]=bySh[s.sheikh]||[]).push(s)});
   const order=Object.keys(bySh).sort((a,b)=>bySh[b].length-bySh[a].length);
+  const PER=8;
   $('list').innerHTML=order.map(sh=>{
-    const cards=bySh[sh].sort((a,b)=>(b.hours||0)-(a.hours||0)).map(card).join('');
-    return `<div class="sec-title"><span class="sheikh-head"><span class="av">${esc(sh[0]||'')}</span><span><span class="sn">${esc(sh)}</span><div class="ss">${bySh[sh].length} سلسلة</div></span></span></div>${cards}`;
+    const arr=bySh[sh].sort((a,b)=>(b.hours||0)-(a.hours||0));
+    const shown=Math.min(arr.length,(expanded[sh]||PER));
+    const cards=arr.slice(0,shown).map(card).join('');
+    const more=arr.length>shown?`<div class="more sec-more" data-sh="${esc(sh)}" data-n="${arr.length}">عرض بقية السلاسل — ${arr.length-shown} أخرى ↓</div>`:'';
+    return `<div class="sec-title"><span class="sheikh-head"><span class="av">${esc(sh[0]||'')}</span><span><span class="sn">${esc(sh)}</span><div class="ss">${arr.length} سلسلة</div></span></span></div>${cards}${more}`;
   }).join('')||'<div class="empty">لا نتائج — جرّب بحثاً آخر</div>';
 }
 function pillsKind(){
@@ -224,6 +230,11 @@ $('list').addEventListener('click',async e=>{
     e.target.parentElement.querySelectorAll('.rnum').forEach(b=>b.classList.toggle('sel',+b.dataset.v===vals[id]));
     e.stopPropagation();return;
   }
+  if(e.target.classList.contains('sec-more')){
+    expanded[e.target.dataset.sh]=99999;render();return;
+  }
+  const wn=e.target.closest('.wname');
+  if(wn){$('q').value=W[+wn.dataset.w].title;F.q=W[+wn.dataset.w].title;render();e.stopPropagation();return}
   if(e.target.closest('.more'))return;
   const card=e.target.closest('.card');if(!card)return;
   const id=+card.id.slice(1);

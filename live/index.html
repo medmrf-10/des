@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>الدروس الحية — شرح منظومة الأجهوري</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Traditional Arabic',serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+.stage{flex:1;width:100%;max-width:520px;display:flex;flex-direction:column;justify-content:center;padding:24px 20px 8px}
+.card{background:linear-gradient(160deg,#141b2e,#0e1424);border:1px solid #2a3350;border-radius:24px;padding:28px 22px;min-height:42dvh;display:flex;flex-direction:column;justify-content:center;box-shadow:0 18px 50px -12px #000}
+.title{font-size:.82rem;color:#8b93b0;text-align:center;letter-spacing:.5px;margin-bottom:18px}
+.line{display:flex;flex-wrap:wrap;justify-content:center;gap:.35em .28em;font-size:1.9rem;line-height:2.1;text-align:center}
+.w{transition:all .12s ease;border-radius:6px;padding:0 .12em;color:#7f88a8}
+.w.past{color:#c9cfe4}
+.w.now{color:#fff;background:linear-gradient(120deg,#8a6a2f,#c9a24b);transform:scale(1.12);box-shadow:0 4px 18px -4px #c9a24b88}
+.controls{width:100%;max-width:520px;padding:16px 20px 30px}
+.bar{height:5px;background:#232b45;border-radius:99px;overflow:hidden;cursor:pointer}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a6a2f,#e8c97a);transition:width .15s linear}
+.row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px}
+.btn{width:56px;height:56px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.3rem;cursor:pointer}
+.btn.big{width:72px;height:72px;font-size:1.7rem;background:linear-gradient(140deg,#c9a24b,#8a6a2f);color:#0b0f1a;border:none}
+.time{font-size:.78rem;color:#8b93b0;text-align:center;margin-top:8px;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="card">
+    <div class="title">شرح منظومة الأجهوري في أصول الدين — الشيخ محمد البردوني الحسيمي · الدرس 1</div>
+    <div class="line" id="line"></div>
+  </div>
+</div>
+<div class="controls">
+  <div class="bar" id="bar"><i id="fill"></i></div>
+  <div class="row">
+    <button class="btn" id="back">١٥−</button>
+    <button class="btn big" id="play">▶</button>
+    <button class="btn" id="fwd">+١٥</button>
+  </div>
+  <div class="time" id="time">0:00 / 8:20</div>
+</div>
+<audio id="au" src="aju.mp3" preload="auto"></audio>
+<script>
+const au=document.getElementById('au'),line=document.getElementById('line'),fill=document.getElementById('fill'),
+      play=document.getElementById('play'),tm=document.getElementById('time'),bar=document.getElementById('bar');
+let words=[],els=[],ctx=7; // نافذة: 7 كلمات قبل و7 بعد
+fetch('words.json').then(r=>r.json()).then(w=>{
+  words=w;
+  words.forEach((o,i)=>{const s=document.createElement('span');s.className='w';s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s;};els.push(s)});
+  render(0);
+});
+function render(cur){
+  // آخر كلمة بدأت قبل الآن
+  let k=0;while(k<words.length-1&&words[k+1].s<=cur)k++;
+  const lo=Math.max(0,k-ctx),hi=Math.min(words.length-1,k+ctx);
+  line.innerHTML='';
+  for(let i=lo;i<=hi;i++){const e=els[i];e.className='w'+(i<k?' past':i===k?' now':'');line.appendChild(e);}
+}
+function fmt(t){const m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0')}
+au.addEventListener('timeupdate',()=>{render(au.currentTime);if(au.duration)fill.style.width=(au.currentTime/au.duration*100)+'%'});
+play.onclick=()=>{if(au.paused){au.play();play.textContent='❚❚'}else{au.pause();play.textContent='▶'}};
+document.getElementById('back').onclick=()=>au.currentTime=Math.max(0,au.currentTime-15);
+document.getElementById('fwd').onclick=()=>au.currentTime=Math.min(au.duration||0,au.currentTime+15);
+bar.onclick=e=>{const r=bar.getBoundingClientRect();au.currentTime=au.duration*((r.right-e.clientX)/r.width)};
+setInterval(()=>{tm.textContent=fmt(au.currentTime)+' / '+fmt(au.duration||0)},250);
+</script>
+</body>
+</html>

@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>البوابة الموحدة</title>
+<title>Port</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b0f14">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="البوابة">
+<meta name="apple-mobile-web-app-title" content="Port">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,9 @@ body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
   color:var(--txt); min-height:100vh; padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .wrap{max-width:520px; margin:0 auto; padding:24px 16px}
 .kick{display:inline-block; font-size:.62rem; font-weight:700; letter-spacing:.14em; color:var(--acc2); border:1px solid rgba(94,200,255,.35); padding:4px 12px; border-radius:99px; margin-bottom:10px}
-h1{font-size:1.55rem; font-weight:700; color:#ededed}
+.brand{display:flex; align-items:center; gap:12px}
+.brand .logo{width:46px; height:46px; border-radius:12px; filter:drop-shadow(0 4px 12px rgba(201,162,75,.35))}
+h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gradient(135deg,var(--acc2),var(--acc)); -webkit-background-clip:text; background-clip:text; color:transparent}
 .sub{color:var(--dim); font-size:.82rem; margin-top:6px; margin-bottom:20px; line-height:1.6}
 .search{display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:10px 14px; margin-bottom:12px}
 .search input{flex:1; background:none; border:none; color:var(--txt); font-family:inherit; font-size:.9rem}
@@ -90,7 +92,7 @@ h1{font-size:1.55rem; font-weight:700; color:#ededed}
 <body>
 <div class="wrap">
   <div class="kick">المنظومة · الفريق</div>
-  <h1>البوابة الموحدة</h1>
+  <div class="brand"><img class="logo" src="logo-96.png" alt="Port"><h1>Port</h1></div>
   <div class="sub">كل المواقع والمشاريع في مكان واحد — فلتر بالصانع أو المجال، علّق، واقترح تعديلات</div>
   <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="q" placeholder="ابحث عن مشروع…"></div>
   <div class="fgroup"><span class="fl">الصانع</span><div class="chips" id="mchips"></div></div>
@@ -98,7 +100,7 @@ h1{font-size:1.55rem; font-weight:700; color:#ededed}
   <div class="count" id="cnt"></div>
   <div id="projs"></div>
   <button class="privbtn" id="showPriv">🔒 إظهار الخاص</button>
-  <div class="foot"><span class="pulse"></span>بوابة موحّدة · تحديث مستمر</div>
+  <div class="foot"><span class="pulse"></span>Port · بوابة الفريق الموحّدة</div>
 </div>
 <div class="pm" id="pm">
   <div class="card">

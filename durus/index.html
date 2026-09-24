@@ -90,6 +90,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .card.open{border-color:var(--acc)}
 .ctop{display:flex; gap:10px; align-items:flex-start}
 .cname{flex:1; font-size:.98rem; font-weight:700; line-height:1.6}
+.gapb{font-size:.66rem;color:#f5c453;background:#f5c45318;border:1px solid #f5c45340;border-radius:99px;padding:3px 9px;flex:0 0 auto;cursor:pointer}
 .kindb{flex:0 0 auto; font-size:.66rem; font-weight:700; color:#ffd58a; background:rgba(224,169,62,.12); border:1px solid rgba(224,169,62,.35); padding:4px 10px; border-radius:8px}
 .cstats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px}
 .stat{background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:8px 10px; text-align:center}
@@ -216,8 +217,9 @@ let curS=null;
 function clipHTML(c){
   const h2=Math.floor((c.secs||0)/3600),m=Math.floor((c.secs||0)%3600/60),ss=Math.floor((c.secs||0)%60);
   const d=c.secs?(h2?`${h2}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${m}:${String(ss).padStart(2,'0')}`):'';
-  const ln=(c.lesson!=null&&c.lesson!=='NA')?c.lesson:'';
-  return `<a class="cl" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer"><span class="n">${ln}</span><span class="t">${esc(clipTitle(c,curS))}</span><span class="d"><bdi>${d}</bdi></span></a>`;
+  const ln=(c.num!=null?c.num:(c.lesson!=null&&c.lesson!=='NA'?c.lesson:''));
+  const alts=c.alts&&c.alts.length?` <span style="color:var(--dim);font-size:.7rem">+${c.alts.length}</span>`:'';
+  return `<a class="cl" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer"><span class="n">${ln}</span><span class="t">${esc(clipTitle(c,curS))}${alts}</span><span class="d"><bdi>${d}</bdi></span></a>`;
 }
 function wrow(tag,cls,id){
   const w=W[id]; if(!w)return '';
@@ -228,7 +230,7 @@ function card(s){
   let wr='';
   wr+=wrow('متن','m',s.matn_id)+wrow('شرح','s',s.sharh_id)+wrow('حاشية','h',s.hashiya_id);
   return `<div class="card" id="c${s.id}">
-    <div class="ctop"><div class="cname">${esc(s.name)}</div>${s.kind?`<span class="kindb">${esc(s.kind)}</span>`:''}<span class="chev">⌄</span></div>
+    <div class="ctop"><div class="cname">${esc(s.name)}</div>${s.gaps?`<span class="gapb" data-g="${s.id}">ينقصه ${s.gaps.length.toLocaleString('ar')}</span>`:''}${s.kind?`<span class="kindb">${esc(s.kind)}</span>`:''}<span class="chev">⌄</span></div>
     <div class="cstats">
       <div class="stat"><div class="v">${s.cc||s.videos||0}</div><div class="k">مقطعاً</div></div>
       <div class="stat"><div class="v">${fmtH(s.hours)||'—'}</div><div class="k">ساعة</div></div>
@@ -237,7 +239,7 @@ function card(s){
     ${wr?`<div class="works">${wr}</div>`:''}
     ${s.comment?`<div class="ccmt">${esc(s.comment)}</div>`:''}
     <div class="cfoot">
-      <a class="cbtn acc" href="${esc(s.plist_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">▶ قائمة التشغيل${s.plists?` <span style="opacity:.7">(${s.plists.length} مصادر)</span>`:''}</a>
+      ${s.plists&&s.plists.length>1?`<button class="cbtn acc srcbtn" data-id="${s.id}">▶ المصادر (${s.plists.length})</button>`:`<a class="cbtn acc" href="${esc(s.plist_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">▶ قائمة التشغيل</a>`}
       <button class="cbtn copyl" data-u="${esc(s.plist_url)}">⧉ نسخ</button>
       <button class="cbtn ratebtn${v?' on':''}" data-id="${s.id}">${v?`★ ${v}`:'قيّم ★'}</button>
     </div>
@@ -347,7 +349,22 @@ function openRate(id){
   $('shq').style.display='none';
   openSheet();return;
 }
+function showGaps(id){
+  const s=SERIES.find(x=>x.id===id);if(!s||!s.gaps)return;
+  $('shList').innerHTML=`<div style="padding:10px 6px;line-height:2">تنقصه الدروس: <span dir="ltr" style="letter-spacing:.5px">${s.gaps.join(' ، ')}</span></div>`;
+  document.querySelector('#sheet .sh-title').textContent=`فجوات: ${s.name}`;
+  $('shq').style.display='none';openSheet();
+}
+function showSrcs(id){
+  const s=SERIES.find(x=>x.id===id);if(!s)return;
+  const pl=s.plists||[s.plist_url];
+  $('shList').innerHTML=pl.map((u,i)=>`<a class="srow" href="${esc(u)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--txt)"><span class="tick"></span><span class="snm">المصدر ${(i+1).toLocaleString('ar')}</span><span class="sct">↖</span></a>`).join('');
+  document.querySelector('#sheet .sh-title').textContent=`مصادر «${s.name}»`;
+  $('shq').style.display='none';openSheet();
+}
 $('list').addEventListener('click',async e=>{
+  const g=e.target.closest('.gapb');if(g){showGaps(+g.dataset.g);e.stopPropagation();return}
+  const sb=e.target.closest('.srcbtn');if(sb){showSrcs(+sb.dataset.id);e.stopPropagation();return}
   const shh=e.target.closest('.sheikh-head');
   if(shh){F.sh=shh.dataset.sh;F.kinds=new Set();updPicks();render();scrollTo({top:0,behavior:'smooth'});return}
   if(e.target.classList.contains('ratebtn')){openRate(e.target.dataset.id);e.stopPropagation();return}

@@ -50,10 +50,10 @@ function render(cur){
   let pi=-1;for(let i=0;i<phrases.length;i++){if(phrases[i].s<=cur)pi=i;else break}
   const P=phrases[Math.max(pi,0)];if(!P)return;
   ph.innerHTML='';
-  P.ws.forEach(o=>{
+  let wi=-1;P.ws.forEach((o,i)=>{if(o.s<=cur)wi=i});
+  P.ws.forEach((o,i)=>{
     const s=document.createElement('span');s.className='w';
-    if(cur>=o.s&&cur<=o.e)s.className='w now';
-    else if(cur>o.e)s.className='w past';
+    if(i===wi)s.className='w now';else if(i<wi)s.className='w past';
     s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
     ph.appendChild(s);
   });

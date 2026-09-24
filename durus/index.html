@@ -194,12 +194,12 @@ function clipTitle(c,s){
   const addT=(str)=>norm(str).split(/\s+/).filter(w=>w.length>1).forEach(w=>drops.add(w));
   if(s){addT(s.name);addT(s.sheikh);addT(s.channel)}
   ['الشيخ','قناة','مباشر','يوتيوب','hd','الدكتور','العلامة','فضيلة'].forEach(w=>drops.add(norm(w)));
-  const segs=x.split(/\s*[|｜]\s*|\s+[\-–—]\s+/).map(z=>z.trim()).filter(Boolean);
+  const segs=x.split(/\s*(?:[|｜]|\/{2,}|::)\s*|\s+[\-–—]\s+/).map(z=>z.trim()).filter(Boolean);
   const kept=segs.map(seg=>{
     const toks=seg.split(/\s+/).filter(Boolean);
     const live=toks.filter(t=>!drops.has(norm(t)));
     return {seg,live,ratio:toks.length?live.length/toks.length:0};
-  }).filter(o=>o.ratio>0.35||/الدرس|الحلقة|الجزء|\d+/.test(o.seg))
+  }).filter(o=>o.ratio>0.35||(o.live.length&&/الدرس|الحلقة|الجزء/.test(o.seg)))
    .map(o=>{
      const toks=o.seg.split(/\s+/).filter(Boolean);
      while(toks.length&&drops.has(norm(toks[0])))toks.shift();

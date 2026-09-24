@@ -154,12 +154,17 @@ const vals=JSON.parse(localStorage.getItem('durus_vals')||'{}');
 const W={}; WORKS.forEach(w=>W[w.id]=w);
 let F={sh:'',kinds:new Set(),q:'',rated:false};
 const expanded={};
+const openIds=new Set();
+const clipCache=new Map();
+async function getClips(id){if(!clipCache.has(id))clipCache.set(id,fetch(`clips/${id}.json`).then(r=>r.json()));return clipCache.get(id)}
+const norm=t=>(t||'').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ء/g,'').trim();
 const $=s=>document.getElementById(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const fmtH=h=>h?h.toFixed(1):'';
 function clipHTML(c){
-  const m=Math.floor((c.secs||0)/60),ss=Math.floor((c.secs||0)%60);
-  return `<div class="cl"><span class="n">${c.lesson??''}</span><span class="t"><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.title)}</a></span><span class="d"><bdi>${m}:${String(ss).padStart(2,'0')}</bdi></span></div>`;
+  const h2=Math.floor((c.secs||0)/3600),m=Math.floor((c.secs||0)%3600/60),ss=Math.floor((c.secs||0)%60);
+  const d=h2?`${h2}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${m}:${String(ss).padStart(2,'0')}`;
+  return `<div class="cl"><span class="n">${c.lesson??''}</span><span class="t"><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.title)}</a></span><span class="d"><bdi>${d}</bdi></span></div>`;
 }
 function wrow(tag,cls,id){
   const w=W[id]; if(!w)return '';
@@ -189,7 +194,7 @@ function card(s){
 function workNames(id){return id&&W[id]?W[id].title:''}
 function render(){
   let L=SERIES.filter(s=>(!F.rated||vals[s.id])&&(!F.sh||s.sheikh===F.sh)&&(!F.kinds.size||F.kinds.has(s.kind))&&
-    (!F.q||(s.name||'').includes(F.q)||workNames(s.matn_id).includes(F.q)||workNames(s.sharh_id).includes(F.q)||workNames(s.hashiya_id).includes(F.q)||(s.comment||'').includes(F.q)));
+    (!F.q||(norm(s.name).includes(norm(F.q))||norm(workNames(s.matn_id)).includes(norm(F.q))||norm(workNames(s.sharh_id)).includes(norm(F.q))||norm(workNames(s.hashiya_id)).includes(norm(F.q))||norm(s.comment).includes(norm(F.q)))));
   $('cnt').textContent=L.length;
   const totV=L.reduce((a,s)=>a+(s.cc||s.videos||0),0),totH=L.reduce((a,s)=>a+(s.hours||0),0);
   const nR=Object.keys(vals).length;
@@ -203,9 +208,10 @@ function render(){
     const arr=bySh[sh].sort((a,b)=>(b.hours||0)-(a.hours||0));
     const shown=Math.min(arr.length,(expanded[sh]||PER));
     const cards=arr.slice(0,shown).map(card).join('');
-    const more=arr.length>shown?`<div class="more sec-more" data-sh="${esc(sh)}" data-n="${arr.length}">عرض بقية السلاسل — ${arr.length-shown} أخرى ↓</div>`:'';
+    const more=arr.length>shown?`<div class="sec-more" data-sh="${esc(sh)}" data-n="${arr.length}">عرض بقية السلاسل — ${arr.length-shown} أخرى ↓</div>`:'';
     return `<div class="sec-title"><span class="sheikh-head"><span class="av">${esc(sh[0]||'')}</span><span><span class="sn">${esc(sh)}</span><div class="ss">${arr.length} سلسلة</div></span></span></div>${cards}${more}`;
   }).join('')||'<div class="empty">لا نتائج — جرّب بحثاً آخر</div>';
+  openIds.forEach(id=>{const c=document.getElementById('c'+id);if(c&&!c.classList.contains('open')){c.classList.add('open');if(!c.dataset.loaded){c.dataset.loaded='1';const box=c.querySelector('.cls');getClips(id).then(cl=>{const SHOWN=15;box.innerHTML=cl.slice(0,SHOWN).map(clipHTML).join('')+(cl.length>SHOWN?`<div class="more" data-id="${id}">عرض كل المقاطع (${cl.length}) ↓</div>`:'')}).catch(()=>{box.textContent='تعذر التحميل'})}}});
 }
 function pillsKind(){
   const counts={};
@@ -265,20 +271,22 @@ $('list').addEventListener('click',async e=>{
   const wn=e.target.closest('.wname');
   if(wn){$('q').value=W[+wn.dataset.w].title;F.q=W[+wn.dataset.w].title;render();e.stopPropagation();return}
   if(e.target.closest('.more'))return;
+  if(e.target.closest('.cbody'))return;
   const card=e.target.closest('.card');if(!card)return;
   const id=+card.id.slice(1);
   card.classList.toggle('open');
+  if(card.classList.contains('open'))openIds.add(id);else openIds.delete(id);
   if(!card.classList.contains('open')||card.dataset.loaded)return;
   card.dataset.loaded='1';
   const box=card.querySelector('.cls');
   try{
-    const r=await fetch(`clips/${id}.json`);const cl=await r.json();
+    const cl=await getClips(id);
     const SHOWN=15;
     box.innerHTML=cl.slice(0,SHOWN).map(clipHTML).join('')+(cl.length>SHOWN?`<div class="more" data-id="${id}">عرض كل المقاطع (${cl.length}) ↓</div>`:'')||'— لا مقاطع —';
   }catch{box.textContent='تعذر التحميل'}
 });
 $('list').addEventListener('click',async e=>{
-  if(!e.target.classList.contains('more'))return;
+  if(!e.target.matches('.more:not(.sec-more)'))return;
   const id=e.target.dataset.id,r=await fetch(`clips/${id}.json`),cl=await r.json();
   e.target.parentElement.innerHTML=cl.map(clipHTML).join('');
 });

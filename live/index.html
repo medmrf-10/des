@@ -57,9 +57,9 @@ function render(cur){
     s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
     ph.appendChild(s);
   });
-  // تصغير تلقائي إن طال السطر
-  ph.style.fontSize='1.75rem';
-  if(ph.scrollWidth>ph.clientWidth-8){ph.style.fontSize='1.3rem'}
+  // ملاءمة السطر: كبّر أو صغّر حتى يملأ العرض على سطر واحد
+  let fs=1.9;ph.style.fontSize=fs+'rem';
+  while(ph.scrollWidth>ph.clientWidth-10&&fs>0.85){fs-=.12;ph.style.fontSize=fs+'rem'}
 }
 function fmt(t){const m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0')}
 au.addEventListener('timeupdate',()=>{render(au.currentTime);if(au.duration)fill.style.width=(au.currentTime/au.duration*100)+'%'});

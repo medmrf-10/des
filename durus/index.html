@@ -51,8 +51,9 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .sheet{position:fixed; left:0; right:0; bottom:0; max-width:720px; margin:0 auto; background:var(--card); border:1px solid var(--border); border-bottom:none; border-radius:22px 22px 0 0; transform:translateY(105%); transition:transform .32s cubic-bezier(.22,1,.36,1); z-index:95; max-height:72vh; display:flex; flex-direction:column; padding-bottom:env(safe-area-inset-bottom)}
 .sheet.show{transform:translateY(0)}
 .sheet .grab{width:44px; height:4px; border-radius:99px; background:var(--border); margin:10px auto 4px}
-.sheet .sh-head{padding:8px 16px 10px; border-bottom:1px solid var(--border)}
+.sheet .sh-head{padding:8px 16px 10px; border-bottom:1px solid var(--border); position:relative}
 .sheet .sh-title{font-size:.85rem; font-weight:700; margin-bottom:8px}
+.sheet .shx{position:absolute; top:8px; inset-inline-end:12px; width:30px; height:30px; border-radius:50%; border:1px solid var(--border); background:var(--card2); color:var(--dim); font-size:.8rem; cursor:pointer}
 .sheet input{width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-family:inherit; font-size:.82rem}
 .sheet input:focus{outline:none; border-color:var(--acc)}
 .sheet .sh-list{overflow-y:auto; padding:6px 0 18px}
@@ -76,10 +77,10 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .stat{background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:8px 10px; text-align:center}
 .stat .v{font-size:.92rem; font-weight:700; color:var(--acc2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; display:block}
 .stat .k{display:block}
-.stat .k{font-size:.62rem; color:var(--dim); margin-top:2px}
+.stat .k{font-size:.72rem; color:var(--dim); margin-top:2px}
 .works{margin-top:12px; display:flex; flex-direction:column; gap:6px}
 .wrow{display:flex; align-items:center; gap:8px; font-size:.78rem}
-.wtag{flex:0 0 auto; font-size:.6rem; font-weight:700; padding:3px 8px; border-radius:7px; min-width:44px; text-align:center}
+.wtag{flex:0 0 auto; font-size:.68rem; font-weight:700; padding:3px 8px; border-radius:7px; min-width:44px; text-align:center}
 .wtag.m{background:rgba(94,200,255,.12); color:#8fd4ff; border:1px solid rgba(94,200,255,.3)}
 .wtag.s{background:rgba(70,201,109,.12); color:#7bd88f; border:1px solid rgba(70,201,109,.3)}
 .wtag.h{background:rgba(232,184,109,.12); color:#e8b86d; border:1px solid rgba(232,184,109,.35)}
@@ -129,11 +130,12 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 </div>
 
 <div class="sheet-bg" id="sheetBg"></div>
-<div class="sheet" id="sheet">
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
   <div class="grab"></div>
   <div class="sh-head">
+    <button class="shx" onclick="closeSheet()">✕</button>
     <div class="sh-title">اختر الشيخ</div>
-    <input id="shq" type="search" placeholder="ابحث باسم الشيخ…">
+    <input id="shq" type="search" placeholder="ابحث باسم الشيخ…" aria-label="بحث الشيوخ">
   </div>
   <div class="sh-list" id="shList"></div>
 </div>
@@ -142,7 +144,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 <script>
 const vals=JSON.parse(localStorage.getItem('durus_vals')||'{}');
 const W={}; WORKS.forEach(w=>W[w.id]=w);
-let F={sh:'',kinds:new Set(),q:''};
+let F={sh:'',kinds:new Set(),q:'',rated:false};
 const expanded={};
 const $=s=>document.getElementById(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
@@ -177,7 +179,7 @@ function card(s){
 }
 function workNames(id){return id&&W[id]?W[id].title:''}
 function render(){
-  let L=SERIES.filter(s=>(!F.sh||s.sheikh===F.sh)&&(!F.kinds.size||F.kinds.has(s.kind))&&
+  let L=SERIES.filter(s=>(!F.rated||vals[s.id])&&(!F.sh||s.sheikh===F.sh)&&(!F.kinds.size||F.kinds.has(s.kind))&&
     (!F.q||(s.name||'').includes(F.q)||workNames(s.matn_id).includes(F.q)||workNames(s.sharh_id).includes(F.q)||workNames(s.hashiya_id).includes(F.q)||(s.comment||'').includes(F.q)));
   $('cnt').textContent=L.length;
   const totV=L.reduce((a,s)=>a+(s.cc||s.videos||0),0),totH=L.reduce((a,s)=>a+(s.hours||0),0);
@@ -199,10 +201,13 @@ function pillsKind(){
   const counts={};
   SERIES.forEach(s=>{if(s.kind&&(!F.sh||s.sheikh===F.sh))counts[s.kind]=(counts[s.kind]||0)+1});
   const sorted=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-  $('fkind').innerHTML=`<button class="fbtn${F.kinds.size?'':' on'}" data-v="">الكل</button>`+sorted.map(v=>`<button class="fbtn${F.kinds.has(v)?' on':''}" data-v="${esc(v)}">${esc(v)} <span class="n">${counts[v]}</span></button>`).join('');
+  const nRated=Object.keys(vals).length;
+  $('fkind').innerHTML=`<button class="fbtn${F.kinds.size?'':' on'}" data-v="">الكل</button>`+sorted.map(v=>`<button class="fbtn${F.kinds.has(v)?' on':''}" data-v="${esc(v)}">${esc(v)} <span class="n">${counts[v]}</span></button>`).join('')+`<button class="fbtn${F.rated?' on':''}" data-v="__rated">★ مقيَّمة <span class="n">${nRated}</span></button>`;
   $('fkind').querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{
     const v=b.dataset.v;
-    if(v==='')F.kinds=new Set();else{F.kinds.has(v)?F.kinds.delete(v):F.kinds.add(v)}
+    if(v==='__rated'){F.rated=!F.rated}
+    else if(v===''){F.kinds=new Set();F.rated=false}
+    else{F.kinds.has(v)?F.kinds.delete(v):F.kinds.add(v)}
     pillsKind();render();
   });
 }
@@ -231,7 +236,7 @@ let ratingFor=null;
 function openRate(id){
   ratingFor=id;
   const v=vals[id];
-  $('shList').innerHTML=`<div class="srow${!v?' on':''}" data-v=""><span class="tick">${!v?'✓':''}</span><span class="snm">بدون تقييم</span></div>`+[...Array(10)].map((_,i)=>`<div class="srow${v===i+1?' on':''}" data-v="${i+1}"><span class="tick">${v===i+1?'✓':''}</span><span class="snm">${i+1} / 10</span></div>`).join('');
+  $('shList').innerHTML=`<div class="srow${!v?' on':''}" data-v=""><span class="tick">${!v?'✓':''}</span><span class="snm">بدون تقييم</span></div>`+[...Array(10)].map((_,i)=>`<div class="srow${v===i+1?' on':''}" data-v="${i+1}"><span class="tick">${v===i+1?'✓':''}</span><span class="snm">${i+1}</span><span class="sct">من 10</span></div>`).join('');
   document.querySelector('#sheet .sh-title').textContent='قيّم السلسلة';$('shq').style.display='none';
   $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{
     const vv=r.dataset.v?+r.dataset.v:null;

@@ -10,10 +10,11 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Traditional Arabic',s
 .stage{flex:1;width:100%;max-width:520px;display:flex;flex-direction:column;justify-content:center;padding:24px 20px 8px}
 .card{background:linear-gradient(160deg,#141b2e,#0e1424);border:1px solid #2a3350;border-radius:24px;padding:28px 22px;min-height:42dvh;display:flex;flex-direction:column;justify-content:center;box-shadow:0 18px 50px -12px #000}
 .title{font-size:.82rem;color:#8b93b0;text-align:center;letter-spacing:.5px;margin-bottom:18px}
-.line{display:flex;flex-wrap:wrap;justify-content:center;gap:.35em .28em;font-size:1.9rem;line-height:2.1;text-align:center}
-.w{transition:all .12s ease;padding:0 .1em;color:#7f88a8}
-.w.past{color:#c9cfe4}
-.w.now{color:#ffd98a;transform:scale(1.18);text-shadow:0 0 22px #ffd98a99}
+.ph{white-space:nowrap;font-size:1.75rem;line-height:1.6;text-align:center;direction:rtl}
+.w{transition:all .12s ease;color:#7f88a8}
+.w+.w{margin-inline-start:.32em}
+.w.past{color:#dde2f2}
+.w.now{color:#ffd98a;transform:scale(1.15);display:inline-block;text-shadow:0 0 24px #ffd98aa6}
 .controls{width:100%;max-width:520px;padding:16px 20px 30px}
 .bar{height:5px;background:#232b45;border-radius:99px;overflow:hidden;cursor:pointer}
 .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a6a2f,#e8c97a);transition:width .15s linear}
@@ -27,7 +28,7 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Traditional Arabic',s
 <div class="stage">
   <div class="card">
     <div class="title">شرح منظومة الأجهوري في أصول الدين — الشيخ محمد البردوني الحسيمي · الدرس 1</div>
-    <div class="line" id="line"></div>
+    <div class="ph" id="ph"></div>
   </div>
 </div>
 <div class="controls">
@@ -41,19 +42,24 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Traditional Arabic',s
 </div>
 <audio id="au" src="aju.mp3" preload="auto"></audio>
 <script>
-const au=document.getElementById('au'),line=document.getElementById('line'),fill=document.getElementById('fill'),
+const au=document.getElementById('au'),ph=document.getElementById('ph'),fill=document.getElementById('fill'),
       play=document.getElementById('play'),tm=document.getElementById('time'),bar=document.getElementById('bar');
-let words=[],els=[],ctx=2; // 4 كلمات فقط على الشاشة
-fetch('words.json').then(r=>r.json()).then(w=>{
-  words=w;
-  words.forEach((o,i)=>{const s=document.createElement('span');s.className='w';s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s;};els.push(s)});
-  render(0);
-});
+let phrases=[];
+fetch('phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0)});
 function render(cur){
-  let k=-1;while(k<words.length-1&&words[k+1].s<=cur)k++;
-  const lo=Math.max(0,k-ctx),hi=Math.min(words.length-1,Math.max(k,0)+ctx-1);
-  line.innerHTML='';
-  for(let i=lo;i<=hi;i++){const e=els[i];e.className='w'+(i<k?' past':i===k?' now':'');line.appendChild(e);}
+  let pi=-1;for(let i=0;i<phrases.length;i++){if(phrases[i].s<=cur)pi=i;else break}
+  const P=phrases[Math.max(pi,0)];if(!P)return;
+  ph.innerHTML='';
+  P.ws.forEach(o=>{
+    const s=document.createElement('span');s.className='w';
+    if(cur>=o.s&&cur<=o.e)s.className='w now';
+    else if(cur>o.e)s.className='w past';
+    s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
+    ph.appendChild(s);
+  });
+  // تصغير تلقائي إن طال السطر
+  ph.style.fontSize='1.75rem';
+  if(ph.scrollWidth>ph.clientWidth-8){ph.style.fontSize='1.3rem'}
 }
 function fmt(t){const m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0')}
 au.addEventListener('timeupdate',()=>{render(au.currentTime);if(au.duration)fill.style.width=(au.currentTime/au.duration*100)+'%'});

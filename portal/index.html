@@ -15,12 +15,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff; --gold:#e8c97a}
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a; --gold:#e8c97a}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
   background:
-    radial-gradient(900px 400px at 85% -5%, rgba(139,124,246,.12), transparent 60%),
-    radial-gradient(700px 400px at 10% 100%, rgba(94,200,255,.07), transparent 60%),
+    radial-gradient(900px 400px at 85% -5%, rgba(201,162,75,.10), transparent 60%),
+    radial-gradient(700px 400px at 10% 100%, rgba(232,201,122,.06), transparent 60%),
     radial-gradient(circle at 50% 50%, rgba(255,255,255,.015) 1px, transparent 1px),
     var(--bg);
   background-size:auto,auto,28px 28px,auto;
@@ -37,7 +37,7 @@ h1{font-size:1.55rem; font-weight:700; color:#ededed}
 .fgroup .fl{font-size:.64rem; color:var(--dim); letter-spacing:.06em; margin:0 4px 6px; display:block}
 .chips{display:flex; flex-wrap:wrap; gap:6px}
 .chip{background:var(--card); border:1px solid var(--border); border-radius:99px; color:var(--dim); font-family:inherit; font-size:.7rem; padding:6px 14px; cursor:pointer}
-.chip.on{background:linear-gradient(135deg,rgba(139,124,246,.25),rgba(94,200,255,.15)); border-color:var(--acc); color:var(--txt)}
+.chip.on{background:linear-gradient(135deg,rgba(201,162,75,.22),rgba(232,201,122,.12)); border-color:var(--acc); color:var(--txt)}
 .count{font-size:.68rem; color:var(--dim); margin:14px 4px 10px}
 .proj{background:rgba(19,26,34,.72); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; animation:enter .4s cubic-bezier(.22,1,.36,1) both; box-shadow:0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06)}
 @keyframes enter{from{opacity:0; transform:translateY(14px)}}
@@ -68,6 +68,20 @@ h1{font-size:1.55rem; font-weight:700; color:#ededed}
 .cin input:focus{outline:none; border-color:var(--acc)}
 .cin button{background:linear-gradient(135deg,var(--acc),var(--acc2)); border:none; border-radius:8px; color:#0b0f14; font-family:inherit; font-size:.72rem; font-weight:700; padding:8px 14px; cursor:pointer}
 .empty{text-align:center; color:var(--dim); font-size:.84rem; padding:30px; border:1px dashed var(--border); border-radius:18px}
+.privbtn{width:100%; background:rgba(232,201,122,.06); border:1px dashed rgba(232,201,122,.45); border-radius:14px; color:var(--gold); font-family:inherit; font-size:.78rem; font-weight:600; padding:11px; margin-bottom:12px; cursor:pointer}
+.privbtn:hover{background:rgba(232,201,122,.12)}
+.badge.pv{color:var(--gold); border-color:rgba(232,201,122,.5)}
+.pm{position:fixed; inset:0; background:rgba(5,8,16,.6); backdrop-filter:blur(3px); z-index:60; display:none; align-items:flex-end}
+.pm.open{display:flex}
+.pm .card{background:#131a2a; border:1px solid var(--border); border-radius:20px 20px 0 0; width:100%; padding:18px; animation:pmup .25s ease}
+@keyframes pmup{from{transform:translateY(40px); opacity:0}}
+.pm h3{font-size:.95rem; color:var(--gold); margin-bottom:4px}
+.pm .ms{color:var(--dim); font-size:.72rem; margin-bottom:14px}
+.pm select,.pm input{width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--txt); font-family:inherit; font-size:.85rem; padding:10px 12px; margin-bottom:10px}
+.pm .err{color:#ff7d7d; font-size:.72rem; min-height:1.1em; margin-bottom:8px}
+.pm .row{display:flex; gap:8px}
+.pm .row button{flex:1; font-family:inherit; font-size:.8rem; font-weight:700; border-radius:10px; padding:11px; cursor:pointer; border:1px solid var(--border); background:var(--card2); color:var(--txt)}
+.pm .row .go{background:linear-gradient(135deg,var(--gold),#8a6a2f); color:#0b0f14; border:none}
 .foot{margin-top:26px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
 .foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:#46c96d; margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
 @keyframes pul{50%{opacity:.4}}
@@ -83,7 +97,18 @@ h1{font-size:1.55rem; font-weight:700; color:#ededed}
   <div class="fgroup"><span class="fl">المجال</span><div class="chips" id="fchips"></div></div>
   <div class="count" id="cnt"></div>
   <div id="projs"></div>
+  <button class="privbtn" id="showPriv">🔒 إظهار الخاص</button>
   <div class="foot"><span class="pulse"></span>بوابة موحّدة · تحديث مستمر</div>
+</div>
+<div class="pm" id="pm">
+  <div class="card">
+    <h3>المشاريع الخاصة</h3>
+    <div class="ms">اختر صاحب المشاريع ثم أدخل رقمه السري — لا يُفكّ التشفير إلا بالرقم الصحيح</div>
+    <select id="pmM"></select>
+    <input id="pmP" inputmode="numeric" placeholder="الرقم السري" type="password">
+    <div class="err" id="pmE"></div>
+    <div class="row"><button class="go" id="pmGo">فكّ القفل</button><button id="pmX">إلغاء</button></div>
+  </div>
 </div>
 <script>
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
@@ -105,7 +130,7 @@ function projCard(p,i){
     <div class="pt">
       <div class="pic">${escH(p.icon||p.title[0])}</div>
       <div class="tt"><div class="t">${escH(p.title)}</div><div class="m">${escH(p.maker)} · ${escH(p.field)}</div></div>
-      ${p.url?'':'<span class="badge">قيد التخطيط</span>'}
+      ${p.priv?'<span class="badge pv">🔒 خاص</span>':''}${p.url?'':'<span class="badge">قيد التخطيط</span>'}
     </div>
     <div class="pd">${escH(p.desc)}</div>
     <div class="prow">
@@ -163,6 +188,35 @@ document.addEventListener('keydown',e=>{
     renderPJ();document.getElementById(kind+'-'+pid).classList.add('open');
   }
 });
+const MKF={'محمد':'mohamed','أمجد':'amjad'};
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function unlockPriv(){
+  const mk=document.getElementById('pmM').value,pin=document.getElementById('pmP').value.trim();
+  const er=document.getElementById('pmE');
+  if(!pin){er.textContent='أدخل الرقم السري';return}
+  er.textContent='…';
+  try{
+    const d=await(await fetch('../private/'+MKF[mk]+'.enc.json')).json();
+    const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveKey']);
+    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(d.salt),iterations:d.iter,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(d.iv)},key,b64(d.ct));
+    const list=JSON.parse(new TextDecoder().decode(pt));
+    let n=0;list.forEach(p=>{if(!PJ.all.some(x=>x.id===p.id)){p.priv=true;PJ.all.push(p);n++}});
+    document.getElementById('pm').classList.remove('open');
+    renderPJ();
+    document.getElementById('showPriv').textContent=`🔓 خاص ${mk} ظاهر (${n}) — اضغط لفتح عضو آخر`;
+  }catch(e){er.textContent='الرقم غير صحيح'}
+}
+const pm=document.getElementById('pm');
+document.getElementById('showPriv').onclick=()=>{
+  document.getElementById('pmM').innerHTML=Object.keys(MKF).map(m=>`<option>${m}</option>`).join('');
+  document.getElementById('pmP').value='';document.getElementById('pmE').textContent='';
+  pm.classList.add('open');
+};
+document.getElementById('pmX').onclick=()=>pm.classList.remove('open');
+pm.onclick=e=>{if(e.target===pm)pm.classList.remove('open')};
+document.getElementById('pmGo').onclick=unlockPriv;
+document.getElementById('pmP').addEventListener('keydown',e=>{if(e.key==='Enter')unlockPriv()});
 fetch('projects.json').then(r=>r.json()).then(P=>{PJ.all=P;renderPJ()});
 </script>
 </body>

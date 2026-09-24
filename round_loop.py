@@ -36,6 +36,14 @@ def answers():
             if k!='TEST': last[k]=l
     return last
 
+MARGIN=50   # لا يتجاوز المنتظر أمام محمد ~50 بطاقة — شرطه الصريح
+
+def pending_count(ans):
+    h=open(IDX,encoding='utf-8').read()
+    ids=set(re.findall(r"\{id:'([a-z]\d+)'",h))
+    done=set(k.lower() for k in ans)
+    return len(ids-done)
+
 def load_state():
     try: return json.load(open(STATE_FILE))
     except Exception: return {'n':0,'batch':0,'sohash':''}
@@ -98,11 +106,13 @@ def main():
     while True:
         try:
             ans=answers();n=len(ans)
-            if n>=st['n']+STEP:
+            pend=pending_count(ans)
+            if n>=st['n']+STEP and pend<MARGIN:
+                room=MARGIN-pend+5
                 new=[ans[k] for k in sorted(ans)][st['n']:]
-                body='دفعة إجابات جديدة وصلت (الإجمالي '+str(n)+'). حللها مع كل ما أرسلته سابقاً وأنتج 15-25 بطاقة تالية عبر provide_structured_output:\n\n'+'\n'.join(new)
+                body='دفعة إجابات جديدة وصلت (الإجمالي '+str(n)+'). حللها مع كل ما أرسلته سابقاً وأنتج حتى '+str(room)+' بطاقة تالية فقط عبر provide_structured_output:\n\n'+'\n'.join(new)
                 api(f'/sessions/{ANALYZER}/message',{'message':body},'POST')
-                log(f'أُرسلت {len(new)} إجابة للمحلل (إجمالي {n})')
+                log(f'أُرسلت {len(new)} إجابة للمحلل (إجمالي {n}، منتظر {pend}، مساحة {room})')
                 st['n']=n;save_state(st)
                 deadline=time.time()+15*60
                 while time.time()<deadline:
@@ -114,7 +124,7 @@ def main():
                         if so.get('cards') and hh!=st['sohash']:
                             st['sohash']=hh;save_state(st)
                             letter=letters[st['batch']%len(letters)];st['batch']+=1;save_state(st)
-                            publish_cards(so['cards'],letter)
+                            publish_cards(so['cards'][:room],letter)
                             break
                         if d.get('status') in ('blocked','stopped','finished') and not so.get('cards'):
                             break

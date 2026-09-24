@@ -18,12 +18,20 @@
 :root{
   --bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f;
   --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff;
-  --ok:#46c96d; --warn:#e0a93e; --gold:#f0c75e;
+  --ok:#46c96d; --warn:#e0a93e; --gold:#f0c75e; --bgt:rgba(11,15,20,.92);
 }
+body[data-t="omari"]{--bg:#0a120d; --card:#111f16; --card2:#1a2e20; --border:#2a4531; --txt:#f2ecda; --dim:#9fae9e; --acc:#d4af37; --acc2:#79c99e; --bgt:rgba(10,18,13,.94)}
+body[data-t="omari"]{background:radial-gradient(1200px 500px at 80% -10%, rgba(212,175,55,.07), transparent), var(--bg)}
+body[data-t="waraq"]{--bg:#f3ecdc; --card:#fbf7ec; --card2:#ece2c9; --border:#d3c5a2; --txt:#2c2416; --dim:#7a6c50; --acc:#8b5e34; --acc2:#a0714f; --ok:#3d8a52; --warn:#c08a2d; --bgt:rgba(243,236,220,.94)}
+body[data-t="waraq"]{background:radial-gradient(1200px 500px at 80% -10%, rgba(139,94,52,.09), transparent), var(--bg)}
+body[data-t="lajward"]{--bg:#090d1a; --card:#101728; --card2:#182236; --border:#2b3a58; --txt:#eaf0fb; --dim:#8d9bc0; --acc:#e8b86d; --acc2:#6fa8ff; --bgt:rgba(9,13,26,.94)}
+body[data-t="lajward"]{background:radial-gradient(1200px 500px at 80% -10%, rgba(232,184,109,.06), transparent), var(--bg)}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(1200px 500px at 80% -10%, rgba(139,124,246,.08), transparent), var(--bg); color:var(--txt); min-height:100vh}
 .wrap{max-width:720px; margin:0 auto; padding:0 14px}
-header{position:sticky; top:0; z-index:50; background:rgba(11,15,20,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:calc(14px + env(safe-area-inset-top)) 0 10px}
+header{position:sticky; top:0; z-index:50; background:var(--bgt); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:calc(14px + env(safe-area-inset-top)) 0 10px; transition:transform .3s cubic-bezier(.22,1,.36,1)}
+body.hh header{transform:translateY(-105%)}
+body.hh .sec-title{top:8px !important}
 .head-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
 h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--acc),var(--acc2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
 .prog{font-size:.8rem; color:var(--dim); white-space:nowrap}
@@ -35,6 +43,12 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .search input:focus{outline:none; border-color:var(--acc); box-shadow:0 0 0 3px rgba(139,124,246,.15)}
 .search::after{content:'⌕'; position:absolute; inset-inline-start:14px; top:50%; transform:translateY(-50%); color:var(--dim); font-size:1.1rem}
 .pickrow{display:flex; gap:8px; margin-top:10px}
+.tbtn{width:44px; flex:0 0 auto; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--acc2); font-size:1rem; cursor:pointer; font-family:inherit}
+.cbtn{display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:10px; border:1px solid var(--border); background:var(--card2); color:var(--dim); font-family:inherit; font-size:.74rem; font-weight:600; cursor:pointer; text-decoration:none; transition:all .2s; min-height:36px}
+.cbtn:active{border-color:var(--acc); color:var(--acc2)}
+.cbtn.acc{color:var(--acc2); border-color:rgba(94,200,255,.35)}
+.cbtn.gold{color:var(--gold); border-color:rgba(240,199,94,.35)}
+.cbtn.on{background:linear-gradient(90deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent}
 .pick{flex:1; display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--card); cursor:pointer; font-family:inherit; font-size:.82rem; color:var(--txt); transition:border-color .2s}
 .pick:active{border-color:var(--acc)}
 .pick .lbl{color:var(--dim); font-size:.68rem}
@@ -68,7 +82,7 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .rategrid .rg.on{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent}
 .rategrid .rg.none{grid-column:1/-1; font-size:.8rem; font-weight:600; color:var(--dim); height:40px}
 /* cards */
-.sec-title{margin:16px 4px 10px; font-size:.78rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px; position:sticky; top:var(--hh,150px); z-index:40; background:linear-gradient(rgba(11,15,20,.94),rgba(11,15,20,.88)); backdrop-filter:blur(8px); padding:6px 4px; border-radius:10px}
+.sec-title{margin:16px 4px 10px; font-size:.78rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px; position:sticky; top:var(--hh,150px); z-index:40; background:linear-gradient(var(--bgt),var(--bgt)); backdrop-filter:blur(8px); padding:6px 4px; border-radius:10px}
 .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
 .card{background:linear-gradient(160deg,var(--card),#111820); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; transition:border-color .3s; box-shadow:0 2px 12px rgba(0,0,0,.25); content-visibility:auto; contain-intrinsic-size:auto 220px}
 .few .card{animation:enter .4s cubic-bezier(.22,1,.36,1) both}
@@ -116,7 +130,9 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .cbody .t a:hover{color:var(--acc2)}
 .cbody .d{color:var(--dim); font-size:.68rem; white-space:nowrap}
 .more{padding:10px; text-align:center; font-size:.74rem; color:var(--acc2); cursor:pointer; border-radius:10px; margin-top:6px; background:var(--card2)}
-.sheikh-head{display:flex; align-items:center; gap:10px; padding:4px}
+.sheikh-head{display:flex; align-items:center; gap:10px; padding:6px 8px; cursor:pointer; border-radius:12px; transition:background .15s; border:1px solid transparent}
+.sheikh-head:active{background:var(--card2); border-color:var(--border)}
+.sheikh-head .enter{margin-inline-start:auto; font-size:.66rem; color:var(--dim); border:1px solid var(--border); padding:3px 9px; border-radius:8px; background:var(--card2)}
 .sheikh-head .av{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;flex:0 0 auto}
 .sheikh-head .sn{font-weight:700;font-size:.92rem}
 .sheikh-head .ss{font-size:.68rem;color:var(--dim)}
@@ -136,12 +152,14 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
   <div class="search"><input id="q" type="search" placeholder="ابحث في السلاسل والمتون والشروح…"></div>
   <div class="pickrow">
     <button class="pick" id="picks"><span class="lbl">الشيخ</span><span class="val" id="picksV">الكل</span><span class="arrow">▾</span></button>
+    <button class="pick" id="pickk"><span class="lbl">النوع</span><span class="val" id="pickkV">الكل</span><span class="arrow">▾</span></button>
+    <button class="pick" id="picksrt"><span class="lbl">ترتيب</span><span class="val" id="picksrtV">الساعات</span><span class="arrow">▾</span></button>
+    <button class="tbtn" id="thbtn" title="الثيم" aria-label="تغيير الثيم">◐</button>
   </div>
 </div></header>
 
 <div class="wrap">
-  <div class="filters" id="fkind" style="padding-top:10px"></div>
-  <div id="list"></div>
+  <div id="list" style="padding-top:10px"></div>
 </div>
 
 <button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -160,20 +178,46 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 <script>
 const vals=JSON.parse(localStorage.getItem('durus_vals')||'{}');
 const W={}; WORKS.forEach(w=>W[w.id]=w);
-let F={sh:'',kinds:new Set(),q:'',rated:false};
+let F={sh:'',kinds:new Set(),q:'',rated:false,sort:'hours'};
+const SORTS={hours:'الساعات',clips:'المقاطع',name:'الأبجدية',rate:'تقييمي'};
+const THEMES=[{id:'',n:'ليلي',c:'#8b7cf6',bg:'#0b0f14'},{id:'omari',n:'عُمري',c:'#d4af37',bg:'#0a120d'},{id:'waraq',n:'وَرَقي',c:'#8b5e34',bg:'#f3ecdc'},{id:'lajward',n:'لاجوردي',c:'#e8b86d',bg:'#090d1a'}];
 const expanded={};
 const openIds=new Set();
 const clipCache=new Map();
 async function getClips(id){if(!clipCache.has(id))clipCache.set(id,fetch(`clips/${id}.json`).then(r=>r.json()));return clipCache.get(id)}
 const norm=t=>(t||'').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ء/g,'').trim();
+const clean=t=>(t||'').replace(/[#_]+/g,' ').replace(/\s+/g,' ').trim();
+/* اشتقاق عنوان المقطع من سياقه: يزيل اسم السلسلة/الشيخ/القناة ويبقي الدرس ومحتواه */
+function clipTitle(c,s){
+  const x=clean(c.title);
+  const drops=new Set();
+  const addT=(str)=>norm(str).split(/\s+/).filter(w=>w.length>1).forEach(w=>drops.add(w));
+  if(s){addT(s.name);addT(s.sheikh);addT(s.channel)}
+  ['الشيخ','قناة','مباشر','يوتيوب','hd','الدكتور','العلامة','فضيلة'].forEach(w=>drops.add(norm(w)));
+  const segs=x.split(/\s*[|｜]\s*|\s+[\-–—]\s+/).map(z=>z.trim()).filter(Boolean);
+  const kept=segs.map(seg=>{
+    const toks=seg.split(/\s+/).filter(Boolean);
+    const live=toks.filter(t=>!drops.has(norm(t)));
+    return {seg,live,ratio:toks.length?live.length/toks.length:0};
+  }).filter(o=>o.ratio>0.35||/الدرس|الحلقة|الجزء|\d+/.test(o.seg))
+   .map(o=>{
+     const toks=o.seg.split(/\s+/).filter(Boolean);
+     while(toks.length&&drops.has(norm(toks[0])))toks.shift();
+     while(toks.length&&drops.has(norm(toks[toks.length-1])))toks.pop();
+     return toks.join(' ');
+   }).filter(Boolean);
+  const out=kept.join(' — ');
+  return out||(c.lesson&&c.lesson!=='NA'?`الدرس ${c.lesson}`:x.slice(0,60));
+}
 const $=s=>document.getElementById(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const fmtH=h=>h?h.toFixed(1):'';
+let curS=null;
 function clipHTML(c){
   const h2=Math.floor((c.secs||0)/3600),m=Math.floor((c.secs||0)%3600/60),ss=Math.floor((c.secs||0)%60);
   const d=c.secs?(h2?`${h2}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${m}:${String(ss).padStart(2,'0')}`):'';
   const ln=(c.lesson!=null&&c.lesson!=='NA')?c.lesson:'';
-  return `<a class="cl" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer"><span class="n">${ln}</span><span class="t">${esc(c.title)}</span><span class="d"><bdi>${d}</bdi></span></a>`;
+  return `<a class="cl" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer"><span class="n">${ln}</span><span class="t">${esc(clipTitle(c,curS))}</span><span class="d"><bdi>${d}</bdi></span></a>`;
 }
 function wrow(tag,cls,id){
   const w=W[id]; if(!w)return '';
@@ -193,9 +237,9 @@ function card(s){
     ${wr?`<div class="works">${wr}</div>`:''}
     ${s.comment?`<div class="ccmt">${esc(s.comment)}</div>`:''}
     <div class="cfoot">
-      <a class="plist" href="${esc(s.plist_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">قائمة التشغيل ↖</a>
-      <button class="copyl" data-u="${esc(s.plist_url)}">⧉ نسخ</button>
-      <button class="ratebtn${v?' has':''}" data-id="${s.id}">${v?`قيمتك: ${v}`:'قيّم ★'}</button>
+      <a class="cbtn acc" href="${esc(s.plist_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">▶ قائمة التشغيل${s.plists?` <span style="opacity:.7">(${s.plists.length} مصادر)</span>`:''}</a>
+      <button class="cbtn copyl" data-u="${esc(s.plist_url)}">⧉ نسخ</button>
+      <button class="cbtn ratebtn${v?' on':''}" data-id="${s.id}">${v?`★ ${v}`:'قيّم ★'}</button>
     </div>
     <div class="cbody"><div class="cls"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></div>
   </div>`;
@@ -210,32 +254,61 @@ function render(){
   $('stats').innerHTML=`<span><b>${totV.toLocaleString('en')}</b> مقطعاً</span><span><b>${totH.toFixed(0)}</b> ساعة</span><span><b>${new Set(L.map(s=>s.sheikh)).size}</b> مشايخ</span>${nR?`<button class="hbtn" id="expBtn" style="margin-inline-start:auto">↓ تصدير تقييماتي (${nR})</button>`:''}`;
   const bySh={};
   L.forEach(s=>{(bySh[s.sheikh]=bySh[s.sheikh]||[]).push(s)});
-  const order=Object.keys(bySh).sort((a,b)=>bySh[b].length-bySh[a].length);
+  const metric=s=>F.sort==='clips'?(s.cc||s.videos||0):F.sort==='rate'?(vals[s.id]||0):F.sort==='name'?0:(s.hours||0);
+  const order=Object.keys(bySh).sort((a,b)=>Math.max(...bySh[b].map(metric))-Math.max(...bySh[a].map(metric)));
   const PER=F.q?Infinity:8;
   $('list').classList.toggle('few',L.length<=30);
   $('list').innerHTML=order.map(sh=>{
-    const arr=bySh[sh].sort((a,b)=>(b.hours||0)-(a.hours||0));
+    const arr=bySh[sh].sort((a,b)=>F.sort==='name'?a.name.localeCompare(b.name,'ar'):metric(b)-metric(a));
     const shown=Math.min(arr.length,(expanded[sh]||PER));
     const cards=arr.slice(0,shown).map(card).join('');
     const more=arr.length>shown?`<div class="sec-more" data-sh="${esc(sh)}" data-n="${arr.length}">عرض بقية السلاسل — ${arr.length-shown} أخرى ↓</div>`:'';
-    return `<div class="sec-title"><span class="sheikh-head"><span class="av">${esc(sh[0]||'')}</span><span><span class="sn">${esc(sh)}</span><div class="ss">${arr.length} سلسلة</div></span></span></div>${cards}${more}`;
+    return `<div class="sec-title"><span class="sheikh-head" data-sh="${esc(sh)}"><span class="av">${esc(sh[0]||'')}</span><span><span class="sn">${esc(sh)}</span><div class="ss">${arr.length} سلسلة · ${arr.reduce((a,x)=>a+(x.cc||x.videos||0),0).toLocaleString('ar')} مقطعاً</div></span><span class="enter">دخول ←</span></span></div>${cards}${more}`;
   }).join('')||'<div class="empty">لا نتائج — جرّب بحثاً آخر</div>';
-  openIds.forEach(id=>{const c=document.getElementById('c'+id);if(c&&!c.classList.contains('open')){c.classList.add('open');if(!c.dataset.loaded){c.dataset.loaded='1';const box=c.querySelector('.cls');getClips(id).then(cl=>{const SHOWN=15;box.innerHTML=cl.slice(0,SHOWN).map(clipHTML).join('')+(cl.length>SHOWN?`<div class="more" data-id="${id}">عرض كل المقاطع (${cl.length}) ↓</div>`:'')}).catch(()=>{box.textContent='تعذر التحميل'})}}});
+  openIds.forEach(id=>{const c=document.getElementById('c'+id);if(c&&!c.classList.contains('open')){c.classList.add('open');if(!c.dataset.loaded){c.dataset.loaded='1';const box=c.querySelector('.cls');curS=SERIES.find(s=>s.id===id);getClips(id).then(cl=>{const SHOWN=15;box.innerHTML=cl.slice(0,SHOWN).map(clipHTML).join('')+(cl.length>SHOWN?`<div class="more" data-id="${id}">عرض كل المقاطع (${cl.length}) ↓</div>`:'')}).catch(()=>{box.textContent='تعذر التحميل'})}}});
 }
-function pillsKind(){
-  const counts={};
-  SERIES.forEach(s=>{if(s.kind&&(!F.sh||s.sheikh===F.sh))counts[s.kind]=(counts[s.kind]||0)+1});
+function updPicks(){
+  $('picksV').textContent=F.sh||'الكل';
+  $('pickkV').textContent=F.kinds.size?`${F.kinds.size} أنواع`:(F.rated?'★ مقيَّمة':'الكل');
+  $('picksrtV').textContent=SORTS[F.sort];
+}
+/* نافذة النوع: اختيار متعدد + المقيَّمة */
+function openKindSheet(){
+  const counts={};SERIES.forEach(s=>{if(s.kind&&(!F.sh||s.sheikh===F.sh))counts[s.kind]=(counts[s.kind]||0)+1});
   const sorted=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
   const nRated=Object.keys(vals).length;
-  $('fkind').innerHTML=`<button class="fbtn${(!F.kinds.size&&!F.rated)?' on':''}" data-v="">الكل</button><button class="fbtn${F.rated?' on':''}" data-v="__rated">★ مقيَّمة <span class="n">${nRated}</span></button>`+sorted.map(v=>`<button class="fbtn${F.kinds.has(v)?' on':''}" data-v="${esc(v)}">${esc(v)} <span class="n">${counts[v]}</span></button>`).join('');
-  $('fkind').querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{
-    const v=b.dataset.v;
-    if(v==='__rated'){F.rated=!F.rated}
-    else if(v===''){F.kinds=new Set();F.rated=false}
-    else{F.kinds.has(v)?F.kinds.delete(v):F.kinds.add(v)}
-    pillsKind();render();
-  });
+  const paint=()=>{
+    $('shList').innerHTML=
+      `<div class="srow${F.rated?' on':''}" data-v="__rated"><span class="tick">${F.rated?'✓':''}</span><span class="snm">★ مقيَّمة فقط</span><span class="sct">${nRated}</span></div>`+
+      sorted.map(v=>`<div class="srow${F.kinds.has(v)?' on':''}" data-v="${esc(v)}"><span class="tick">${F.kinds.has(v)?'✓':''}</span><span class="snm">${esc(v)}</span><span class="sct">${counts[v]}</span></div>`).join('')+
+      `<div class="srow" data-v="__clear"><span class="tick"></span><span class="snm" style="color:var(--dim)">مسح الاختيار</span><span class="sct"></span></div>`;
+    $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{
+      const v=r.dataset.v;
+      if(v==='__rated')F.rated=!F.rated;
+      else if(v==='__clear'){F.kinds=new Set();F.rated=false}
+      else F.kinds.has(v)?F.kinds.delete(v):F.kinds.add(v);
+      updPicks();paint();render();
+    });
+  };
+  document.querySelector('#sheet .sh-title').textContent='النوع — اختر واحداً أو أكثر';
+  $('shq').style.display='none';openSheet();paint();
 }
+/* نافذة الترتيب */
+function openSortSheet(){
+  $('shList').innerHTML=Object.entries(SORTS).map(([k,n])=>`<div class="srow${F.sort===k?' on':''}" data-v="${k}"><span class="tick">${F.sort===k?'✓':''}</span><span class="snm">${n}</span><span class="sct"></span></div>`).join('');
+  $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{F.sort=r.dataset.v;updPicks();closeSheet();render()});
+  document.querySelector('#sheet .sh-title').textContent='رتّب حسب';
+  $('shq').style.display='none';openSheet();
+}
+/* نافذة الثيمات */
+function openTheme(){
+  const cur=document.body.dataset.t||'';
+  $('shList').innerHTML=THEMES.map(t=>`<div class="srow${cur===t.id?' on':''}" data-v="${t.id}"><span class="tick">${cur===t.id?'✓':''}</span><span class="snm">${t.n}</span><span class="sct" style="background:${t.bg};border-color:${t.c};color:${t.c}">●</span></div>`).join('');
+  $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{const t=r.dataset.v;if(t)document.body.dataset.t=t;else delete document.body.dataset.t;localStorage.setItem('durus_theme',t);updThemeMeta();closeSheet()});
+  document.querySelector('#sheet .sh-title').textContent='اختر الثيم';
+  $('shq').style.display='none';openSheet();
+}
+function updThemeMeta(){const t=THEMES.find(x=>x.id===(document.body.dataset.t||''))||THEMES[0];document.querySelector('meta[name=theme-color]').content=t.bg}
 /* sheikh bottom-sheet picker */
 function shRows(q){
   const counts={};SERIES.forEach(s=>{if(s.sheikh)counts[s.sheikh]=(counts[s.sheikh]||0)+1});
@@ -247,10 +320,11 @@ function shRows(q){
   $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{
     F.sh=r.dataset.v;F.kinds=new Set();
     $('picksV').textContent=F.sh||'الكل';
-    closeSheet();pillsKind();render();
+    closeSheet();updPicks();render();
   });
 }
 function openSheet(){$('sheetBg').classList.add('show');$('sheet').classList.add('show');$('shq').value='';document.body.style.overflow='hidden'}
+$('pickk').onclick=openKindSheet;$('picksrt').onclick=openSortSheet;$('thbtn').onclick=openTheme;
 function openShSheet(){document.querySelector('#sheet .sh-title').textContent='اختر الشيخ';$('shq').style.display='';openSheet();shRows('')}
 function closeSheet(){$('sheetBg').classList.remove('show');$('sheet').classList.remove('show');document.body.style.overflow=''}
 $('picks').onclick=openShSheet;
@@ -268,12 +342,14 @@ function openRate(id){
     const vv=r.dataset.v?+r.dataset.v:null;
     if(vv)vals[ratingFor]=vv;else delete vals[ratingFor];
     localStorage.setItem('durus_vals',JSON.stringify(vals));
-    closeSheet();pillsKind();render();
+    closeSheet();updPicks();render();
   });
   $('shq').style.display='none';
   openSheet();return;
 }
 $('list').addEventListener('click',async e=>{
+  const shh=e.target.closest('.sheikh-head');
+  if(shh){F.sh=shh.dataset.sh;F.kinds=new Set();updPicks();render();scrollTo({top:0,behavior:'smooth'});return}
   if(e.target.classList.contains('ratebtn')){openRate(e.target.dataset.id);e.stopPropagation();return}
   if(e.target.classList.contains('copyl')){navigator.clipboard.writeText(e.target.dataset.u).then(()=>{e.target.textContent='✓ نُسخ';e.target.classList.add('ok');setTimeout(()=>{e.target.textContent='⧉ نسخ';e.target.classList.remove('ok')},1400)});e.stopPropagation();return}
   if(e.target.classList.contains('sec-more')){
@@ -290,6 +366,7 @@ $('list').addEventListener('click',async e=>{
   if(!card.classList.contains('open')||card.dataset.loaded)return;
   card.dataset.loaded='1';
   const box=card.querySelector('.cls');
+  curS=SERIES.find(s=>s.id===id);
   try{
     const cl=await getClips(id);
     const SHOWN=15;
@@ -298,11 +375,13 @@ $('list').addEventListener('click',async e=>{
 });
 $('list').addEventListener('click',async e=>{
   if(!e.target.matches('.more:not(.sec-more)'))return;
-  const id=e.target.dataset.id,r=await fetch(`clips/${id}.json`),cl=await r.json();
+  const id=e.target.dataset.id;curS=SERIES.find(s=>s.id===+id);
+  const r=await fetch(`clips/${id}.json`),cl=await r.json();
   e.target.parentElement.innerHTML=cl.map(clipHTML).join('');
 });
 let qt;$('q').oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{F.q=e.target.value.trim();render()},180)};
-addEventListener('scroll',()=>$('totop').classList.toggle('show',scrollY>900),{passive:true});
+let lastY=0;
+addEventListener('scroll',()=>{const y=scrollY;$('totop').classList.toggle('show',y>900);document.body.classList.toggle('hh',y>90&&y>lastY);lastY=y},{passive:true});
 $('stats').addEventListener('click',async e=>{
   if(e.target.id!=='expBtn')return;
   const data={exported:new Date().toISOString(),ratings:Object.fromEntries(Object.entries(vals).map(([id,v])=>[SERIES.find(s=>s.id==id)?.name||id,v]))};
@@ -320,7 +399,8 @@ sh.addEventListener('touchstart',e=>{if(!e.target.closest('.grab')&&!e.target.cl
 sh.addEventListener('touchmove',e=>{if(!drag)return;dy=Math.max(0,e.touches[0].clientY-y0);sh.style.transform=`translateY(${dy}px)`},{passive:true});
 sh.addEventListener('touchend',()=>{if(!drag)return;drag=false;sh.style.transition='';sh.style.transform='';if(dy>90)closeSheet();dy=0},{passive:true});
 })();
-pillsKind();render();
+const th0=localStorage.getItem('durus_theme')||'';if(th0)document.body.dataset.t=th0;updThemeMeta();
+updPicks();render();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>

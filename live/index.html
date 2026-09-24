@@ -46,20 +46,27 @@ const au=document.getElementById('au'),ph=document.getElementById('ph'),fill=doc
       play=document.getElementById('play'),tm=document.getElementById('time'),bar=document.getElementById('bar');
 let phrases=[];
 fetch('phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0)});
+let curPi=-1,curWi=-1,spans=[];
 function render(cur){
   let pi=-1;for(let i=0;i<phrases.length;i++){if(phrases[i].s<=cur)pi=i;else break}
+  if(pi!==curPi){
+    curPi=pi;curWi=-1;spans=[];
+    const P=phrases[Math.max(pi,0)];if(!P)return;
+    ph.innerHTML='';
+    P.ws.forEach((o,i)=>{
+      const s=document.createElement('span');s.className='w';
+      s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
+      ph.appendChild(s);spans.push(s);
+    });
+    let fs=1.9;ph.style.fontSize=fs+'rem';
+    while(ph.scrollWidth>ph.clientWidth-10&&fs>0.85){fs-=.12;ph.style.fontSize=fs+'rem'}
+  }
   const P=phrases[Math.max(pi,0)];if(!P)return;
-  ph.innerHTML='';
   let wi=-1;P.ws.forEach((o,i)=>{if(o.s<=cur)wi=i});
-  P.ws.forEach((o,i)=>{
-    const s=document.createElement('span');s.className='w';
-    if(i===wi)s.className='w now';else if(i<wi)s.className='w past';
-    s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
-    ph.appendChild(s);
-  });
-  // ملاءمة السطر: كبّر أو صغّر حتى يملأ العرض على سطر واحد
-  let fs=1.9;ph.style.fontSize=fs+'rem';
-  while(ph.scrollWidth>ph.clientWidth-10&&fs>0.85){fs-=.12;ph.style.fontSize=fs+'rem'}
+  if(wi!==curWi){
+    spans.forEach((s,i)=>s.className='w'+(i===wi?' now':i<wi?' past':''));
+    curWi=wi;
+  }
 }
 function fmt(t){const m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0')}
 au.addEventListener('timeupdate',()=>{render(au.currentTime);if(au.duration)fill.style.width=(au.currentTime/au.duration*100)+'%'});

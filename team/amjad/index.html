@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>بوابة أمجد</title>
+<meta name="theme-color" content="#0b0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="بوابة أمجد">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#8b7cf6; --acc2:#5ec8ff}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  background:
+    radial-gradient(900px 400px at 85% -5%, rgba(139,124,246,.12), transparent 60%),
+    radial-gradient(700px 400px at 10% 100%, rgba(94,200,255,.07), transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.015) 1px, transparent 1px),
+    var(--bg);
+  background-size:auto,auto,28px 28px,auto;
+  color:var(--txt); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:460px; width:100%; padding:24px 18px}
+.kick{display:inline-block; font-size:.62rem; font-weight:700; letter-spacing:.14em; color:var(--acc2); border:1px solid rgba(94,200,255,.35); padding:4px 12px; border-radius:99px; margin-bottom:10px}
+h1{font-size:1.6rem; font-weight:700; color:#ededed}
+.sub{color:var(--dim); font-size:.82rem; margin-top:6px; margin-bottom:26px; line-height:1.6}
+.app{display:flex; align-items:center; gap:16px; background:rgba(19,26,34,.72); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:20px; padding:20px; margin-bottom:14px; text-decoration:none; color:var(--txt); transition:transform .2s,border-color .2s,box-shadow .2s; animation:enter .4s cubic-bezier(.22,1,.36,1) both; box-shadow:0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06); position:relative; overflow:hidden}
+.app::before{content:''; position:absolute; inset:0; background:radial-gradient(400px 120px at 80% 0%, rgba(139,124,246,.10), transparent); opacity:0; transition:opacity .25s}
+.app:hover::before{opacity:1}
+.app:active{transform:scale(.985)}
+.app:hover{border-color:rgba(139,124,246,.5); transform:translateY(-1px); box-shadow:0 6px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08)}
+@keyframes enter{from{opacity:0; transform:translateY(14px)}}
+.av{width:52px; height:52px; border-radius:15px; flex:0 0 auto; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; font-weight:700; font-size:1.15rem}
+.app .nm{font-weight:700; font-size:.95rem}
+.app .ds{font-size:.78rem; color:var(--dim); margin-top:5px; line-height:1.65}
+.app .go{color:var(--acc2); font-size:1rem; margin-inline-start:auto; transition:transform .2s}
+.app:hover .go{transform:translateX(-4px)}
+.empty{background:rgba(19,26,34,.5); border:1px dashed var(--border); border-radius:20px; padding:34px 22px; text-align:center; color:var(--dim); font-size:.86rem; line-height:2; animation:enter .4s cubic-bezier(.22,1,.36,1) both}
+.empty .big{font-size:1.05rem; color:var(--txt); font-weight:700; margin-bottom:6px}
+.foot{margin-top:30px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
+.foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:#46c96d; margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
+@keyframes pul{50%{opacity:.4}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">فريق العمل</div>
+  <h1>بوابة أمجد</h1>
+  <div class="sub">مواقعك ومشاريعك في مكان واحد — تُضاف هنا كلما بُني لك موقع جديد</div>
+  <div id="apps"></div>
+  <div class="foot"><span class="pulse"></span>بوابة أمجد · الفريق</div>
+</div>
+<script>
+const APPS=[];
+const el=document.getElementById('apps');
+el.innerHTML=APPS.length?APPS.map((a,i)=>`
+  <a class="app" style="animation-delay:${i*.06}s" href="${a.url}">
+    <div class="av">${(a.icon||a.name||'?').trim()[0]}</div>
+    <div><div class="nm">${a.name}</div><div class="ds">${a.desc||''}</div></div>
+    <div class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+  </a>`).join(''):
+  `<div class="empty"><div class="big">بوابتك جاهزة</div>
+   لا مواقع بعد — اطلب من Devin في قناة الفريق بناء موقعك الأول<br>وسيُضاف هنا فوراً ويُخطرك به.</div>`;
+</script>
+</body>
+</html>

@@ -95,6 +95,10 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .rnum{width:27px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid var(--border); background:var(--card2); cursor:pointer; font-size:.75rem; font-weight:600; color:var(--dim); transition:all .15s; font-family:inherit}
 .rnum.sel{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent; transform:scale(1.12); box-shadow:0 3px 12px rgba(94,200,255,.3)}
 .cbody{display:none; margin-top:14px; border-top:1px solid var(--border); padding-top:12px}
+.skel{height:34px; border-radius:9px; background:linear-gradient(90deg,var(--card2) 25%,#212c3a 50%,var(--card2) 75%); background-size:200% 100%; animation:sk 1.2s infinite; margin-bottom:8px}
+@keyframes sk{to{background-position:-200% 0}}
+.copyl{font-size:.72rem; color:var(--dim); background:none; border:1px solid var(--border); border-radius:8px; padding:4px 10px; cursor:pointer; font-family:inherit; transition:all .2s}
+.copyl.ok{color:#7bd88f; border-color:rgba(70,201,109,.5)}
 .card.open .cbody{display:block}
 .cbody .cl{display:flex; gap:9px; padding:6px 0; border-bottom:1px dashed #202a36; font-size:.78rem; align-items:baseline}
 .cbody .cl:last-child{border:none}
@@ -172,9 +176,10 @@ function card(s){
     ${s.comment?`<div class="ccmt">${esc(s.comment)}</div>`:''}
     <div class="cfoot">
       <a class="plist" href="${esc(s.plist_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">قائمة التشغيل ↖</a>
+      <button class="copyl" data-u="${esc(s.plist_url)}">⧉ نسخ</button>
       <button class="ratebtn${v?' has':''}" data-id="${s.id}">${v?`قيمتك: ${v}`:'قيّم ★'}</button>
     </div>
-    <div class="cbody"><div class="cls">… يُحمَّل المقاطع</div></div>
+    <div class="cbody"><div class="cls"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></div>
   </div>`;
 }
 function workNames(id){return id&&W[id]?W[id].title:''}
@@ -248,6 +253,7 @@ function openRate(id){
 }
 $('list').addEventListener('click',async e=>{
   if(e.target.classList.contains('ratebtn')){openRate(e.target.dataset.id);e.stopPropagation();return}
+  if(e.target.classList.contains('copyl')){navigator.clipboard.writeText(e.target.dataset.u).then(()=>{e.target.textContent='✓ نُسخ';e.target.classList.add('ok');setTimeout(()=>{e.target.textContent='⧉ نسخ';e.target.classList.remove('ok')},1400)});e.stopPropagation();return}
   if(e.target.classList.contains('sec-more')){
     expanded[e.target.dataset.sh]=99999;render();return;
   }

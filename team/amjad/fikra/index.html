@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>فكرة اليوم</title>
 <meta name="theme-color" content="#0b0f1a">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="فكرة اليوم">
+<link rel="icon" type="image/png" href="../icon-192.png">
+<link rel="apple-touch-icon" href="../icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0b0f1a;--card:#141b2e;--card2:#1a2238;--border:#2a3350;--txt:#f5f1e8;--dim:#8b93b0;--acc:#c9a24b;--acc2:#e8c97a}
@@ -51,6 +58,7 @@ textarea:focus{outline:none;border-color:var(--acc)}
 <div class="hist"><div class="h" id="hh" style="display:none">خواطرك السابقة</div><div id="hl"></div></div>
 </main>
 <script>
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 const IMGS=[1,2,3,4,5,6].map(n=>'img/'+n+'.png');
 const QUOTES=[
  {t:'وإذا كانت النفوس كباراً، تعبت في مرادها الأجساد',s:'أحمد شوقي'},

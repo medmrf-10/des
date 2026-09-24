@@ -106,7 +106,6 @@ let F={sh:'',kinds:new Set(),q:''};
 const $=s=>document.getElementById(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const fmtH=h=>h?h.toFixed(1)+' س':'';
-const open={};
 function clipHTML(c){
   const m=Math.floor((c.secs||0)/60),ss=Math.floor((c.secs||0)%60);
   return `<div class="cl"><span class="n">${c.lesson??''}</span><span class="t"><a href="${esc(c.url)}" target="_blank">${esc(c.title)}</a></span><span class="d">${m}:${String(ss).padStart(2,'0')}</span></div>`;
@@ -178,10 +177,12 @@ $('list').addEventListener('click',async e=>{
     e.target.parentElement.querySelectorAll('.rnum').forEach(b=>b.classList.toggle('sel',+b.dataset.v===vals[id]));
     e.stopPropagation();return;
   }
+  if(e.target.closest('.more'))return;
   const card=e.target.closest('.card');if(!card)return;
   const id=+card.id.slice(1);
   card.classList.toggle('open');
-  if(open[id])return;open[id]=1;
+  if(!card.classList.contains('open')||card.dataset.loaded)return;
+  card.dataset.loaded='1';
   const box=card.querySelector('.cls');
   try{
     const r=await fetch(`clips/${id}.json`);const cl=await r.json();

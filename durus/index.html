@@ -63,6 +63,10 @@ h1{font-size:1.25rem; font-weight:700; background:linear-gradient(90deg,var(--ac
 .srow .snm{flex:1; font-size:.88rem; line-height:1.4}
 .srow .sct{font-size:.7rem; color:var(--dim); background:var(--card2); border:1px solid var(--border); padding:3px 9px; border-radius:8px}
 .srow.on .snm{color:var(--acc2); font-weight:600}
+.rategrid{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; padding:12px 16px 16px}
+.rategrid .rg{height:48px; border-radius:12px; border:1px solid var(--border); background:var(--card2); color:var(--txt); font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all .15s}
+.rategrid .rg.on{background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#fff; border-color:transparent}
+.rategrid .rg.none{grid-column:1/-1; font-size:.8rem; font-weight:600; color:var(--dim); height:40px}
 /* cards */
 .sec-title{margin:16px 4px 10px; font-size:.78rem; font-weight:600; color:var(--acc2); display:flex; align-items:center; gap:8px; position:sticky; top:150px; z-index:40; background:linear-gradient(rgba(11,15,20,.94),rgba(11,15,20,.88)); backdrop-filter:blur(8px); padding:6px 4px; border-radius:10px}
 .sec-title::after{content:''; flex:1; height:1px; background:var(--border)}
@@ -252,15 +256,15 @@ let ratingFor=null;
 function openRate(id){
   ratingFor=id;
   const v=vals[id];
-  $('shList').innerHTML=`<div class="srow${!v?' on':''}" data-v=""><span class="tick">${!v?'✓':''}</span><span class="snm">بدون تقييم</span></div>`+[...Array(10)].map((_,i)=>`<div class="srow${v===i+1?' on':''}" data-v="${i+1}"><span class="tick">${v===i+1?'✓':''}</span><span class="snm">${i+1}</span><span class="sct">من 10</span></div>`).join('');
-  document.querySelector('#sheet .sh-title').textContent='قيّم السلسلة';$('shq').style.display='none';
-  $('shList').querySelectorAll('.srow').forEach(r=>r.onclick=()=>{
+  $('shList').innerHTML=`<div class="rategrid"><button class="rg none${!v?' on':''}" data-v="">بدون تقييم</button>`+[...Array(10)].map((_,i)=>`<button class="rg${v===i+1?' on':''}" data-v="${i+1}">${i+1}</button>`).join('')+`</div>`;
+  $('shList').querySelectorAll('.rg').forEach(r=>r.onclick=()=>{
     const vv=r.dataset.v?+r.dataset.v:null;
     if(vv)vals[ratingFor]=vv;else delete vals[ratingFor];
     localStorage.setItem('durus_vals',JSON.stringify(vals));
     closeSheet();render();
   });
-  openSheet();
+  document.querySelector('#sheet .sh-title').textContent='قيّم السلسلة';$('shq').style.display='none';
+  openSheet();return;
 }
 $('list').addEventListener('click',async e=>{
   if(e.target.classList.contains('ratebtn')){openRate(e.target.dataset.id);e.stopPropagation();return}

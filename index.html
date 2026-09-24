@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>قرارات محمد — جولات v6</title>
-<meta name="x-v" content="v6">
+<title>قرارات محمد — جولات v7</title>
+<meta name="x-v" content="v7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -525,13 +525,14 @@ const extra=JSON.parse(localStorage.getItem('medDecisionsExtraV6')||'[]');
 extra.forEach(c=>{const i=QS.findIndex(q=>q.id===c.id);if(i>-1)QS[i]=Object.assign(QS[i],c);else QS.push(c);});
 
 const state=JSON.parse(localStorage.getItem('medDecisions')||'{}');
+for(const k in state){const s=state[k];if(s&&!s.confirmed&&((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim())||(s.rank&&s.rank.length)))s.confirmed=true;}
 const list=document.getElementById('list'),queueline=document.getElementById('queueline'),filtersEl=document.getElementById('filters');
 const SHOW=20;
 let curFilter='all',batchDoneNotified=false;
 
-const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));if(q&&q.type==='rank')return !!(s.confirmed&&((s.rank&&s.rank.length===q.opts.length)||(s.custom&&s.custom.trim())));return !!((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim()))};
-const needsConfirm=q=>{const st=state[q.id]||{};return q.type==='multi'||q.type==='rank'||q.type==='text'||!!(st.custom&&st.custom.trim())};
-const canConfirm=q=>{const st=state[q.id]||{};if(st.custom&&st.custom.trim())return true;if(q.type==='multi')return !!(st.opts&&st.opts.length);if(q.type==='rank')return !!(st.confirmed||st.rank&&st.rank.length===q.opts.length);if(q.type==='text')return false;return true};
+const answered=id=>{const s=state[id];if(!s)return false;const q=QS.find(x=>x.id===id);if(q&&(q.type==='multi'||q.type==='text'))return !!(s.confirmed&&((s.opts&&s.opts.length)||(s.custom&&s.custom.trim())));if(q&&q.type==='rank')return !!(s.confirmed&&((s.rank&&s.rank.length===q.opts.length)||(s.custom&&s.custom.trim())));return !!(s.confirmed&&((s.opts&&s.opts.length)||s.rate!=null||(s.custom&&s.custom.trim())))};
+const needsConfirm=q=>true;
+const canConfirm=q=>{const st=state[q.id]||{};if(st.custom&&st.custom.trim())return true;if(q.type==='multi')return !!(st.opts&&st.opts.length);if(q.type==='rank')return !!(st.confirmed||st.rank&&st.rank.length===q.opts.length);if(q.type==='single')return !!(st.opts&&st.opts.length);if(q.type==='rate')return st.rate!=null;if(q.type==='text')return false;return true};
 const skipped=id=>state[id]&&state[id].skipped;
 const pending=()=>QS.filter(q=>!answered(q.id)&&!skipped(q.id));
 
@@ -545,12 +546,8 @@ function ansText(q){
   return parts.join(' | ')||'—';
 }
 
-let sendTimer={};
 function pushAns(q){
-  clearTimeout(sendTimer[q.id]);
-  sendTimer[q.id]=setTimeout(()=>{
-    fetch(T_OUT,{method:'POST',body:`${q.id.toUpperCase()}|${q.q} ← ${ansText(q)}`}).catch(()=>{});
-  },1400);
+  fetch(T_OUT,{method:'POST',body:`${q.id.toUpperCase()}|${q.q} ← ${ansText(q)}`}).catch(()=>{});
 }
 
 function buildFilters(){
@@ -632,20 +629,13 @@ function dismiss(id,fn){
 
 function bind(){
   list.querySelectorAll('.opt:not(.rankopt)').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i;
+    const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i,st=state[q.id]=state[q.id]||{};
     if(q.type==='multi'){
-      const st=state[q.id]=state[q.id]||{};
       st.opts=st.opts||[];st.opts=st.opts.includes(i)?st.opts.filter(x=>x!==i):[...st.opts,i];
-      st.skipped=false;save();render();return;
+    }else{
+      st.opts=[i];
     }
-    const st0=state[q.id];
-    if(st0&&st0.custom&&st0.custom.trim()){
-      const st=state[q.id]=state[q.id]||{};st.opts=[i];st.skipped=false;save();render();return;
-    }
-    dismiss(q.id,()=>{
-      const st=state[q.id]=state[q.id]||{};
-      st.opts=[i];st.skipped=false;save();pushAns(q);
-    });
+    st.skipped=false;save();render();
   });
   list.querySelectorAll('.rankopt').forEach(b=>b.onclick=()=>{
     const q=QS.find(x=>x.id===b.dataset.q),i=+b.dataset.i,st=state[q.id]=state[q.id]||{};
@@ -660,13 +650,8 @@ function bind(){
     });
   });
   list.querySelectorAll('.rnum').forEach(b=>b.onclick=()=>{
-    const q=QS.find(x=>x.id===b.dataset.q),st0=state[q.id];
-    if(st0&&st0.custom&&st0.custom.trim()){
-      const st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();render();return;
-    }
-    dismiss(q.id,()=>{
-      const st=state[q.id]=state[q.id]||{};st.rate=+b.dataset.r;st.skipped=false;save();pushAns(q);
-    });
+    const q=QS.find(x=>x.id===b.dataset.q),st=state[q.id]=state[q.id]||{};
+    st.rate=+b.dataset.r;st.skipped=false;save();render();
   });
   list.querySelectorAll('textarea').forEach(t=>{t.oninput=()=>{
     const q=QS.find(x=>x.id===t.dataset.q),st=state[q.id]=state[q.id]||{};st.custom=t.value;if(t.value.trim())st.skipped=false;save();updateBar();

@@ -31,6 +31,10 @@ main{max-width:560px;margin:0 auto;padding:8px 16px 60px}
 .prole{color:var(--acc2);font-size:.8rem;margin-top:4px}
 .pportal{display:inline-block;font-size:.68rem;color:var(--acc);border:1px solid var(--border);border-radius:99px;padding:3px 12px;margin-top:9px;letter-spacing:.03em}
 .pbio{color:var(--dim);font-size:.85rem;margin-top:10px;line-height:1.7}
+.portallink{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-top:12px;text-align:right}
+.portallink .u{flex:1;font-size:.68rem;color:var(--acc2);direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:monospace}
+.portallink .cp{background:var(--card2);border:1px solid var(--border);border-radius:7px;color:var(--acc2);font-family:inherit;font-size:.7rem;padding:4px 12px;cursor:pointer;flex:0 0 auto}
+.portallink .cp:hover{border-color:var(--acc)}
 .proj{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
 .ptitle{font-size:1rem;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pdesc{color:var(--dim);font-size:.83rem;margin-top:8px;line-height:1.7}
@@ -72,7 +76,8 @@ function home(){
 
 function profile(m){
   app.innerHTML=`<button class="back" onclick="location.hash=''">→ الفريق</button>
-  <div class="phead">${avatar(m.name)}<div class="pname">${esc(m.name)}</div><div class="prole">${esc(m.role)}</div><div class="pportal">بوابة العضو — نبذاته وتقييم أعماله</div><div class="pbio">${esc(m.bio)}</div></div>
+  <div class="phead">${avatar(m.name)}<div class="pname">${esc(m.name)}</div><div class="prole">${esc(m.role)}</div><div class="pportal">بوابة العضو — نبذاته وتقييم أعماله</div><div class="pbio">${esc(m.bio)}</div>
+  ${m.portal?`<div class="portallink"><span class="u">${esc(new URL(m.portal,location.href).href)}</span><button class="cp" data-u="${esc(new URL(m.portal,location.href).href)}">نسخ الرابط</button></div>`:''}</div>
   ${m.projects.length?m.projects.map((p,i)=>projHTML(m.id,i,p)).join(''):'<div class="empty">لا مشاريع معروضة بعد — تُضاف فور اعتمادها</div>'}`;
 }
 
@@ -88,6 +93,8 @@ function projHTML(mid,i,p){
 }
 
 document.addEventListener('click',e=>{
+  const cp=e.target.closest('.cp');
+  if(cp){navigator.clipboard.writeText(cp.dataset.u).then(()=>{cp.textContent='✓ نُسخ';setTimeout(()=>cp.textContent='نسخ الرابط',1500)});return}
   const st=e.target.closest('.star');if(!st)return;
   const k=st.parentElement.dataset.k;
   ratings[k]=+st.dataset.v;

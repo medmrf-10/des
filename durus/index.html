@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مكتبة التراث — الدروس</title>
+<style>
+:root{--bg:#0f1418;--card:#1a2129;--acc:#4da3ff;--tx:#e8eef4;--mut:#8a97a5;--bd:#2a3542}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:16px 20px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:10}
+h1{margin:0 0 10px;font-size:20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select,.filters input{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;font-size:14px}
+.filters input{min-width:200px}
+.stats{color:var(--mut);font-size:12px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{position:sticky;top:97px;background:var(--bg);text-align:right;padding:8px;border-bottom:2px solid var(--acc);font-size:12px;color:var(--mut);white-space:nowrap;cursor:pointer}
+th:hover{color:var(--acc)}
+td{padding:7px 8px;border-bottom:1px solid var(--bd);vertical-align:top}
+tr.sr:hover{background:#1f2937;cursor:pointer}
+tr.sr.exp{background:#1f2937}
+.name{font-weight:600}
+.mut{color:var(--mut);font-size:12px}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+.badge{display:inline-block;padding:1px 7px;border-radius:9px;font-size:11px;background:#24303d;color:var(--mut)}
+.badge.sharh{background:#1d3a2a;color:#7bd88f}
+.badge.hashiya{background:#3a2d1d;color:#e8b86d}
+.clips{background:#141b22;padding:10px 14px;font-size:12px}
+.clips .cl{padding:3px 0;border-bottom:1px dashed #222d38;display:flex;gap:8px}
+.clips .cl:last-child{border:none}
+.clips .n{color:var(--mut);min-width:34px}
+.clips .t{flex:1}
+.clips .d{color:var(--mut);white-space:nowrap}
+.val{width:44px;background:var(--card);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:3px 5px;text-align:center}
+main{padding:0 12px 60px}
+.cmt{max-width:340px;font-size:12px;color:#b9c6d2}
+@media(max-width:900px){.cmt{display:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>مكتبة التراث — الدروس</h1>
+<div class="filters">
+<input id="q" type="search" placeholder="بحث في السلاسل…">
+<select id="fsh"><option value="">كل المشايخ</option></select>
+<select id="fch"><option value="">كل القنوات</option></select>
+<select id="fkind"><option value="">كل الأنواع</option></select>
+</div>
+<div class="stats" id="stats"></div>
+</header>
+<main>
+<table id="tb">
+<thead><tr>
+<th data-k="name">السلسلة</th><th data-k="sheikh">الشيخ</th><th data-k="channel">القناة</th>
+<th data-k="videos">مقاطع</th><th data-k="hours">ساعات</th><th data-k="kind">النوع</th>
+<th>المتن</th><th>الشرح</th><th>الحاشية</th><th class="cmt">تعليق</th><th>قيمة</th>
+</tr></thead>
+<tbody id="rows"></tbody>
+</table>
+</main>
+<script src="data.js"></script>
+<script>
+const vals=JSON.parse(localStorage.getItem('durus_vals')||'{}');
+let sortK='videos',sortD=-1;
+const $=s=>document.getElementById(s);
+function fmt(h){return h?h.toFixed(1):''}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function render(){
+ const q=$('q').value.trim(), fsh=$('fsh').value, fch=$('fch').value, fk=$('fkind').value;
+ let L=SERIES.filter(s=>
+   (!fsh||s.sheikh===fsh)&&(!fch||s.channel===fch)&&(!fk||s.kind===fk)&&
+   (!q||(s.name||'').includes(q)||(s.matn||'').includes(q)||(s.sharh||'').includes(q)||(s.comment||'').includes(q)));
+ L.sort((a,b)=>{let x=a[sortK],y=b[sortK];if(typeof x==='string'){x=x||'';y=y||'';return x.localeCompare(y,'ar')*sortD}return((x||0)-(y||0))*sortD});
+ $('stats').textContent=L.length+' سلسلة · '+L.reduce((a,s)=>a+(s.clip_count||0),0)+' مقطعاً · '+L.reduce((a,s)=>a+(s.hours||0),0).toFixed(0)+' ساعة';
+ const tb=$('rows');tb.innerHTML='';
+ const frag=document.createDocumentFragment();
+ for(const s of L){
+  const tr=document.createElement('tr');tr.className='sr';tr.dataset.id=s.id;
+  const v=vals[s.id]??'';
+  tr.innerHTML=`<td class="name">${esc(s.name)}<div class="mut"><a href="${esc(s.plist_url)}" target="_blank">قائمة التشغيل</a> · ${s.clip_count} مقطع</div></td>
+   <td>${esc(s.sheikh)}</td><td class="mut">${esc(s.channel)}</td>
+   <td>${s.videos||''}</td><td>${fmt(s.hours)}</td>
+   <td>${s.kind?`<span class="badge">${esc(s.kind)}</span>`:''}</td>
+   <td class="mut">${esc(s.matn)}</td><td>${s.sharh?`<span class="badge sharh">${esc(s.sharh)}</span>`:''}</td>
+   <td>${s.hashiya?`<span class="badge hashiya">${esc(s.hashiya)}</span>`:''}</td>
+   <td class="cmt">${esc(s.comment)}</td>
+   <td><input class="val" type="number" min="0" max="10" value="${v}" data-id="${s.id}"></td>`;
+  frag.appendChild(tr);
+ }
+ tb.appendChild(frag);
+}
+$('rows').addEventListener('click',async e=>{
+ if(e.target.classList.contains('val'))return;
+ const tr=e.target.closest('tr.sr');if(!tr)return;
+ const nxt=tr.nextElementSibling;
+ if(nxt&&nxt.classList.contains('clrow')){nxt.remove();tr.classList.remove('exp');return}
+ tr.classList.add('exp');
+ const cr=document.createElement('tr');cr.className='clrow';
+ cr.innerHTML=`<td colspan="11"><div class="clips">… يُحمَّل المقاطع</div></td>`;
+ tr.after(cr);
+ const id=tr.dataset.id;
+ try{
+  const r=await fetch(`clips/${id}.json`);const cl=await r.json();
+  cr.querySelector('.clips').innerHTML=cl.map(c=>{
+   const m=Math.floor((c.secs||0)/60),ss=Math.floor((c.secs||0)%60);
+   return `<div class="cl"><span class="n">${c.lesson??''}</span><span class="t"><a href="${esc(c.url)}" target="_blank">${esc(c.title)}</a></span><span class="d">${m}:${String(ss).padStart(2,'0')}</span></div>`
+  }).join('')||'— لا مقاطع —';
+ }catch(err){cr.querySelector('.clips').textContent='تعذر التحميل'}
+});
+$('rows').addEventListener('change',e=>{
+ if(!e.target.classList.contains('val'))return;
+ vals[e.target.dataset.id]=e.target.value;localStorage.setItem('durus_vals',JSON.stringify(vals));
+});
+document.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{
+ const k=th.dataset.k;if(sortK===k)sortD*=-1;else{sortK=k;sortD=k==='name'?1:-1}render()});
+[['fsh','sheikh'],['fch','channel'],['fkind','kind']].forEach(([id,k])=>{
+ const set=[...new Set(SERIES.map(s=>s[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+ $(id).innerHTML+=set.map(v=>`<option>${esc(v)}</option>`).join('');
+ $(id).onchange=render;
+});
+$('q').oninput=render;
+render();
+</script>
+</body>
+</html>

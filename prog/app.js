@@ -67,8 +67,18 @@ function renderTracks() {
         </div>
         <div class="track-meta"><span class="t-count">افتح ←</span></div>
       </div>
+    </div>
+    <div class="track free-card courses-card" id="coursesCard">
+      <div class="track-head">
+        <div class="t-info">
+          <h3>الكورسات</h3>
+          <div class="t-desc">خارطة الدروس البرمجية الكاملة — مسارات وكورسات وفصول ودروس بعلامات إنجاز محفوظة.</div>
+        </div>
+        <div class="track-meta"><span class="t-count">افتح ←</span></div>
+      </div>
     </div>`;
   $('#freeCard').onclick = openFree;
+  $('#coursesCard').onclick = openCourses;
 
   $$('.track').forEach(el => {
     el.querySelector('.track-head').onclick = () => el.classList.toggle('open');
@@ -94,6 +104,7 @@ const isPy = () => cur.track && cur.track.lang === 'py';
 function openLesson(trackId, li) {
   const t = getTrack(trackId);
   cur = { track: t, li };
+  $('#coursesView').hidden = true;
   const L = t.lessons[li];
 
   $('#tracksView').hidden = true;
@@ -530,6 +541,7 @@ let fet = 'html';
 function openFree() {
   $('#tracksView').hidden = true;
   $('#lessonView').hidden = true;
+  $('#coursesView').hidden = true;
   $('#freeView').hidden = false;
   if (!fEls.html.value && !fEls.css.value && !fEls.js.value) {
     const f = state.free;
@@ -632,6 +644,128 @@ function renderCard() {
   };
 }
 
+/* ---------- الكورسات: خارطة 4 مستويات على window.COURSES ---------- */
+if (!state.courses) state.courses = {};
+let cSel = { ti: null, ci: null };
+
+const escH = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const courseLessons = c => (c.chapters || []).reduce((n, ch) => n + (ch.lessons || []).length, 0);
+const cKey = (ti, cid, ch, li) => `${ti}|${cid}|${ch}|${li}`;
+const cDone = (ti, cid) => Object.keys(state.courses).filter(k => k.startsWith(ti + '|' + cid + '|') && state.courses[k]).length;
+const cTotalAll = () => {
+  const C = window.COURSES;
+  if (!C || !C.tracks) return [0, 0];
+  let done = 0, total = 0;
+  C.tracks.forEach((t, ti) => (t.courses || []).forEach(c => {
+    const cid = c.id || '';
+    total += courseLessons(c);
+    done += cDone(ti, cid);
+  }));
+  return [done, total];
+};
+
+function openCourses() {
+  $('#tracksView').hidden = true;
+  $('#lessonView').hidden = true;
+  $('#freeView').hidden = true;
+  $('#coursesView').hidden = false;
+  renderCourses();
+  window.scrollTo(0, 0);
+}
+
+function renderCourses() {
+  const body = $('#cBody');
+  const C = window.COURSES;
+  const [done, total] = cTotalAll();
+  $('#c_total').innerHTML = total ? `<b>${done}</b> / ${total} درساً` : '';
+
+  if (!C || !Array.isArray(C.tracks) || !C.tracks.length) {
+    body.innerHTML = `<div class="c-empty">لا بيانات كورسات بعد — يصل ملف <code>courses.js</code> قريباً وتظهر الخارطة هنا.</div>`;
+    return;
+  }
+
+  /* مستوى 1: شريط المسارات */
+  const tracks = C.tracks.map((t, ti) => {
+    const tot = (t.courses || []).reduce((n, c) => n + courseLessons(c), 0);
+    return `<button class="c-chip ${cSel.ti === ti ? 'on' : ''}" data-ti="${ti}">${escH(t.name)} <span class="c-cnt">${tot}</span></button>`;
+  }).join('');
+
+  let html = `<div class="c-levels"><h3 class="sec-h">المسار</h3><div class="c-chips">${tracks}</div></div>`;
+
+  /* مستوى 2: كورسات المسار المختار */
+  if (cSel.ti !== null && C.tracks[cSel.ti]) {
+    const T = C.tracks[cSel.ti];
+    html += `<div class="c-levels"><h3 class="sec-h">كورسات «${escH(T.name)}» — ${T.courses.length} كورساً</h3><div class="c-grid">`;
+    html += T.courses.map((c, ci) => {
+      const cid = c.id || String(ci);
+      const tot = courseLessons(c);
+      const dn = cDone(cSel.ti, cid);
+      const meta = [c.instructor, c.level, c.subject].filter(Boolean).map(escH).join(' · ');
+      return `<div class="c-course ${cSel.ci === ci ? 'on' : ''}" data-ci="${ci}">
+        <div class="c-c-title">${escH(c.title || ('كورس ' + (ci + 1)))}</div>
+        ${meta ? `<div class="c-c-meta">${meta}</div>` : ''}
+        <div class="c-c-prog"><div class="track-bar"><i style="width:${tot ? Math.round(dn / tot * 100) : 0}%"></i></div>
+          <span class="c-c-num">${dn}/${tot}</span></div>
+      </div>`;
+    }).join('');
+    html += `</div></div>`;
+  }
+
+  /* مستوى 3-4: شجرة فصول/دروس الكورس المختار */
+  if (cSel.ti !== null && cSel.ci !== null && C.tracks[cSel.ti] && C.tracks[cSel.ti].courses[cSel.ci]) {
+    const c = C.tracks[cSel.ti].courses[cSel.ci];
+    const cid = c.id || String(cSel.ci);
+    const tot = courseLessons(c), dn = cDone(cSel.ti, cid);
+    html += `<div class="c-levels"><h3 class="sec-h">فصول «${escH(c.title || '')}» — ${dn}/${tot}</h3><div class="c-tree" id="cTree">`;
+    html += (c.chapters || []).map((ch, chi) => {
+      const ldn = (ch.lessons || []).filter((l, li) => state.courses[cKey(cSel.ti, cid, chi, li)]).length;
+      return `<details class="c-ch" open>
+        <summary>${escH(ch.name || ('الفصل ' + (chi + 1)))} <span class="c-cnt" data-ch="${chi}">${ldn}/${(ch.lessons || []).length}</span></summary>
+        <div class="c-lessons">
+          ${(ch.lessons || []).map((l, li) => {
+            const k = cKey(cSel.ti, cid, chi, li);
+            return `<label class="c-lesson"><input type="checkbox" data-k="${k}" data-ch="${chi}" ${state.courses[k] ? 'checked' : ''}><span>${escH(l)}</span></label>`;
+          }).join('')}
+        </div>
+      </details>`;
+    }).join('');
+    html += `</div></div>`;
+  }
+
+  body.innerHTML = html;
+
+  $$('#cBody .c-chip').forEach(b => b.onclick = () => {
+    cSel.ti = +b.dataset.ti; cSel.ci = null; renderCourses();
+  });
+  $$('#cBody .c-course').forEach(el => el.onclick = () => {
+    cSel.ci = cSel.ci === +el.dataset.ci ? null : +el.dataset.ci; renderCourses();
+  });
+  $$('#cBody input[type=checkbox]').forEach(cb => cb.onchange = () => {
+    const k = cb.dataset.k;
+    if (cb.checked) state.courses[k] = true; else delete state.courses[k];
+    save();
+    /* تحديث عدادات بلا إعادة بناء (حفاظاً على التمرير وطي الفصول) */
+    const ti = +k.split('|')[0], cid = k.split('|')[1], chi = +cb.dataset.ch;
+    const chEl = cb.closest('.c-ch');
+    const ch = chEl && C.tracks[ti].courses[cSel.ci].chapters[chi];
+    if (chEl && ch) {
+      const ldn = (ch.lessons || []).filter((l, li) => state.courses[cKey(ti, cid, chi, li)]).length;
+      const cnt = chEl.querySelector('[data-ch]'); if (cnt) cnt.textContent = `${ldn}/${(ch.lessons || []).length}`;
+    }
+    const c = C.tracks[ti].courses[cSel.ci];
+    const dn = cDone(ti, cid), tot = courseLessons(c);
+    const card = $(`#cBody .c-course[data-ci="${cSel.ci}"]`);
+    if (card) {
+      const num = card.querySelector('.c-c-num'); if (num) num.textContent = `${dn}/${tot}`;
+      const bar = card.querySelector('.track-bar i'); if (bar) bar.style.width = (tot ? Math.round(dn / tot * 100) : 0) + '%';
+    }
+    const secH = $('#cTree').previousElementSibling;
+    if (secH && secH.classList.contains('sec-h')) secH.innerHTML = `فصول «${escH(c.title || '')}» — ${dn}/${tot}`;
+    const [d2, t2] = cTotalAll();
+    $('#c_total').innerHTML = t2 ? `<b>${d2}</b> / ${t2} درساً` : '';
+  });
+}
+
 /* ---------- أحداث ---------- */
 $$('.etab[data-et]').forEach(b => b.onclick = () => {
   et = b.dataset.et;
@@ -648,6 +782,7 @@ $$('.f-etab').forEach(b => b.onclick = () => {
   fEls.js.hidden = fet !== 'js';
 });
 $('#f_back').onclick = () => { $('#freeView').hidden = true; $('#tracksView').hidden = false; };
+$('#c_back').onclick = () => { $('#coursesView').hidden = true; $('#tracksView').hidden = false; };
 $('#f_run').onclick = runFree;
 $('#f_clear').onclick = () => {
   if (!confirm('سيُمسح كود المختبر الحر الحالي — متابعة؟')) return;
@@ -684,6 +819,7 @@ $('#checkBtn').onclick = () => {
 };
 $('#backBtn').onclick = () => {
   $('#lessonView').hidden = true;
+  $('#coursesView').hidden = true;
   $('#tracksView').hidden = false;
   renderTracks();
 };

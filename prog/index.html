@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>برمج — تعلم البرمجة بالعربية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="wrap head-row">
+    <div>
+      <h1>برمج</h1>
+      <div class="tagline">تعلم البرمجة بالممارسة — بالعربية</div>
+    </div>
+    <div class="prog" id="headerProg"></div>
+  </div>
+  <div class="wrap"><div class="bar"><i id="headerBar"></i></div></div>
+</header>
+
+<main class="wrap">
+
+  <!-- ====== شاشة المسارات ====== -->
+  <section id="tracksView">
+    <p class="intro">اختر مساراً وابدأ التعلم خطوة بخطوة. كل درس فيه شرح قصير، تجربة مباشرة في المحرر، وتمرين يُصحح تلقائياً. تقدمك يُحفظ على جهازك.</p>
+    <div id="tracksList"></div>
+  </section>
+
+  <!-- ====== شاشة الدرس ====== -->
+  <section id="lessonView" hidden>
+    <div class="lesson-top">
+      <button class="btn ghost" id="backBtn">→ المسارات</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="lesson-prog" id="lessonProg"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" data-pane="learn">الدرس</button>
+      <button class="tab" data-pane="lab">المختبر</button>
+      <button class="tab" data-pane="task">التمرين</button>
+    </div>
+
+    <!-- الدرس -->
+    <div class="pane on" id="pane-learn">
+      <h2 id="lessonTitle"></h2>
+      <div class="theory" id="lessonTheory"></div>
+      <div class="callout" id="lessonTip" hidden></div>
+      <button class="btn" id="toLab">جرّب في المختبر ←</button>
+    </div>
+
+    <!-- المختبر -->
+    <div class="pane" id="pane-lab">
+      <div class="lab-head">
+        <div class="etabs">
+          <button class="etab on" data-et="html">HTML</button>
+          <button class="etab" data-et="css">CSS</button>
+          <button class="etab" data-et="js">JS</button>
+        </div>
+        <div class="lab-actions">
+          <button class="btn ghost sm" id="resetCode">إعادة المثال</button>
+          <button class="btn sm" id="runBtn">تشغيل ⟵</button>
+        </div>
+      </div>
+      <div class="lab">
+        <div class="edcol">
+          <textarea id="ed_html" class="editor" spellcheck="false" dir="ltr"></textarea>
+          <textarea id="ed_css" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+          <textarea id="ed_js" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+        </div>
+        <div class="pvc">
+          <div class="pv-title">الناتج</div>
+          <iframe id="preview" sandbox="allow-scripts"></iframe>
+          <div class="conso" id="conso" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- التمرين -->
+    <div class="pane" id="pane-task">
+      <div class="task-card">
+        <h3>التمرين</h3>
+        <p id="taskPrompt"></p>
+        <ul class="checks" id="checkList"></ul>
+        <div class="task-foot">
+          <button class="btn sm" id="checkBtn">تحقق من الحل</button>
+          <span id="taskStatus"></span>
+        </div>
+      </div>
+      <div class="done-card" id="doneCard" hidden>
+        <div class="done-mark">✓</div>
+        <h3>أحسنت! أتممت هذا الدرس</h3>
+        <div class="done-btns">
+          <button class="btn" id="nextBtn">الدرس التالي ←</button>
+          <button class="btn ghost" id="redoBtn">مراجعة الدرس</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>برمج — نسخة أولى · يعمل بالكامل في متصفحك</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

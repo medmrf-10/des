@@ -831,4 +831,13 @@ $('#nextBtn').onclick = () => {
 $('#redoBtn').onclick = () => { $('#secLearn').open = true; window.scrollTo(0, 0); };
 
 renderTracks();
+
+/* روابط مباشرة: #l=<track>:<lesson> يفتح درساً، #courses يفتح خارطة الكورسات */
+const _h = location.hash;
+if (_h.startsWith('#l=')) {
+  const [tid, li] = _h.slice(3).split(':');
+  if (getTrack(tid) && getTrack(tid).lessons[+li]) openLesson(tid, +li);
+} else if (_h === '#courses') {
+  openCourses();
+}
 })();

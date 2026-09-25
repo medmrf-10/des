@@ -282,10 +282,10 @@
     if (suppressHash) return;
     const h = location.hash.slice(1);
     if (h.startsWith('r=')) {
-      const [code, id] = h.slice(2).split('/');
+      const [code, id] = h.slice(2).split('/').map(decodeURIComponent);
       if (bookByCode[code]) { openReader(code, id); return; }
     }
-    if (h.startsWith('m=')) { switchMode(h.slice(2)); }
+    if (h.startsWith('m=')) { switchMode(decodeURIComponent(h.slice(2))); }
   }
   window.addEventListener('hashchange', applyHash);
   $('#expand-all').addEventListener('click', () => main.querySelectorAll('.bab').forEach((s) => toggleSec(s, true)));

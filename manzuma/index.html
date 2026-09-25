@@ -472,7 +472,8 @@ const SRCS=[
  {ic:'🤝',n:'مِيثاق',d:'عهدك اليومي — الوفاء يُقاس من نشاطك',u:'../mithaq/',t:'إدارة'},
  {ic:'🗂',n:'مِعتمد',d:'مصادرك النقية — فهرسك الموثوق القابل للتعديل',u:'../mi3tamad/',t:'إدارة'},
  {ic:'🩹',n:'مِصحّح',d:'دفتر أخطائك — كلماتك المتعثّرة ومستواك',u:'../moseh/',t:'إدارة'},
- {ic:'🪑',n:'مِحفل',d:'أجب أولاً ثم انظر موائد المذاهب',u:'../mihfil/',t:'الفقه'}
+ {ic:'🪑',n:'مِحفل',d:'أجب أولاً ثم انظر موائد المذاهب',u:'../mihfil/',t:'الفقه'},
+ {ic:'⛺',n:'مِعسكر',d:'معسكر الثلاثين يوماً — مهام تُعلَّم تلقائياً',u:'../mi3skar/',t:'إدارة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

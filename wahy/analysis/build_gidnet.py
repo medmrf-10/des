@@ -18,7 +18,7 @@
 الاستعمال:
   python3 build_gidnet.py [--data-dir ../data/hadith] [--topics ../data/hadith/topics.json.gz]
                           [--base-url https://medmrf-10.github.io/des/wahy/data/hadith]
-                          [-o analysis.js]
+                          [-o ../../hadith/analysis.js]
 """
 import argparse, gzip, io, json, sys, urllib.request
 
@@ -55,7 +55,7 @@ def main():
     ap.add_argument("--data-dir", default="../data/hadith")
     ap.add_argument("--topics", default=None, help="مسار topics.json.gz (افتراضي data-dir)")
     ap.add_argument("--base-url", default=None, help="جلب البيانات من رابط بدل الملفات")
-    ap.add_argument("-o", "--out", default="analysis.js")
+    ap.add_argument("-o", "--out", default="../../hadith/analysis.js")
     args = ap.parse_args()
 
     det, all_s = {}, {}

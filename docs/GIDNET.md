@@ -1,11 +1,11 @@
 # GIDNET — شبكة المعنى
 
-`wahy/analysis/analysis.js` — أثر بناء ليلي (nightly build) يولّده
+`hadith/analysis.js` (يُقدَّم على `/des/hadith/analysis.js`) — أثر بناء ليلي (nightly build) يولّده
 `wahy/analysis/build_gidnet.py` من حزم `wahy/data/hadith/*-det.json.gz` و
 `topics.json.gz`. يُحمَّل بوسم سكربت ويعرّض كائناً واحداً `window.GIDNET`.
 
 ```html
-<script src="analysis/analysis.js"></script>
+<script src="analysis.js"></script>  <!-- من صفحة داخل hadith/ -->
 ```
 
 ## البنية العليا

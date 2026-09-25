@@ -19,7 +19,7 @@ function pool(){
   const wm = wordMap(), p = {};
   Object.values(loadBank()).forEach(w=>{
     const t = normTok(w.en);
-    if(t) p[t] = {en:w.en, ar:w.ar||'', clip:w.clip||''};
+    if(t) p[t] = {en:w.en, ar:w.ar||'', clip:w.clip||'', prio:w.prio||0};
   });
   JSON.parse(localStorage.getItem(SEEN_KEY)||'[]').forEach(t=>{
     if(!p[t] && wm[t]) p[t] = {en:wm[t].en, ar:wm[t].ar, clip:wm[t].clip};
@@ -30,7 +30,7 @@ function dueTokens(srs, p){
   return Object.keys(p).filter(t=>{
     const c = srs[t];
     return !c || c.state==='new' || !c.lastReview || !c.nextReview || c.nextReview <= todayISO();
-  }).sort((a,b)=>((srs[a]||{}).nextReview||'').localeCompare((srs[b]||{}).nextReview||''));
+  }).sort((a,b)=>((p[b].prio||0)-(p[a].prio||0)) || ((srs[a]||{}).nextReview||'').localeCompare((srs[b]||{}).nextReview||''));
 }
 
 /* ---------- شاشة البداية ---------- */

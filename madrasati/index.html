@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مدرستي — مراجعة متباعدة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;min-height:180px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;user-select:none}
+.card .lbl{font-size:11px;color:var(--dim);margin-bottom:10px}
+.card .front{font-size:16px;line-height:2}
+.card .back{display:none;font-size:15px;line-height:2;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)}
+.card.flipped .back{display:block}
+.grades{display:none;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.grades.on{display:flex}
+.gbtn{flex:1;min-width:64px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 4px;color:var(--txt);cursor:pointer;font-family:inherit;font-size:12px}
+.gbtn:hover{border-color:var(--acc)}
+.deck{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.deck button{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13px}
+.deck button.on{border-color:var(--acc);color:var(--acc)}
+.stat{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.stat span{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:12px;color:var(--dim)}
+.stat b{color:var(--acc)}
+a.ref{color:var(--acc2);font-size:12px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">مدرستي</h1>
+<div style="color:var(--dim);font-size:13px">مراجعة متباعدة — النظائر القرآنية، الأربعون النووية، ذرات العقيدة</div>
+<div class="stat" id="stat"></div>
+<div class="deck" id="decks"></div>
+<div class="card" id="card"><div class="lbl" id="lbl"></div><div class="front" id="front"></div><div class="back" id="back"></div></div>
+<div style="text-align:center;margin-top:8px;color:var(--dim);font-size:12px" id="hint">اضغط البطاقة لكشف الجواب</div>
+<div class="grades" id="grades">
+<button class="gbtn" onclick="grade(1)">نسيت<br><small style="color:var(--dim)">قريباً</small></button>
+<button class="gbtn" onclick="grade(3)">صعب<br><small style="color:var(--dim)">يوم+</small></button>
+<button class="gbtn" onclick="grade(4)">جيد<br><small style="color:var(--dim)">أيام</small></button>
+<button class="gbtn" onclick="grade(5)">سهل<br><small style="color:var(--dim)">أسبوع+</small></button>
+</div>
+<script src="../shared/fsrs.js"></script>
+<script src="atoms.js"></script>
+<script src="../wahy/mutashabih.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script>
+const LS=k=>JSON.parse(localStorage.getItem(k)||'{}');
+const SS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let DECKS=[],cur=null,deckIx=0;
+// رزنامة البطاقات
+const sched=LS('mdr_sched');
+function deckMut(){ // نظائر: آية ← أشبه آية لها
+ const cards=[];
+ for(const k in MUTA.sim){const [s,a,t,sims]=MUTA.sim[k];if(!sims||!sims.length)continue;
+   const [k2,score]=sims[0];const v2=MUTA.sim[k2];if(!v2)continue;
+   cards.push({id:'m'+k,deck:'muta',front:`${MUTA.names[s]||''} (${s}:${a})`,q:t,back:`${MUTA.names[v2[0]]||''} (${v2[0]}:${v2[1]}) — تشابه ${(score*100|0)}%`,backT:v2[2],ref:'../wahy/mutashabih.html#v='+k});}
+ return cards}
+function deckNaw(){
+ return NAWAWI.map(h=>({id:'n'+h.an,deck:'naw',front:`الحديث ${h.an.toLocaleString('ar-EG')} — بدايته:`,q:h.t.split(' ').slice(0,7).join(' ')+' …',back:h.t,ref:'../hadith/nawawi.html'}))}
+function deckAq(){
+ const cards=[];
+ for(const code in ATOMS){const bk=ATOMS[code];
+   for(const k in bk.atoms){const a=bk.atoms[k];
+    cards.push({id:'a'+code+k,deck:'aq',front:`${bk.name} — ${a.t}`,q:'اذكر نصها أو معناها',back:`${a.q} <div style="font-size:12px;color:var(--dim);margin-top:8px">${a.b||''}</div>`,ref:'../akida/real.html'})}}
+ return cards}
+// جدولة
+function due(c){const s=sched[c.id];if(!s)return true;return new Date(s.nextReview)<=new Date()}
+function pull(){const list=DECKS[deckIx].cards.filter(due);if(!list.length)return null;
+ // الأقدم استحقاقاً أولاً
+ list.sort((x,y)=>{const a=sched[x.id],b=sched[y.id];return (a?new Date(a.nextReview):0)-(b?new Date(b.nextReview):0)});
+ return list[0]}
+function render(){
+ const d=DECKS[deckIx];cur=pull();
+ document.getElementById('decks').innerHTML=DECKS.map((x,i)=>`<button class="${i===deckIx?'on':''}" onclick="deckIx=${i};render()">${x.name} (${x.cards.filter(due).length})</button>`).join('');
+ const allDue=DECKS.reduce((s,x)=>s+x.cards.filter(due).length,0);
+ const learned=Object.keys(sched).length;
+ document.getElementById('stat').innerHTML=`<span>مستحق الآن: <b>${allDue.toLocaleString('ar-EG')}</b></span><span>في جدولك: <b>${learned.toLocaleString('ar-EG')}</b></span>`;
+ const c=document.getElementById('card');
+ if(!cur){c.style.display='none';document.getElementById('grades').classList.remove('on');document.getElementById('hint').textContent='لا بطاقات مستحقة — أنهيت مراجعة هذا المجموع';document.getElementById('lbl').textContent='';document.getElementById('front').textContent='';document.getElementById('back').textContent='';return}
+ c.style.display='';c.classList.remove('flipped');
+ document.getElementById('lbl').textContent=cur.front;
+ document.getElementById('front').textContent=cur.q;
+ document.getElementById('back').innerHTML=cur.back+(cur.backT?`<div style="font-size:13px;color:var(--dim);margin-top:8px">${cur.backT}</div>`:'')+(cur.ref?`<div style="margin-top:10px"><a class="ref" href="${cur.ref}">المصدر الكامل ←</a></div>`:'');
+ document.getElementById('grades').classList.remove('on');
+ document.getElementById('hint').textContent='اضغط البطاقة لكشف الجواب';}
+document.getElementById('card').onclick=()=>{if(!cur)return;document.getElementById('card').classList.add('flipped');document.getElementById('grades').classList.add('on');document.getElementById('hint').textContent='قيّم تذكرك'};
+function grade(q){const c=cur;if(!c)return;
+ const s=sched[c.id]||{repetitions:0,ease:2.5,interval:0,lastReview:null,lapses:0};
+ const r=FSRS.schedule({repetitions:s.repetitions,ease:s.ease,interval:s.interval,lastReview:s.lastReview,quality:q});
+ sched[c.id]={...r,lastReview:new Date().toISOString()};
+ SS('mdr_sched',sched);render()}
+DECKS=[{name:'النظائر القرآنية',cards:deckMut()},{name:'الأربعون النووية',cards:deckNaw()},{name:'ذرات العقيدة',cards:deckAq()}];render();
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

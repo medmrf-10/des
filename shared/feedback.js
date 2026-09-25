@@ -12,10 +12,10 @@ document.documentElement.style.scrollPaddingBottom='60px';var sp=document.create
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const css=`
-  .fb-btn{position:fixed;bottom:10px;inset-inline-start:10px;z-index:900;width:36px;height:36px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.95rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);font-family:inherit;opacity:.45;transition:opacity .2s}
+  .fb-btn{position:fixed;bottom:6px;inset-inline-start:6px;z-index:900;width:30px;height:30px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.8rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);font-family:inherit;opacity:.28;transition:opacity .2s}
   .fb-btn:hover{background:#242f4d;opacity:1}
-  .fb-btn .n{position:absolute;top:-4px;inset-inline-end:-4px;background:#c9a24b;color:#0b0f1a;font-size:.6rem;font-weight:700;border-radius:99px;padding:2px 7px}
-  .fb-home{position:fixed;bottom:10px;inset-inline-start:52px;z-index:900;width:36px;height:36px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.95rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;text-decoration:none;opacity:.45;transition:opacity .2s}
+  .fb-btn .n{position:absolute;top:-3px;inset-inline-end:-3px;background:#c9a24b;color:#0b0f1a;font-size:.6rem;font-weight:700;border-radius:99px;padding:2px 7px}
+  .fb-home{position:fixed;bottom:6px;inset-inline-start:42px;z-index:900;width:30px;height:30px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.8rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;text-decoration:none;opacity:.28;transition:opacity .2s}
   .fb-home:hover{background:#242f4d;opacity:1}
   .fb-ov{position:fixed;inset:0;background:rgba(5,8,16,.6);backdrop-filter:blur(3px);z-index:950;display:none}
   .fb-ov.open{display:block}

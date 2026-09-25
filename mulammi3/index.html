@@ -53,7 +53,7 @@ $('fj').onchange=e=>{const f=e.target.files[0];if(!f)return;
 $('fa').onchange=e=>{const f=e.target.files[0];if(f)$('au').src=URL.createObjectURL(f)};
 const m=new URLSearchParams(location.search).get('l');
 if(m){fetch(`../manzuma/lessons/${m}/phrases.json`).then(r=>r.json()).then(j=>{PH=j;render()});
- $('au').src=`../manzuma/lessons/${m}/audio.mp3`}
+ $('au').src=`https://github.com/medmrf-10/des/releases/download/audio-pack/${m}.mp3`}
 $('list').onclick=e=>{
  const t=e.target;
  if(t.classList.contains('tm')){const i=+t.dataset.i;$('au').currentTime=PH[i].s;$('au').play();curMark(i);return}

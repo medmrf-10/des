@@ -74,7 +74,7 @@ const qL=(location.search.match(/[?&]l=(\d+)/)||location.hash.match(/l=(\d+)/));
 const LID=qL?qL[1]:null;
 const B=LID?`../manzuma/lessons/${LID}/`:'./';
 if(LID){
-  au.src=B+'audio.mp3';
+  au.src='https://github.com/medmrf-10/des/releases/download/audio-pack/'+LID+'.mp3';
   fetch(B+'title.txt').then(r=>r.ok?r.text():'').then(t=>{if(t)document.getElementById('ltitle').textContent=t.trim()});
 }
 fetch(B+'phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0);buildIdx()});

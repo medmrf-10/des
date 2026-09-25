@@ -232,7 +232,7 @@ document.getElementById('pmX').onclick=()=>pm.classList.remove('open');
 pm.onclick=e=>{if(e.target===pm)pm.classList.remove('open')};
 document.getElementById('pmGo').onclick=unlockPriv;
 document.getElementById('pmP').addEventListener('keydown',e=>{if(e.key==='Enter')unlockPriv()});
-fetch('projects.json').then(r=>r.json()).then(P=>{PJ.all=P;renderPJ()});
+fetch('projects.json?v='+Date.now()).then(r=>r.json()).then(P=>{PJ.all=P;renderPJ()});
 </script>
 </body>
 </html>

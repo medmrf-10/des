@@ -675,7 +675,7 @@ async function renderStudio(){
 async function playLesson(i){
   const l=LSN[i];
   const [w,ph]=await Promise.all([fetch('lessons/'+l.dir+'/words.json').then(r=>r.json()),fetch('lessons/'+l.dir+'/phrases.json').then(r=>r.json())]);
-  $('#playerBox').innerHTML=`<div class="card"><b>${esc(l.title)}</b><audio id="au" controls src="lessons/${l.dir}/${l.audio}"></audio><div id="phBox" style="max-height:44vh;overflow-y:auto">${ph.map((p,ix)=>`<div class="ph" data-s="${p.s}" data-e="${p.e}">${p.ws.map(x=>`<span class="w" data-s="${x.s}" data-e="${x.e}">${esc(x.w)}</span>`).join(' ')}</div>`).join('')}</div></div>`;
+  $('#playerBox').innerHTML=`<div class="card"><b>${esc(l.title)}</b><audio id="au" controls src="https://github.com/medmrf-10/des/releases/download/audio-pack/${l.dir}.mp3"></audio><div id="phBox" style="max-height:44vh;overflow-y:auto">${ph.map((p,ix)=>`<div class="ph" data-s="${p.s}" data-e="${p.e}">${p.ws.map(x=>`<span class="w" data-s="${x.s}" data-e="${x.e}">${esc(x.w)}</span>`).join(' ')}</div>`).join('')}</div></div>`;
   const au=$('#au'),phs=$$('#phBox .ph');
   phs.forEach(p=>p.onclick=()=>{au.currentTime=+p.dataset.s+.01;au.play()});
   au.ontimeupdate=()=>{const t=au.currentTime;let act=null;phs.forEach(p=>{const on=t>=+p.dataset.s&&t<=+p.dataset.e;p.classList.toggle('act',on);if(on)act=p;p.querySelectorAll('.w').forEach(w=>w.classList.toggle('act',t>=+w.dataset.s&&t<=+w.dataset.e))});if(act){const b=$('#phBox');const r=act.getBoundingClientRect(),br=b.getBoundingClientRect();if(r.top<br.top||r.bottom>br.bottom)act.scrollIntoView({block:'center',behavior:'smooth'})}};

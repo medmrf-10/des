@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تدبّر — آية وتفسيرك الخاص</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:640px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:14px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.nav button{background:none;border:1px solid var(--border);border-radius:8px;color:var(--acc);font-family:inherit;padding:7px 16px;cursor:pointer}
+.nav .cnt{font-size:.7rem;color:var(--dim)}
+.ayah{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:22px;text-align:center;margin-bottom:12px}
+.ayah .s{font-size:.68rem;color:var(--acc);margin-bottom:12px}
+.ayah .t{font-family:var(--font-ar);font-size:clamp(1.1rem,4.5vw,1.5rem);line-height:2.2}
+.tafsir{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:12px}
+.tafsir h3{font-size:.78rem;color:var(--acc);margin:0 0 8px}
+.tafsir .x{font-family:var(--font-ar);font-size:.88rem;line-height:2;color:var(--txt);white-space:pre-wrap}
+.refl{background:var(--card);border:1px solid var(--acc);border-radius:var(--r-md);padding:16px}
+.refl h3{font-size:.78rem;color:var(--acc);margin:0 0 8px}
+.refl textarea{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.86rem;line-height:1.9;padding:10px;min-height:90px;resize:vertical}
+.refl textarea:focus{outline:none;border-color:var(--acc)}
+.refl .sv{font-size:.64rem;color:var(--ok);text-align:center;margin-top:5px;min-height:1em}
+.rand{background:none;border:1px solid var(--border);border-radius:99px;color:var(--acc);font-family:inherit;font-size:.7rem;padding:6px 16px;cursor:pointer;display:block;margin:0 auto 14px}
+</style></head><body>
+<h1>تدبّر</h1><div class="sub">آية اليوم + تفسير ابن كثير + خواطرك التي لا يقرؤها غيرك</div>
+<button class="rand" id="rand">آية عشوائية ↺</button>
+<div class="nav"><button id="pv">السابقة ←</button><span class="cnt" id="cnt"></span><button id="nx">→ التالية</button></div>
+<div class="ayah"><div class="s" id="as"></div><div class="t" id="at"></div></div>
+<div class="tafsir"><h3>من تفسير ابن كثير</h3><div class="x" id="ax"></div></div>
+<div class="refl"><h3>تدبّرك الخاص</h3><textarea id="rf" placeholder="ماذا فهمت من هذه الآية؟ اكتب بحرّية…"></textarea><div class="sv" id="sv"></div></div>
+<script src="data.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='tadabbur_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'{}');const S=o=>localStorage.setItem(K,JSON.stringify(o));
+const T=window.TADABBUR;
+const dayIdx=()=>{const days=Math.floor(Date.now()/864e5);return days%T.length};
+let i=dayIdx();
+function render(){
+ const a=T[i];
+ $('as').textContent=a.s+' — آية '+a.a;
+ $('at').textContent='﴿'+a.t+'﴾';
+ $('ax').textContent=a.x||'(التفسير غير متوفر لهذه الآية بعد)';
+ $('cnt').textContent=(i+1)+' / '+T.length;
+ const d=D();$('rf').value=d[a.k]||'';$('sv').textContent='';
+}
+$('pv').onclick=()=>{i=(i-1+T.length)%T.length;render()};
+$('nx').onclick=()=>{i=(i+1)%T.length;render()};
+$('rand').onclick=()=>{i=Math.floor(Math.random()*T.length);render()};
+let st;$('rf').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{const d=D();if(e.target.value.trim())d[T[i].k]=e.target.value.trim();else delete d[T[i].k];S(d);$('sv').textContent='✓ حُفظ'},400)});
+render();
+</script></body></html>

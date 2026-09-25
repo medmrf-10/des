@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a"><title>جديد المنظومة — تقييم خاص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
+.wrap{max-width:1100px;margin:0 auto}
+.hd{text-align:center;margin:26px 0 8px}
+.hd h1{font-size:clamp(1.5rem,4vw,2.2rem);color:var(--acc);margin:0}
+.hd .sub{color:var(--dim);font-size:.86rem;margin-top:8px;line-height:1.9}
+.gate{max-width:360px;margin:60px auto;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:30px 24px;text-align:center}
+.gate .ic{font-size:2.4rem;margin-bottom:10px}
+.gate input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:1.1rem;padding:12px;text-align:center;letter-spacing:.4em;margin:14px 0}
+.gate input:focus{outline:none;border-color:var(--acc)}
+.gate button{width:100%;background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:10px;color:#0b0f1a;font-family:inherit;font-weight:700;font-size:.95rem;padding:12px;cursor:pointer}
+.gate .err{color:#e07070;font-size:.78rem;margin-top:10px;min-height:1em}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 22px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 18px;font-size:.78rem;color:var(--dim)}
+.stat b{color:var(--acc);font-size:1rem;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:10px}
+.card .top{display:flex;align-items:center;gap:10px}
+.card .ic{font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--card2);border-radius:10px;flex-shrink:0}
+.card .tt{font-weight:700;font-size:.95rem}
+.card .ff{font-size:.62rem;color:var(--dim);border:1px solid var(--border);border-radius:99px;padding:2px 8px;display:inline-block;margin-top:3px}
+.chip{font-size:.58rem;border-radius:99px;padding:2px 8px;display:inline-block;margin-top:3px;margin-inline-start:5px}
+.chip.new{color:var(--acc3);border:1px solid var(--acc3)}
+.chip.upd{color:var(--ok);border:1px solid var(--ok)}
+.card .dd{font-size:.76rem;color:var(--dim);line-height:1.8}
+.card .open{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--acc);text-decoration:none;text-align:center;font-size:.74rem;padding:7px;font-weight:700}
+.card .open:hover{border-color:var(--acc)}
+.rate{display:flex;gap:8px;align-items:center;border-top:1px dashed var(--border);padding-top:10px;flex-wrap:wrap}
+.rate .lb{font-size:.66rem;color:var(--dim)}
+.num{width:70px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.84rem;padding:6px 10px;text-align:center}
+.ev{display:flex;flex-direction:column;gap:6px}
+.ev textarea{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.74rem;padding:8px;resize:vertical;min-height:38px}
+.ev textarea:focus{outline:none;border-color:var(--acc)}
+.ev .send{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-size:.72rem;font-weight:700;padding:8px;cursor:pointer}
+.ev .undo{background:none;border:1px solid var(--border);border-radius:8px;color:var(--dim);font-family:inherit;font-size:.68rem;padding:6px;cursor:pointer}
+.ev .undo:hover{color:#e07070;border-color:#e07070}
+.ev .sent{font-size:.66rem;color:var(--ok);text-align:center}
+.hist{border-top:1px dashed var(--border);padding-top:8px;font-size:.68rem;color:var(--dim)}
+.hist summary{cursor:pointer;color:var(--acc);font-size:.7rem}
+.hist .h{padding:5px 0;border-bottom:1px dotted var(--border)}
+.hist .h b{color:var(--acc)}
+.hist .h .t{opacity:.6;font-size:.6rem}
+.hist .h .p{margin-top:2px;line-height:1.7}
+.hist .h .s{color:var(--ok)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.bar .search{flex:1;min-width:160px}
+.search{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.88rem;padding:11px 16px}
+.search:focus{outline:none;border-color:var(--acc)}
+.bar select{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.78rem;padding:10px 12px;cursor:pointer}
+.bar select:focus{outline:none;border-color:var(--acc)}
+.cnt{color:var(--dim);font-size:.72rem;white-space:nowrap}
+.lockbar{text-align:left;margin-bottom:10px}
+.lockbar button{background:none;border:1px solid var(--border);border-radius:8px;color:var(--dim);font-family:inherit;font-size:.66rem;padding:4px 10px;cursor:pointer}
+@media (max-width:600px){body{padding:14px 10px 50px}}
+</style></head><body>
+<div class="wrap">
+  <div class="hd"><h1>جديد المنظومة</h1><div class="sub">كل ما أُنجز هذه الجولة في صفحة واحدة — قيّم، اكتب ملاحظة تفصيلية، أرسل. كل تقييم يُحفظ بتاريخه: تقييمك الأولي، ثم بعد كل تحسين. يصلني لحظياً ويوجّه العمل.</div></div>
+  <div class="gate" id="gate">
+    <div class="ic">🔐</div>
+    <div style="font-size:.9rem;color:var(--dim)">هذه الصفحة خاصة — أدخل الرقم السري مرة واحدة</div>
+    <input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••">
+    <button id="unlock">فتح</button>
+    <div class="err" id="err"></div>
+  </div>
+  <div id="app" style="display:none">
+    <div class="lockbar"><button id="relock">🔒 نسيان الرقم والخروج</button></div>
+    <div class="stats">
+      <div class="stat"><b id="stAll">0</b>أداة</div>
+      <div class="stat"><b id="stRated">0</b>قيّمتها</div>
+      <div class="stat"><b id="stAvg">—</b>متوسط آخر تقييم</div>
+      <div class="stat"><b id="stSent">0</b>تقييم أُرسل</div>
+      <div class="stat"><b id="stUpd">0</b>محدَّثة</div>
+    </div>
+    <div class="bar">
+      <input class="search" id="q" placeholder="ابحث في الأدوات…">
+      <select id="ff"><option value="">كل المجالات</option></select>
+      <select id="fr"><option value="">كل التقييمات</option><option value="n">غير مقيَّم</option><option value="y">مقيَّم</option><option value="lt">آخر تقييم &lt;50</option><option value="ge">آخر تقييم ≥50</option></select>
+      <select id="fs"><option value="">كل الحالات</option><option value="n">جديدة</option><option value="u">محدَّثة</option><option value="h">لها سجل تحسينات</option></select>
+      <span class="cnt" id="cnt"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const NT='https://ntfy.sh/manzuma_eval_x9k2';
+const LSK='jadid_eval_v2';
+const PINK='jadid_pin';
+const ev=()=>JSON.parse(localStorage.getItem(LSK)||'{}');
+const sev=(o)=>localStorage.setItem(LSK,JSON.stringify(o));
+const rounds=id=>{const r=ev()[id];return r&&r.rounds?r.rounds:[]};
+const last=id=>{const r=rounds(id);return r.length?r[r.length-1]:null};
+const isRated=id=>rounds(id).length>0;
+let CAT=null;
+
+async function unlock(pin){
+  const raw=window.JADID_ENC;if(!raw)return false;
+  const bin=Uint8Array.from(atob(raw),c=>c.charCodeAt(0));
+  const iv=bin.slice(0,12),tag=bin.slice(-16),ct=bin.slice(12,-16);
+  const kh=await crypto.subtle.importKey('raw',new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('jadid-manzuma:'+pin))),{name:'AES-GCM'},false,['decrypt']);
+  try{
+    const full=new Uint8Array([...ct,...tag]);
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},kh,full);
+    CAT=JSON.parse(new TextDecoder().decode(pt));
+    return true;
+  }catch(e){return false}
+}
+
+function fmtT(t){return new Date(t).toLocaleDateString('ar',{day:'numeric',month:'short'})+' '+new Date(t).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})}
+function histHtml(p){
+  const R=rounds(p.id),C=p.chg||[];
+  if(!R.length&&!C.length)return '';
+  let h='<details class="hist"><summary>التاريخ ('+R.length+' تقييم'+(C.length?'، '+C.length+' تحسين':'')+')</summary>';
+  R.forEach((r,i)=>{h+=`<div class="h"><b>تقييم ${i+1}: ${r.stars||0}/100</b> <span class="t">${fmtT(r.t)}</span>${r.note?`<div class="p">${esc(r.note)}</div>`:''}</div>`});
+  C.forEach((c,i)=>{h+=`<div class="h"><b>تحسين ${i+1}</b><div class="p">المشكل: ${esc(c.p||'')}</div><div class="p s">الحل: ${esc(c.s||'')}</div></div>`});
+  return h+'</details>';
+}
+function card(p){
+  const n=rounds(p.id).length+1;
+  const st=p.upd?`<span class="chip upd">محدَّثة ×${p.upd}</span>`:'<span class="chip new">جديدة</span>';
+  return `<div class="card" data-name="${esc(p.t+' '+p.d+' '+p.f)}">
+    <div class="top"><div class="ic">${p.i||'📦'}</div><div><div class="tt">${esc(p.t)}</div><span class="ff">${esc(p.f)}</span>${st}</div></div>
+    <div class="dd">${esc(p.d)}</div>
+    <a class="open" href="${esc(p.u)}" target="_blank">فتح الأداة</a>
+    ${histHtml(p)}
+    <div class="rate"><span class="lb">تقييم ${n} من 100:</span><input class="num" type="number" min="0" max="100" data-num="${p.id}" placeholder="0-100"></div>
+    <div class="ev">
+      <textarea class="tx" data-id="${p.id}" placeholder="ملاحظتك التفصيلية — المشكل والمطلوب — تصلني لحظياً"></textarea>
+      <button class="send" data-id="${p.id}">إرسال التقييم ${n}</button>
+      <button class="undo" data-id="${p.id}" ${isRated(p.id)?'':'disabled style="opacity:.35"'}>↩ تراجع عن آخر تقييم</button>
+      <div class="sent" data-id="${p.id}"></div>
+    </div>
+  </div>`;
+}
+function renderStats(){
+  const E=ev();const keys=Object.keys(E).filter(k=>E[k].rounds&&E[k].rounds.length);
+  $('stAll').textContent=CAT.length;
+  $('stRated').textContent=keys.length;
+  const lasts=keys.map(k=>E[k].rounds[E[k].rounds.length-1].stars).filter(x=>x!=null);
+  $('stAvg').textContent=lasts.length?(lasts.reduce((a,b)=>a+b,0)/lasts.length).toFixed(0)+'/100':'—';
+  $('stSent').textContent=Object.values(E).reduce((a,r)=>a+((r.rounds||[]).filter(x=>x.sent).length),0);
+  $('stUpd').textContent=CAT.filter(p=>p.upd).length;
+}
+function renderGrid(){
+  const q=($('q').value||'').trim();
+  const ff=$('ff').value,fr=$('fr').value,fs=$('fs').value;
+  const list=CAT.filter(p=>{
+    if(q&&!(p.t+p.d+p.f).includes(q))return false;
+    if(ff&&p.f!==ff)return false;
+    if(fr==='n'&&isRated(p.id))return false;
+    if(fr==='y'&&!isRated(p.id))return false;
+    const l=last(p.id),s=l?l.stars:null;
+    if(fr==='lt'&&!(s!=null&&s<50))return false;
+    if(fr==='ge'&&!(s!=null&&s>=50))return false;
+    if(fs==='n'&&p.upd)return false;
+    if(fs==='u'&&!p.upd)return false;
+    if(fs==='h'&&!(p.chg&&p.chg.length))return false;
+    return true;
+  });
+  $('cnt').textContent=list.length+' أداة';
+  $('grid').innerHTML=list.map(card).join('');
+}
+async function send(id){
+  const num=document.querySelector(`.num[data-num="${id}"]`);
+  const tx=document.querySelector(`.tx[data-id="${id}"]`);
+  const stars=num&&num.value!==''?Math.max(0,Math.min(100,+num.value)):null;
+  const note=tx?tx.value.trim():'';
+  if(stars==null&&!note){const s=document.querySelector(`.sent[data-id="${id}"]`);s.textContent='اكتب تقييماً أو ملاحظة أولاً';s.style.color='var(--acc3)';setTimeout(()=>{s.textContent='';s.style.color=''},2200);return}
+  const o=ev();const r=o[id]||{rounds:[]};r.rounds=r.rounds||[];
+  const round={stars:stars,note,t:Date.now(),sent:true};
+  r.rounds.push(round);o[id]=r;sev(o);
+  const p=CAT.find(x=>x.id===id)||{};
+  try{await fetch(NT,{method:'POST',body:JSON.stringify({tool:id,title:p.t,field:p.f,round:r.rounds.length,stars,note,t:round.t})})}catch(e){}
+  if(num)num.value='';if(tx)tx.value='';
+  const s=document.querySelector(`.sent[data-id="${id}"]`);s.textContent='✓ أُرسل — وصلني';
+  setTimeout(renderGrid,1200);renderStats();
+}
+function undo(id){
+  const o=ev();const r=o[id];
+  if(!r||!r.rounds||!r.rounds.length)return;
+  r.rounds.pop();if(!r.rounds.length)delete o[id];else o[id]=r;sev(o);
+  renderGrid();renderStats();
+}
+document.addEventListener('click',e=>{
+  const sd=e.target.closest('.send'),ud=e.target.closest('.undo');
+  if(sd)send(sd.dataset.id);
+  if(ud&&!ud.disabled)undo(ud.dataset.id);
+});
+$('q').addEventListener('input',renderGrid);
+$('ff').addEventListener('change',renderGrid);
+$('fr').addEventListener('change',renderGrid);
+$('fs').addEventListener('change',renderGrid);
+function enter(pin){
+  $('gate').style.display='none';$('app').style.display='block';
+  const fs=[...new Set(CAT.map(p=>p.f).filter(Boolean))];$('ff').innerHTML='<option value="">كل المجالات</option>'+fs.map(f=>`<option>${esc(f)}</option>`).join('');
+  localStorage.setItem(PINK,pin);
+  renderGrid();renderStats();
+}
+$('unlock').addEventListener('click',async()=>{
+  const pin=$('pin').value.trim();
+  if(await unlock(pin))enter(pin);else $('err').textContent='رقم غير صحيح';
+});
+$('pin').addEventListener('keydown',e=>{if(e.key==='Enter')$('unlock').click()});
+$('relock').addEventListener('click',()=>{localStorage.removeItem(PINK);location.reload()});
+const saved=localStorage.getItem(PINK);
+if(saved){unlock(saved).then(ok=>{if(ok)enter(saved);else localStorage.removeItem(PINK)})}
+</script></body></html>

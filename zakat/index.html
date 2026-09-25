@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>زَكاة — احسب نصيبك</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🧮 زَكاة</h1><p class="tagline">أدخل أموالك، يحسب لك النصاب والواجب — كل شيء على جهازك</p></header>
+<div class="wrap">
+ <div class="card"><h3>أموالك القائمة</h3>
+  <div class="row"><label>نقد / حسابات بنكية</label><input id="cash" type="number" min="0" placeholder="0"></div>
+  <div class="row"><label>ذهب وفضة (بالقيمة)</label><input id="metals" type="number" min="0" placeholder="0"></div>
+  <div class="row"><label>استثمارات / أسهم / عروض تجارة</label><input id="inv" type="number" min="0" placeholder="0"></div>
+  <div class="row"><label>ديون لك تُرجى</label><input id="debt" type="number" min="0" placeholder="0"></div>
+  <div class="row"><label>ديون عليك تستحق (−)</label><input id="owe" type="number" min="0" placeholder="0"></div>
+ </div>
+ <div class="card"><h3>النصاب</h3>
+  <div class="seg"><button class="sg on" data-n="85">بالذهب (٨٥غ)</button><button class="sg" data-n="595">بالفضة (٥٩٥غ)</button></div>
+  <div class="row"><label>سعر الغرام اليوم</label><input id="price" type="number" min="0" placeholder="0"></div>
+ </div>
+ <div class="card res"><div id="r" class="r">أدخل الأرقام…</div></div>
+ <div class="card tip">الزكاة = ٢٫٥٪ من المال البالغ للنصاب والحال عليه الحول. هذه حاسبة مساعدة لا تفتي — التفاصيل عند مفتيك.</div>
+</div>
+<script>
+function $(q){return document.querySelector(q)}
+let GRAMS=85;
+function v(id){return +(document.getElementById(id).value||0)}
+function fmt(n){return Math.round(n).toLocaleString('ar-EG')}
+['cash','metals','inv','debt','owe','price'].forEach(function(id){document.getElementById(id).addEventListener('input',calc)});
+document.querySelectorAll('.sg').forEach(function(b){b.onclick=function(){
+ document.querySelectorAll('.sg').forEach(function(x){x.classList.remove('on')});b.classList.add('on');GRAMS=+b.dataset.n;calc();
+}});
+function calc(){
+ const total=v('cash')+v('metals')+v('inv')+v('debt')-v('owe');
+ const nisab=GRAMS*v('price');
+ const el=document.getElementById('r');
+ if(!v('price')||total<=0){el.innerHTML='أدخل الأرقام…';return}
+ const pass=total>=nisab;
+ el.innerHTML='<div class="rl"><span>مالك الصافي</span><b>'+fmt(total)+'</b></div>'+
+ '<div class="rl"><span>النصاب ('+(GRAMS===85?'٨٥غ ذهب':'٥٩٥غ فضة')+')</span><b>'+fmt(nisab)+'</b></div>'+
+ '<div class="rl big '+(pass?'pass':'fail')+'"><span>'+(pass?'الزكاة الواجبة (٢٫٥٪)':'ما دون النصاب — لا زكاة')+'</span><b>'+(pass?fmt(total*0.025):'—')+'</b></div>'+
+ (pass?'<div class="rl note">على شرط حولان الحول على هذا المال</div>':'');
+}
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

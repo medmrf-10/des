@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الرِّحلة — رحلة الراوي | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{flex:1;min-width:180px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip:hover{border-color:var(--acc2);color:var(--acc2)}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--dim)}
+.kpi b{display:block;color:var(--acc2);font-size:18px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px}
+.panel h3{margin:0 0 10px;font-size:14px;color:var(--acc2)}
+.bar{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);margin-bottom:5px}
+.bar .lab{width:88px;text-align:left}
+.bar .track{flex:1;background:var(--card2);border-radius:4px;height:16px;overflow:hidden}
+.bar .track i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.bar .cnt{width:52px;color:var(--txt);font-weight:700}
+.tl{max-height:360px;overflow:auto;padding-inline-start:8px}
+.tl .itm{display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--border);font-size:12px}
+.tl .nm{color:var(--acc2);font-weight:700;white-space:nowrap}
+.tl .bk{color:var(--dim);font-size:10.5px;width:80px;flex-shrink:0}
+.tl a{color:var(--txt);text-decoration:none}
+.tl a:hover{color:var(--acc2)}
+.tl .tt{flex:1;color:var(--txt);font-family:var(--font-ar);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.con{display:flex;gap:6px;flex-wrap:wrap}
+.cchip{border:1px solid var(--border);background:var(--card2);border-radius:999px;padding:4px 11px;font-size:11.5px}
+.cchip b{color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🐫 الرِّحلة</h1>
+  <span class="sub">رحلة الراوي عبر الأمهات الست — متونه، حضوره، ومشاركوه في الأسانيد</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="alaam.html">أعلام ←</a>
+</header>
+<div class="pick">
+  <input type="text" id="q" placeholder="اكتب اسم راوٍ (عربي) — أبو هريرة، هناد بن السرى، وكيع…">
+  <span id="hits"></span>
+</div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="kpis" class="kpis"></div>
+<div id="body"></div>
+<script src="pako.min.js"></script>
+<script src="rawi.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=['bukhari','muslim','abi-dawud','tirmidhi','nasai','ibn-majah'];
+const RW=window.RAWI?window.RAWI.rawi:{};
+const N2R={};for(const rid in RW)N2R[norm(RW[rid].t)]=rid;
+const GHOST=/^(موضع تعليق|إرسال|انقطاع)$/;
+const D={};let GN=null;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadGN(){
+  if(GN)return;
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='30%'});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  return D[b];
+}
+/* بحث فوري عن الراوي */
+document.getElementById('q').addEventListener('input',e=>{
+  const w=norm(e.target.value);const el=document.getElementById('hits');
+  if(w.length<3){el.innerHTML='';return}
+  const hits=Object.keys(RW).filter(r=>
+    norm(RW[r].t).includes(w)||norm(RW[r].f||'').includes(w)||norm(RW[r].l||'').includes(w))
+    .sort((a,b)=>(RW[b].c||0)-(RW[a].c||0)).slice(0,10);
+  el.innerHTML=hits.map(r=>
+    `<button class="chip" onclick="show(${r})">${esc(RW[r].t)} <span class="mut">${arNum(RW[r].c||0)}</span></button>`).join('');
+});
+window.show=async function(rid){
+  document.getElementById('hits').innerHTML='';
+  const R=RW[rid];if(!R)return;
+  await loadGN();
+  const gids=(R.gs||[]).map(String);
+  /* المواضع: لكل معنى كل مواضعه — لكن راوينا موجود في أسانيدها */
+  const pos=[];const bkCnt={};const tpos=[];
+  for(const gid of gids){
+    const g=GN.g[gid];if(!g||!g.w)continue;
+    for(const b in g.w){bkCnt[b]=(bkCnt[b]||0)+g.w[b].length;
+      for(const n of g.w[b]){pos.push([b,n,gid]);tpos.push({b,n,gid,t:g.t})}}
+  }
+  const ord=Object.fromEntries(BOOKS.map((b,i)=>[b,i]));
+  pos.sort((a,c)=>(ord[a[0]]-ord[c[0]])||(a[1]-c[1]));
+  /* المشاركون: امسح أسانيد مواضع معانيه، عدّ الأسماء المجاورة لاسمه */
+  const name=norm(R.t);
+  const co={};let chains=0;
+  const usedBooks=[...new Set(pos.map(p=>p[0]))];
+  let i=0;
+  for(const b of usedBooks){
+    stat.textContent='يمسح أسانيد '+BAR[b]+'…';pf.style.width=Math.round(30+60*(i++/usedBooks.length))+'%';
+    const j=await loadBook(b);
+    const nums=new Set(pos.filter(p=>p[0]===b).map(p=>p[1]));
+    for(const n of nums){
+      const raw=j.s[n]||[];
+      const list=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+      for(const ch of list){
+        const names=(ch[1]||[]).filter(x=>!GHOST.test(x));
+        if(!names.some(x=>norm(x)===name))continue;
+        chains++;
+        for(const x of names){const nx=norm(x);if(nx!==name)co[x]=(co[x]||0)+1}
+      }
+    }
+  }
+  /* أرشّح المشاركين لأسماء فهرسية معروفة عبر N2R */
+  const coTop=Object.entries(co).sort((a,c)=>c[1]-a[1]).slice(0,14);
+  pf.style.width='100%';stat.textContent='';
+  document.getElementById('kpis').innerHTML=
+    `<div class="kpi">معانيه<b>${arNum(gids.length)}</b></div>
+     <div class="kpi">مواضع مدروسة<b>${arNum(pos.length)}</b></div>
+     <div class="kpi">كتب يحضر فيها<b>${arNum(Object.keys(bkCnt).length)}</b></div>
+     <div class="kpi">أسانيد يمرّ بها<b>${arNum(chains)}</b></div>
+     <div class="kpi">أحاديثه في الفهرس<b>${arNum(R.c||0)}</b></div>`;
+  const maxB=Math.max(1,...Object.values(bkCnt));
+  document.getElementById('body').innerHTML=`
+  <div class="panel"><h3>${esc(R.t)} — حضوره في الكتب</h3>
+    ${BOOKS.filter(b=>bkCnt[b]).map(b=>
+      `<div class="bar"><span class="lab">${BAR[b]}</span><div class="track"><i style="width:${Math.round(bkCnt[b]/maxB*100)}%"></i></div><span class="cnt">${arNum(bkCnt[b])}</span></div>`).join('')}
+  </div>
+  <div class="panel"><h3>أبرز مشاركيه في الأسانيد (${arNum(Object.keys(co).length)} اسماً)</h3>
+    <div class="con">${coTop.map(([nm,c])=>{
+      const r2=N2R[nm];
+      return r2?`<a class="cchip" href="ruhawi.html#r=${r2}" onclick="show(${r2});return false">${esc(nm)} <b>${arNum(c)}</b></a>`
+               :`<span class="cchip">${esc(nm)} <b>${arNum(c)}</b></span>`}).join('')}</div>
+  </div>
+  <div class="panel"><h3>رحلته الروائية — ${arNum(tpos.length)} موضعاً مرتبة بالكتب ثم الرقم</h3>
+    <div class="tl">${tpos.slice(0,400).map(p=>
+      `<div class="itm"><span class="bk">${BAR[p.b]}</span><span class="nm">#${arNum(p.n)}</span>
+       <a class="tt" href="matn.html#${p.b}:${p.n}" title="${esc(p.t||'')}">${esc(p.t||'متن')}</a>
+       <a class="mut" href="net.html#g${p.gid}">⛓</a></div>`).join('')}
+    ${tpos.length>400?`<div class="mut" style="padding-top:6px">+ ${arNum(tpos.length-400)} موضعاً آخر — قيود العرض ٤٠٠</div>`:''}
+    </div></div>
+  <div class="mut">روابط: <a class="chip" href="alaam.html#r=${rid}">أعلام ←</a> <a class="chip" href="rawi.html#${rid}">صفحة الراوي ←</a></div>`;
+};
+const h=location.hash;const mh=h.match(/r=(\d+)/);if(mh)show(+mh[1]);
+</script>
+<script src="../shared/feedback.js" data-pid="miq_ruhawi"></script>
+</body>
+</html>

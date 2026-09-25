@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِطبَع — ورقة الدرس</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+select,input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;width:100%;margin-top:6px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px;margin-top:10px}
+.sheet{background:#fff;color:#1a1a1a;border-radius:8px;padding:28px 32px;margin-top:14px;font-family:'Amiri','Noto Naskh Arabic',serif}
+.sheet h1{font-size:20px;margin:0 0 4px}
+.sheet .meta{font-size:11px;color:#666;margin-bottom:14px}
+.sheet .body{font-size:14px;line-height:2.1;white-space:pre-wrap}
+.sheet .notes{margin-top:18px;border-top:1px dashed #999;padding-top:10px}
+.sheet .line{border-bottom:1px solid #ccc;height:26px}
+.sheet .q{margin-top:14px;font-size:13px}
+@media print{
+ body>*:not(#sheet){display:none!important}
+ body{background:#fff}
+ #sheet{display:block!important;border-radius:0;padding:0}
+ .sheet .notes{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِطبَع <span class="muted">— ورقة الدرس</span></h2>
+<div class="muted">حوّل أي درس منشور إلى ورقة جاهزة للطباعة — للتوزيع على الطلاب أو للأرشيف.</div>
+<div class="card"><div class="t">اختر الدرس</div>
+<select id="sel"></select>
+<input id="by" placeholder="اسم المعلم (يظهر في الترويسة)">
+<label class="muted" style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="notes" checked style="width:auto;margin:0"> أسطر ملاحظات فارغة للطلاب</label>
+<label class="muted" style="display:flex;gap:8px;align-items:center;margin-top:6px"><input type="checkbox" id="qs" style="width:auto;margin:0"> قسم أسئلة للنقاش</label>
+<button class="btn" id="print">اطبع / احفظ PDF</button></div>
+<div class="sheet" id="sheet" style="display:none"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let lessons=[];
+fetch('../manzuma/lessons/index.json').then(r=>r.json()).then(ls=>{
+ lessons=ls;
+ $('#sel').innerHTML=ls.map((l,i)=>'<option value="'+i+'">'+esc(l.title||l.dir)+' — '+esc(l.dur||'')+'</option>').join('');
+ render();
+}).catch(()=>{$('#sel').innerHTML='<option>لا دروس (افتح عبر الموقع)</option>'});
+let curText='';
+function render(){
+ const i=+($('#sel').value||0),l=lessons[i];if(!l)return;
+ const s=$('#sheet');
+ const notesHtml=$('#notes').checked?'<div class="notes"><b>ملاحظات</b>'+('<div class="line"></div>'.repeat(8))+'</div>':'';
+ const qsHtml=$('#qs').checked?'<div class="q"><b>أسئلة للنقاش</b><div class="line"></div><div class="line"></div><div class="line"></div></div>':'';
+ s.innerHTML='<h1>'+esc(l.title||l.dir)+'</h1>'+
+ '<div class="meta">'+($('#by').value.trim()?'المعلم: '+esc($('#by').value.trim())+' — ':'')+'المنظومة التعليمية — '+new Date().toISOString().slice(0,10)+'</div>'+
+ '<div class="body" id="sb">…</div>'+notesHtml+qsHtml;
+ s.style.display='block';
+ fetch('../manzuma/lessons/'+l.dir+'/phrases.json').then(r=>r.ok?r.json():null).then(ph=>{
+  const t=ph?ph.map(p=>typeof p==='string'?p:(p.t||p.text||'')).filter(Boolean).join('\n'):'';
+  document.getElementById('sb').textContent=t||'(نص الدرس غير متاح — راجع النسخة الرقمية)';
+ }).catch(()=>{document.getElementById('sb').textContent='(النص متاح عند فتح الموقع عبر الشبكة)'});
+}
+$('#sel').onchange=render;$('#by').oninput=render;$('#notes').onchange=render;$('#qs').onchange=render;
+$('#print').onclick=()=>window.print();
+</script>
+<script src="../shared/feedback.js" data-pid="mitba3" data-title="مِطبَع"></script>
+</body>
+</html>

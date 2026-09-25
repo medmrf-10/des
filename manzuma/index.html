@@ -553,7 +553,8 @@ const SRCS=[
  {ic:'🤲',n:'مِشكَر',d:'دفتر الشكر — ٣ نِعم يومياً',u:'../mishkar/',t:'ذِكر'},
  {ic:'📬',n:'مِصلَح',d:'مركز التعليقات والاقتراحات',u:'../markaz/',t:'إدارة'},
  {ic:'📚',n:'فهرس الكتب',d:'فهرس الكتب الستة — أحاديث وأحكام',u:'../hadith/kutub_index.html',t:'حديث'},
- {ic:'🖼️',n:'المعجم المصور',d:'معجم مصور — مفردات مسموعة',u:'../english/picture_dict.html',t:'English'}
+ {ic:'🖼️',n:'المعجم المصور',d:'معجم مصور — مفردات مسموعة',u:'../english/picture_dict.html',t:'English'},
+ {ic:'🖨️',n:'مِطبَع',d:'ورقة الدرس — طباعة/PDF جاهزة',u:'../mitba3/',t:'دروس'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

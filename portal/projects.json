@@ -1708,5 +1708,14 @@
   "desc": "إملاء — اكتب ما تسمع",
   "url": "../english/dictation.html",
   "icon": "إ"
+ },
+ {
+  "id": "mibkhat",
+  "title": "مِبخَت",
+  "maker": "محمد",
+  "field": "لعب",
+  "desc": "عَجَل الحظ — اختر لك أداة",
+  "url": "../mibkhat/",
+  "icon": "م"
  }
 ]

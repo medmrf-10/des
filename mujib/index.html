@@ -73,9 +73,15 @@ function go(){
  const hits=IDX.map(p=>[p,score(p,qs)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,15).map(x=>x[0]);
  $('res').innerHTML=hits.length?hits.map((h,i)=>{
   let tx=esc(h.x);qs.forEach(w=>{tx=tx.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'),m=>'<mark>'+m+'</mark>')});
-  return `<div class="hit" data-i="${i}"><div class="ht">📌 ${esc(h.t)} <span class="tm">${Math.floor(h.s/60)}:${String(Math.floor(h.s%60)).padStart(2,'0')}</span></div><div class="hx">${tx}</div><div class="hw">اضغط للسماع من هذه اللحظة</div></div>`;
+  return `<div class="hit" data-i="${i}"><div class="ht">📌 ${esc(h.t)} <span class="tm">${Math.floor(h.s/60)}:${String(Math.floor(h.s%60)).padStart(2,'0')}</span></div><div class="hx">${tx}</div><div class="hw">اضغط للسماع من هذه اللحظة <a href="#" class="saveclip" data-i="${i}" style="color:var(--acc);text-decoration:none;float:left">⭐ منتقى</a></div></div>`;
  }).join(''):'<div class="none">لا نتائج — جرّب كلمات أعمّ أو بلا تشكيل</div>';
- $('res').onclick=e=>{const h=e.target.closest('.hit');if(h)play(hits[+h.dataset.i])};
+ $('res').onclick=e=>{
+ const sc=e.target.closest('.saveclip');
+ if(sc){e.preventDefault();const h=hits[+sc.dataset.i];
+  const arr=JSON.parse(localStorage.getItem('muntaga')||'[]');
+  if(!arr.some(x=>x.l===h.l&&x.s===h.s)){arr.unshift({l:h.l,t:h.t,s:h.s,e:h.e,x:h.x});localStorage.setItem('muntaga',JSON.stringify(arr));}
+  sc.textContent='✓ محفوظة';sc.style.color='var(--ok)';return}
+ const h=e.target.closest('.hit');if(h)play(hits[+h.dataset.i])};;
  $('st').textContent=hits.length?hits.length+' نتيجة':'';
  if(window.llmReady&&window.llmReady()&&hits.length){
   const b=document.createElement('button');b.className='btn';b.style.cssText='margin-top:12px;background:linear-gradient(135deg,var(--acc2),var(--acc))';

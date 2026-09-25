@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مُنتقى — مقاطعك المختارة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+h1{font-family:var(--font-ar);font-size:22px;margin:8px 0 2px;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--dim);font-size:.8rem;margin-bottom:14px}
+.clip{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 17px;margin-bottom:10px}
+.clip .ct{font-size:.7rem;color:var(--acc);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.clip .cx{font-family:var(--font-ar);font-size:.94rem;line-height:2.05;margin-top:7px;color:var(--txt)}
+.clip .acts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.clip .acts a,.clip .acts button{border:1px solid var(--border);background:var(--card2);color:var(--txt);border-radius:8px;padding:5px 12px;font-size:.7rem;cursor:pointer;font-family:inherit;text-decoration:none}
+.clip .acts a:hover,.clip .acts button:hover{border-color:var(--acc);color:var(--acc)}
+.clip .acts .del{color:#c66}
+.player{position:sticky;bottom:12px;background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:11px 14px;margin-top:14px;box-shadow:0 -8px 30px rgba(0,0,0,.45);display:none}
+.player.on{display:block}
+.player .pt{font-size:.72rem;color:var(--acc);margin-bottom:7px}
+.player audio{width:100%;height:34px}
+.empty{text-align:center;color:var(--dim);padding:60px 20px;font-size:.9rem;line-height:2.2}
+.empty b{color:var(--acc)}
+.search{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 15px;width:100%;font-family:inherit;font-size:.85rem;margin-bottom:12px}
+.exp{float:left;color:var(--dim);font-size:.68rem;border:1px solid var(--border);border-radius:8px;padding:4px 11px;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>مُنتقى</h1>
+<div class="sub">مقاطعك المختارة من الدروس — تجمعها من مُجيب بنجمة ⭐ وتعود لها هنا. <a class="exp" href="#" id="exp">تصدير ⧉</a></div>
+<input class="search" id="q" placeholder="رشّح مقاطعك…">
+<div id="list"></div>
+<div class="player" id="pb"><div class="pt" id="ptt"></div><audio id="au" controls></audio></div>
+<script>
+const $=q=>document.querySelector(q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const R='https://github.com/medmrf-10/des/releases/download/audio-pack/';
+const D=()=>{try{return JSON.parse(localStorage.getItem('muntaga')||'[]')}catch(e){return[]}};
+const S=a=>localStorage.setItem('muntaga',JSON.stringify(a));
+let arr=D(),qq='';
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function render(){
+ const L=arr.filter(c=>!qq||norm(c.t+c.x).includes(norm(qq)));
+ $('list').innerHTML=L.length?L.map((c)=>{const i=arr.indexOf(c);
+  return `<div class="clip"><div class="ct">📌 ${esc(c.t)} <span style="color:var(--dim)">${fmt(c.s)}</span></div>
+   <div class="cx">${esc(c.x)}</div>
+   <div class="acts"><button data-p="${i}">▶ اسمع</button><a href="../live/?l=${c.l}&t=${c.s}" target="_blank">المشغّل الكامل ←</a><button class="del" data-d="${i}">✕ احذف</button></div></div>`;
+ }).join(''):`<div class="empty">${qq?'لا نتائج':'لا مقاطع بعد.<br>افتح <b>مُجيب</b> ← ابحث ← اضغط ⭐ على أي مقطع فيحفظ هنا.'}</div>`;
+}
+document.addEventListener('click',e=>{
+ const p=e.target.closest('[data-p]');if(p){const c=arr[+p.dataset.p];
+  $('#pb').classList.add('on');$('#ptt').textContent='▶ '+c.t+' — '+fmt(c.s);
+  const au=$('#au');au.src=R+c.l+'.mp3';au.onloadedmetadata=()=>{au.currentTime=Math.max(0,c.s-.4);au.play()};
+  au.ontimeupdate=()=>{if(c.e&&au.currentTime>c.e+.4)au.pause()};return}
+ const d=e.target.closest('[data-d]');if(d){arr.splice(+d.dataset.d,1);S(arr);render();return}
+});
+$('#q').addEventListener('input',e=>{qq=e.target.value;render()});
+$('#exp').onclick=e=>{e.preventDefault();
+ const blob=new Blob([JSON.stringify(arr,null,1)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='muntaga.json';a.click()};
+render();
+</script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/feedback.js" data-pid="muntaga" data-title="مُنتقى"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِطلع — حديثك اليومي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.h{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:16px;padding:18px 22px;margin-top:12px;text-align:center}
+.h .t{font-family:var(--font-ar);font-size:20px;line-height:2.4}
+.h .m{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:3px 11px;font-size:11px}
+.rev{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:8px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);padding:7px 14px;font-size:12px}
+.muted{color:var(--dim);font-size:12px}
+.stat{display:inline-block;background:var(--card);border-radius:10px;padding:8px 14px;font-size:12px;margin:4px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِطلع <span class="muted">— حديثك الذي تطلع به يومك</span></h2>
+<div class="muted">حديث واحد جديد كل يوم + مراجعة حديث الأمس — حديث لا يتكرر حتى تدور الدائرة كلها.</div>
+<div id="st" style="margin-top:10px"></div>
+<div class="h" id="nw"><div class="muted">يُحمّل…</div></div>
+<div style="display:flex;gap:8px;margin-top:10px">
+<button class="btn" id="done">✓ حفظته اليوم</button>
+<button class="btn ghost" id="skip">تخطّي لهذا اليوم</button>
+</div>
+<div id="revs"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const yest=()=>{const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10)};
+const st=()=>JSON.parse(localStorage.getItem('mitla3')||'{"idx":0,"seen":[],"days":{}}');
+const sv=s=>localStorage.setItem('mitla3',JSON.stringify(s));
+function laz(){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+const HC={'صحيح':'var(--ok)','حسن':'var(--acc2)','ضعيف':'#e07777','موضوع':'#b33'};
+const arN=n=>(+n).toLocaleString('ar-EG');
+async function go(){
+ await laz();const G=window.GIDNET;
+ const ks=Object.keys(G.g).filter(k=>['صحيح','حسن'].includes(G.g[k].h));
+ const s=st();
+ // قائمة منوّعة بذراع ثابتة حتى لا تتغير كل تحميل
+ const seq=ks.map((k,i)=>({k,sc:(i*2654435761)%4294967296})).sort((a,b)=>a.sc-b.sc).map(x=>x.k);
+ const pool=seq.filter(k=>!s.seen.includes(k));
+ const pick=pool[s.idx%pool.length]||seq[s.idx%seq.length];
+ const g=G.g[pick];
+ const hc=HC[g.h]||'var(--acc3)';
+ $('#nw').innerHTML=`<div class="t">«${esc(g.t)}»</div><div class="m">
+ <span class="chip" style="border-color:${hc};color:${hc}">${esc(g.h)}</span>
+ <span class="chip">رواه ${arN(g.s)} صحابياً</span>
+ <span class="chip"><a href="../mi3na/#${pick}" style="color:var(--acc);text-decoration:none">رحلته في مِعنى ←</a></span></div>`;
+ s.days[today()]=s.days[today()]||{};s.days[today()].nw=pick;sv(s);
+ // مراجعات الأمس والأيام المعلّقة
+ const revs=[];
+ for(const d of Object.keys(s.days)){if(d===today())continue;
+  if(s.days[d].nw&&!s.days[d].done)revs.push({d,g:s.days[d].nw})}
+ const extra=revs.slice(-3);
+ $('#revs').innerHTML=extra.length?extra.map(x=>{const r=G.g[x.g]||{};return `<div class="rev">
+ <div class="muted">من ${x.d} — ما زال معلّقاً:</div><div style="font-family:var(--font-ar);font-size:14.5px;line-height:2;margin-top:5px">«${esc(r.t||'')}»</div></div>`}).join('')
+  +'<div class="muted" style="margin-top:9px">المعلّق = أيام مرّت ولم تضغط «حفظته».</div>':'<div class="muted" style="margin-top:14px">لا مراجعات معلّقة — مستمر بثبات.</div>';
+ const done=Object.values(s.days).filter(x=>x.done).length;
+ $('#st').innerHTML=`<span class="stat"><b>${done.toLocaleString('ar-EG')}</b> محفوظاً</span>
+ <span class="stat"><b>${revs.length.toLocaleString('ar-EG')}</b> معلّقاً</span>`;
+ window._pk=pick}
+$('#done').onclick=()=>{
+ const s=st();s.days[today()].done=true;
+ if(!s.seen.includes(window._pk))s.seen.push(window._pk);s.idx++;
+ sv(s);
+ $('#done').textContent='✓ حُفظ — بارك الله فيك';
+ setTimeout(go,1200)};
+$('#skip').onclick=()=>{const s=st();s.idx++;sv(s);go()};
+go();
+</script>
+<script src="../shared/feedback.js" data-pid="mitla3" data-title="مِطلع"></script>
+</body>
+</html>

@@ -38,7 +38,7 @@ body{max-width:640px;margin:0 auto;padding:14px}
 <div class="res" id="r"></div>
 <div class="muted" style="margin-top:10px">النصاب = ٨٥ غ من الذهب الخالص. المذهب الجمهوري: الزكاة ٢٫٥٪ فوق النصاب إن حال الحول. لدقائق التفاصيل راجع <a href="../masail/" style="color:var(--acc)">المسائل</a>.</div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const arN=n=>Number(n||0).toLocaleString('ar-EG',{maximumFractionDigits:2});
 const K='mizkata';
 const st=JSON.parse(localStorage.getItem(K)||'{}');

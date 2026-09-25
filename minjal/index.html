@@ -28,7 +28,7 @@ th{color:var(--acc);font-weight:700}
 <label class="btn ghost" style="display:inline-block;cursor:pointer">⬆ ازرع نسخة سابقة<input type="file" id="imp" accept=".json" style="display:none"></label>
 <table id="t"></table>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const NAMES={mdr_sched:'الجدول',mkhatat:'مُخطّط',mu3edd_drafts:'مُعِدّ',en_feed_seen:'إنجليزية',en_srs:'بنك الإنجليزية',en_routine:'روتين الإنجليزية',en_listen:'استماع',miq_cards:'ميقات',mnhaj_done:'منهج',zad_done:'زاد',iqra_pos:'اقرأ',prog_v1:'برمجة',prog_exam:'امتحان برمجة',prog_proj:'مشاريع برمجة',prog_review:'مراجعة برمجة',fihris_cat:'فهرس',muqtatif:'مقتطف',mishwar_done:'مشوار',ma3raj:'معراج الحفظ',sibaq_best:'سباق',daftar:'دفتر',muqfil:'مُقفل',muqfil_pending:'مقفل المعلَّق',sawanih:'صوانح',ijaza:'إجازة',sirat:'سيرة',midad:'مِداد',mutabi3:'متابِع',majlis:'مجلس الختمة',minar:'مِنار',midad:'مِداد',mi3yar_hist:'مِعيار',miraj3a:'مراجعة',hibr:'حِبر',itqan:'إتقان',silsila:'سلسلة الاستماع',mihrab_times:'مِحراب',portal_comments:'تعليقات',portal_suggestions:'اقتراحات'};
 const rows=Object.keys(localStorage).map(k=>{
  const v=localStorage.getItem(k)||'';

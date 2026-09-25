@@ -38,7 +38,7 @@ h4{font-family:var(--font-ar);margin:14px 0 4px;font-size:14px}
 <div id="stats"></div>
 <div class="cmp" id="out"><span class="muted">النتيجة هنا…</span></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const norm=(s,ex)=>{let t=String(s||'');
  if(ex)t=t.replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');

@@ -28,7 +28,7 @@ body{max-width:800px;margin:0 auto;padding:14px}
 <div class="score" id="sc"></div>
 <div class="grid" id="g"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const LS=k=>JSON.parse(localStorage.getItem(k)||'null');
 const cnt=k=>{const v=LS(k);return v?(Array.isArray(v)?v.length:Object.keys(v).length):0};
 const today=new Date().toISOString().slice(0,10);

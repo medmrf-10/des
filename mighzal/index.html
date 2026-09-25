@@ -27,7 +27,7 @@ h2{font-family:var(--font-ar);margin:6px 0}
 <button class="btn ghost" id="r">⚂ غزل جديد</button>
 </div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const arN=n=>Number(n).toLocaleString('ar-EG');
 $('#dt').textContent=new Date().toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});

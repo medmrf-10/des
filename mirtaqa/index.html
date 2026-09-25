@@ -38,7 +38,7 @@ body{max-width:860px;margin:0 auto;padding:14px}
 <span class="badge" id="est"></span>
 </div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const SECS=[
  {k:'افتتاحية',h:'الحمد لله نحمده ونستعينه ونستغفره…',ph:'الحمد لله نحمده ونستعينه ونستغفره، ونعوذ بالله من شرور أنفسنا وسيئات أعمالنا…'},

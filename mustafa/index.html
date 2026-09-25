@@ -23,7 +23,7 @@ body{max-width:680px;margin:0 auto;padding:14px}
 <div class="big" id="ay">…</div>
 <div id="out"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const wk=(()=>{const d=new Date();const t=d.getTime()-new Date(d.getFullYear(),0,1).getTime();return Math.ceil(t/604800000)})();
 const rnd=i=>{const s=(wk*9301+i*49297)%233280;return s/233280};

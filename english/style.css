@@ -170,7 +170,7 @@ body.shortmode{overflow:hidden}
 .fc-title{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%}
 .fc-lines{flex:1; overflow-y:auto; padding-inline-end:4px}
 .fc-line{font-size:16px; color:var(--ink); margin-top:10px}
-.fc-words{display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 8px}
+.fc-words{display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 8px; direction:ltr}
 .fc-train{width:100%; margin-top:auto; padding:12px; font-size:15px}
 .fprog{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,.07); z-index:45}
 #fprogbar{height:100%; width:0; background:var(--gold); transition:width .3s}

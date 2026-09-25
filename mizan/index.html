@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>ميزان — ماذا في المنظومة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:900px;margin:0 auto;padding:16px 14px}
+h1{font-family:var(--font-ar);font-size:24px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+.sub{color:var(--dim);font-size:13px}
+.dom{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 18px;margin:11px 0}
+.dom h3{font-family:var(--font-ar);font-size:16px;color:var(--acc2);margin:0 0 10px;display:flex;justify-content:space-between}
+.dom h3 span{font-size:10.5px;color:var(--dim);font-weight:400}
+.kpis{display:flex;gap:8px;flex-wrap:wrap}
+.k{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;min-width:96px;text-align:center}
+.k b{display:block;font-size:19px;color:var(--acc2)}
+.k span{font-size:10.5px;color:var(--dim)}
+.tl{font-size:11px;color:var(--acc2);text-decoration:none;border:1px solid var(--border);border-radius:99px;padding:3px 11px;margin:3px;display:inline-block}
+.muted{color:var(--dim);font-size:11.5px}
+</style>
+</head>
+<body>
+<h1>ميزان</h1>
+<p class="sub">ماذا يوجد فعلاً داخل المنظومة — أرقام حية تُقرأ من ملفات البيانات نفسها، لا ادعاءات.</p>
+<div id="doms"><div class="muted">يقيس…</div></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ar=n=>Number(n).toLocaleString('ar-EG');
+function ld(url,cb){return new Promise(res=>{const s=document.createElement('script');s.src=url;s.onload=()=>res(cb());s.onerror=()=>res(null);document.head.appendChild(s)})}
+const DOMS=[
+{n:'القرآن والتفسير',links:[['وحي','../wahy/'],['مشكاة','../wahy/mishkat.html'],['مقارن','../wahy/muqaran_tafsir.html'],['متشابه','../wahy/mutashabih.html'],['معراج','../ma3raj/']],async kpi(){
+ const k={};
+ await ld('../wahy/mutashabih.js',()=>{k['متشابهة مفهرسة']=ar(Object.keys(MUTA.sim).length)});
+ try{const t=await(await fetch('../wahy/data/tafsirs.json')).json();k['تفسير']=ar(t.length)}catch(e){}
+ k['سور']=ar(114);k['آيات']=ar(6236);return k}},
+{n:'الحديث وعلومه',links:[['الشبكة','../hadith/net.html'],['مسبار','../hadith/misbar.html'],['تثبّت','../hadith/tathabbut.html'],['راوي','../hadith/rawi.html'],['أذكار','../hadith/adhkar.html'],['موضوعات','../hadith/topic.html']],async kpi(){
+ const k={};
+ await ld('../hadith/analysis.js',()=>{k['مجموعة معنى']=ar(Object.keys(GIDNET.g).length);k['رواة']=ar(Object.keys(GIDNET.rawi||{}).length);k['موضوعات']=ar(Object.keys(GIDNET.t||{}).length)});
+ await ld('../hadith/adhkar.js',()=>{k['أذكار محكومة']=ar(ADHKAR.length)});
+ await ld('../hadith/nawawi.js',()=>{k['حديث الأربعون']=ar(NAWAWI.length)});
+ await ld('../hadith/scholar.js',()=>{k['حكم عالم']=ar(Object.keys(SCHOLAR.tirmidhi||{}).length)});return k}},
+{n:'العقيدة والتصوف',links:[['عقيدة','../akida/'],['مصادر','../akida/masadir.html'],['شبكة','../shabaka/'],['مدرستي','../madrasati/'],['إقرأ','../iqraa/']],async kpi(){
+ const k={};
+ await ld('../akida/terms.js',()=>{k['مفهوم']=ar(Object.keys(TERMS.terms).length)});
+ await ld('../madrasati/atoms.js',()=>{let n=0;for(const c in ATOMS)n+=Object.keys(ATOMS[c].atoms).length;k['وحدة قواعد']=ar(n)});
+ try{const r=await(await fetch('../akida/real_data.json')).json();k['نصوص']=ar((r.books||[]).length);k['وحدة كلية']=ar((r.atoms||[]).length)}catch(e){}return k}},
+{n:'الفقه',links:[['مسائل','../fiqh_reader/masail.html'],['القارئ','../fiqh_reader/'],['الفهرس','../fiqh/']],async kpi(){
+ const k={};
+ await ld('../fiqh_reader/masail.js',()=>{k['كتب']=ar(Object.keys(MASAIL).length);let n=0;for(const b in MASAIL)n+=MASAIL[b].u.length;k['باب ومسألة']=ar(n)});return k}},
+{n:'الدروس الصوتية',links:[['التراث','../durus/'],['خريطة','../kharita/'],['لايف','../live/'],['مقرأة','../miqraa/'],['منبر','../minbar/']],async kpi(){
+ const k={};
+ await ld('../durus/data.js',()=>{k['سلسلة']=ar(SERIES.length);let v=0;SERIES.forEach(s=>v+=s.videos||0);k['مقطع']=ar(v);
+  k['مشايخ']=ar(new Set(SERIES.map(s=>s.sheikh)).size)});return k}},
+{n:'التعلم والإنتاج',links:[['المنظومة','../manzuma/'],['اختبرني','../ikhtibirni/'],['بُراق','../buraq/'],['زاد','../zad/'],['معدّ','../mu3edd/'],['مسرود','../masrood/'],['ملمّع','../mulammi3/'],['مكتبتي','../maktabati/']],async kpi(){
+ const k={};
+ try{const l=await(await fetch('../manzuma/lessons/index.json')).json();k['دروس منتجة']=ar(l.length)}catch(e){}
+ k['مجالات']=ar(4);return k}},
+{n:'البرمجة والإنجليزية',links:[['البرمجة','../prog/'],['الإنجليزية','../english/']],async kpi(){
+ const k={};
+ await ld('../prog/courses.js',()=>{let c=0,l=0;COURSES.tracks.forEach(t=>{c+=t.courses.length;t.courses.forEach(x=>l+=x.chapters.reduce((a,ch)=>a+ch.lessons.length,0))});
+  k['مسار']=ar(COURSES.tracks.length);k['كورس']=ar(c);k['درس']=ar(l)});return k}},
+{n:'الفهرس والبحث',links:[['وصل','../wasl/'],['الفهرس','../fihris/'],['معجم','../mu3jam/'],['البوابة','../portal/'],['منهاج','../minhaj/'],['ميزان','../mizan/']],async kpi(){
+ const k={};
+ try{const p=await(await fetch('../portal/projects.json')).json();k['مشروع']=ar(p.length)}catch(e){}
+ await ld('../fihris/catalog.js',()=>{k['مدخل فهرس']=ar(CATALOG.length)});return k}}];
+(async()=>{
+ for(const D of DOMS){
+  const el=document.createElement('div');el.className='dom';
+  el.innerHTML=`<h3>${esc(D.n)}<span>…</span></h3><div class="kpis"></div><div style="margin-top:8px">${D.links.map(l=>`<a class="tl" href="${l[1]}">${esc(l[0])}</a>`).join('')}</div>`;
+  $('#doms').appendChild(el);
+  try{const k=await D.kpi();
+   el.querySelector('.kpis').innerHTML=Object.entries(k).map(([n,v])=>`<div class="k"><b>${v}</b><span>${esc(n)}</span></div>`).join('');
+   el.querySelector('h3 span').textContent='حي'}
+  catch(e){el.querySelector('h3 span').textContent='تعذّر'}}
+ document.querySelector('#doms .muted')?.remove();
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="mizan" data-title="ميزان"></script>
+</body>
+</html>

@@ -839,5 +839,9 @@ if (_h.startsWith('#l=')) {
   if (getTrack(tid) && getTrack(tid).lessons[+li]) openLesson(tid, +li);
 } else if (_h === '#courses') {
   openCourses();
+} else if (_h.startsWith('#courses=')) {
+  const [ti, ci] = _h.slice(9).split(':').map(Number);
+  if (!isNaN(ti)) { cSel.ti = ti; cSel.ci = isNaN(ci) ? null : ci; }
+  openCourses();
 }
 })();

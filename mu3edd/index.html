@@ -107,6 +107,13 @@ function renderDraft(){
  if(draft.hadiths.length)parts.push('الأحاديث:\n'+draft.hadiths.map((h,i)=>`${i+1}. ${h.t} (${h.h||''})`).join('\n'));
  if(draft.aqida.length)parts.push('من العقيدة:\n'+draft.aqida.map((a,i)=>`${i+1}. ${a.t}: ${a.q}`).join('\n'));
  document.getElementById('comp').textContent=parts.join('\n\n')||'— أضف عناصر لتتكوّن المسودة —';
+ try{const dr=JSON.parse(localStorage.getItem('mu3edd_drafts')||'[]');
+  if(draft.verse||draft.hadiths.length||draft.aqida.length){
+   const t=(draft.verse?draft.verse.sname+' '+draft.verse.va:(draft.hadiths[0]||{t:''}).t||'مسودة');
+   const exists=dr.findIndex(x=>x.title===t);
+   const item={title:t,text:parts.join('\n\n'),at:Date.now()};
+   if(exists>=0)dr[exists]=item;else dr.push(item);
+   localStorage.setItem('mu3edd_drafts',JSON.stringify(dr.slice(-10)))}}catch(e){}
  document.getElementById('dcnt').textContent=(draft.hadiths.length+draft.aqida.length+(draft.verse?1:0))+' عنصراً';
  // قائمة العناصر المختارة مع حذف
  let dl='';

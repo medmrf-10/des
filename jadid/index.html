@@ -90,9 +90,8 @@ async function unlock(pin){
 }
 
 function stars(id){
-  const r=ev()[id]||{};let h='<div class="rate"><span class="lb">تقييمك:</span>';
-  for(let i=1;i<=5;i++)h+=`<button class="st ${r.stars>=i?'on':''}" data-s="${i}" data-id="${id}">★</button>`;
-  return h+'</div>';
+  const r=ev()[id]||{};
+  return `<div class="rate"><span class="lb">تقييمك من 100:</span><input class="num" type="number" min="0" max="100" data-num="${id}" value="${r.stars?r.stars*20:''}" placeholder="0-100" style="width:70px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.84rem;padding:6px 10px;text-align:center"></div>`;
 }
 function card(p){
   const r=ev()[p.id]||{};
@@ -114,7 +113,7 @@ function renderStats(){
   $('stAll').textContent=CAT.length;
   $('stRated').textContent=keys.length;
   const sc=keys.map(k=>E[k].stars).filter(Boolean);
-  $('stAvg').textContent=sc.length?('★'+(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(1)):'—';
+  $('stAvg').textContent=sc.length?(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(0)+'/100':'—';
   $('stSent').textContent=keys.filter(k=>E[k].sent).length;
 }
 function renderGrid(q){
@@ -123,7 +122,10 @@ function renderGrid(q){
   $('grid').innerHTML=list.map(card).join('');
 }
 async function send(id){
-  const o=ev();const r=o[id]||{};
+  const num=document.querySelector(`.num[data-num="${id}"]`);
+  const o=ev();
+  if(num&&num.value!==''){o[id]=Object.assign({},o[id],{stars:Math.max(0,Math.min(100,+num.value))});}
+  const r=o[id]||{};
   if(!r.stars&&!r.v&&!r.note){const s=document.querySelector(`.sent[data-id="${id}"]`);s.textContent='قيّم أولاً (نجوم أو حكم أو ملاحظة)';s.style.color='var(--acc3)';setTimeout(()=>{s.textContent='';s.style.color=''},2200);return}
   const p=CAT.find(x=>x.id===id)||{};
   const payload={tool:id,title:p.t,field:p.f,stars:r.stars||0,verdict:r.v||'',note:r.note||'',t:Date.now()};
@@ -133,12 +135,12 @@ async function send(id){
   renderStats();
 }
 document.addEventListener('click',e=>{
-  const st=e.target.closest('.st');const vd=e.target.closest('.vd');const sd=e.target.closest('.send');
-  if(st){const id=st.dataset.id;const o=ev();o[id]=Object.assign({},o[id],{stars:+st.dataset.s});sev(o);renderGrid($('q').value);renderStats()}
+  const vd=e.target.closest('.vd');const sd=e.target.closest('.send');
   if(vd){const id=vd.dataset.id;const o=ev();const cur=(o[id]||{}).v;o[id]=Object.assign({},o[id],{v:cur===vd.dataset.v?'':vd.dataset.v});sev(o);renderGrid($('q').value);renderStats()}
   if(sd){const id=sd.dataset.id;const tx=document.querySelector(`.tx[data-id="${id}"]`);const o=ev();o[id]=Object.assign({},o[id],{note:tx?tx.value:''});sev(o);send(id)}
 });
 $('q').addEventListener('input',e=>renderGrid(e.target.value));
+document.addEventListener('input',e=>{const n=e.target.closest('.num');if(n){const id=n.dataset.num;const o=ev();o[id]=Object.assign({},o[id],{stars:Math.max(0,Math.min(100,+n.value||0))});sev(o);renderStats()}});
 $('unlock').addEventListener('click',async()=>{
   const pin=$('pin').value.trim();
   if(await unlock(pin)){$('gate').style.display='none';$('app').style.display='block';renderGrid('');renderStats()}

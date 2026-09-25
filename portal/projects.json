@@ -1600,5 +1600,32 @@
   "desc": "تصريف المخزون — مراجعة أسبوعية",
   "url": "../misraf/",
   "icon": "م"
+ },
+ {
+  "id": "siyar",
+  "title": "سِيَر",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "خط زمني الرواة — تدريسية سندية",
+  "url": "../hadith/siyar.html",
+  "icon": "س"
+ },
+ {
+  "id": "en_coll",
+  "title": "التراكيب",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "تراكيبك الطبيعية من الجمل الحقيقية",
+  "url": "../english/collocations.html",
+  "icon": "ت"
+ },
+ {
+  "id": "pg_lab",
+  "title": "المُنشِئ",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "بيئة تجربة HTML/CSS/JS حية",
+  "url": "../prog/playground.html",
+  "icon": "م"
  }
 ]

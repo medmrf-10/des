@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>المُنشِئ — برمج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../shared/theme.css">
+</head>
+<body>
+<header>
+  <div class="wrap head-row">
+    <div>
+      <h1>برمج</h1>
+      <div class="tagline">المُنشِئ — جرّب كودك فوراً</div>
+    </div>
+    <div class="prog"><a class="btn ghost sm" href="index.html" style="text-decoration:none;color:var(--acc2)">← المنصة</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="pg-bar">
+    <div id="pgEx" class="pg-ex"></div>
+    <div class="pg-act">
+      <input id="pgName" placeholder="اسم التجربة…" autocomplete="off">
+      <button class="btn sm" id="pgRun">تشغيل ▶</button>
+      <button class="btn ghost sm" id="pgSave">احفظ</button>
+      <button class="btn ghost sm" id="pgShare">شارك</button>
+    </div>
+  </div>
+  <div id="pgSaved" class="pg-saved"></div>
+  <div class="pg-grid">
+    <div class="pg-eds">
+      <label class="pg-lab">HTML<textarea id="pgH" dir="ltr" spellcheck="false"></textarea></label>
+      <label class="pg-lab">CSS<textarea id="pgC" dir="ltr" spellcheck="false"></textarea></label>
+      <label class="pg-lab">JS<textarea id="pgJ" dir="ltr" spellcheck="false"></textarea></label>
+    </div>
+    <div class="pg-out">
+      <iframe id="pgFrame" sandbox="allow-scripts" title="معاينة"></iframe>
+      <pre id="pgLog" dir="ltr"></pre>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap">برمج — تجاربك محفوظة في prog_lab</div></footer>
+<script src="data.js"></script>
+<script src="playground.js"></script>
+<script src="../shared/feedback.js" data-pid="prog_playground" data-title="برمج — المُنشِئ"></script>
+</body>
+</html>

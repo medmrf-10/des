@@ -517,7 +517,10 @@ const SRCS=[
  {ic:'🎯',n:'مِقصَد',d:'مقاصد يومك — قياس تلقائي',u:'../miqsad/',t:'إدارة'},
  {ic:'📦',n:'مِخزَن',d:'مخزنك — خزّن أي شيء',u:'../mikhzan/',t:'إدارة'},
  {ic:'😰',n:'مِحرَج',d:'الامتحان المُحْرِج — ١٠ أسئلة',u:'../mihraj/',t:'تقييم'},
- {ic:'🗂',n:'مِصرَف',d:'تصريف المخزون — مراجعة أسبوعية',u:'../misraf/',t:'إدارة'}
+ {ic:'🗂',n:'مِصرَف',d:'تصريف المخزون — مراجعة أسبوعية',u:'../misraf/',t:'إدارة'},
+ {ic:'🌳',n:'سِيَر',d:'خط زمني الرواة',u:'../hadith/siyar.html',t:'الحديث'},
+ {ic:'🔤',n:'التراكيب',d:'تراكيبك من جملك',u:'../english/collocations.html',t:'الإنجليزية'},
+ {ic:'⚗',n:'المُنشِئ',d:'بيئة تجربة برمجة',u:'../prog/playground.html',t:'البرمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

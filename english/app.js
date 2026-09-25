@@ -490,7 +490,10 @@ function viewShort(){
   const fit = ()=>{ feed.style.height = (innerHeight - document.querySelector('.topbar').offsetHeight - ($('#ttsbanner')?.offsetHeight||0)) + 'px'; };
   fit();
   feed.addEventListener('scroll', onFeedScroll, {passive:true});
-  markFeedCard(0);
+  const qc = new URLSearchParams(location.search).get('clip');
+  const qi = qc ? CLIPS.findIndex(c=>c.id===qc) : -1;
+  if(qi > 0){ setTimeout(()=>{ feed.scrollTop = qi*feed.clientHeight; }, 60); }
+  else markFeedCard(0);
 }
 function onFeedScroll(){
   const feed = $('#feed'); if(!feed) return;

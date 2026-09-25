@@ -211,6 +211,15 @@ body.shortmode{overflow:hidden}
 .rstat b{display:block;color:var(--gold);font-size:28px}
 .rstat span{color:var(--muted);font-size:12px}
 @media (max-width:480px){ .rsteps{grid-template-columns:1fr} }
+/* ----- المكتبة ----- */
+.lsec{color:var(--gold-soft);margin:22px 0 10px;font-size:16px}
+.lbar{position:relative;height:8px;border-radius:99px;background:var(--navy-3);overflow:hidden;margin:10px 0 6px}
+.lbar-ex{position:absolute;inset-inline-start:0;top:0;bottom:0;background:var(--gold-dim)}
+.lbar-ms{position:absolute;inset-inline-start:0;top:0;bottom:0;background:var(--ok)}
+.lmeta{display:flex;gap:8px;font-size:11px}
+.ltag{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:3px 10px}
+.ltag.ms{border-color:var(--ok);color:var(--ok)}
+.ltag i{color:var(--muted);font-style:normal;font-size:11px}
 .spk{
   cursor:pointer; background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
   border-radius:8px; padding:3px 8px; font-size:14px; flex-shrink:0;

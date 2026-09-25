@@ -24,7 +24,7 @@ h1{color:var(--acc);font-size:1.3rem;text-align:center}
 <div class="nav"><button id="pv">السابقة ←</button><span class="cnt" id="cnt"></span><button id="nx">→ التالية</button></div>
 <div class="ayah"><div class="s" id="as"></div><div class="t" id="at"></div></div>
 <div class="tafsir"><h3>من تفسير ابن كثير</h3><div class="x" id="ax"></div></div>
-<div class="refl"><h3>تدبّرك الخاص</h3><textarea id="rf" placeholder="ماذا فهمت من هذه الآية؟ اكتب بحرّية…"></textarea><div class="sv" id="sv"></div></div>
+<div class="refl"><h3>تدبّرك الخاص <button id="tdQ" class="rand" style="font-size:.6rem;padding:3px 10px;display:none">✦ أسئلة تدبّر</button></h3><div id="tdQx" style="font-size:.72rem;color:var(--dim);margin-bottom:8px"></div><textarea id="rf" placeholder="ماذا فهمت من هذه الآية؟ اكتب بحرّية…"></textarea><div class="sv" id="sv"></div></div>
 <script src="data.js"></script>
 <script>
 const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
@@ -33,11 +33,19 @@ const K='tadabbur_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'{}');cons
 const T=window.TADABBUR;
 const dayIdx=()=>{const days=Math.floor(Date.now()/864e5);return days%T.length};
 let i=dayIdx();
+function aiQ(){
+ const b=$('tdQ');if(!window.llmReady||!window.llmReady()){b.style.display='none';return}
+ b.style.display='inline-block';b.onclick=async()=>{
+  b.disabled=true;$('tdQx').textContent='يولّد أسئلة…';
+  try{const out=await window.gemAsk('أعطِ ٥ أسئلة تدبّر عميقة للآية التالية — أسئلة تفتح المعنى وتربطه بحياة القارئ، كل سؤال بسطر:\n\nالآية: '+$('at').textContent+'\nالتفسير (ابن كثير): '+($('ax').textContent||'').slice(0,1200),{maxTokens:600});
+   $('tdQx').innerHTML=esc(out).replace(/\n/g,'<br>');}catch(e){$('tdQx').textContent=e.message}
+  b.disabled=false};
+}
 function render(){
  const a=T[i];
  $('as').textContent=a.s+' — آية '+a.a;
  $('at').textContent='﴿'+a.t+'﴾';
- $('ax').textContent=a.x||'(التفسير غير متوفر لهذه الآية بعد)';
+ $('ax').textContent=a.x||'(التفسير غير متوفر لهذه الآية بعد)';aiQ();
  $('cnt').textContent=(i+1)+' / '+T.length;
  const d=D();$('rf').value=d[a.k]||'';$('sv').textContent='';
 }

@@ -2851,5 +2851,23 @@
   "desc": "قائمة الإسعاف — من يحتاجك",
   "url": "../mis3af/",
   "icon": "م"
+ },
+ {
+  "id": "tadlis",
+  "title": "التدليس",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "مدرّب اكتشاف تدليس الإسناد",
+  "url": "../hadith/tadlis.html",
+  "icon": "ت"
+ },
+ {
+  "id": "dictation",
+  "title": "الإملاء",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "استمع واكتب — word-diff",
+  "url": "../english/dictation.html",
+  "icon": "إ"
  }
 ]

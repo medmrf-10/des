@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التدليس | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.chain{display:flex;flex-direction:column;align-items:center;gap:0;margin:10px 0}
+.node{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:6px 14px;font-family:var(--font-ar);font-size:15px;min-width:180px;text-align:center}
+.node.sus{border-color:#d97b6c;box-shadow:0 0 8px #d97b6c55}
+.node.src{background:var(--acc2);color:#151005;border-color:var(--acc2);font-weight:700}
+.node.dst{background:var(--card2);border-color:var(--acc)}
+.lnk{color:var(--acc3);font-size:12px;padding:3px 0;font-family:var(--font-ar)}
+.lnk.sus{color:#e08a8a;font-weight:700}
+.lnk.sus::after{content:'  ⚠'}
+.opt{display:inline-block;margin:4px;padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--txt);cursor:pointer;font-family:inherit;font-size:14px}
+.opt.on{outline:2px solid var(--acc2)}
+.reveal{border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:8px}
+.reveal.good{border-color:var(--ok);background:#14291c55}
+.reveal.bad{border-color:#e08a8a;background:#3a1d1d55}
+.bdg{border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.stats b{color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#101420;border:0;border-radius:8px;padding:7px 18px;font-family:inherit;font-size:13.5px;cursor:pointer;font-weight:700;margin-top:8px}
+.bk{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+table.acc{width:100%;border-collapse:collapse;font-size:12px}
+table.acc td{padding:5px 8px;border-bottom:1px solid var(--border)}
+table.acc td:last-child{text-align:left;color:var(--dim)}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚠️ التدليس</h1>
+  <span class="sub">درّب عينك على اكتشاف الخلل في اتصال الإسناد — قبل الكشف</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="shajara.html">شجرة الإسناد ←</a>
+</header>
+<div class="stats" id="stats"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="books"></div>
+<div id="main"><div class="mut" style="padding:30px;text-align:center">يُحمّل البطاقات…</div></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[^\p{L}\s]/gu,' ').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';return 'ot'};
+const DEFECT=/تدليس|عنعن|إرسال|ارسال|انقطاع|منقطع|مقطوع|مرسل|مجهول|منكر|ضعيف/;
+const GHOST=/موضع تعليق|إرسال|انقطاع/;
+const D={};let GN=null,POOL=[],CUR=null;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+const SKEY='miq_tadlis';
+const getL=()=>{try{return JSON.parse(localStorage.getItem(SKEY)||'{}')}catch(e){return{}}};
+const saveL=l=>{try{localStorage.setItem(SKEY,JSON.stringify(l))}catch(e){}};
+function stats(){
+  const l=getL();
+  const bk=l.byBook||{};
+  document.getElementById('stats').innerHTML=
+    `سلسلة متتالية: <b>${arNum(l.streak||0)}</b> · محاولات: <b>${arNum(l.tried||0)}</b> · صحيحة: <b>${arNum(l.correct||0)}</b> (${l.tried?arNum(Math.round(100*l.correct/l.tried))+'٪':'—'})`;
+  document.getElementById('books').innerHTML=BOOKS.filter(b=>bk[b]).map(b=>
+    `<table class="acc" style="display:inline-table;width:auto;margin-inline-end:14px"><tr>
+    <td style="border:0;font-weight:700">${BAR[b]}</td>
+    <td style="border:0">${arNum(bk[b].c||0)}/${arNum(bk[b].t||0)} صحيحة</td></tr></table>`).join('');
+}
+async function loadGN(){
+  if(GN)return;stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+/* بطاقات: خلل = حكم j يذكر تدليساً/خللاً؛ سليم = كل أحكامه متصل ثقات */
+function buildPool(){
+  const bad=[],good=[];
+  for(const gid in GN.g){
+    const g=GN.g[gid];if(!g.j)continue;
+    const vs=[];
+    for(const b in g.j)for(const n in g.j[b])for(const v of g.j[b][n])vs.push({v,b,n:+n});
+    const dflt=vs.find(x=>DEFECT.test(x.v));
+    if(dflt&&bad.length<20)bad.push({gid,b:dflt.b,n:dflt.n,v:dflt.v,bad:1});
+    else if(vs.length&&vs.every(x=>bucket(x.v)==='sa')&&good.length<8)
+      good.push({gid,b:vs[0].b,n:vs[0].n,v:vs[0].v,bad:0});
+  }
+  /* بدّل ترتيب خلط ثابت */
+  POOL=[...bad,...good];
+  for(let i=POOL.length-1;i>0;i--){const j=(i*7+3)%POOL.length;[POOL[i],POOL[j]]=[POOL[j],POOL[i]];}
+}
+window.show=async function(ix){
+  const p=POOL[ix];CUR={p,ix,pick:null};
+  document.querySelectorAll('.lst .it.on').forEach(x=>x.classList.remove('on'));
+  const j=await loadBook(p.b);
+  const chains=j.s[p.n]||[];
+  const chain=chains[0]&&chains[0][1]?chains[0][1].filter(n=>!GHOST.test(n)):[];
+  /* ترتيب det: مصنّف → صحابي — اعرضها ﷺ → مصنّف */
+  const up=[...chain].reverse();
+  const hasFlaw=p.bad;
+  const vtxt=p.v||'';
+  /* موضع الخلل: الراوي المسمى في نص الحكم، أو الوصلة تحت الصحابي عند الإرسال */
+  const sus=up.map((nm,idx)=>{if(idx===up.length-1)return false;
+    const tk=norm(nm).split(' ');const key=tk.slice(0,2).join(' ');
+    return vtxt&&key.length>4&&norm(vtxt).includes(key)});
+  const susLnk=!sus.includes(true)&&/إرسال|ارسال|انقطاع|منقطع|مقطوع|مرسل/.test(vtxt)&&up.length>1?1:-1;
+  stat.textContent='';
+  document.getElementById('main').innerHTML=`
+    <div class="card">
+      <div class="mut" style="margin-bottom:6px">بطاقة ${arNum(ix+1)} من ${arNum(POOL.length)} · ${BAR[p.b]} حديث #${arNum(p.n)}
+        · معنى #${arNum(p.gid)} ${chains.length?`· ${arNum(chains.length)} أسانيد`:''}</div>
+      <div class="chain">
+        <div class="node src">ﷺ</div>
+        ${up.map((nm,i)=>`<div class="lnk ${i===susLnk?'sus':''}">عن</div>
+          <div class="node ${sus[i]?'sus':''} ${i===up.length-1?'dst':''}">${esc(nm)}${sus[i]?' ⚠':''}</div>`).join('')}
+        <div class="lnk">عن</div><div class="node dst">${BAR[p.b]}</div>
+      </div>
+      <div id="quiz" style="text-align:center;margin-top:10px">
+        <div class="mut" style="margin-bottom:6px">هل في هذا الإسناد خلل اتصال (تدليس/عنعنة مشبوهة)؟</div>
+        <button class="opt" onclick="pick(1)">فيه خلل</button>
+        <button class="opt" onclick="pick(0)">سليم</button>
+      </div>
+      <div id="rev"></div>
+    </div>
+    <div style="text-align:center">
+      <button class="bk" onclick="show(${POOL[(ix+1)%POOL.length]===undefined?0:(ix+1)%POOL.length})" id="nxt" style="visibility:hidden">بطاقة أخرى ←</button>
+    </div>`;
+  CUR.up=up;
+};
+window.pick=function(ans){
+  const {p,ix}=CUR;
+  const right=ans===p.bad;
+  const l=getL();
+  l.tried=(l.tried||0)+1;l.correct=(l.correct||0)+(right?1:0);
+  l.streak=right?((l.streak||0)+1):0;
+  l.byBook=l.byBook||{};l.byBook[p.b]=l.byBook[p.b]||{t:0,c:0};
+  l.byBook[p.b].t++;l.byBook[p.b].c+=right?1:0;
+  saveL(l);stats();
+  document.querySelectorAll('#quiz .opt').forEach((o,i)=>o.classList.toggle('on',(i===0)===!!ans));
+  const why=p.bad?`خلل: حكم العلماء يشير إلى ${esc(p.v)}`
+    :`سليم: الحكم «${esc(p.v)}» — لم يذكر العلماء خلل اتصال`;
+  document.getElementById('rev').innerHTML=
+    `<div class="reveal ${right?'good':'bad'}">
+      <b>${right?'أصبت ✓':'لم تُصِب'}</b> · <span class="bdg v-${bucket(p.v)}">${esc(p.v||'—')}</span>
+      <div class="mut" style="margin-top:6px">${why}
+      ${p.bad?'· المواضع الموسومة ⚠ تشير للخلل المشكوك فيه حسب نص الحكم':''}</div>
+      <div class="mut" style="margin-top:4px">الترجيح الحقيقي يزن قوة الإسناد واتصاله لا ظاهره.</div>
+      <a class="bk" href="net.html#g${p.gid}" style="margin-top:8px;display:inline-block">المعنى في الشبكة ←</a>
+      <a class="bk" href="shajara.html#${p.b}&${p.n}" style="margin-top:8px;display:inline-block">شجرة الإسناد ←</a>
+    </div>`;
+  document.getElementById('nxt').style.visibility='visible';
+};
+(async()=>{
+  await loadGN();
+  stat.textContent='ينتقي بطاقات التدليس…';
+  buildPool();
+  stats();
+  stat.textContent='';pf.style.width='100%';
+  if(POOL.length)show(0);else document.getElementById('main').innerHTML='<div class="mut">لا بطاقات</div>';
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="miq_tadlis"></script>
+</body>
+</html>

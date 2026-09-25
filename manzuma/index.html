@@ -655,7 +655,8 @@ const SRCS=[
  {ic:'📋',n:'مِسجِل',d:'سجل الأيام',u:'../misjil/',t:'إدارة'},
  {ic:'🌧',n:'مِرزَق',d:'لحظات الرزق',u:'../mirzaq/',t:'إدارة'},
  {ic:'🪓',n:'مِنشَق',d:'شقّق الهدف',u:'../minshaq/',t:'إدارة'},
- {ic:'🚑',n:'مِسعَف',d:'قائمة الإسعاف',u:'../mis3af/',t:'إدارة'}
+ {ic:'🚑',n:'مِسعَف',d:'قائمة الإسعاف',u:'../mis3af/',t:'إدارة'},
+ {ic:'🕸',n:'التدليس',d:'مدرّب الإسناد',u:'../hadith/tadlis.html',t:'شريعة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

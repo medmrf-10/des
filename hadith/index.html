@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مختبر الحديث — أسانيد وأحكام ومقارنات</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:1100px;margin:0 auto}
+.top{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.top h1{margin:0;font-size:18px;background:linear-gradient(120deg,#e8c56b,#9c7b2e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 14px;position:sticky;top:52px;background:var(--bg);z-index:40;border-bottom:1px solid var(--line)}
+.tabs button{white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--gold,#c9a24a);color:#14140f;border-color:transparent;font-weight:700}
+.wrap{padding:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+select,input[type=text]{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.matn{font-size:17px;line-height:2;color:#f0e9d8}
+.badge{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.b-sahih{background:#1d3b26;color:#7fd99b}.b-3{font-size:11px;background:#22303f;color:#9db8d4}
+.chain{display:flex;flex-direction:column;gap:0;margin:10px 0}
+.narr{display:flex;gap:10px;align-items:stretch}
+.narr .rail{display:flex;flex-direction:column;align-items:center;width:20px}
+.narr .rail .dot{width:10px;height:10px;border-radius:50%;background:var(--gold,#c9a24a);margin-top:6px;flex:none}
+.narr .rail .ln{width:2px;flex:1;background:linear-gradient(#c9a24a,#c9a24a55)}
+.narr .nm{flex:1;padding:6px 0 14px;font-size:14px;color:#e8ddc0;cursor:pointer}
+.narr .nm:hover{color:#fff}
+.narr .nm small{display:block;color:var(--mut);font-size:11px}
+.proph{background:linear-gradient(120deg,#3a2f16,#1d1a10);border:1px solid #c9a24a66;border-radius:10px;padding:10px;text-align:center;font-weight:800;color:#e8c56b}
+.verdict{color:#9db8d4;font-size:12px;background:#1a2330;border-radius:8px;padding:8px 10px;margin-top:8px}
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+.tb td,.tb th{padding:7px 9px;border-bottom:1px solid var(--line);text-align:right}
+.tb th{color:var(--gold,#c9a24a);font-size:12px}
+.bar{height:10px;border-radius:5px;background:#2a3345;overflow:hidden;display:inline-block;width:100px;vertical-align:middle}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#e8c56b,#9c7b2e)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:22px;color:#e8c56b}
+.stat span{font-size:11px;color:var(--mut)}
+.topic{padding:6px 10px;border:1px solid var(--line);border-radius:8px;margin:3px 0;cursor:pointer;font-size:14px}
+.topic:hover{border-color:#c9a24a}
+.topic .cnt{color:var(--mut);font-size:11px}
+.hitem{border:1px solid var(--line);border-radius:10px;padding:10px;margin:6px 0;cursor:pointer;font-size:13px}
+.hitem:hover{border-color:#c9a24a}
+.hitem .sn{color:#9db8d4;font-size:11px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:640px){.cmp{grid-template-columns:1fr}}
+.cmp .card{font-size:13px;margin-bottom:0}
+.cmp .card h4{margin:0 0 6px;color:#9db8d4;font-size:12px}
+.mut{color:var(--mut);font-size:12px}
+mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
+.src{display:inline-block;margin-left:6px;border:1px solid #c9a24a55;color:#e8c56b;border-radius:999px;padding:1px 9px;font-size:11px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⛓ مختبر الحديث</h1>
+  <span class="mut" id="hdr">٢٧ ألف حديث · أسانيد كاملة · ٦ كتب</span>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main class="wrap" id="main"></main>
+
+<script>
+/* ===== data layer (reuses ../wahy/data) ===== */
+const cache=new Map();
+async function fgz(u){const r=await fetch(u);if(!r.ok)throw 0;const ds=new DecompressionStream('gzip');const t=await new Response(r.body.pipeThrough(ds)).text();return JSON.parse(t)}
+function load(u,gz){if(!cache.has(u)){const p=gz?fgz(u):fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()});p.catch(()=>cache.delete(u));cache.set(u,p)}return cache.get(u)}
+const booksIdx=()=>load('../wahy/data/hadith/books.json');
+const bookD=s=>load(`../wahy/data/hadith/${s}-det.json.gz`,1);
+const topics=()=>load('../wahy/data/hadith/topics.json.gz',1);
+const TOC=s=>load(`../wahy/data/hadith/${s}-toc.json.gz`,1);
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BN={};let BIDX=null;
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+const hl=(t,q)=>esc(t).split('').length&&q?esc(t).replace(new RegExp(q.split(/\s+/).filter(Boolean).map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'g'),m=>'<mark>'+m+'</mark>'):esc(t);
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+
+/* ===== shell ===== */
+const TABS=[['sanad','السند'],['rijal','الرجال'],['cmp','المقارنة'],['topics','المواضيع'],['stats','إحصاء']];
+let S={tab:'sanad',book:'bukhari',h:1,q:'',nr:'',topic:'2'};
+const main=document.getElementById('main'),tabs=document.getElementById('tabs');
+tabs.innerHTML=TABS.map(([k,n])=>`<button data-t="${k}" onclick="go('${k}')">${n}</button>`).join('');
+function go(t){S.tab=t;render();location.hash=encHash()}
+function encHash(){return S.tab+'.'+S.book+'.'+S.h+(S.nr?'.'+S.nr:'')}
+function decHash(){const p=(location.hash||'').replace('#','').split('.');if(TABS.some(x=>x[0]==p[0]))S.tab=p[0];if(BOOKS.includes(p[1]))S.book=p[1];if(p[2]&&!isNaN(p[2]))S.h=+p[2];if(p[3])S.nr=decodeURIComponent(p[3])}
+addEventListener('hashchange',()=>{decHash();render()});
+const load=async n=>{const b=await booksIdx();b.forEach((x,i)=>BN[x.s]=x.n);return b.filter(x=>BOOKS.includes(x.s))};
+
+/* ===== book picker ===== */
+const bookSel=()=>`<select onchange="S.book=this.value;S.h=1;S.nr='';render()">${BOOKS.map(s=>`<option ${s==S.book?'selected':''} value="${s}">${BN[s]||s}</option>`).join('')}</select>`;
+
+/* ===== TAB 1: sanad ===== */
+async function vSanad(){
+  const d=await bookD(S.book);
+  const hs=Object.keys(d.d).map(Number).sort((a,b)=>a-b);
+  const mx=hs[hs.length-1];
+  let h=d.d[S.h]||null;
+  return `<div class="row">${bookSel()}
+    <input type="text" id="hn" inputmode="numeric" placeholder="رقم الحديث (1-${arNum(mx)})" value="${S.h}" style="width:150px">
+    <input type="text" id="hq" placeholder="بحث في المتن…" value="${esc(S.q)}" style="flex:1;min-width:160px">
+  </div>
+  <div id="hres"></div>
+  <div id="sview">${h?sanadView(d,S.h):'<p class="mut">اختر رقماً أو ابحث في المتون.</p>'}</div>`;
+}
+function sanadView(d,n){
+  const h=d.d[n];if(!h)return '<p class="mut">الحديث غير موجود.</p>';
+  const s=d.s[n];const g=d.g[h.g];
+  const chains=s?s.slice(1).map?null:null;
+  let chainHtml='';
+  if(s&&s.length){ /* s[n]=[verdict,[narrators]] — نبيه ﷺ الأخير */
+    const narrs=s[1]||[];
+    chainHtml='<div class="chain"><div class="proph">ﷺ</div>'+narrs.slice().reverse().map((x,i)=>`<div class="narr"><div class="rail"><div class="ln"></div><div class="dot"></div></div><div class="nm" onclick="pickNr('${esc(x)}')">${esc(x)}<small>${i==narrs.length-1?'الصحابي':'راوٍ'} · الطبقة ${arNum(i+1)}</small></div></div>`).join('')+'</div>';
+    if(s[0])chainHtml+=`<div class="verdict">حكم على السند: ${esc(s[0])}</div>`;
+  }else chainHtml='<p class="mut">لا سند مفصّل لهذا الحديث في المصدر.</p>';
+  const xr=g&&g.x?Object.entries(g.x).map(([b,nums])=>`<a class="src" href="#cmp.${b}.${Array.isArray(nums)?nums[0]:nums}" onclick="S.tab='cmp';S.book='${b}';S.h=${Array.isArray(nums)?nums[0]:nums};render();return false">${b}</a>`).join(''):'';
+  return `<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <b>حديث ${arNum(n)} — ${BN[S.book]}</b>
+      ${g?`<span class="badge b-sahih">${esc(g.h||'')}</span>`:''}
+    </div>
+    <p class="matn">${esc(h.m)}</p>
+    ${g?`<p class="mut">مجموعة المعنى ${arNum(h.g)}${g.s?` · ${arNum(g.s)} سنداً`:''}${g.hs?` · أحاديث مترابطة: ${g.hs.map(x=>`<a href="#sanad.${S.book}.${x}" onclick="S.tab='sanad';S.h=${x};render();return false">${arNum(x)}</a>`).join('،')}`:''}</p>`:''}
+    ${xr?`<p class="mut">في كتب أخرى: ${xr}</p>`:''}
+    <h3 style="color:#e8c56b;font-size:14px;margin:12px 0 4px">الإسناد (من النبي ﷺ إلى المؤلف)</h3>
+    ${chainHtml}
+  </div>`;
+}
+window.pickNr=n=>{S.tab='rijal';S.nr=n;render()};
+
+/* ===== TAB 2: rijal ===== */
+let RC={};
+async function rijalStats(b){
+  if(RC[b])return RC[b];
+  const d=await bookD(b),M={};
+  for(const n in d.s){const v=d.s[n];(v[1]||[]).forEach((x,i)=>{const k=x.trim();(M[k]=M[k]||{c:0,pos:0,h:[]});M[k].c++;M[k].pos+=i;if(M[k].h.length<40)M[k].h.push(+n)})}
+  const arr=Object.entries(M).map(([name,o])=>({name,c:o.c,pos:o.pos/o.c,h:o.h})).sort((a,b)=>b.c-a.c);
+  return RC[b]=arr;
+}
+async function vRijal(){
+  const arr=await rijalStats(S.book);
+  const q=S.nr;
+  const list=q?arr.filter(r=>norm(r.name).includes(norm(q))):arr.slice(0,120);
+  return `<div class="row">${bookSel()}
+    <input type="text" id="nrq" placeholder="اسم الراوي…" value="${esc(q)}" style="flex:1">
+  </div>
+  <p class="mut">${arNum(arr.length)} راوياً في ${BN[S.book]} — اضغط الاسم لعرض أحاديثه</p>
+  <table class="tb"><tr><th>الراوي</th><th>رواياته</th><th>الطبقة المتوسطة</th></tr>
+  ${list.map(r=>`<tr><td><a href="#" onclick="S.nr='${esc(r.name)}';render();return false">${esc(r.name)}</a></td>
+  <td><span class="bar"><i style="width:${Math.min(100,r.c/ (arr[0].c||1)*100)}%"></i></span> ${arNum(r.c)}</td>
+  <td>${arNum(Math.round(r.pos))}</td></tr>`).join('')}</table>
+  <div id="nrH"></div>`;
+}
+async function renderNrH(){
+  if(!S.nr)return;const d=await bookD(S.book);const arr=await rijalStats(S.book);
+  const r=arr.find(x=>x.name==S.nr);if(!r)return;
+  document.getElementById('nrH').innerHTML=`<div class="card"><h3 style="color:#e8c56b;font-size:14px">روايات ${esc(S.nr)} (${arNum(r.c)})</h3>${r.h.map(n=>{const h=d.d[n];return h?`<div class="hitem" onclick="S.tab='sanad';S.h=${n};S.nr='';render()"><b>حديث ${arNum(n)}</b><div class="sn">${esc(h.m.slice(0,90))}…</div></div>`:''}).join('')}</div>`;
+}
+
+/* ===== TAB 3: compare groups ===== */
+async function vCmp(){
+  const d=await bookD(S.book);const h=d.d[S.h];
+  if(!h)return `<div class="row">${bookSel()}<input type="text" id="hn" placeholder="رقم الحديث" style="width:130px"></div><p class="mut">اختر حديثاً له نظائر في كتب أخرى (من تبويب السند).</p>`;
+  const g=d.g[h.g];if(!g)return '<p class="mut">لا مجموعة معنى.</p>';
+  const cards=[{b:S.book,n:S.h,m:h.m,h:g.h}];
+  if(g.x)for(const[b,nums]of Object.entries(g.x)){const ns=[].concat(nums);for(const nn of ns.slice(0,3)){try{const dd=await bookD(b);const hh=dd.d[nn];if(hh)cards.push({b,n:nn,m:hh.m,h:dd.g[hh.g]?.h||''})}catch(e){}}}
+  return `<div class="row">${bookSel()}<input type="text" id="hn" value="${S.h}" style="width:110px"><span class="mut">نفس المعنى عبر الكتب</span></div>
+  <div class="cmp">${cards.map(c=>`<div class="card"><h4>${BN[c.b]||c.b} · ${arNum(c.n)} ${c.h?`<span class="badge b-sahih">${esc(c.h)}</span>`:''}</h4><p class="matn" style="font-size:14px">${esc(c.m.slice(0,600))}${c.m.length>600?'…':''}</p><a class="src" href="#" onclick="S.tab='sanad';S.book='${c.b}';S.h=${c.n};render();return false">السند ←</a></div>`).join('')}</div>`;
+}
+
+/* ===== TAB 4: topics ===== */
+async function vTopics(){
+  const T=await topics();const tt=T.t;
+  const kids={};for(const id in tt){const p=tt[id].p;(kids[p]=kids[p]||[]).push(id)}
+  const node=id=>{const t=tt[id];const ks=kids[id]||[];const cnt=Object.values(t.b||{}).reduce((a,b)=>a+b,0);
+    return `<div class="topic" style="margin-right:${t.l*14}px" onclick="S.topic='${id}';render()"><b>${esc(t.n)}</b> <span class="cnt">· ${arNum(cnt)} حديث</span></div>
+    ${S.topic==id?topicGroups(id):''}
+    ${S.topic&&S.topic.startsWith(id+'.')?'':''}`;
+  };
+  const top=(kids[0]||kids['0']||['1']);
+  return `<p class="mut">شجرة موضوعات الحديث — اضغط موضوعاً لعرض مجموعاته وأحاديثه</p>
+  ${top.map(id=>treeHtml(tt,kids,id)).join('')}`;
+}
+function treeHtml(tt,kids,id){
+  const t=tt[id];if(!t)return'';const ks=(kids[id]||[]);
+  const cnt=Object.values(t.b||{}).reduce((a,b)=>a+b,0);
+  const open=S.topic==id||(S.topic||'').split('.').includes(id);
+  let h=`<div class="topic" style="margin-right:${t.l*14}px" onclick="S.topic='${id}';render()">${ks.length?'▸':''} <b>${esc(t.n)}</b> <span class="cnt">${arNum(cnt)}</span></div>`;
+  if(S.topic==id)h+=topicGroups(id);
+  if(open||S.topic==id)h+=ks.map(k=>treeHtml(tt,kids,k)).join('');
+  return h;
+}
+async function topicGroups(tid){
+  return `<div id="tg_${tid}" class="mut" style="margin-right:20px">يُحمّل…</div>`;
+}
+async function fillTopic(tid){
+  const T=await topics();const gids=T.g[tid]||[];
+  const el=document.getElementById('tg_'+tid);if(!el)return;
+  if(!gids.length){el.innerHTML='لا أحاديث مسندة لهذا الموضوع';return}
+  const out=[];
+  for(const gid of gids.slice(0,12)){
+    /* find group in each book */
+    for(const b of BOOKS){try{const d=await bookD(b);const g=d.g[gid];if(g){const num=Object.keys(d.d).find(n=>d.d[n].g==gid);
+      out.push(`<div class="hitem" onclick="S.tab='cmp';S.book='${b}';S.h=${num};render()"><b>${BN[b]}</b> <span class="badge b-sahih">${esc(g.h)}</span><div class="sn">${esc(g.t.slice(0,110))}…</div></div>`);break}}catch(e){}}
+  }
+  el.innerHTML=out.join('')||'لا نتائج';
+}
+
+/* ===== TAB 5: stats ===== */
+async function vStats(){
+  const d=await bookD(S.book);
+  const hk={},yt={},len=[],vf={};
+  let ns=0;for(const n in d.d){const h=d.d[n],g=d.g[h.g];if(g)hk[g.h]=(hk[g.h]||0)+1}
+  for(const n in d.s){ns++;len.push((d.s[n][1]||[]).length);const v=d.s[n][0];if(v)vf[v]=(vf[v]||0)+1}
+  const avg=len.length?(len.reduce((a,b)=>a+b,0)/len.length):0;
+  const rij=await rijalStats(S.book);
+  return `<div class="row">${bookSel()}</div>
+  <div class="stats">
+    <div class="stat"><b>${arNum(Object.keys(d.d).length)}</b><span>حديثاً</span></div>
+    <div class="stat"><b>${arNum(ns)}</b><span>بسند مفصّل</span></div>
+    <div class="stat"><b>${arNum(Object.keys(d.g).length)}</b><span>مجموعة معنى</span></div>
+    <div class="stat"><b>${avg.toFixed(1)}</b><span>متوسط طول السند</span></div>
+  </div>
+  <div class="card"><h3 style="color:#e8c56b;font-size:14px">الأحكام</h3><table class="tb">${Object.entries(hk).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td><span class="bar"><i style="width:${v/Math.max(...Object.values(hk))*100}%"></i></span> ${arNum(v)}</td></tr>`).join('')}</table></div>
+  <div class="card"><h3 style="color:#e8c56b;font-size:14px">أكثر الرواة</h3><table class="tb">${rij.slice(0,15).map(r=>`<tr><td>${esc(r.name)}</td><td><span class="bar"><i style="width:${r.c/rij[0].c*100}%"></i></span> ${arNum(r.c)}</td></tr>`).join('')}</table></div>
+  <div class="card"><h3 style="color:#e8c56b;font-size:14px">أحكام الأسانيد الشائعة</h3><table class="tb">${Object.entries(vf).sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,v])=>`<tr><td style="font-size:11px">${esc(k)}</td><td>${arNum(v)}</td></tr>`).join('')}</table></div>`;
+}
+
+/* ===== render ===== */
+async function render(){
+  tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
+  main.innerHTML='<p class="mut">يُحمّل…</p>';
+  try{
+    if(!BIDX)BIDX=await load();
+    let h='';
+    if(S.tab=='sanad')h=await vSanad();
+    else if(S.tab=='rijal')h=await vRijal();
+    else if(S.tab=='cmp')h=await vCmp();
+    else if(S.tab=='topics')h=await vTopics();
+    else h=await vStats();
+    main.innerHTML=h;
+    const hn=document.getElementById('hn');if(hn)hn.addEventListener('change',e=>{S.h=+e.target.value||1;render()});
+    const hq=document.getElementById('hq');if(hq)hq.addEventListener('input',async e=>{S.q=e.target.value;const d=await bookD(S.book);const tq=norm(S.q);const res=Object.keys(d.d).filter(n=>norm(d.d[n].m).includes(tq)).slice(0,20);document.getElementById('hres').innerHTML=res.map(n=>`<div class="hitem" onclick="S.h=${n};render()"><b>${arNum(n)}</b><div class="sn">${hl(d.d[n].m.slice(0,90),S.q)}…</div></div>`).join('')});
+    const nrq=document.getElementById('nrq');if(nrq)nrq.addEventListener('input',e=>{S.nr=e.target.value;render()});
+    renderNrH();
+    if(S.tab=='topics'&&S.topic)fillTopic(S.topic);
+  }catch(e){main.innerHTML='<p class="mut">تعذر التحميل — حدّث الصفحة.</p>'}
+}
+decHash();render();
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

@@ -93,7 +93,7 @@ function renderSeries(){
    return '<div class="card"><div class="ct">'+esc(x.n)+'</div>'
    +'<div class="cm">'+esc(x.ch||'')+'</div>'
    +'<div class="cn">'+fnum(x.v)+' حلقة · '+fnum(Math.round(x.h||0))+' ساعة'+(x.tr?(' · '+x.tr+' مفرّغ'):'')+(x.dl?(' · '+x.dl+' منزّل'):'')+'</div>'
-   ''+bar(x)
+   +bar(x)
    +'<div class="cf"><span class="bd '+stgClass(x.stg)+'">'+stgLabel(x.stg)+'</span>'
    +'<button class="rq" data-id="'+x.id+'"'+(dis?' disabled':'')+'>'+(req.has(x.id)?'✓ طلبك مسجّل':'اطلب التفريغ')+'</button></div></div>';
  }).join('')+(L.length>500?'<div class="note">+ '+(L.length-500)+' سلسلة أخرى — دقّق البحث</div>':'')+(L.length?'':'<div class="empty">لا نتائج</div>')+'</div>';

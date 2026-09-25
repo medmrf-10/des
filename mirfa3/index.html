@@ -61,9 +61,9 @@ const hr=new Date().getHours();
 const mj=LS('mijdar',{});
 if(hr>=20&&!mj[today()])A.push({n:'قيّم يومك قبل النوم',ds:'مِجدار أو طقس مِرقَد',u:'../mirqad/',w:1});
 A.sort((a,b)=>b.w-a.w);
-const top=A.slice(0,3);
+const tops=A.slice(0,3);
 $('#stats').innerHTML='<span class="stat">مرشحة: <b>'+arN(A.length)+'</b> خطوة</span>';
-$('#acts').innerHTML=top.length?top.map((a,i)=>'<div class="act"><div class="n">'+arN(i+1)+'</div><div class="bd"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.ds)+'</div></div><a href="'+a.u+'">افتح ←</a></div>').join(''):'<div class="empty">يومك نظيف — لا خطوات معلّقة. اختر مرعاك في مِرتَع.</div>';
+$('#acts').innerHTML=tops.length?tops.map((a,i)=>'<div class="act"><div class="n">'+arN(i+1)+'</div><div class="bd"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.ds)+'</div></div><a href="'+a.u+'">افتح ←</a></div>').join(''):'<div class="empty">يومك نظيف — لا خطوات معلّقة. اختر مرعاك في مِرتَع.</div>';
 </script>
 <script src="../shared/feedback.js" data-pid="mirfa3" data-title="مِسعَد"></script>
 </body>

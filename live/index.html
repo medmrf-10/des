@@ -94,6 +94,7 @@ function render(cur){
 }
 function fmt(t){const m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0')}
 au.addEventListener('timeupdate',()=>{render(au.currentTime);if(au.duration)fill.style.width=(au.currentTime/au.duration*100)+'%'});
+au.addEventListener('error',()=>{if(au.error){const tm=document.getElementById('time');if(tm){tm.textContent='تعذّر تحميل الصوت — أعد تحميل الصفحة';tm.style.color='#e07070'}ph.textContent='تعذّر تحميل ملف الصوت — تحقق من الاتصال وأعد المحاولة'}});
 play.onclick=()=>{if(au.paused){au.play();play.textContent='❚❚'}else{au.pause();play.textContent='▶'}};
 document.getElementById('back').onclick=()=>au.currentTime=Math.max(0,au.currentTime-15);
 document.getElementById('fwd').onclick=()=>au.currentTime=Math.min(au.duration||0,au.currentTime+15);

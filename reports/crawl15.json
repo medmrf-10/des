@@ -1,0 +1,455 @@
+{
+ "generated": "2026-09-25T07:02:35.690Z",
+ "sites": {
+  "jadid": {
+   "url": "https://medmrf-10.github.io/des/jadid/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/jadid/jadid/data.js",
+    "https://medmrf-10.github.io/des/jadid/jadid/data.js",
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 212,
+    "dcl": 212,
+    "rsp": 102
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 175
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mirfaa": {
+   "url": "https://medmrf-10.github.io/des/mirfaa/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 115,
+    "rsp": 98
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 122
+   },
+   "search": {
+    "input": "اسم شخص جديد…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mi3kar": {
+   "url": "https://medmrf-10.github.io/des/mi3kar/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 105,
+    "dcl": 104,
+    "rsp": 84
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 113
+   },
+   "search": {
+    "input": "ما سبب مزاجك؟ (سطر واحد)",
+    "query": "ا",
+    "results": 2,
+    "before": 2
+   }
+  },
+  "misra3": {
+   "url": "https://medmrf-10.github.io/des/misra3/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 122,
+    "dcl": 116,
+    "rsp": 105
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 170
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mirqam": {
+   "url": "https://medmrf-10.github.io/des/mirqam/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 11,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 92,
+    "dcl": 92,
+    "rsp": 80
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 450
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mishaf": {
+   "url": "https://medmrf-10.github.io/des/mishaf/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 108,
+    "dcl": 108,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 345
+   },
+   "search": {
+    "input": "أؤمن بأن…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mudarris": {
+   "url": "https://medmrf-10.github.io/des/mudarris/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 104,
+    "dcl": 103,
+    "rsp": 88
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 92
+   },
+   "search": {
+    "input": "اسم طالب جديد…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mishfa": {
+   "url": "https://medmrf-10.github.io/des/mishfa/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 123,
+    "dcl": 122,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 177
+   },
+   "search": {
+    "input": "كم ساعة نمت؟",
+    "query": "ا",
+    "results": 2,
+    "before": 2
+   }
+  },
+  "tadabbur": {
+   "url": "https://medmrf-10.github.io/des/tadabbur/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/tadabbur/",
+    "https://medmrf-10.github.io/des/tadabbur/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 123,
+    "dcl": 123,
+    "rsp": 109
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mihfaz": {
+   "url": "https://medmrf-10.github.io/des/mihfaz/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mihfaz/",
+    "https://medmrf-10.github.io/des/mihfaz/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 101,
+    "dcl": 101,
+    "rsp": 96
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mi3bad": {
+   "url": "https://medmrf-10.github.io/des/mi3bad/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mi3bad/",
+    "https://medmrf-10.github.io/des/mi3bad/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 96,
+    "dcl": 96,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-test_writer": {
+   "url": "https://medmrf-10.github.io/des/prog/test_writer.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/prog/test_writer.html",
+    "https://medmrf-10.github.io/des/prog/test_writer.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 94,
+    "dcl": 94,
+    "rsp": 89
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-git_flow": {
+   "url": "https://medmrf-10.github.io/des/prog/git_flow.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/prog/git_flow.html",
+    "https://medmrf-10.github.io/des/prog/git_flow.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 106,
+    "dcl": 106,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-muwazan": {
+   "url": "https://medmrf-10.github.io/des/hadith/muwazan.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 939,
+    "dcl": 219,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1241
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-sentence_builder": {
+   "url": "https://medmrf-10.github.io/des/english/sentence_builder.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 22,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 294,
+    "dcl": 293,
+    "rsp": 168
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 416
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  }
+ }
+}

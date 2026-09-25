@@ -72,12 +72,14 @@ const au=document.getElementById('au'),ph=document.getElementById('ph'),fill=doc
 let phrases=[];
 const qL=(location.search.match(/[?&]l=(\d+)/)||location.hash.match(/l=(\d+)/));
 const LID=qL?qL[1]:null;
+const qT=(location.search.match(/[?&]t=([\d.]+)/)||location.hash.match(/t=([\d.]+)/));
 const B=LID?`../manzuma/lessons/${LID}/`:'./';
 if(LID){
   au.src='https://github.com/medmrf-10/des/releases/download/audio-pack/'+LID+'.mp3';
   fetch(B+'title.txt').then(r=>r.ok?r.text():'').then(t=>{if(t)document.getElementById('ltitle').textContent=t.trim()});
 }
 fetch(B+'phrases.json').then(r=>r.json()).then(P=>{phrases=P;render(0);buildIdx()});
+if(qT){au.addEventListener('loadedmetadata',()=>{au.currentTime=+qT[1]},{once:true})}
 let curPi=-1,curWi=-1,spans=[];
 function render(cur){
   let pi=-1;for(let i=0;i<phrases.length;i++){if(phrases[i].s<=cur)pi=i;else break}

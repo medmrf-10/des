@@ -8,6 +8,8 @@ const escH = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;'
 let state = {};
 try { state = JSON.parse(localStorage.getItem(LS) || '{}') || {}; } catch (e) { state = {}; }
 const doneMap = state.done || {}, coursesMap = state.courses || {};
+let labMap = {};
+try { labMap = JSON.parse(localStorage.getItem('prog_lab') || '{}') || {}; } catch (e) { labMap = {}; }
 
 /* ---------- قراءة التقدم ---------- */
 // دروس تفاعلية (TRACKS) — الأكثر تقدماً = أعلى نسبة إنجاز
@@ -100,6 +102,15 @@ if (courseRec) {
     <a class="btn ghost tday-open" href="index.html#courses">افتح خارطة الكورسات ←</a>
   </div>`;
 }
+
+/* تقدّم المختبر — تحديات محلولة في prog_lab */
+const labDone = Object.keys(labMap).filter(k => labMap[k]).length;
+html += `
+  <div class="tday-card tday-lab">
+    <div class="tday-tag">المختبر</div>
+    <div class="tday-meta">${labDone}/12 تحدياً منجزاً</div>
+    <a class="btn ghost tday-open" href="lab.html">افتح المختبر ←</a>
+  </div>`;
 
 /* مراجعة سريعة */
 html += `<h3 class="sec-h" style="margin-top:26px">مراجعة سريعة — أبقِ القديم حياً</h3>`;

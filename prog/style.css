@@ -260,3 +260,14 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .ex-w-q{font-size:.85rem;margin-bottom:4px}
 .ex-w-a{font-size:.75rem;color:var(--ok)}
 .ex-actions{display:flex;gap:10px;justify-content:center;margin-top:20px}
+
+/* ====== درس اليوم ====== */
+.tday-card{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:26px;margin-bottom:14px}
+.tday-card.tday-course{border-color:var(--border);border-style:dashed}
+.tday-tag{display:inline-block;background:rgba(201,162,75,.12);color:var(--acc2);border:1px solid var(--acc);border-radius:99px;font-size:.68rem;font-weight:700;padding:3px 12px;margin-bottom:12px}
+.tday-card h2{font-size:1.4rem;margin-bottom:8px;line-height:1.6}
+.tday-meta{font-size:.8rem;color:var(--dim);margin-bottom:10px}
+.tday-why{color:var(--txt);font-size:.88rem;margin-bottom:16px}
+.tday-open{display:inline-block;text-decoration:none}
+.tday-rev .ex-opt.sm{padding:8px 14px;font-size:.8rem;display:inline-block;margin:4px 4px 0 0;width:auto}
+.tday-opts{display:flex;flex-wrap:wrap;gap:6px}

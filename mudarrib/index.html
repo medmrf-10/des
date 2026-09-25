@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِدرّب — مدرّبك الشخصي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.q{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px 17px;margin:9px 0}
+.q .t{font-family:var(--font-ar);font-size:14.5px;font-weight:700;margin-bottom:9px}
+.q .o{display:flex;gap:7px;flex-wrap:wrap}
+.q .o span{border:1px solid var(--border);border-radius:99px;padding:5px 14px;cursor:pointer;font-size:12px}
+.q .o span.on{border-color:var(--acc);color:var(--acc);background:rgba(232,185,63,.08)}
+.plan{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:15px 18px;margin-top:14px}
+.plan .st{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--card2);font-size:13px;line-height:1.9;align-items:flex-start}
+.plan .st:last-child{border:0}
+.plan .st b{color:var(--acc);flex-shrink:0}
+.plan .st a{color:var(--acc3);text-decoration:none;font-size:11px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:10px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِدرّب <span class="muted">— يشخّصك ثم يصف لك يومك</span></h2>
+<div class="muted">٤ أسئلة — يخرج لك وصفة يومك التعليمي: متى، ماذا، بأي أداة، وكم.</div>
+<div id="qs"></div>
+<button class="btn" id="go">شخّصني</button>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const QS=[
+ {t:'متى ذهنك أنصع؟',o:[{v:'fajr',n:'بعد الفجر'},{v:'am',n:'الضحى'},{v:'pm',n:'المساء'},{v:'night',n:'الليل'}]},
+ {t:'كم دقيقة تركيز عميق تملك يومياً؟',o:[{v:15,n:'~١٥ د'},{v:30,n:'~٣٠ د'},{v:60,n:'~ساعة'},{v:120,n:'أكثر'}]},
+ {t:'ما أولويتك الآن؟',o:[{v:'hifz',n:'حفظ'},{v:'fiqh',n:'فقه ومسائل'},{v:'hadith',n:'حديث وأسانيد'},{v:'tafsir',n:'قرآن وتفسير'},{v:'lang',n:'إنجليزية/برمجة'}]},
+ {t:'أين أنت في طريقك؟',o:[{v:'start',n:'بداية'},{v:'mid',n:'وسط الطريق'},{v:'adv',n:'متقدم'}]}];
+const ans={};
+$('#qs').innerHTML=QS.map((q,i)=>`<div class="q"><div class="t">${i+1}. ${q.t}</div><div class="o" data-i="${i}">${q.o.map(o=>`<span data-v="${o.v}">${o.n}</span>`).join('')}</div></div>`).join('');
+document.addEventListener('click',e=>{
+ const s=e.target.closest('.o span');if(!s)return;
+ s.parentElement.querySelectorAll('span').forEach(x=>x.classList.remove('on'));
+ s.classList.add('on');ans[s.parentElement.dataset.i]=s.dataset.v});
+$('#go').onclick=()=>{
+ if(Object.keys(ans).length<4){alert('أجب الأربعة أولاً');return}
+ const A=Object.values(ans);
+ const t=A[0],mins=+A[1],pri=A[2],lvl=A[3];
+ const when={fajr:'بعد الفجر — ذهنك في ذروته',am:'في الضحى',pm:'بعد العصر/المغرب',night:'قبل النوم — لا تتجاوز منتصف الليل'}[t];
+ const core={hifz:['مِصراط الحفظ','../misraj/','احفظ جملةً جملة في الظلام — '+Math.max(5,Math.round(mins/3))+' جملات'],
+  fiqh:['المسائل','../masail/','اقرأ '+Math.max(2,Math.round(mins/8))+' مسائل من المتن الذي تدرسه'],
+  hadith:['مِجس + مِرثد','../mijass/','جسّ '+Math.max(3,Math.round(mins/4))+' أحاديث ثم تتبع لفظاً في مِرثد'],
+  tafsir:['مِفسّر','../mufassir/','آية واحدة: افسِر بكلامك ثم قارن بالسعدي'],
+  lang:['منصة الإنجليزية','../english/','بطاقاتك المستحقة أولاً ثم قصة قصيرة']}[pri];
+ const lvlTip={start:'لا تجمع — عادة واحدة صغيرة تلتزم بها تغلب برنامجاً طموحاً يموت',mid:'اربط ما تحفظ بما تفهم: كل جلسة حفظ يتبعها مسألة أو تفسير',adv:'أنتج! درّب التفسير واكتب درسك الأول بمِنشأ ومسجّل'}[lvl];
+ $('#out').innerHTML=`<div class="plan">
+ <div class="st"><b>⏰</b><div>${when} — جلستك الذهبية ${mins} دقيقة</div></div>
+ <div class="st"><b>🎯</b><div>جلستك الرئيسية: <b>${core[0]}</b> — ${core[2]} <a href="${core[1]}">افتح الأداة ←</a></div></div>
+ <div class="st"><b>📌</b><div>قبلها بـ٥ د: <a href="../midhallah/">مِظلة</a> تعرف وضعك، وبعدها: <a href="../midad/">مِداد</a> يسجل دقائقك</div></div>
+ <div class="st"><b>💡</b><div>${lvlTip}</div></div>
+ <div class="st"><b>🔁</b><div>أسبوعياً: راجع حفظك القديم في <a href="../miraj3a/">مراجعة</a> — المستحق يتراكم إن أهملته</div></div>
+ </div>
+ <div class="muted" style="margin-top:8px">هذه وصفتك الأولى — عدّلها كل أسبوع حسب التزامك الحقيقي في مِداد.</div>`;
+ localStorage.setItem('mudarrib',JSON.stringify({ans,at:Date.now()}))};
+const st=JSON.parse(localStorage.getItem('mudarrib')||'null');
+</script>
+<script src="../shared/feedback.js" data-pid="mudarrib" data-title="مِدرّب"></script>
+</body>
+</html>

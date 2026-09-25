@@ -1,95 +1,114 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f1a">
-<title>مُعلِّم — اسأل فيتعلّم دربك</title>
+<title>مُعَلِّم — يعرفك ويحاورك</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
-body{max-width:780px;margin:0 auto;padding:14px}
-.q{display:flex;gap:8px;margin:12px 0}
-.inp{flex:1;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px 16px;font-family:var(--font-ar);font-size:15px}
-.inp:focus{outline:none;border-color:var(--acc)}
-.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
-.step{display:flex;gap:11px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin:7px 0;align-items:flex-start}
-.step .n{width:24px;height:24px;border-radius:50%;background:var(--acc);color:#14140f;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
-.step .b{flex:1}
-.step .t{font-weight:700;font-size:14px}
-.step .d{color:var(--dim);font-size:12px;margin-top:3px;line-height:1.8}
-.step a{color:var(--acc3);font-size:11.5px;text-decoration:none}
-.muted{color:var(--dim);font-size:12px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.chip{border:1px solid var(--border);border-radius:99px;padding:4px 12px;cursor:pointer;font-size:11px;color:var(--dim)}
-h4{font-family:var(--font-ar);margin:14px 0 6px;font-size:13px;color:var(--acc)}
+body{max-width:640px;margin:0 auto;padding:14px;display:flex;flex-direction:column;min-height:100dvh}
+.hd{text-align:center;padding:8px 0}
+.hd h1{font-family:var(--font-ar);font-size:26px;margin:0;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hd .s{color:var(--dim);font-size:.74rem;margin-top:4px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:10px 0 6px}
+.chips button{border:1px solid var(--border);background:var(--card);color:var(--dim);border-radius:20px;padding:6px 14px;font-size:.72rem;cursor:pointer;font-family:inherit}
+.chips button:hover{border-color:var(--acc);color:var(--acc)}
+#log{flex:1;overflow-y:auto;padding:6px 2px}
+.msg{margin:10px 0;display:flex}
+.msg.me{justify-content:flex-start}
+.msg.him{justify-content:flex-end}
+.bb{max-width:88%;padding:11px 15px;border-radius:14px;font-size:.9rem;line-height:2}
+.me .bb{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border)}
+.him .bb{background:linear-gradient(135deg,rgba(201,162,75,.16),rgba(201,162,75,.05));border:1px solid var(--acc)}
+.me .bb .who{color:var(--acc);font-size:.66rem;display:block;margin-bottom:4px;font-weight:700}
+.typing{color:var(--acc);font-size:.8rem;padding:8px;text-align:center}
+.inrow{display:flex;gap:8px;padding:10px 0 4px;position:sticky;bottom:0;background:var(--bg,#0b0f1a)}
+.inrow input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--txt);padding:12px 16px;font-family:inherit;font-size:.92rem}
+.inrow input:focus{outline:none;border-color:var(--acc)}
+.inrow button{background:var(--acc);border:none;color:#0b0f1a;border-radius:12px;padding:0 20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem}
+.off{text-align:center;color:var(--dim);padding:40px 20px;font-size:.85rem;line-height:2.2}
+.off a{color:var(--acc)}
+.clr{position:absolute;top:10px;left:12px;color:var(--dim);font-size:.66rem;background:none;border:1px solid var(--border);border-radius:7px;padding:3px 10px;cursor:pointer}
 </style>
 </head>
 <body>
-<h2 style="font-family:var(--font-ar);margin:6px 0">مُعلِّم <span class="muted">— اكتب موضوعاً، يصنع لك درب تعلّم</span></h2>
-<div class="muted">مثال: صيام، طهارة، عقيدة، نحو، برمجة، إنجليزية — فيرسم لك: سلسلة تبدأ بها ← مسائلها ← أحاديثها ← اختبر نفسك.</div>
-<div class="q">
-<input class="inp" id="q" placeholder="اكتب الموضوع…" autofocus>
-<button class="btn" id="go">علّمني</button>
+<div class="hd">
+ <h1>مُعَلِّم</h1>
+ <div class="s">معرّف بكل تقدّمك — يسألك عنه ويقترح لك لا عليك</div>
 </div>
-<div class="chips" id="sug"></div>
-<div id="out"></div>
+<button class="clr" id="clr">مسح المحادثة</button>
+<div class="chips" id="chips"></div>
+<div id="log"></div>
+<div class="inrow">
+ <input id="q" placeholder="اسأل معلّمك — أي شيء" autocomplete="off">
+ <button id="go">أرسل</button>
+</div>
 <script>
-const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
-const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
-const TOP=['صيام','طهارة','صلاة','زكاة','حج','عقيدة','نحو','صرف','حديث','تفسير','سيرة','فقه','إيمان','برمجة','إنجليزية','حفظ','قرآن'];
-$('#sug').innerHTML=TOP.map(t=>`<span class="chip">${t}</span>`).join('');
-$('#sug').onclick=e=>{if(e.target.classList.contains('chip')){$('#q').value=e.target.textContent;teach()}};
-$('#q').onkeydown=e=>{if(e.key==='Enter')teach()};
-$('#go').onclick=teach;
-let S=null;
-async function data(){if(S)return S;
- const d=document.createElement('script');d.src='../durus/data.js';
- await new Promise((ok,bad)=>{d.onload=ok;d.onerror=bad;document.head.appendChild(d)});
- S={SERIES:window.SERIES||[]};return S}
-async function teach(){
- const q=norm($('#q').value.trim());if(!q)return;
- $('#out').innerHTML='<div class="muted">يرسم دربك…</div>';
- const {SERIES}=await data();
- // 1 سلاسل مطابقة
- const hits=SERIES.filter(s=>{const b=norm(s.name+' '+s.sheikh+' '+(s.comment||''));
-  return q.split(' ').every(w=>b.includes(w))}).slice(0,6);
- // 2 مسائل
- let ms=[];
- try{const M=window.MASAIL||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../fiqh_reader/masail.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.MASAIL);
-  for(const sl of Object.keys(M)){const m=M[sl];
-   const fs=m.u.filter(u=>norm(u.t||'').includes(q)).slice(0,3);
-   ms.push(...fs.map(u=>({t:u.t||u.i,b:m.n,u:'../fiqh_reader/index.html#'+sl+'/'+u.i})))}
-  ms=ms.slice(0,5)}catch(e){}
- // 3 أحاديث
- let hs=[];
- try{const D=window.GIDNET||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.GIDNET);
-  for(const gid of Object.keys(D.g)){const g=D.g[gid];
-   if(norm(g.t).includes(q))hs.push({t:g.t,h:g.h,u:'../hadith/matn.html#'+gid});
-   if(hs.length>=4)break}}catch(e){}
- // 4 مصطلحات/مواضيع
- let ts=[];
- try{const T=window.TERMS||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../fiqh_reader/terms.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.TERMS);
-  for(const t of Object.keys(T.terms||{})){
-   if(norm(t).includes(q))ts.push({t,b:T.terms[t].length});
-   if(ts.length>=5)break}}catch(e){}
- // رسم الدرب
- let h=`<h4>درب «${esc($('#q').value)}» التعليمي</h4>`;
- let n=1;
- if(hits.length){
-  hits.slice(0,3).forEach((s,i)=>{
-   h+=`<div class="step"><div class="n">${n++}</div><div class="b"><div class="t">${i===0?'ابدأ هنا':'ثم'}: ${esc(s.name)}</div><div class="d">${esc(s.sheikh)} · ${s.videos||'?'} درساً${s.kind?' · '+esc(s.kind):''}</div><a href="../durus/index.html#s=${s.id}">افتح السلسلة ←</a></div></div>`})}
- else h+=`<div class="muted" style="padding:6px">لا سلسلة مطابقة تماماً — جرّب لفظاً أعم (مثلاً «فقه» بدل «فقه العبادات المالكي»)</div>`;
- if(ms.length){h+='<h4>مسائلها من المتون</h4>';
-  ms.forEach(m=>{h+=`<div class="step"><div class="n">${n++}</div><div class="b"><div class="t" style="font-weight:400;font-size:13px;line-height:1.8">${esc(m.t.slice(0,140))}</div><div class="d">${esc(m.b)}</div><a href="${m.u}">اقرأها كاملة ←</a></div></div>`})}
- if(hs.length){h+='<h4>أحاديثها</h4>';
-  hs.forEach(x=>{h+=`<div class="step"><div class="n">${n++}</div><div class="b"><div class="t" style="font-weight:400;font-size:13px">«${esc(x.t)}»</div><div class="d">${esc(x.h)}</div><a href="${x.u}">تتبعها ←</a></div></div>`})}
- if(ts.length){h+='<h4>مواضيع مرتبطة</h4>';
-  h+='<div class="chips">'+ts.map(t=>`<span class="chip" style="cursor:default">${esc(t.t)} <span class="muted">(${t.b})</span></span>`).join('')+'</div>'}
- h+=`<div class="step" style="border-color:var(--acc)"><div class="n">✓</div><div class="b"><div class="t">اختبر نفسك</div><div class="d">أجب أسئلة في هذا الموضوع بمِعيار أو اختبرني</div><a href="../mi3yar/">مِعيار ←</a> <a href="../ikhtibirni/" style="margin-inline-start:10px">اختبرني ←</a></div></div>`;
- $('#out').innerHTML=h}
-const hp=location.hash.slice(1);if(hp){$('#q').value=decodeURIComponent(hp);teach()}
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const today=new Date().toISOString().slice(0,10);
+const KEY='muallim_log';
+let hist=LS(KEY)||[];
+/* build the "who is he" context from real state */
+function whoAmI(){
+ const f=[];
+ const mz=LS('mz_prog')||{};const mzN=Object.keys(mz).length;if(mzN)f.push('أنهى '+mzN+' سلسلة علمية');
+ const streak=LS('mz_streak')||{};if(streak.n)f.push('سلسلة أيام دراسة: '+streak.n);
+ const cur=(LS('wird_curriculum')||[]);const nx=cur.find(s=>!s.done);if(nx)f.push('خطوته الحالية في منهجه: «'+nx.t+'»');
+ const enR=(LS('en_routine')||{});if(enR[today])f.push('أتم روتين الإنجليزية اليوم');
+ const srs=LS('en_srs')||{};const due=srs.cards?Object.values(srs.cards).filter(c=>c.due&&c.due<=Date.now()).length:0;if(due)f.push(due+' كلمة إنجليزية مستحقة للمراجعة');
+ const mih=LS('mihfaz_v1')||{};const mn=Object.keys(mih).length;if(mn)f.push(mn+' سور فيها تقدّم في الحفظ');
+ const mun=(LS('muntaga')||[]).length;if(mun)f.push(mun+' مقاطع علمية جمعها بنفسه في منتقاه');
+ const name=LS('wird_name')||LS('mz_name')||'محمد';
+ const evs=LS('jadid_eval_v2')||{};const liked=Object.entries(evs).filter(([k,v])=>v.rounds&&v.rounds[0]&&v.rounds[0].stars>=60).map(([k])=>k);if(liked.length)f.push('أعجبته هذه الأدوات: '+liked.slice(0,8).join('، '));
+ return {name,facts:f.join('؛ ')||'لم يسجّل نشاطاً بعد — ابدأ بتشجيعه على خطوة واحدة صغيرة اليوم'};
+}
+function sysPrompt(){
+ const w=whoAmI();
+ return 'أنت «مُعَلِّم» — مرشد شخصي داخل منصة '+w.name+' التعليمية الخاصة. هو إمام وطالب علم شرعي جزائري يتعلم البرمجة والإنجليزية ويعدّ دروسه الإسلامية.\\n'+
+ 'ما تعرفه عنه اليوم: '+w.facts+'.\\n\\n'+
+ 'قواعدك: (1) اكتب بالعربية الفصحى البسيطة الدافئة، لا تجامل زيفاً ولا تطيل. (2) إن سألك عن دراسة فاقترح خطوة واحدة صغيرة مرتبطة بأدواته الحقيقية: التراث (manzuma)، الإنجليزية (english/routine)، البرمجة (prog/today)، الحفظ (mihfaz)، نصوصه (nusus)، الحديث (hadith)، الفقه (fiqh_reader)، العقيدة (akida). (3) إن سأل سؤالاً علمياً فأجب بدقة واختصار، وقل إن كان يحتاج مراجعة مصدر. (4) شجّع الاستمرارية على الحجم — «القليل الدائم» ديدنه. (5) لا تتجاوز 120 كلمة إلا إن طلب شرحاً مفصلاً.';
+}
+const QUICK=['ماذا أدرس الآن؟','اختبرني في شيء تعلمته','أشعر بفتور — شجعني','كيف أستفيد من المنظومة اليوم؟','اشرح لي مسألة في الحديث'];
+$('chips').innerHTML=QUICK.map(q=>`<button>${q}</button>`).join('');
+$('chips').onclick=e=>{const b=e.target.closest('button');if(b){$('q').value=b.textContent;send()}};
+function push(role,text){
+ const d=document.createElement('div');d.className='msg '+(role==='user'?'me':'him');
+ d.innerHTML=`<div class="bb">${role==='user'?'<span class="who">أنت</span>':'<span class="who">معلّمك ✦</span>'}${esc(text).replace(/\n/g,'<br>')}</div>`;
+ $('log').appendChild(d);$('log').scrollTop=1e9;
+}
+function draw(){
+ $('log').innerHTML='';
+ hist.forEach(m=>push(m.role==='user'?'user':'him',m.text));
+ if(!hist.length){
+  if(!(window.llmReady&&window.llmReady())){
+   $('log').innerHTML='<div class="off">المعلّم نائم — يحتاج مفتاحه.<br>افتح <a href="../jadid/">«جديد»</a> برقمك أولاً ليستيقظ، ثم عُد.</div>';
+  }else{
+   push('him','السلام عليكم '+(whoAmI().name||'')+' — أنا معلّمك، أعرف أين وصلت في كل أدواتك. اسألني، أو اضغط سؤالاً جاهزاً فوق. «العلم بالتعلّم، والحلم بالتحلّم».');
+  }
+ }
+}
+async function send(){
+ const q=$('q').value.trim();if(!q)return;
+ if(!(window.llmReady&&window.llmReady())){$('log').innerHTML='<div class="off">المعلّم نائم — افتح «جديد» برقمك أولاً.</div>';return}
+ $('q').value='';push('user',q);hist.push({role:'user',text:q});
+ const tp=document.createElement('div');tp.className='typing';tp.textContent='يفكّر…';$('log').appendChild(tp);$('log').scrollTop=1e9;
+ try{
+  const convo=hist.slice(-14).map(m=>(m.role==='user'?'هو: ':'أنت: ')+m.text).join('\n');
+  const out=await window.gemAsk(sysPrompt()+'\n\nالمحادثة حتى الآن:\n'+convo+'\nهو: '+q+'\nأنت:',{maxTokens:700,temperature:.75});
+  tp.remove();push('him',out);hist.push({role:'model',text:out});
+  if(hist.length>200)hist=hist.slice(-200);
+  localStorage.setItem(KEY,JSON.stringify(hist));
+ }catch(err){tp.remove();push('him','(تعذّر: '+err.message+')')}
+}
+$('go').onclick=send;
+$('q').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+$('clr').onclick=()=>{localStorage.removeItem(KEY);hist=[];draw()};
+draw();
 </script>
-<script src="../shared/feedback.js" data-pid="muallim" data-title="مُعلِّم"></script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/feedback.js" data-pid="muallim" data-title="مُعَلِّم"></script>
 </body>
 </html>

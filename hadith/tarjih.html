@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الترجيح — موازنة الأحكام | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.stats b{color:var(--acc2)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.matn{font-family:var(--font-ar);font-size:16px;line-height:2;color:var(--txt);background:var(--card2);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.side{border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s}
+.side:hover{border-color:var(--acc2)}
+.side h4{margin:0 0 8px;font-size:15px}
+.side .ev{font-size:11.5px;color:var(--dim);line-height:1.8}
+.side .who{color:var(--txt)}
+.v-sa{color:var(--ok)}.v-hs{color:var(--acc2)}.v-df{color:#e08a8a}.v-sd{color:#ff7070}.v-mw{color:#ff9090}.v-ot,.v-ns{color:#9db8d4}
+.side.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.reveal{background:var(--card2);border:1px solid var(--acc2);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:12.5px;line-height:1.9}
+.btn{background:var(--acc);color:#14140f;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:700}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.mut{color:var(--dim);font-size:12px}
+.ok{color:var(--ok);font-weight:700}.no{color:#e07;font-weight:700}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚖ الترجيح</h1>
+  <span class="sub">حكمان متعارضان على المتن نفسه — وازن الدليلين ثم اكشف رأي الجمهور</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="ilal.html">العلل ←</a>
+</header>
+<div class="stats" id="stats"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script src="scholar.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف|Very weak/i.test(s))return 'sd';
+  if(/متهم بالوضع|موضوع|Fabricated/i.test(s))return 'mw';
+  if(/متصل|صحيح|Sahih/i.test(s))return 'sa';
+  if(/حسن|Hasan|Fair/i.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول|Weak|Daif/i.test(s))return 'df';
+  return 'ot'};
+const HBL={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم',ot:'أخرى',ns:'بلا حكم'};
+const SCAR={shakir:'شاكر',albani:'الألباني','zubair ali zai':'زبير علي زائي','zai':'زبير علي زائي',maarouf:'بشار عواد معروف','bashar awad maarouf':'بشار عواد معروف'};
+let GN=null;const D={};
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadGN(){
+  if(GN)return;
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='40%'});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  return D[b];
+}
+/* إحصاءات الموازنات — تُخزَّن محلياً */
+const SKEY='miq_tarjih_stats';
+const getStats=()=>{try{return JSON.parse(localStorage.getItem(SKEY)||'{"tried":0,"agreed":0}')}catch(e){return{tried:0,agreed:0}}};
+const putStats=s=>{try{localStorage.setItem(SKEY,JSON.stringify(s))}catch(e){}};
+function paintStats(){
+  const s=getStats();
+  document.getElementById('stats').innerHTML=s.tried?
+    `موازناتك: <b>${arNum(s.tried)}</b> · وافقت الجمهور: <b>${arNum(s.agreed)}</b> (${arNum(Math.round(s.agreed/s.tried*100))}٪) <button class="chip" onclick="if(confirm('تصفير إحصاءاتك؟')){localStorage.removeItem('${SKEY}');paintStats()}">تصفير</button>`
+    :'لم توازن بعد — كل بطاقة تحكمين متعارضان، اختر المرجّح ثم اكشف الجمهور.';
+}
+/* بناء تجمع المرشّحين: آراء متعارضة الطبقات */
+let POOL=[];
+function buildPool(){
+  /* من j: طبقات متباينة بين أسانيد المعنى الواحد */
+  for(const gid in GN.g){
+    const g=GN.g[gid];if(!g.j)continue;
+    const bkts=new Set();const ev=[];
+    for(const b in g.j)for(const n in g.j[b])for(const v of g.j[b][n]){
+      const k=bucket(v);bkts.add(k);ev.push({who:'أسانيد '+BAR[b],k,v,book:b,num:n})}
+    if(bkts.size>=2)POOL.push({gid,kind:'j',ev});
+  }
+  /* من SCHOLAR (ترمذي): خلاف المحققين */
+  if(window.SCHOLAR&&SCHOLAR.tirmidhi){
+    const byGid={};
+    for(const num in SCHOLAR.tirmidhi){
+      const rows=SCHOLAR.tirmidhi[num];const bkts=new Set(rows.map(r=>bucket(r[1])));
+      if(bkts.size<2)continue;
+      const gid=D.tirmidhi&&D.tirmidhi.d[num]?String(D.tirmidhi.d[num].g):null;
+      if(!gid)continue;
+      byGid[gid]=byGid[gid]||{gid,kind:'sch',ev:[]};
+      for(const r of rows)byGid[gid].ev.push({who:SCAR[norm(r[0]).toLowerCase()]||r[0],k:bucket(r[1]),v:r[1],book:'tirmidhi',num:+num});
+    }
+    /* ادمج مع تجمع j عند التلاقي */
+    const jIdx=Object.fromEntries(POOL.map((p,i)=>[p.gid,i]));
+    for(const gid in byGid){
+      const i=jIdx[gid];
+      if(i!=null)POOL[i].ev.push(...byGid[gid].ev);
+      else POOL.push(byGid[gid]);
+    }
+  }
+}
+let cur=null,answered=false;
+async function next(){
+  answered=false;
+  if(!POOL.length)return;
+  cur=POOL[Math.floor(Math.random()*POOL.length)];
+  const g=GN.g[cur.gid];
+  const sides={};
+  for(const e of cur.ev){(sides[e.k]=sides[e.k]||[]).push(e)}
+  const keys=Object.keys(sides).sort((a,b)=>sides[b].length-sides[a].length);
+  const A=keys[0],B=keys[1]||keys[0];
+  /* متن للعرض: أول موضع */
+  const wb=Object.keys(g.w||{})[0],n0=wb&&g.w[wb][0];
+  await loadBook(wb);
+  const m=D[wb]&&D[wb].d[n0]?D[wb].d[n0].m:g.t;
+  const evList=kk=>sides[kk].map(e=>`<div>· <span class="who">${esc(e.who)}</span> — ${esc(e.v)} <span class="mut">(${BAR[e.book]} #${arNum(e.num)})</span></div>`).join('');
+  document.getElementById('main').innerHTML=`
+  <div class="card">
+    <div class="mut" style="margin-bottom:6px">معنى #${arNum(cur.gid)} · ${BAR[wb]} #${arNum(n0)}${cur.kind==='sch'?' · خلاف محققين':' · خلاف بين أسانيد/آراء'}</div>
+    <div class="matn">${esc(String(m).slice(0,300))}${String(m).length>300?'…':''}</div>
+    <div class="cols">
+      <div class="side" id="sideA" onclick="pick('${A}')"><h4 class="v-${A}">${HBL[A]}</h4><div class="ev">${evList(A)}</div><div class="mut" style="margin-top:8px">رجّح هذا ← اضغط</div></div>
+      <div class="side" id="sideB" onclick="pick('${B}')"><h4 class="v-${B}">${HBL[B]}</h4><div class="ev">${evList(B)}</div><div class="mut" style="margin-top:8px">رجّح هذا ← اضغط</div></div>
+    </div>
+    <div id="rev"></div>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn" onclick="next()">بطاقة أخرى ←</button>
+      <a class="chip" href="net.html#g${cur.gid}">المعنى في الشبكة ←</a>
+      <a class="chip" href="naskh.html?g=${cur.gid}">ألفاظه ←</a>
+    </div>
+  </div>`;
+}
+window.pick=function(k){
+  if(answered)return;answered=true;
+  const g=GN.g[cur.gid];
+  /* جمهور = أكثر طبقة تكراراً عبر كل الآراء (أيّ تعادل → حكم المعنى الموحد) */
+  const cnt={};for(const e of cur.ev)cnt[e.k]=(cnt[e.k]||0)+1;
+  const maj=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const winner=maj.length>1&&maj[0][1]===maj[1][1]?bucket(g.h):maj[0][0];
+  const agree=k===winner;
+  const s=getStats();s.tried++;if(agree)s.agreed++;putStats(s);paintStats();
+  document.getElementById('side'+ (k=== 'A'?'A':'B')); /* noop guard */
+  document.getElementById('rev').innerHTML=`
+    <div class="reveal">رأي الجمهور: <b class="v-${winner}">${HBL[winner]}</b>
+    — ${maj.map(([kk,c])=>`${HBL[kk]} ${arNum(c)}`).join(' مقابل ')}
+    · الحكم الموحد للمعنى: <b class="v-${bucket(g.h)}">${esc(g.h)}</b><br>
+    ${agree?'<span class="ok">وافقت الجمهور ✓</span>':'<span class="no">خالفت الجمهور</span> — لاحظ أن الموازنة الحقيقية تزن قوة الأسانيد لا عددها فقط؛ هنا «الجمهور» عدد الآراء المسجلة'}</div>`;
+};
+window.next=next;
+(async()=>{
+  paintStats();
+  await loadGN();
+  await loadBook('tirmidhi');
+  pf.style.width='80%';stat.textContent='يبني تجمع المتعارضات…';
+  buildPool();
+  pf.style.width='100%';stat.textContent='';
+  document.getElementById('stats').insertAdjacentHTML('beforeend',` · متاح للموازنة: <b>${arNum(POOL.length)}</b> حالة خلاف`);
+  next();
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="miq_tarjih"></script>
+</body>
+</html>

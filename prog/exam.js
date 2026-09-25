@@ -64,9 +64,9 @@ function renderQ() {
       <span class="ex-count">السؤال ${ex.i + 1} / ${n}</span>
       <span class="ex-src">${escH(q.lesson)}</span>
     </div>
-    <div class="ex-q">${escH(q.q)}</div>
+    <div class="ex-q">${q.q}</div>
     <div class="ex-opts">
-      ${q.o.map((o, oi) => `<button class="ex-opt" data-i="${oi}">${escH(o)}</button>`).join('')}
+      ${q.o.map((o, oi) => `<button class="ex-opt" data-i="${oi}">${o}</button>`).join('')}
     </div>`;
   document.querySelectorAll('.ex-opt').forEach(b => b.onclick = () => answer(+b.dataset.i, b));
 }
@@ -117,8 +117,8 @@ function finishExam() {
             <div class="ex-w-lesson">${escH(ls)} <span class="c-cnt">${wrong[ls].length} خطأ</span></div>
             ${wrong[ls].map(q => `
               <div class="ex-w-item">
-                <div class="ex-w-q">${escH(q.q)}</div>
-                <div class="ex-w-a">الصحيحة: ${escH(q.o[q.a])}</div>
+                <div class="ex-w-q">${q.q}</div>
+                <div class="ex-w-a">الصحيحة: ${q.o[q.a]}</div>
               </div>`).join('')}
           </div>`).join('')}
       ` : '<div class="ex-perfect">امتحان مثالي — لا شيء للمراجعة 🎓</div>'}

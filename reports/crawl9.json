@@ -1,0 +1,35 @@
+{
+ "generated": "2026-09-25T04:44:46.759Z",
+ "sites": {
+  "prog-index": {
+   "url": "https://medmrf-10.github.io/des/prog/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 372,
+    "dcl": 354,
+    "rsp": 141
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 873
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  }
+ }
+}

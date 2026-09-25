@@ -106,14 +106,15 @@ ensure(BOOKS.slice(0,2)).then(()=>{document.getElementById('stat').textContent='
 /* روابط عميقة: #كتاب:رقم (متن مفرد) أو #g<معنى> (كل متون المعنى) */
 (async()=>{
  const m1=location.hash.match(/^#([\w-]+):(\d+)$/),m2=location.hash.match(/^#g(\d+)$/);
+ const ready=async()=>{while(loading)await new Promise(r=>setTimeout(r,60))};
  if(m1){const b=m1[1],n=+m1[2];
   if(!BAR[b])return;
-  document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';await ensure([b]);
+  document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';await ready();await ensure([b]);
   const r=D[b].recs.find(x=>x.n===n);if(!r){document.getElementById('stat').textContent='الرقم غير موجود في '+BAR[b];return}
   document.getElementById('stat').textContent='متن واحد من '+BAR[b];
   render([{bk:BAR[b],b,n:r.n,m:r.m,g:r.g,v:r.v,rs:r.rs,sc:r.sc}],[]);}
  else if(m2){const gid=+m2[1];
-  document.getElementById('stat').textContent='يجمع متون المعنى '+gid.toLocaleString('ar-EG')+'…';await ensure(BOOKS);
+  document.getElementById('stat').textContent='يجمع متون المعنى '+gid.toLocaleString('ar-EG')+'…';await ready();await ensure(BOOKS);
   const hits=[];for(const b of BOOKS)for(const r of D[b].recs)if(r.g===gid)hits.push({bk:BAR[b],b,n:r.n,m:r.m,g:r.g,v:r.v,rs:r.rs,sc:r.sc,scl:r.m.length});
   hits.sort((a,c)=>a.scl-c.scl);
   document.getElementById('stat').textContent=hits.length?hits.length.toLocaleString('ar-EG')+' متناً للمعنى '+gid.toLocaleString('ar-EG'):'لا متون لهذا المعنى';

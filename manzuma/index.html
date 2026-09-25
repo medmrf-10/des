@@ -604,7 +604,8 @@ const SRCS=[
  {ic:'📜',n:'مِقصَب',d:'دستورك الشخصي',u:'../miqsab/',t:'إدارة'},
  {ic:'⛈️',n:'مِرعَد',d:'خطط العواصف — أيامك الصعبة',u:'../mir3ad/',t:'إدارة'} ,
  {ic:'⚖️',n:'التَّرجيح',d:'رجّح بين القولين بالأدلة',u:'../hadith/tarjih.html',t:'حديث'} ,
- {ic:'🧩',n:'Chunking',d:'عبارات جاهزة',u:'../english/chunking.html',t:'إنجليزية'}
+ {ic:'🧩',n:'Chunking',d:'عبارات جاهزة',u:'../english/chunking.html',t:'إنجليزية'},
+ {ic:'👂',n:'مِنصَت',d:'سجل الإنصات — كم أنصتّ',u:'../minsat/',t:'إدارة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

@@ -731,3 +731,38 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .ad-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
 .ad-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
 .ad-opt:disabled{cursor:default;opacity:.85}
+
+/* ====== أنماط التصميم ====== */
+.pt-prob{background:#2d1a10;border:1px solid #8d5a3a;border-radius:10px;padding:10px 14px;font-size:.8rem;color:#e0c0a0;margin-bottom:10px}
+.pt-tabs{display:flex;gap:6px;margin-bottom:0}
+.pt-tab{flex:1;background:var(--card2);border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;color:var(--dim);font-size:.72rem;padding:8px;cursor:pointer;font-family:inherit}
+.pt-tab.on{color:var(--acc2);border-color:var(--acc);background:var(--bg)}
+.pt-code{border-radius:0 0 10px 10px !important;margin-top:0 !important;min-height:140px}
+.pt-tip{background:#1a2d1a;border:1px solid #4a7a4a;border-radius:10px;padding:10px 14px;font-size:.8rem;color:#b8e0b8;line-height:1.8}
+
+/* خريطة المهارات — طبقات ووصلات */
+#mapBody{position:relative}
+.mp-layer{margin-bottom:26px;position:relative;z-index:1}
+.mp-ltag{font-size:.66rem;color:var(--dim);margin-bottom:8px;letter-spacing:.5px}
+.mp-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.mp-edges{position:absolute;inset:0;z-index:0;pointer-events:none}
+.mp-edge{fill:none;stroke:var(--border);stroke-width:2;stroke-dasharray:5 5}
+.mp-edge.lit{stroke:var(--acc);stroke-dasharray:none;opacity:.6}
+.mp-skill{display:flex;flex-direction:column;align-items:center;gap:6px;width:158px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 10px;cursor:pointer;font-family:inherit;color:var(--txt)}
+.mp-skill:hover{border-color:var(--acc)}
+.mp-skill.lock{opacity:.45;cursor:default}
+.mp-skill.gold{border-color:var(--acc)}
+.mp-skill.green{border-color:var(--ok)}
+.mp-skill .mp-fg{stroke:#5a6274}
+.mp-skill.gold .mp-fg{stroke:var(--acc)}
+.mp-skill.green .mp-fg{stroke:var(--ok)}
+.mp-s-name{font-size:.78rem;font-weight:600}
+.mp-s-state{font-size:.62rem;color:var(--dim)}
+.mp-d-row{display:flex;align-items:center;gap:8px;font-size:.74rem;width:100%}
+.mp-d-row>span:first-child{color:var(--dim);min-width:120px}
+.mp-d-bar{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden;min-width:60px}
+.mp-d-bar i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.mp-d-proj{font-size:.76rem;color:var(--txt);background:var(--card2);border-radius:10px;padding:10px 12px;margin:10px 0}
+.mp-d-rem{font-size:.72rem;color:var(--dim);margin-bottom:10px}
+.mp-d-rem a{color:var(--acc2);text-decoration:none}
+@media(max-width:640px){.mp-skill{width:44%}}

@@ -14,18 +14,27 @@ function toastMsg(m){ const t=document.getElementById('toast'); t.textContent=m;
 /* ---------- المنتقي ---------- */
 function viewPick(){
   const res = loadStory();
-  const cards = STORIES.map(st=>{
+  const rows = STORIES.map(st=>{
     const wc = st.sentences.reduce((n,s)=>n+s.en.split(/\s+/).length,0);
     const r = res[st.id];
-    return `<div class="card"><div class="body">
-      <div class="meta"><span class="ltag ${st.level==='B1'?'':'ms'}">${st.level}</span></div>
-      <h3>${esc(st.title)} <span style="color:var(--muted);font-size:13px">— ${esc(st.titleAr)}</span></h3>
-      <div class="meta"><span>${st.sentences.length} جملة</span><span>~${wc} كلمة</span>${r?`<span>أفضل نتيجة: ${r.best}/${r.total}</span>`:''}</div>
-      <button class="btn" style="margin-top:8px" onclick="openStory('${st.id}')">${r?'أعد القراءة':'اقرأ'} ←</button>
+    return `<div class="card"><div class="body" style="display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap">
+      <div style="flex:1;min-width:170px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="ltag ${st.level==='B1'?'':'ms'}">${st.level}</span>
+          <b style="font-size:15px">${esc(st.titleAr)}</b>
+          <span class="muted" dir="ltr" style="font-size:12px">${esc(st.title)}</span>
+        </div>
+        <div class="muted" style="font-size:12px;margin-top:4px">${st.sentences.length} جملة · ~${wc} كلمة${r?` · أفضل نتيجة ${r.best}/${r.total}`:''}</div>
+      </div>
+      <button class="btn" style="flex:0 0 auto" onclick="openStory('${st.id}')">${r?'أعد القراءة':'اقرأ القصة'} ←</button>
     </div></div>`;
   }).join('');
-  app.innerHTML = `<div class="head"><h2>القصص المتدرّجة</h2><span class="rstreak">${STORIES.length} قصص · A2–B1</span></div>
-  <div class="grid">${cards}</div>`;
+  app.innerHTML = `<div class="card"><div class="body" style="text-align:center">
+    اقرأ قصة قصيرة بالإنجليزية <b>جملة-جملة</b>: كل جملة لها زر استماع وترجمة تُكشف بالضغط، وأي كلمة تضغطها تُترجم فوراً وتُحفظ في بنكك.
+    <div class="muted" style="margin-top:6px;font-size:13px">الخطوة الأولى: اختر قصة من القائمة ↓</div>
+  </div></div>
+  <div class="head"><h2>اختر قصة</h2><span class="rstreak">${STORIES.length} قصص · مستوى A2–B1</span></div>
+  ${rows}`;
 }
 
 /* ---------- القارئ ---------- */

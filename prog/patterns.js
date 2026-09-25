@@ -1,114 +1,231 @@
-/* برمج — أنماط: مدرب التعرف على الأنماط — 4 عناصر معروضة، تنبّأ بالخامس، 15 جولة متدرجة */
+/* برمج — أنماط تصميم الكود: 8 أنماط — بطاقة: اسم + متى تستعمله + كود قبل/بعد + تلميح تفاعلي + فحص مصغّر */
 (function () {
 'use strict';
 const $ = s => document.querySelector(s);
 const escH = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
-const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; };
 let st = {};
 try { st = JSON.parse(localStorage.getItem('prog_patterns') || '{}') || {}; } catch (e) { st = {}; }
-st.best_streak = st.best_streak || 0; st.correct = st.correct || 0; st.answered = st.answered || 0; st.sessions = st.sessions || 0;
 const save = () => localStorage.setItem('prog_patterns', JSON.stringify(st));
+const doneCount = () => PATTERNS.filter(p => st[p.id] && st[p.id].ok).length;
 
-/* كل مولّد يعيد {label, shown:[4 items], answer, opts:[4 strings]} — opts كنصوص */
-const uniq = arr => [...new Set(arr)];
-const G = [
-  /* 1-3 تقدم حسابي */
-  () => { const a = rnd(1, 9), d = rnd(2, 7); const s = [a, a + d, a + 2 * d, a + 3 * d]; const an = a + 4 * d;
-    return { label: 'تسلسل عددي', shown: s, answer: an, opts: shuffle(uniq([an, an + d, an - 1, an + 1, an + 2]).slice(0, 4)).map(String) }; },
-  /* تناقص */
-  () => { const a = rnd(40, 80), d = rnd(3, 9); const s = [a, a - d, a - 2 * d, a - 3 * d]; const an = a - 4 * d;
-    return { label: 'تسلسل متناقص', shown: s, answer: an, opts: shuffle(uniq([an, an + d, an - d, an + 1]).slice(0, 4)).map(String) }; },
-  /* فرق متزايد */
-  () => { let a = rnd(1, 6); const s = [a]; for (let i = 1; i <= 4; i++) s.push(s[i - 1] + i * rnd(2, 3)); const d5 = s[4] - s[3];
-    const an = s[4] + (d5 + (s[4] - s[3]) - (s[3] - s[2])); const correct = s[4] + (s[4] - s[3]) + ((s[4] - s[3]) - (s[3] - s[2]));
-    return { label: 'فروق متزايدة', shown: s.slice(0, 4), answer: correct, opts: shuffle(uniq([correct, s[4] + d5, correct + 1, correct - 1]).slice(0, 4)).map(String) }; },
-  /* 4-6 هندسي */
-  () => { const a = rnd(1, 4), r = [2, 3][rnd(0, 1)]; const s = [a, a * r, a * r * r, a * r * r * r]; const an = a * Math.pow(r, 4);
-    return { label: 'تسلسل هندسي', shown: s, answer: an, opts: shuffle(uniq([an, an + r, an - a, an * r]).slice(0, 4)).map(String) }; },
-  /* تناوب ×2 +n */
-  () => { let a = rnd(1, 5), n = rnd(1, 4); const s = [a]; for (let i = 1; i <= 4; i++) s.push(i % 2 ? s[i - 1] * 2 : s[i - 1] + n);
-    const an = s[4] * 2;
-    return { label: 'تناوب ×2 ثم +' + n, shown: s.slice(0, 4), answer: an, opts: shuffle(uniq([an, an + n, s[4] + n, an - n]).slice(0, 4)).map(String) }; },
-  /* مربعات */
-  () => { const a = rnd(2, 6); const s = [a * a, (a + 1) * (a + 1), (a + 2) * (a + 2), (a + 3) * (a + 3)]; const an = (a + 4) * (a + 4);
-    return { label: 'مربعات كاملة', shown: s, answer: an, opts: shuffle(uniq([an, an - 1, an + 2, an - (2 * a + 4)]).slice(0, 4)).map(String) }; },
-  /* 7-9 فيبوناتشي وأشباه */
-  () => { const a = rnd(1, 4), b = rnd(2, 6); const s = [a, b, a + b, b + a + b, a + b + b + a + b]; const an = s[3] + s[4];
-    return { label: 'كل عنصر = مجموع السابقين', shown: s.slice(0, 4), answer: an, opts: shuffle(uniq([an, an - s[3], an + s[2], s[4] + s[2]]).slice(0, 4)).map(String) }; },
-  /* نمط نصي متكرر أبجدي */
-  () => { const ch = 'abcde'[rnd(0, 4)]; const s = [ch, ch + ch, ch + ch + ch, ch + ch + ch + ch]; const an = ch.repeat(5);
-    return { label: 'نمط نصّي متنامٍ', shown: s, answer: an, opts: shuffle(uniq([an, ch.repeat(6), ch.repeat(4) + 'x', an + ch]).slice(0, 4)).map(String) }; },
-  /* مثلثات رقمية */
-  () => { const a = rnd(1, 5); const tri = n => n * (n + 1) / 2; const s = [tri(a), tri(a + 1), tri(a + 2), tri(a + 3)]; const an = tri(a + 4);
-    return { label: 'أعداد مثلّثية', shown: s, answer: an, opts: shuffle(uniq([an, an - (a + 4), an + a, an + (a + 5)]).slice(0, 4)).map(String) }; },
-  /* 10-12 مخرجات كود */
-  () => { const k = rnd(2, 4), m = rnd(3, 7); const f = i => i * k + m; const s = [f(0), f(1), f(2), f(3)]; const an = f(4);
-    return { label: `ناتج f(i) = i*${k}+${m} لـ i=0..`, shown: s, answer: an, opts: shuffle(uniq([an, an + k, an - m, an + 1]).slice(0, 4)).map(String) }; },
-  () => { const s = [2, 6, 12, 20]; const an = 30; /* n*(n+1) */
-    return { label: 'n(n+1): 1×2, 2×3, 3×4, 4×5…', shown: s, answer: an, opts: shuffle(uniq([an, 25, 36, 28]).slice(0, 4)).map(String) }; },
-  () => { const words = ['if', 'else', 'for', 'while', 'const']; const idx = rnd(0, 3);
-    const s = [words[idx].length, words[idx + 1].length, words[idx + 2].length, words[Math.min(idx + 3, 4)].length];
-    const ans = idx + 3 <= 4 ? words[Math.min(idx + 4, 4)].length : s[3];
-    return { label: 'طول الكلمات المفتاحية بالترتيب', shown: s, answer: ans, opts: shuffle(uniq([ans, ans + 1, ans + 2, ans - 1]).slice(0, 4)).map(String) }; },
-  /* 13-15 منطق أعقد */
-  () => { const s = [1, 3, 7, 15]; const an = 31; /* 2^(n+1)-1 */
-    return { label: '2ⁿ⁻¹: 1,3,7,15…', shown: s, answer: an, opts: shuffle(uniq([an, 30, 23, 33]).slice(0, 4)).map(String) }; },
-  () => { const s = ['a1', 'b2', 'c3', 'd4']; const an = 'e5';
-    return { label: 'حرف + رقم متزايدان', shown: s, answer: an, opts: shuffle(['e5', 'd5', 'e4', 'f5']) }; },
-  () => { const s = [3, 8, 15, 24]; const an = 35; /* n²-1 */
-    return { label: 'n²−1: 3,8,15,24…', shown: s, answer: an, opts: shuffle(uniq([an, 34, 36, 31]).slice(0, 4)).map(String) }; },
+const PATTERNS = [
+{ id: 'factory', t: 'Factory — دالة الإنشاء', en: 'Factory',
+  when: 'عندما تكرر بناء كائنات متشابهة بـ`new` متناثرة، أو يتغير نوع الكائن المُنشأ حسب المدخل.',
+  prob: 'الكود يملأ الملف بـ`new` مباشرة — كل تغيير في بنية المستخدم يعني مطاردة كل المواضع.',
+  before: `const a = { type: 'admin', name: 'سارة', perms: ['*'] };
+const b = { type: 'user', name: 'علي', perms: ['read'] };
+const c = { type: 'guest', name: 'زائر', perms: [] };
+// غداً: حقل جديد؟ عدّل ثلاثة مواضع`,
+  after: `function makeUser(type, name) {
+  const perms = { admin: ['*'], user: ['read'], guest: [] };
+  return { type, name, perms: perms[type] };
+}
+const a = makeUser('admin', 'سارة');
+// نقطة إنشاء واحدة — تغيير واحد يكفي`,
+  tip: '💡 القاعدة: إذا كتبت `new` أو بنية كائن حرفية أكثر من مرتين لنفس الشيء — لفّها بدالة. الدالة هي عقدك الوحيد مع شكل الكائن.',
+  quiz: { q: 'متى تختار Factory؟', opts: ['عند بناء كائنات متشابهة متكررة', 'عند كائن واحد لا يتكرر'], a: 0 } },
+{ id: 'module', t: 'Module — وحدة منعزلة', en: 'Module',
+  when: 'عندما تتناثر متغيراتك ودوالك في النطاق العام وتتصادم الأسماء بين الملفات.',
+  prob: 'كل شيء عام — أي سطر في أي ملف يستطيع إفساد عدّادك السري.',
+  before: `let count = 0;
+function inc() { count++; }
+function dec() { count--; }
+// أي كود آخر يستطيع: count = 999`,
+  after: `const Counter = (() => {
+  let count = 0;              // خاص — لا يُرى خارجاً
+  return {
+    inc: () => ++count,
+    dec: () => --count,
+    get: () => count
+  };
+})();
+Counter.inc();  // الواجهة الوحيدة المتاحة`,
+  tip: '💡 IIFE تُنفَّذ فوراً وترجع الواجهة فقط — ما لم يُرجَع يبقى سجيناً. هذا أساس كل نظام modules حديث (import/export).',
+  quiz: { q: 'ما الذي يمنع الوصول لـcount؟', opts: ['أنها داخل IIFE لا ترجعها', 'أنها const'], a: 0 } },
+{ id: 'observer', t: 'Observer — نشر/اشتراك', en: 'Observer',
+  when: 'عندما تحتاج عدة أجزاء (سجل، واجهة، إشعار) أن تستجيب لنفس الحدث دون أن يعرف المُصدِّر عنها.',
+  prob: 'الدالة تستدعي كل المعتمدين يدوياً — إضافة مستمع جديد تعني تعديل كود المُصدِّر.',
+  before: `function save(data) {
+  db.write(data);
+  ui.refresh();
+  log.push('saved');
+  notify.admin();
+  // كل معتمد جديد = سطر جديد هنا
+}`,
+  after: `const bus = { subs: [], on(f) { this.subs.push(f); },
+  emit(x) { this.subs.forEach(f => f(x)); } };
+
+bus.on(d => ui.refresh());
+bus.on(d => log.push('saved'));
+bus.on(d => notify.admin());
+function save(data) {
+  db.write(data);
+  bus.emit(data);   // save لا تعرف من يستمع
+}`,
+  tip: '💡 المُصدِّر ينشر «وقع حدث» فقط، والمستمعون يسجلون أنفسهم — ارتباط رخو (loose coupling): save لا تستورد ولا تعرف أحداً.',
+  quiz: { q: 'ما الفائدة الجوهرية؟', opts: ['المُصدِّر لا يعرف المستمعين — يُضافون دون تعديله', 'الكود أقصر'], a: 0 } },
+{ id: 'strategy', t: 'Strategy — بدّل الخوارزمية', en: 'Strategy',
+  when: 'عندما تملك if/else أو switch طويلة تختار بين سلوكيات بديلة لنفس الهدف.',
+  prob: 'سلسلة شروط تنمو مع كل طريقة جديدة — الدالة تتضخم وتختلط القرارات بالتنفيذ.',
+  before: `function ship(type, w) {
+  if (type === 'air') return w * 12 + 50;
+  if (type === 'sea') return w * 2 + 20;
+  if (type === 'land') return w * 4 + 10;
+  // طريقة رابعة؟ if آخر هنا
+}`,
+  after: `const ship = {
+  air:  w => w * 12 + 50,
+  sea:  w => w * 2 + 20,
+  land: w => w * 4 + 10,
+};
+const cost = ship[type](w);
+// طريقة رابعة؟ سطر في الجدول — لا تلمس الكود`,
+  tip: '💡 حوّل كل فرع if إلى دالة في جدول باسمها — الاختيار يصبح `table[key](x)` والإضافة تُدخل سطراً لا تفرعاً جديداً.',
+  quiz: { q: 'كيف يضيف Strategy سلوكاً رابعاً؟', opts: ['سطر جديد في الجدول فقط', 'if آخر داخل الدالة'], a: 0 } },
+{ id: 'decorator', t: 'Decorator — غلّف لتحسّن', en: 'Decorator',
+  when: 'عندما تريد إضافة ميزة (سجل/توقيت/تخزين مؤقت) لدالة دون تغيير كودها الأصلي.',
+  prob: 'تنسخ جسم الدالة وتلصق فيه منطق السجل — تتكرر الإضافة في كل دالة.',
+  before: `function fetchUser(id) {
+  console.log('start', id);
+  const u = db.get(id);
+  console.log('end', u);
+  return u;
+}
+// كل دالة تريد سجلاً = لصق نفس السطرين`,
+  after: `const withLog = fn => (...a) => {
+  console.log('start', a);
+  const r = fn(...a);
+  console.log('end', r);
+  return r;
+};
+const fetchUser = withLog(id => db.get(id));
+const saveUser = withLog(u => db.put(u));
+// أي دالة + withLog = نفس الدالة بسجل`,
+  tip: '💡 الدالة المُغلِّفة تستقبل دالة وترجع دالة أقوى — قابلة للتركيب: withLog(withCache(fetchUser)).',
+  quiz: { q: 'ميزة Decorator الأساسية؟', opts: ['تضيف سلوكاً دون تعديل الدالة الأصلية', 'تجعل الكود أقصر'], a: 0 } },
+{ id: 'adapter', t: 'Adapter — مترجم الواجهات', en: 'Adapter',
+  when: 'عندما تستدعي مكتبة/واجهة قديمة لا تطابق الشكل الذي يتوقعه كودك الجديد.',
+  prob: 'المكتبة تعطي أسماء حقول غريبة أو توقيعاً مختلفاً — تعديل كل موضع استدعاء يعني التصاقاً بها للأبد.',
+  before: `// المكتبة القديمة:
+oldLib.qry('SELECT * FROM t WHERE id=5');
+// كودك الجديد ينتظر: db.find(table, {id})
+// انتشر oldLib.qry في 40 موضعاً`,
+  after: `const db = {
+  find(table, where) {
+    const k = Object.keys(where)[0];
+    return oldLib.qry(
+      \`SELECT * FROM \${table} WHERE \${k}=\${where[k]}\`);
+  }
+};
+db.find('t', { id: 5 });
+// لو تبدّلت المكتبة: تعدّل Adapter وحده`,
+  tip: '💡 Adapter طبقة رقيقة تترجم الشكل — كودك يعرف واجهتك أنت، والمكتبة الخارجية تُحبَس خلفه.',
+  quiz: { q: 'متى تكتب Adapter؟', opts: ['عندما لا تطابق واجهة خارجية شكل كودك', 'عندما تريد كوداً أقصر'], a: 0 } },
+{ id: 'builder', t: 'Builder — بناء متسلسل', en: 'Builder',
+  when: 'عندما يحتاج إنشاء كائن معقد إلى خطوات كثيرة اختيارية لا تليق بـconstructor واحد عملاق.',
+  prob: 'استدعاء بعشرة معاملات مبهمة أو سلسلة تعيينات مبعثرة — تنسى حقل فتنهار لاحقاً.',
+  before: `const q = new Query('users', 25, true,
+  'name', 'asc', null, 10);
+// ما هو الوسيط السادس؟ الثالث؟ لا أحد يعرف`,
+  after: `const q = new QueryBuilder()
+  .from('users')
+  .where('age >', 25)
+  .select('name')
+  .orderBy('asc')
+  .limit(10)
+  .build();
+// كل خطوة اسمها واضح — الاختياري تتركه`,
+  tip: '💡 كل دالة ترجع `this` فيتسلسل النداء (method chaining) — والـbuild() النهائي يتحقق من اكتمال الكائن.',
+  quiz: { q: 'ما الذي يمكّن التسلسل a.b().c()؟', opts: ['كل دالة ترجع this', 'كل دالة static'], a: 0 } },
+{ id: 'command', t: 'Command — العملية ككائن', en: 'Command',
+  when: 'عندما تريد undo/redo أو سجل عمليات أو طابور تنفيذ — حوّل العملية لبيانات قابلة للتخزين.',
+  prob: 'الأفعال تُنفَّذ وتضيع — لا تستطيع التراجع ولا إعادة التشغيل ولا تتبع ما حدث.',
+  before: `btn.onclick = () => {
+  text += 'x';
+  render();
+};
+// كيف تتراجع عن آخر كتابة؟ لا يمكن.`,
+  after: `const history = [];
+function doCmd(cmd) {
+  cmd.do();
+  history.push(cmd);
+}
+function undo() { history.pop().undo(); }
+
+doCmd({ do: () => text += 'x',
+        undo: () => text = text.slice(0, -1) });
+undo(); // ترجع خطوة`,
+  tip: '💡 حوّل كل فعل إلى كائن {do, undo} فيُخزَّن ويُعاد ويُراجَع — هذا أساس محررات النصوص وألواح الرسم.',
+  quiz: { q: 'ماذا يكسبك تغليف العملية ككائن؟', opts: ['قابلية التراجع وإعادة التشغيل', 'سرعة تنفيذ أعلى'], a: 0 } },
 ];
 
-const N = 15;
-let rI = 0, score = 0, streak = 0, sessionAnswers = 0;
-const order = [];
-/* املأ الجولات بالمولدات مع تكرار المبكرة بصعوبات أعلى */
-(function seed() { for (let i = 0; i < N; i++) order.push(G[i % G.length]); })();
-
-function stats() {
-  const acc = st.answered ? Math.round(st.correct / st.answered * 100) : 0;
-  $('#pnStats').innerHTML = `الجولة <b>${Math.min(rI + 1, N)}/${N}</b> • سلسلة حالية <b>${streak}</b> • أفضل سلسلة <b>${st.best_streak}</b> • دقة تراكمية <b>${acc}%</b>`;
+let cur = 0;
+function head() {
+  const n = doneCount();
+  $('#ptCount').textContent = `${n}/${PATTERNS.length}`;
+  $('#ptBar').style.width = `${n / PATTERNS.length * 100}%`;
 }
-
-function end() {
-  const acc = sessionAnswers ? Math.round(score / sessionAnswers * 100) : 0;
-  $('#pnMain').innerHTML = `
-    <div class="pn-end">
-      <div class="pn-end-ic">${score >= 12 ? '🏆' : score >= 8 ? '🎯' : '🔁'}</div>
-      <h2>${score}/${N} — دقة ${acc}%</h2>
-      <div class="pn-end-sub">أفضل سلسلة لك الآن: ${st.best_streak} • إجمالي دقتك عبر الجلسات: ${st.answered ? Math.round(st.correct / st.answered * 100) : 0}%</div>
-      <button class="btn" onclick="location.reload()">جلسة جديدة ⟵</button>
-    </div>`;
-  st.sessions++; save();
+function list() {
+  let html = `<div class="lb-list-h">الأنماط — ${doneCount()}/${PATTERNS.length} ✓</div>`;
+  html += `<div class="lb-list-h" style="font-weight:400;padding-bottom:4px">هنا تتعلم أنماط تصميم الكود — اختر نمطاً لترى المشكلة والحل</div>`;
+  PATTERNS.forEach((p, idx) => {
+    const ok = st[p.id] && st[p.id].ok;
+    html += `<button class="lb-item ${ok ? 'done' : ''}" data-i="${idx}">${ok ? '✓' : '🧩'} ${escH(p.t)}</button>`;
+  });
+  $('#ptList').innerHTML = html;
+  $('#ptList').querySelectorAll('.lb-item').forEach(b => b.onclick = () => { cur = +b.dataset.i; render(); });
 }
+function render() {
+  head(); list();
+  const p = PATTERNS[cur];
+  const done = st[p.id] && st[p.id].ok;
+  $('#ptMain').innerHTML = `
+    <div class="lb-head">
+      <span class="lb-cat-tag">${escH(p.en)}</span>
+      ${done ? '<span class="pn-ok" style="font-size:.68rem;padding:3px 10px">✓ أتقنته</span>' : ''}
+      <h2 class="lb-t">🧩 ${escH(p.t)}</h2>
+      <div class="dh-why" style="margin-top:6px"><b>متى تستعمله؟</b> ${escH(p.when)}</div>
+    </div>
+    <div class="pt-prob">المشكلة: ${escH(p.prob)}</div>
+    <div class="pt-tabs">
+      <button class="pt-tab on" id="ptTabBefore">❌ قبل — الكود المشوّه</button>
+      <button class="pt-tab" id="ptTabAfter">✓ بعد — بالنمط</button>
+    </div>
+    <pre class="db-out dh-code pt-code" dir="ltr" id="ptCode">${escH(p.before)}</pre>
+    <div class="pt-tip" id="ptTip" style="display:none">${escH(p.tip)}</div>
+    <button class="btn ghost sm" id="ptTipBtn" style="margin:10px 0">💡 أظهر التلميح</button>
+    <div class="dh-ask" style="margin-top:8px">${escH(p.quiz.q)}</div>
+    <div class="dh-opts" id="ptQuiz">${p.quiz.opts.map((o, j) =>
+      `<button class="dh-opt" data-j="${j}" style="font-size:.78rem">${escH(o)}</button>`).join('')}</div>
+    <div id="ptRes">${done ? '<div class="pn-ok" style="margin-top:10px">✓ هذا النمط مُتقَن سابقاً.</div>' : ''}</div>`;
 
-function round() {
-  if (rI >= N) return end();
-  const g = order[rI]();
-  g.opts = g.opts.map(String); g.answer = String(g.answer);
-  stats();
-  const lvl = rI < 3 ? 'سهل' : rI < 6 ? 'متوسط' : rI < 9 ? 'متقدم' : rI < 12 ? 'كود' : 'خبير';
-  $('#pnMain').innerHTML = `
-    <div class="pn-card">
-      <div class="pn-lvl">${lvl} • ${escH(g.label)}</div>
-      <div class="pn-seq" dir="ltr">${g.shown.map(x => `<span>${escH(String(x))}</span>`).join('')}<span class="pn-q">؟</span></div>
-      <div class="pn-ask">ما العنصر الخامس؟</div>
-      <div class="pn-opts" dir="ltr">${g.opts.map(o => `<button class="pn-opt" data-o="${escH(o)}">${escH(o)}</button>`).join('')}</div>
-      <div class="pn-msg" id="pnMsg"></div>
-    </div>`;
-  let answered = false;
-  $('#pnMain').querySelectorAll('.pn-opt').forEach(b => b.onclick = () => {
-    if (answered) return; answered = true;
-    const ok = b.dataset.o === g.answer;
-    st.answered++; sessionAnswers++;
-    if (ok) { score++; streak++; st.correct++; st.best_streak = Math.max(st.best_streak, streak); b.classList.add('ok'); }
-    else { streak = 0; b.classList.add('bad'); $('#pnMain').querySelector(`[data-o="${escH(g.answer)}"]`).classList.add('ok'); }
-    save();
-    $('#pnMsg').innerHTML = ok ? '<span class="pn-ok">✓ صحيح!</span>' : `<span class="pn-bad">✗ — الصحيح: <b dir="ltr">${escH(g.answer)}</b></span>`;
-    setTimeout(() => { rI++; round(); }, ok ? 650 : 1400);
+  const before = p.before, after = p.after;
+  const codeEl = $('#ptCode');
+  $('#ptTabBefore').onclick = () => { $('#ptTabBefore').classList.add('on'); $('#ptTabAfter').classList.remove('on'); codeEl.textContent = before; };
+  $('#ptTabAfter').onclick = () => { $('#ptTabAfter').classList.add('on'); $('#ptTabBefore').classList.remove('on'); codeEl.textContent = after; };
+  $('#ptTipBtn').onclick = () => {
+    const el = $('#ptTip');
+    const open = el.style.display !== 'none';
+    el.style.display = open ? 'none' : 'block';
+    $('#ptTipBtn').textContent = open ? '💡 أظهر التلميح' : '💡 أخفِ التلميح';
+  };
+  $('#ptQuiz').querySelectorAll('.dh-opt').forEach(b => b.onclick = () => {
+    const pick = +b.dataset.j;
+    const ok = pick === p.quiz.a;
+    $('#ptQuiz').querySelectorAll('.dh-opt').forEach(x => {
+      x.disabled = true;
+      if (+x.dataset.j === p.quiz.a) x.classList.add('ok');
+      else if (+x.dataset.j === pick) x.classList.add('bad');
+    });
+    if (ok) {
+      st[p.id] = { ok: true }; save(); head(); list();
+      $('#ptRes').innerHTML = `<div class="pn-ok" style="margin-top:10px">✓ صحيح — فهمت متى يُستعمل النمط. سُجّل ${doneCount()}/${PATTERNS.length}</div>`;
+    } else {
+      $('#ptRes').innerHTML = `<div class="pn-bad" style="margin-top:10px">✗ — الفكرة ليست اختصاراً بل قابلية تغيير/فصل. قارن «قبل» بـ«بعد» وحاول مجدداً.</div>
+        <button class="btn ghost sm" id="ptAgain" style="margin-top:8px">أعد المحاولة</button>`;
+      $('#ptAgain').onclick = render;
+    }
   });
 }
-
-round();
+render();
 })();

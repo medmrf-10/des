@@ -55,7 +55,8 @@ function todayColl(){ const c=loadC(); return (c.days||{})[todayISO()]||{n:0,ok:
 function viewHome(){
   const list = top12();
   const c = loadC(), t = todayColl();
-  app.innerHTML = `<div class="grades" style="margin-bottom:10px"><button class="btn" style="background:var(--gold);color:#1a2340">سياق الكلمات</button><button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="viewPairs()">اصطلاحات (50) ←</button></div>
+  app.innerHTML = `<div class="card"><div class="body" style="text-align:center;padding:8px 12px;font-size:13px">اضغط كلمة لترى أكثر ما يتردد حولها في جملك الحقيقية — أو بدّل لتدريب 50 اصطلاحاً جاهزاً.</div></div>
+  <div class="grades" style="margin-bottom:10px"><button class="btn" style="background:var(--gold);color:#1a2340">سياق الكلمات</button><button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="viewPairs()">اصطلاحات (50) ←</button></div>
   <div class="head"><h2>التراكيب — 12 كلمة</h2><span class="rstreak">اليوم: ${t.ok}/${t.n} صحيح</span></div>
   <div class="grid">${list.map(t=>{
     const w = c.words?.[t]||{n:0,ok:0};

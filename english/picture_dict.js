@@ -89,6 +89,7 @@ function viewHome(){
   const total = SCENES.reduce((n,s)=>n+s.items.length,0);
   const dn = Object.keys(done).length;
   app.innerHTML = `<div class="head"><h2>المشاهد</h2><span class="rstreak">${dn}/${total} عنصراً متقناً</span></div>
+  <div class="muted" style="font-size:13px;margin-bottom:8px">اضغط مشهداً ثم اضغط أي عنصر فيه لتسمع كلمته الإنجليزية وترى جملة عليه.</div>
   <div class="scenes">${SCENES.map(s=>{
     const d = s.items.filter((_,i)=>done[`${s.id}:${i}`]).length;
     return `<div class="scn" onclick="openScene('${s.id}')"><div class="ico">${s.ic}</div><div class="nm">${s.nm}</div><div class="cnt">${d}/${s.items.length}</div></div>`;

@@ -48,7 +48,7 @@ main{max-width:560px;margin:0 auto;padding:8px 16px 60px}
 .dq .qo span{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:.72rem;color:var(--dim)}
 .rate{display:flex;align-items:center;gap:4px;margin-top:12px}
 .rate .lbl{font-size:.72rem;color:var(--dim);margin-inline-end:6px}
-.star{background:none;border:none;font-size:1.15rem;color:var(--border);cursor:pointer;transition:all .15s;padding:0 1px}
+.star{background:none;border:none;font-size:1.15rem;color:#6a748f;cursor:pointer;transition:all .15s;padding:0 1px}
 .star.on{color:var(--acc2);text-shadow:0 0 10px #e8c97a66}
 .rateval{font-size:.7rem;color:var(--acc2);margin-inline-start:6px}
 .empty{color:var(--dim);text-align:center;padding:30px;font-size:.85rem}
@@ -68,7 +68,7 @@ const avatar=n=>`<div class="avatar">${esc((n||'?').trim()[0])}</div>`;
 
 function home(){
   app.innerHTML=MEMBERS.map(m=>`
-    <div class="member" onclick="location.hash='${m.id}'">
+    <div class="member" role="button" tabindex="0" onclick="location.hash='${m.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.hash='${m.id}'}">
       <div class="mhead">${avatar(m.name)}<div><div class="mname">${esc(m.name)}</div><div class="mrole">${esc(m.role)}</div></div></div>
       <div class="mbio">${esc(m.bio)}</div>
       <div class="mproj">${m.projects.length?m.projects.length+' مشروع/نبذة':'لا مشاريع معروضة بعد'}</div>
@@ -95,7 +95,7 @@ function projHTML(mid,i,p){
 
 document.addEventListener('click',e=>{
   const cp=e.target.closest('.cp');
-  if(cp){navigator.clipboard.writeText(cp.dataset.u).then(()=>{cp.textContent='✓ نُسخ';setTimeout(()=>cp.textContent='نسخ الرابط',1500)});return}
+  if(cp){navigator.clipboard.writeText(cp.dataset.u).then(()=>{cp.textContent='✓ نُسخ';setTimeout(()=>cp.textContent='نسخ الرابط',1500)}).catch(()=>{cp.textContent='✗ تعذّر النسخ';setTimeout(()=>cp.textContent='نسخ الرابط',1800)});return}
   const st=e.target.closest('.star');if(!st)return;
   const k=st.parentElement.dataset.k;
   ratings[k]=+st.dataset.v;

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>برمج — تعلم البرمجة بالعربية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="wrap head-row">
+    <div>
+      <h1>برمج</h1>
+      <div class="tagline">تعلم البرمجة بالممارسة — بالعربية</div>
+    </div>
+    <div class="prog" id="headerProg"></div>
+  </div>
+  <div class="wrap"><div class="bar"><i id="headerBar"></i></div></div>
+</header>
+
+<main class="wrap">
+
+  <!-- ====== شاشة المسارات ====== -->
+  <section id="tracksView">
+    <p class="intro">اختر مساراً وابدأ التعلم خطوة بخطوة. كل درس فيه شرح قصير، تجربة مباشرة في المحرر، وتمرين يُصحح تلقائياً. تقدمك يُحفظ على جهازك.</p>
+    <div id="tracksList"></div>
+  </section>
+
+  <!-- ====== شاشة الدرس — وركسبيس موحّد ====== -->
+  <section id="lessonView" hidden>
+    <div class="lesson-top">
+      <button class="btn ghost" id="backBtn">→ المسارات</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="lesson-prog" id="lessonProg"></div>
+    </div>
+
+    <div class="ws">
+      <!-- العمود الجانبي: درس + تمرين + مراجعة، قابل للطي -->
+      <aside class="ws-side">
+        <details class="side-sec" id="secLearn" open>
+          <summary>الدرس</summary>
+          <div class="side-body">
+            <h2 id="lessonTitle"></h2>
+            <div class="theory" id="lessonTheory"></div>
+            <div class="callout" id="lessonTip" hidden></div>
+          </div>
+        </details>
+        <details class="side-sec" id="secTask" open>
+          <summary>التمرين <span class="side-hint" id="taskBadge"></span></summary>
+          <div class="side-body">
+            <p id="taskPrompt"></p>
+            <ul class="checks" id="checkList"></ul>
+            <div class="task-foot">
+              <button class="btn sm" id="checkBtn">تحقق من الحل</button>
+              <span id="taskStatus"></span>
+            </div>
+            <div class="done-card" id="doneCard" hidden>
+              <div class="done-mark">✓</div>
+              <h3>أحسنت! أتممت هذا الدرس</h3>
+              <div class="done-btns">
+                <button class="btn" id="nextBtn">الدرس التالي ←</button>
+                <button class="btn ghost" id="redoBtn">مراجعة الدرس</button>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details class="side-sec" id="secReview">
+          <summary>المراجعة</summary>
+          <div class="side-body">
+            <h3 class="sec-h">بطاقات المفاهيم <span class="dim">— تُجدول تلقائياً (FSRS)</span></h3>
+            <div id="fcBox"></div>
+            <h3 class="sec-h">اختبار قصير</h3>
+            <p class="quiz-intro" id="quizIntro"></p>
+            <div id="quizBox"></div>
+          </div>
+        </details>
+      </aside>
+
+      <!-- المحرر والمعاينة: ظاهران دائماً -->
+      <div class="ws-main">
+        <div class="lab-head">
+          <div class="etabs">
+            <button class="etab on" data-et="html">HTML</button>
+            <button class="etab" data-et="css">CSS</button>
+            <button class="etab" data-et="js">JS</button>
+            <span class="etab on py-tag" id="pyTag" hidden>Python</span>
+          </div>
+          <div class="lab-actions">
+            <button class="btn ghost sm" id="resetCode">إعادة المثال</button>
+            <button class="btn sm" id="runBtn">تشغيل ⟵</button>
+          </div>
+        </div>
+        <div class="py-bar" id="pyBar" hidden>
+          <label>قيم <code>input()</code> — كل سطر قيمة:</label>
+          <input id="pyStdin" dir="ltr" spellcheck="false" placeholder="سارة">
+        </div>
+        <div class="lab">
+          <div class="edcol">
+            <textarea id="ed_html" class="editor" spellcheck="false" dir="ltr"></textarea>
+            <textarea id="ed_css" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+            <textarea id="ed_js" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+            <textarea id="ed_py" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+          </div>
+          <div class="pvc">
+            <div class="pv-title" id="pvTitle">الناتج</div>
+            <iframe id="preview" sandbox="allow-scripts"></iframe>
+            <div class="conso" id="conso" hidden></div>
+          </div>
+        </div>
+        <div class="check-bar" id="checkBar" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== المختبر الحر ====== -->
+  <section id="freeView" hidden>
+    <div class="lesson-top">
+      <button class="btn ghost" id="f_back">→ المسارات</button>
+      <div class="crumb">مختبر حر — اكتب وشغّل بلا قيود</div>
+    </div>
+    <div class="lab-head">
+      <div class="etabs">
+        <button class="etab on f-etab" data-fet="html">HTML</button>
+        <button class="etab f-etab" data-fet="css">CSS</button>
+        <button class="etab f-etab" data-fet="js">JS</button>
+      </div>
+      <div class="lab-actions">
+        <button class="btn ghost sm" id="f_clear">مسح</button>
+        <button class="btn sm" id="f_run">تشغيل ⟵</button>
+      </div>
+    </div>
+    <div class="lab">
+      <div class="edcol">
+        <textarea id="f_html" class="editor" spellcheck="false" dir="ltr"></textarea>
+        <textarea id="f_css" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+        <textarea id="f_js" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+      </div>
+      <div class="pvc">
+        <div class="pv-title">الناتج</div>
+        <iframe id="f_preview" sandbox="allow-scripts"></iframe>
+        <div class="conso" id="f_conso" hidden></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>برمج — نسخة أولى · يعمل بالكامل في متصفحك</footer>
+
+<script src="data.js"></script>
+<script src="fsrs.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

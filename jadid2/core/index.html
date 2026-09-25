@@ -68,14 +68,18 @@ const N=MADRASA_TREE.nodes;
 let cur=null; // الذرة الجارية
 
 /* ─── الاستقبال ─── */
-function home(){
- const st=MADRASA.stats(),q=MADRASA.todayQueue();
+function renderStats(){
+ const st=MADRASA.stats();
  $('stats').innerHTML=
   `<span class="chip">ذرات العلم: <b>${st.total}</b></span>
    <span class="chip">دخلت خطتك: <b>${st.learned}</b></span>
    <span class="chip">متقن: <b>${st.mastered}</b></span>
    <span class="chip">مستحق اليوم: <b>${st.due}</b></span>
    <span class="chip">صعب: <b>${st.hard}</b></span>`;
+}
+function home(){
+ renderStats();
+ const q=MADRASA.todayQueue();
  let h=`<div class="card">
   <div style="font-size:15px;font-weight:700;margin-bottom:4px">السلام عليكم محمد ✦</div>
   <div style="color:var(--dim);font-size:13px;line-height:1.9">${q.length
@@ -156,6 +160,7 @@ function reveal(){
 }
 function grade(outcome){
  const r=MADRASA.record(cur,outcome);
+ renderStats();
  /* اقتراح اختبار المفهوم عند إتمامه */
  const cid=MADRASA.parentConcept(cur);
  const conceptDone=cid&&MADRASA.conceptMastered(cid);

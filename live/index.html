@@ -57,7 +57,8 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Noto Naskh Arabic','T
     <button class="btn" id="fwd">+١٥</button>
   </div>
   <div class="time" id="time">0:00 / 8:20</div>
-  <div class="row" style="margin-top:6px;gap:10px"><button class="ibtn" id="idx">≡ الفهرس</button><button class="ibtn" id="les">≡ الدروس</button></div>
+  <div class="row" style="margin-top:6px;gap:10px"><button class="ibtn" id="idx">≡ الفهرس</button><button class="ibtn" id="les">≡ الدروس</button><button class="ibtn" id="aiAsk" style="display:none">✦ افهم هذه اللحظة</button></div>
+<div id="aiBx" style="display:none;margin-top:10px;background:#1a2238;border:1px solid #3a4670;border-radius:12px;padding:12px 15px;font-size:.85rem;line-height:2"></div>
 </div>
 <div class="idx" id="idxov">
   <div class="sheet">
@@ -113,6 +114,18 @@ const idxov=document.getElementById('idxov'),idxlist=document.getElementById('id
 function buildIdx(){
   idxlist.innerHTML=phrases.map((p,i)=>`<button class="it" data-s="${p.s}"><span class="t">${fmt(p.s)}</span><span class="x">${p.ws.slice(0,4).map(o=>o.w).join(' ')}${p.ws.length>4?'…':''}</span></button>`).join('');
 }
+const _esc=t=>String(t??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+if(window.llmReady&&window.llmReady())document.getElementById('aiAsk').style.display='inline-block';
+document.getElementById('aiAsk').onclick=async()=>{
+ const bx=document.getElementById('aiBx');bx.style.display='block';
+ bx.innerHTML='<span style="color:#e8c97a;font-size:.78rem">يقرأ المقطع الحالي…</span>';
+ try{
+  const lo=Math.max(0,curPi-3),hi=Math.min(phrases.length,curPi+4);
+  const ctx=phrases.slice(lo,hi).map(p=>p.ws.map(o=>o.w).join(' ')).join(' — ');
+  const out=await window.gemAsk('الطالب يسمع درساً صوتياً ووصل لهذا المقطع. \nاشرح له ماذا يقال هنا بالضبط: المعنى المقصود، وأي مصطلح يحتاج شرحاً، في 3 أسطر على الأكثر.\n\nالمقطع: «'+ctx+'»',{maxTokens:400});
+  bx.innerHTML=_esc(out).replace(/\n/g,'<br>');
+ }catch(err){bx.innerHTML='<span style="color:#8b93b0;font-size:.75rem">'+_esc(err.message)+'</span>'}
+};
 idxlist.addEventListener('click',e=>{
   const it=e.target.closest('.it');if(!it)return;
   au.currentTime=+it.dataset.s;

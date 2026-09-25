@@ -1,0 +1,298 @@
+{
+ "generated": "2026-09-25T04:47:46.991Z",
+ "sites": {
+  "english-index": {
+   "url": "https://medmrf-10.github.io/des/english/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 13,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 1494,
+    "dcl": 266,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 2258
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-srs": {
+   "url": "https://medmrf-10.github.io/des/english/srs.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 6,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 111,
+    "dcl": 111,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 257
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-listen": {
+   "url": "https://medmrf-10.github.io/des/english/listen.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 6,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 400,
+    "dcl": 108,
+    "rsp": 11
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 284
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-mimic": {
+   "url": "https://medmrf-10.github.io/des/english/mimic.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 7,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 224,
+    "dcl": 223,
+    "rsp": 116
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 942
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-library": {
+   "url": "https://medmrf-10.github.io/des/english/library.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 17,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 164,
+    "dcl": 163,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1340
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-routine": {
+   "url": "https://medmrf-10.github.io/des/english/routine.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 9,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 117,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 481
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-vocab": {
+   "url": "https://medmrf-10.github.io/des/english/vocab.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/english/vocab.html",
+    "https://medmrf-10.github.io/des/english/vocab.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 110,
+    "dcl": 110,
+    "rsp": 105
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-practice": {
+   "url": "https://medmrf-10.github.io/des/english/practice.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/english/practice.html",
+    "https://medmrf-10.github.io/des/english/practice.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 110,
+    "dcl": 109,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-shadowing": {
+   "url": "https://medmrf-10.github.io/des/english/shadowing.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/english/shadowing.html",
+    "https://medmrf-10.github.io/des/english/shadowing.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 103,
+    "dcl": 103,
+    "rsp": 97
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-story": {
+   "url": "https://medmrf-10.github.io/des/english/story.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/english/story.html",
+    "https://medmrf-10.github.io/des/english/story.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 97,
+    "dcl": 97,
+    "rsp": 89
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  }
+ }
+}

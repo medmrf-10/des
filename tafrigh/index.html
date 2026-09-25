@@ -16,7 +16,6 @@
   <button id="fbtn" class="fbtn">⚙️ الفلاتر والترتيب <span id="fn"></span></button>
   <div class="fpanel" id="fpanel">
     <div class="fg"><label>الحالة</label><select id="fst"><option value="">الكل</option><option value="done">مفرّغة كاملة</option><option value="run">يُفرَّغ جزئياً</option><option value="dl">قيد التنزيل</option><option value="req">مطلوبة مني</option><option value="idle">متاحة للطلب</option></select></div>
-    <div class="fg"><label>النوع</label><select id="fkd"><option value="">الكل</option></select></div>
     <div class="fg"><label>القناة</label><select id="fch"><option value="">الكل</option></select></div>
     <div class="fg"><label>أدنى ساعات</label><select id="fh"><option value="0">أي</option><option>5</option><option>10</option><option>20</option><option>50</option></select></div>
     <div class="fg"><label>أدنى حلقات</label><select id="fv"><option value="0">أي</option><option>10</option><option>20</option><option>40</option></select></div>
@@ -33,7 +32,7 @@ var LS='tafrigh_req',MK='tafrigh_maker';
 var req=new Set(JSON.parse(localStorage.getItem(LS)||'[]'));
 var isMaker=localStorage.getItem(MK)==='1';
 var curSheikh=null;
-var F={st:'',kd:'',ch:'',h:0,v:0,so:'n',mine:false};
+var F={st:'',ch:'',h:0,v:0,so:'n',mine:false};
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 function fnum(n){return (n||0).toLocaleString('ar-EG');}
 function stgLabel(s){return{done:'✅ مفرّغة',run:'⏳ يُفرَّغ',dl:'⬇ قيد التنزيل',req:'📨 في الطابور',idle:'متاحة'}[s];}
@@ -41,10 +40,10 @@ function stgClass(s){return{done:'done',run:'run',dl:'dl',req:'rq',idle:'idle'}[
 function bar(x){var tv=x.v||1;var p1=Math.min(100,x.tr*100/tv),p2=Math.min(100,x.dl*100/tv);
 return '<div class="bar" title="'+x.tr+' مفرّغ · '+x.dl+' منزّل من '+x.v+'"><span class="b1" style="width:'+p1+'%"></span><span class="b2" style="width:'+Math.max(0,p2-p1)+'%"></span></div>';}
 function passF(x){
- if(F.st&&x.stg!==F.st)return false;if(F.kd&&x.k!==F.kd)return false;
+ if(F.st&&x.stg!==F.st)return false;
  if(F.ch&&x.ch!==F.ch)return false;if(F.h&&(x.h||0)<F.h)return false;if(F.v&&(x.v||0)<F.v)return false;
  if(F.mine&&!req.has(x.id))return false;
- if(Q){var h=(x.n||'')+' '+(x.sh||'')+' '+(x.k||'')+' '+(x.ch||'');if(h.indexOf(Q)<0)return false;}
+ if(Q){var h=(x.n||'')+' '+(x.sh||'')+' '+(x.ch||'');if(h.indexOf(Q)<0)return false;}
  return true;}
 function sortL(L){var s=F.so;
  if(s==='v')L.sort(function(a,b){return(b.v||0)-(a.v||0)});
@@ -92,9 +91,9 @@ function renderSeries(){
  +'<div class="list">'+L.slice(0,500).map(function(x){
    var dis=(x.stg==='done'||req.has(x.id));
    return '<div class="card"><div class="ct">'+esc(x.n)+'</div>'
-   +'<div class="cm">'+esc(x.k||'')+' · '+esc(x.ch||'')+'</div>'
+   +'<div class="cm">'+esc(x.ch||'')+'</div>'
    +'<div class="cn">'+fnum(x.v)+' حلقة · '+fnum(Math.round(x.h||0))+' ساعة'+(x.tr?(' · '+x.tr+' مفرّغ'):'')+(x.dl?(' · '+x.dl+' منزّل'):'')+'</div>'
-   +(x.c?'<div class="cc">'+esc(x.c)+'</div>':'')+bar(x)
+   ''+bar(x)
    +'<div class="cf"><span class="bd '+stgClass(x.stg)+'">'+stgLabel(x.stg)+'</span>'
    +'<button class="rq" data-id="'+x.id+'"'+(dis?' disabled':'')+'>'+(req.has(x.id)?'✓ طلبك مسجّل':'اطلب التفريغ')+'</button></div></div>';
  }).join('')+(L.length>500?'<div class="note">+ '+(L.length-500)+' سلسلة أخرى — دقّق البحث</div>':'')+(L.length?'':'<div class="empty">لا نتائج</div>')+'</div>';
@@ -110,16 +109,15 @@ function sendReq(id,btn){
  stats();reqBar();
 }
 function render(){reqBar();if(curSheikh)renderSeries();else renderSheikhs();updFn();}
-function updFn(){var n=0;['st','kd','ch'].forEach(function(k){if(F[k])n++});if(F.h>0)n++;if(F.v>0)n++;if(F.mine)n++;
+function updFn(){var n=0;['st','ch'].forEach(function(k){if(F[k])n++});if(F.h>0)n++;if(F.v>0)n++;if(F.mine)n++;
  document.getElementById('fn').textContent=n?'('+n+')':'';}
 document.getElementById('fbtn').onclick=function(){document.getElementById('fpanel').classList.toggle('open')};
 document.addEventListener('click',function(e){if(!e.target.closest('.fwrap'))document.getElementById('fpanel').classList.remove('open')});
-[['fst','st'],['fkd','kd'],['fch','ch'],['fso','so']].forEach(function(p){document.getElementById(p[0]).onchange=function(){F[p[1]]=this.value;render();};});
+[['fst','st'],['fch','ch'],['fso','so']].forEach(function(p){document.getElementById(p[0]).onchange=function(){F[p[1]]=this.value;render();};});
 [['fh','h'],['fv','v']].forEach(function(p){document.getElementById(p[0]).onchange=function(){F[p[1]]=+this.value||0;render();};});
 document.getElementById('fmine').onchange=function(){F.mine=this.checked;render();};
-document.getElementById('fclr').onclick=function(){F={st:'',kd:'',ch:'',h:0,v:0,so:F.so,mine:false};document.getElementById('fst').value='';document.getElementById('fkd').value='';document.getElementById('fch').value='';document.getElementById('fh').value='0';document.getElementById('fv').value='0';document.getElementById('fmine').checked=false;render();};
-(function(){var ks={};S.forEach(function(x){if(x.k)ks[x.k]=1});var fkd=document.getElementById('fkd');
- Object.keys(ks).sort().forEach(function(k){var o=document.createElement('option');o.value=o.textContent=k;fkd.appendChild(o)});})();
+document.getElementById('fclr').onclick=function(){F={st:'',ch:'',h:0,v:0,so:F.so,mine:false};document.getElementById('fst').value='';document.getElementById('fch').value='';document.getElementById('fh').value='0';document.getElementById('fv').value='0';document.getElementById('fmine').checked=false;render();};
+
 document.getElementById('q').addEventListener('input',function(){Q=this.value.trim();render();});
 function mkUI(){
  var b=document.getElementById('mk'),p=document.getElementById('mkpanel');

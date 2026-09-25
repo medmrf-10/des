@@ -98,7 +98,7 @@ const errBox=(retry)=>`<div class="card err"><p>تعذر التحميل — تح
 const TABS=[['sanad','السند'],['rijal','الرجال'],['cmp','المقارنة'],['topics','المواضيع'],['stats','إحصاء']];
 let S={tab:'sanad',book:'bukhari',h:1,q:'',nr:'',topic:'2'};
 const main=document.getElementById('main'),tabs=document.getElementById('tabs');
-tabs.innerHTML=TABS.map(([k,n])=>`<button data-t="${k}" onclick="go('${k}')">${n}</button>`).join('')+'<a href="net.html" title="شبكة المعنى — مجموعات موحدة عبر الكتب الستة">⛓ الشبكة</a>';
+tabs.innerHTML=TABS.map(([k,n])=>`<button data-t="${k}" onclick="go('${k}')">${n}</button>`).join('')+'<a href="net.html" title="شبكة المعنى — مجموعات موحدة عبر الكتب الستة">⛓ الشبكة</a><a href="matn.html" title="بحث نصي كامل في متون الكتب الستة">ب المتون</a><a href="rawi.html" title="معجم سلاسل الرواة">ر الرواة</a><a href="nawawi.html" title="الأربعون النووية مربوطة بشبكة المعنى">٤٠ نووي</a>';
 function go(t){S.tab=t;render();location.hash=encHash()}
 function encHash(){return S.tab+'.'+S.book+'.'+S.h+(S.nr?'.'+S.nr:'')}
 function decHash(){const p=(location.hash||'').replace('#','').split('.');if(TABS.some(x=>x[0]==p[0]))S.tab=p[0];if(BOOKS.includes(p[1]))S.book=p[1];if(p[2]&&!isNaN(p[2]))S.h=+p[2];if(p[3])S.nr=decodeURIComponent(p[3])}

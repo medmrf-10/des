@@ -1483,5 +1483,32 @@
   "desc": "علّق لنفسك — رسائل تُفتح في تاريخها",
   "url": "../mi3laq/",
   "icon": "م"
+ },
+ {
+  "id": "takhsis",
+  "title": "مِخصص",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "محلل التفرّد — هل حديثك نادر أم غزير؟",
+  "url": "../hadith/takhsis.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en-shadow",
+  "title": "التظليل",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "اكتب جملتك من الذاكرة وقارن",
+  "url": "../english/shadowing.html",
+  "icon": "En"
+ },
+ {
+  "id": "prog-ladder",
+  "title": "سُلَّم البرمجة",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "٦ مستويات لكل مسار — أين أنت؟",
+  "url": "../prog/levelup.html",
+  "icon": "<>"
  }
 ]

@@ -2923,5 +2923,14 @@
   "desc": "ساهر لماذا؟ — أنماط السهر",
   "url": "../mishar/",
   "icon": "م"
+ },
+ {
+  "id": "sql_lab",
+  "title": "مختبر SQL",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "قاعدة مصغرة + مفسّر SQL",
+  "url": "../prog/sql_lab.html",
+  "icon": "م"
  }
 ]

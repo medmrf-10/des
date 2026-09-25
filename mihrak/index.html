@@ -57,6 +57,9 @@ async function build(){
  DB.hadith=[];if(D&&D.g)for(const g of Object.keys(D.g))
   DB.hadith.push({t:D.g[g].t,h:D.g[g].h,u:'../hadith/matn.html#'+g});
  DB.adhkar=(A||[]).map(a=>({t:a.t,h:a.h||'',u:'../hadith/adhkar.html'}));
+ const Q=await laz('../wahy/mutashabih.js','MUTA').catch(()=>null);
+ DB.ayat=[];if(Q&&Q.sim)for(const k of Object.keys(Q.sim)){
+  const v=Q.sim[k];DB.ayat.push({t:v[2],h:(Q.names[v[0]]||v[0])+' '+v[1],u:'../mishhad/#'+v[0]+':'+v[1]})}
  for(const k of Object.keys(DB))DB[k].forEach(x=>x.n=norm(x.t));
  return DB}
 async function go(){
@@ -64,6 +67,7 @@ async function go(){
  if(!qs.length){$('#out').innerHTML='';$('#stats').innerHTML='';return}
  const db=await build();
  const G=[
+  {k:'ayat',n:'آيات القرآن',cap:5},
   {k:'series',n:'سلاسل الدروس',cap:6},
   {k:'masail',n:'المسائل الفقهية',cap:5},
   {k:'hadith',n:'الأحاديث',cap:6},

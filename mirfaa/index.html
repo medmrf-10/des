@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مِرفأ — ما عليك لكل شخص</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:640px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:16px}
+.person{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.ph{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.ph b{color:var(--acc)}
+.ph .cnt{font-size:.66rem;color:var(--dim)}
+.item{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px dashed var(--border);margin-top:8px}
+.item .t{flex:1;font-size:.84rem}
+.item.done .t{text-decoration:line-through;color:var(--dim)}
+.item .knd{font-size:.6rem;border-radius:99px;padding:2px 8px}
+.knd.lk{background:rgba(232,201,122,.15);color:var(--acc)}
+.knd.lh{background:rgba(70,201,109,.15);color:var(--ok)}
+.knd.mw{background:rgba(224,112,112,.15);color:#e07070}
+.addp{display:flex;gap:8px;margin-bottom:16px}
+.addp input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;padding:10px}
+.addp button,.mini{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-weight:700;padding:10px 16px;cursor:pointer;font-size:.78rem}
+.mini{padding:5px 10px;font-size:.66rem}
+.acts{display:flex;gap:5px}
+.acts button{background:none;border:1px solid var(--border);border-radius:6px;color:var(--dim);font-family:inherit;font-size:.62rem;padding:3px 9px;cursor:pointer}
+.acts button:hover{color:var(--acc);border-color:var(--acc)}
+tbody tr td{border:0}
+.bar{height:5px;border-radius:3px;background:var(--card2);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--ok)}
+</style></head><body>
+<h1>مِرفأ</h1><div class="sub">سجل الذمّة: لكل شخص ما عليك له وما لك عنده — الذمّة تُبرأ بالفعل لا بالنيّة</div>
+<div class="addp"><input id="np" placeholder="اسم شخص جديد…"><button id="badd">+</button></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='mirfaa_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'{}');const S=o=>localStorage.setItem(K,JSON.stringify(o));
+const KN={lk:{n:'له عليك',c:'lk'},lh:{n:'لك عنده',c:'lh'},mw:{n:'موعد/وعد',c:'mw'}};
+function render(){
+ const d=D(),names=Object.keys(d);
+ $('list').innerHTML=names.length?names.map(n=>{
+  const items=d[n]||[];const pend=items.filter(x=>!x.done);
+  const owed=items.filter(x=>x.k==='lk'&&!x.done).length;
+  return `<div class="person"><div class="ph" data-p="${esc(n)}"><b>${esc(n)}</b><span class="cnt">${pend.length} معلّق${owed?' · '+owed+' له':''}</span></div>
+   <div class="items" id="it-${esc(n)}" style="display:none">
+    ${items.map((x,i)=>`<div class="item ${x.done?'done':''}"><span class="knd ${KN[x.k].c}">${KN[x.k].n}</span><span class="t">${esc(x.t)}</span>
+      <div class="acts"><button data-p="${esc(n)}" data-i="${i}" data-a="d">${x.done?'أعد':'أنجز'}</button><button data-p="${esc(n)}" data-i="${i}" data-a="x">✕</button></div></div>`).join('')}
+    <div class="addp" style="margin:10px 0 0"><input placeholder="إضافة…" data-in="${esc(n)}"><select data-k="${esc(n)}" style="background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.7rem;padding:0 8px">${Object.keys(KN).map(k=>`<option value="${k}">${KN[k].n}</option>`).join('')}</select><button class="mini" data-add="${esc(n)}">+</button></div>
+   </div></div>`;
+ }).join(''):'<div class="sub">أضف أول شخص — من تدين له؟ ومن يدين لك؟</div>';
+}
+document.addEventListener('click',e=>{
+ const ph=e.target.closest('.ph');if(ph){const it=document.getElementById('it-'+ph.dataset.p);if(it)it.style.display=it.style.display==='none'?'block':'none';return}
+ const b=e.target.closest('button[data-a]');if(b){const d=D();const x=d[b.dataset.p][+b.dataset.i];if(b.dataset.a==='d')x.done=!x.done;else d[b.dataset.p].splice(+b.dataset.i,1);S(d);render();return}
+ const add=e.target.closest('button[data-add]');if(add){const n=add.dataset.add;const inp=document.querySelector(`input[data-in="${n}"]`);const k=document.querySelector(`select[data-k="${n}"]`);if(inp.value.trim()){const d=D();d[n]=d[n]||[];d[n].push({t:inp.value.trim(),k:k?k.value:'lk',done:false});S(d);render()}return}
+ if(e.target.id==='badd'){const v=$('np').value.trim();if(v){const d=D();d[v]=d[v]||[];S(d);$('np').value='';render()}}
+});
+render();
+</script></body></html>

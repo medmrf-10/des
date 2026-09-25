@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِكيال — ميزان النصوص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:820px;margin:0 auto;padding:14px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.cols{grid-template-columns:1fr}}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px 14px;font-family:var(--font-ar);font-size:14.5px;min-height:130px;resize:vertical;line-height:1.9;box-sizing:border-box}
+textarea:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.cmp{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px 18px;font-family:var(--font-ar);font-size:15.5px;line-height:2.2;margin-top:12px;white-space:pre-wrap}
+.same{color:var(--txt)}
+.add{background:rgba(61,214,140,.18);color:#3dd68c;border-radius:4px;padding:0 3px}
+.del{background:rgba(224,119,119,.15);color:#e07777;text-decoration:line-through;border-radius:4px;padding:0 3px}
+.muted{color:var(--dim);font-size:12px}
+.stat{display:inline-block;background:var(--card2);border-radius:8px;padding:4px 12px;font-size:12px;margin-inline-end:8px}
+h4{font-family:var(--font-ar);margin:14px 0 4px;font-size:14px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِكيال <span class="muted">— ميزان النصوص</span></h2>
+<div class="muted">الصق نصّين — روايتين، نسختين، مسودّتين — ترى الفرق كلمةً كلمة: الأخضر زائد في الثاني، الأحمر منقوص منه.</div>
+<div class="cols" style="margin-top:12px">
+<textarea id="t1" placeholder="النص الأول (الأصل)"></textarea>
+<textarea id="t2" placeholder="النص الثاني (المُقارَن)"></textarea>
+</div>
+<div style="display:flex;gap:8px;margin-top:10px">
+<button class="btn" id="go">قِس الفرق</button>
+<label class="muted" style="align-self:center"><input type="checkbox" id="ex" checked> بلا تشكيل</label>
+<label class="muted" style="align-self:center"><input type="checkbox" id="per" checked> إظهار نسبة التطابق</label>
+</div>
+<h4>المقارنة (من منظور النص الثاني)</h4>
+<div id="stats"></div>
+<div class="cmp" id="out"><span class="muted">النتيجة هنا…</span></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=(s,ex)=>{let t=String(s||'');
+ if(ex)t=t.replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+ return t.split(/\s+/).filter(Boolean)};
+function diff(a,b){
+ // Myers-lite: LCS على مستوى الكلمات
+ const n=a.length,m=b.length;
+ const dp=Array.from({length:n+1},()=>new Uint16Array(m+1));
+ for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
+  dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+ const out=[];let i=0,j=0,add=0,del=0,same=0;
+ while(i<n&&j<m){
+  if(a[i]===b[j]){out.push({t:'=',w:a[i]});i++;j++;same++}
+  else if(dp[i+1][j]>=dp[i][j+1]){out.push({t:'-',w:a[i]});i++;del++}
+  else{out.push({t:'+',w:b[j]});j++;add++}}
+ while(i<n){out.push({t:'-',w:a[i++]});del++}
+ while(j<m){out.push({t:'+',w:b[j++]});add++}
+ return{out,same,add,del,tot:Math.max(n,m)}}
+function go(){
+ const ex=$('ex').checked;
+ const a=norm($('t1').value,ex),b=norm($('t2').value,ex);
+ if(!a.length||!b.length){$('#out').innerHTML='<span class="muted">الصق النصّين أولاً</span>';return}
+ if(a.length>2000||b.length>2000){$('#out').innerHTML='<span class="muted">النصوص طويلة جداً (أقصاها ~2000 كلمة)</span>';return}
+ const r=diff(a,b);
+ $('#out').innerHTML=r.out.map(x=>x.t==='='?`<span class="same">${esc(x.w)}</span>`:x.t==='+'?`<span class="add">${esc(x.w)}</span>`:`<span class="del">${esc(x.w)}</span>`).join(' ');
+ const pc=r.tot?Math.round(r.same/r.tot*100):0;
+ $('#stats').innerHTML=$('per').checked?`<span class="stat">تطابق: ${pc}%</span><span class="stat" style="color:#3dd68c">زائد: ${r.add.toLocaleString('ar-EG')}</span><span class="stat" style="color:#e07777">منقوص: ${r.del.toLocaleString('ar-EG')}</span><span class="stat">كلمات مشتركة: ${r.same.toLocaleString('ar-EG')}</span>`:''}
+$('#go').onclick=go;
+$('t1').value='إنما الأعمال بالنيات وإنما لكل امرئ ما نوى';
+$('t2').value='إنما الأعمال بالنية وإنما لكل امرئ ما نوى إليه';
+</script>
+<script src="../shared/feedback.js" data-pid="mikyal" data-title="مِكيال"></script>
+</body>
+</html>

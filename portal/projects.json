@@ -2248,5 +2248,23 @@
   "desc": "تقسيم اليوم — كتل يومك المثالي",
   "url": "../mi3raz/",
   "icon": "م"
+ },
+ {
+  "id": "story",
+  "title": "Story Builder",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "بناء القصة — كلماتك في إطار",
+  "url": "../english/story_builder.html",
+  "icon": "S"
+ },
+ {
+  "id": "patterns",
+  "title": "أنماط",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "مدرب الأنماط — توقع العنصر الخامس",
+  "url": "../prog/patterns.html",
+  "icon": "أ"
  }
 ]

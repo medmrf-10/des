@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بناء القصة — إنجليزي بالمحتوى القصير</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="stylesheet" href="style.css">
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{background:var(--navy-3);border:1px solid var(--gold-dim);border-radius:999px;padding:6px 13px;color:var(--ink);cursor:pointer;font-size:13px}
+.chip .war{color:var(--muted);font-size:12px}
+.chip.sel{border-color:var(--gold);background:rgba(212,168,67,.14);color:var(--gold-soft)}
+.chip:disabled{opacity:.45;cursor:default}
+.inp{background:var(--navy-3);border:1px solid var(--gold-dim);border-radius:10px;padding:9px 12px;color:var(--ink);font-size:15px}
+.inp:focus{outline:none;border-color:var(--gold)}
+.sbframe{border:1px solid var(--gold-dim);border-radius:12px;padding:10px 12px;margin:9px 0;background:var(--navy-2)}
+.sbline{border-radius:12px;padding:10px 12px;margin:7px 0;cursor:pointer;transition:background .2s}
+.sbline:hover{background:var(--navy-3)}
+.sbline.on{background:rgba(212,168,67,.16);border:1px solid var(--gold)}
+.sbline .kw{background:var(--gold);color:var(--navy);border-radius:6px;padding:0 6px;font-weight:700}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◈</span>
+    <div>
+      <h1>بناء القصة</h1>
+      <p class="tagline">8 كلمات من بنكك ← قصة بفراغات ← كاريوكي صوتي</p>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="index.html#/short">ShortForm</a>
+    <a href="library.html">الفهرس</a>
+    <a href="listen.html">الإملاء</a>
+    <a href="mimic.html">قلّد</a>
+    <a href="story.html">القصص</a>
+    <a href="srs.html">مفردات SRS</a>
+    <a href="routine.html">روتين اليوم</a>
+    <a href="practice.html">تمرين اليوم</a>
+    <a href="journal.html">يومياتي</a>
+    <a href="shadowing.html">التظليل</a>
+    <a href="collocations.html">التراكيب</a>
+    <a href="dictation.html">إملاء صوتي</a>
+    <a href="picture_dict.html">المعجم المصور</a>
+    <a href="minimal_pairs.html">الأزواج الدنيا</a>
+    <a href="story_builder.html">بناء القصة</a>
+  </nav>
+</header>
+
+<main id="app"></main>
+
+<footer class="foot">منصة ثابتة بلا خوادم — تقدّمك محفوظ في متصفحك فقط (localStorage)</footer>
+<div id="toast" class="toast hidden"></div>
+
+<script src="../shared/feedback.js" data-pid="en_storybuilder" data-title="بناء القصة"></script>
+<script src="core.js"></script>
+<script src="data.js"></script>
+<script src="storydata.js"></script>
+<script src="story_builder.js"></script>
+</body>
+</html>

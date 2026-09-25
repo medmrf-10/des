@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>موازن — المصطلح عند المتون</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1020px;margin:0 auto;padding:14px}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:12px 16px;font-family:var(--font-ar);font-size:15px;margin-top:10px}
+#sugs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sug{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:99px;padding:4px 12px;font-size:11.5px;cursor:pointer;font-family:var(--font-ar)}
+.sug:hover{border-color:var(--acc)}
+.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px;margin-top:14px}
+.bk{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px 14px}
+.bk h4{font-family:var(--font-ar);font-size:14px;color:var(--acc2);margin:0 0 9px}
+.bk h4 span{display:block;font-size:10px;color:var(--dim);font-weight:400;margin-top:2px}
+.cx{background:var(--card2);border-radius:9px;padding:9px 11px;margin:7px 0;font-family:var(--font-ar);font-size:13px;line-height:1.9}
+.cx .bb{font-size:10px;color:var(--acc2);display:block;margin-bottom:3px}
+.muted{color:var(--dim);font-size:12px}
+mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">موازن <span class="muted" style="font-weight:400;font-size:12px">— المصطلح الواحد عند المتون التسعة</span></h2>
+<div class="muted">اختر مفهوماً عقدياً — يظهر موضعه في كل متن في أعمدة متوازية: كيف صاغه كل مصنّف وفي أي باب وضعه.</div>
+<input class="inp" id="q" placeholder="مفهوم… (الإيمان، القضاء، الصفات، الولاية)" autocomplete="off">
+<div id="sugs"></div>
+<div class="cols" id="cols"></div>
+<script src="../akida/terms.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+const TERMS_=Object.keys(TERMS.terms);
+function pick(t){
+ $('#cols').innerHTML='';
+ const ctxs=TERMS.terms[t];if(!ctxs){$('#cols').innerHTML='<div class="muted">غير موجود</div>';return}
+ const by={};ctxs.forEach(c=>{(by[c.b]=by[c.b]||[]).push(c)});
+ const order=Object.keys(by).sort((a,b)=>(by[b].length-by[a].length));
+ $('#cols').innerHTML=order.map(b=>`<div class="bk"><h4>${esc(TERMS.books[b]||b)}<span>${by[b].length.toLocaleString('ar-EG')} موضعاً</span></h4>
+  ${by[b].slice(0,8).map(c=>`<div class="cx">${c.bab?`<span class="bb">${esc(c.bab)}</span>`:''}${esc(c.q)}</div>`).join('')}</div>`).join('')}
+$('q').addEventListener('input',()=>{
+ const v=norm($('q').value);
+ if(v.length<2){$('#sugs').innerHTML='';return}
+ const hits=TERMS_.filter(t=>norm(t).includes(v)).slice(0,12);
+ $('#sugs').innerHTML=hits.map(t=>`<button class="sug">${esc(t)}</button>`).join('')});
+$('#sugs').onclick=e=>{const b=e.target.closest('.sug');if(!b)return;$('q').value=b.textContent;$('#sugs').innerHTML='';pick(b.textContent)};
+const hq=decodeURIComponent((location.hash||'').slice(3));
+if(location.hash.startsWith('#q=')&&hq){$('q').value=hq;pick(hq)}else pick('الإيمان إقرار وتصديق');
+</script>
+<script src="../shared/feedback.js" data-pid="muwazan" data-title="موازن"></script>
+</body>
+</html>

@@ -34,7 +34,7 @@ function dictDiff(target, typed){
   const dp = Array.from({length:m+1},()=>Array(n+1).fill(0));
   for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--)
     dp[i][j] = Math.max(dp[i+1][j+1] + wmatch(T[i],U[j]), dp[i+1][j], dp[i][j+1]);
-  let i=0, j=0, ok=0, extra=0; const cells=[];
+  let i=0, j=0, ok=0, extra=0; const cells=[]; const missed=[];
   while(i<m && j<n){
     const w = wmatch(T[i],U[j]);
     if(w>0 && dp[i][j] === dp[i+1][j+1] + w){
@@ -44,13 +44,13 @@ function dictDiff(target, typed){
         : `<span class="rn">${esc(Traw[i])}</span>`);
       i++; j++;
     } else if(dp[i+1][j] >= dp[i][j+1]){
-      cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++;
+      cells.push(`<span class="rb">${esc(Traw[i])}</span>`); missed.push(T[i]); i++;
     } else { extra++; j++; }
   }
-  while(i<m){ cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++; }
+  while(i<m){ cells.push(`<span class="rb">${esc(Traw[i])}</span>`); missed.push(T[i]); i++; }
   extra += n - j;
   const pct = m ? Math.round(ok/m*100) : 0;
-  return {html:cells.join(' '), pct, extra};
+  return {html:cells.join(' '), pct, extra, missed};
 }
 
 /* ---------- مخزن بطاقات FSRS ---------- */

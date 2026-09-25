@@ -2365,5 +2365,23 @@
   "desc": "خطط العواصف — أيامك الصعبة",
   "url": "../mir3ad/",
   "icon": "م"
+ },
+ {
+  "id": "tarjih",
+  "title": "التَّرجيح",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "رجّح بين القولين بالأدلة",
+  "url": "../hadith/tarjih.html",
+  "icon": "ت"
+ },
+ {
+  "id": "chunks",
+  "title": "Chunking",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "عبارات جاهزة لا كلمات",
+  "url": "../english/chunking.html",
+  "icon": "C"
  }
 ]

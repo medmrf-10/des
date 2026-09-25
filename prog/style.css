@@ -600,3 +600,18 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .pn-end-ic{font-size:2.6rem;margin-bottom:10px}
 .pn-end h2{margin:0 0 8px;font-size:1.2rem}
 .pn-end-sub{font-size:.75rem;color:var(--dim);margin-bottom:20px}
+
+/* ====== المُعيد ====== */
+.rf-smells-h{font-size:.72rem;color:var(--acc2);font-weight:600;margin:10px 0 8px}
+.rf-smells{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.rf-smell{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:7px 12px;font-size:.72rem;cursor:pointer}
+.rf-smell.found{border-color:var(--acc);color:var(--acc2)}
+.rf-smell.decoy{opacity:.7}
+.rf-smell input{accent-color:var(--acc)}
+.rf-code-view{color:#cdd6f4;font-size:.68rem;max-height:260px;overflow:auto}
+#rfEd{width:100%;min-height:200px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:12px;line-height:1.7;box-sizing:border-box}
+#rfEd:focus{outline:none;border-color:var(--acc)}
+.rf-diff{background:#0a0e1c;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:.66rem;max-height:200px;overflow:auto}
+.rf-plus{color:#6fc76f}
+.rf-minus{color:#e0a0a0;text-decoration:line-through;opacity:.8}
+.rf-sol-h{font-size:.72rem;color:var(--acc2);font-weight:600;margin:14px 0 8px}

@@ -1,0 +1,96 @@
+{
+ "generated": "2026-09-25T04:15Z",
+ "tools": {
+  "miqtadir": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mizan": {
+   "status": "live",
+   "js_errors": [
+    "SyntaxError: Failed to execute 'querySelector' on 'Document': '##doms' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mi"
+   ],
+   "overflow_px": 0,
+   "out_of_viewport": [],
+   "wide_elements": [],
+   "long_rows": [],
+   "inner_hscroll": [],
+   "score": 5,
+   "note": "## bug حي (الإصلاح على main ينتظر النشر)؛ ولا مشكلة UX أخرى"
+  },
+  "mijra": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mishmil": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "miftah": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "minshat": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mi3bar": {
+   "status": "on-main-pending-deploy",
+   "js_errors": "(مصدرها مُصلّح)",
+   "score": null,
+   "note": "مصدر سليم: helper مُصلّح + max-width مرن؛ غير منشورة بعد"
+  },
+  "mi3tikaf": {
+   "status": "on-main-pending-deploy",
+   "js_errors": "(مصدرها مُصلّح)",
+   "score": null,
+   "note": "مصدر سليم: helper مُصلّح + max-width مرن؛ غير منشورة بعد"
+  },
+  "mujallad": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mirmah": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mizkar": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mikhtim": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mi3laq": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mishbak": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mithna": {
+   "status": "absent-from-main",
+   "score": null,
+   "note": "لا ملف على main — لم تُدفع بعد"
+  },
+  "mi3mal": {
+   "status": "on-main-pending-deploy",
+   "js_errors": "(مصدرها مُصلّح)",
+   "score": null,
+   "note": "مصدر سليم: helper مُصلّح + max-width مرن؛ غير منشورة بعد"
+  }
+ }
+}

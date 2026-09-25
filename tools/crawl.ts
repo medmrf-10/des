@@ -106,6 +106,8 @@ interface SiteResult {
   url: string; http?: number; console_errors: string[]; resource_404s: string[];
   scrollWidth?: number; clientWidth?: number; overflow_px?: number;
   search?: { input?: string; query?: string; results?: number; note?: string };
+  perf?: { dur: number; dcl: number; rsp: number };
+  frozen?: { skeletons: number; loading_texts: string[]; empty_containers: number; body_len: number };
   links: { tested: number; broken: string[] };
   error?: string;
 }
@@ -126,6 +128,12 @@ const SEARCH_JS = (cfg: { q?: string; items?: string }) => `(async()=>{
 })()`;
 
 const OVERFLOW_JS = `JSON.stringify({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth})`;
+const PERF_JS = `(()=>{const n=performance.getEntriesByType('navigation')[0]||{};return JSON.stringify({dur:Math.round(n.duration||0),dcl:Math.round(n.domContentLoadedEventEnd||0),rsp:Math.round(n.responseEnd||0)})})()`;
+const FROZEN_JS = `(()=>{const vis=e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0};
+  const skl=[...document.querySelectorAll('.skeleton,.skl,.loader,.spinner,.loading,.shimmer,[class*="skeleton"],[class*="loader"]')].filter(vis).length;
+  const loadTxt=[...document.querySelectorAll('div,span,p,section')].filter(e=>vis(e)&&(e.innerText||'').trim().length<90&&/جاري|تحميل|يُحمّل|يُغزل|يتم التجهيز|^\\s*…+\\s*$/.test(e.innerText||'')&&e.children.length<=1).slice(0,3).map(e=>(e.innerText||'').trim().slice(0,50));
+  const empt=[...document.querySelectorAll('main,section,#app,#list,#out,#res,#cards,#view,#content,#root')].filter(e=>vis(e)&&(e.innerText||'').trim().length===0).length;
+  return JSON.stringify({skeletons:skl,loading_texts:loadTxt,empty_containers:empt,body_len:(document.body.innerText||'').trim().length})})()`;
 const LINKS_JS = `(()=>{const u=new Set();document.querySelectorAll('a[href]').forEach(a=>{const h=a.getAttribute('href');if(h&&!h.startsWith('javascript:')&&!h.startsWith('mailto:'))u.add(new URL(h,location.href).href)});return JSON.stringify([...u])})()`;
 
 async function crawlSite(name: string, url: string): Promise<SiteResult> {
@@ -163,6 +171,8 @@ async function crawlSite(name: string, url: string): Promise<SiteResult> {
     const dims = JSON.parse(await evalJs(OVERFLOW_JS) || "{}");
     res.scrollWidth = dims.sw; res.clientWidth = dims.cw;
     res.overflow_px = Math.max(0, (dims.sw || 0) - (dims.cw || 0));
+    try { res.perf = JSON.parse(await evalJs(PERF_JS) || "{}"); } catch { /* perf اختياري */ }
+    try { res.frozen = JSON.parse(await evalJs(FROZEN_JS) || "{}"); } catch { /* frozen اختياري */ }
     // البحث
     const cfg = SITE_CFG[name] || {};
     if (cfg.search === false) res.search = { note: "لا بحث أساسي بالموقع" };

@@ -46,7 +46,7 @@ body{max-width:860px;margin:0 auto;padding:14px}
 <div id="list" style="margin-top:12px"></div>
 <script src="../durus/data.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=s=>{s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 let A=0,B=0,clips=[];

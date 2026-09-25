@@ -36,7 +36,7 @@ canvas{width:100%;height:64px;margin-top:10px}
 <audio id="pl" controls style="display:none"></audio>
 <div class="muted" style="margin-top:12px">الصيغة: <b id="fmt"></b> · التسجيل يبقى على جهازك — لا يُرفع لأي خادم</div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 let rec,chunks=[],stream,ctx,analyser,t0,iv;
 const d=$('disc'),c=$('cv').getContext('2d');
 function fmt(t){return Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0')}

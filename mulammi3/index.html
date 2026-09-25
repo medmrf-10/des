@@ -34,7 +34,7 @@ input[type=file]{display:none}
 <div id="list"></div>
 <div id="player"><audio id="au" controls></audio><span class="muted" id="curp"></span></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let PH=[],dirty=false;
 const fmt=s=>{s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};

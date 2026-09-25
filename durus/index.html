@@ -237,6 +237,10 @@ $('sheikhChips').classList.add('open');
 const h=location.hash;
 refilter();
 if(h.startsWith('#s=')){const id=+h.slice(3);const c=list.querySelector('.card[data-id="'+id+'"]');c&&c.scrollIntoView({block:'center'})}
+if(h.startsWith('#p=')){const m=/p=(\d+)\.(\d+)/.exec(h);if(m){const sid=+m[1],idx=+m[2];
+  const fi=filtered.findIndex(x=>x.id===sid);if(fi>=state.shown)state.shown=fi+1,renderList();
+  let c=list.querySelector('.card[data-id="'+sid+'"]');
+  if(c){c.scrollIntoView({block:'center'});toggleCard(sid,c).then(()=>{const el=c.querySelector('.clip[data-idx="'+idx+'"]');el&&el.click();el&&el.scrollIntoView({block:'center'})})}}}
 const pos=LS('durus_pos');if(pos){try{const p=JSON.parse(pos);if(p.sid)console.log('last',p)}catch(e){}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

@@ -1,0 +1,686 @@
+[
+{
+"n": 1,
+"name": "الفاتحة",
+"file": "001_al-fatiha.json",
+"ayat": 7
+},
+{
+"n": 2,
+"name": "البقرة",
+"file": "002_al-baqarah.json",
+"ayat": 286
+},
+{
+"n": 3,
+"name": "آل عمران",
+"file": "003_aal-e-imran.json",
+"ayat": 200
+},
+{
+"n": 4,
+"name": "النساء",
+"file": "004_an-nisa.json",
+"ayat": 176
+},
+{
+"n": 5,
+"name": "المائدة",
+"file": "005_al-maidah.json",
+"ayat": 120
+},
+{
+"n": 6,
+"name": "الأنعام",
+"file": "006_al-anam.json",
+"ayat": 165
+},
+{
+"n": 7,
+"name": "الأعراف",
+"file": "007_al-araf.json",
+"ayat": 206
+},
+{
+"n": 8,
+"name": "الأنفال",
+"file": "008_al-anfal.json",
+"ayat": 75
+},
+{
+"n": 9,
+"name": "التوبة",
+"file": "009_at-tawbah.json",
+"ayat": 129
+},
+{
+"n": 10,
+"name": "يونس",
+"file": "010_yunus.json",
+"ayat": 109
+},
+{
+"n": 11,
+"name": "هود",
+"file": "011_hud.json",
+"ayat": 123
+},
+{
+"n": 12,
+"name": "يوسف",
+"file": "012_yusuf.json",
+"ayat": 111
+},
+{
+"n": 13,
+"name": "الرعد",
+"file": "013_ar-rad.json",
+"ayat": 43
+},
+{
+"n": 14,
+"name": "إبراهيم",
+"file": "014_ibrahim.json",
+"ayat": 52
+},
+{
+"n": 15,
+"name": "الحجر",
+"file": "015_al-hijr.json",
+"ayat": 99
+},
+{
+"n": 16,
+"name": "النحل",
+"file": "016_an-nahl.json",
+"ayat": 128
+},
+{
+"n": 17,
+"name": "الإسراء",
+"file": "017_al-isra.json",
+"ayat": 111
+},
+{
+"n": 18,
+"name": "الكهف",
+"file": "018_al-kahf.json",
+"ayat": 110
+},
+{
+"n": 19,
+"name": "مريم",
+"file": "019_maryam.json",
+"ayat": 98
+},
+{
+"n": 20,
+"name": "طه",
+"file": "020_ta-ha.json",
+"ayat": 135
+},
+{
+"n": 21,
+"name": "الأنبياء",
+"file": "021_al-anbiya.json",
+"ayat": 112
+},
+{
+"n": 22,
+"name": "الحج",
+"file": "022_al-hajj.json",
+"ayat": 78
+},
+{
+"n": 23,
+"name": "المؤمنون",
+"file": "023_al-muminun.json",
+"ayat": 118
+},
+{
+"n": 24,
+"name": "النور",
+"file": "024_an-nur.json",
+"ayat": 64
+},
+{
+"n": 25,
+"name": "الفرقان",
+"file": "025_al-furqan.json",
+"ayat": 77
+},
+{
+"n": 26,
+"name": "الشعراء",
+"file": "026_ash-shuara.json",
+"ayat": 227
+},
+{
+"n": 27,
+"name": "النمل",
+"file": "027_an-naml.json",
+"ayat": 93
+},
+{
+"n": 28,
+"name": "القصص",
+"file": "028_al-qasas.json",
+"ayat": 88
+},
+{
+"n": 29,
+"name": "العنكبوت",
+"file": "029_al-ankabut.json",
+"ayat": 69
+},
+{
+"n": 30,
+"name": "الروم",
+"file": "030_ar-rum.json",
+"ayat": 60
+},
+{
+"n": 31,
+"name": "لقمان",
+"file": "031_luqman.json",
+"ayat": 34
+},
+{
+"n": 32,
+"name": "السجدة",
+"file": "032_as-sajdah.json",
+"ayat": 30
+},
+{
+"n": 33,
+"name": "الأحزاب",
+"file": "033_al-ahzab.json",
+"ayat": 73
+},
+{
+"n": 34,
+"name": "سبأ",
+"file": "034_saba.json",
+"ayat": 54
+},
+{
+"n": 35,
+"name": "فاطر",
+"file": "035_fatir.json",
+"ayat": 45
+},
+{
+"n": 36,
+"name": "يس",
+"file": "036_ya-sin.json",
+"ayat": 83
+},
+{
+"n": 37,
+"name": "الصافات",
+"file": "037_as-saffat.json",
+"ayat": 182
+},
+{
+"n": 38,
+"name": "ص",
+"file": "038_sad.json",
+"ayat": 88
+},
+{
+"n": 39,
+"name": "الزمر",
+"file": "039_az-zumar.json",
+"ayat": 75
+},
+{
+"n": 40,
+"name": "غافر",
+"file": "040_ghafir.json",
+"ayat": 85
+},
+{
+"n": 41,
+"name": "فصلت",
+"file": "041_fussilat.json",
+"ayat": 54
+},
+{
+"n": 42,
+"name": "الشورى",
+"file": "042_ash-shura.json",
+"ayat": 53
+},
+{
+"n": 43,
+"name": "الزخرف",
+"file": "043_az-zukhruf.json",
+"ayat": 89
+},
+{
+"n": 44,
+"name": "الدخان",
+"file": "044_ad-dukhkhan.json",
+"ayat": 59
+},
+{
+"n": 45,
+"name": "الجاثية",
+"file": "045_al-jathiya.json",
+"ayat": 37
+},
+{
+"n": 46,
+"name": "الأحقاف",
+"file": "046_al-ahqaf.json",
+"ayat": 35
+},
+{
+"n": 47,
+"name": "محمد",
+"file": "047_muhammad.json",
+"ayat": 38
+},
+{
+"n": 48,
+"name": "الفتح",
+"file": "048_al-fath.json",
+"ayat": 29
+},
+{
+"n": 49,
+"name": "الحجرات",
+"file": "049_al-hujurat.json",
+"ayat": 18
+},
+{
+"n": 50,
+"name": "ق",
+"file": "050_qaf.json",
+"ayat": 45
+},
+{
+"n": 51,
+"name": "الذاريات",
+"file": "051_adh-dhariyat.json",
+"ayat": 60
+},
+{
+"n": 52,
+"name": "الطور",
+"file": "052_at-tur.json",
+"ayat": 49
+},
+{
+"n": 53,
+"name": "النجم",
+"file": "053_an-najm.json",
+"ayat": 62
+},
+{
+"n": 54,
+"name": "القمر",
+"file": "054_al-qamar.json",
+"ayat": 55
+},
+{
+"n": 55,
+"name": "الرحمن",
+"file": "055_ar-rahman.json",
+"ayat": 78
+},
+{
+"n": 56,
+"name": "الواقعة",
+"file": "056_al-waqiah.json",
+"ayat": 96
+},
+{
+"n": 57,
+"name": "الحديد",
+"file": "057_al-hadid.json",
+"ayat": 29
+},
+{
+"n": 58,
+"name": "المجادلة",
+"file": "058_al-mujadila.json",
+"ayat": 22
+},
+{
+"n": 59,
+"name": "الحشر",
+"file": "059_al-hashr.json",
+"ayat": 24
+},
+{
+"n": 60,
+"name": "الممتحنة",
+"file": "060_al-mumtahina.json",
+"ayat": 13
+},
+{
+"n": 61,
+"name": "الصف",
+"file": "061_as-saff.json",
+"ayat": 14
+},
+{
+"n": 62,
+"name": "الجمعة",
+"file": "062_al-jumua.json",
+"ayat": 11
+},
+{
+"n": 63,
+"name": "المنافقون",
+"file": "063_al-munafiqoon.json",
+"ayat": 11
+},
+{
+"n": 64,
+"name": "التغابن",
+"file": "064_at-taghabun.json",
+"ayat": 18
+},
+{
+"n": 65,
+"name": "الطلاق",
+"file": "065_at-talaq.json",
+"ayat": 12
+},
+{
+"n": 66,
+"name": "التحريم",
+"file": "066_at-tahrim.json",
+"ayat": 12
+},
+{
+"n": 67,
+"name": "الملك",
+"file": "067_al-mulk.json",
+"ayat": 30
+},
+{
+"n": 68,
+"name": "القلم",
+"file": "068_al-qalam.json",
+"ayat": 52
+},
+{
+"n": 69,
+"name": "الحاقة",
+"file": "069_al-haqqah.json",
+"ayat": 52
+},
+{
+"n": 70,
+"name": "المعارج",
+"file": "070_al-maarij.json",
+"ayat": 44
+},
+{
+"n": 71,
+"name": "نوح",
+"file": "071_nooh.json",
+"ayat": 28
+},
+{
+"n": 72,
+"name": "الجن",
+"file": "072_al-jinn.json",
+"ayat": 28
+},
+{
+"n": 73,
+"name": "المزمل",
+"file": "073_al-muzzammil.json",
+"ayat": 20
+},
+{
+"n": 74,
+"name": "المدثر",
+"file": "074_al-muddathir.json",
+"ayat": 56
+},
+{
+"n": 75,
+"name": "القيامة",
+"file": "075_al-qiyamah.json",
+"ayat": 40
+},
+{
+"n": 76,
+"name": "الإنسان",
+"file": "076_al-insan.json",
+"ayat": 31
+},
+{
+"n": 77,
+"name": "المرسلات",
+"file": "077_al-mursalat.json",
+"ayat": 50
+},
+{
+"n": 78,
+"name": "النبأ",
+"file": "078_an-naba.json",
+"ayat": 40
+},
+{
+"n": 79,
+"name": "النازعات",
+"file": "079_an-naziat.json",
+"ayat": 46
+},
+{
+"n": 80,
+"name": "عبس",
+"file": "080_abasa.json",
+"ayat": 42
+},
+{
+"n": 81,
+"name": "التكوير",
+"file": "081_at-takwir.json",
+"ayat": 29
+},
+{
+"n": 82,
+"name": "الانفطار",
+"file": "082_al-infitar.json",
+"ayat": 19
+},
+{
+"n": 83,
+"name": "المطففين",
+"file": "083_al-mutaffifin.json",
+"ayat": 36
+},
+{
+"n": 84,
+"name": "الانشقاق",
+"file": "084_al-inshiqaq.json",
+"ayat": 25
+},
+{
+"n": 85,
+"name": "البروج",
+"file": "085_al-buruj.json",
+"ayat": 22
+},
+{
+"n": 86,
+"name": "الطارق",
+"file": "086_at-tariq.json",
+"ayat": 17
+},
+{
+"n": 87,
+"name": "الأعلى",
+"file": "087_al-ala.json",
+"ayat": 19
+},
+{
+"n": 88,
+"name": "الغاشية",
+"file": "088_al-ghashiyah.json",
+"ayat": 26
+},
+{
+"n": 89,
+"name": "الفجر",
+"file": "089_al-fajr.json",
+"ayat": 30
+},
+{
+"n": 90,
+"name": "البلد",
+"file": "090_al-balad.json",
+"ayat": 20
+},
+{
+"n": 91,
+"name": "الشمس",
+"file": "091_ash-shams.json",
+"ayat": 15
+},
+{
+"n": 92,
+"name": "الليل",
+"file": "092_al-layl.json",
+"ayat": 21
+},
+{
+"n": 93,
+"name": "الضحى",
+"file": "093_ad-duha.json",
+"ayat": 11
+},
+{
+"n": 94,
+"name": "الشرح",
+"file": "094_ash-sharh.json",
+"ayat": 8
+},
+{
+"n": 95,
+"name": "التين",
+"file": "095_at-tin.json",
+"ayat": 8
+},
+{
+"n": 96,
+"name": "العلق",
+"file": "096_al-alaq.json",
+"ayat": 19
+},
+{
+"n": 97,
+"name": "القدر",
+"file": "097_al-qadr.json",
+"ayat": 5
+},
+{
+"n": 98,
+"name": "البينة",
+"file": "098_al-bayyina.json",
+"ayat": 8
+},
+{
+"n": 99,
+"name": "الزلزلة",
+"file": "099_az-zalzalah.json",
+"ayat": 8
+},
+{
+"n": 100,
+"name": "العاديات",
+"file": "100_al-adiyat.json",
+"ayat": 11
+},
+{
+"n": 101,
+"name": "القارعة",
+"file": "101_al-qariah.json",
+"ayat": 11
+},
+{
+"n": 102,
+"name": "التكاثر",
+"file": "102_at-takathur.json",
+"ayat": 8
+},
+{
+"n": 103,
+"name": "العصر",
+"file": "103_al-asr.json",
+"ayat": 3
+},
+{
+"n": 104,
+"name": "الهمزة",
+"file": "104_al-humazah.json",
+"ayat": 9
+},
+{
+"n": 105,
+"name": "الفيل",
+"file": "105_al-fil.json",
+"ayat": 5
+},
+{
+"n": 106,
+"name": "قريش",
+"file": "106_quraish.json",
+"ayat": 4
+},
+{
+"n": 107,
+"name": "الماعون",
+"file": "107_al-maun.json",
+"ayat": 7
+},
+{
+"n": 108,
+"name": "الكوثر",
+"file": "108_al-kawthar.json",
+"ayat": 3
+},
+{
+"n": 109,
+"name": "الكافرون",
+"file": "109_al-kafirun.json",
+"ayat": 6
+},
+{
+"n": 110,
+"name": "النصر",
+"file": "110_an-nasr.json",
+"ayat": 3
+},
+{
+"n": 111,
+"name": "المسد",
+"file": "111_al-masad.json",
+"ayat": 5
+},
+{
+"n": 112,
+"name": "الإخلاص",
+"file": "112_al-ikhlas.json",
+"ayat": 4
+},
+{
+"n": 113,
+"name": "الفلق",
+"file": "113_al-falaq.json",
+"ayat": 5
+},
+{
+"n": 114,
+"name": "الناس",
+"file": "114_an-nas.json",
+"ayat": 6
+}
+]

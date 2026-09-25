@@ -1,0 +1,26 @@
+{
+ "tafsir": {
+  "repo": "https://github.com/meibassam/mosahaf-tafseer",
+  "commit": "9bd3a1f80bb22990b1b0fba5910436e469c813d3",
+  "raw": "https://raw.githubusercontent.com/meibassam/mosahaf-tafseer/main/json-data/{file}",
+  "books": [
+   "التفسير الميسر",
+   "تفسير السعدي",
+   "تفسير ابن كثير",
+   "تفسير الوسيط لطنطاوي",
+   "تفسير البغوي",
+   "تفسير القرطبي",
+   "تفسير الطبري",
+   "تفسير الجلالين"
+  ]
+ },
+ "hadith": {
+  "repo": "https://github.com/AhmedBaset/hadith-json",
+  "commit": "70b83d6d21995bb32f8d7271cd75501be5a922a7",
+  "raw": "https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_chapter/{group}/{slug}/{chapter}.json"
+ },
+ "sharh": {
+  "repo": "medmrf-10/rlg (indexes/fiqh/real_index)",
+  "note": "units.jsonl atoms = literal book text pieces"
+ }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مُرجِع — آية↔تفسير وحديث↔شرح</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.tab{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:8px 18px;cursor:pointer;font-family:var(--font-ui);font-size:14px}
+.tab.on{background:var(--acc);color:#14140f;font-weight:700;border-color:var(--acc)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+select,input{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font-family:var(--font-ui);font-size:14px;min-height:40px;flex:1;min-width:140px}
+select:focus,input:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:10px;padding:10px 24px;font-weight:700;cursor:pointer;font-family:var(--font-ui);font-size:14px;min-height:40px}
+.btn:disabled{opacity:.4;cursor:default}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin:10px 0}
+.aya{font-family:var(--font-ar);font-size:21px;line-height:2.3;text-align:center;border-color:var(--acc)}
+.seg{font-family:var(--font-ar);font-size:15px;line-height:2.1;white-space:pre-wrap}
+.crumb{color:var(--dim);font-size:12px;margin-bottom:8px}
+.crumb b{color:var(--acc2)}
+.stat{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:3px 12px;font-size:12px;color:var(--dim);margin:3px 4px 0 0}
+.stat b{color:var(--acc)}
+.hl{background:rgba(201,162,75,.16);border-radius:4px;padding:0 2px}
+.list{max-height:340px;overflow:auto;border:1px solid var(--border);border-radius:10px}
+.li{padding:8px 14px;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px}
+.li:hover{background:var(--card2)}
+.li .m{color:var(--dim);font-size:12px;font-family:var(--font-ar)}
+.muted{color:var(--dim);font-size:12px}
+.badge{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--dim);line-height:1.9}
+.badge b{color:var(--acc)}
+#log{color:var(--dim);font-size:12px;margin-top:6px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مُرجِع <span class="muted">— نطاق نصي دقيق لكل مرجع</span></h2>
+<div class="muted">اختر آيةً وكتاب تفسير ← مقطع التفسير. أو حديثاً/متنَاً وكتابَ شرح ← مقطع الشرح المقابل. الحدود محسوبة بخوارزمية shingle-حدودية على نصوص حقيقية.</div>
+<div id="evalBox" class="badge" style="margin-top:8px">…</div>
+
+<div class="tabs">
+  <button class="tab on" data-t="tafsir">آية ← تفسير</button>
+  <button class="tab" data-t="hadith">حديث ← شرح</button>
+  <button class="tab" data-t="matn">متن ← شرحه</button>
+</div>
+
+<!-- آية ← تفسير -->
+<div id="p-tafsir">
+  <div class="row">
+    <select id="sSurah"></select>
+    <input id="sAyah" type="number" min="1" placeholder="رقم الآية" style="max-width:110px">
+    <select id="sTafsir"></select>
+    <button class="btn" id="goTafsir">استرجاع</button>
+  </div>
+  <div id="log"></div>
+  <div class="card aya" id="ayahTxt">…</div>
+  <div class="card">
+    <div class="crumb" id="tfCrumb"></div>
+    <div class="seg" id="tfSeg">اختر آية وكتاباً ثم «استرجاع».</div>
+    <div id="tfStat"></div>
+  </div>
+</div>
+
+<!-- حديث ← شرح -->
+<div id="p-hadith" hidden>
+  <div class="row">
+    <select id="hBook"></select>
+  </div>
+  <div class="row"><input id="hFilter" placeholder="رشّح بكلمة من المتن…"></div>
+  <div class="list" id="hList"></div>
+  <div class="card" id="hCard" hidden>
+    <div class="crumb" id="hCrumb"></div>
+    <div class="seg" id="hMatn"></div>
+  </div>
+  <div class="card" id="hSegCard" hidden>
+    <div class="crumb" id="hSegCrumb"></div>
+    <div class="seg" id="hSeg"></div>
+    <div id="hStat"></div>
+  </div>
+</div>
+
+<!-- متن ← شرحه -->
+<div id="p-matn" hidden>
+  <div class="row"><input id="mFilter" placeholder="رشّح عبارة المتن… (أبي شجاع → فتح القريب)"></div>
+  <div class="list" id="mList"></div>
+  <div class="card" id="mCard" hidden>
+    <div class="crumb" id="mCrumb"></div>
+    <div class="seg" id="mSeg"></div>
+    <div id="mStat"></div>
+  </div>
+</div>
+
+<script>
+const RAW_T='https://raw.githubusercontent.com/meibassam/mosahaf-tafseer/main/json-data/';
+const D='data/';
+let surahs=[],tafsirBooks=[],evalData={};
+const cache={};
+
+async function j(u){const r=await fetch(u);if(!r.ok)throw new Error(u);return r.json()}
+
+async function init(){
+  [surahs,evalData,sources,sharhMeta,hadithBooks]=await Promise.all([
+    j(D+'surahs.json'),j(D+'eval.json'),j(D+'sources.json'),
+    j(D+'sharh_books.json'),j(D+'hadith_books.json')]);
+  tafsirBooks=sources.tafsir.books;
+  // eval banner
+  const h=Object.entries(evalData.hadith).map(([b,v])=>`${b}: ${v.matches} مطابقاً (${v.boundary_ok} حدود مؤكدة)`).join(' · ');
+  evalBox.innerHTML=`تغطية التفسير: <b>${evalData.tafsir.books}</b> كتب × <b>${evalData.tafsir.ayahs_total}</b> آية (مكتملة) — حديث↔شرح: ${h} — متن أبي شجاع→فتح القريب: <b>${evalData.matn.matn_phrases_matched}</b> عبارة مربوطة`;
+  sSurah.innerHTML=surahs.map(s=>`<option value="${s.n}">${s.n}. ${s.name} (${s.ayat})</option>`).join('');
+  sTafsir.innerHTML=tafsirBooks.map(t=>`<option>${t}</option>`).join('');
+  hBook.innerHTML=Object.entries(sharhMeta).map(([k,v])=>`<option value="${k}">${v.title} — ${v.author}</option>`).join('');
+  hBook.onchange=loadMatches;loadMatches();
+  mList.innerHTML='<div class="li muted">تحميل…</div>';
+  matnData=await j(D+'matn_matches.json');
+  renderMatn(matnData);
+}
+
+// ---------- تبويب آية ----------
+goTafsir.onclick=async()=>{
+  const n=+sSurah.value,a=+sAyah.value,t=sTafsir.value;
+  const s=surahs.find(x=>x.n===n);
+  if(!a||a<1||a>s.ayat){log.textContent=`السورة فيها ${s.ayat} آية فقط`;return}
+  log.textContent='جلب '+s.file+'…';
+  let d=cache[s.file];
+  if(!d){d=await j(RAW_T+s.file);cache[s.file]=d}
+  const ay=d.ayahs.find(x=>x.ayah_number===a);
+  const tf=(ay.tafsir||[]).find(x=>x.type===t);
+  ayahTxt.textContent=ay.text+' ﴿'+a+'﴾';
+  tfCrumb.innerHTML=`<b>${t}</b> ← ${s.name} : ${a}`;
+  tfSeg.textContent=tf?tf.text:'(لا مقطع لهذه الآية في هذا الكتاب)';
+  tfStat.innerHTML=`<span class="stat">حدود: <b>بنية الآية نفسها</b> (ملف السورة، فهرسة آية-بدقة)</span><span class="stat">طول المقطع: <b>${tf?tf.text.length:0}</b> حرفاً</span>`;
+  log.textContent='';
+};
+
+// ---------- تبويب حديث ----------
+let matches=[],matnData=[];
+async function loadMatches(){
+  hList.innerHTML='<div class="li muted">تحميل…</div>';
+  matches=await j(D+'matches_'+hBook.value+'.json');
+  renderH(matches);
+}
+hFilter.oninput=()=>renderH(matches.filter(m=>(m.matn||'').includes(hFilter.value)||m.ref.includes(hFilter.value)));
+function renderH(ms){
+  hList.innerHTML=ms.slice(0,300).map((m,i)=>`<div class="li" data-i="${i}"><b>${m.ref}</b> <span class="m">${(m.matn||'').slice(0,90)}…</span></div>`).join('')||'<div class="li muted">لا نتائج</div>';
+}
+hList.onclick=e=>{
+  const li=e.target.closest('.li');if(!li||li.dataset.i==null)return;
+  const m=matches[+li.dataset.i];
+  hCard.hidden=hSegCard.hidden=false;
+  hCrumb.innerHTML=`متن الحديث — <b>${m.ref}</b> · ${m.chapter||''}`;
+  hMatn.textContent=m.matn||'(انظر المصدر)';
+  hSegCrumb.innerHTML=`مقطع الشرح — <b>${sharhMeta[hBook.value].title}</b> · ${m.path.filter(x=>x!=='صدر الكتاب').join(' ← ')||'—'}`;
+  hSeg.textContent=m.atoms.join('\n\n');
+  hStat.innerHTML=`<span class="stat">تطابق متصل: <b>${m.run}</b> كلمة</span><span class="stat">تغطية المتن: <b>${Math.round(m.coverage*100)}%</b></span><span class="stat">الوحدة: <b>${m.unit}</b> · ذرات ${m.a0}–${m.a0+m.atoms.length-1}</span>`;
+};
+
+// ---------- تبويب متن ----------
+mFilter.oninput=()=>renderMatn(matnData.filter(m=>m.matn.includes(mFilter.value)));
+function renderMatn(ms){
+  mList.innerHTML=ms.slice(0,300).map((m,i)=>`<div class="li" data-i="${i}"><span class="m">${m.matn.slice(0,110)}…</span></div>`).join('')||'<div class="li muted">لا نتائج</div>';
+}
+mList.onclick=e=>{
+  const li=e.target.closest('.li');if(!li||li.dataset.i==null)return;
+  const m=matnData[+li.dataset.i];
+  mCard.hidden=false;
+  mCrumb.innerHTML=`متن أبي شجاع ← <b>فتح القريب المجيب</b> · ${m.path.filter(x=>x!=='صدر الكتاب').join(' ← ')||'—'}`;
+  mSeg.innerHTML=m.atoms.map(a=>{
+    const i=a.indexOf(m.matn.slice(0,40));
+    return i<0?a:a.slice(0,i)+'<span class="hl">'+a.slice(i,i+m.matn.slice(0,40).length)+'</span>'+a.slice(i+m.matn.slice(0,40).length);
+  }).join('<br><br>');
+  mStat.innerHTML=`<span class="stat">تطابق: <b>${m.run}</b> كلمة · <b>${Math.round(m.coverage*100)}%</b> من العبارة</span>`;
+};
+
+// ---------- tabs ----------
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
+  ['tafsir','hadith','matn'].forEach(t=>document.getElementById('p-'+t).hidden=t!==b.dataset.t);
+});
+init().catch(e=>{evalBox.textContent='خطأ: '+e.message});
+</script>
+</body>
+</html>

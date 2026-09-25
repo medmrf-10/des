@@ -723,3 +723,11 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .gf-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
 .gf-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
 .gf-opt:disabled{cursor:default;opacity:.85}
+.ad-sit{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:.85rem;line-height:1.8;margin-bottom:14px}
+.ad-sit code{font-family:'IBM Plex Mono',monospace;background:var(--bg);padding:1px 6px;border-radius:6px;font-size:.72rem;direction:ltr;display:inline-block}
+.ad-opts{display:flex;flex-direction:column;gap:8px}
+.ad-opt{background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 14px;cursor:pointer;transition:.15s;font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-align:left;direction:ltr}
+.ad-opt:hover{border-color:var(--acc)}
+.ad-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
+.ad-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
+.ad-opt:disabled{cursor:default;opacity:.85}

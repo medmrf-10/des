@@ -48,6 +48,34 @@ const CHROME_PORT = 9345;
 const NAV_WAIT_MS = 6000;
 const LINK_CAP_PER_SITE = 40;
 
+// قائمة مواقع بديلة عبر ملف نصّي: سطر = اسم<TAB>url — الإعدادات الإضافية SITE_CFG2
+const SITE_CFG2: Record<string, { q?: string; items?: string; search?: boolean }> = {
+  "mu3edd": { q: "نية", items: ".card,.atom,.dhit,.res,.hit,.urow" },
+  "akida-masadir": { q: "قدرة", items: ".urow,.res,.hit,.src,.row,.card" },
+  "wahy-kalimat": { q: "الله", items: ".word,.kal,.row,.ent,.res,.card" },
+  "wahy-mutashabih": { q: "الصلاة", items: ".aya,.row,.res,.ent,.card,.mut" },
+  "hadith-net": { q: "صبر", items: ".grp,.g,.row,.res,.card,.node" },
+  "hadith-matn": { q: "إنما الأعمال", items: ".card,.matn,.had,.hit,.row" },
+  "hadith-rawi": { q: "مالك", items: ".card,.rawi,.row,.hit,.r" },
+  "hadith-nawawi": { q: "النية", items: ".card,.matn,.hit,.row" },
+  "hadith-adhkar": { q: "الصباح", items: ".card,.matn,.hit,.row,.dkr" },
+  "hadith-sanad": { q: "نية", items: ".card,.matn,.hit,.row,.snd" },
+  "hadith-muqaran": { q: "النية", items: ".card,.matn,.hit,.row,.mq" },
+  "team-fikra": { search: false },
+};
+Object.assign(SITE_CFG, SITE_CFG2);
+
+async function loadSites(): Promise<[string, string][]> {
+  const file = Deno.args[0];
+  if (!file) return SITES;
+  const txt = await Deno.readTextFile(file);
+  return txt.split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).map((l) => {
+    const [name, url] = l.includes("\t") ? l.split("\t").map((x) => x.trim()) : [l.replace(/[^\w]/g, "-"), l];
+    return [name, url.startsWith("http") ? url : BASE + url] as [string, string];
+  });
+}
+const OUT_JSON = Deno.args[1] || "reports/crawl.json";
+
 // ---------- CDP helpers ----------
 let ws: WebSocket;
 let msgId = 0;
@@ -165,12 +193,13 @@ const chrome = new Deno.Command("google-chrome", {
 }).spawn();
 await new Promise((r) => setTimeout(r, 2500));
 
+const SITES_RUN = await loadSites();
 const out: Record<string, SiteResult> = {};
-for (const [name, url] of SITES) {
+for (const [name, url] of SITES_RUN) {
   try { out[name] = await crawlSite(name, url); console.error("done", name); }
   catch (e) { out[name] = { url, console_errors: [], resource_404s: [], links: { tested: 0, broken: [] }, error: String(e).slice(0, 200) }; }
 }
 chrome.kill("SIGKILL");
 await Deno.mkdir("reports", { recursive: true });
-await Deno.writeTextFile("reports/crawl.json", JSON.stringify({ generated: new Date().toISOString(), sites: out }, null, 1));
+await Deno.writeTextFile(OUT_JSON, JSON.stringify({ generated: new Date().toISOString(), sites: out }, null, 1));
 console.log(JSON.stringify(out, null, 1));

@@ -62,17 +62,20 @@ $('#chk').onclick=()=>{
  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
   dp[i][j]=ref[i]===mine[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
  let i=0,j=0,ok=0,miss=0;
- const out=[];
+ const out=[];const missed=[];
  while(i<n&&j<m){
   if(ref[i]===mine[j]){out.push(`<span class="good">${esc(ref[i])}</span>`);i++;j++;ok++}
-  else if(dp[i+1][j]>=dp[i][j+1]){out.push(`<span class="miss">${esc(ref[i])}</span>`);i++;miss++}
+  else if(dp[i+1][j]>=dp[i][j+1]){out.push(`<span class="miss">${esc(ref[i])}</span>`);missed.push(ref[i]);i++;miss++}
   else{out.push(`<span class="add">+${esc(mine[j])}</span>`);j++;miss++}}
- while(i<n){out.push(`<span class="miss">${esc(ref[i++])}</span>`);miss++}
+ while(i<n){out.push(`<span class="miss">${esc(ref[i])}</span>`);missed.push(ref[i]);i++;miss++}
  while(j<m){out.push(`<span class="add">+${esc(mine[j++])}</span>`)}
  const pc=n?Math.round(ok/n*100):0;
  const st=JSON.parse(localStorage.getItem('mustamli')||'{"n":0,"sum":0,"best":0}');
  st.n++;st.sum+=pc;if(pc>st.best)st.best=pc;
  localStorage.setItem('mustamli',JSON.stringify(st));
+ if(missed.length){const mh=JSON.parse(localStorage.getItem('moseh')||'{}');
+  missed.forEach(w=>{const k=w.replace(/[ً-ْٰ]/g,'');mh[k]=(mh[k]||0)+1});
+  localStorage.setItem('moseh',JSON.stringify(mh))}
  $('#res').innerHTML=`<div class="cmp">${out.join(' ')}</div>
  <div class="muted" style="margin-top:8px">إصابتك: <b style="color:var(--acc)">${pc}%</b> · أفضل نتيجتك ${st.best}% · متوسطك ${Math.round(st.sum/st.n)}% في ${st.n} محاولة — <span class="good">صحيح</span> <span class="miss">فائت/خطأ</span> <span class="add">زائد</span></div>`};
 load();

@@ -477,3 +477,28 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .rf-mark{background:none;border:none;color:var(--dim);font-size:.9rem;cursor:pointer;padding:0 4px}
 .rf-mark.on{color:var(--ok)}
 .rf-mark:hover{color:var(--acc)}
+
+/* ====== تدرّج ====== */
+.lv-cmp{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px}
+.lv-cmp-row{display:flex;align-items:center;gap:12px}
+.lv-cmp-n{width:34%;font-size:.76rem;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-cmp-track{flex:1;display:flex;gap:4px}
+.lv-cmp-seg{flex:1;height:10px;background:var(--card2);border-radius:4px}
+.lv-cmp-seg.on{background:linear-gradient(90deg,var(--acc),#e8c766)}
+.lv-cmp-l{width:64px;font-size:.7rem;color:var(--acc2);text-align:left}
+.lv-track{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;overflow-x:auto}
+.lv-track-h{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.lv-track-h h3{margin:0;font-size:1rem;color:var(--acc2)}
+.lv-track-m{font-size:.7rem;color:var(--dim)}
+.lv-ladder{display:flex;align-items:flex-start;min-width:720px}
+.lv-node{flex:1;text-align:center;padding:0 4px}
+.lv-dot{width:34px;height:34px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;background:var(--card2);border:2px solid var(--border);font-size:.75rem;font-weight:700;color:var(--dim);font-family:'IBM Plex Mono',monospace}
+.lv-node.ok .lv-dot{background:var(--ok);border-color:var(--ok);color:#0e1a12}
+.lv-node.next .lv-dot{border-color:var(--acc);color:var(--acc)}
+.lv-name{font-size:.72rem;font-weight:600;color:var(--txt);margin-bottom:4px}
+.lv-node.ok .lv-name{color:var(--ok)}
+.lv-node.next .lv-name{color:var(--acc2)}
+.lv-req{font-size:.6rem;color:var(--dim);line-height:1.6;min-height:2.8em}
+.lv-met i{font-style:normal;font-size:.58rem;color:#d08080}
+.lv-link{flex:0 0 12px;height:2px;background:var(--border);margin-top:16px}
+.lv-link.ok{background:var(--ok)}

@@ -1,8 +1,9 @@
 :root{
-  --navy-0:#060b1a; --navy-1:#0a1128; --navy-2:#101a3a; --navy-3:#1a2750;
-  --gold:#d4af37; --gold-soft:#e6c860; --gold-dim:#9c8124;
-  --ink:#eef1f8; --muted:#93a0c4; --line:#22315e;
-  --ok:#3ecf8e; --bad:#e05252;
+  /* الثيم المشترك ../shared/theme.css — متغيراتنا تُشتق منه */
+  --navy-0:var(--bg,#060b1a); --navy-1:var(--card,#0a1128); --navy-2:var(--card2,#101a3a); --navy-3:#1a2750;
+  --gold:var(--acc,#d4af37); --gold-soft:var(--acc2,#e6c860); --gold-dim:var(--border,#9c8124);
+  --ink:var(--txt,#eef1f8); --muted:var(--dim,#93a0c4); --line:var(--border,#22315e);
+  --ok:#46c96d; --bad:#e05252;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{

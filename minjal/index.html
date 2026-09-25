@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِنجل — حصاد بياناتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-inline-end:8px;margin-top:10px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.k{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;margin:5px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.k .n{color:var(--txt);font-weight:700}
+.k .v{color:var(--dim);font-size:11px}
+.muted{color:var(--dim);font-size:12px;line-height:1.9}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{border-bottom:1px solid var(--border);padding:7px 8px;font-size:12.5px;text-align:right}
+th{color:var(--acc);font-weight:700}
+.bar{height:5px;background:var(--card2);border-radius:99px;overflow:hidden;width:90px;display:inline-block;vertical-align:middle}
+.bar i{display:block;height:100%;background:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِنجل <span class="muted">— حصاد بياناتك</span></h2>
+<div class="muted">كل ما تكتبه في تطبيقات المنظومة يعيش على جهازك فقط (localStorage). هنا تحصدُه كاملاً في ملف JSON واحد تحفظه حيث تشاء، وتزرعه من جديد في أي جهاز أو بعد أي مسح.</div>
+<button class="btn" id="ex">⬇ احصد كل شيء (JSON)</button>
+<label class="btn ghost" style="display:inline-block;cursor:pointer">⬆ ازرع نسخة سابقة<input type="file" id="imp" accept=".json" style="display:none"></label>
+<table id="t"></table>
+<script>
+const $=q=>document.querySelector('#'+q);
+const NAMES={mdr_sched:'الجدول',mkhatat:'مُخطّط',mu3edd_drafts:'مُعِدّ',en_feed_seen:'إنجليزية',en_srs:'بنك الإنجليزية',en_routine:'روتين الإنجليزية',en_listen:'استماع',miq_cards:'ميقات',mnhaj_done:'منهج',zad_done:'زاد',iqra_pos:'اقرأ',prog_v1:'برمجة',prog_exam:'امتحان برمجة',prog_proj:'مشاريع برمجة',prog_review:'مراجعة برمجة',fihris_cat:'فهرس',muqtatif:'مقتطف',mishwar_done:'مشوار',ma3raj:'معراج الحفظ',sibaq_best:'سباق',daftar:'دفتر',muqfil:'مُقفل',muqfil_pending:'مقفل المعلَّق',sawanih:'صوانح',ijaza:'إجازة',sirat:'سيرة',midad:'مِداد',mutabi3:'متابِع',majlis:'مجلس الختمة',minar:'مِنار',midad:'مِداد',mi3yar_hist:'مِعيار',miraj3a:'مراجعة',hibr:'حِبر',itqan:'إتقان',silsila:'سلسلة الاستماع',mihrab_times:'مِحراب',portal_comments:'تعليقات',portal_suggestions:'اقتراحات'};
+const rows=Object.keys(localStorage).map(k=>{
+ const v=localStorage.getItem(k)||'';
+ let n=NAMES[k]||NAMES[k.split('_')[0]]||k;
+ let cnt='';
+ try{const j=JSON.parse(v);cnt=Array.isArray(j)?j.length+' عنصر':typeof j==='object'?Object.keys(j).length+' مفتاح':String(j).slice(0,20)}catch(e){cnt=v.slice(0,20)}
+ return[k,n,cnt,v.length]}).sort((a,b)=>b[3]-a[3]);
+$('#t').innerHTML='<tr><th>التطبيق</th><th>المحتوى</th><th>الحجم</th></tr>'+rows.map(r=>`<tr><td class="n" style="color:var(--txt)">${esc(r[1])}</td><td style="color:var(--dim)">${esc(r[2])}</td><td style="color:var(--dim);direction:ltr">${(r[3]/1024).toFixed(1)}KB</td></tr>`).join('');
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+$('#ex').onclick=()=>{
+ const dump={v:1,at:new Date().toISOString(),data:{}};
+ for(const k of Object.keys(localStorage))dump.data[k]=localStorage.getItem(k);
+ const b=new Blob([JSON.stringify(dump)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);
+ a.download='minjal-'+new Date().toISOString().slice(0,10)+'.json';a.click()};
+$('#imp').onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const j=JSON.parse(await f.text());
+  const d=j.data||j;let n=0;
+  for(const k of Object.keys(d))if(typeof d[k]==='string'){localStorage.setItem(k,d[k]);n++}
+  alert('زُرعت '+n+' مفتاحاً — حدّث الصفحة');
+  location.reload()}catch(e){alert('ملف غير صالح')}};
+</script>
+<script src="../shared/feedback.js" data-pid="minjal" data-title="مِنجل"></script>
+</body>
+</html>

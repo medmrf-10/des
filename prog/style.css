@@ -123,3 +123,83 @@ h1{font-size:1.35rem;font-weight:700;background:linear-gradient(90deg,var(--acc)
 .done-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
+
+/* ====== بايثون ====== */
+.py-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 12px;
+  border:1px solid var(--border);border-radius:10px;background:var(--card);font-size:.78rem;color:var(--dim)}
+.py-bar code{font-family:'IBM Plex Mono',monospace;color:var(--acc2)}
+.py-bar input{flex:1;max-width:280px;background:#0d1319;border:1px solid var(--border);border-radius:8px;
+  color:var(--txt);padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:.78rem}
+.py-tag{color:var(--ok);font-weight:600;pointer-events:none}
+.conso .dim{color:var(--dim)}
+
+/* ====== بطاقات التثبيت ====== */
+.quiz-intro{color:var(--dim);font-size:.85rem;line-height:1.8;margin-bottom:14px}
+.quiz-intro b{color:var(--acc2)}
+.qz-start{text-align:center;padding:20px 0}
+.qz-count{color:var(--dim);font-size:.85rem;margin-bottom:14px}
+.qz-card{padding:6px 0}
+.qz-step{color:var(--dim);font-size:.75rem;margin-bottom:8px}
+.qz-q{font-size:1rem;font-weight:600;line-height:1.9;margin-bottom:14px}
+.qz-opts{display:flex;flex-direction:column;gap:8px}
+.qz-opt{text-align:right;padding:11px 14px;border-radius:10px;border:1px solid var(--border);
+  background:var(--card2);color:var(--txt);font-family:inherit;font-size:.88rem;cursor:pointer;
+  transition:border-color .15s,background .15s}
+.qz-opt:hover{border-color:var(--acc)}
+.qz-opt.right{background:rgba(70,201,109,.14);border-color:var(--ok);color:var(--ok)}
+.qz-opt.wrong{background:rgba(224,102,102,.12);border-color:var(--bad);color:var(--bad)}
+.qz-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;min-height:34px}
+#qzMsg{font-size:.82rem}
+#qzMsg.good{color:var(--ok)}
+#qzMsg.bad{color:var(--bad)}
+.qz-end{text-align:center;padding:14px 0}
+.qz-end h3{margin-bottom:14px;font-size:1rem}
+.done-mark.warn{background:linear-gradient(135deg,var(--warn),var(--acc2));color:#0b0f14}
+.pvc.py{background:#0d1319}
+.pvc.py .conso{flex:1;overflow:auto;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:.82rem}
+
+[hidden]{display:none !important}
+
+/* ====== wave-3/5: وركسبيس موحّد + مختبر حر + بطاقات FSRS + شريط فحص ====== */
+.ws{display:flex;gap:14px;align-items:flex-start}
+.ws-side{flex:0 0 350px;max-width:350px;position:sticky;top:12px}
+.ws-main{flex:1;min-width:0}
+@media(max-width:960px){.ws{flex-direction:column-reverse}.ws-side{flex:auto;max-width:none;width:100%;position:static}}
+
+.side-sec{border:1px solid var(--border);background:var(--card);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.side-sec>summary{cursor:pointer;padding:12px 16px;font-weight:600;color:var(--acc2);list-style:none;display:flex;align-items:center;gap:8px;user-select:none}
+.side-sec>summary::-webkit-details-marker{display:none}
+.side-sec>summary::after{content:'▾';margin-inline-start:auto;color:var(--dim);font-size:.8rem;transition:transform .15s}
+.side-sec:not([open])>summary::after{transform:rotate(-90deg)}
+.side-body{padding:4px 16px 16px;border-top:1px solid var(--border)}
+.side-hint{color:var(--ok);font-size:.75rem}
+.sec-h{margin:14px 0 8px;font-size:.95rem;color:var(--acc2)}
+.checks li{flex-wrap:wrap}
+.checks li .info{flex-basis:100%;margin-top:4px;font-size:.75rem;color:var(--warn);line-height:1.7}
+
+/* شريط نتيجة الفحص بجانب الكود */
+.check-bar{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:.85rem;cursor:pointer}
+.check-bar.good{background:rgba(70,201,109,.1);border:1px solid var(--ok);color:var(--ok)}
+.check-bar.bad{background:rgba(224,102,102,.08);border:1px solid var(--bad);color:var(--bad)}
+.cb-hint{color:var(--warn);font-size:.8rem}
+
+/* بطاقات المفاهيم FSRS */
+.fc-card{border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;background:var(--card2)}
+.fc-top{display:flex;justify-content:space-between;font-size:.72rem;color:var(--dim)}
+.fc-due{color:var(--acc2);border:1px solid var(--acc);border-radius:20px;padding:1px 8px}
+.fc-f{font-weight:700;font-size:1rem;margin:10px 0;line-height:1.8}
+.fc-b{border-top:1px dashed var(--border);padding-top:10px;color:var(--dim);line-height:1.9}
+.fc-foot{margin-top:12px}
+.fc-hint{font-size:.75rem;color:var(--dim);display:block;margin-bottom:6px}
+.fc-grades{display:flex;gap:6px}
+.fc-g{flex:1;padding:8px 4px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--txt);cursor:pointer;font-size:.78rem}
+.fc-g.g-bad{border-color:var(--bad)} .fc-g.g-bad:hover{background:rgba(224,102,102,.15)}
+.fc-g.g-warn{border-color:var(--warn)} .fc-g.g-warn:hover{background:rgba(224,169,62,.15)}
+.fc-g.g-good{border-color:var(--ok)} .fc-g.g-good:hover{background:rgba(70,201,109,.15)}
+.fc-g.g-great{border-color:var(--acc)} .fc-g.g-great:hover{background:rgba(201,162,75,.2)}
+.fc-done{text-align:center;padding:14px 6px}
+.fc-note{padding:10px;font-size:.8rem;line-height:1.9}
+
+/* بطاقة المختبر الحر في شاشة المسارات */
+.free-card{border-style:dashed;border-color:var(--acc);cursor:pointer}
+.free-card:hover{border-color:var(--acc2);background:rgba(201,162,75,.05)}

@@ -1627,5 +1627,14 @@
   "desc": "بيئة تجربة HTML/CSS/JS حية",
   "url": "../prog/playground.html",
   "icon": "م"
+ },
+ {
+  "id": "mi3tad",
+  "title": "مِعتَد",
+  "maker": "محمد",
+  "field": "ذِكر",
+  "desc": "عدّادك — لمسي للأذكار",
+  "url": "../mi3tad/",
+  "icon": "م"
  }
 ]

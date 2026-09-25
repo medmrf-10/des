@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سِجِل السرب — ماذا بُني</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🐝 سِجِل السرب</h1><p class="tagline">كل ما بُني في منظومتك خلال اليومين الماضيين — سطراً بسطر، بلا تجميل</p></header>
+<div class="wrap">
+ <div class="card stat" id="sum"></div>
+ <div class="card"><input id="q" placeholder="رشّح السجل: hadith / english / wave / live…"></div>
+ <div id="list"></div>
+ <div class="card tip">هذا السجل من سجل git نفسه — لا يكذب ولا يُحذف.</div>
+</div>
+<script>
+const esc=function(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+function render(q){
+ const l=document.getElementById('list');
+ const rr=(q?window.R.filter(function(r){return(r.m+'').toLowerCase().indexOf(q.toLowerCase())>-1}):window.R).slice(0,300);
+ let lastDay='',html='';
+ for(const r of rr){
+  const d=new Date(r.t);
+  const day=d.toLocaleDateString('ar',{weekday:'long',day:'numeric',month:'short'});
+  if(day!==lastDay){html+='<div class="day">'+day+'</div>';lastDay=day}
+  html+='<div class="row"><span class="hh">'+r.h+'</span><span class="mm">'+esc(r.m)+'</span><span class="tt">'+d.toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})+'</span></div>';
+ }
+ l.innerHTML=html||'<div class="card" style="text-align:center;color:var(--tx3)">لا نتائج</div>';
+}
+fetch('../shared/swarm_log.json').then(function(r){return r.json()}).then(function(rows){
+ window.R=rows;
+ const today=rows.filter(function(r){return Date.now()-new Date(r.t).getTime()<86400000}).length;
+ document.getElementById('sum').innerHTML='<b>'+rows.length.toLocaleString('ar-EG')+'</b> عملية بناء في ٤٨ ساعة — منها <b>'+today.toLocaleString('ar-EG')+'</b> اليوم.';
+ render('');
+ document.getElementById('q').addEventListener('input',function(e){render(e.target.value.trim())});
+}).catch(function(){document.getElementById('list').innerHTML='<div class="card">تعذر تحميل السجل</div>'});
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

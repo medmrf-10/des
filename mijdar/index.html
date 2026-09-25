@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِجدَر — هل استحق يومك؟</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:520px;margin:0 auto;padding:14px;text-align:center}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px;text-align:right}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.rate{display:flex;justify-content:center;gap:5px;margin:16px 0}
+.r{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--txt);font-family:var(--font-ar);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.r:hover{border-color:var(--acc)}
+.r.on{background:var(--acc);color:#14140f;font-weight:700}
+input{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;margin-top:10px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.hist{max-height:150px;overflow-y:auto;font-size:11.5px}
+.hist div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--border)}
+.bars{display:flex;align-items:flex-end;gap:4px;height:60px;margin-top:10px}
+.b{flex:1;background:var(--card2);border-radius:3px 3px 0 0;position:relative}
+.b .v{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِجدَر <span class="muted">— هل استحق يومك؟</span></h2>
+<div class="muted">قيّم يومك من ١٠ واكتب سطرًا — ترى معدلك واتجاهك.</div>
+<div class="card"><div class="t">يومك اليوم</div>
+<div class="rate" id="rate"></div>
+<input id="why" placeholder="لماذا هذا التقييم؟">
+<div style="margin-top:10px"><button class="btn" id="save">قيّم</button></div></div>
+<div style="margin-top:10px"><span class="stat">معدلك الأسبوعي: <b id="av">—</b></span><span class="stat">أيام قيّمتها: <b id="n">٠</b></span></div>
+<div class="card"><div class="t">أيامك — ١٤ يومًا</div><div class="bars" id="bars"></div>
+<div class="hist" id="hist"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+let R=LS('mijdar',{}),sel=0;
+const rr=[];
+for(let i=1;i<=10;i++)rr.push(i);
+$('#rate').innerHTML=rr.map(i=>'<div class="r" data-i="'+i+'">'+arN(i)+'</div>').join('');
+$('#rate').onclick=e=>{
+ const r=e.target.closest('.r');if(!r)return;
+ sel=+r.dataset.i;
+ document.querySelectorAll('.r').forEach(x=>x.classList.toggle('on',+x.dataset.i===sel));
+};
+$('#save').onclick=()=>{
+ if(!sel)return alert('اختر رقمًا');
+ R[today()]={v:sel,w:$('#why').value.trim(),at:new Date().toISOString()};
+ SV('mijdar',R);render();$('#why').value='';
+};
+function render(){
+ const days=[];
+ for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10))}
+ const vals=days.map(d=>R[d]?.v||0),have=vals.filter(v=>v>0);
+ const wk=vals.slice(-7).filter(v=>v>0);
+ $('#av').textContent=wk.length?arN(Math.round(wk.reduce((a,b)=>a+b)/wk.length*10)/10)+'/١٠':'—';
+ $('#n').textContent=arN(have.length);
+ $('#bars').innerHTML=vals.map((v,i)=>{
+  const h=v?v*5.4:3;
+  return '<div class="b" style="height:'+h+'px"><span class="v">'+(v?arN(v):'')+'</span></div>';
+ }).join('');
+ $('#hist').innerHTML=Object.entries(R).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10).map(([d,v])=>
+  '<div><span>'+d+'</span><b style="color:var(--acc)">'+arN(v.v)+'/١٠</b></div><div style="color:var(--dim);font-size:11px">'+esc(v.w||'')+'</div>').join('')||'—';
+}
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="mijdar" data-title="مِجدَر"></script>
+</body>
+</html>

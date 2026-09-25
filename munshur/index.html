@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>منشور — بطاقات مصوّرة للنشر</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{overflow-x:hidden}
+body{max-width:760px;margin:0 auto;padding:14px}
+.inp,select,textarea{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px 14px;font-family:var(--font-ar);font-size:14px}
+textarea{width:100%;min-height:70px;resize:vertical}
+.row{display:flex;gap:8px;margin:9px 0;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+canvas{width:100%;border-radius:14px;border:1px solid var(--border);margin-top:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">منشور <span class="muted" style="font-weight:400;font-size:12px">— بطاقة مصوّرة تُشاركها أينما تريد</span></h2>
+<div class="muted">اختر نصاً من المصادر أو اكتبه — تُرسم بطاقة ذهبية-كحلية بتوقيع المنظومة، حمّلها PNG وانشرها.</div>
+<div class="row">
+ <select id="src">
+  <option value="">✍ اكتب نصاً</option>
+  <option value="adhkar">ذِكر عشوائي</option>
+  <option value="nawawi">من الأربعون</option>
+  <option value="atom">قاعدة عقدية</option>
+ </select>
+ <input class="inp" id="sgn" placeholder="التوقيع أسفل البطاقة" value="المنظومة التعليمية">
+</div>
+<textarea id="tx" placeholder="النص…"></textarea>
+<canvas id="cv" width="1080" height="1080"></canvas>
+<div class="row"><button class="btn" id="dl">⬇ حمّل PNG</button></div>
+<script src="../hadith/adhkar.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const cv=$('cv'),c=cv.getContext('2d');
+function wrap(ctx,t,x,y,w,lh){
+ const words=t.split(/\s+/);let line='',yy=y;
+ for(const w of words){
+  const test=line?line+' '+w:w;
+  if(ctx.measureText(test).width>w&&line){ctx.fillText(line,x,yy);line=w;yy+=lh}
+  else line=test}
+ ctx.fillText(line,x,yy);return yy}
+function draw(){
+ const t=$('tx').value||'اكتب نصاً…';
+ c.fillStyle='#0b0f1a';c.fillRect(0,0,1080,1080);
+ const g=c.createRadialGradient(540,420,80,540,540,700);
+ g.addColorStop(0,'rgba(201,162,75,.14)');g.addColorStop(1,'rgba(201,162,75,0)');
+ c.fillStyle=g;c.fillRect(0,0,1080,1080);
+ c.strokeStyle='#c9a24b';c.lineWidth=3;c.strokeRect(36,36,1008,1008);
+ c.strokeStyle='rgba(201,162,75,.35)';c.lineWidth=1;c.strokeRect(52,52,976,976);
+ c.fillStyle='#c9a24b';c.font='42px serif';c.textAlign='center';
+ c.fillText('۝',540,130);
+ c.fillStyle='#e8e3d5';c.font='bold 44px "Traditional Arabic",serif';
+ wrap(c,t,540,300,880,76);
+ c.fillStyle='#c9a24b';c.font='30px serif';
+ c.fillText($('sgn').value||'المنظومة التعليمية',540,980);
+ c.fillStyle='rgba(201,162,75,.5)';c.font='20px serif';
+ c.fillText('medmrf-10.github.io/des',540,940)}
+$('#src').onchange=e=>{
+ const s=e.target.value;let t='';
+ if(s==='adhkar'){const a=ADHKAR[Math.floor(Math.random()*ADHKAR.length)];t=(a.t?a.t+' — ':'')+a.h}
+ else if(s==='nawawi')t=NAWAWI[Math.floor(Math.random()*NAWAWI.length)].an||'';
+ else if(s==='atom'){const cs=Object.keys(ATOMS),cc=cs[Math.floor(Math.random()*cs.length)],ks=Object.keys(ATOMS[cc].atoms),a=ATOMS[cc].atoms[ks[Math.floor(Math.random()*ks.length)]];t=(a.t?a.t+' — ':'')+a.q}
+ if(t)$('tx').value=t;
+ draw()};
+$('tx').addEventListener('input',draw);
+$('sgn').addEventListener('input',draw);
+$('#dl').onclick=()=>{const a=document.createElement('a');a.download='card.png';a.href=cv.toDataURL('image/png');a.click()};
+draw();
+</script>
+<script src="../shared/feedback.js" data-pid="munshur" data-title="منشور"></script>
+</body>
+</html>

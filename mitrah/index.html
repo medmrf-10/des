@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِطرَح — سؤالك العميق</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:600px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.q{font-family:var(--font-ar);font-size:19px;line-height:2.2;text-align:center;padding:20px 10px;color:var(--acc)}
+textarea{width:100%;min-height:110px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:11px 14px;font-family:var(--font-ar);font-size:13.5px;line-height:2;resize:vertical;margin-top:10px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.hist{max-height:180px;overflow-y:auto;font-size:11.5px}
+.hist div{padding:6px 0;border-bottom:1px dashed var(--border)}
+.hist .q2{color:var(--acc2);font-size:11px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِطرَح <span class="muted">— سؤالك العميق</span></h2>
+<div class="muted">سؤال واحد يوميًا للتأمل — لا إجابة صحيحة، فقط صدق مع نفسك.</div>
+<div class="card"><div class="q" id="q">…</div>
+<textarea id="a" placeholder="أجب بصدق — إجابتك لك وحدك"></textarea>
+<div style="margin-top:9px"><button class="btn" id="save">احفظ</button> <button class="btn ghost" id="other">سؤال آخر</button></div></div>
+<div style="margin-top:9px"><span class="stat">أسئلة أجبتها: <b id="n">٠</b></span></div>
+<div class="card"><div class="t">تأملاتك</div><div class="hist" id="hist">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const QS=[
+ 'ما الشيء الذي تعلمته اليوم وغيّر فكرتك قليلًا؟',
+ 'ما الخطأ الذي كررته هذا الأسبوع ولم تعترف به بعد؟',
+ 'لو كان عندك ساعة فراغ إضافية اليوم — في ماذا ستقضيها حقًا؟',
+ 'ما الشيء الذي تؤجله منذ أسبوع وتعرف أنه مهم؟',
+ 'ما الصفة التي تتمنى أن يتذكرك بها الناس؟ وهل عشتها اليوم؟',
+ 'ما النشاط الذي فعلته اليوم وأنت لا تريد فعله حقًا؟ لماذا فعلته؟',
+ 'ما الكلمة التي تقولها لنفسك كثيرًا هذه الأيام؟',
+ 'ما القرار الذي تعرف صحته وتخاف اتخاذه؟',
+ 'ما الشيء الذي أنت ممتن له اليوم لكنك لم تقله لأحد؟',
+ 'ما الذي تعلمته عن نفسك هذا الأسبوع ولم تكن تعرفه قبله؟',
+ 'لو عشت يومك مرة أخرى — ما الذي ستغيره؟',
+ 'ما السؤال الذي تتمنى أن يسألك إياه أحد؟',
+ 'ما الذي أفادك في تعلمك أكثر مما ظننت؟',
+ 'ما العادة الصغيرة التي لو حافظت عليها لتغير كل شيء؟',
+ 'ما الذي تشغل به نفسك لتتجنب شيئًا أكبر؟',
+ 'ما الإنجاز الصغير اليوم الذي لم يحتفِ به أحد ويستحق؟',
+ 'ما الذي تقوله للناس بينما تعرف في قرارة نفسك خلافه؟',
+ 'لو سألت نفسك قبل سنة — ما النصيحة التي كان سيقولها لك؟',
+ 'ما الذي يجعلك تستمر رغم التعب؟',
+ 'ما الكذبة الصغيرة التي صدقتها عن نفسك؟',
+];
+const d=new Date();
+const idx=(d.getFullYear()*372+d.getMonth()*31+d.getDate())%QS.length;
+let cur=idx;
+function show(){$('#q').textContent=QS[cur]}
+let R=LS('mitrah',[]);
+$('#save').onclick=()=>{
+ const a=$('#a').value.trim();if(!a)return alert('اكتب إجابتك');
+ R.unshift({q:QS[cur],a,at:new Date().toISOString()});
+ SV('mitrah',R);$('#a').value='';render();
+};
+$('#other').onclick=()=>{cur=(cur+1)%QS.length;show()};
+function render(){
+ $('#n').textContent=arN(R.length);
+ $('#hist').innerHTML=R.slice(0,15).map(r=>'<div><div class="q2">'+esc(r.q)+'</div><div style="margin-top:3px">'+esc(r.a)+'</div><div style="color:var(--dim);font-size:10px;margin-top:3px">'+r.at.slice(0,10)+'</div></div>').join('')||'—';
+}
+show();render();
+</script>
+<script src="../shared/feedback.js" data-pid="mitrah" data-title="مِطرَح"></script>
+</body>
+</html>

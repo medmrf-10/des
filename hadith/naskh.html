@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختلاف اللفظ — مقارنة المتون | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px 12px;font-size:14px;font-family:inherit}
+.pick input#gid{width:130px}
+.pick input#q{flex:1;min-width:200px}
+.btn{display:inline-block;border:1px solid var(--acc);color:var(--acc2);background:transparent;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.cand{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+.cand .chip{font-size:11px;padding:3px 10px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.hdr{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.hdr .taraf{font-family:var(--font-ar);font-size:15.5px;line-height:2;margin:6px 0}
+.hdr .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px}
+.hdr .meta a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 8px;font-size:11px}
+.bdg{display:inline-block;border-radius:999px;padding:2px 11px;font-size:11px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.cols{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
+.mcol{min-width:230px;max-width:280px;flex:1 0 230px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+.mcol.ref{border-color:var(--acc2)}
+.mcol .mh{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;font-size:12px}
+.mcol .mh b{color:var(--acc2)}
+.mcol .mh .ag{font-size:10.5px;color:var(--dim)}
+.mcol .txt{font-family:var(--font-ar);font-size:14.5px;line-height:2.1}
+.mcol .txt .w{border-radius:4px;padding:0 1px}
+.mcol .txt .w.diff{background:#3a1d1d;color:#f0a0a0;box-shadow:inset 0 -2px 0 var(--acc3)}
+.mcol .txt .w.xtra{background:#241a33;color:#c9aef0}
+.mcol .acts{display:flex;gap:6px;margin-top:8px}
+.mcol .acts a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 8px;font-size:10.5px}
+.lgnd{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:8px 0}
+.lgnd i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:5px;vertical-align:-2px}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>◐ اختلاف اللفظ</h1>
+  <span class="sub">نفس المعنى بمتونه المختلفة عبر الكتب الستة</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+  <a href="tartil.html">🎼 الترتيل ←</a>
+</header>
+<div class="pick">
+  <input type="text" id="gid" placeholder="رقم المعنى gid" inputmode="numeric">
+  <input type="text" id="q" placeholder="أو كلمات من طرف المعنى — مثال: الأعمال بالنيات">
+  <button class="btn" onclick="goGid()">عرض</button>
+</div>
+<div class="status" id="stat"></div>
+<div class="cand" id="cand"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/[.,،؛:!؟?«»\-—()«»]/g,'').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const bucket=v=>{
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه/.test(v))return 'df';
+  return 'ot';
+};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا سند'};
+const D={};
+async function loadBook(b){
+  if(D[b])return D[b];
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  const j=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  D[b]=j;return j;
+}
+async function loadAll(){
+  const stat=document.getElementById('stat');
+  await Promise.all(BOOKS.map(async b=>{
+    try{await loadBook(b)}catch(e){console.warn(b,e)}
+    stat.textContent='حُمّل '+BAR[b]+'…';
+  }));
+  stat.textContent='';
+}
+function lcs(a,b){
+  const n=a.length,m=b.length;
+  const dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
+    dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const am=new Set(),bm=new Set();let i=0,j=0;
+  while(i<n&&j<m){
+    if(a[i]===b[j]){am.add(i);bm.add(j);i++;j++}
+    else if(dp[i+1][j]>=dp[i][j+1])i++;else j++;
+  }
+  return {am,bm};
+}
+async function goGid(){
+  const g=document.getElementById('gid').value.trim();
+  if(!g)return;
+  show(g);
+}
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+document.getElementById('q').addEventListener('input',deb(async()=>{
+  const w=norm(document.getElementById('q').value.trim());
+  const box=document.getElementById('cand');
+  if(w.length<4){box.innerHTML='';return}
+  document.getElementById('stat').textContent='يُحمّل الكتب للبحث…';
+  await loadAll();
+  document.getElementById('stat').textContent='';
+  const seen={};const hits=[];
+  for(const b of BOOKS){const j=D[b];if(!j)continue;
+    for(const gid in j.g){if(seen[gid])continue;
+      if(norm(j.g[gid].t).includes(w)){seen[gid]=1;hits.push({gid,t:j.g[gid].t,b});if(hits.length>=8)break}}
+    if(hits.length>=8)break}
+  box.innerHTML=hits.map(h=>`<button class="chip" onclick="show('${h.gid}')">#${arNum(h.gid)} — ${esc(h.t.slice(0,44))}…</button>`).join('')||'<span class="mut">لا نتيجة</span>';
+},300));
+document.getElementById('gid').addEventListener('keydown',e=>{if(e.key==='Enter')goGid()});
+async function show(gid){
+  gid=String(gid).replace(/\D/g,'');
+  if(!gid)return;
+  const stat=document.getElementById('stat');const main=document.getElementById('main');
+  stat.textContent='يُحمّل الكتب الستة…';
+  await loadAll();
+  stat.textContent='';
+  /* اجمع كل المواضع: كتاب+رقم+متن+حكم سنده */
+  const occ=[];let gh=null;
+  for(const b of BOOKS){const j=D[b];if(!j)continue;
+    const g=j.g[gid];
+    if(g){if(!gh)gh=g;
+      const nums=(g.hs&&g.hs.length?g.hs:[]).slice(0,12);
+      for(const n of nums){const e=j.d[n];if(!e)continue;
+        const raw=j.s&&j.s[n]?j.s[n]:[];
+        const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+        occ.push({b,n:+n,m:e.m,v:chains.length?chains[0][0]:''});}
+    }}
+  if(!occ.length){main.innerHTML=`<p class="mut">المعنى #${arNum(gid)} غير موجود في الكتب المحمّلة.</p>`;return}
+  /* المرجع = أطول متن */
+  const toks=occ.map(o=>({o,w:o.m.split(/\s+/).filter(Boolean),nw:o.m.split(/\s+/).filter(Boolean).map(norm)}));
+  const ri=toks.reduce((bi,x,i)=>x.w.length>toks[bi].w.length?i:bi,0);
+  const ref=toks[ri];
+  /* حدّد مواضع الاختلاف لكل عمود مقابل المرجع */
+  const cols=toks.map((t,i)=>{
+    if(i===ri)return{...t,agree:100,set:new Set(t.nw.map((_,k)=>k)),refSet:null};
+    const {am,bm}=lcs(ref.nw,t.nw);
+    return{...t,agree:Math.round(bm.size/t.w.length*100),set:bm,refSet:am};
+  });
+  /* كلمات المرجع الغائبة من أي عمود آخر → تظليل xtra */
+  const refMissing=new Set();
+  ref.nw.forEach((_,k)=>{if(cols.some(c=>c.refSet&&!c.refSet.has(k)))refMissing.add(k)});
+  const card=(c,i)=>{
+    const isRef=i===ri;
+    const body=c.w.map((w,k)=>{
+      let cls='w';
+      if(isRef){if(refMissing.has(k))cls+=' xtra'}
+      else if(!c.set.has(k))cls+=' diff';
+      return `<span class="${cls}">${esc(w)}</span>`;
+    }).join(' ');
+    const k= bucket(c.o.v||'');
+    return `<div class="mcol${isRef?' ref':''}">
+      <div class="mh"><b>${BAR[c.o.b]}</b><span class="ag">#${arNum(c.o.n)} · توافق ${arNum(c.agree)}٪</span></div>
+      <div class="mh"><span class="bdg v-${k}" title="${esc(c.o.v)}">${c.o.v?esc(c.o.v.slice(0,40)):HB.ns}</span>${isRef?'<span class="ag">المرجع — الأطول</span>':''}</div>
+      <p class="txt">${body}</p>
+      <div class="acts"><a href="index.html#sanad.${c.o.b}.${c.o.n}">السند ←</a><a href="tartil.html#b=${c.o.b}&n=${c.o.n}">الطرق ←</a></div>
+    </div>`;
+  };
+  main.innerHTML=`
+    <div class="hdr">
+      <div class="meta"><b>المعنى #${arNum(gid)}</b>
+        <span class="bdg v-${bucket(gh.h||'')}">${esc(gh.h||'—')}</span>
+        ${gh.s?`<span class="mut">${arNum(gh.s)} صحابياً</span>`:''}
+        ${gh.r?`<span class="mut">${arNum(gh.r)} مرة ورود</span>`:''}
+        <a href="net.html#g${gid}">الشبكة ←</a>
+      </div>
+      <p class="taraf">${esc(gh.t)}</p>
+      <div class="meta"><span class="mut">${arNum(occ.length)} متناً في ${arNum(new Set(occ.map(o=>o.b)).size)} كتب — مقارنة بأطول متن (${BAR[ref.o.b]} #${arNum(ref.o.n)})</span></div>
+    </div>
+    <div class="lgnd"><span><i style="background:#3a1d1d"></i>كلمة مخالفة/زائدة عن المرجع</span><span><i style="background:#241a33"></i>كلمة في المرجع ينقصها موضع آخر</span></div>
+    <div class="cols">${cols.map(card).join('')}</div>`;
+  location.hash=`g=${gid}`;
+}
+function decHash(){
+  const q=new URLSearchParams(location.search).get('g');
+  const hm=location.hash.match(/g=(\d+)/);
+  return q||(hm&&hm[1])||null;
+}
+(async()=>{
+  const g=decHash();
+  if(g){document.getElementById('gid').value=g;show(g)}
+})();
+addEventListener('hashchange',()=>{const g=decHash();if(g)show(g)});
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>وارد — صندوق الالتقاط</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+#cap{width:100%;background:var(--card);border:1.5px dashed var(--acc);color:var(--txt);border-radius:14px;padding:16px;font-family:var(--font-ar);font-size:15px;resize:none;min-height:76px}
+#cap:focus{outline:none;border-style:solid}
+.row{display:flex;gap:8px;margin-top:10px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+.it{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin:8px 0}
+.it .t{font-family:var(--font-ar);font-size:14px;white-space:pre-wrap;line-height:1.9}
+.it .m{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.tag{font-size:10px;border:1px solid var(--acc3);color:var(--acc3);border-radius:99px;padding:2px 9px}
+.mini{border:1px solid var(--border);background:none;color:var(--dim);border-radius:8px;padding:4px 11px;font-size:11px;cursor:pointer;font-family:var(--font-ar)}
+.mini:hover{border-color:var(--acc);color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chip{border:1px solid var(--border);border-radius:99px;padding:5px 13px;cursor:pointer;font-size:11.5px;color:var(--dim)}
+.chip.on{border-color:var(--acc);color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">وارد <span class="muted">— صندوق الالتقاط السريع</span></h2>
+<div class="muted">أي فكرة/فائدة/رابط/آية تعترضك — احبسها هنا فوراً ثم وزّعها لمكانها لاحقاً. التقاطة بضغطة واحدة.</div>
+<textarea id="cap" placeholder="اكتب أي شيء… (Enter = التقاط)"></textarea>
+<div class="row">
+<button class="btn" id="add">📥 التقط</button>
+<span id="cnt" class="muted" style="margin-inline-start:auto;align-self:center"></span>
+</div>
+<div class="chips" id="tags"></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TAGS=['فائدة','فكرة','رابط','نص','سؤال','مهمة'];
+let IT=JSON.parse(localStorage.warid||'[]');
+let curTag='فائدة',flt='الكل';
+$('#tags').innerHTML=['الكل',...TAGS].map(t=>`<span class="chip ${t===flt?'on':''}" data-t="${t}">${t}</span>`).join('');
+function save(){localStorage.warid=JSON.stringify(IT)}
+function add(){
+ const t=$('cap').value.trim();if(!t)return;
+ IT.unshift({t,tag:curTag,ts:Date.now(),to:null});
+ $('cap').value='';save();render()}
+function render(){
+ const L=IT.filter(x=>flt==='الكل'||x.tag===flt);
+ $('#cnt').textContent=IT.length?IT.length.toLocaleString('ar-EG')+' التقاطة':'';
+ $('#list').innerHTML=L.length?L.map((x,i)=>{const gi=IT.indexOf(x);
+  return `<div class="it"><div class="t">${esc(x.t)}</div><div class="m">
+  <span class="tag">${x.tag}</span><span class="muted">${new Date(x.ts).toLocaleDateString('ar-EG',{day:'numeric',month:'short'})}</span>
+  <button class="mini" data-a="to" data-i="${gi}" data-v="daftar">→ دفتر</button>
+  <button class="mini" data-a="to" data-i="${gi}" data-v="muqfil">→ مقفل</button>
+  <button class="mini" data-a="del" data-i="${gi}">✕</button>
+  ${x.to?`<span class="muted" style="font-size:10px">· وزّعت: ${x.to}</span>`:''}</div></div>`}).join(''):'<div class="muted" style="text-align:center;padding:30px">صندوقك فارغ — التقط أول فائدة.</div>'}
+$('#add').onclick=add;
+$('#cap').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();add()}};
+$('#tags').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;flt=c.dataset.t;
+ document.querySelectorAll('#tags .chip').forEach(x=>x.classList.toggle('on',x===c));render()};
+$('#list').onclick=e=>{
+ const b=e.target.closest('.mini');if(!b)return;const i=+b.dataset.i;
+ if(b.dataset.a==='del'){IT.splice(i,1)}
+ else if(b.dataset.a==='to'){
+  const dst=b.dataset.v;IT[i].to=dst;
+  if(dst==='daftar'){const d=JSON.parse(localStorage.daftar||'[]');d.unshift({s:'حر',r:'',t:IT[i].t,at:IT[i].ts});localStorage.daftar=JSON.stringify(d)}
+  if(dst==='muqfil'){const d=JSON.parse(localStorage.muqfil_pending||'[]');d.unshift({t:IT[i].t,ts:IT[i].ts});localStorage.muqfil_pending=JSON.stringify(d)}}
+ save();render()};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="warid" data-title="وارد"></script>
+</body>
+</html>

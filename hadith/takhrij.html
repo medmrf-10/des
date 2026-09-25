@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تخريج — منهج التحكيم على الحديث | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.pick input.nm{width:90px}.pick input.wd{flex:1;min-width:160px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.mtn{font-family:var(--font-ar);font-size:15px;line-height:2.1;color:var(--txt)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:right;vertical-align:top}
+th{background:var(--card2);color:var(--acc2);font-size:12px}
+.v{font-weight:700;white-space:nowrap}
+.v-sa{color:var(--ok)}.v-hs{color:var(--acc2)}.v-df{color:#e08a8a}.v-sd{color:#ff7070}.v-mw{color:#c0392b}.v-ot,.v-ns{color:var(--dim)}
+.con{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12.5px;margin:8px 0;padding:8px 12px;border-radius:10px;background:var(--card2);border:1px solid var(--border)}
+.con.agree{border-color:var(--ok)}.con.split{border-color:#e08a8a}
+details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 16px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:700;color:var(--acc2);font-size:14px}
+details p{font-size:13px;line-height:2;color:var(--txt)}
+details li{font-size:13px;line-height:2;color:var(--txt)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin-bottom:8px;cursor:pointer;font-size:12px}
+.row:hover{border-color:var(--acc2)}
+.row .tx{flex:1;color:var(--dim);line-height:1.9}
+.row .vs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;min-width:180px}
+.pill2{border-radius:6px;padding:2px 7px;font-size:10.5px;border:1px solid var(--border)}
+.pill2.v-sa{color:var(--ok);border-color:var(--ok)}.pill2.v-hs{color:var(--acc2);border-color:var(--acc2)}
+.pill2.v-df,.pill2.v-sd,.pill2.v-mw{color:#e08a8a;border-color:#a04848}.pill2.v-ot,.pill2.v-ns{color:var(--dim)}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚖ تخريج</h1>
+  <span class="sub">من حكم على هذا الحديث وبماذا — منهج الشامي والمحققين</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="ilal.html">🔍 العلل ←</a>
+</header>
+<div class="pick">
+  <input class="nm" type="number" id="num" placeholder="الرقم" min="1">
+  <input class="wd" type="text" id="q" placeholder="أو ابحث بلفظ من المتن…">
+  <button class="chip" id="go">عرض</button>
+  <span id="bchips"></span>
+</div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="res"></div>
+<details>
+  <summary>كيف يُحكَم على الحديث؟ — المنهجية من البيانات نفسها</summary>
+  <p>يعرض هذا الجدول كل حكمٍ مسجّل على الحديث في مصادرنا، بلا تعديل:</p>
+  <ul>
+    <li><b>صالح الشامي — الجامع</b>: في مشروع «الجامع بين كتب السنة» يُحكَم على <i>كل طريق</i> من طرق الحديث مستقلاً (سند ١، سند ٢…) — النص محفوظ حرفياً في أسانيد كل كتاب، مثل «إسناده حسن رجاله ثقات عدا فلان وهو صدوق». ثم يُوحَّد الحكم على مستوى <i>المعنى</i> عبر الكتب الستة كلها (المعنى الواحد له حكم واحد في الجامع).</li>
+    <li><b>المحققون المعاصرون</b> (سنن الترمذي فقط حالياً): أحمد شاكر، الألباني، زبير علي زائي، بشار عواد معروف — أحكامهم على متن الترمذي في طبعاته المحققة.</li>
+    <li><b>لماذا تختلف الأحكام؟</b> لأن التحكيم على الطريق لا المتن: حديث واحد قد يأتي بطريق صحيح وأخرى فيها راوٍ ضعيف — فالخلاف بين المحدثين غالباً اختلاف نظر في راوٍ أو في قوة الشواهد، لا في ثبوت المعنى. قسم «اكتشاف» أسفل الصفحة يستخرج الأحاديث التي اتسع فيها الخلاف.</li>
+    <li><b>ألوان الأحكام</b>: صحيح/متصل أخضر · حسن ذهبي · ضعيف أحمر · شديد الضعف أحمر فاقع · موضوع/متهم بالوضع أحمر داكن · غير مصنّف رمادي.</li>
+  </ul>
+</details>
+<details>
+  <summary>اكتشاف — أوسع الأحاديث خلافاً بين المحدثين</summary>
+  <p class="mut">اختر كتاباً ليُمسح كله: الترتيب بأكبر انتشار في طبقات الأحكام (صحيح مقابل ضعيف مقابل حسن…) — للترمذي تُحسب أحكام الشامي والمحققين الأربعة معاً.</p>
+  <div class="pills" id="dxbooks" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
+  <div id="dx"></div>
+</details>
+<script src="pako.min.js"></script>
+<script src="scholar.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم بالوضع',ot:'أخرى',ns:'بلا حكم'};
+const bucket=v=>{
+  if(!v)return 'ns';
+  const s=String(v).toLowerCase();
+  if(/شديد الضعف|very da|very weak/.test(s))return 'sd';
+  if(/متهم بالوضع|موضوع|maudu|fabricat/.test(s))return 'mw';
+  if(/متصل|صحيح|sahih|saheeh/.test(s))return 'sa';
+  if(/حسن|hasan/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول|مدلس|da|weak/.test(s))return 'df';
+  return 'ot';
+};
+const SCAR={'Ahmad Muhammad Shakir':'أحمد شاكر','Al-Albani':'الألباني','Zubair Ali Zai':'زبير علي زائي','Bashar Awad Maarouf':'بشار عواد معروف','Shuaib Al-Arnaut':'شعيب الأرنؤوط'};
+const sAr=n=>SCAR[n]||n;
+let S={book:'bukhari',num:0};
+const D={};
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+let GN=null,gnP=null;
+async function loadGN(){
+  if(GN)return GN;if(gnP)return gnP;
+  gnP=new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=()=>{GN=window.GIDNET;ok(GN)};s.onerror=fail;document.head.appendChild(s)});
+  return gnP;
+}
+function paintBooks(){
+  document.getElementById('bchips').innerHTML=BOOKS.map(b=>
+    `<button class="chip" data-b="${b}" aria-pressed="${b===S.book}">${BAR[b]}</button>`).join('');
+}
+document.getElementById('bchips').parentElement.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c)return;
+  if(c.dataset.b){S.book=c.dataset.b;paintBooks();if(S.num)show()}
+  else if(c.id==='go'){S.num=+document.getElementById('num').value||0;if(S.num)show()}
+});
+document.getElementById('num').addEventListener('keydown',e=>{if(e.key==='Enter'){S.num=+e.target.value||0;if(S.num)show()}});
+let qT;document.getElementById('q').addEventListener('input',e=>{
+  clearTimeout(qT);qT=setTimeout(async()=>{
+    const w=norm(e.target.value);if(w.length<6)return;
+    const j=await loadBook(S.book);const hits=[];
+    for(const n in j.d){if(norm(j.d[n].m).includes(w))hits.push(+n);if(hits.length>=8)break}
+    if(hits.length){S.num=hits[0];document.getElementById('num').value=S.num;show()}
+  },300);
+});
+async function show(){
+  const b=S.book,n=S.num,res=document.getElementById('res');
+  const j=await loadBook(b);
+  if(!j.d[n]){res.innerHTML='<div class="card mut">لا حديث بهذا الرقم في '+BAR[b]+'</div>';return}
+  location.hash=`b=${b}&n=${n}`;
+  const raw=j.s[n]||[];
+  const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+  const d=j.d[n];const gid=d.g;
+  const rows=[];
+  chains.forEach((ch,i)=>rows.push({who:'صالح الشامي — الجامع',v:ch[0]||'—',src:`سند ${arNum(i+1)} · ${BAR[b]}`}));
+  const sc=(window.SCHOLAR&&SCHOLAR[b]&&SCHOLAR[b][n])||[];
+  for(const[nm,g]of sc)rows.push({who:sAr(nm),v:g,src:'تحقيق '+BAR[b]});
+  const spread=new Set(rows.map(r=>bucket(r.v)));
+  const verdict=t=>{const bk=bucket(t);return `<span class="v v-${bk}">${esc(t)}</span>`};
+  res.innerHTML=`<div class="card">
+    <div class="con ${spread.size<=1?'agree':'split'}">
+      <b>${spread.size<=1?'اتفاق':'خلاف'}</b>
+      <span class="mut">${arNum(rows.length)} حكماً · ${arNum(spread.size)} طبقات — ${[...spread].map(x=>HB[x]).join('، ')}</span>
+      <span id="uv"></span>
+    </div>
+    <p class="mtn">${esc(d.m.slice(0,300))}${d.m.length>300?'…':''}</p>
+    <table><tr><th>المحدث</th><th>الحكم</th><th>المصدر</th></tr>
+    ${rows.map(r=>`<tr><td>${esc(r.who)}</td><td>${verdict(r.v)}</td><td class="mut">${esc(r.src)}</td></tr>`).join('')}</table>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <a class="chip" href="silsila.html#b=${b}&n=${n}">⛓ شجرة الأسناد ←</a>
+      <a class="chip" href="index.html#sanad=${b}:${n}">السند في المختبر ←</a>
+      ${gid!=null?`<a class="chip" href="net.html#g${gid}">المعنى #${arNum(gid)} ←</a><a class="chip" href="naskh.html?g=${gid}">اختلاف اللفظ ←</a>`:''}
+    </div></div>`;
+  if(gid!=null){
+    const G=await loadGN().catch(()=>null);
+    const g=G&&G.g[gid];
+    if(g)document.getElementById('uv').innerHTML=`· الحكم الموحد على المعنى: <span class="v v-${bucket(g.h)}">${esc(g.h||'—')}</span>`;
+  }
+}
+async function discover(b){
+  const dx=document.getElementById('dx');
+  dx.innerHTML='<div class="mut">يمسح '+BAR[b]+'…</div>';
+  const j=await loadBook(b);
+  const sc=(window.SCHOLAR&&SCHOLAR[b])||null;
+  const recs=[];
+  for(const n in j.s){
+    const raw=j.s[n];
+    const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+    const vs=chains.map(c=>bucket(c[0]));
+    if(sc&&sc[n])for(const[,g]of sc[n])vs.push(bucket(g));
+    const set=new Set(vs);
+    if(set.size<2)continue;
+    recs.push({n:+n,spread:set.size,vs:[...set],min:Math.min(...Object.values(
+      vs.reduce((a,x)=>(a[x]=(a[x]||0)+1,a),{})))});
+  }
+  recs.sort((a,b)=>b.spread-a.spread||a.min-b.min);
+  dx.innerHTML=recs.slice(0,30).map(r=>`
+    <div class="row" onclick="S.book='${b}';S.num=${r.n};document.getElementById('num').value=${r.n};paintBooks();show();scrollTo(0,0)">
+      <span class="tx"><b>#${arNum(r.n)}</b> — ${esc((j.d[r.n]&&j.d[r.n].m||'').slice(0,90))}…</span>
+      <span class="vs">${r.vs.map(v=>`<span class="pill2 v-${v}">${HB[v]}</span>`).join('')}</span>
+    </div>`).join('')||'<div class="mut">لا اختلاف مسجّلاً</div>';
+}
+document.getElementById('dxbooks').innerHTML=BOOKS.map(b=>
+  `<button class="chip" onclick="discover('${b}')">${BAR[b]}</button>`).join('');
+(async()=>{
+  paintBooks();
+  const hm=location.hash.match(/b=([\w-]+)&n=(\d+)/);
+  if(hm&&BOOKS.includes(hm[1])){S.book=hm[1];S.num=+hm[2];document.getElementById('num').value=S.num;paintBooks();show()}
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="hadith_takhrij"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعلَق — علّق لنفسك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+textarea{width:100%;min-height:80px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font-family:var(--font-ar);font-size:13px;line-height:1.9;resize:vertical}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:12px;width:100%}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.note{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-top:8px}
+.note .d{font-size:11px;color:var(--dim)}
+.note .txt{font-family:var(--font-ar);font-size:13.5px;line-height:2;margin-top:5px}
+.note.locked{opacity:.75;border-style:dashed}
+.note.locked .txt{color:var(--dim);font-style:italic}
+.note .open{color:var(--acc);font-weight:700;font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعلَق <span class="muted">— علّق لنفسك</span></h2>
+<div class="muted">اكتب رسالة لمستقبلك (نصيحة، تذكير، سؤال) — تُفتح في تاريخها فقط. ردّ عليها في «مِختِم».</div>
+<div class="card"><div class="t">رسالة جديدة</div>
+<textarea id="nt" placeholder="اكتب لنفسك الغَد… (مثال: هل تعلمت العربية كما وعدت؟)"></textarea>
+<input type="date" id="nd" style="margin-top:7px">
+<button class="btn" id="seal" style="margin-top:9px">علّق</button></div>
+<div class="card"><div class="t">مفتوحة اليوم (تستحق القراءة)</div><div id="open" class="muted">—</div></div>
+<div class="card"><div class="t">معلّقة (تُفتح لاحقًا)</div><div id="locked" class="muted">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+let N=LS('mi3laq',[]);
+$('#nd').min=today();
+$('#nd').value=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
+$('#seal').onclick=()=>{
+ const t=$('#nt').value.trim(),d=$('#nd').value;
+ if(!t||!d)return alert('اكتب نصاً وحدّد تاريخاً');
+ N.push({id:Date.now(),t,d,wrote:today()});
+ $('#nt').value='';
+ SV('mi3laq',N);render();
+};
+function render(){
+ const open=N.filter(n=>n.d<=today()).sort((a,b)=>a.d<b.d?1:-1);
+ const locked=N.filter(n=>n.d>today()).sort((a,b)=>a.d<b.d?-1:1);
+ $('#open').innerHTML=open.length?open.slice(0,10).map(n=>
+  '<div class="note"><div class="d">كُتبت '+esc(n.wrote)+' — كانت مقرّرة '+esc(n.d)+' · <span class="x" data-id="'+n.id+'" style="cursor:pointer">✕</span></div>'+
+  '<div class="txt">'+esc(n.t)+'</div></div>').join(''):'لا رسائل مفتوحة';
+ $('#locked').innerHTML=locked.length?locked.map(n=>
+  '<div class="note locked"><div class="d">كُتبت '+esc(n.wrote)+' — تُفتح '+esc(n.d)+' <span class="muted">('+arN(Math.ceil((new Date(n.d)-new Date(today()))/864e5))+' يومًا)</span> · <span class="x" data-id="'+n.id+'" style="cursor:pointer">✕</span></div>'+
+  '<div class="txt">🔒 '+esc(n.t.slice(0,30))+'…</div></div>').join(''):'لا رسائل معلّقة';
+}
+document.onclick=e=>{
+ const x=e.target.closest('.x');
+ if(x){N=N.filter(n=>n.id!=+x.dataset.id);SV('mi3laq',N);render()}
+};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="mi3laq" data-title="مِعلَق"></script>
+</body>
+</html>

@@ -211,8 +211,12 @@ function renderToday(){
 function setName(){const v=$('#nm').value.trim();if(v){me.name=v;LS('mz_name',v);renderToday();toast('أهلاً بك يا '+v)}}
 function suggest(what){const s=LS('portal_suggestions')||{};(s['manzuma']=s['manzuma']||[]).push({n:me.name||'?',t:what,st:'pending'});LS('portal_suggestions',s);toast('سُجّل طلبك — يُنفَّذ بإذن الله')}
 /* ---------- TUTOR ---------- */
-let CX=null;
+let CX=null,GID=null;
 async function loadIdx(){if(CX)return CX;$('#tStatus').textContent='أحمّل فهرس 60 ألف مقطع...';await new Promise(r=>{const sc=document.createElement('script');sc.src='../durus/clipindex.js';sc.onload=r;document.head.appendChild(sc)});CX={clips:CLIPIDX};return CX}
+async function loadGid(){if(GID)return GID;await new Promise(r=>{const sc=document.createElement('script');sc.src='../hadith/analysis.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});GID=window.GIDNET||null;
+  if(GID&&GID.cov&&!GID._gidcov){GID._gidcov={};const order=[['sa','في الصحيحين'],['mx','في الصحيحين والسنن'],['zu','في السنن']];
+    for(const tid in GID.cov){const c=GID.cov[tid];for(const[lay,label]of order){for(const gid of(c[lay]||[])){if(!GID._gidcov[gid]||order.findIndex(o=>o[0]===lay)<order.findIndex(o=>o[0]===GID._gidcov[gid][0]))GID._gidcov[gid]=[lay,label]}}}}
+  return GID}
 function askTutor(){
   const q=$('#tq').value.trim();if(!q)return;
   const words=tok(q);if(!words.length)return;
@@ -234,7 +238,74 @@ function askTutor(){
       return `<div class="res"><b style="font-size:14px">${esc(ttl)}</b>${body}<div class="meta"><span class="chip">${esc(sr.n)}</span><span class="chip g">${esc(shName)}</span>${r.l?`<span class="chip">درس ${r.l}</span>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="${link}">▶ شغّل</a><button class="btn sm ghost" onclick='saveNote(${JSON.stringify({s:r.s,l:r.l||null,t:ttl,u:link})})'>🔖 احفظ</a></div></div>`
     }).join(''):'<div class="empty">لا نتيجة — جرّب كلمات أبسط (مثال: «الصلاة» بدل «حكم صلاة الجمعة»)</div>';
   });
+  // شبكة المعنى — أجوبة الحديث بأحكامها الموحدة (منهجية صالح الشامي)
+  $('#tStatus').textContent='…وأبحث في شبكة المعنى (5,889 معنى محكوماً)';
+  loadGid().then(g=>{
+    $('#tStatus').textContent='';
+    if(!g||!g.g)return;
+    const hits=[];
+    for(const gid in g.g){const e=g.g[gid];const t=norm(e.t);let hit=0;for(const w of words)if(t.includes(w))hit++;if(hit>=Math.min(words.length,2))hits.push({gid,t:e.t,h:e.h,s:e.s,r:e.r,sc:hit+e.s/100})}
+    hits.sort((a,b)=>b.sc-a.sc);
+    const top=hits.slice(0,8);if(!top.length)return;
+    const hc=h=>h==='صحيح'?'var(--ok)':h==='حسن'?'var(--acc2)':'var(--dim)';
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من شبكة المعنى — أحاديث محكومة</h2>'+top.map(x=>{
+      const layer=(g._gidcov&&g._gidcov[x.gid])?g._gidcov[x.gid][1]:'';
+      const saveO=JSON.stringify({s:0,l:null,t:x.t.slice(0,90),u:'../hadith/net.html#gid='+x.gid}).replace(/'/g,'&#39;');
+      return '<div class="res"><div style="display:flex;gap:8px;align-items:flex-start"><b style="font-size:14px;flex:1">'+esc(x.t)+'</b><span class="chip" style="border-color:'+hc(x.h)+';color:'+hc(x.h)+'">'+esc(x.h)+'</span></div><div class="meta"><span class="chip">صحابة '+(+x.s).toLocaleString('ar-EG')+'</span><span class="chip">تكرار '+(+x.r).toLocaleString('ar-EG')+'</span>'+(layer?'<span class="chip g">'+layer+'</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../hadith/net.html#gid='+x.gid+'">افتح في الشبكة</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
+  // ذرات العقيدة — مصطلحات ونصوصها من المكتبة العقدية
+  $('#tStatus').textContent='…وأبحث في ذرات العقيدة (9,363 ذرة)';
+  loadAtoms().then(a=>{
+    $('#tStatus').textContent='';
+    if(!a)return;
+    const hits=[];
+    for(const code in a){const b=a[code];for(const k in b.atoms){const at=b.atoms[k];
+      const nt=norm(at.t)+' '+norm(at.q);let hit=0;
+      for(const w of words)if(nt.includes(w))hit++;
+      if(hit>=Math.min(words.length,2))hits.push({code,k,t:at.t,q:at.q,bab:at.b,name:b.name,sc:hit+(at.t&&nt.startsWith(norm(words[0]))?0.5:0)})}}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,6);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من ذرات العقيدة والمتون</h2>'+top.map(x=>{
+      const saveO=JSON.stringify({s:0,l:null,t:x.t.slice(0,90),u:'../akida/masadir.html#'+x.code}).replace(/'/g,'&#39;');
+      return '<div class="res"><b style="font-size:14px">'+esc(x.t)+'</b><div class="snip" style="margin-top:6px">'+esc((x.q||'').slice(0,220))+(x.q&&x.q.length>220?'…':'')+'</div><div class="meta"><span class="chip">'+esc(x.name)+'</span>'+(x.bab?'<span class="chip g">'+esc(x.bab)+'</span>':'')+'<span class="chip">'+x.code+' '+x.k+'</span></div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../akida/masadir.html#'+x.code+'">افتح في المصادر</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
+  // نظائر القرآن — آيات مشابهة لسؤالك
+  loadMuta().then(m=>{
+    if(!m)return;
+    const hits=[];
+    for(const k in m.sim){const v=m.sim[k];const t=norm(v[2]);
+      let hit=0;for(const w of words)if(t.includes(w))hit++;
+      if(hit>=Math.min(words.length,2))hits.push({k,s:v[0],a:v[1],t:v[2],sc:hit})}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,4);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من نظائر القرآن</h2>'+top.map(x=>{
+      const nm=(m.names&&m.names[x.s])||'سورة '+x.s;
+      return '<div class="res"><div class="snip" style="font-size:14px">'+esc(x.t)+'</div><div class="meta"><span class="chip">'+esc(nm)+' '+x.s+':'+x.a+'</span></div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../wahy/mutashabih.html#'+x.k+'">نظائرها</a><a class="btn sm ghost" target="_blank" href="../wahy/#s='+x.s+'&v='+x.a+'">تفسيرها</a></div></div>'
+    }).join(''));
+  });
+  // معجم المصطلحات العقدية
+  loadTerms().then(T=>{
+    if(!T)return;
+    const hits=[];
+    for(const term in T.terms){const nt=norm(term);
+      let hit=0;for(const w of words)if(nt.includes(w))hit++;
+      if(hit>=Math.min(words.length,2)){
+        const v=T.terms[term][0];
+        hits.push({term,q:v.q,bab:v.bab,b:v.b,sc:hit+(nt.startsWith(norm(words[0]))?1:0)})}}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,5);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من معجم المصطلحات</h2>'+top.map(x=>{
+      const saveO=JSON.stringify({s:0,l:null,t:x.term.slice(0,90),u:'../akida/masadir.html#'+x.b}).replace(/'/g,'&#39;');
+      return '<div class="res"><b style="font-size:14px">'+esc(x.term)+'</b><div class="snip" style="margin-top:6px">'+esc((x.q||'').slice(0,200))+(x.q&&x.q.length>200?'…':'')+'</div><div class="meta"><span class="chip">'+(T.books&&T.books[x.b]?esc(T.books[x.b]):x.b)+'</span>'+(x.bab?'<span class="chip g">'+esc(x.bab)+'</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../shabaka/#q='+encodeURIComponent(x.term)+'">شبكتها</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
 }
+let ATM=null,MUT=null,TRM=null;
+async function loadTerms(){if(TRM)return TRM;await new Promise(r=>{const sc=document.createElement('script');sc.src='../akida/terms.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});TRM=window.TERMS||null;return TRM}
+async function loadAtoms(){if(ATM)return ATM;await new Promise(r=>{const sc=document.createElement('script');sc.src='../madrasati/atoms.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});ATM=window.ATOMS||null;return ATM}
+async function loadMuta(){if(MUT)return MUT;await new Promise(r=>{const sc=document.createElement('script');sc.src='../wahy/mutashabih.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});MUT=window.MUTA||null;return MUT}
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
 function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);
   const k='n'+(me.note.length-1);if(!me.cards[k])me.cards[k]={repetitions:0,ease:2.5,interval:0,lastReview:null};LS('mz_cards',me.cards);
@@ -290,12 +361,188 @@ const SRCS=[
  {ic:'📜',n:'فهرس العقيدة',d:'نصوص العقيدة والتصوف كاملة بفهرسة موضوعية',u:'../akida/real.html',t:'الشريعة'},
  {ic:'🎬',n:'الدروس الحية',d:'دروس كاراوكي كلمة-بكلمة متزامنة مع الصوت',u:'../live/',t:'الشريعة'},
  {ic:'🧪',n:'مختبر الحديث',d:'أسانيد، رجال، مقارنة شواهد، مواضيع، إحصاء — 27 ألف حديث × 6 كتب',u:'../hadith/',t:'الشريعة'},
- {ic:'📚',n:'قارئ الفقه',d:'56 متناً فقهياً بفهرسة موضوعية موحّدة — المذاهب الأربعة',u:'../fiqh_reader/',t:'الشريعة'},
+ {ic:'ب',n:'بحث المتون',d:'بحث نصي كامل في 27,045 حديثاً بأسانيدها وأحكامها',u:'../hadith/matn.html',t:'الشريعة'},
+ {ic:'ر',n:'معجم الرواة',d:'6,384 سلسلة أسناد باستعمالاتها في الكتب الستة',u:'../hadith/rawi.html',t:'الشريعة'},
+ {ic:'٤٠',n:'الأربعون النووية',d:'42 حديثاً جامعاً مربوطة بشبكة المعنى',u:'../hadith/nawawi.html',t:'الشريعة'},
+ {ic:'ط',n:'طبقات الرواة',d:'ستة أجيال من الصحابة إلى المصنفين',u:'../hadith/tabaqat.html',t:'الشريعة'},
+ {ic:'م',n:'مطلع',d:'عائلات الأحاديث المتشابهة البداية — 4,691 عائلة',u:'../hadith/matla3.html',t:'الشريعة'},
+ {ic:'ص',n:'مسبار',d:'ملف الحديث الكامل: متنه وحكمه وأسانيده وعائلته',u:'../hadith/misbar.html',t:'الشريعة'},
+ {ic:'ت',n:'تثبت',d:'تحقّق من نسبة المتون لأصحابها — نص يُفحص في الكتب الستة',u:'../hadith/tathabbut.html',t:'الشريعة'},
+ {ic:'ح',n:'محرر الأذكار',d:'مجموع الأذكار مرتبة بأوقاتها',u:'../hadith/adhkar.html',t:'الشريعة'},
+ {ic:'س',n:'سند',d:'شجرة الأسانيد والرواة',u:'../hadith/sanad.html',t:'الشريعة'},
+ {ic:'ق',n:'مقارن',d:'أحاديث متقاربة المعنى موضوعة جنباً إلى جنب',u:'../hadith/muqaran.html',t:'الشريعة'},
+ {ic:'ن',n:'نسخ',d:'اختلاف الألفاظ بين روايات الحديث الواحد',u:'../hadith/naskh.html',t:'الشريعة'},
+ {ic:'ك',n:'كلمات السورة',d:'أبرز ألفاظ كل سورة وآياتها',u:'../wahy/kalimat.html',t:'الشريعة'},
+ {ic:'م',n:'المتشابهات القرآنية',d:'1,505 آية بنظائرها اللفظية جنباً إلى جنب',u:'../wahy/mutashabih.html',t:'الشريعة'},
+ {ic:'ش',n:'مشكاة',d:'آية واحدة عبر 105 تفاسير مجتمعة',u:'../wahy/mishkat.html',t:'الشريعة'},
+ {ic:'ر',n:'مرجان',d:'مواضع اشتباه الحفظ — تدرّب على المتشابهات',u:'../mirjan/',t:'الشريعة'},
+ {ic:'م',n:'موازن',d:'المصطلح العقدي عند المتون التسعة موازناً',u:'../muwazan/',t:'الشريعة'},
+ {ic:'ج',n:'جوهر',d:'بصمة كل متن عقدي بمفاهيمه',u:'../jawhar/',t:'الشريعة'},
+ {ic:'ش',n:'شبكة',d:'الخريطة المفاهيمية للعقيدة — 7,332 مفهوماً',u:'../shabaka/',t:'الشريعة'},
+ {ic:'📚',n:'قارئ الفقه',d:'56 متناً فقهياً بفهرسة موضوعية موحّدة',u:'../fiqh_reader/',t:'الشريعة'},
  {ic:'⚖️',n:'أبواب الفقه',d:'فهرس المتون الفقهية على المذاهب الأربعة',u:'../fiqh/',t:'الشريعة'},
- {ic:'🇬🇧',n:'تعلم الإنجليزية',d:'مقاطع قصيرة بترجمة كلمة-بكلمة — على طريقتك',u:'../english/',t:'لغة'},
- {ic:'⌨️',n:'تعلم البرمجة',d:'منهج عربي عملي على كورساتك — مختبر كود حي',u:'../prog/',t:'مهارة'},
+ {ic:'م',n:'مذاهب',d:'المسألة عند المذاهب الأربعة في أعمدة',u:'../madhahib/',t:'الشريعة'},
+ {ic:'م',n:'مسائل',d:'بحث موحد في 28,672 باباً فقهياً',u:'../fiqh_reader/masail.html',t:'الشريعة'},
+ {ic:'و',n:'وصل',d:'نص واحد يُبحث في كل المصادر دفعة واحدة',u:'../wasl/',t:'الشريعة'},
+ {ic:'📚',n:'مدرستي — المراجعة',d:'بطاقات تباعد: نظائر+أربعون+عقيدة',u:'../madrasati/',t:'مهارة'},
+ {ic:'س',n:'اختبرني',d:'أسئلة MCQ مولدة من المكتبة',u:'../ikhtibirni/',t:'مهارة'},
+ {ic:'م',n:'مدراك',d:'الصق نصاً → أسئلة إكمال مولّدة',u:'../midrak/',t:'مهارة'},
+ {ic:'ب',n:'براق',d:'قراءة سريعة RSVP بالنصوص الشرعية',u:'../buraq/',t:'مهارة'},
+ {ic:'س',n:'سباق',d:'مدرب الطباعة العربية بنصوص شرعية',u:'../sibaq/',t:'مهارة'},
+ {ic:'م',n:'معراج',d:'متتبع حفظ القرآن — سور وأجزاء',u:'../ma3raj/',t:'مهارة'},
+ {ic:'م',n:'مقرأة',d:'تسميع ذاتي: الآية تُخفى وتُختبر',u:'../miqraa/',t:'مهارة'},
+ {ic:'خ',n:'خريطة المنهج',d:'شجرة الإتقان لكل السلاسل',u:'../kharita/',t:'مهارة'},
+ {ic:'م',n:'مشوار',d:'مساراتك الدراسية بمستويات',u:'../mishwar/',t:'مهارة'},
+ {ic:'ص',n:'صراط',d:'طريقك مع كل شيخ — سلاسله مرتبة',u:'../sirat/',t:'مهارة'},
+ {ic:'إ',n:'إجازة',d:'سجلّ سماعك ومخطوط إتمام',u:'../ijaza/',t:'مهارة'},
+ {ic:'م',n:'منار',d:'ميزان أسبوعك موزعاً على الأيام',u:'../minar/',t:'مهارة'},
+ {ic:'خ',n:'مخططي — خطة التعلم',d:'مسار عبر كل المنظومة',u:'../mukhatat/',t:'مهارة'},
+ {ic:'م',n:'منهج',d:'فلسفة التعلم موصولة بأدواتها',u:'../minhaj/',t:'مهارة'},
+ {ic:'م',n:'متابع',d:'سجلّك الموحد عبر كل التطبيقات',u:'../mutabi3/',t:'مهارة'},
+ {ic:'م',n:'منحة',d:'زادك اليومي: آية وحديث وقاعدة ومسألة',u:'../minha/',t:'مهارة'},
+ {ic:'م',n:'مسباح',d:'مسبحة رقمية بذكر من السنة',u:'../misbah/',t:'مهارة'},
+ {ic:'س',n:'سوانح',d:'بطاقات فوائد تُسحب — احفظ بالسحب للأعلى',u:'../sawanih/',t:'مهارة'},
+ {ic:'ع',n:'مُعِدّ — إعداد درس',d:'آية+تفسير+حديث+عقيدة=مسودة',u:'../mu3edd/',t:'إنتاج'},
+ {ic:'س',n:'مسرود',d:'منصة إلقاء للتسجيل الصوتي',u:'../masrood/',t:'إنتاج'},
+ {ic:'م',n:'مسجّل',d:'سجّل درسك من هاتفك',u:'../musajjil/',t:'إنتاج'},
+ {ic:'م',n:'منبر',d:'شاشة عرض تعليمية حية',u:'../minbar/',t:'إنتاج'},
+ {ic:'م',n:'ملمّع',d:'محرر عبارات الدروس المتزامنة',u:'../mulammi3/',t:'إنتاج'},
+ {ic:'ح',n:'محبر',d:'مكتب الكتابة بإدراج المصادر',u:'../mihbar/',t:'إنتاج'},
+ {ic:'د',n:'دفتر',d:'ملاحظات مربوطة بالمصادر',u:'../daftar/',t:'إنتاج'},
+ {ic:'ق',n:'مقفل',d:'يومياتك المشفّرة AES برقمك',u:'../muqfil/',t:'إنتاج'},
+ {ic:'م',n:'منشور',d:'بطاقات مصوّرة للنشر',u:'../munshur/',t:'إنتاج'},
+ {ic:'م',n:'مقتطف',d:'مقصّ المقاطع: عيّن البداية والنهاية',u:'../muqtatif/',t:'إنتاج'},
+ {ic:'🇬🇧',n:'تعلم الإنجليزية',d:'مقاطع قصيرة بترجمة كلمة-بكلمة',u:'../english/',t:'لغة'},
+ {ic:'S',n:'مراجعة إنجليزية',d:'FSRS لكلماتك المستخلصة',u:'../english/srs.html',t:'لغة'},
+ {ic:'⌨️',n:'تعلم البرمجة',d:'منهج عربي عملي على كورساتك',u:'../prog/',t:'مهارة'},
+ {ic:'م',n:'مسارات البرمجة',d:'أعمدة المسارات المرئية',u:'../prog/paths.html',t:'مهارة'},
+ {ic:'م',n:'مشاريع البرمجة',d:'طبّق دروسك في مشاريع مصغّرة',u:'../prog/proj.html',t:'مهارة'},
+ {ic:'م',n:'مكتبتي',d:'كل الكتب والمتون محلياً',u:'../maktabati/',t:'الشريعة'},
+ {ic:'ل',n:'لوحة',d:'لوحة بيضاء تفاعلية',u:'../lohah/',t:'إنتاج'},
+ {ic:'خ',n:'خطاط',d:'تخطيط الدروس والخرائط',u:'../mukhatat/',t:'إنتاج'},
+ {ic:'م',n:'مخطوط',d:'استعراض النصوص بعرض المخطوط',u:'../mukhatat/',t:'إنتاج'},
+ {ic:'م',n:'ميزان',d:'إحصاء المنظومة الحي',u:'../mizan/',t:'إدارة'},
+ {ic:'م',n:'مرصاد',d:'صندوق التعليقات والاقتراحات',u:'../mirsad/',t:'إدارة'},
+ {ic:'ن',n:'نقل',d:'صدّر بياناتك كلها وانقلها',u:'../naql/',t:'إدارة'},
  {ic:'🧭',n:'Port — البوابة',d:'كل المشاريع بفلترة الصانع والمجال',u:'../portal/',t:'إدارة'},
- {ic:'🗂',n:'الفهرس العام',d:'فهرس كل شيء — قابل للتعديل منك مباشرة',u:'../fihris/',t:'إدارة'},
+ {ic:'🗂',n:'الفهرس العام',d:'فهرس كل شيء — قابل للتعديل منك مباشرة',u:'../fihris/',t:'إدارة'}, {ic:'🏋',n:'مِدرّب',d:'وصفة يومك التعليمي بعد تشخيص من ٤ أسئلة',u:'../mudarrib/',t:'إدارة'},
+ {ic:'☂',n:'مِظلة',d:'يومك في نظرة: صلاة ومداد وختمة ومراجعة وبطاقات',u:'../midhallah/',t:'إدارة'},
+ {ic:'⛏',n:'مِنجل',d:'حصاد كل بياناتك بملف JSON — احفظ وازرع في أي جهاز',u:'../minjal/',t:'إدارة'},
+ {ic:'⚖',n:'مِكيال',d:'ميزان النصوص — فرق كلمة-بكلمة بين نصّين',u:'../mikyal/',t:'الشريعة'},
+ {ic:'🔍',n:'مِحرك',d:'محرك واحد في كل المنظومة',u:'../mihrak/',t:'إدارة'},
+ {ic:'📰',n:'ديوان المنظومة',d:'مجلّة المنصة — مختارات اليوم والدروس والأدوات',u:'../diwan/',t:'إدارة'},
+ {ic:'✍',n:'مِستملي',d:'إملاء الآيات — اكتب وقِس الفرق كلمةً كلمة',u:'../mustamli/',t:'حفظ'},
+ {ic:'🪔',n:'مِسراج',d:'مصباح الحفظ — جملةً جملة في الظلام',u:'../misraj/',t:'حفظ'},
+ {ic:'📜',n:'مِفسّر',d:'افسِر بكلامك ثم قارن بتفسير السعدي',u:'../mufassir/',t:'الشريعة'},
+ {ic:'⚖',n:'مِزكاة',d:'حاسبة الزكاة — نقد وذهب وفضة وتجارة وديون',u:'../mizkata/',t:'الشريعة'},
+ {ic:'📚',n:'مِسند',d:'مسند كل صحابي — مروياته في الكتب الستة',u:'../musnad/',t:'الشريعة'},
+ {ic:'🧭',n:'مِجس',d:'جسّ درجة الحديث — تدريب نقد المتن',u:'../mijass/',t:'الشريعة'},
+ {ic:'📇',n:'مِرثد',d:'فهرس ألفاظ الحديث — كلمة تقود لكل أطرافها',u:'../mirthad/',t:'الشريعة'},
+ {ic:'🧠',n:'مُعلِّم',d:'اكتب موضوعاً يصنع لك درب تعلّم فوري',u:'../muallim/',t:'إدارة'},
+ {ic:'📖',n:'مِعنى',d:'رحلة المعنى عبر الكتب الستة — مواضعه وطرقه وأحكامه',u:'../mi3na/',t:'الحديث'},
+ {ic:'🌟',n:'مِصطفى',d:'مختارات الأسبوع — قطعة مختارة من كل باب',u:'../mustafa/',t:'إدارة'},
+ {ic:'⛲',n:'مِنهال',d:'نبع لا ينضب — مرّر آية وحديث ومسألة وذِكر',u:'../minhal/',t:'الشريعة'},
+ {ic:'🧵',n:'مِغزل',d:'غزلك اليومي: آية وتفسيرها وحديث ومسألة وذِكر',u:'../mighzal/',t:'الشريعة'},
+ {ic:'۩',n:'مِشهد',d:'أي آية: نصّها وتفسيرها من 6 تفاسير ونظائرها اللفظية',u:'../mishhad/',t:'الشريعة'},
+,
+ {ic:'🕳',n:'عِلل',d:'علل الحديث — الأحاديث المعلّة وأحكامها',u:'../hadith/ilal.html',t:'الحديث'},
+ {ic:'📖',n:'قصص مدرّجة',d:'Graded reader — قصص A2-B1 بجمل مسموعة وقاموس',u:'../english/story.html',t:'الإنجليزية'},
+ {ic:'🗺',n:'خريطة البرمجة',d:'شجرة إتقان البرمجة بحلقات تقدّم',u:'../prog/map.html',t:'البرمجة'},
+ {ic:'⚔',n:'مِختلف',d:'المسألة الواحدة عند المذاهب متجاورة',u:'../mukhtalif/',t:'الشريعة'},
+ {ic:'🏅',n:'مِجتاز',d:'أوسمتك — كل إنجازك في المنظومة يُجتاز',u:'../mijtaz/',t:'إدارة'},
+ {ic:'📅',n:'مِحضر',d:'حضورك عبر المنظومة — شبكة نشاط ٢٦ أسبوعاً',u:'../mihdar/',t:'إدارة'},
+ {ic:'🔐',n:'مِعمّى',d:'مفكرة مشفّرة AES-256 — لا تُفتح إلا برقمك',u:'../muamma/',t:'إدارة'},
+ {ic:'🛰',n:'مِشرف',d:'لوحة تحكم بياناتك — كل مفتاح بحجمه ومحتواه',u:'../mushrif/',t:'إدارة'},
+ {ic:'🪞',n:'مِشبه',d:'تدريب المتشابهات — اختر النص الحق من شواهده',u:'../mushbih/',t:'القرآن'},
+ {ic:'🧱',n:'مِعبّر',d:'اشرح المصطلح بأسلوبك — فينمان',u:'../mi3bar/',t:'الشريعة'},
+ {ic:'📐',n:'مِسطرة',d:'رتّب الآيات المخلوطة — إحكام السياق',u:'../mistr/',t:'القرآن'},
+ {ic:'▶',n:'مِشغل',d:'مشغّل السلاسل داخل المنظومة — يتذكر مقطعك',u:'../mishghal/',t:'إدارة'},
+ {ic:'🔍',n:'مِتحّق',d:'تحقيق الفهم — اكتب المعنى وقِس مفاتيح النص',u:'../mutahhaq/',t:'الشريعة'},
+ {ic:'🧭',n:'مُدرّب',d:'شخّص يومك وخذ خطتك',u:'../mudarrib/',t:'إدارة'},
+ {ic:'🕌',n:'مِرتقى',d:'خطب الجمعة — بناء خطبة كاملة',u:'../mirtaqa/',t:'الشريعة'},
+ {ic:'🏗',n:'مِنشأ',d:'هيكل الدروس — ابنِ مسودتك',u:'../minsha/',t:'إدارة'},
+ {ic:'🏰',n:'ديوان',d:'عرض المنظومة الكامل',u:'../diwan/',t:'إدارة'},
+ {ic:'🔮',n:'مُعلّم',d:'دليل الموضوع — خطتك الدراسية',u:'../muallim/',t:'إدارة'},
+ {ic:'🌄',n:'مِطلع',d:'حديثك اليومي + مراجعات الأمس المعلّقة',u:'../mitla3/',t:'الحديث'},
+ {ic:'🧬',n:'التخريج',d:'من خرّج الحديث وبأي حكم — الشامي والمحققون',u:'../hadith/takhrij.html',t:'الحديث'},
+ {ic:'🏋',n:'ممارسة يومية',d:'قمرة الإنجليزية اليومية — ٣ مهام',u:'../english/practice.html',t:'الإنجليزية'},
+ {ic:'📋',n:'روتين إنجليزي',d:'خطة الإنجليزية اليومية',u:'../english/routine.html',t:'الإنجليزية'},
+ {ic:'🎓',n:'امتحان البرمجة',d:'امتحان شهادة — ٢٠ سؤالاً بوقت',u:'../prog/exam.html',t:'البرمجة'},
+ {ic:'🌾',n:'مِحراث',d:'أعمالك غير المنتهية — حَثُّ ما بُذر',u:'../mihrath/',t:'إدارة'},
+ {ic:'🤝',n:'مِيثاق',d:'عهدك اليومي — الوفاء يُقاس من نشاطك',u:'../mithaq/',t:'إدارة'},
+ {ic:'🗂',n:'مِعتمد',d:'مصادرك النقية — فهرسك الموثوق القابل للتعديل',u:'../mi3tamad/',t:'إدارة'},
+ {ic:'🩹',n:'مِصحّح',d:'دفتر أخطائك — كلماتك المتعثّرة ومستواك',u:'../moseh/',t:'إدارة'},
+ {ic:'🪑',n:'مِحفل',d:'أجب أولاً ثم انظر موائد المذاهب',u:'../mihfil/',t:'الفقه'},
+ {ic:'⛺',n:'مِعسكر',d:'معسكر الثلاثين يوماً — مهام تُعلَّم تلقائياً',u:'../mi3skar/',t:'إدارة'},
+ {ic:'🌅',n:'فَجر',d:'افتتاح يومك — آية اليوم وحالك',u:'../fajr/',t:'إدارة'},
+ {ic:'🍇',n:'مِقطف',d:'نخب المشروع — الأكثر والأظرف إحصاءً',u:'../miqtaf/',t:'الحديث'},
+ {ic:'🤲',n:'مِشاور',d:'استشر النصوص — سؤالك يستقي آية وحديثاً ومسألة',u:'../mishawar/',t:'الشريعة'},
+ {ic:'🎓',n:'المحدّثون',d:'لوحة المحدثين — تشدّدهم وكتبهم',u:'../hadith/muhaddith.html',t:'الحديث'},
+ {ic:'🗣',n:'مفرداتي',d:'كلماتك الشخصية — بطاقات وكويز',u:'../english/vocab.html',t:'الإنجليزية'},
+ {ic:'🛠',n:'مشاريعي',d:'متتبع مشاريعك وأعمالك',u:'../prog/project.html',t:'البرمجة'},
+ {ic:'⚔',n:'مِصقَل',d:'أين يحتاجك اليوم — اصقل صدأ مواضعك',u:'../misqal/',t:'إدارة'},
+ {ic:'🥤',n:'مِشرب',d:'ميلك المذهبي — تقبل وترّد فينكشف مشربك',u:'../mishrab/',t:'الفقه'},
+ {ic:'🎙',n:'مُلحّن',d:'اكتب نصّك وسجّل صوتك — درس كاراوكي جاهز',u:'../mula7hin/',t:'إنتاج'},
+ {ic:'🧪',n:'مِعمل',d:'مختبر النصوص — تحليل وإحصاء وقراءة',u:'../mi3mal/',t:'اللغة'},
+ {ic:'🕌',n:'مِعتكف',d:'عكوف التعلم — عدّاد تركيز بآية',u:'../mi3tikaf/',t:'إدارة'},
+ {ic:'🌳',n:'أسماء الرجال',d:'شجرة الرواة — صحابي وتلاميذه',u:'../hadith/asma.html',t:'الحديث'},
+ {ic:'✒',n:'يوميات إنجليزية',d:'اكتب يومك بإنجليزية — تقييم ذاتي',u:'../english/journal.html',t:'الإنجليزية'},
+ {ic:'📋',n:'المرجع السريع',d:'cheat-sheets لكل مسار برمجي',u:'../prog/reference.html',t:'البرمجة'},
+ {ic:'📊',n:'مِعلم',d:'معالم مكتبتك — إحصاءات حية',u:'../mi3lam/',t:'معرفة'},
+ {ic:'🎙',n:'مِرتّل',d:'حلقة تحفيظ — إخفاء واختبار ترتيب',u:'../murattil/',t:'القرآن'},
+ {ic:'💪',n:'مِقتدِر',d:'خريطة قوتك بصدق',u:'../miqtadir/',t:'إدارة'},
+ {ic:'🔭',n:'مِكشاف',d:'كاشف الجسور بين الوحيين',u:'../mikshaf/',t:'معرفة'},
+ {ic:'📈',n:'مِجرى',d:'اتجاه تعلّمك لآخر ١٤ يومًا',u:'../mijra/',t:'إدارة'},
+ {ic:'📁',n:'مِجلد',d:'مجلداتك — نظّم سلاسلك وروابطك',u:'../mujallad/',t:'إدارة'},
+ {ic:'🎯',n:'مِرمى',d:'أهدافك بموعد — قياس تلقائي',u:'../mirmah/',t:'إدارة'},
+ {ic:'🗝',n:'مِفتَح',d:'مفتاحك — ٣ أسئلة لأسبوعك الأول',u:'../miftah/',t:'المنهج'},
+ {ic:'📝',n:'مِذكَر',d:'مُذكِّر قوائمك — إخفاء وتدريب',u:'../mizkar/',t:'الحفظ'},
+ {ic:'⚡',n:'مِنشَط',d:'مُنشِّطك — ماذا الآن؟',u:'../minshat/',t:'المنهج'},
+ {ic:'🕸',n:'مِشبَك',d:'شبكة المنظومة — انقر عقدة',u:'../mishbak/',t:'معرفة'},
+ {ic:'🧠',n:'مِحكَك',d:'حَكَّ معرفتك — سؤال عشوائي',u:'../mihkak/',t:'تقييم'},
+ {ic:'☀',n:'مِشمِل',d:'شمول يومك — آية وحديث وذِكر',u:'../mishmil/',t:'المنهج'},
+ {ic:'🌙',n:'مِختِم',d:'خاتمة يومك — تعلّم/أنجز/غدًا',u:'../mikhtim/',t:'إدارة'},
+ {ic:'⚖',n:'مِثنَى',d:'طابق الأزواج — حديث وآية وفقه',u:'../mithna/',t:'تقييم'},
+ {ic:'⏳',n:'مِزمَن',d:'زمَن المؤلَّفات على خط الزمن',u:'../mizman/',t:'معرفة'},
+ {ic:'📮',n:'مِعلَق',d:'علّق لنفسك — رسائل بموعد',u:'../mi3laq/',t:'إدارة'},
+ {ic:'🔍',n:'مِخصص',d:'محلل التفرّد',u:'../hadith/takhsis.html',t:'الحديث'},
+ {ic:'🗣',n:'التظليل',d:'اكتب من الذاكرة وقارن',u:'../english/shadowing.html',t:'الإنجليزية'},
+ {ic:'🪜',n:'سُلَّم البرمجة',d:'٦ مستويات لكل مسار',u:'../prog/levelup.html',t:'البرمجة'},
+ {ic:'📄',n:'مِسوَد',d:'مسوّدك — ٤ خانات وحفظ تلقائي',u:'../miswad/',t:'إدارة'},
+ {ic:'🃏',n:'مِقلَب',d:'بطاقات القلب — اقلب وافهم',u:'../miqlab/',t:'تقييم'},
+ {ic:'⚡',n:'مِقتَحَم',d:'٦٠ ثانية أسئلة — اقتحم',u:'../miqtaham/',t:'تقييم'},
+ {ic:'✨',n:'مِصطَفى',d:'مختاراتك — ٧ أدوات لكل صفة',u:'../mistafa/',t:'المنهج'},
+ {ic:'🔁',n:'مِعوَد',d:'مُعاوَدة المراجعة — جدولة SRS',u:'../mi3wad/',t:'الحفظ'},
+ {ic:'🚶',n:'مِجوَل',d:'جوال المكتبة — تنقّل لا نهائي',u:'../mijwal/',t:'استكشاف'},
+ {ic:'🎯',n:'مِقصَد',d:'مقاصد يومك — قياس تلقائي',u:'../miqsad/',t:'إدارة'},
+ {ic:'📦',n:'مِخزَن',d:'مخزنك — خزّن أي شيء',u:'../mikhzan/',t:'إدارة'},
+ {ic:'😰',n:'مِحرَج',d:'الامتحان المُحْرِج — ١٠ أسئلة',u:'../mihraj/',t:'تقييم'},
+ {ic:'🗂',n:'مِصرَف',d:'تصريف المخزون — مراجعة أسبوعية',u:'../misraf/',t:'إدارة'},
+ {ic:'🌳',n:'سِيَر',d:'خط زمني الرواة',u:'../hadith/siyar.html',t:'الحديث'},
+ {ic:'🔤',n:'التراكيب',d:'تراكيبك من جملك',u:'../english/collocations.html',t:'الإنجليزية'},
+ {ic:'⚗',n:'المُنشِئ',d:'بيئة تجربة برمجة',u:'../prog/playground.html',t:'البرمجة'},
+ {ic:'📿',n:'مِعتَد',d:'عدّادك — لمسي للأذكار',u:'../mi3tad/',t:'ذِكر'},
+ {ic:'💪',n:'مِعضَد',d:'عضدك بالدليل — أدلة لموضوعك',u:'../mi3dad/',t:'مِنبر'},
+ {ic:'🩹',n:'مِصلَح',d:'أصلِح يومك — وصفة واحدة',u:'../mislah/',t:'إدارة'},
+ {ic:'🕸',n:'مِهمَل',d:'مُهمَلاتك — منذ متى هجرت؟',u:'../mihmal/',t:'إدارة'},
+ {ic:'📈',n:'مِعدَل',d:'معدّل تعلّمك — سرعتك',u:'../mi3dal/',t:'إدارة'},
+ {ic:'🪶',n:'مِخفَف',d:'خفّف حِملك — بياناتك',u:'../mikhfaf/',t:'إدارة'},
+ {ic:'🔗',n:'مِسنَد',d:'سلسلة الإسناد — رواة الحديث',u:'../misnad/',t:'الحديث'},
+ {ic:'📜',n:'مُتدافِر',d:'اختلاف الرواية',u:'../hadith/mutadarib.html',t:'الحديث'},
+ {ic:'✍',n:'إملاء',d:'اكتب ما تسمع',u:'../english/dictation.html',t:'الإنجليزية'},
+ {ic:'🎡',n:'مِبخَت',d:'عَجَل الحظ — اختر لك',u:'../mibkhat/',t:'لعب'},
+ {ic:'📊',n:'مِجدَر',d:'قيّم يومك — من ١٠',u:'../mijdar/',t:'إدارة'},
+ {ic:'💎',n:'مِصلَب',d:'اليوم الصُّلب — ١٠ تحديات وشارة',u:'../mislab/',t:'تحدي'},
+ {ic:'📖',n:'مِشرَح',d:'شارح الآية — كلماتها وأدلتها',u:'../mishrah/',t:'تفسير'},
+ {ic:'🌅',n:'مِشمَر',d:'روتينك الصباحي',u:'../mishmar/',t:'إدارة'},
+ {ic:'🍇',n:'مِقطَف',d:'قطوف مكتبتك — أثمارها',u:'../miqtaf2/',t:'استكشاف'},
+ {ic:'🏆',n:'مِسقَف',d:'سقوفك — أرقامك القياسية',u:'../misqaf/',t:'تقييم'},
+ {ic:'📶',n:'مِدرَج',d:'درجتك — نقاط من كل نشاط',u:'../midraj/',t:'تقييم'},
+ {ic:'💭',n:'مِطرَح',d:'سؤالك العميق — تأمل يومي',u:'../mitrah/',t:'إدارة'},
+ {ic:'🤲',n:'مِعتَر',d:'محاسبة النفس — أدلة التوبة',u:'../mi3tar/',t:'ذِكر'},
+ {ic:'🩹',n:'مِجرَح',d:'شفاؤك — نصوص لجرحك',u:'../mijrah/',t:'ذِكر'},
+ {ic:'🪓',n:'مِجثَل',d:'قلع العادة — ٣٠ يوم انقطاع',u:'../mijthal/',t:'إدارة'},
+ {ic:'🐞',n:'المُنقِّح',d:'١٠ تحديات تنقيح حقيقية',u:'../prog/debugger.html',t:'البرمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

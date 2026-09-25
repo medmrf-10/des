@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مسبار — ملف الحديث الكامل</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<script src="pako.min.js"></script>
+<style>
+body{max-width:880px;margin:0 auto;padding:14px}
+.srch{display:flex;gap:8px;flex-wrap:wrap}
+.srch input{flex:1;min-width:220px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:11px 14px;font-family:var(--font-ar);font-size:15px}
+.srch select{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:10px;font-family:var(--font-ar)}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin:12px 0}
+.sec h3{font-family:var(--font-ar);font-size:15px;color:var(--acc2);margin:0 0 8px}
+.matn{font-family:var(--font-ar);font-size:19px;line-height:2.2}
+.bdg{display:inline-block;border-radius:99px;padding:2px 12px;font-size:12px;font-weight:700;margin-left:6px}
+.bdg.s{background:rgba(46,160,80,.15);color:#5fbf77;border:1px solid rgba(46,160,80,.3)}
+.bdg.d{background:rgba(200,60,60,.13);color:#e07070;border:1px solid rgba(200,60,60,.3)}
+.bdg.h{background:rgba(220,160,40,.13);color:#d9a545;border:1px solid rgba(220,160,40,.3)}
+.sanad{font-family:var(--font-ar);font-size:13.5px;color:var(--dim);line-height:2;border-bottom:1px dashed var(--border);padding:7px 0}
+.sanad:last-child{border:0}
+.rel{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:4px 11px;margin:3px;font-size:12px;cursor:pointer}
+.rel:hover{border-color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+.chip{background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:5px 12px;margin:3px;display:inline-block;font-family:var(--font-ar);font-size:13px}
+mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>div{flex:1;min-width:200px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:4px 0">مسبار <span class="muted" style="font-weight:400;font-size:12px">— كل ما نعرفه عن حديث واحد</span></h2>
+<div class="muted">الصق نص الحديث (أو جزءاً منه) أو اختر كتاباً ورقماً — يجمع الملف: المتن والأسانيد والأحكام والرواة والموضوع والمعاني المرادفة.</div>
+<div class="srch" style="margin-top:10px">
+ <input id="q" placeholder="نص الحديث…">
+ <select id="bk"><option value="">الكتاب…</option></select>
+ <input id="num" placeholder="رقم" style="width:90px;flex:0" inputmode="numeric">
+ <button class="btn" id="go" style="background:var(--acc);color:#14140f;border:0;border-radius:10px;padding:10px 18px;font-weight:700">افحص</button>
+</div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BKN={bukhari:'البخاري',muslim:'مسلم',tirmidhi:'الترمذي','abi-dawud':'أبو داود',nasai:'النسائي','ibn-majah':'ابن ماجه'};
+$('bk').innerHTML+=BOOKS.map(b=>`<option value="${b}">${BKN[b]}</option>`).join('');
+const cache={};
+async function det(b){
+ if(cache[b])return cache[b];
+ const r=await fetch(`${b}-det.json.gz`);
+ const buf=await r.arrayBuffer();
+ const j=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+ return cache[b]=j}
+function grams(t){const w=norm(t).split(/\s+/).filter(x=>x.length>1);const g=[];
+ for(let i=0;i<w.length-2;i++)g.push(w.slice(i,i+3).join(' '));return g}
+function vcls(h){h=h||'';if(/صح/.test(h))return's';if(/ضعف|منكر|موضوع|واهن/.test(h))return'd';return'h'}
+async function byNum(b,n){
+ const D=await det(b);const out={book:b,num:n};
+ if(D.d&&D.d[n]){out.m=D.d[n].m;out.gid=D.d[n].g}
+ if(D.s&&D.s[n]){out.v=D.s[n][0];out.sanads=D.s[n].slice(1)||[]}
+ if(out.gid&&D.g&&D.g[out.gid])out.grp=D.g[out.gid];
+ return out}
+async function byText(t){
+ const gs=new Set(grams(t));if(!gs.size)return null;
+ let best=null;
+ for(const b of BOOKS){
+  const D=await det(b);if(!D.d)continue;
+  for(const n in D.d){const m=norm(D.d[n].m||'');let sc=0;
+   for(const g of gs)if(m.includes(g))sc++;
+   if(best===null||sc>best.sc){best={sc,book:b,num:n}}}
+ }
+ if(best&&best.sc>=Math.max(3,gs.size*0.35))return byNum(best.book,+best.num);
+ return null}
+function render(o){
+ if(!o){$('out').innerHTML='<div class="sec muted">لم يُعثر عليه — جرّب نصاً أطول أو كتاباً آخر</div>';return}
+ let h=`<div class="sec"><div class="muted">${BKN[o.book]} · حديث ${o.num}${o.gid?' · معنى '+o.gid:''}</div>
+ <div class="matn">${esc(o.m||'(لا متن)')}</div>
+ ${o.v?`<span class="bdg ${vcls(o.v)}">${esc(o.v)}</span>`:''}
+ ${o.grp&&o.grp.h?`<span class="bdg ${vcls(o.grp.h)}">الحكم الموحد: ${esc(o.grp.h)}</span>`:''}</div>`;
+ if(o.sanads&&o.sanads.length)h+=`<div class="sec"><h3>الأسانيد (${o.sanads.length.toLocaleString('ar-EG')})</h3>${o.sanads.map(s=>`<div class="sanad">${esc(s)}</div>`).join('')}</div>`;
+ if(o.grp){const g=o.grp;
+  h+=`<div class="sec"><h3>مجموعة المعنى</h3><div class="row">
+  <div>الطرف: <b>${esc(g.t||'—')}</b></div><div>الصحابة: <b>${(g.s||0).toLocaleString('ar-EG')}</b></div><div>التكرار: <b>${(g.r||0).toLocaleString('ar-EG')}</b></div></div>`;
+  if(g.x){const occ=Object.entries(g.x).map(([b2,nn])=>`<a class="chip" href="matn.html#${b2}/${nn}">${BKN[b2]||b2} ${nn}</a>`).join('');
+   h+=`<div style="margin-top:8px"><div class="muted">المواضع في الكتب:</div>${occ}</div>`}
+  if(g.hs)h+=`<div class="muted" style="margin-top:6px">مواضع هذا الكتاب: ${(g.hs||[]).join('، ')}</div>`;
+  h+='</div>'}
+ h+=`<div class="sec muted">افتح في: <a href="net.html">شبكة الأسانيد</a> · <a href="matn.html">المتون</a> · <a href="tathabbut.html">التثبت</a> · <a href="rawi.html">الرواة</a></div>`;
+ $('out').innerHTML=h}
+$('go').onclick=async()=>{
+ $('out').innerHTML='<div class="sec muted">يفحص…</div>';
+ const n=$('num').value.trim(),b=$('bk').value,q=$('q').value.trim();
+ try{
+  if(b&&n)render(await byNum(b,+n));
+  else if(q)render(await byText(q));
+  else $('out').innerHTML='<div class="sec muted">أدخل نصاً أو اختر كتاباً ورقماً</div>'}
+ catch(e){$('out').innerHTML='<div class="sec muted">خطأ: '+esc(e.message)+'</div>'}};
+$('q').addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()});
+const um=new URLSearchParams(location.search);
+if(um.get('b')&&um.get('n')){$('bk').value=um.get('b');$('num').value=um.get('n');$('go').click()}
+</script>
+<script src="../shared/feedback.js" data-pid="misbar" data-title="مسبار"></script>
+</body>
+</html>

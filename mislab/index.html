@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِصلَب — اليوم الصُّلب</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.ch{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-top:7px}
+.ch .cb{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;cursor:pointer;transition:all .15s}
+.ch.done .cb{background:var(--acc);border-color:var(--acc)}
+.ch .nm{font-family:var(--font-ar);font-size:13px;flex:1}
+.ch.done .nm{text-decoration:line-through;color:var(--dim)}
+.ch .u{font-size:10.5px;color:var(--acc)}
+.badge{text-align:center;padding:22px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#14140f;font-family:var(--font-ar);font-size:19px;font-weight:700;margin-top:16px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِصلَب <span class="muted">— اليوم الصُّلب</span></h2>
+<div class="muted">١٠ تحديات حقيقية من كل أدواتك — أنجزها كلها في يوم واحد لشارة «اليوم الصُّلب».</div>
+<div style="margin-top:9px"><span class="stat">أنجزت: <b id="dn">٠</b>/١٠</span><span class="stat">شاراتك: <b id="bg">٠</b></span></div>
+<div class="card"><div class="t">تحدياتك اليوم</div><div id="list"></div></div>
+<div id="badge"></div>
+<div style="margin-top:12px;text-align:center"><button class="btn ghost" id="reset">يوم جديد</button></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+const CH=[
+ {n:'حديث مِطلع',u:'../mitla3/',k:'mitla3'},
+ {n:'صفحة مِجلس',u:'../majlis/',k:'majlis'},
+ {n:'ورد مِصباح',u:'../misbah/',k:'misbah'},
+ {n:'١٥ دقيقة مِعتكف',u:'../mi3tikaf/',k:'mi3tikaf'},
+ {n:'٣ مراجعات مِعوَد',u:'../mi3wad/',k:'mi3wad'},
+ {n:'مسوّدة مِسوَد',u:'../miswad/',k:'miswad'},
+ {n:'جولة مِقتَحَم',u:'../miqtaham/',k:'miqtaham'},
+ {n:'درس إنجليزية',u:'../english/',k:'en'},
+ {n:'درس برمجة',u:'../prog/',k:'prog'},
+ {n:'مسألة مِحفل',u:'../mihfil/',k:'mihfil'},
+];
+const DONE={
+ mitla3:()=>(LS('mitla3',{}).days||{})[today()]?.done,
+ majlis:()=>{const m=LS('majlis',{});return Object.values(m).flat().length>0},
+ misbah:()=>(LS('misbah_'+today(),{}).n||0)>=1,
+ mi3tikaf:()=>(LS('mi3tikaf',{})[today()]||0)>=900,
+ mi3wad:()=>(LS('mi3wad_done',{})[today()]||0)>=3,
+ miswad:()=>(LS('miswad',{}).hist||[]).some(h=>h.at.slice(0,10)===today()),
+ miqtaham:()=>LS('miqtaham',{}).n>0,
+ en:()=>Object.keys(LS('en_listen',{})).length>0,
+ prog:()=>Object.keys(LS('prog_v1',{})).length>0,
+ mihfil:()=>LS('mihfil',{}).n>0,
+};
+let S=LS('mislab',{date:today(),done:{},badges:[]});
+if(S.date!==today()){S.done={};S.date=today();SV('mislab',S)}
+function render(){
+ let dn=0;
+ $('#list').innerHTML=CH.map(c=>{
+  const done=!!(S.done[c.k]||DONE[c.k]());
+  if(done)dn++;
+  return '<div class="ch'+(done?' done':'')+'"><div class="cb" data-k="'+c.k+'"></div><span class="nm">'+c.n+'</span><a href="'+c.u+'" class="u" style="text-decoration:none">افتح ←</a></div>';
+ }).join('');
+ $('#dn').textContent=arN(dn);
+ $('#bg').textContent=arN(S.badges.length);
+ $('#badge').innerHTML=dn>=10?'<div class="badge">🏅 يومُك صُلب — بارك الله فيك</div>':'';
+ if(dn>=10&&!S.badges.includes(today())){S.badges.push(today());SV('mislab',S)}
+}
+$('#list').onclick=e=>{
+ const cb=e.target.closest('.cb');if(!cb)return;
+ const k=cb.dataset.k;
+ S.done[k]=!S.done[k];SV('mislab',S);render();
+};
+$('#reset').onclick=()=>{
+ if(confirm('يوم جديد — تصفير تحديات اليوم؟')){S={date:today(),done:{},badges:S.badges};SV('mislab',S);render()}
+};
+setInterval(render,5000);render();
+</script>
+<script src="../shared/feedback.js" data-pid="mislab" data-title="مِصلَب"></script>
+</body>
+</html>

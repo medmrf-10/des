@@ -158,6 +158,68 @@ td.ltr{direction:ltr; text-align:left}
   padding:8px 14px;
 }
 .ttsbanner.hidden{display:none}
+/* ----- وضع ShortForm ----- */
+body.shortmode{overflow:hidden}
+.feed{overflow-y:scroll; scroll-snap-type:y mandatory; scroll-behavior:smooth}
+.fcard{
+  scroll-snap-align:start; scroll-snap-stop:always; height:100%;
+  display:flex; flex-direction:column; gap:10px; padding:12px 16px 58px; overflow-y:auto;
+}
+.fc-top{display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted)}
+.fc-idx{background:var(--navy-3); border:1px solid var(--gold-dim); border-radius:999px; padding:3px 12px; color:var(--gold-soft)}
+.fc-title{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%}
+.fc-lines{flex:1; overflow-y:auto; padding-inline-end:4px}
+.fc-line{font-size:16px; color:var(--ink); margin-top:10px}
+.fc-words{display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 8px}
+.fc-train{width:100%; margin-top:auto; padding:12px; font-size:15px}
+.fprog{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,.07); z-index:45}
+#fprogbar{height:100%; width:0; background:var(--gold); transition:width .3s}
+.fcounter{
+  position:fixed; bottom:14px; inset-inline-start:14px; z-index:45;
+  background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
+  border-radius:999px; padding:6px 16px; font-size:12px;
+}
+.farrows{position:fixed; bottom:14px; inset-inline-end:14px; display:flex; flex-direction:column; gap:8px; z-index:45}
+.farrows button{
+  width:44px; height:44px; border-radius:50%; cursor:pointer;
+  background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft); font-size:16px;
+}
+.farrows button:hover{background:var(--gold-dim); color:#0a1128}
+@media (max-width:480px){
+  .topbar{padding:10px 12px}
+  .topbar h1{font-size:15px}
+  .tagline{display:none}
+  .nav a{font-size:12px; padding:6px 9px}
+  .fcard{padding:8px 10px 64px; gap:8px}
+  .fc-line{font-size:15px}
+  .fc-words .w{font-size:12px; padding:2px 8px}
+}
+/* ----- روتين اليوم ----- */
+.rstreak{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:4px 14px;font-size:13px}
+.rphase{color:var(--muted);font-size:13px}
+.rsteps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:right}
+.rstep{background:var(--navy-2);border:1px solid var(--gold-dim);border-radius:12px;padding:12px 14px}
+.rstep b{display:block;color:var(--gold-soft);margin-bottom:4px}
+.rstep span{color:var(--muted);font-size:12px}
+.rstep.rdone{border-color:var(--ok)}
+.rstep.rdone b{color:var(--ok)}
+.rlnks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.rlnks a{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:6px 14px;font-size:12px;text-decoration:none}
+.rlnks a:hover{background:var(--gold-dim);color:#0a1128}
+.rstats{display:flex;gap:14px;justify-content:center;margin:14px 0}
+.rstat{background:var(--navy-2);border:1px solid var(--gold-dim);border-radius:14px;padding:16px 26px;min-width:90px}
+.rstat b{display:block;color:var(--gold);font-size:28px}
+.rstat span{color:var(--muted);font-size:12px}
+@media (max-width:480px){ .rsteps{grid-template-columns:1fr} }
+/* ----- المكتبة ----- */
+.lsec{color:var(--gold-soft);margin:22px 0 10px;font-size:16px}
+.lbar{position:relative;height:8px;border-radius:99px;background:var(--navy-3);overflow:hidden;margin:10px 0 6px}
+.lbar-ex{position:absolute;inset-inline-start:0;top:0;bottom:0;background:var(--gold-dim)}
+.lbar-ms{position:absolute;inset-inline-start:0;top:0;bottom:0;background:var(--ok)}
+.lmeta{display:flex;gap:8px;font-size:11px}
+.ltag{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:3px 10px}
+.ltag.ms{border-color:var(--ok);color:var(--ok)}
+.ltag i{color:var(--muted);font-style:normal;font-size:11px}
 .spk{
   cursor:pointer; background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
   border-radius:8px; padding:3px 8px; font-size:14px; flex-shrink:0;

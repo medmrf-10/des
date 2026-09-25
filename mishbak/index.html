@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشبَك — شبكة المنظومة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:780px;margin:0 auto;padding:14px}
+.muted{color:var(--dim);font-size:12px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:10px;font-size:11.5px}
+.legend span:before{content:'●';margin-left:4px}
+#net{width:100%;height:560px;border:1px solid var(--border);border-radius:14px;background:var(--card);margin-top:12px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:12px 16px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13px;color:var(--acc);margin-bottom:6px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشبَك <span class="muted">— شبكة المنظومة</span></h2>
+<div class="muted">كل أداة عقدة، كل سهم «يغذّي» — انقر عقدة لفتحها.</div>
+<div class="legend">
+<span style="color:#d4af37">القرآن</span><span style="color:#7ec8d8">الحديث</span><span style="color:#9b8cff">الفقه</span><span style="color:#e0a35c">اللغة</span><span style="color:#7ce0a3">مهارات</span><span style="color:#e07c9b">إدارة</span></div>
+<canvas id="net"></canvas>
+<div class="card"><div class="t">كيف تُقرأ الشبكة</div>
+<div class="muted">سهم A→B يعني بيانات A تغذي B (مِصباح→مِنار = وردك يملأ أسبوعك). العقد الأكبر = أكثر الأدوات ربطًا.</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NODES=[
+ // [id,name,url,group]
+ ['misbah','مِصباح','../misbah/',5],['minar','مِنار','../minar/',5],['midad','مِداد','../midad/',5],['mijtaz','مِجتاز','../mijtaz/',5],
+ ['mutabi3','مُتتبع','../mutabi3/',5],['mizan','مِيزان','../mizan/',5],['mijra','مِجرى','../mijra/',5],['moseh','مُسه','../moseh/',5],
+ ['mi3skar','مِعسكر','../mi3skar/',5],['mithaq','مِثاق','../mithaq/',5],['mihrath','مِحراث','../mihrath/',5],['muqtatif','مُقتطف','../muqtatif/',5],
+ ['mishghal','مِشغل','../mishghal/',0],['majlis','مِجلس','../majlis/',0],['mishhad','مِشهد','../mishhad/',0],['mutashabih','مُتشابه','../mutashabih/',0],
+ ['murattil','مِرتّل','../murattil/',0],['mizkar','مِذكَر','../mizkar/',0],['mihrabi','مِحراب','../mihrab/',0],
+ ['mitla3','مِطلع','../mitla3/',1],['mustamli','مِستملي','../mustamli/',1],['mihfil','مِحفل','../mihfil/',2],['miqtaf','مِقتطف','../miqtaf/',1],
+ ['mikshaf','مِكشاف','../mikshaf/',1],['miqtadir','مِقتدِر','../miqtadir/',5],['mujallad','مِجلد','../mujallad/',5],
+ ['mishrab','مِشرَب','../mishrab/',2],['mushbih','مِشبه','../mushbih/',2],['masail','المسائل','../fiqh_reader/masail.html',2],
+ ['mistr','مِسطرة','../mistr/',3],['mi3mal','مِعمل','../mi3mal/',3],['mi3bar','مِعبَر','../mi3bar/',4],
+ ['miftah','مِفتَح','../miftah/',4],['minshat','مِنشَط','../minshat/',4],['mi3tikaf','مِعتكف','../mi3tikaf/',4],
+ ['english','الإنجليزية','../english/',4],['prog','البرمجة','../prog/',4],['fajr','فجر','../fajr/',4],
+];
+const EDGES=[
+ ['misbah','minar'],['misbah','mizan'],['midad','mizan'],['midad','mijra'],['mutabi3','mizan'],['mutabi3','mijra'],
+ ['mijtaz','mi3bar'],['mishghal','mi3bar'],['mishghal','mujallad'],['mishghal','minar'],['mishghal','muqtatif'],
+ ['majlis','mizan'],['majlis','miqtadir'],['mitla3','mijra'],['mitla3','miqtadir'],['mustamli','moseh'],['mustamli','miqtadir'],
+ ['mihfil','miqtadir'],['mihfil','mishrab'],['mushbih','miqtadir'],['mistr','moseh'],['mistr','miqtadir'],
+ ['mikshaf','mutashabih'],['mikshaf','mitla3'],['mizkar','mithaq'],['murattil','miqtadir'],['murattil','mijtaz'],
+ ['mi3mal','moseh'],['mi3tikaf','mizan'],['mi3tikaf','mijra'],['minshat','mithaq'],['miftah','mi3skar'],
+ ['fajr','minar'],['fajr','misbah'],['mihrabi','mizan'],['mihrath','mithaq'],['mihrath','muqtatif'],
+];
+const GC=['#d4af37','#7ec8d8','#9b8cff','#e0a35c','#7ce0a3','#e07c9b'];
+const cv=$('#net'),cx=cv.getContext('2d');
+function fit(){cv.width=cv.clientWidth*2;cv.height=cv.clientHeight*2;cx.scale(2,2)}
+fit();
+const W=()=>cv.clientWidth,H=()=>cv.clientHeight;
+// تموضع دائري بثلاث حلقات
+const rings=[0,0.33,0.62,0.88];
+const pos={};
+const byGroup={};NODES.forEach(n=>{(byGroup[n[3]]=byGroup[n[3]]||[]).push(n)});
+Object.entries(byGroup).forEach(([g,ns])=>{
+ const r=rings[g%4];
+ const base=(g/6)*Math.PI*2;
+ ns.forEach((n,i)=>{
+  const a=base+i/ns.length*Math.PI*2;
+  pos[n[0]]={x:Math.cos(a)*r*0.42+0.5,y:Math.sin(a)*r*0.42+0.5};
+ });
+});
+// حجم العقدة حسب درجة الربط
+const deg={};NODES.forEach(n=>deg[n[0]]=0);
+EDGES.forEach(([a,b])=>{deg[a]++;deg[b]++});
+function draw(){
+ cx.clearRect(0,0,W(),H());
+ const w=W(),h=H();
+ // أسهم
+ EDGES.forEach(([a,b])=>{
+  const p1=pos[a],p2=pos[b];if(!p1||!p2)return;
+  const x1=p1.x*w,y1=p1.y*h,x2=p2.x*w,y2=p2.y*h;
+  cx.strokeStyle='rgba(126,140,164,.25)';cx.lineWidth=1;
+  cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x2,y2);cx.stroke();
+  // رأس السهم
+  const ang=Math.atan2(y2-y1,x2-x1);
+  const hx=x2-Math.cos(ang)*11,hy=y2-Math.sin(ang)*11;
+  cx.fillStyle='rgba(126,140,164,.4)';
+  cx.beginPath();cx.moveTo(hx+Math.cos(ang)*6,hy+Math.sin(ang)*6);
+  cx.lineTo(hx+Math.cos(ang+2.5)*5,hy+Math.sin(ang+2.5)*5);
+  cx.lineTo(hx+Math.cos(ang-2.5)*5,hy+Math.sin(ang-2.5)*5);cx.fill();
+ });
+ // عقد
+ NODES.forEach(([id,nm,u,g])=>{
+  const p=pos[id];const x=p.x*w,y=p.y*h;
+  const r=Math.min(15,7+deg[id]*0.9);
+  cx.fillStyle=GC[g];cx.globalAlpha=.92;
+  cx.beginPath();cx.arc(x,y,r,0,7);cx.fill();
+  cx.globalAlpha=1;cx.fillStyle='#e6e1d5';
+  cx.font='10px sans-serif';cx.textAlign='center';
+  cx.fillText(nm,x,y-r-4);
+ });
+}
+draw();
+let links=[];
+cv.onclick=e=>{
+ const r=cv.getBoundingClientRect();
+ const mx=(e.clientX-r.left),my=(e.clientY-r.top);
+ for(const [id,nm,u,g] of NODES){
+  const p=pos[id];const x=p.x*cv.clientWidth,y=p.y*cv.clientHeight;
+  if(Math.hypot(mx-x,my-y)<16){location.href=u;return}
+ }
+};
+window.onresize=()=>{cv.width=cv.clientWidth*2;cv.height=cv.clientHeight*2;cx.setTransform(1,0,0,1,0,0);cx.scale(2,2);draw()};
+</script>
+<script src="../shared/feedback.js" data-pid="mishbak" data-title="مِشبَك"></script>
+</body>
+</html>

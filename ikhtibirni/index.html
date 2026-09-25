@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>اختبرني — أسئلة من مكتبتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.modes{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.mode{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:10px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13px}
+.mode.on{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.q{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px;margin:12px 0}
+.q .qt{font-size:15px;line-height:2;margin-bottom:12px}
+.opt{display:block;width:100%;text-align:right;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px 12px;margin:6px 0;cursor:pointer;font-family:inherit;font-size:13.5px;line-height:1.8}
+.opt:hover{border-color:var(--acc)}
+.opt.ok{border-color:var(--ok);background:rgba(61,214,140,.12)}
+.opt.bad{border-color:#e33;background:rgba(230,60,60,.1)}
+.opt.dim{opacity:.5}
+.score{display:flex;gap:10px;flex-wrap:wrap;color:var(--dim);font-size:13px;margin:8px 0}
+.score b{color:var(--acc)}
+button.next{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#14131f;font-weight:700;border-radius:10px;padding:10px 18px;cursor:pointer;font-family:inherit;font-size:13px;margin-top:10px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">اختبرني</h1>
+<div class="muted">أسئلة اختيارية مولّدة من مكتبتك الحقيقية — لا تنتهي الأسئلة</div>
+<div class="modes" id="modes"></div>
+<div class="score"><span>صحيح: <b id="ok">0</b></span><span>خطأ: <b id="bad">0</b></span><span>سلسلة: <b id="streak">0</b></span><span>أفضل: <b id="best">0</b></span></div>
+<div id="q"></div>
+<script src="../wahy/mutashabih.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script src="../hadith/adhkar.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script>
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
+const rnd=n=>Math.floor(Math.random()*n);
+const G={ok:0,bad:0,streak:0,best:0};
+const MODES={
+ 'النظائر القرآنية':()=>{
+  const ks=Object.keys(MUTA.sim).filter(k=>MUTA.sim[k][3]&&MUTA.sim[k][3].length>2);
+  const k=ks[rnd(ks.length)];const[s,a,t,sims]=MUTA.sim[k];
+  const right=sims[0][0];const wrongs=shuf(Object.keys(MUTA.sim).filter(x=>x!==k&&x!==right)).slice(0,3);
+  const opts=shuf([right,...wrongs]);
+  return{q:`ما أشبه آية لقوله تعالى:<br><b style="color:var(--acc2)">${esc(t)}</b><br><small style="color:var(--dim)">${MUTA.names[s]||''} ${s}:${a}</small>`,
+   opts:opts.map(k2=>{const v=MUTA.sim[k2];return{t:`${MUTA.names[v[0]]||''} ${v[0]}:${v[1]}`,ok:k2===right}}),
+   why:`النظير: ${esc(MUTA.sim[right][2].slice(0,90))}…`}},
+ 'الأربعون النووية':()=>{
+  const h=NAWAWI[rnd(NAWAWI.length)];
+  const wrongs=shuf(NAWAWI.filter(x=>x.an!==h.an)).slice(0,3);
+  const opts=shuf([h,...wrongs]);
+  return{q:`أكمل الحديث: «${esc(h.t.split(' ').slice(0,6).join(' '))} …»`,
+   opts:opts.map(x=>({t:x.t.split(' ').slice(0,4).join(' ')+' … — حديث '+x.an,ok:x.an===h.an})),
+   why:`الحديث ${h.an} من الأربعين النووية`}},
+ 'حكم الحديث':()=>{
+  const x=ADHKAR[rnd(ADHKAR.length)];
+  const right=x.h||'—';
+  const pool=['صحيح','حسن','ضعيف','موضوع'].filter(v=>v!==right);
+  const opts=shuf([right,...shuf(pool).slice(0,3)]);
+  return{q:`ما حكم المعنى:<br><b style="color:var(--acc2)">${esc(x.t)}</b>`,
+   opts:opts.map(v=>({t:v,ok:v===right})),
+   why:`رواه ${arN(x.s)} من الصحابة · تكرار ${arN(x.r)}`}},
+ 'ذرات العقيدة':()=>{
+  const codes=Object.keys(ATOMS);const code=codes[rnd(codes.length)];
+  const ks=Object.keys(ATOMS[code].atoms);const k=ks[rnd(ks.length)];
+  const a=ATOMS[code].atoms[k];
+  const others=shuf(ks.filter(x=>x!==k)).slice(0,3).map(x=>ATOMS[code].atoms[x].t);
+  const opts=shuf([a.t,...others]);
+  return{q:`في «${esc(ATOMS[code].name)}» — أي مصطلح نصه:<br><b style="color:var(--acc2)">${esc(a.q)}</b>`,
+   opts:opts.map(t=>({t,ok:t===a.t})),
+   why:`الذرة ${k} في ${esc(ATOMS[code].name)}`}}};
+const arN=n=>(+n).toLocaleString('ar-EG');
+let mode=Object.keys(MODES)[0],cur=null,answered=false;
+const modesEl=document.getElementById('modes');
+modesEl.innerHTML=Object.keys(MODES).map(m=>`<button class="mode ${m===mode?'on':''}" data-m="${m}">${m}</button>`).join('');
+modesEl.onclick=e=>{const b=e.target.closest('.mode');if(!b)return;mode=b.dataset.m;
+ modesEl.querySelectorAll('.mode').forEach(x=>x.classList.toggle('on',x===b));next()};
+function next(){
+ cur=MODES[mode]();answered=false;
+ document.getElementById('q').innerHTML=`<div class="q"><div class="qt">${cur.q}</div>${cur.opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o.t)}</button>`).join('')}<div id="why"></div><button class="next" style="display:none" onclick="next()">التالي ←</button></div>`;
+ document.querySelectorAll('.opt').forEach(el=>el.onclick=()=>{
+  if(answered)return;answered=true;
+  const i=+el.dataset.i,o=cur.opts[i];
+  if(o.ok){G.ok++;G.streak++;G.best=Math.max(G.best,G.streak);el.classList.add('ok')}
+  else{G.bad++;G.streak=0;el.classList.add('bad');
+   document.querySelectorAll('.opt').forEach((x,j)=>{if(cur.opts[j].ok)x.classList.add('ok');else x.classList.add('dim')})}
+  ['ok','bad','streak','best'].forEach(k=>document.getElementById(k).textContent=G[k]);
+  document.getElementById('why').innerHTML=`<div class="muted" style="margin-top:10px">${cur.why}</div>`;
+  document.querySelector('.next').style.display=''})}
+next();
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

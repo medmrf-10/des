@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>منهاج — فلسفة التعلم ومكان تنفيذها</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:820px;margin:0 auto;padding:20px 14px}
+h1{font-family:var(--font-ar);font-size:26px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+.sub{color:var(--dim);font-size:13px;line-height:2}
+.prin{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:12px 0}
+.prin .p{font-family:var(--font-ar);font-size:17px;color:var(--acc2);line-height:1.9}
+.prin .w{font-size:12.5px;color:var(--dim);margin-top:6px;line-height:1.9}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tl{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--border);border-radius:99px;padding:5px 13px;font-size:12px;color:var(--txt);text-decoration:none;transition:.15s}
+.tl:hover{border-color:var(--acc);color:var(--acc2)}
+.tl b{color:var(--acc2)}
+.dom{font-family:var(--font-ar);font-size:19px;color:var(--acc2);margin:26px 0 4px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<h1>منهاج</h1>
+<p class="sub">فلسفة التعلم التي بُنيت عليها المنظومة — كل مبدأ وأين يعمل في المشاريع. ليس موقعاً للاستعمال بقدر ما هو خريطة «لماذا»: اقرأ المبدأ ثم افتح أداته.</p>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const M=[
+{d:'التعلم — كيف أتعلم',items:[
+ {p:'السؤال قبل الدرس — ابدأ بما تحتاجه لا بما يُعرض عليك',w:'المعلم يستقبل سؤالك فيبحث القرآن والحديث والعقيدة و60 ألف مقطع، ويجيب بالمصدر لا بالرأي',t:[['المعلم','../manzuma/'],['مسائل','../fiqh_reader/masail.html'],['معجم','../mu3jam/']]},
+ {p:'التكرار المتباعد يصنع الحفظ لا الإعادة المتتالية',w:'بطاقات مراجعة بجدولة FSRS: المقروء يعود في موعده المحسوب',t:[['مقرأة','../miqraa/'],['بطاقات','../manzuma/'],['اختبرني','../ikhtibirni/']]},
+ {p:'المتشابه عدو الحافظ — اكشفه صراحة',w:'كل آية تحفظها تنبّهك بما يشبهها من 1,505 متشابهة',t:[['مقرأة','../miqraa/'],['متشابه','../wahy/mutashabih.html'],['وحي','../wahy/']]},
+ {p:'خريطة المنهج تسبق الطريق — تعرف أين أنت في الرحلة',w:'952 سلسلة مرتبة شيخاً ونوعاً ومستوى، تتلوّن بما أنجزت',t:[['خريطة','../kharita/'],['التراث','../durus/'],['إقرأ','../iqraa/']]}]},
+{d:'الإنتاج — دروسي بصوتي',items:[
+ {p:'الأستاذ الحقيقي يعلّم لا يستهلك — أنتج درسك',w:'من النص إلى التسجيل إلى الدرس الكاراوكي المنشور: مسار إنتاج كامل',t:[['معدّ','../mu3edd/'],['مسرود','../masrood/'],['ملمّع','../mulammi3/'],['لايف','../live/']]},
+ {p:'النص المكتوب قبل الصوت — التلقاء يضعف المادة',w:'مسودات تحفظ تلقائياً وتنتظر دورها في المنصة',t:[['معدّ','../mu3edd/'],['مكتبتي','../maktabati/']]}]},
+{d:'الشريعة — مصادر صافية',items:[
+ {p:'لا تفسير بلا مصدر نقي — بلا OCR وبلا PDF مشوّه',w:'105 تفاسير رقمية نقية بمقارنة نصية ومتشابه لفظي',t:[['وحي','../wahy/'],['مقارن','../wahy/muqaran_tafsir.html'],['متشابه','../wahy/mutashabih.html']]},
+ {p:'الحديث بسنده ومتنه وحكمه — لا نصوص مقطوعة',w:'425 كتاباً + شبكة معاني صالح الشامي + أسانيد ورواة وأحكام',t:[['الحديث','../hadith/'],['سند','../hadith/sanad.html'],['راوي','../hadith/rawi.html'],['تثبّت','../hadith/tathabbut.html'],['موضوعات','../hadith/topic.html']]},
+ {p:'العقيدة من كتبها لا من الملخصات',w:'76 نصاً عقدياً وصوفياً بترميز أصلي ومصادر موثقة',t:[['عقيدة','../akida/'],['مصادر','../akida/masadir.html'],['شبكة','../shabaka/'],['مدرستي','../madrasati/']]}]},
+{d:'النفس — عبادة وعادة',items:[
+ {p:'يومك يُبنى لا يُقاس — زاد صغير كل يوم',w:'ورد يومي مولّد من الكوربس: آية + حديث + مفهوم + مهمة',t:[['زاد','../zad/'],['أذكار','../hadith/adhkar.html'],['منبر','../minbar/']]},
+ {p:'ما لا يُقاس لا يُدار — تقدمك في مكان واحد',w:'بطاقاتك ومسوداتك ومواضع قراءتك تحت سقف واحد',t:[['مكتبتي','../maktabati/'],['البوابة','../portal/']]}]}];
+$('#list').innerHTML=M.map(d=>`<div class="dom">${esc(d.d)}</div>`+d.items.map(i=>`
+ <div class="prin"><div class="p">${esc(i.p)}</div><div class="w">${esc(i.w)}</div>
+ <div class="tools">${i.t.map(t=>`<a class="tl" href="${t[1]}"><b>◈</b>${esc(t[0])}</a>`).join('')}</div></div>`).join('')).join('');
+</script>
+<script src="../shared/feedback.js" data-pid="minhaj" data-title="منهاج"></script>
+</body>
+</html>

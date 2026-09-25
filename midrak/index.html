@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مدراك — اختبار فهم من أي نص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{overflow-x:hidden}
+body{max-width:780px;margin:0 auto;padding:14px}
+.ta{width:100%;min-height:130px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:13px 16px;font-family:var(--font-ar);font-size:15px;line-height:1.9;resize:vertical}
+.q{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin:9px 0}
+.q .s{font-family:var(--font-ar);font-size:15px;line-height:2}
+.q .s .bl{display:inline-block;min-width:80px;border-bottom:2px dashed var(--acc);text-align:center;color:var(--acc2);cursor:pointer}
+.q .ops{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.q .op{border:1px solid var(--border);background:var(--card2);color:var(--txt);border-radius:99px;padding:5px 14px;font-size:13.5px;cursor:pointer;font-family:var(--font-ar)}
+.q .op.ok{border-color:var(--ok);color:#6fbf87}
+.q .op.no{border-color:#e07070;color:#e07070}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:10px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:14px}
+.muted{color:var(--dim);font-size:12px}
+#res{display:none;text-align:center;padding:16px;font-family:var(--font-ar);font-size:19px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مدراك <span class="muted" style="font-weight:400;font-size:12px">— الفهم يُختبر لا يُفترض</span></h2>
+<div class="muted">الصق أي نص (شرح، مقال، درس مكتوب) — يولّد أسئلة إكمال من جمله: الكلمة المفتاحية تُحذف وتخترها من بين مموّهات من نفس النص.</div>
+<textarea class="ta" id="src" placeholder="الصق النص هنا… (10 جمل على الأقل لأسئلة أغنى)" style="margin-top:10px"></textarea>
+<button class="btn" id="gen" style="margin-top:8px">ولّد الأسئلة</button>
+<div id="quiz" style="margin-top:14px"></div>
+<div id="res"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const STOP=new Set('في من على إلى عن أن إن كان هو هي التي الذي هذا هذه ذلك ما لا لم لن ولا أو ثم قد لقد بين لدى كل بعض غير عند عندما إذا كما حتى منذ ليس بعد قبل مع نحو مثل ضد نحن أنا أنت هم أصحاب قال يقول له لها به بها فيه فيها عليه عليها منه منها إليه إليها'.split(' '));
+function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+$('#gen').onclick=()=>{
+ const t=$('src').value.trim();
+ const sents=t.split(/[.!؟?\n]+/).map(s=>s.trim()).filter(s=>s.split(/\s+/).length>=5&&s.split(/\s+/).length<=40);
+ if(sents.length<3){$('#quiz').innerHTML='<div class="muted">النص قصير — ألصق جملاً أكثر</div>';return}
+ const vocab={};for(const s of sents)for(const w of s.split(/\s+/)){
+  const c=w.replace(/[،,؛:()«»"'\u06D4]/g,'');
+  if(c.length>4&&!STOP.has(c))(vocab[c]=(vocab[c]||0)+1)}
+ const qs=shuf(sents).slice(0,8).map(s=>{
+  const ws=s.split(/\s+/);
+  const cand=ws.map((w,i)=>({w,i})).filter(x=>{const c=x.w.replace(/[،,؛:()«»"'\u06D4]/g,'');return c.length>4&&!STOP.has(c)});
+  if(!cand.length)return null;
+  const tgt=cand[Math.floor(Math.random()*cand.length)];
+  const ans=tgt.w.replace(/[،,؛:()«»"'\u06D4]/g,'');
+  const distract=shuf(Object.keys(vocab).filter(v=>v!==ans)).slice(0,3);
+  return {s,ti:tgt.i,ans,ops:shuf([ans,...distract])}
+ }).filter(Boolean);
+ window.Q=qs;
+ $('#quiz').innerHTML=qs.map((q,qi)=>{
+  const ws=q.s.split(/\s+/);
+  return `<div class="q" id="q${qi}"><div class="s">${ws.map((w,i)=>i===q.ti?'<span class="bl">؟</span>':esc(w)).join(' ')}</div>
+  <div class="ops">${q.ops.map(o=>`<button class="op" data-q="${qi}" data-a="${esc(q.ans)}">${esc(o)}</button>`).join('')}</div></div>`}).join('');
+ $('#res').style.display='none';
+ $('#res').innerHTML='';
+ window.score=0;window.done=0;
+ $('#quiz').scrollIntoView({behavior:'smooth'})};
+$('#quiz').onclick=e=>{
+ const b=e.target.closest('.op');if(!b)return;
+ const qi=b.dataset.q,ans=b.dataset.a,ok=b.textContent===ans;
+ b.parentElement.querySelectorAll('.op').forEach(x=>{
+  if(x.textContent===ans)x.classList.add('ok');else if(x===b&&!ok)x.classList.add('no');
+  x.disabled=true});
+ document.querySelector('#q'+qi+' .bl').textContent=ans;
+ if(ok)window.score++;
+ if(++window.done>=window.Q.length){
+  $('#res').style.display='';
+  $('#res').innerHTML=window.score+' / '+window.Q.length+' — '+(window.score===window.Q.length?'فهم تام ✓':window.score>=window.Q.length/2?'جيد، أعد قراءة المواضع':'أعد القراءة بهدوء')}};
+</script>
+<script src="../shared/feedback.js" data-pid="midrak" data-title="مدراك"></script>
+</body>
+</html>

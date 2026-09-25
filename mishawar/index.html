@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشاور — استشر النصوص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.q{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:16px 20px;margin-top:12px}
+textarea{width:100%;min-height:70px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;resize:vertical}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:11px}
+.card .lbl{font-size:10.5px;color:var(--acc);font-weight:700}
+.card .t{font-family:var(--font-ar);font-size:15.5px;line-height:2.2;margin-top:5px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:9px}
+.muted{color:var(--dim);font-size:12px}
+.loc{color:var(--acc2);font-size:10.5px;margin-top:7px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشاور <span class="muted">— استشر النصوص في همّك</span></h2>
+<div class="muted">اكتب ما يشغلك — يُستقى لك من القرآن والحديث والفقه ما يوافق معنى سؤالك. ليس فتوى — إنما مصاحبة نصوص لهمّك.</div>
+<div class="q"><textarea id="qu" placeholder="ما الذي يشغلك اليوم؟"></textarea><button class="btn" id="go">استشر</button></div>
+<div id="out"></div>
+<div class="muted" style="margin-top:14px">الاستقاء بالمطابقة اللفظية — كلمة تشاركها نصّك والنصوص ترفعها لك.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const stopW=new Set('في على إلى من عن أن إن ما لا لم لن هو هي كان هذا هذه ذلك التي الذي أو ثم قد يكون ليس كما حيث كل بعد قبل عند عندما لكن لأن بين غير ضمن دون مع حتى إذا لو إلا نعم كأن كي لكي إذ إما كيف ماذا متى أين هل هل أنا نحن أنت هو'.split(' '));
+function laz(u){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+let M=null,G=null,MS=null;
+async function init(){
+ await laz('../wahy/mutashabih.js');M=window.MUTA;
+ await laz('../hadith/analysis.js');G=window.GIDNET;
+ await laz('../fiqh_reader/masail.js');MS=window.MASAIL;
+}
+init();
+$('#go').onclick=()=>{
+ if(!M||!G||!MS){$('#out').innerHTML='<div class="muted">يُحمّل النصوص… حاول ثانيةً</div>';init();return}
+ const q=$('#qu').value.trim();
+ const kws=[...new Set(norm(q).split(/\s+/).filter(w=>w.length>2&&!stopW.has(w)))].slice(0,6);
+ // أفضل آية
+ let bestA=null,bestS=-1;
+ for(const k of Object.keys(M.sim)){
+  const t=M.sim[k][2];const nt=norm(t);
+  const sc=kws.reduce((a,w)=>a+(nt.includes(w)?1:0),0);
+  if(sc>bestS){bestS=sc;bestA=k}}
+ // أفضل حديث
+ let bestH=null,bestHS=-1;
+ for(const k of Object.keys(G.g)){
+  const nt=norm(G.g[k].t);
+  const sc=kws.reduce((a,w)=>a+(nt.includes(w)?1:0),0)+(G.g[k].h==='صحيح'?0.5:0);
+  if(sc>bestHS){bestHS=sc;bestH=k}}
+ // أفضل مسألة
+ let bestM=null,bestMS=-1;
+ let cnt=0;
+ for(const k of Object.keys(MS)){const b=MS[k];
+  const nt=norm(b.n);
+  const sc=kws.reduce((a,w)=>a+(nt.includes(w)?2:0),0);
+  if(sc>bestMS){bestMS=sc;bestM=k}
+  if(++cnt>3000)break}
+ const [as,aa]=bestA?bestA.split(':').map(Number):[1,1];
+ const e=M.sim[bestA];
+ const hg=G.g[bestH];
+ const mk=MS[bestM];
+ $('#out').innerHTML=
+  '<div class="card"><div class="lbl">من القرآن</div><div class="t">'+esc(e[2])+'</div><div class="loc">'+esc(M.names[as])+' '+aa+' — <a href="../mishhad/#'+bestA+'" style="color:var(--acc);text-decoration:none">تفسيرها ←</a></div></div>'+
+  '<div class="card"><div class="lbl">من السنة</div><div class="t">'+esc(hg.t)+'</div><div class="loc">'+esc(hg.h)+' · رواه '+hg.s+' — <a href="../mi3na/#'+bestH+'" style="color:var(--acc);text-decoration:none">رحلته ←</a></div></div>'+
+  '<div class="card"><div class="lbl">من الفقه</div><div class="t">'+esc(mk.n)+'</div><div class="loc">'+esc(mk.a||'')+' — <a href="../fiqh_reader/masail.html" style="color:var(--acc);text-decoration:none">افتح المسائل ←</a></div></div>'+
+  '<div class="muted" style="margin-top:10px">الكلمات الجامعة: '+(kws.length?kws.map(k=>'<b style="color:var(--acc)">'+esc(k)+'</b>').join('، '):'—')+'</div>';
+};
+</script>
+<script src="../shared/feedback.js" data-pid="mishawar" data-title="مِشاور"></script>
+</body>
+</html>

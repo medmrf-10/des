@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>بحث المتون — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:960px;margin:0 auto;padding:14px}
+.qbar{position:sticky;top:0;z-index:20;background:rgba(11,15,26,.95);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:8px}
+.qbar input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:11px 14px;font:inherit;font-size:16px}
+.qbar input:focus{outline:none;border-color:var(--acc)}
+.books{display:flex;gap:6px;flex-wrap:wrap;padding:10px 0}
+.bchip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer}
+.bchip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.hit{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.hit .m{font-size:14.5px;line-height:2}
+.hit .m mark{background:rgba(201,162,75,.25);color:var(--acc2);border-radius:3px;padding:0 2px}
+.hit .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:11.5px}
+.hit .v{font-weight:700}
+.hit .v.ok{color:var(--ok)}.hit .v.hs{color:var(--acc2)}.hit .v.wk{color:#e07070}
+.hit .raws{color:var(--dim);font-size:11.5px;margin-top:6px;cursor:pointer}
+.hit .rawlist{display:none;margin-top:6px;color:var(--dim);font-size:12px;line-height:1.8}
+.hit[data-open] .rawlist{display:block}
+.status{color:var(--dim);font-size:12px;padding:8px 0}
+.prog{height:3px;background:var(--card2);border-radius:2px;overflow:hidden;margin:6px 0}
+.prog i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.chip{border:1px solid var(--border);background:var(--card2);border-radius:999px;padding:2px 10px;font-size:11px;color:var(--dim)}
+</style>
+</head>
+<body>
+<h1 style="font-size:18px;margin:6px 0 4px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">بحث المتون — 27,045 حديثاً</h1>
+<div class="status">الكتب الستة كاملةً بأسانيدها وأحكامها — اكتب لفظاً من الحديث</div>
+<div class="qbar"><input id="q" placeholder="مثال: إنما الأعمال بالنيات / من كذب علي / خيركم من تعلم القرآن" autocomplete="off" enterkeyhint="search"><button class="btn sm" onclick="location.href='index.html'" style="background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:0 12px;cursor:pointer">المختبر</button></div>
+<div class="books" id="books"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="hits"></div>
+<script src="scholar.js"></script>
+<script>
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const on={};BOOKS.forEach(b=>on[b]=true);
+const norm=s=>(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/[^\u0600-\u06FF ]/g,' ').replace(/\s+/g,' ').trim();
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D={};let loading=false;
+async function loadBook(b){
+ if(D[b])return;
+ const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+ const ds=new DecompressionStream('gzip');
+ const txt=await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
+ const j=JSON.parse(txt);
+ const recs=[];
+ for(const num in j.d){const e=j.d[num];const sv=j.s&&j.s[num]?j.s[num][0]:'';const raws=j.s&&j.s[num]?j.s[num][1]:[];
+   const sch=window.SCHOLAR&&window.SCHOLAR[b]?window.SCHOLAR[b]:{};
+  recs.push({n:+num,m:e.m,g:e.g,v:sv,rs:raws,nm:norm(e.m),sc:Array.isArray(sch[num])?sch[num]:null})}
+ D[b]={raw:j,recs};
+}
+async function ensure(sel){
+ if(loading)return;loading=true;
+ const todo=sel.filter(b=>!D[b]);let i=0;
+ for(const b of todo){
+   document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';
+   document.getElementById('pfill').style.width=Math.round((i++/todo.length)*90)+'%';
+   try{await loadBook(b)}catch(e){console.warn(b,e)}
+ }
+ document.getElementById('pfill').style.width='100%';
+ document.getElementById('stat').textContent='';
+ loading=false;
+}
+const chipsBox=document.getElementById('books');
+chipsBox.innerHTML=BOOKS.map(b=>`<button class="bchip" aria-pressed="true" data-b="${b}">${BAR[b]}</button>`).join('');
+chipsBox.addEventListener('click',e=>{const c=e.target.closest('.bchip');if(!c)return;const b=c.dataset.b;on[b]=!on[b];c.setAttribute('aria-pressed',on[b]);run()});
+function vcls(v){if(!v)return 'wk';if(/صحيح/.test(v))return 'ok';if(/حسن/.test(v))return 'hs';return 'wk'}
+function render(hits,words){
+ const box=document.getElementById('hits');
+ box.innerHTML=hits.slice(0,60).map(h=>{
+   const V={'ا':'[اأإآٱ]','ي':'[يى]','ه':'[هة]','و':'[وؤ]'};
+   let m=esc(h.m);for(const w of words){const flex=w.split('').map(c=>V[c]||c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('[ً-ْٰـ]*');const rx=new RegExp('('+flex+')','gi');m=m.replace(rx,'<mark>$1</mark>')}
+   const gidLink=h.g?`<a href="net.html#gid=${h.g}" style="color:var(--acc2);text-decoration:none">شبكة المعنى #${h.g}</a>`:'';
+   return `<div class="hit" onclick="this.toggleAttribute('data-open')"><div class="m">${m}</div><div class="meta"><span class="chip">${esc(h.bk)}</span><span class="chip">#${h.n.toLocaleString('ar-EG')}</span>${h.v?`<span class="v ${vcls(h.v)}">${esc(h.v)}</span>`:''}${h.g?`<span class="chip">معنى ${h.g}</span>`:''}${Array.isArray(h.sc)?h.sc.map(g=>`<span class="chip" style="border-color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'};color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'}" title="${esc(g[0])}">${esc(g[0].split(' ').slice(-1)[0])}: ${esc(g[1])}</span>`).join(''):''}</div>${h.rs&&h.rs.length?`<div class="raws">▼ السند (${h.rs.length}) — اضغط للطي</div><div class="rawlist">${h.rs.map(esc).join(' ← ')}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px">${gidLink}</div></div>`
+ }).join('');
+}
+let to=null;
+document.getElementById('q').addEventListener('input',e=>{
+ clearTimeout(to);const q=e.target.value.trim();
+ if(norm(q).length<3){document.getElementById('hits').innerHTML='';document.getElementById('stat').textContent='';return}
+ to=setTimeout(run,350);
+});
+async function run(){
+ const q=document.getElementById('q').value.trim();
+ const words=norm(q).split(' ').filter(w=>w.length>1);
+ if(!words.length)return;
+ const sel=BOOKS.filter(b=>on[b]);
+ document.getElementById('stat').textContent='يُجهّز الكتب المختارة…';
+ await ensure(sel);
+ const hits=[];
+ for(const b of sel){for(const r of D[b].recs){let hit=0;for(const w of words){if(r.nm.includes(norm(w)))hit++}
+   if(hit===words.length)hits.push({bk:BAR[b],b,n:r.n,m:r.m,g:r.g,v:r.v,rs:r.rs,sc:r.sc})}}
+ hits.sort((a,b)=>a.sc-b.sc);
+ document.getElementById('stat').textContent=hits.length?hits.length.toLocaleString('ar-EG')+' نتيجة (تُعرض أفضل ٦٠ أقصرها متناً)':'لا نتيجة — جرّب لفظاً أبسط';
+ render(hits,words);
+}
+ensure(BOOKS.slice(0,2)).then(()=>{document.getElementById('stat').textContent='جاهز — البخاري ومسلم محمّلان، الباقي يُحمَّل عند الحاجة'});
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

@@ -203,3 +203,94 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 /* بطاقة المختبر الحر في شاشة المسارات */
 .free-card{border-style:dashed;border-color:var(--acc);cursor:pointer}
 .free-card:hover{border-color:var(--acc2);background:rgba(201,162,75,.05)}
+
+/* ====== الكورسات: خارطة 4 مستويات ====== */
+.c-empty{border:1px dashed var(--border);border-radius:14px;padding:30px;text-align:center;color:var(--dim)}
+.c-empty code{color:var(--acc2)}
+.c-levels{margin-bottom:18px}
+.c-chips{display:flex;flex-wrap:wrap;gap:8px}
+.c-chip{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:99px;padding:8px 16px;font-family:inherit;font-size:.85rem;cursor:pointer}
+.c-chip:hover{border-color:var(--acc)}
+.c-chip.on{border-color:var(--acc);color:var(--acc2);background:rgba(201,162,75,.08)}
+.c-cnt{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:99px;font-size:.65rem;padding:1px 8px;margin-inline-start:6px;color:var(--dim)}
+.c-chip.on .c-cnt{color:var(--acc2);border-color:var(--acc)}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.c-course{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .15s}
+.c-course:hover{border-color:var(--acc)}
+.c-course.on{border-color:var(--acc);background:rgba(201,162,75,.05)}
+.c-c-title{font-weight:700;font-size:.95rem;margin-bottom:6px;line-height:1.6}
+.c-c-meta{font-size:.72rem;color:var(--dim);margin-bottom:10px}
+.c-c-prog{display:flex;align-items:center;gap:8px}
+.c-c-prog .track-bar{flex:1}
+.c-c-num{font-size:.7rem;color:var(--dim);white-space:nowrap}
+.c-tree{display:flex;flex-direction:column;gap:8px}
+.c-ch{border:1px solid var(--border);background:var(--card);border-radius:12px;overflow:hidden}
+.c-ch>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.88rem;color:var(--acc2);list-style:none;display:flex;align-items:center;user-select:none}
+.c-ch>summary::-webkit-details-marker{display:none}
+.c-ch>summary .c-cnt{margin-inline-start:auto}
+.c-ch:not([open])>summary{border-bottom:none}
+.c-lessons{padding:4px 14px 12px;border-top:1px solid var(--border)}
+.c-lesson{display:flex;align-items:center;gap:10px;padding:7px 4px;font-size:.83rem;color:var(--txt);cursor:pointer;border-bottom:1px dashed rgba(42,51,80,.4)}
+.c-lesson:last-child{border-bottom:none}
+.c-lesson input{accent-color:var(--acc);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.c-lesson:has(input:checked){color:var(--dim);text-decoration:line-through}
+
+/* ====== امتحان المسار ====== */
+.ex-best{margin-top:8px;font-size:.72rem;color:var(--acc2)}
+.ex-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:.8rem;color:var(--dim)}
+.ex-count{font-weight:700;color:var(--acc2)}
+.ex-src{background:var(--card2);border:1px solid var(--border);border-radius:99px;padding:2px 12px;font-size:.68rem}
+.ex-q{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;font-size:1.05rem;font-weight:600;line-height:1.8;margin-bottom:14px}
+.ex-opts{display:flex;flex-direction:column;gap:8px}
+.ex-opt{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:13px 18px;font-family:inherit;font-size:.9rem;text-align:right;cursor:pointer;transition:border-color .15s}
+.ex-opt:hover:not(:disabled){border-color:var(--acc)}
+.ex-opt.ok{border-color:var(--ok);background:rgba(70,201,109,.1);color:var(--ok)}
+.ex-opt.bad{border-color:#e05555;background:rgba(224,85,85,.1);color:#ff9a9a}
+.ex-opt:disabled{cursor:default}
+.ex-result{text-align:center}
+.ex-score{font-size:3.4rem;font-weight:800;line-height:1.1;margin:10px 0 4px}
+.ex-score.pass{color:var(--ok)}
+.ex-score.fail{color:#e05555}
+.ex-sub{color:var(--dim);margin-bottom:22px}
+.ex-sub b{color:var(--acc2)}
+.ex-perfect{color:var(--ok);font-weight:600;margin:16px 0}
+.ex-wrong{text-align:right;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px}
+.ex-w-lesson{font-weight:700;color:var(--acc2);margin-bottom:8px;display:flex;align-items:center}
+.ex-w-item{border-top:1px dashed var(--border);padding:8px 0}
+.ex-w-q{font-size:.85rem;margin-bottom:4px}
+.ex-w-a{font-size:.75rem;color:var(--ok)}
+.ex-actions{display:flex;gap:10px;justify-content:center;margin-top:20px}
+
+/* ====== درس اليوم ====== */
+.tday-card{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:26px;margin-bottom:14px}
+.tday-card.tday-course{border-color:var(--border);border-style:dashed}
+.tday-tag{display:inline-block;background:rgba(201,162,75,.12);color:var(--acc2);border:1px solid var(--acc);border-radius:99px;font-size:.68rem;font-weight:700;padding:3px 12px;margin-bottom:12px}
+.tday-card h2{font-size:1.4rem;margin-bottom:8px;line-height:1.6}
+.tday-meta{font-size:.8rem;color:var(--dim);margin-bottom:10px}
+.tday-why{color:var(--txt);font-size:.88rem;margin-bottom:16px}
+.tday-open{display:inline-block;text-decoration:none}
+.tday-rev .ex-opt.sm{padding:8px 14px;font-size:.8rem;display:inline-block;margin:4px 4px 0 0;width:auto}
+.tday-opts{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ====== مسارات التعلم ====== */
+.pt-stats{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:22px;text-align:center}
+.pt-num{font-size:1.2rem}
+.pt-num b{color:var(--acc2);font-size:1.5rem}
+.pt-break{font-size:.75rem;color:var(--dim);margin-top:4px}
+.pt-cols{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+.pt-col{flex:0 0 250px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;max-height:70vh;display:flex;flex-direction:column}
+.pt-col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pt-col-name{font-weight:700;font-size:.88rem;color:var(--acc2)}
+.pt-col-cnt{font-size:.68rem;color:var(--dim)}
+.pt-cards{overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.pt-card{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;font-size:.78rem;color:var(--txt);text-decoration:none;transition:border-color .15s;position:relative;overflow:hidden}
+.pt-card:hover{border-color:var(--acc)}
+.pt-card.ok{border-color:rgba(70,201,109,.5);background:rgba(70,201,109,.08)}
+.pt-card-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--dim)}
+.pt-card.ok .pt-card-num{background:var(--ok);color:#0b0f1a;border-color:var(--ok);font-weight:700}
+.pt-card-t{flex:1;line-height:1.5}
+.pt-card.part{border-color:rgba(201,162,75,.45)}
+.pt-card-meta{font-size:.65rem;color:var(--dim);white-space:nowrap}
+.pt-fill{position:absolute;bottom:0;right:0;left:0;height:3px;background:var(--card)}
+.pt-fill i{display:block;height:100%;background:var(--ok)}
+.pt-card.part .pt-fill i{background:var(--acc)}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>دفتر — ملاحظاتك على النصوص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:840px;margin:0 auto;padding:14px}
+.nw{display:grid;grid-template-columns:110px 150px 1fr;gap:8px;margin:12px 0}
+.nw select,.nw input,.nw textarea{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 12px;font-family:var(--font-ar);font-size:14px}
+.nw textarea{grid-column:1/-1;min-height:64px;resize:vertical}
+.note{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin:7px 0}
+.note .src{font-size:10.5px;color:var(--acc2);border:1px solid var(--border);border-radius:99px;padding:2px 10px}
+.note .t{font-family:var(--font-ar);font-size:14.5px;line-height:1.9;margin-top:6px}
+.note .d{font-size:10px;color:var(--dim);margin-top:4px}
+.note .x{float:left;font-size:11px;color:var(--dim);cursor:pointer}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar)}
+.muted{color:var(--dim);font-size:12px}
+mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">دفتر <span class="muted" style="font-weight:400;font-size:12px">— ملاحظات مربوطة بالمصادر</span></h2>
+<div class="muted">كل ملاحظة مربوطة بمصدر (حديث برقمه، آية، قاعدة، أو حر) — تُحفظ على جهازك، تُبحث، وتُصدَّر JSON.</div>
+<div class="nw">
+ <select id="src">
+  <option value="حر">حرّ</option>
+  <option value="حديث">حديث</option>
+  <option value="آية">آية</option>
+  <option value="قاعدة">قاعدة عقدية</option>
+  <option value="فقه">باب فقهي</option>
+  <option value="درس">درس</option>
+ </select>
+ <input id="ref" placeholder="المرجع (رقم/اسم)">
+ <input id="q" placeholder="ابحث في ملاحظاتك…" style="grid-column:1/-1">
+ <textarea id="tx" placeholder="اكتب ملاحظتك…"></textarea>
+ <button class="btn" id="add">أضف ملاحظة</button>
+ <button class="btn" id="exp" style="background:var(--card2);color:var(--txt)">⬇ تصدير</button>
+</div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let N=[];try{N=JSON.parse(localStorage.getItem('daftar')||'[]')}catch(e){}
+const save=()=>localStorage.setItem('daftar',JSON.stringify(N));
+const SRCLINK={حديث:r=>`../hadith/misbar.html?n=${encodeURIComponent(r)}`,آية:r=>`../wahy/`,قاعدة:r=>`../shabaka/`,فقه:r=>`../fiqh_reader/masail.html`,درس:r=>`../manzuma/`,حر:null};
+$('#add').onclick=()=>{
+ const t=$('tx').value.trim();if(!t)return;
+ N.unshift({s:$('src').value,r:$('ref').value.trim(),t,at:Date.now()});
+ $('tx').value='';$('ref').value='';save();render()};
+function link(n){const f=SRCLINK[n.s];if(!f||!n.r)return null;return f(n.r)}
+function render(){
+ const q=($('q').value||'').trim();
+ const list=q?N.filter(n=>n.t.includes(q)||n.r.includes(q)):N;
+ $('#list').innerHTML=list.map((n,i)=>{
+  const l=link(n);
+  return `<div class="note"><span class="x" data-i="${i}">×</span>
+  <span class="src">${esc(n.s)}${n.r?' · '+esc(n.r):''}</span>
+  ${l?`<a href="${l}" target="_blank" style="font-size:10px;color:var(--acc2);margin-right:6px">افتح ↗</a>`:''}
+  <div class="t">${esc(n.t)}</div>
+  <div class="d">${new Date(n.at).toLocaleDateString('ar')}</div></div>`}).join('')||'<div class="muted">لا ملاحظات — ابدأ بواحدة</div>'}
+$('q').addEventListener('input',render);
+$('#list').onclick=e=>{const x=e.target.closest('.x');if(!x)return;
+ N.splice(+x.dataset.i,1);save();render()};
+$('#exp').onclick=()=>{const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(N,null,1)],{type:'application/json'}));
+ a.download='daftar.json';a.click()};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="daftar" data-title="دفتر"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>معجم الرواة — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{overflow-x:hidden}
+body{max-width:960px;margin:0 auto;padding:14px}
+.qbar{position:sticky;top:0;z-index:20;background:rgba(11,15,26,.95);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--border)}
+.qbar input{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:11px 14px;font:inherit;font-size:16px}
+.qbar input:focus{outline:none;border-color:var(--acc)}
+.chain{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin-bottom:9px}
+.chain .ct{font-size:14px;line-height:1.9}
+.chain .ct mark{background:rgba(201,162,75,.28);color:var(--acc2);border-radius:3px;padding:0 1px}
+.chain .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.chip{border:1px solid var(--border);background:var(--card2);border-radius:999px;padding:2px 10px;font-size:11px;color:var(--dim)}
+.glist{display:none;margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+.chain[data-open] .glist{display:block}
+.glist a{color:var(--acc2);font-size:12px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:3px 9px;display:inline-block;margin:2px}
+.muted{color:var(--dim);font-size:12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px}
+.stat b{color:var(--acc2);font-size:15px}
+</style>
+</head>
+<body>
+<h1 style="font-size:18px;margin:6px 0 2px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">معجم الرواة</h1>
+<div class="muted">٦,٣٨٤ سلسلة أسناد موظّفة في الكتب الستة — ابحث باسم راوٍ فيظهر بأيّ أسانيد روى وأيّ معانٍ نقلها</div>
+<div class="qbar"><input id="q" placeholder="مثال: شعبة بن الحجاج / مالك بن أنس / هشام بن عروة" autocomplete="off"></div>
+<div class="stats" id="stats"></div>
+<div class="muted" id="stat" style="padding:4px 0"></div>
+<div id="hits"></div>
+<script src="rawi.js"></script>
+<script>
+const R=RAWI.rawi,BAR=RAWI.bar;
+const norm=s=>(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/[^\u0600-\u06FF ]/g,' ').replace(/\s+/g,' ').trim();
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+for(const rid in R)R[rid].n=norm(R[rid].t);
+document.getElementById('stats').innerHTML=[
+ [Object.keys(R).length.toLocaleString('ar-EG'),'سلسلة'],
+ [Object.values(R).reduce((a,r)=>a+r.c,0).toLocaleString('ar-EG'),'رواية موظّفة'],
+ [Object.values(R).reduce((a,r)=>a+r.g,0).toLocaleString('ar-EG'),'موضع معنى']
+].map(x=>`<div class="stat"><b>${x[0]}</b> ${x[1]}</div>`).join('');
+let to=null;
+document.getElementById('q').addEventListener('input',e=>{clearTimeout(to);to=setTimeout(run,300)});
+function run(){
+ const q=document.getElementById('q').value.trim();
+ const words=norm(q).split(' ').filter(w=>w.length>1);
+ const box=document.getElementById('hits'),st=document.getElementById('stat');
+ if(!words.length){box.innerHTML='';st.textContent='';return}
+ const hits=[];
+ for(const rid in R){const r=R[rid];let ok=1;for(const w of words)if(!r.n.includes(w)){ok=0;break}
+  if(ok)hits.push({rid,...r})}
+ hits.sort((a,b)=>b.c-a.c);
+ st.textContent=hits.length.toLocaleString('ar-EG')+' سلسلة مطابقة';
+ box.innerHTML=hits.slice(0,50).map(h=>{
+   let t=esc(h.t);for(const w of words){const flex=w.split('').join('[ً-ْٰـ]*');t=t.replace(new RegExp('('+flex+')','gi'),'<mark>$1</mark>')}
+   const books=Object.keys(h.b).map(b=>`<span class="chip">${BAR[b]||b} ×${h.b[b]}</span>`).join('');
+   const glinks=(h.gs||[]).map(g=>`<a href="net.html#gid=${g}">معنى ${g}</a>`).join('');
+   return `<div class="chain" onclick="this.toggleAttribute('data-open')"><div class="ct">${t}</div><div class="meta"><span class="chip">رواية ${h.c.toLocaleString('ar-EG')}</span><span class="chip">معانٍ ${h.g.toLocaleString('ar-EG')}</span>${books}</div><div class="glist">${glinks}${h.g>(h.gs||[]).length?`<span class="muted">+ ${(h.g-(h.gs||[]).length).toLocaleString('ar-EG')} معانٍ أخرى</span>`:''}</div></div>`
+ }).join('');
+}
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

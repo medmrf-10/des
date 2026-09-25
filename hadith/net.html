@@ -50,6 +50,23 @@ mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
 .loadwrap{padding:40px 20px;text-align:center}
 .lbar{height:8px;border-radius:4px;background:var(--card2);max-width:420px;margin:14px auto 0;overflow:hidden}
 .lbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc2),var(--acc));transition:width .2s}
+.mbk{border-top:1px solid var(--border);margin-top:6px}
+.mbk-h{cursor:pointer;padding:5px 8px;font-size:12px;color:var(--acc2)}
+.mbk-h:hover{color:var(--txt)}
+.mbk-c{padding:0 8px 6px}
+.car{display:inline-block;width:12px;color:var(--dim)}
+.mh{border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin:6px 0;background:var(--card2)}
+.mh-h{font-size:12px;margin-bottom:4px}
+.matn2{font-family:var(--font-ar);font-size:14px;line-height:1.9;margin:4px 0}
+.rc{font-size:11px;margin:3px 0}
+.rc summary{cursor:pointer;color:var(--dim)}
+.rw{font-size:12px;line-height:1.8;color:var(--txt)}
+.bdg{display:inline-block;border-radius:999px;padding:1px 8px;font-size:10px;font-weight:700}
+.v-ok{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}.v-wk{background:#3a1d1d;color:#e08a8a}.v-df{background:#22303f;color:#9db8d4}
+.rchip{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:2px 10px;font-size:11px;margin:2px;cursor:pointer;color:var(--txt)}
+.rchip:hover{border-color:var(--acc)}
+.rchip i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-inline-end:5px}
+.dsa{background:var(--ok)}.dmx{background:var(--acc2)}.dzu{background:var(--acc3)}
 </style>
 </head>
 <body>
@@ -75,6 +92,7 @@ mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
   <div class="lbar"><i id="lbi"></i></div>
   <p class="mut" id="lpct"></p>
 </div>
+<script src="pako.min.js"></script>
 <script>
 const arNum=n=>Number(n).toLocaleString('ar-EG');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -159,19 +177,62 @@ function gidCard(gid,q){
   const lar={sa:'صحيحان فقط',mx:'صحيحان + سنن',zu:'زوائد — سنن'}[L];
   const books=Object.entries(g.w||{}).map(([b,ns])=>
     `<span class="bk"><b>${BAR[b]}</b> ${ns.slice(0,8).map(n=>`<a href="index.html#sanad.${b}.${n}">${arNum(n)}</a>`).join('،')}${ns.length>8?` <span class="mut">+${arNum(ns.length-8)}</span>`:''}</span>`).join('');
-  const jrows=Object.entries(g.j||{}).map(([b,mm])=>
-    `<div class="jrow"><b>${BAR[b]}:</b> ${Object.entries(mm).slice(0,4).map(([n,hs])=>`${arNum(n)} — ${esc(hs.join('؛'))}`).join('<br>')}</div>`).join('');
-  const rws=Object.entries(g.n||{}).map(([b,ids])=>{
-    const nm=ids.map(i=>GN.rawi[i]).filter(Boolean);
-    return `<div class="jrow"><b>${BAR[b]}:</b> <span class="rw">${esc(nm.slice(0,14).join(' ← '))}${nm.length>14?` ← …(${arNum(nm.length)})`:''}</span></div>`}).join('');
+  const mats=Object.entries(g.w||{}).map(([b,ns])=>
+    `<div class="mbk"><div class="mbk-h" onclick="loadBk(this,'${b}',${gid})"><span class="car">▸</span> ${BAR[b]} <span class="mut">${arNum(ns.length)} موضعاً — متن وحكم وسند</span></div><div class="mbk-c" hidden></div></div>`).join('');
+  const rel=relGids(gid,8);
+  const relHtml=rel.length?`<div class="mut" style="margin-top:8px">معاني في الموضوع نفسه:</div><div class="rel">${rel.map(g2=>{const gg=GN.g[g2];if(!gg)return'';const L2=layerOf(gg.w);return `<span class="rchip" onclick="showG(${g2})"><i class="d${L2}"></i>${esc(gg.t.length>40?gg.t.slice(0,40)+'…':gg.t)}</span>`}).join('')}</div>`:'';
   return `<div class="card" id="g${gid}">
     <div><span class="badge bd-${L}">${lar}</span> ${g.h?`<span class="badge bd-h">${esc(g.h)}</span>`:''} <span class="mut">#${arNum(gid)}</span></div>
     <p class="taraf">${hlq(g.t,q)}</p>
     <div class="meta">رواه ${arNum(g.s)} من الصحابة · ورود ${arNum(g.r)} مرة في الأمهات</div>
     <div class="books">${books}</div>
-    ${(jrows||rws)?`<details class="det"><summary>أحكام الأسناد وسلاسل الرواة</summary>${jrows}${rws}</details>`:''}
+    ${mats}
+    ${relHtml}
   </div>`;
 }
+
+/* ===== تحميل كسول لحزم det (متون+أحكام+أسانيد) ===== */
+const BDET={};
+function bookDet(b){
+  if(BDET[b])return BDET[b];
+  const p=fetch(b+'-det.json.gz').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.arrayBuffer()})
+    .then(ab=>JSON.parse(pako.ungzip(new Uint8Array(ab),{to:'string'})));
+  p.catch(()=>{if(BDET[b]===p)delete BDET[b]});
+  BDET[b]=p;return p;
+}
+const vb=v=>{let cl='v-df';if(/صحيح/.test(v))cl='v-ok';else if(/حسن/.test(v))cl='v-hs';else if(/ضعيف|موضوع|مرتاب|متهم|واهي|منكر|شديد/.test(v))cl='v-wk';return `<span class="bdg ${cl}">${esc(v)}</span>`};
+function matnHtml(d,b,n){
+  const h=d.d[n];if(!h)return'';
+  const raw=d.s[n]||[];const chains=Array.isArray(raw[0])?raw:[raw];
+  return `<div class="mh">
+    <div class="mh-h"><b>#${arNum(n)}</b> ${chains.map(c=>vb(c[0]||'')).join(' ')} <a class="src" href="index.html#sanad.${b}.${n}">السند ←</a></div>
+    <p class="matn2">${esc(h.m)}</p>
+    ${chains.map((c,i)=>`<details class="rc"><summary>السند ${chains.length>1?arNum(i+1)+' — ':''}${arNum((c[1]||[]).length)} راوياً</summary><div class="rw">${esc((c[1]||[]).join(' ← '))}</div></details>`).join('')}
+  </div>`;
+}
+async function loadBk(el,b,gid){
+  const box=el.nextElementSibling;
+  if(!box.hidden){box.hidden=true;el.querySelector('.car').textContent='▸';return}
+  box.hidden=false;el.querySelector('.car').textContent='▾';
+  if(box.dataset.done)return;
+  box.innerHTML='<p class="mut" style="margin:6px">يُحمّل…</p>';
+  try{
+    const d=await bookDet(b);
+    const nums=(GN.g[gid].w[b]||[]).slice(0,12);
+    box.innerHTML=nums.map(n=>matnHtml(d,b,n)).join('')
+      +((GN.g[gid].w[b]||[]).length>12?`<p class="mut" style="margin:6px">…و${arNum(GN.g[gid].w[b].length-12)} موضعاً آخر — من المختبر</p>`:'');
+    box.dataset.done='1';
+  }catch(e){box.innerHTML=`<p class="mut" style="margin:6px">تعذّر التحميل — <a href="#" onclick="const c=this.closest('.mbk-c');c.hidden=true;c.removeAttribute('data-done');this.closest('.mbk').querySelector('.mbk-h').click();return false">إعادة المحاولة</a></p>`}
+}
+/* معاني في الموضوع نفسه (hs في البيانات أرقام حديث الكتاب لا معاني) */
+let gidT={};
+function relGids(gid,cap){
+  if(!gidT._){gidT._=1;for(const t in GN.tg)for(const g of GN.tg[t]){(gidT[g]=gidT[g]||[]).push(t)}}
+  const out=[],seen=new Set([String(gid)]);
+  for(const t of gidT[gid]||[])for(const g2 of GN.tg[t]||[]){const k=String(g2);if(seen.has(k))continue;seen.add(k);out.push(g2);if(out.length>=cap)return out}
+  return out;
+}
+function showG(gid){document.getElementById('det').innerHTML=gidCard(gid);location.hash='g'+gid}
 
 /* ===== جزء التفاصيل ===== */
 let page=0;const PER=50;let curList=[];
@@ -228,6 +289,7 @@ function renderSearch(el){
 function decHash(){
   const h=(location.hash||'').replace('#','');
   if(/^g\d+$/.test(h))S.gid=h.slice(1);
+  if(/^gid=\d+$/.test(h))S.gid=h.split('=')[1];
   if(/^t\d+$/.test(h)){S.topic=h.slice(1);let x=S.topic;while(x&&GN&&GN.t[x]){x=GN.t[x].p;if(x)S.open.add(x)}}
 }
 addEventListener('hashchange',()=>{if(!GN)return;decHash();renderTree();renderDet();

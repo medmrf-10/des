@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِرثد — فهرس ألفاظ الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 14px;font-family:var(--font-ar);font-size:14px;flex:1;min-width:160px}
+.inp:focus{outline:none;border-color:var(--acc)}
+.wl{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.wd{border:1px solid var(--border);border-radius:9px;padding:4px 11px;cursor:pointer;font-size:12.5px;background:var(--card)}
+.wd:hover{border-color:var(--acc)}
+.wd b{color:var(--acc);font-size:10.5px;margin-inline-start:4px}
+.h{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin:6px 0;font-family:var(--font-ar);font-size:14px;line-height:1.95}
+.h .m{font-size:10.5px;color:var(--dim);display:block;margin-top:5px}
+.h a{color:var(--acc3);text-decoration:none;font-size:11px}
+mark{background:rgba(232,185,63,.25);color:var(--acc);border-radius:3px;padding:0 2px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِرثد <span class="muted">— فهرس ألفاظ الحديث</span></h2>
+<div class="muted">فهرس كل لفظ في أطراف 27 ألف حديث: اكتب كلمة ترى كل الأطراف الحاوية لها، أو تصفح أكثر الألفاظ تكراراً.</div>
+<div class="row"><input class="inp" id="q" placeholder="لفظ… (مثلاً: نية، صيام، قلب)" autofocus></div>
+<div id="top"></div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const STOP=new Set('في من على الى عن ان أن لا ما الذي الذين هذا هذه كان كانت هو هي و قال قلت يا أل أن إن كل بعض عند بين أو ثم اذا إذا ليس كما منه منها له لها به بها عليه عليها اليه اليها فيه فيها'.split(' '));
+let IDX=null,G=null;
+async function build(){
+ if(IDX)return;
+ const D=window.GIDNET||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.GIDNET);
+ G=D.g;IDX={};
+ for(const gid of Object.keys(G)){const t=norm(G[gid].t);
+  for(const w of t.split(/\s+/)){
+   if(w.length<3||STOP.has(w))continue;
+   (IDX[w]=IDX[w]||new Set()).add(gid)}}
+ const top=Object.entries(IDX).sort((a,b)=>b[1].size-a[1].size).slice(0,60);
+ $('#top').innerHTML='<div class="muted" style="margin:8px 0 2px">أكثر الألفاظ تكراراً:</div><div class="wl">'+top.map(([w,s])=>`<span class="wd" data-w="${esc(w)}">${esc(w)}<b>${s.size.toLocaleString('ar-EG')}</b></span>`).join('')+'</div>';
+ $('#top').onclick=e=>{const c=e.target.closest('.wd');if(!c)return;$('#q').value=c.dataset.w;go()}}
+function go(){
+ const q=norm($('#q').value.trim());if(!q||!G)return;
+ const words=q.split(' ').filter(w=>w.length>=2);
+ // اجمع الأطراف الحاوية لكل الكلمات
+ let set=null;
+ for(const w of words){
+  const found=new Set();
+  for(const key of Object.keys(IDX))if(key.includes(w))for(const g of IDX[key])found.add(g);
+  if(set===null)set=found;else{set=new Set([...set].filter(x=>found.has(x)))}
+  if(!set.size)break}
+ const arr=[...(set||[])].slice(0,60);
+ $('#out').innerHTML=arr.length?`<div class="muted">${arr.length.toLocaleString('ar-EG')} طرفاً ${(set.size>60?'(أول '+arr.length+')':'')}</div>`+
+  arr.map(gid=>{const g=G[gid];const t=esc(g.t).replace(new RegExp(words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'g'),m=>`<mark>${m}</mark>`);
+   return `<div class="h">${t}<span class="m">${esc(g.h)} · رواه ${g.s.toLocaleString('ar-EG')} صحابياً · <a href="matn.html#${gid}">تتبع ←</a> <a href="net.html#g${gid}">شبكته ←</a></span></div>`}).join('')
+  :'<div class="muted" style="padding:14px">لا أطراف مطابقة</div>'}
+$('#q').oninput=()=>{clearTimeout(window._t);window._t=setTimeout(go,300)};
+$('#q').onkeydown=e=>{if(e.key==='Enter')go()};
+build();
+</script>
+<script src="../shared/feedback.js" data-pid="mirthad" data-title="مِرثد"></script>
+</body>
+</html>

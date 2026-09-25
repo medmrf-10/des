@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>ديوان المنظومة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:14px}
+.hero{text-align:center;padding:26px 10px 18px;border-bottom:1px solid var(--border)}
+.hero h1{font-family:var(--font-ar);font-size:34px;margin:0;background:linear-gradient(120deg,var(--acc),#f5d984);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{color:var(--dim);font-size:13px;margin-top:8px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:16px}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden}
+.feat::before{content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--acc)}
+.feat .k{font-size:10px;color:var(--acc3);letter-spacing:1px}
+.feat .t{font-weight:700;font-size:15px;margin:5px 0 3px;font-family:var(--font-ar)}
+.feat .d{color:var(--dim);font-size:12px;line-height:1.85}
+.feat a{color:var(--acc);text-decoration:none;font-size:12px;font-weight:700}
+.strip{display:flex;gap:9px;overflow-x:auto;padding:10px 0;scrollbar-width:thin}
+.mini{flex:0 0 190px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 13px}
+.mini .t{font-weight:700;font-size:12.5px}
+.mini .d{color:var(--dim);font-size:10.5px;margin-top:3px}
+.muted{color:var(--dim);font-size:12px}
+h3{font-family:var(--font-ar);color:var(--acc);margin:20px 0 8px;font-size:15px;display:flex;justify-content:space-between}
+h3 .muted{font-weight:400}
+.num{font-size:26px;font-weight:700;color:var(--acc)}
+.stat{text-align:center;padding:8px}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>ديوان المنظومة</h1>
+<div class="sub">مجلّة منصتك التعليمية — كل ما أُنتج وما يُنتج في مكان واحد</div>
+</div>
+<div id="stats" style="display:flex;justify-content:center;gap:26px;flex-wrap:wrap;padding:14px 0"></div>
+<h3>✦ مختارات اليوم</h3>
+<div class="gal" id="feat"></div>
+<h3>📻 الدروس المنتَجة <span class="muted">استوديو المنظومة</span></h3>
+<div class="strip" id="lessons"></div>
+<h3>🧰 أدوات حديثة</h3>
+<div class="strip" id="tools"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>Number(n||0).toLocaleString('ar-EG');
+// إحصاءات
+(async()=>{
+ try{
+  const[sr,bk,tf]=await Promise.all([
+   fetch('../durus/stats.json').then(r=>r.json()).catch(()=>null),
+   fetch('../wahy/data/books.json').then(r=>r.json()).catch(()=>null),
+   fetch('../wahy/data/tafsirs.json').then(r=>r.json()).catch(()=>null)]);
+  const vid=sr&&sr.totalVideos||60000;
+  $('#stats').innerHTML=`<div class="stat"><div class="num">${arN(vid)}</div><div class="muted">مقطع درس</div></div>
+  <div class="stat"><div class="num">${arN(bk?bk.length:425)}</div><div class="muted">كتاب حديث</div></div>
+  <div class="stat"><div class="num">${arN(tf?tf.length:105)}</div><div class="muted">تفسير</div></div>
+  <div class="stat"><div class="num">${arN(77)}</div><div class="muted">أداة وموقع</div></div>`}
+ catch(e){$('#stats').innerHTML=''}})();
+// مختارات
+const FEATS=[
+ {k:'آية اليوم',t:'﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾',d:'طه ١١٤ — اقرأها في مِشهد مع تفسيرها',u:'../mishhad/#20:114'},
+ {k:'أداة',t:'مِحرك',d:'محرك البحث الواحد: يسأل كل مصادر المنظومة دفعة ويرتب',u:'../mihrak/'},
+ {k:'أداة',t:'مِشهد',d:'أي آية: نصّها وتفسيرها من 6 تفاسير ونظائرها اللفظية',u:'../mishhad/'},
+ {k:'إنتاج',t:'مسجّل',d:'سجّل درسك من هاتفك — يتحول لدرس كاراوكي منشور',u:'../musajjil/'},
+ {k:'معرفة',t:'مِرثد',d:'فهرس ألفاظ الحديث: كلمة واحدة تقود لكل أطرافها',u:'../mirthad/'},
+ {k:'يومك',t:'مِظلة',d:'صلاة ومداد وختمة ومراجعة في نظرة واحدة',u:'../midhallah/'}];
+$('#feat').innerHTML=FEATS.map(f=>`<div class="feat"><div class="k">${f.k}</div><div class="t">${esc(f.t)}</div><div class="d">${esc(f.d)}</div><a href="${f.u}">افتح ←</a></div>`).join('');
+// الدروس المنتجة
+(async()=>{
+ try{
+  const r=await fetch('../manzuma/lessons/index.json').catch(()=>null);
+  const L=r?await r.json():[];
+  $('#lessons').innerHTML=L.length?L.slice(0,12).map(l=>`<div class="mini"><div class="t">${esc(l.t||l.title||'درس')}</div><div class="d">${l.dur?Math.round(l.dur/60)+' دق':'درس منتَج'}</div><a href="../manzuma/lessons/${l.id||l.dir||''}/" style="color:var(--acc);font-size:11px">شاهد ←</a></div>`).join('')
+   :'<div class="muted" style="padding:12px">الدروس تُنشر تباعاً من الاستوديو — أنشئ أولها بمسجّل</div>'}
+ catch(e){$('#lessons').innerHTML='<div class="muted" style="padding:12px">الدروس تُنشر من الاستوديو تباعاً</div>'}})();
+// أحدث الأدوات
+(async()=>{
+ try{
+  const p=await(await fetch('../portal/projects.json')).json();
+  const last=p.slice(-10).reverse();
+  $('#tools').innerHTML=last.map(x=>`<div class="mini"><div class="t">${esc(x.title)}</div><div class="d">${esc(x.desc||'').slice(0,60)}</div><a href="${x.url}" style="color:var(--acc);font-size:11px">افتح ←</a></div>`).join('')}
+ catch(e){}})();
+</script>
+<script src="../shared/feedback.js" data-pid="diwan" data-title="ديوان"></script>
+</body>
+</html>

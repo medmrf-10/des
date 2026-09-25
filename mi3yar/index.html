@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعيار — تقييمك الذاتي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+canvas{width:100%;max-width:420px;display:block;margin:12px auto;background:var(--card);border:1px solid var(--border);border-radius:14px}
+.sub{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin:6px 0}
+.sub .n{flex:1;font-family:var(--font-ar);font-size:14px}
+.sub input[type=range]{flex:1.4;accent-color:var(--acc)}
+.sub .v{width:30px;text-align:center;color:var(--acc);font-weight:700;font-size:13px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.muted{color:var(--dim);font-size:12px}
+.hist{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin:5px 0;font-size:12px;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعيار <span class="muted">— أين أنت اليوم؟</span></h2>
+<div class="muted">قيّم نفسك من ١٠ في كل باب — الرادار يرسم صورتك، والتاريخ يُظهر تقدّمك بين التقييمات.</div>
+<div id="subs"></div>
+<div style="display:flex;gap:10px;margin:12px 0">
+<button class="btn" id="save">احفظ تقييم اليوم</button>
+<button class="btn" id="cmp" style="background:var(--card2);color:var(--txt)">قارن بالسابق</button>
+</div>
+<canvas id="cv" width="840" height="640"></canvas>
+<h4 style="font-family:var(--font-ar);margin:14px 0 6px">التقييمات السابقة</h4>
+<div id="hist"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const SUBS=['قرآن','حديث','عقيدة','فقه','عربية','إنجليزية','برمجة','تصوف'];
+let cur=JSON.parse(localStorage.mi3yar_cur||'{}');
+let hist=JSON.parse(localStorage.mi3yar_hist||'[]');
+let showPrev=null;
+$('#subs').innerHTML=SUBS.map(s=>`<div class="sub"><span class="n">${s}</span>
+<input type="range" min="0" max="10" value="${cur[s]||0}" data-s="${s}"><span class="v">${cur[s]||0}</span></div>`).join('');
+function draw(){
+ const cv=$('cv'),c=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2+20,R=Math.min(W,H)/2-70;
+ c.clearRect(0,0,W,H);
+ const n=SUBS.length;
+ for(let ring=2;ring<=10;ring+=2){c.beginPath();
+  for(let i=0;i<=n;i++){const a=-Math.PI/2+i*2*Math.PI/n,r=R*ring/10;
+   i?c.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):c.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}
+  c.strokeStyle='rgba(140,150,180,.14)';c.stroke()}
+ SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;
+  c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));c.strokeStyle='rgba(140,150,180,.14)';c.stroke();
+  c.fillStyle='#98a2b8';c.font='24px system-ui';c.textAlign='center';c.fillText(s,cx+(R+36)*Math.cos(a),cy+(R+32)*Math.sin(a)+8)});
+ function poly(vals,color,fill){
+  c.beginPath();SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=R*(vals[s]||0)/10;
+   i?c.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):c.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a))});
+  c.closePath();c.fillStyle=fill;c.fill();c.strokeStyle=color;c.lineWidth=2.5;c.stroke();
+  SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=R*(vals[s]||0)/10;
+   c.beginPath();c.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),5,0,7);c.fillStyle=color;c.fill()})}
+ if(showPrev)poly(showPrev,'rgba(152,162,184,.7)','rgba(152,162,184,.12)');
+ poly(cur,'#c9a24b','rgba(201,162,75,.22)');
+ c.fillStyle='#e8e9ee';c.font='bold 22px system-ui';c.textAlign='center';
+ const avg=SUBS.reduce((a,s)=>a+(cur[s]||0),0)/n;
+ c.fillText('مستواك: '+avg.toFixed(1)+'/10',cx,40)}
+$('#subs').oninput=e=>{const r=e.target.closest('input[type=range]');if(!r)return;
+ cur[r.dataset.s]=+r.value;r.nextElementSibling.textContent=r.value;
+ localStorage.mi3yar_cur=JSON.stringify(cur);draw()};
+$('#save').onclick=()=>{hist.push({d:Date.now(),v:{...cur}});if(hist.length>24)hist=hist.slice(-24);
+ localStorage.mi3yar_hist=JSON.stringify(hist);render();draw()};
+$('#cmp').onclick=()=>{if(showPrev){showPrev=null;$('#cmp').textContent='قارن بالسابق'}else{showPrev=hist.length?hist[hist.length-1].v:null;$('#cmp').textContent='إخفاء السابق'}draw()};
+function render(){
+ $('#hist').innerHTML=hist.length?hist.slice().reverse().map(h=>{const avg=SUBS.reduce((a,s)=>a+(h.v[s]||0),0)/SUBS.length;
+  return `<div class="hist"><span>${new Date(h.d).toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'short'})}</span><span style="color:var(--acc)">${avg.toFixed(1)}/10</span></div>`}).join(''):'<div class="muted">لا تقييمات محفوظة — حدّد مستوياتك واضغط احفظ.</div>'}
+render();draw();
+</script>
+<script src="../shared/feedback.js" data-pid="mi3yar" data-title="مِعيار"></script>
+</body>
+</html>

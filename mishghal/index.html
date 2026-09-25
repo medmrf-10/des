@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشغل — مشغّل السلاسل</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:11px 15px;font-family:var(--font-ar);font-size:14px;box-sizing:border-box}
+.inp:focus{outline:none;border-color:var(--acc)}
+.sr{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 13px;margin-top:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.sr:hover{border-color:var(--acc)}
+.sr .m{color:var(--dim);font-size:11px}
+.sr .pg{height:4px;background:var(--card2);border-radius:2px;margin-top:6px;overflow:hidden}
+.sr .pg>i{display:block;height:100%;background:var(--acc)}
+.pwrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;margin-top:10px;border:1px solid var(--border)}
+.pwrap iframe{position:absolute;inset:0;width:100%;height:100%}
+.muted{color:var(--dim);font-size:12px}
+.pill{display:inline-block;background:var(--card2);border-radius:99px;padding:3px 11px;font-size:11px;margin:3px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشغل <span class="muted">— مشغّل السلاسل داخل المنظومة</span></h2>
+<div class="muted">اختر سلسلة ← تشغّل داخل الصفحة ← مِشغل يتذكر آخر مقطع وصلته في كل سلسلة.</div>
+<input class="inp" id="q" placeholder="ابحث سلسلة…" style="margin-top:10px">
+<div id="res"></div>
+<div id="player"></div>
+<script src="../durus/data.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+let pl=null;
+function prog(sid){const p=LS('mishghal')||{};return p[sid]||{}}
+function savePos(sid,idx){const p=LS('mishghal')||{};p[sid]={idx,at:Date.now()};localStorage.setItem('mishghal',JSON.stringify(p))}
+function pick(id){
+ const s=SERIES.find(x=>x.id===id);if(!s)return;
+ const url=(s.plists&&s.plists[0])||s.plist_url||'';
+ const list=(url.match(/list=([\w-]+)/)||[])[1];
+ if(!list){alert('لا قائمة');return}
+ const p=prog(s.id);
+ $('#player').innerHTML=`<div class="card" style="margin-top:12px"><b>${esc(s.name)}</b>
+ <div class="muted">${esc(s.sheikh||'')} · ${s.videos} مقطعاً · ${s.hours||''} ساعة${p.idx?` · <b style="color:var(--acc)">وصلت المقطع ${(p.idx+1).toLocaleString('ar-EG')}</b>`:''}</div></div>
+ <div class="pwrap"><div id="yt"></div></div>
+ <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+ <button class="btn ghost" id="rsm">↻ من آخر مقطع</button>
+ <button class="btn ghost" id="mark">✓ أنهيت هذا المقطع → التالي</button>
+ <a class="btn ghost" href="${url}" target="_blank" style="text-decoration:none;display:inline-block">افتح في يوتيوب ↗</a></div>`;
+ if(pl)pl.destroy();
+ pl=new YT.Player('yt',{playerVars:{list,listType:'playlist',index:p.idx||0},
+  events:{onStateChange:e=>{if(e.data===0){/*ENDED*/const nx=(pl.getPlaylistIndex()||0);savePos(id,nx)}}}});
+ $('#player').querySelector('#rsm').onclick=()=>{const i=(pl.getPlaylistIndex&&pl.getPlaylistIndex())||0;pl.playVideoAt(i)};
+ $('#player').querySelector('#mark').onclick=()=>{const i=(pl.getPlaylistIndex&&pl.getPlaylistIndex())||0;savePos(id,i+1);pl.playVideoAt(i+1)}}
+function search(){
+ const q=norm($('#q').value.trim());
+ if(q.length<2){$('#res').innerHTML='';return}
+ const hits=SERIES.filter(s=>q.split(' ').every(w=>norm(s.name+' '+(s.sheikh||'')+' '+(s.comment||'')).includes(w))).slice(0,12);
+ $('#res').innerHTML=hits.map(s=>{const p=prog(s.id);const pc=p.idx?Math.min(99,Math.round(p.idx/s.videos*100)):0;
+  return `<div class="sr" data-i="${s.id}"><div><b style="font-size:13px">${esc(s.name)}</b><div class="m">${esc(s.sheikh||'')} · ${s.videos} مقطعاً</div>${p.idx?`<div class="pg"><i style="width:${pc}%"></i></div>`:''}</div>
+  <span class="muted" style="font-size:11px">${p.idx?(p.idx+1).toLocaleString('ar-EG')+'/'+s.videos.toLocaleString('ar-EG'):'جديد'}</span></div>`}).join('')
+  ||'<div class="muted" style="padding:12px">لا سلاسل</div>'}
+$('#q').oninput=search;
+$('#res').onclick=e=>{const r=e.target.closest('.sr');if(r)pick(+r.dataset.i)};
+// آخر سلسلة مفتوحة
+const hh=location.hash.match(/s=(\d+)/);
+const last=hh?+hh[1]:LS('mishghal_last');
+if(last)pick(last);
+document.addEventListener('click',e=>{const r=e.target.closest('.sr');if(r)localStorage.setItem('mishghal_last',r.dataset.i)});
+</script>
+<script src="../shared/feedback.js" data-pid="mishghal" data-title="مِشغل"></script>
+</body>
+</html>

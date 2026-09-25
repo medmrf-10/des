@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِحراث — أعمالك غير المنتهية</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.w{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.w .t{font-family:var(--font-ar);font-size:14px;line-height:1.8;flex:1}
+.w .src{font-size:10px;color:var(--dim);margin-top:4px}
+.badge{background:var(--acc);color:#14140f;border-radius:10px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px;text-decoration:none;display:inline-block}
+.empty{color:var(--dim);text-align:center;padding:30px}
+.grp{color:var(--acc);font-size:12.5px;font-weight:700;margin-top:20px;border-bottom:1px solid var(--border);padding-bottom:6px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحراث <span class="muted">— حَثُّ ما بُذر ولم يُجنَ بعد</span></h2>
+<div class="muted">كل مسودة ومشروع ومقاطع بدأتها ولم تنهِها في المنظومة — مجمّعة هنا لاستكمالها.</div>
+<div id="all"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const W=[];
+const add=(grp,title,src,url,badge)=>W.push({grp,title,src,url,badge});
+try{const d=LS('mu3edd_drafts');
+ if(d&&Object.keys(d).length)add('مسودات','دروس في المؤدّي: '+Object.keys(d).slice(0,5).join('، ')+(Object.keys(d).length>5?'…':''),'mu3edd','../mu3edd/','دروس '+Object.keys(d).length.toLocaleString('ar-EG'))}catch(e){}
+try{const q=LS('muqfil_pending');
+ if(q&&q.length)add('مقتفى','مقاطع مؤجلة للإرفاق: '+q.length+' مقطعاً','muqfil','../muqfil/','مؤجل '+q.length.toLocaleString('ar-EG'))}catch(e){}
+try{const d=LS('minsha_draft');
+ if(d&&d.p&&d.p.length)add('مِنشأ','هيكل درس قيد البناء: '+(d.t||'بلا عنوان'),'minsha','../minsha/','مشروع')}catch(e){}
+try{const h=LS('hibr');
+ if(h&&(h.cur||h.works))add('حِبر','عمل أدبي قيد التحرير','hibr','../hibr/','نص')}catch(e){}
+try{const p=LS('iqra_pos');
+ if(p&&p.b)add('إقرأ','في كتابك: '+p.b+' — صفحة '+p.p,'iqra','../iqraa/','قراءة')}catch(e){}
+try{const m=LS('mishghal_last');
+ if(m!==null){const mp=(LS('mishghal')||{})[''+m]||{};add('مِشغل','آخر سلسلة تشغلها — المقطع '+(mp.idx||0),'mishghal','../mishghal/#s='+m,'صوت')}}catch(e){}
+try{const c=LS('muqtatif');
+ if(c&&c.length)add('مقتطف','قصاصاتك: '+c.length+' نصاً','muqtatif','../muqtatif/','قصاصات')}catch(e){}
+try{const m2=LS('mkhatat');
+ if(m2)add('مخطط','مسارك اليومي المخطط','mkhatat','../mkhatat/','خطة')}catch(e){}
+try{const n=LS('muamma');
+ if(n&&n.length)add('مِعمّى','مذكراتك المشفّرة: '+n.length,'muamma','../muamma/','مشفّر')}catch(e){}
+try{const r=LS('miraj3a');
+ if(r)add('مِراجعة','مواعيد مراجعتك','miraj3a','../miraj3a/','مِراجعة')}catch(e){}
+try{const d=LS('mudarrib');
+ if(d&&d.plan)add('مُدرّب','خطة يومك من المدرّب','mudarrib','../mudarrib/','يومي')}catch(e){}
+const grps=[...new Set(W.map(w=>w.grp))];
+$('#all').innerHTML=W.length?
+ grps.map(g=>'<div class="grp">'+g+'</div>'+W.filter(w=>w.grp===g).map(w=>'<div class="w"><div class="t">'+esc(w.title)+'<div class="src">'+w.src+'</div></div>'+(w.badge?'<span class="badge">'+w.badge+'</span>':'')+'<a class="btn" href="'+w.url+'">استكمل ←</a></div>').join('')).join(''):
+ '<div class="empty">لا أعمال معلّقة — كل شيء منجّز أو لم يبدأ بعد.<br>ابدأ أي موقع من المنظومة وسيظهر هنا تلقائياً.</div>';
+</script>
+<script src="../shared/feedback.js" data-pid="mihrath" data-title="مِحراث"></script>
+</body>
+</html>

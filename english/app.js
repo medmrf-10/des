@@ -4,7 +4,7 @@ const LS = 'enbank';
 const BOX_DAYS = [0, 1, 2, 4, 7, 15];       // صناديق SRS مبسطة
 const app = document.getElementById('app');
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// esc/normTok/dictDiff/loadCards/todayISO/... في core.js (مشترك مع routine.html)
 
 let bank = JSON.parse(localStorage.getItem(LS) || 'null');
 if (!bank) {
@@ -165,51 +165,6 @@ function speak(text, rate){
   }catch(e){ toast('النطق غير مدعوم في متصفحك'); }
 }
 
-/* ---------- محرك تدقيق الإملاء المتسامح ---------- */
-const HOMO = {to:'too two',too:'to two',two:'to too',there:"their they're",their:"there they're","they're":'there their',your:"you're","you're":'your',its:"it's","it's":'its',here:'hear',hear:'here',right:'write',write:'right',know:'no',no:'know',where:'wear',wear:'where',for:'four',four:'for',by:'buy bye',buy:'by bye',bye:'by buy',one:'won',won:'one',hour:'our',our:'hour',week:'weak',weak:'week',see:'sea',sea:'see',son:'sun',sun:'son',peace:'piece',piece:'peace',ate:'eight',eight:'ate',i:'eye',eye:'i'};
-function normTok(w){ return w.toLowerCase().replace(/[^a-z'0-9]/g,''); }
-function editDist1(a,b){ // هل تبعدان بتحرير واحد على الأكثر؟
-  let i=0,j=0,d=0;
-  while(i<a.length && j<b.length){
-    if(a[i]===b[j]){ i++; j++; }
-    else{ d++; if(d>1) return false;
-      if(a.length>b.length) i++; else if(a.length<b.length) j++; else { i++; j++; } }
-  }
-  return d+(a.length-i)+(b.length-j) <= 1;
-}
-function wmatch(tw, u){
-  if(tw === u) return 1;
-  if((HOMO[tw]||'').split(' ').includes(u)) return 1;
-  if(tw.length>3 && editDist1(tw,u)) return 0.5;
-  return 0;
-}
-function dictDiff(target, typed){
-  const Traw = target.trim().split(/\s+/).filter(Boolean);
-  const T = Traw.map(normTok);
-  const U = typed.trim().split(/\s+/).filter(Boolean).map(normTok);
-  const m = T.length, n = U.length;
-  const dp = Array.from({length:m+1},()=>Array(n+1).fill(0));
-  for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--)
-    dp[i][j] = Math.max(dp[i+1][j+1] + wmatch(T[i],U[j]), dp[i+1][j], dp[i][j+1]);
-  let i=0, j=0, ok=0, extra=0; const cells=[];
-  while(i<m && j<n){
-    const w = wmatch(T[i],U[j]);
-    if(w>0 && dp[i][j] === dp[i+1][j+1] + w){
-      ok += w;
-      cells.push(w===1
-        ? `<span class="rw">${esc(Traw[i])}</span>`
-        : `<span class="rn">${esc(Traw[i])}</span>`);
-      i++; j++;
-    } else if(dp[i+1][j] >= dp[i][j+1]){
-      cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++;
-    } else { extra++; j++; }
-  }
-  while(i<m){ cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++; }
-  extra += n - j;
-  const pct = m ? Math.round(ok/m*100) : 0;
-  return {html:cells.join(' '), pct, extra};
-}
-
 /* ---------- اختبار الاستماع ---------- */
 let lMode = 'dictate', lLevel = 'all', quiz = [], qi = 0, score = 0;
 function viewListen(){
@@ -317,8 +272,6 @@ function pick(btn, i){
 }
 
 /* ---------- مدرب المفردات FSRS ---------- */
-const CARDS_KEY = 'en_cards';
-const todayISO = () => new Date().toISOString().slice(0,10);
 function vocabPool(){
   const seen = new Set(), out = [];
   const push = (en, ar, src) => {
@@ -329,8 +282,6 @@ function vocabPool(){
   for(const c of CONTENT) for(const l of c.lines) push(l.en, l.ar, c.id);
   return out;
 }
-function loadCards(){ try{ return JSON.parse(localStorage.getItem(CARDS_KEY)||'{}'); }catch(e){ return {}; } }
-function saveCards(c){ localStorage.setItem(CARDS_KEY, JSON.stringify(c)); }
 function ensureDeck(){
   let cards = loadCards();
   if(Object.keys(cards).length === 0){
@@ -390,6 +341,7 @@ function gradeCard(q){
 /* ---------- إملاء مقطع (صوت المكتبة فقط) ---------- */
 let dcItem = null;
 function viewDicclip(){
+  dcModal = false;
   const pool = [];
   for(const c of CLIPS) for(const s of (c.sentences||[])) if(s.text && s.text.split(' ').length>=3) pool.push({clip:c.id, title:c.title, text:s.text});
   dcItem = pool[Math.floor(Math.random()*pool.length)];
@@ -410,7 +362,7 @@ function checkDicclip(){
   $('#dc_res').innerHTML = `<div class="en" style="font-size:18px;margin-top:10px;letter-spacing:.3px">${d.html}</div>
     <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${d.pct}%${d.extra?` · ${d.extra} كلمة زائدة`:''}</div>
     <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(typed)}»</div>
-    <div style="margin-top:10px"><button class="btn" onclick="viewDicclip()">التالي ←</button></div>`;
+    <div style="margin-top:10px"><button class="btn" onclick="${dcModal?'openDicclipFor(dcItem.clip)':'viewDicclip()'}">التالي ←</button></div>`;
 }
 
 /* ---------- اختبار الإتقان ---------- */
@@ -509,10 +461,91 @@ function viewProgress(){
   </div></div>`;
 }
 
+/* ---------- وضع ShortForm ---------- */
+let feedSeen = new Set(JSON.parse(localStorage.getItem(SEEN_KEY)||'[]'));
+function learnedWords(){
+  const s = new Set();
+  Object.values(loadCards()).forEach(c=>{ if(c.repetitions>0) c.en.split(' ').forEach(t=>{ const w=normTok(t); if(w) s.add(w); }); });
+  Object.values(bank).forEach(w=>{ if(w.box>=3){ const t=normTok(w.en); if(t) s.add(t); } });
+  return s;
+}
+function viewShort(){
+  const cards = CLIPS.map((c,i)=>{
+    const sents = c.sentences||[];
+    return `<div class="fcard" data-i="${i}">
+      <div class="fc-top"><span class="fc-idx">${i+1} / ${CLIPS.length}</span><span class="fc-title">${esc(c.title)}</span></div>
+      <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${c.id}" title="${esc(c.title)}" allowfullscreen loading="lazy"></iframe></div>
+      <div class="fc-lines">${sents.map(s=>`
+        <div class="fc-line" dir="ltr">${esc(s.text)}</div>
+        <div class="fc-words">${(s.words||[]).filter(([e])=>normTok(e).length>1).map(([e,a])=>`<span class="w" data-en="${esc(e)}" data-ar="${esc(a)}" data-clip="${c.id}">${esc(e)}</span>`).join('')}</div>`).join('')}
+      </div>
+      <button class="btn fc-train" onclick="openDicclipFor('${c.id}')">درب — إملاء هذا المقطع</button>
+    </div>`;
+  }).join('');
+  app.innerHTML = `<div class="feed" id="feed">${cards}</div>
+  <div class="fprog"><div id="fprogbar"></div></div>
+  <div class="fcounter" id="fcounter"></div>
+  <div class="farrows"><button onclick="feedGo(-1)" title="السابق">▲</button><button onclick="feedGo(1)" title="التالي">▼</button></div>`;
+  const feed = $('#feed');
+  const fit = ()=>{ feed.style.height = (innerHeight - document.querySelector('.topbar').offsetHeight - ($('#ttsbanner')?.offsetHeight||0)) + 'px'; };
+  fit();
+  feed.addEventListener('scroll', onFeedScroll, {passive:true});
+  const qc = new URLSearchParams(location.search).get('clip');
+  const qi = qc ? CLIPS.findIndex(c=>c.id===qc) : -1;
+  if(qi > 0){ setTimeout(()=>{ feed.scrollTop = qi*feed.clientHeight; }, 60); }
+  else markFeedCard(0);
+}
+function onFeedScroll(){
+  const feed = $('#feed'); if(!feed) return;
+  const i = Math.max(0, Math.min(CLIPS.length-1, Math.round(feed.scrollTop / feed.clientHeight)));
+  markFeedCard(i);
+}
+function markFeedCard(i){
+  const feed = $('#feed'); if(!feed) return;
+  const card = feed.children[i]; if(!card) return;
+  const bar = $('#fprogbar'); if(bar) bar.style.width = ((i+1)/CLIPS.length*100)+'%';
+  const learned = learnedWords();
+  card.querySelectorAll('.w').forEach(w=>{ const t=normTok(w.dataset.en); if(t) feedSeen.add(t); });
+  localStorage.setItem(SEEN_KEY, JSON.stringify([...feedSeen]));
+  const mastered = [...feedSeen].filter(w=>learned.has(w)).length;
+  const fc = $('#fcounter');
+  if(fc) fc.innerHTML = `<b>${i+1}/${CLIPS.length}</b> · متقنة <b>${mastered}</b> · تعرّضت <b>${feedSeen.size}</b>`;
+}
+function feedGo(d){
+  const feed = $('#feed'); if(!feed) return;
+  feed.scrollTo({top: feed.scrollTop + d*feed.clientHeight, behavior:'smooth'});
+}
+
+/* ---------- إملاء مقطع محدد (مودال) ---------- */
+let dcModal = false;
+function openDicclipFor(clipId){
+  const old = $('#dicm'); if(old) old.remove();
+  const c = CLIPS.find(x=>x.id===clipId); if(!c) return;
+  const ss = (c.sentences||[]).filter(s=>s.text && s.text.trim().split(/\s+/).length>=3);
+  if(!ss.length){ toast('لا جمل لهذا المقطع'); return; }
+  const s = ss[Math.floor(Math.random()*ss.length)];
+  dcItem = {clip:c.id, title:c.title, text:s.text};
+  dcModal = true;
+  app.insertAdjacentHTML('beforeend', `<div class="mov open" id="dicm" onclick="if(event.target===this)closeModal('dicm')">
+  <div class="mbox">
+    <h3 style="color:var(--gold-soft);margin-bottom:10px">إملاء — ${esc(c.title)}</h3>
+    <div class="frame" style="margin-bottom:10px"><iframe src="https://www.youtube-nocookie.com/embed/${c.id}" title="dictation" allowfullscreen></iframe></div>
+    <input id="dc_in" class="tin" placeholder="اكتب الجملة التي تسمعها..." autocomplete="off" onkeydown="if(event.key==='Enter')checkDicclip()">
+    <div id="dc_res" class="res"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="closeModal('dicm')">إغلاق</button>
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="openDicclipFor('${c.id}')">جملة أخرى</button>
+      <button class="btn" onclick="checkDicclip()">تحقق</button>
+    </div>
+  </div></div>`);
+  setTimeout(()=>{ const el=$('#dc_in'); if(el) el.focus(); }, 60);
+}
+
 /* ---------- توجيه ---------- */
-const routes = {'feed':viewFeed, 'content':viewContent, 'train':viewTrain, 'bank':viewBank, 'review':viewReview, 'listen':viewListenMenu, 'progress':viewProgress};
+const routes = {'feed':viewFeed, 'content':viewContent, 'train':viewTrain, 'bank':viewBank, 'review':viewReview, 'listen':viewListenMenu, 'progress':viewProgress, 'short':viewShort};
 function route(){
   const r = (location.hash.replace('#/','') || 'feed');
+  document.body.classList.toggle('shortmode', r==='short');
   (routes[r] || viewFeed)();
   document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active', a.dataset.nav===r));
   refreshPills();

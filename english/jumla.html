@@ -3,27 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المكتبة — إنجليزي بالمحتوى القصير</title>
+<title>جملة — إنجليزي بالمحتوى القصير</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <link rel="stylesheet" href="style.css">
+<style>
+.cbar{display:flex;align-items:center;gap:8px;margin:5px 0}
+.cbar .cw{width:150px;font-size:13px;color:var(--ink);text-align:left}
+.cbar .ctr{flex:1;background:var(--navy-3);border-radius:6px;height:14px;overflow:hidden}
+.cbar .cfl{height:100%;background:var(--bad);border-radius:6px}
+.cbar .cv{font-size:11px;color:var(--muted);width:44px}
+.inp{background:var(--navy-3);border:1px solid var(--gold-dim);border-radius:10px;padding:9px 12px;color:var(--ink);font-size:15px}
+.inp:focus{outline:none;border-color:var(--gold)}
+</style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="logo">◈</span>
     <div>
-      <h1>المكتبة</h1>
-      <p class="tagline">فهرس مقاطع ShortForm وكلماتك وتقدمك في كل مقطع</p>
+      <h1>جملة</h1>
+      <p class="tagline">رتّبها وترجم قطعها وتعرّف أنماطها</p>
     </div>
   </div>
   <nav class="nav">
     <a href="index.html">الرئيسية</a>
     <a href="index.html#/short">ShortForm</a>
-    <a href="routine.html">روتين اليوم</a>
-    <a href="srs.html">مفردات SRS</a>
+    <a href="library.html">الفهرس</a>
     <a href="listen.html">الإملاء</a>
     <a href="mimic.html">قلّد</a>
     <a href="story.html">القصص</a>
+    <a href="srs.html">مفردات SRS</a>
+    <a href="routine.html">روتين اليوم</a>
     <a href="practice.html">تمرين اليوم</a>
     <a href="journal.html">يومياتي</a>
     <a href="shadowing.html">التظليل</a>
@@ -40,8 +50,6 @@
     <a href="listening_gist.html">الفكرة العامة</a>
     <a href="jumla.html">جملة</a>
     <a href="mawqaa.html">موقعي</a>
-    <a href="index.html#/train">التدريب</a>
-    <a href="index.html#/progress">التقدم</a>
   </nav>
 </header>
 
@@ -50,9 +58,10 @@
 <footer class="foot">منصة ثابتة بلا خوادم — تقدّمك محفوظ في متصفحك فقط (localStorage)</footer>
 <div id="toast" class="toast hidden"></div>
 
-<script src="../shared/fsrs.js"></script>
+<script src="../shared/feedback.js" data-pid="en_jumla" data-title="جملة"></script>
 <script src="core.js"></script>
 <script src="data.js"></script>
-<script src="library.js"></script>
+<script src="storydata.js"></script>
+<script src="jumla.js"></script>
 </body>
 </html>

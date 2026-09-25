@@ -232,3 +232,14 @@ body.shortmode{overflow:hidden}
 }
 .toast.hidden{display:none}
 @media(max-width:640px){ .topbar{flex-direction:column; align-items:flex-start} }
+
+/* wave34 — جملة + موقعي */
+.obtn{display:block; width:100%; text-align:left; margin:5px 0; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--line); background:var(--navy-2); color:var(--ink); font-size:15px; cursor:pointer; transition:.15s}
+.obtn:hover{border-color:var(--gold-dim)}
+.obtn:disabled{opacity:.85; cursor:default}
+.obtn.osel{border-color:var(--gold); background:var(--navy-3); box-shadow:0 0 0 1px var(--gold)}
+.onum{display:inline-block; min-width:20px; text-align:center; color:var(--gold); font-weight:700; margin-left:6px}
+.crown{display:inline-flex; align-items:center; gap:5px; padding:6px 12px; border-radius:999px;
+  background:var(--navy-2); border:1px solid var(--gold-dim); font-size:13px; margin:3px}
+.crown b{font-size:15px}

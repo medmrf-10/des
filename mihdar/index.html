@@ -1,80 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f1a">
-<title>مِحضر — حضورك اليومي</title>
+<title>مِحضَر — مجلس المذاهب</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
-body{max-width:860px;margin:0 auto;padding:14px}
-.hm{display:grid;grid-template-columns:repeat(26,1fr);gap:3px;margin-top:12px;direction:ltr}
-.c{aspect-ratio:1;border-radius:3px;background:var(--card2)}
-.c1{background:#1d3a2a}.c2{background:#2c6a44}.c3{background:#4aa968}.c4{background:#7ed9a0}
-.legend{display:flex;gap:4px;align-items:center;font-size:10px;color:var(--dim);margin-top:6px;direction:ltr;justify-content:flex-end}
-.stat{display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin:4px;font-size:12px}
-.stat b{color:var(--acc);font-size:18px}
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
 .muted{color:var(--dim);font-size:12px}
-.tip{position:fixed;background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:5px 10px;font-size:10px;pointer-events:none;display:none;z-index:9}
-h3{font-size:13px;color:var(--acc2);margin:14px 0 4px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.pos{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 15px;margin-top:8px}
+.pos .mh{font-size:11px;color:var(--acc2);margin-bottom:4px;font-weight:700}
+.pos .txt{font-family:var(--font-ar);font-size:13px;line-height:2}
+.col{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+input{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 14px;font-family:var(--font-ar);font-size:13px}
 </style>
 </head>
 <body>
-<h2 style="font-family:var(--font-ar);margin:6px 0">مِحضر <span class="muted">— حضورك عبر المنظومة</span></h2>
-<div class="muted">كل نشاط في أي أداة يُحضّر هنا — الشبكة لا تجامل: يوم بلا عمل = مربع رمادي.</div>
-<div id="st" style="margin-top:10px"></div>
-<h3>آخر ٢٦ أسبوعاً</h3>
-<div class="hm" id="hm"></div>
-<div class="legend"><span>أقل</span><div class="c c1" style="width:11px;height:11px"></div><div class="c c2" style="width:11px;height:11px"></div><div class="c c3" style="width:11px;height:11px"></div><div class="c c4" style="width:11px;height:11px"></div><span>أكثر</span></div>
-<h3>حضورك اليوم (من الأدوات نفسها)</h3>
-<div id="today"></div>
-<div class="tip" id="tip"></div>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحضَر <span class="muted">— مجلس المذاهب</span></h2>
+<div class="muted">موضوع فقهي ← موقف كل مذهب جنبًا إلى جنب — قارن بنفسك.</div>
+<div class="card"><div class="t">موضوعك</div>
+<input id="q" placeholder="مثال: الوضوء · البيع · الصلاة · النكاح…">
+<div style="margin-top:8px"><button class="btn" id="go">اعرض المواقف</button></div></div>
+<div id="res"></div>
 <script>
 const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
-const days={};
-const add=(d,w=1)=>{if(d&&/^\d{4}-\d{2}-\d{2}$/.test(d))days[d]=(days[d]||0)+w};
-// sources
-const mut=LS('mutabi3')||{};Object.keys(mut).forEach(d=>add(d,3));
-const mid=LS('midad')||{};Object.keys(mid).forEach(d=>add(d,mid[d].length));
-const dr=LS('mihrab_')||{};
-for(const k of Object.keys(localStorage)){
- if(k.startsWith('mihrab_'))add(k.slice(7),2);
- if(k.startsWith('misbah_'))add(k.slice(7),2)}
-const daftar=LS('daftar')||[];daftar.forEach(x=>add((x.at||'').slice(0,10)));
-const en=LS('en_listen')||[];en.forEach(()=>add(new Date().toISOString().slice(0,10),0));
-const mis=LS('misraj')||{};Object.values(mis).forEach(()=>add(new Date().toISOString().slice(0,10),0));
-const mx=Math.max(1,...Object.values(days));
-// streak
-let streak=0;const td=new Date();
-for(;;){const k=td.toISOString().slice(0,10);if(days[k]){streak++;td.setDate(td.getDate()-1)}else break}
-const act=Object.keys(days).length;
-$('#st').innerHTML=`<span class="stat"><b>${act.toLocaleString('ar-EG')}</b> يوماً نشطاً</span>
-<span class="stat"><b>${streak.toLocaleString('ar-EG')}</b> أيام متتالية</span>
-<span class="stat"><b>${mx.toLocaleString('ar-EG')}</b> أقصى نقاط/يوم</span>`;
-// grid: 26 weeks cols x 7 rows (Sat start)
-const cells=[];const end=new Date();end.setDate(end.getDate()+ (6-(end.getDay()+1)%7));
-for(let w=25;w>=0;w--){for(let d=0;d<7;d++){
- const dt=new Date(end);dt.setDate(dt.getDate()-w*7-6+d);
- const k=dt.toISOString().slice(0,10);
- const v=days[k]||0;const lvl=v===0?0:v<=mx*.25?1:v<=mx*.5?2:v<=mx*.75?3:4;
- cells.push({k,v,lvl,fut:dt>new Date()})}}
-const cols=[];for(let i=0;i<26;i++)cols.push(cells.slice(i*7,(i+1)*7));
-$('#hm').innerHTML=cols.map(cl=>cl.map(c=>`<div class="c c${c.lvl}" ${c.fut?'style="opacity:.15"':''} data-k="${c.k}" data-v="${c.v}"></div>`).join('')).join('');
-$('#hm').onmousemove=e=>{const c=e.target.closest('.c');const t=$('#tip');
- if(c&&c.dataset.k){t.style.display='block';t.style.left=e.clientX+8+'px';t.style.top=e.clientY-30+'px';
-  t.textContent=c.dataset.k+' — '+(+c.dataset.v).toLocaleString('ar-EG')+' نقطة'}else t.style.display='none'};
-// today detail
-const tk=new Date().toISOString().slice(0,10);
-const bits=[];
-if(mut[tk])bits.push('مُتابع: نشاط اليوم');
-if(mid[tk])bits.push(`مِداد: ${mid[tk].length.toLocaleString('ar-EG')} مهاماً`);
-if(localStorage.getItem('mihrab_'+tk))bits.push('مِحراب الصلوات');
-if(localStorage.getItem('misbah_'+tk))bits.push('مِصباح التسبيح');
-if(LS('en_routine'))bits.push('روتين الإنجليزية');
-$('#today').innerHTML=bits.length?bits.map(b=>`<span class="stat">${esc(b)}</span>`).join(''):'<div class="muted">لا حضور مسجلاً اليوم — ابدأ بأي أداة.</div>';
+const arN=n=>(+n).toLocaleString('ar-EG');
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+let M;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+laz('../fiqh_reader/masail.js','MASAIL').then(m=>{M=m});
+const MN={h:'الحنفية',m:'المالكية',s:'الشافعية',b:'الحنابلة',o:'مذاهب أخرى'};
+$('#go').onclick=()=>{
+ const q=$('#q').value.trim();if(!q||!M)return;
+ const nq=norm(q),hits={};
+ Object.entries(M).forEach(([slug,b])=>{
+  b.u.forEach(u=>{
+   if(norm(u.t).includes(nq)){
+    const m=MN[b.m]||b.m;
+    if(!hits[m])hits[m]=[];
+    if(hits[m].length<4)hits[m].push({t:u.t,b:b.n,l:u.l});
+   }
+  });
+ });
+ const ms=Object.keys(hits);
+ if(!ms.length){$('#res').innerHTML='<div class="muted" style="margin-top:12px">لا نتائج — جرّب كلمة أعم.</div>';return}
+ $('#res').innerHTML='<div style="margin-top:12px"><span class="stat">مذاهب وجدت: <b>'+arN(ms.length)+'</b></span><span class="stat">مواضع: <b>'+arN(Object.values(hits).flat().length)+'</b></span></div>'+
+ '<div class="col" style="margin-top:10px">'+ms.map(m=>
+  '<div class="card"><div class="t">'+esc(m)+' ('+arN(hits[m].length)+')</div>'+
+  hits[m].map(h=>'<div class="pos"><div class="mh">'+esc(h.b)+'</div><div class="txt">'+esc(h.t)+'</div></div>').join('')+'</div>'
+ ).join('')+'</div>';
+};
+$('#q').onkeydown=e=>{if(e.key==='Enter')$('#go').click()};
 </script>
-<script src="../shared/feedback.js" data-pid="mihdar" data-title="مِحضر"></script>
+<script src="../shared/feedback.js" data-pid="mihdar" data-title="مِحضَر"></script>
 </body>
 </html>

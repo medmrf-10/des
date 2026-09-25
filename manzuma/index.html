@@ -230,17 +230,19 @@ function askTutor(){
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
 function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);toast('حُفظ في دفترك')}
 /* ---------- CURRICULUM ---------- */
+window.onpopstate=()=>{if(!location.hash.startsWith('#cur-'))showSubj(null);else{const sj=decodeURIComponent(location.hash.slice(5));if(CURR[sj])showSubj(sj,true)}};
 function renderCurr(){
   $('#subjList').innerHTML=Object.keys(CURR).map(sj=>{
     const list=CURR[sj];const dn=list.filter(e=>me.prog[e.i]).length;
     return `<div class="subj" onclick="showSubj('${sj}')"><div style="flex:1"><div class="nm">${sj}</div><div class="muted">${list.length} سلسلة · أنهيت ${dn}</div></div><div class="bar"><i style="width:${Math.round(dn/list.length*100)}%"></i></div><span style="font-size:12px;color:var(--dim)">‹</span></div>`
   }).join('<div style="height:8px"></div>');
 }
-function showSubj(sj){
+function showSubj(sj,nopush){
   if(!sj){$('#subjView').style.display='none';$('#subjList').style.display='block';return}
   $('#subjList').style.display='none';$('#subjView').style.display='block';
+  if(!nopush&&location.hash!=='#cur-'+sj)history.pushState({sj},'','#cur-'+encodeURIComponent(sj));
   const list=CURR[sj];
-  $('#subjBody').innerHTML=`<h2 style="margin-top:0">${sj}</h2><div class="path">`+list.map((e,ix)=>{
+  $('#subjBody').innerHTML=`<button class="btn ghost sm" onclick="showSubj(null);history.replaceState(null,'','#curr')">→ المواضيع</button><h2 style="margin:8px 0 0">${sj}</h2><div class="path">`+list.map((e,ix)=>{
     const done=!!me.prog[e.i];
     return `<div class="node ${done?'done':''}"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><b style="font-size:14px">${esc(e.n)}</b><div class="muted">${SH[e.sh]||''} · ${e.v||'?'} درساً${e.h?' · '+Math.round(e.h)+' س':''}</div></div></div><div style="display:flex;gap:8px;margin-top:9px"><a class="btn sm ghost" href="../durus/index.html#s=${e.i}">فتح</a><button class="btn sm ${done?'':'ghost'}" style="${done?'background:#3dd68c':''}" onclick="toggleDone(${e.i},'${sj}')">${done?'✓ أنهيتها':'أنهيتها'}</button></div></div>`
   }).join('')+'</div>';
@@ -286,7 +288,8 @@ function answerQuiz(el,i,a){$$('#quizBox .opt').forEach((o,j)=>{if(j===a)o.class
 function delNote(i){me.note.splice(i,1);LS('mz_note',me.note);renderNote()}
 /* ---------- boot ---------- */
 const init=location.hash.slice(1);
-if(init&&$('#s-'+init))go(init);else renderToday();
+if(init.startsWith('cur-')){const sj=decodeURIComponent(init.slice(4));if(CURR[sj]){go('curr');renderCurr();showSubj(sj,true)}else renderToday()}
+else if(init&&$('#s-'+init))go(init);else renderToday();
 </script>
 <script src="../shared/feedback.js" data-pid="manzuma" data-title="المنظومة"></script>
 </body>

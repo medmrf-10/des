@@ -65,6 +65,7 @@ input:focus,textarea:focus{border-color:var(--acc)}
   <div style="display:flex;gap:8px;margin-top:16px"><button class="btn" style="flex:1" onclick="saveEntry()">حفظ</button><button class="btn ghost" onclick="closeM()">إلغاء</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<script src="catalog.js"></script>
 <script>
 const BASE=[
  {g:'المواقع',e:[
@@ -149,7 +150,7 @@ function renderCat(){
 }
 const _origRender=render;
 render=function(){_origRender();if(CATD.length)renderCat()};
-fetch('catalog.js').then(r=>r.text()).then(t=>{const m=t.match(/CATALOG=(\[.*\]);/s);if(m){CATD=JSON.parse(m[1]);renderCat()}}).catch(()=>{});
+if(typeof CATALOG!=='undefined'){CATD=CATALOG;renderCat()}
 </script>
 <script src="../shared/feedback.js" data-pid="fihris" data-title="الفهرس العام"></script>
 </body>

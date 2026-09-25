@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>المدرسة — نواة منصة تعلم محمد</title>
+<link rel="stylesheet" href="../../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.chip{background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:12px;color:var(--dim)}
+.chip b{color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:10px 0}
+.breadcrumb{font-size:11px;color:var(--dim);margin-bottom:8px;line-height:1.9}
+.breadcrumb span{color:var(--acc2)}
+.lesson-t{font-size:18px;font-weight:700;color:var(--acc2);margin-bottom:10px}
+.lesson-b{font-family:var(--font-ar);font-size:17px;line-height:2.2}
+.src{font-size:11px;color:var(--dim);margin-top:10px}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#14131f;font-weight:700;border-radius:11px;padding:11px 22px;cursor:pointer;font-family:inherit;font-size:14px;margin-top:12px}
+.btn2{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:10px 18px;cursor:pointer;font-family:inherit;font-size:13px}
+.qbox{font-size:16px;line-height:2.1;margin:8px 0}
+.lvbadge{display:inline-block;font-size:11px;border-radius:7px;padding:3px 10px;border:1px solid var(--border);color:var(--dim);margin-bottom:8px}
+.lvbadge.l0{color:var(--ok)}.lvbadge.l1{color:var(--acc2)}.lvbadge.l2{color:#e06}
+.ans{display:none;background:var(--card2);border-right:3px solid var(--acc);border-radius:9px;padding:12px;margin-top:12px;font-family:var(--font-ar);font-size:15px;line-height:2.1}
+.ans.on{display:block}
+.grades{display:none;gap:7px;margin-top:14px}
+.grades.on{display:flex}
+.gbtn{flex:1;border:1px solid var(--border);border-radius:10px;padding:11px 4px;font-family:inherit;font-size:13px;cursor:pointer;background:var(--card2);color:var(--txt)}
+.gbtn.fail{border-color:#a33;color:#e88}.gbtn.barely{color:var(--acc2)}.gbtn.pass{border-color:var(--ok);color:var(--ok)}
+.warn{font-size:12px;color:var(--dim);background:rgba(201,162,75,.07);border:1px dashed var(--acc);border-radius:9px;padding:8px 12px;margin-top:10px}
+.sec-h{font-size:13px;color:var(--acc2);margin:18px 4px 8px;font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 6px;border-bottom:1px solid var(--border);font-size:13px}
+.row:last-child{border:none}
+.row .d{color:var(--dim);font-size:11px}
+.tree{font-size:13px}
+.tnode{padding:6px 10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.tnode:hover{background:var(--card2)}
+.tnode .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;background:var(--border)}
+.tnode .dot.new{background:var(--border)}
+.tnode .dot.learn{background:var(--acc2)}
+.tnode .dot.mast{background:var(--ok)}
+.tnode .dot.hard{background:#e06;box-shadow:0 0 6px #e06}
+.tnode.c{font-weight:700;color:var(--acc2);cursor:default}
+.tnode.c:hover{background:none}
+.tnode .sub{color:var(--dim);font-size:10px;margin-inline-start:auto}
+.empty{color:var(--dim);font-size:12.5px;padding:10px 6px}
+.result-big{font-size:22px;text-align:center;padding:14px 0 4px;color:var(--acc2)}
+.result-sub{text-align:center;color:var(--dim);font-size:13px;padding-bottom:10px}
+.hint{text-align:center;color:var(--dim);font-size:12px;margin-top:6px}
+</style>
+</head>
+<body>
+<h1 style="font-size:20px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">المدرسة</h1>
+<div style="color:var(--dim);font-size:12.5px">نواة منصة تعلم محمد — درس ثم تمرين متدرج ثم موعد. <span id="ilm"></span></div>
+
+<div class="chips" id="stats"></div>
+<div id="view"></div>
+
+<script src="../../shared/fsrs.js"></script>
+<script src="tree.js"></script>
+<script src="engine.js"></script>
+<script>
+const $=q=>document.getElementById(q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arD=s=>{const d=new Date(s+'T00:00:00');return d.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'})};
+const N=MADRASA_TREE.nodes;
+let cur=null; // الذرة الجارية
+
+/* ─── الاستقبال ─── */
+function home(){
+ const st=MADRASA.stats(),q=MADRASA.todayQueue();
+ $('stats').innerHTML=
+  `<span class="chip">ذرات العلم: <b>${st.total}</b></span>
+   <span class="chip">دخلت خطتك: <b>${st.learned}</b></span>
+   <span class="chip">متقن: <b>${st.mastered}</b></span>
+   <span class="chip">مستحق اليوم: <b>${st.due}</b></span>
+   <span class="chip">صعب: <b>${st.hard}</b></span>`;
+ let h=`<div class="card">
+  <div style="font-size:15px;font-weight:700;margin-bottom:4px">السلام عليكم محمد ✦</div>
+  <div style="color:var(--dim);font-size:13px;line-height:1.9">${q.length
+   ? `خطة اليوم جاهزة: ${q.filter(id=>MADRASA.st(id).lastReview).length} مراجعة ${MADRASA.nextNew()?' + درس جديد':''} — لا تفكّر، ابدأ.`
+   : 'أنهيت كل شيء مجدولاً — اسحب أي ذرة من الشجرة لتغيير الموضوع.'}</div>
+  ${q.length?`<button class="btn" onclick="startQueue()">ابدأ الحلقة ←</button>`:''}
+ </div>`;
+ /* جدول المراجعة */
+ const sched=Object.keys(MADRASA_TREE.nodes)
+   .filter(id=>N[id].kind==='atom'&&MADRASA.nextDate(id))
+   .sort((a,b)=>MADRASA.nextDate(a)<MADRASA.nextDate(b)?-1:1);
+ h+=`<div class="sec-h">جدول المراجعة</div><div class="card" style="padding:6px 14px">`;
+ h+=sched.length?sched.slice(0,8).map(id=>{
+   const d=MADRASA.nextDate(id),past=d<=new Date().toISOString().slice(0,10);
+   return `<div class="row"><span style="cursor:pointer" onclick="jumpTo('${id}')">${esc(N[id].title)}</span><span class="d" style="${past?'color:var(--acc2);font-weight:700':''}">${arD(d)}</span></div>`;
+ }).join(''):'<div class="empty">لا شيء مجدولاً بعد — أول درس بانتظارك.</div>';
+ h+='</div>';
+ /* قائمة الصعب الجانبية */
+ const hard=MADRASA.hardList();
+ h+=`<div class="sec-h">قائمة الصعب</div><div class="card" style="padding:6px 14px">`;
+ h+=hard.length?hard.map(id=>`<div class="row"><span style="cursor:pointer" onclick="jumpTo('${id}')">${esc(N[id].title)}</span><span class="d">مستوى ${MADRASA.LEVELS[MADRASA.st(id).lv]}</span></div>`).join(''):'<div class="empty">لا شيء هنا — الذرات التي تفشل فيها تهبط إلى هذه القائمة.</div>';
+ h+='</div>';
+ /* شجرة المعرفة = تغيير الموضوع */
+ h+=`<div class="sec-h">شجرة المعرفة — انقر ذرةً لتنتقل إليها</div><div class="card tree" style="padding:8px">`;
+ h+=renderTree('ilm',0);
+ h+='</div>';
+ $('view').innerHTML=h;
+}
+function renderTree(nid,depth){
+ const n=N[nid];let h='';
+ if(n.kind==='atom'){
+  const a=MADRASA.st(nid);
+  const cls=a.hard?'hard':(!a.lastReview?'new':(a.last==='pass'&&a.lv===2?'mast':'learn'));
+  h+=`<div class="tnode" style="padding-inline-start:${depth*16+10}px" onclick="jumpTo('${nid}')"><span class="dot ${cls}"></span>${esc(n.title)}${a.lastReview?`<span class="sub">${MADRASA.LEVELS[a.lv]}</span>`:''}</div>`;
+ }else if(n.kind!=='ilm'){
+  h+=`<div class="tnode c" style="padding-inline-start:${depth*16+10}px"><span style="color:var(--acc)">◆</span>${esc(n.title)}</div>`;
+ }
+ (n.children||[]).forEach(ch=>h+=renderTree(ch,n.kind==='ilm'?depth:depth+1));
+ return h;
+}
+
+/* ─── الحلقة: درس → تمرين → تسجيل ─── */
+let queue=[],qix=0;
+function startQueue(){queue=MADRASA.todayQueue();qix=0;step()}
+function step(){if(qix>=queue.length){home();return}openAtom(queue[qix])}
+function jumpTo(id){queue=[];qix=0;openAtom(id)} /* تغيير الموضوع — يلغي خطة الجلسة */
+function openAtom(id){cur=id;lesson()}
+function lesson(){
+ const n=N[cur];
+ $('view').innerHTML=`<div class="card">
+  <div class="breadcrumb">${MADRASA.path(cur).slice(0,-1).map(t=>`<span>${esc(t)}</span>`).join(' ‹ ')}</div>
+  <div class="lesson-t">${esc(n.title)}</div>
+  <div class="lesson-b">${esc(n.body)}</div>
+  ${n.source?`<div class="src">المصدر: ${esc(n.source)}</div>`:''}
+  <button class="btn" onclick="exercise()">إلى التمرين ←</button>
+  <button class="btn2" onclick="home()">رجوع</button>
+ </div>`;
+}
+function exercise(){
+ const n=N[cur],a=MADRASA.st(cur),ex=n.skill.ex[a.lv]||n.skill.ex[n.skill.ex.length-1];
+ $('view').innerHTML=`<div class="card">
+  <div class="breadcrumb">${esc(n.title)} — التمرين</div>
+  <span class="lvbadge l${ex.lv}">المستوى: ${MADRASA.LEVELS[ex.lv]}</span>
+  <div class="qbox">${esc(ex.q)}</div>
+  <div class="warn">⚠ لا تنظر للحل قبل بذل الجهد الكافي — هذه قاعدة المنصة.</div>
+  <button class="btn2" id="showAns" onclick="reveal()">بذلت جهدي — أظهر الحل</button>
+  <div class="ans" id="ans">${esc(ex.a)}</div>
+  <div class="grades" id="grades">
+   <button class="gbtn fail" onclick="grade('fail')">أخطأت<br><small>موعد أقرب · تمرين أسهل</small></button>
+   <button class="gbtn barely" onclick="grade('barely')">بالكاد<br><small>نفس المستوى</small></button>
+   <button class="gbtn pass" onclick="grade('pass')">نجحت<br><small>موعد أبعد · تمرين أصعب</small></button>
+  </div>
+ </div>`;
+}
+function reveal(){
+ $('ans').classList.add('on');$('grades').classList.add('on');
+ $('showAns').style.display='none';
+}
+function grade(outcome){
+ const r=MADRASA.record(cur,outcome);
+ /* اقتراح اختبار المفهوم عند إتمامه */
+ const cid=MADRASA.parentConcept(cur);
+ const conceptDone=cid&&MADRASA.conceptMastered(cid);
+ $('view').innerHTML=`<div class="card">
+  <div class="result-big">${r.mastered?'أتقنتها ✦':'سُجِّلت'}</div>
+  <div class="result-sub">${r.mastered?'وصلت أعلى مستوى في هذه الذرة — تدخل طور المراجعة البعيدة':
+   `الموعد التالي: <b style="color:var(--acc)">${arD(r.nextReview)}</b> (بعد ${r.intervalDays.toLocaleString('ar-EG')} ${r.intervalDays===1?'يوم':'أيام'})<br>التمرين القادم: مستوى «${r.levelName}»`}</div>
+  ${conceptDone?`<div class="warn" style="border-color:var(--ok)">أتممت مفهوم «${esc(N[cid].title)}» كاملاً — تقترح المدرسة اختبار المفهوم: تمارينه الصعبة مجمعة.</div>`:''}
+  <button class="btn" onclick="${queue.length&&qix<queue.length-1?'qix++;step()':'home()'}">${queue.length&&qix<queue.length-1?'عنصر الخطة التالي ←':'عودة للاستقبال'}</button>
+ </div>`;
+}
+$('ilm').textContent='العينة: '+MADRASA_TREE.title;
+home();
+</script>
+<script src="../../shared/palette.js"></script>
+<script src="../../shared/feedback.js" data-pid="jadid2-core" data-title="المدرسة"></script>
+</body>
+</html>

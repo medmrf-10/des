@@ -1,0 +1,95 @@
+:root{
+  --bg:#f5f1e8; --card:#fffdf8; --ink:#2b2418; --muted:#7c6f58;
+  --line:#e3d9c6; --accent:#8a6b2f; --accent-soft:#efe6d0;
+  --hanbali:#7a4b8f; --shafii:#2e7d57; --maliki:#c06a1f; --hanafi:#2b6d8f;
+}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Noto Naskh Arabic','Amiri','Scheherazade New',serif;line-height:1.75}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+
+.top{background:linear-gradient(180deg,#f9f5ec,#f1ead9);border-bottom:1px solid var(--line);
+  padding:34px 0 26px}
+.top h1{margin:0;font-size:2rem;font-weight:700;letter-spacing:.2px}
+.top .accent{color:var(--accent)}
+.sub{margin:8px 0 0;color:var(--muted);font-size:1rem;max-width:70ch}
+
+.tabs{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.tab{font:inherit;font-weight:600;font-size:1rem;padding:8px 18px;border-radius:999px;
+  border:1px solid var(--line);background:#fbf7ec;color:var(--muted);cursor:pointer}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab:hover:not(.active){background:var(--accent-soft)}
+
+.toolbar{display:flex;gap:10px;align-items:center;margin:20px 0 14px;flex-wrap:wrap}
+#search{flex:1;min-width:240px;font:inherit;font-size:1.05rem;padding:10px 16px;
+  border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+#search:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.ghost{font:inherit;font-size:.92rem;padding:8px 14px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--line);background:transparent;color:var(--muted)}
+.ghost:hover{background:var(--accent-soft)}
+.hit{color:var(--muted);font-size:.9rem}
+
+.panel{display:none;padding-bottom:60px}
+.panel.active{display:block}
+
+.book{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin:0 0 10px;overflow:hidden}
+.book>button.head{all:unset;box-sizing:border-box;display:flex;align-items:baseline;gap:12px;
+  width:100%;padding:14px 18px;cursor:pointer}
+.book>button.head:focus{outline:2px solid var(--accent-soft)}
+.book .num{color:var(--muted);font-size:.85rem;min-width:2ch}
+.book .bname{font-size:1.18rem;font-weight:700;flex:1}
+.book .bcount{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.book .caret{color:var(--accent);transition:transform .18s}
+.book.open .caret{transform:rotate(180deg)}
+.book .body{display:none;border-top:1px dashed var(--line);padding:6px 18px 16px}
+.book.open .body{display:block}
+.book .pres{margin-top:8px;font-size:.85rem;color:var(--muted)}
+.book .variants{margin-top:4px;font-size:.85rem;color:var(--muted)}
+.book .variants .alt{display:block;padding-inline-start:12px}
+
+ul.babs{list-style:none;margin:10px 0 0;padding:0}
+ul.babs li{display:flex;align-items:baseline;gap:10px;padding:6px 0;
+  border-bottom:1px dashed #eee2cc}
+ul.babs li:last-child{border-bottom:none}
+ul.babs .btext{flex:1;font-size:1.05rem}
+ul.babs .btext .kind{color:var(--muted);font-size:.8em}
+
+.chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:.74rem;padding:1px 9px;border-radius:999px;color:#fff;white-space:nowrap}
+.chip.hanbali{background:var(--hanbali)} .chip.shafii{background:var(--shafii)}
+.chip.maliki{background:var(--maliki)} .chip.hanafi{background:var(--hanafi)}
+
+.mark{background:#f6df8d;border-radius:3px;padding:0 2px}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+
+.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px 22px;margin:0 0 14px}
+.sec h2{margin:0 0 8px;font-size:1.25rem;color:var(--accent)}
+.sec ul{margin:0;padding-inline-start:18px}
+.sec li{margin:4px 0}
+.sec .canon{font-weight:700}
+.sec .alts{list-style:none;padding:0;margin:4px 0 8px}
+.sec .alts li{display:flex;gap:8px;align-items:baseline;padding:3px 0;
+  border-bottom:1px dashed #eee2cc;font-size:.95rem}
+.sec .alts li:last-child{border:none}
+.sec .alts .t{flex:1;color:#4a4131}
+.src-tag{color:var(--muted);font-size:.8rem}
+
+table.srcs{width:100%;border-collapse:collapse;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table.srcs th,table.srcs td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);font-size:.95rem}
+table.srcs th{background:#efe8d7;font-weight:700}
+table.srcs tr:last-child td{border-bottom:none}
+.madh{font-size:.78rem;padding:1px 9px;border-radius:999px;color:#fff}
+.madh.hanbali{background:var(--hanbali)} .madh.shafii{background:var(--shafii)}
+.madh.maliki{background:var(--maliki)} .madh.hanafi{background:var(--hanafi)}
+
+.foot{border-top:1px solid var(--line);padding:18px 0;color:var(--muted);font-size:.85rem}
+
+@media (max-width:640px){
+  .top h1{font-size:1.5rem}
+  .book .bname{font-size:1.05rem}
+  ul.babs .btext{font-size:.98rem}
+}

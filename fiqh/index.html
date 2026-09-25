@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الفهرس القياسي — فقه</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>الفهرس القياسي — <span class="accent">فقه</span></h1>
+    <p class="sub" id="sub"></p>
+  </div>
+</header>
+
+<nav class="tabs wrap">
+  <button class="tab active" data-tab="index">الفهرس الموحّد</button>
+  <button class="tab" data-tab="conflicts">قائمة التعارضات</button>
+  <button class="tab" data-tab="sources">المصادر</button>
+</nav>
+
+<div class="wrap toolbar" id="toolbar">
+  <input id="search" type="search" placeholder="ابحث في الكتب والأبواب… (مثال: الصلاة، الرهن، الاستبراء)">
+  <button id="expandAll" class="ghost">فتح الكل</button>
+  <button id="collapseAll" class="ghost">طيّ الكل</button>
+  <span id="hitCount" class="hit"></span>
+</div>
+
+<main class="wrap">
+  <section id="tab-index" class="panel active">
+    <div id="books" class="books"></div>
+    <p id="empty" class="empty" hidden>لا نتائج مطابقة للبحث.</p>
+  </section>
+
+  <section id="tab-conflicts" class="panel">
+    <div id="conflicts"></div>
+  </section>
+
+  <section id="tab-sources" class="panel">
+    <div id="sources"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">مسودة أولى — البيانات مستخرجة آلياً من جداول محتويات مكتبة الشاملة (مجموعة Shamela4_Full_DB) لأشهر متون المذاهب الأربعة.</div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

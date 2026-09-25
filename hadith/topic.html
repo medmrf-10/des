@@ -21,7 +21,7 @@ body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
 .toolbar input:focus{border-color:var(--acc);outline:none}
 .lgnd{display:flex;gap:14px;font-size:12px;color:var(--dim)}
 .lg-sa{color:var(--ok)}.lg-mx{color:var(--acc2)}.lg-zu{color:var(--acc3)}
-.split{display:grid;grid-template-columns:340px 1fr;gap:12px;min-height:400px}
+.split{display:grid;grid-template-columns:340px minmax(0,1fr);gap:12px;min-height:400px}
 .paneT{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow-y:auto;max-height:calc(100vh - 190px);padding:6px}
 .paneD{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;overflow-y:auto;max-height:calc(100vh - 190px)}
 .tnode{padding:4px 8px;font-size:14px;border-radius:6px;cursor:pointer;user-select:none;white-space:nowrap}
@@ -47,7 +47,7 @@ body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
 .lbar{height:8px;border-radius:4px;background:var(--card2);max-width:420px;margin:14px auto 0;overflow:hidden}
 .lbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc2),var(--acc));transition:width .2s}
 .more{display:block;width:100%;margin:8px 0;padding:8px;background:var(--card2);border:1px dashed var(--border);color:var(--acc2);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
-@media(max-width:900px){.split{grid-template-columns:1fr}.paneT{max-height:40vh}}
+@media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.paneT{max-height:40vh}}
 </style>
 </head>
 <body>

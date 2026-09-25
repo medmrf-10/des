@@ -79,7 +79,7 @@ const hl=(t,q)=>esc(t).split('').length&&q?esc(t).replace(new RegExp(q.split(/\s
 const arNum=n=>Number(n).toLocaleString('ar-EG');
 
 /* ===== shell ===== */
-const TABS=[['sanad','السند'],['rijal','الرجال'],['cmp','المقارنة'],['topics','المواضيع'],['stats','إحصاء']];
+const TABS=[['sanad','السند'],['rijal','الرجال'],['cmp','المقارنة'],['topics','المواضيع'],['stats','إحصاء'],['sources','المصادر']];
 let S={tab:'sanad',book:'bukhari',h:1,q:'',nr:'',topic:'2'};
 const main=document.getElementById('main'),tabs=document.getElementById('tabs');
 tabs.innerHTML=TABS.map(([k,n])=>`<button data-t="${k}" onclick="go('${k}')">${n}</button>`).join('');
@@ -229,6 +229,20 @@ async function vStats(){
 }
 
 /* ===== render ===== */
+/* ===== sources tab — فهرس مصادر علوم الحديث (OpenITI نصوص نظيفة) ===== */
+let SRC=null;
+const SRC_CATS={mustalah:'المصطلح',rijal_tadib:'الرجال والجرح والتعديل',ilal:'العلل',takhrij_tarjih:'التخريج والترجيح',sahaba:'رجال الصحابة',shami_works:'أعمال الشامي'};
+async function vSources(){
+  if(!SRC){try{SRC=await(await fetch('sources.json')).json()}catch(e){SRC={categories:{}}}}
+  const catBtns=Object.keys(SRC_CATS).map(k=>`<button class="chip ${S.srcCat===k?'on':''}" onclick="S.srcCat='${k}';render()" style="${S.srcCat===k?'background:linear-gradient(135deg,var(--gold),#c9a24a);color:#14140f':''}">${SRC_CATS[k]} (${(SRC.categories[k]||[]).length})</button>`).join('');
+  const cat=S.srcCat||'rijal_tadib';
+  const items=(SRC.categories[cat]||[]).map(b=>{
+    const link=b.openiti?`https://github.com/OpenITI/${b.openiti.repo}/tree/master/data/${b.openiti.uri.split('.')[0]}/${b.openiti.uri}`:(b.shamela||'');
+    return `<div class="cmp" style="margin-bottom:8px"><b style="font-size:14px">${esc(b.title)}</b><div class="mut" style="margin:4px 0">${esc(b.author)}${b.death_h?' · ت '+b.death_h+'هـ':''}</div><div class="sn" style="font-size:12px;line-height:1.8">${esc(b.role)}</div>${link?`<a class="btn" style="margin-top:8px;display:inline-block;padding:5px 12px;font-size:12px" target="_blank" href="${link}">${b.openiti?'OpenITI — نص نظيف':'الشاملة'}</a>`:''}</div>`;
+  }).join('');
+  const corpNote=(SRC.corpora||[]).map(c=>`<div class="mut" style="font-size:11.5px;margin:6px 0"><b>${esc(c.name)}</b> — ${esc(c.role)} ${c.url?`<a href="${c.url}" target="_blank" style="color:var(--gold)">↗</a>`:''}</div>`).join('');
+  return `<h2>فهرس مصادر علوم الحديث والرجال</h2><p class="mut" style="font-size:12px;margin-bottom:10px">نصوص نظيفة قابلة للمعالجة — لا OCR ولا PDF. نقطة الانطلاق: OpenITI (وراثة الشاملة الرقمية).</p>${corpNote}<div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0">${catBtns}</div>${items||'<p class="mut">لا عناصر في هذه الفئة</p>'}`;
+}
 async function render(){
   tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
   main.innerHTML='<p class="mut">يُحمّل…</p>';
@@ -239,6 +253,7 @@ async function render(){
     else if(S.tab=='rijal')h=await vRijal();
     else if(S.tab=='cmp')h=await vCmp();
     else if(S.tab=='topics')h=await vTopics();
+    else if(S.tab=='sources')h=await vSources();
     else h=await vStats();
     main.innerHTML=h;
     const hn=document.getElementById('hn');if(hn)hn.addEventListener('change',e=>{S.h=+e.target.value||1;render()});

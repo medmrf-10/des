@@ -92,46 +92,149 @@ function grade(ok){
 }
 function clipTitle(id){ const c = CLIPS.find(x=>x.id===id); return c? c.title : id; }
 
+/* ---------- المكتبة ---------- */
+let cLevel = '', cTopic = '', cType = '';
+function viewContent(){
+  const items = CONTENT.filter(c=>(!cLevel||c.level===cLevel)&&(!cTopic||c.topic===cTopic)&&(!cType||c.type===cType));
+  app.innerHTML = `<div class="head"><h2>مكتبة التعرض المكثف</h2><span style="color:var(--muted);font-size:13px">${items.length} مادة</span></div>
+  <div class="filters">
+    <select onchange="cLevel=this.value;viewContent()"><option value="">كل المستويات</option>${LEVELS.map(l=>`<option value="${l}" ${l===cLevel?'selected':''}>${LEVEL_AR[l]}</option>`).join('')}</select>
+    <select onchange="cTopic=this.value;viewContent()"><option value="">كل المواضيع</option>${TOPICS.map(t=>`<option ${t===cTopic?'selected':''}>${t}</option>`).join('')}</select>
+    <select onchange="cType=this.value;viewContent()"><option value="">كل الأنواع</option>${Object.keys(TYPE_AR).map(t=>`<option value="${t}" ${t===cType?'selected':''}>${TYPE_AR[t]}</option>`).join('')}</select>
+  </div>
+  ${items.map(c=>`<div class="sent" style="margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+      <h3 style="direction:ltr;color:var(--gold-soft)">${esc(c.title)}</h3>
+      <span><span class="kind">${LEVEL_AR[c.level]}</span> <span class="kind">${TYPE_AR[c.type]}</span> <span class="kind listen">${c.topic}</span></span>
+    </div>
+    ${c.lines.map(l=>`
+      <div style="display:flex;align-items:baseline;gap:10px;margin-top:8px;border-bottom:1px dashed var(--line);padding-bottom:6px">
+        <button class="spk" data-say="${esc(l.en)}" title="استمع">🔊</button>
+        <div style="flex:1"><div class="en" style="font-size:15px">${esc(l.en)}</div><div style="font-size:12px;color:var(--muted)">${esc(l.ar)}</div></div>
+      </div>`).join('')}
+  </div>`).join('')}
+  ${items.length?'':'<div class="empty">لا مواد بهذا التصفية.</div>'}`;
+}
+
+/* ---------- النطق (SpeechSynthesis) ---------- */
+let ttsRate = 1;
+function speak(text, rate){
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = rate || ttsRate;
+    speechSynthesis.speak(u);
+  }catch(e){ toast('النطق غير مدعوم في متصفحك'); }
+}
+
 /* ---------- اختبار الاستماع ---------- */
-let quiz = [], qi = 0, score = 0;
+let lMode = 'dictate', lLevel = 'all', quiz = [], qi = 0, score = 0;
 function viewListen(){
-  quiz = [...LISTEN_QUIZ].sort(()=>Math.random()-.5); qi = 0; score = 0;
+  if(lMode==='clips'){ quiz=[...LISTEN_QUIZ].sort(()=>Math.random()-.5); qi=0; score=0; drawQClips(); return; }
+  let pool = LISTEN_LINES.filter(l=>lLevel==='all'||l.level===lLevel);
+  quiz = pool.sort(()=>Math.random()-.5).slice(0,10); qi=0; score=0;
   drawQ();
 }
 function drawQ(){
+  if(qi>=quiz.length){ app.innerHTML=`<div class="quiz"><div class="score">النتيجة: ${score} / ${quiz.length}</div><div class="empty"><button class="btn" onclick="viewListen()">إعادة</button></div></div>`; return; }
+  const q = quiz[qi];
+  const head = `<div class="head"><h2>اختبار الاستماع — ${lMode==='dictate'?'إملاء':'اختيار'}</h2><span style="color:var(--muted)">${qi+1}/${quiz.length} · ${LEVEL_AR[q.level]||''}</span></div>
+  <div class="listenbar">
+    <button class="btn" onclick="speak(quiz[qi].en)">🔊 استمع</button>
+    <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="speak(quiz[qi].en,0.6)">🐢 بطيء</button>
+    <label style="color:var(--muted);font-size:12px">السرعة <input type="range" min="0.5" max="1.5" step="0.05" value="${ttsRate}" oninput="ttsRate=+this.value"></label>
+  </div>`;
+  if(lMode==='dictate'){
+    app.innerHTML = `<div class="quiz">${head}
+    <div class="q"><div class="stem" style="color:var(--muted);font-size:13px">استمع ثم اكتب الجملة بالإنجليزية:</div>
+      <div class="opts" style="direction:ltr"><input id="ans_in" class="tin" placeholder="Type what you heard..." autocomplete="off" onkeydown="if(event.key==='Enter')checkDict()"></div>
+      <div class="opts"><button class="btn" onclick="checkDict()">تحقق</button></div>
+      <div class="res" id="res"></div>
+    </div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQ()">التالي ←</button></div></div>`;
+    $('#ans_in').focus();
+  }else{
+    const others = LISTEN_LINES.filter(l=>l.en!==q.en&&l.level===q.level);
+    const distract = (others.length>=3?others:LISTEN_LINES.filter(l=>l.en!==q.en)).sort(()=>Math.random()-.5).slice(0,3);
+    const opts=[q,...distract].sort(()=>Math.random()-.5);
+    app.innerHTML = `<div class="quiz">${head}
+    <div class="q" id="qc"><div class="stem" style="color:var(--muted);font-size:13px">استمع ثم اختر الجملة التي سمعتها:</div>
+      <div class="opts" style="flex-direction:column;align-items:stretch">${opts.map((o,i)=>`<button style="text-align:left" onclick="pickTTS(this,${i})" data-en="${esc(o.en)}">${esc(o.en)}</button>`).join('')}</div>
+      <div class="ar-hint">المعنى: ${esc(q.ar)}</div>
+    </div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQ()">التالي ←</button></div></div>`;
+  }
+}
+function checkDict(){
+  const q = quiz[qi], inp = $('#ans_in').value.trim();
+  const norm = s => s.toLowerCase().replace(/[^a-z' ]/g,'').replace(/\s+/g,' ').trim();
+  const a = norm(q.en).split(' '), b = norm(inp).split(' ');
+  let ok = 0;
+  const html = a.map(w=>{ const good = b.includes(w); if(good) ok++; return `<span class="${good?'rw':'rb'}">${esc(w)}</span>`; }).join(' ');
+  const pct = a.length? Math.round(ok/a.length*100):0;
+  if(pct===100) score++;
+  else if(pct>=70) score+=0.5;
+  $('#res').innerHTML = `<div style="margin-top:10px"><div class="en" style="font-size:16px">${html}</div>
+    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${pct}% — ${esc(q.ar)}</div>
+    <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(inp)}»</div></div>`;
+  $('#nextBtn').style.display='inline-block';
+}
+function pickTTS(btn, i){
+  const q = quiz[qi], qc = $('#qc');
+  if(qc.classList.contains('done')) return;
+  qc.classList.add('done');
+  qc.querySelectorAll('.opts button').forEach(b=>{
+    if(b.dataset.en===q.en) b.classList.add('right');
+    else if(b===btn) b.classList.add('wrong');
+    b.disabled=true;
+  });
+  if(btn.dataset.en===q.en) score++;
+  $('#nextBtn').style.display='inline-block';
+}
+function viewListenMenu(){
+  app.innerHTML = `<div class="quiz"><div class="head"><h2>اختبار الاستماع</h2></div>
+  <div class="filters">
+    <select onchange="lMode=this.value"><option value="dictate" ${lMode==='dictate'?'selected':''}>إملاء: استمع واكتب</option><option value="choice" ${lMode==='choice'?'selected':''}>اختيار: استمع واختر</option><option value="clips" ${lMode==='clips'?'selected':''}>مقاطع يوتيوب</option></select>
+    <select onchange="lLevel=this.value"><option value="all" ${lLevel==='all'?'selected':''}>كل المستويات</option>${LEVELS.map(l=>`<option value="${l}" ${l===lLevel?'selected':''}>${LEVEL_AR[l]}</option>`).join('')}</select>
+    <button class="btn" onclick="viewListen()">ابدأ ←</button>
+  </div>
+  <div class="empty" style="text-align:right">• «إملاء»: يقرأ المتصفح جملة إنجليزية (SpeechSynthesis) وتكتبها بدقة.<br>• «اختيار»: استمع واختر الجملة الصحيحة من أربع.<br>• «مقاطع يوتيوب»: الاختبار الأصلي على المقاطع المدمجة.<br>تحكم بالسرعة أعلى التمرين (0.5×–1.5×).</div></div>`;
+}
+
+function drawQClips(){
   if(qi >= quiz.length){
     app.innerHTML = `<div class="quiz"><div class="score">النتيجة: ${score} / ${quiz.length}</div>
-      <div class="empty"><button class="btn" onclick="viewListen()">إعادة الاختبار</button></div></div>`;
+      <div class="empty"><button class="btn" onclick="viewListenMenu()">القائمة</button></div></div>`;
     return;
   }
   const q = quiz[qi];
   const opts = [...q.options].sort(()=>Math.random()-.5);
   app.innerHTML = `<div class="quiz">
-    <div class="head"><h2>اختبار الاستماع</h2><span style="color:var(--muted)">سؤال ${qi+1}/${quiz.length}</span></div>
+    <div class="head"><h2>اختبار الاستماع — مقاطع يوتيوب</h2><span style="color:var(--muted)">سؤال ${qi+1}/${quiz.length}</span></div>
     <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${q.clip}" title="listen" allowfullscreen></iframe></div>
     <div class="q" id="qc">
       <div class="stem">${esc(q.text)}</div>
-      <div class="opts">${opts.map(o=>`<button onclick="pick(this,'${esc(o)}')">${esc(o)}</button>`).join('')}</div>
+      <div class="opts">${opts.map((o,i)=>`<button onclick="pick(this,${i})" data-en="${esc(o)}">${esc(o)}</button>`).join('')}</div>
       <div class="ar-hint">المعنى: ${esc(q.ar)}</div>
     </div>
-    <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQ()">التالي ←</button></div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQClips()">التالي ←</button></div>
   </div>`;
 }
-function pick(btn, o){
+function pick(btn, i){
   const q = quiz[qi], qc = $('#qc');
   if(qc.classList.contains('done')) return;
   qc.classList.add('done');
   qc.querySelectorAll('.opts button').forEach(b=>{
-    if(b.textContent === q.answer) b.classList.add('right');
+    if(b.dataset.en === q.answer) b.classList.add('right');
     else if(b === btn) b.classList.add('wrong');
     b.disabled = true;
   });
-  if(o === q.answer) score++;
+  if(btn.dataset.en === q.answer) score++;
   $('#nextBtn').style.display = 'inline-block';
 }
 
 /* ---------- توجيه ---------- */
-const routes = {'feed':viewFeed, 'bank':viewBank, 'review':viewReview, 'listen':viewListen};
+const routes = {'feed':viewFeed, 'content':viewContent, 'bank':viewBank, 'review':viewReview, 'listen':viewListenMenu};
 function route(){
   const r = (location.hash.replace('#/','') || 'feed');
   (routes[r] || viewFeed)();
@@ -145,6 +248,7 @@ route();
 app.addEventListener('click', e=>{
   const t = e.target;
   if(t.classList.contains('toggle')){ document.getElementById(t.dataset.t).classList.toggle('show'); return; }
+  if(t.classList.contains('spk')){ speak(t.dataset.say); return; }
   if(t.classList.contains('w')){
     const key = t.dataset.en.toLowerCase();
     if(bank[key]) toast('«'+t.dataset.en+'» محفوظة مسبقاً');

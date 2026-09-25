@@ -1,0 +1,19 @@
+header{text-align:center;padding:22px 14px 8px}header h1{font-size:1.6rem;color:var(--acc);margin:0}header .tagline{color:var(--tx2);font-size:.82rem;margin:6px 0 0}
+.wrap{max-width:680px;margin:0 auto;padding:10px 14px 40px}
+.seg{display:flex;gap:6px;margin-bottom:12px}
+.sg{flex:1;background:var(--card);border:1px solid var(--border);color:var(--tx2);border-radius:10px;padding:10px;font-size:.9rem;cursor:pointer;font-family:inherit}
+.sg.on{border-color:var(--acc);color:var(--acc);background:rgba(201,162,75,.07)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 15px;margin-bottom:9px}
+.bar-card{padding:12px}
+.pbar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--acc);transition:width .3s;width:0}
+.pstat{text-align:center;font-size:.75rem;color:var(--tx2);margin-top:8px}
+.dh{cursor:pointer;transition:border-color .15s}
+.dh:hover{border-color:var(--acc)}
+.dh.done{border-color:var(--ok,rgba(120,200,140,.5));opacity:.75}
+.dh-t{font-size:1rem;line-height:2;color:var(--txt)}
+.dh-f{display:flex;justify-content:space-between;margin-top:9px;font-size:.72rem}
+.cnt{color:var(--acc);font-weight:700}
+.tick{color:var(--tx3)}
+.dh.done .tick{color:var(--ok,#7fcf8e)}
+.btn{cursor:pointer;font-family:inherit}

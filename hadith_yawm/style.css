@@ -1,0 +1,15 @@
+header{text-align:center;padding:22px 14px 8px}header h1{font-size:1.6rem;color:var(--acc);margin:0}header .tagline{color:var(--tx2);font-size:.82rem;margin:6px 0 0}
+.wrap{max-width:680px;margin:0 auto;padding:10px 14px 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:.9rem;color:var(--acc)}
+.day{border-color:var(--acc);background:linear-gradient(180deg,rgba(201,162,75,.05),transparent)}
+#dnum{color:var(--acc);font-size:.75rem;font-weight:700;margin-bottom:10px}
+.dtxt{font-size:1.25rem;line-height:2.3;color:var(--txt);font-family:'Amiri',serif}
+.dmeta{font-size:.7rem;color:var(--tx2);margin:12px 0}
+.v{padding:2px 10px;border-radius:999px;font-size:.68rem;border:1px solid}.v.ok{color:#7fcf8e;border-color:#7fcf8e}.v.hs{color:var(--acc2);border-color:var(--acc2)}
+.drow{display:flex;gap:8px;justify-content:center;margin-top:10px}
+textarea{width:100%;box-sizing:border-box;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 12px;font-family:inherit;font-size:.88rem;min-height:60px;resize:vertical}
+.msg{color:var(--acc);font-size:.72rem;margin-right:8px}
+.tip{background:var(--card2);text-align:center;font-size:.8rem}.tip a{color:var(--acc);text-decoration:none}
+.btn.sm{padding:6px 16px;font-size:.75rem;cursor:pointer;border-radius:9px;border:1px solid var(--acc);background:transparent;color:var(--acc);font-family:inherit}
+.btn.sm:hover{background:rgba(201,162,75,.1)}

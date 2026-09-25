@@ -211,8 +211,12 @@ function renderToday(){
 function setName(){const v=$('#nm').value.trim();if(v){me.name=v;LS('mz_name',v);renderToday();toast('أهلاً بك يا '+v)}}
 function suggest(what){const s=LS('portal_suggestions')||{};(s['manzuma']=s['manzuma']||[]).push({n:me.name||'?',t:what,st:'pending'});LS('portal_suggestions',s);toast('سُجّل طلبك — يُنفَّذ بإذن الله')}
 /* ---------- TUTOR ---------- */
-let CX=null;
+let CX=null,GID=null;
 async function loadIdx(){if(CX)return CX;$('#tStatus').textContent='أحمّل فهرس 60 ألف مقطع...';await new Promise(r=>{const sc=document.createElement('script');sc.src='../durus/clipindex.js';sc.onload=r;document.head.appendChild(sc)});CX={clips:CLIPIDX};return CX}
+async function loadGid(){if(GID)return GID;await new Promise(r=>{const sc=document.createElement('script');sc.src='../hadith/analysis.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});GID=window.GIDNET||null;
+  if(GID&&GID.cov&&!GID._gidcov){GID._gidcov={};const order=[['sa','في الصحيحين'],['mx','في الصحيحين والسنن'],['zu','في السنن']];
+    for(const tid in GID.cov){const c=GID.cov[tid];for(const[lay,label]of order){for(const gid of(c[lay]||[])){if(!GID._gidcov[gid]||order.findIndex(o=>o[0]===lay)<order.findIndex(o=>o[0]===GID._gidcov[gid][0]))GID._gidcov[gid]=[lay,label]}}}}
+  return GID}
 function askTutor(){
   const q=$('#tq').value.trim();if(!q)return;
   const words=tok(q);if(!words.length)return;
@@ -233,6 +237,22 @@ function askTutor(){
       const link=r.ty==='c'?r.u:`../durus/index.html#s=${r.s}`;
       return `<div class="res"><b style="font-size:14px">${esc(ttl)}</b>${body}<div class="meta"><span class="chip">${esc(sr.n)}</span><span class="chip g">${esc(shName)}</span>${r.l?`<span class="chip">درس ${r.l}</span>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="${link}">▶ شغّل</a><button class="btn sm ghost" onclick='saveNote(${JSON.stringify({s:r.s,l:r.l||null,t:ttl,u:link})})'>🔖 احفظ</a></div></div>`
     }).join(''):'<div class="empty">لا نتيجة — جرّب كلمات أبسط (مثال: «الصلاة» بدل «حكم صلاة الجمعة»)</div>';
+  });
+  // شبكة المعنى — أجوبة الحديث بأحكامها الموحدة (منهجية صالح الشامي)
+  $('#tStatus').textContent='…وأبحث في شبكة المعنى (5,889 معنى محكوماً)';
+  loadGid().then(g=>{
+    $('#tStatus').textContent='';
+    if(!g||!g.g)return;
+    const hits=[];
+    for(const gid in g.g){const e=g.g[gid];const t=norm(e.t);let hit=0;for(const w of words)if(t.includes(w))hit++;if(hit>=Math.min(words.length,2))hits.push({gid,t:e.t,h:e.h,s:e.s,r:e.r,sc:hit+e.s/100})}
+    hits.sort((a,b)=>b.sc-a.sc);
+    const top=hits.slice(0,8);if(!top.length)return;
+    const hc=h=>h==='صحيح'?'var(--ok)':h==='حسن'?'var(--acc2)':'var(--dim)';
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من شبكة المعنى — أحاديث محكومة</h2>'+top.map(x=>{
+      const layer=(g._gidcov&&g._gidcov[x.gid])?g._gidcov[x.gid][1]:'';
+      const saveO=JSON.stringify({s:0,l:null,t:x.t.slice(0,90),u:'../hadith/net.html#gid='+x.gid}).replace(/'/g,'&#39;');
+      return '<div class="res"><div style="display:flex;gap:8px;align-items:flex-start"><b style="font-size:14px;flex:1">'+esc(x.t)+'</b><span class="chip" style="border-color:'+hc(x.h)+';color:'+hc(x.h)+'">'+esc(x.h)+'</span></div><div class="meta"><span class="chip">صحابة '+(+x.s).toLocaleString('ar-EG')+'</span><span class="chip">تكرار '+(+x.r).toLocaleString('ar-EG')+'</span>'+(layer?'<span class="chip g">'+layer+'</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../hadith/net.html#gid='+x.gid+'">افتح في الشبكة</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
   });
 }
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}

@@ -429,3 +429,33 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .ex-w-a{color:var(--ok);display:block;font-size:.68rem}
 .ex-win{color:var(--ok);font-weight:700;margin:14px 0}
 .ex-act{margin-top:18px}
+
+/* ====== متتبع المشاريع ====== */
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 18px}
+.ptab{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:6px 16px;color:var(--dim);font-family:inherit;font-size:.78rem;cursor:pointer}
+.ptab.on{background:var(--acc);color:#1a1408;border-color:var(--acc);font-weight:600}
+.ptr-mine{display:flex;flex-direction:column;gap:8px}
+.ptr-chip{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;cursor:pointer;font-family:inherit;color:var(--txt);text-align:start}
+.ptr-chip:hover{border-color:var(--acc)}
+.ptr-chip-t{font-size:.8rem;min-width:38%}
+.ptr-chip .track-bar.sm{flex:1;height:7px}
+.ptr-chip b{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--acc2)}
+.ptr-empty{font-size:.76rem;color:var(--dim)}
+.ptr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.ptr-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;font-family:inherit;color:var(--txt);text-align:start}
+.ptr-card:hover{border-color:var(--acc)}
+.ptr-card.done{border-color:var(--ok)}
+.ptr-card-t{font-weight:700;font-size:.9rem;color:var(--acc2)}
+.ptr-card-tr{font-size:.66rem;color:var(--dim);margin:3px 0 8px}
+.ptr-card-d{font-size:.74rem;color:var(--dim);line-height:1.7;min-height:3.4em}
+.ptr-card-m{font-size:.68rem;color:var(--dim)}
+.ptr-d{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:20px;max-width:620px;margin:16px auto}
+.ptr-d-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ptr-d-h h3{margin:0;font-size:1rem}
+.ptr-d-tr{font-size:.68rem;color:var(--dim)}
+.ptr-d-desc{font-size:.78rem;color:var(--dim);line-height:1.8;margin:8px 0 12px}
+.ptr-lock{font-size:.72rem;color:var(--acc);margin-bottom:8px}
+.ptr-reqs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ptr-steps-h{font-size:.78rem;color:var(--acc2);font-weight:600;margin-bottom:8px}
+.ptr-steps{display:flex;flex-direction:column;gap:6px}
+.ptr-win{margin-top:14px;color:var(--ok);font-weight:700;text-align:center}

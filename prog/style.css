@@ -203,3 +203,34 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 /* بطاقة المختبر الحر في شاشة المسارات */
 .free-card{border-style:dashed;border-color:var(--acc);cursor:pointer}
 .free-card:hover{border-color:var(--acc2);background:rgba(201,162,75,.05)}
+
+/* ====== الكورسات: خارطة 4 مستويات ====== */
+.c-empty{border:1px dashed var(--border);border-radius:14px;padding:30px;text-align:center;color:var(--dim)}
+.c-empty code{color:var(--acc2)}
+.c-levels{margin-bottom:18px}
+.c-chips{display:flex;flex-wrap:wrap;gap:8px}
+.c-chip{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:99px;padding:8px 16px;font-family:inherit;font-size:.85rem;cursor:pointer}
+.c-chip:hover{border-color:var(--acc)}
+.c-chip.on{border-color:var(--acc);color:var(--acc2);background:rgba(201,162,75,.08)}
+.c-cnt{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:99px;font-size:.65rem;padding:1px 8px;margin-inline-start:6px;color:var(--dim)}
+.c-chip.on .c-cnt{color:var(--acc2);border-color:var(--acc)}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.c-course{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .15s}
+.c-course:hover{border-color:var(--acc)}
+.c-course.on{border-color:var(--acc);background:rgba(201,162,75,.05)}
+.c-c-title{font-weight:700;font-size:.95rem;margin-bottom:6px;line-height:1.6}
+.c-c-meta{font-size:.72rem;color:var(--dim);margin-bottom:10px}
+.c-c-prog{display:flex;align-items:center;gap:8px}
+.c-c-prog .track-bar{flex:1}
+.c-c-num{font-size:.7rem;color:var(--dim);white-space:nowrap}
+.c-tree{display:flex;flex-direction:column;gap:8px}
+.c-ch{border:1px solid var(--border);background:var(--card);border-radius:12px;overflow:hidden}
+.c-ch>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.88rem;color:var(--acc2);list-style:none;display:flex;align-items:center;user-select:none}
+.c-ch>summary::-webkit-details-marker{display:none}
+.c-ch>summary .c-cnt{margin-inline-start:auto}
+.c-ch:not([open])>summary{border-bottom:none}
+.c-lessons{padding:4px 14px 12px;border-top:1px solid var(--border)}
+.c-lesson{display:flex;align-items:center;gap:10px;padding:7px 4px;font-size:.83rem;color:var(--txt);cursor:pointer;border-bottom:1px dashed rgba(42,51,80,.4)}
+.c-lesson:last-child{border-bottom:none}
+.c-lesson input{accent-color:var(--acc);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.c-lesson:has(input:checked){color:var(--dim);text-decoration:line-through}

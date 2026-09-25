@@ -55,12 +55,19 @@ function viewHome(){
   app.innerHTML = `
   <div class="head"><h2>الأفعال الشاذة</h2><span class="muted">اليوم: ${today.ok} صحيحة · ${today.n} محاولة</span></div>
   <div class="card"><div class="body" style="text-align:center">
-    40 فعلاً شاذاً بثلاثة أوضاع. ${seen?`غطّيت ${seen}/40 فعلاً.`:''}
+    احفظ تصريفات <b>40 فعلاً شاذاً</b> على ٣ مراحل: بطاقة للحفظ ← كتابة الماضي والتصريف ← فراغ في جملة.
+    <div class="muted" style="font-size:13px;margin-top:8px">مثال محلول:</div>
+    <div dir="ltr" style="background:var(--navy-3);border-radius:10px;padding:8px 14px;display:inline-block;font-size:16px;margin-top:2px">
+      <b style="color:var(--gold)">go</b> → <b>went</b> → <b>gone</b> <span class="muted">= ذهب</span>
+    </div>
+    ${seen?`<div class="muted" style="font-size:13px;margin-top:6px">غطّيت ${seen}/40 فعلاً.</div>`:''}
     ${!ttsOn()?'<div class="muted" style="color:var(--warn);margin-top:6px">النطق غير متاح بجهازك — البطاقات تعمل بصرياً فقط.</div>':''}
-    <div class="grades" style="justify-content:center">
-      <button class="btn" onclick="startSession('flash')">١ · بطاقات (40)</button>
-      <button class="btn" onclick="startSession('type')">٢ · اكتب التصريف (10)</button>
-      <button class="btn" onclick="startSession('sent')">٣ · أكمل الجملة (10)</button>
+    <div class="grades" style="justify-content:center;margin-top:10px">
+      <button class="btn" style="font-size:16px;padding:12px 30px" onclick="startSession('flash')">ابدأ — بطاقات ←</button>
+    </div>
+    <div class="muted" style="font-size:13px;margin-top:6px">أو تدرّب مباشرة:
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft);font-size:13px;padding:6px 12px" onclick="startSession('type')">اكتب التصريف (10)</button>
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft);font-size:13px;padding:6px 12px" onclick="startSession('sent')">أكمل الجملة (10)</button>
     </div>
   </div></div>
   ${w.length?`

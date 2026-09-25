@@ -65,6 +65,7 @@ function render(){
   const weakChips = weak.map(w=>`<a class="ltag" style="text-decoration:none" href="index.html?clip=${encodeURIComponent(w.clip)}#/short" title="${esc(w.clip)}">${esc(w.en)}${w.ar?` <i>${esc(w.ar)}</i>`:''}</a>`).join(' ');
 
   app.innerHTML = `<div class="head"><h2>المكتبة</h2><span style="color:var(--muted);font-size:13px">${CLIPS.length} مقاطع · ${seen.size} كلمة تعرّضت · ${mine.length} متقنة</span></div>
+  <div class="muted" style="font-size:13px;margin-bottom:8px">فهرس كل ما جمعته: تقدّمك في مقاطع ShortForm وكلماتك المتقنة وما تحتاج عملاً.</div>
   <h3 class="lsec">مقاطع ShortForm</h3>
   <div class="grid">${cards}</div>
   <h3 class="lsec">كلماتي — المتقنة (${mine.length})</h3>

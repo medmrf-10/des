@@ -25,6 +25,7 @@ function viewPick(){
   }).join('');
   const totX = Object.values(m).filter(v=>v.g==='x').length;
   app.innerHTML = `<div class="head"><h2>اختر مقطعاً للتظليل</h2><span class="rstreak">أتقنت تقليد ${totX} جملة</span></div>
+  <div class="muted" style="font-size:13px;margin-bottom:8px">استمع لكل جملة، سجّل صوتك مردداً إياها، ثم قيّم نفسك — الإتقان يُحسب في مكتبتك.</div>
   <div class="grid">${cards}</div>`;
 }
 

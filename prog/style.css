@@ -783,3 +783,15 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .tr-why{font-size:.74rem;color:var(--dim);background:var(--card2);border-radius:8px;padding:8px 12px;margin-top:10px}
 .tr-why b{color:var(--txt)}
 @media(max-width:720px){.tr-grid{grid-template-columns:1fr}}
+
+/* مُصلِح — أسطر قابلة للنقر وتحرير سطر */
+.ms-goal{font-size:.78rem;color:var(--dim);background:var(--card2);border-radius:8px;padding:8px 12px;margin:10px 0}
+.ms-code{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px;direction:ltr;text-align:left;font-size:.78rem;line-height:1.8}
+.ms-line{display:flex;gap:10px;border-radius:6px;cursor:pointer;padding:1px 4px}
+.ms-line:hover{background:rgba(201,162,39,.08)}
+.ms-line.sel{background:rgba(201,162,39,.15);outline:1px solid var(--acc)}
+.ms-ln{color:var(--dim);min-width:16px;text-align:right;user-select:none;font-size:.66rem;padding-top:3px}
+.ms-line code{white-space:pre-wrap;color:var(--txt)}
+.ms-in{width:100%;background:var(--card2);border:1px solid var(--acc);border-radius:8px;color:var(--txt);padding:9px 12px;font-size:.78rem;box-sizing:border-box}
+.ms-fail{color:#e0a0a0;font-size:.76rem}
+.ms-warn{color:var(--acc)}

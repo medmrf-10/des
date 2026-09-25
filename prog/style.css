@@ -314,3 +314,25 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .pj-step{display:flex;align-items:flex-start;gap:8px;font-size:.76rem;color:var(--txt);padding:5px 0;cursor:pointer}
 .pj-step.lock{opacity:.5;cursor:not-allowed}
 .pj-step input{accent-color:var(--ok);margin-top:3px}
+
+/* ====== مراجعة متباعدة ====== */
+.rv-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:20px}
+.rv-stat{display:flex;flex-direction:column;align-items:center;min-width:70px}
+.rv-stat b{color:var(--acc2);font-size:1.3rem}
+.rv-stat span{font-size:.68rem;color:var(--dim)}
+.rv-next{font-size:.72rem;color:var(--dim);margin-inline-start:auto}
+.rv-start{text-align:center;padding:30px 0}
+.rv-empty{text-align:center;color:var(--dim);padding:40px 20px;background:var(--card);border:1px dashed var(--border);border-radius:14px;font-size:.85rem;line-height:1.8}
+.rv-card{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;text-align:center}
+.rv-meta{font-size:.72rem;color:var(--dim);margin-bottom:12px}
+.rv-open{color:var(--acc2);text-decoration:none;font-size:.85rem}
+.rv-q{font-size:1.05rem;line-height:1.8;margin-bottom:16px}
+.rv-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;text-align:start}
+.rv-opt{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.82rem}
+.rv-opt.ok{border-color:var(--ok);background:rgba(70,201,109,.12);color:var(--ok)}
+.rv-opt.dim{opacity:.45}
+.rv-rate{margin-top:8px;font-size:.82rem;color:var(--dim)}
+.rv-quals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.rv-q-btn{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;color:var(--txt);font-size:.72rem;cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:center;font-family:inherit}
+.rv-q-btn i{font-style:normal;color:var(--acc2);font-weight:700}
+.rv-q-btn:hover{border-color:var(--acc)}

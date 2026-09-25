@@ -72,6 +72,8 @@ const progDone=['prog_debug','prog_patterns','prog_regex','prog_sql','prog_read'
 const daft=(LS('daftar')||{}),daftN=typeof daft==='object'?(daft.items||daft.notes||Object.keys(daft)).length||Object.keys(daft).length:0;
 /* compose wird */
 const items=[];
+const cur=(LS('wird_curriculum')||[]),nxStep=cur.find(s=>!s.done);
+if(nxStep)items.push({i:'🎯',t:'منهجك: '+nxStep.t,s:'خطوتك التالية من مِنهَج — الذي بنيته أنت بيدك',u:nxStep.u||'../manhaj/',k:'cur'});
 items.push({i:'📚',t:'تابع تراثك',s:doneIds.length?`أنهيت ${doneIds.length.toLocaleString('ar-EG')} سلسلة — واصل من حيث توقفت`:'لم تبدأ سلسلة بعد — اليوم يوم البداية',u:'../manzuma/',k:'mz'});
 items.push({i:'🇬🇧',t:srsDue?`كلمات مستحقة للمراجعة: ${srsDue.toLocaleString('ar-EG')}`:(enR?'روتين اليوم تم ✓ — دُفعة إضافية؟':'روتينك اليومي بالإنجليزية'),s:'من فلسفتك: تعرّض مكثف قصير كل يوم، لا كثيراً متباعداً',u:srsDue?'../english/srs.html':'../english/routine.html',k:'en'});
 items.push({i:'💻',t:progDone?`تمرين البرمجة التالي (${progDone.toLocaleString('ar-EG')} مهارات لك فيها تقدّم)`:'أول تمرين برمجة لك',s:'اقرأ قبل أن تكتب — المُتتبّع يريّض العين على الكود',u:'../prog/today.html',k:'pg'});

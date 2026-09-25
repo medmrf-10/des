@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِنهَج — منهجك بيدك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:18px 14px 40px}
+h1{font-family:var(--font-ar);font-size:26px;margin:4px 0 2px;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--dim);font-size:.8rem;margin-bottom:14px;line-height:1.9}
+.step{display:flex;gap:10px;align-items:center;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:13px;padding:12px 14px;margin-top:9px}
+.step.done{opacity:.5}
+.step.done .st{text-decoration:line-through}
+.step .num{width:26px;height:26px;flex:none;border-radius:50%;background:var(--card2);border:1px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700}
+.step .st{font-size:.9rem;font-weight:600}
+.step .sn{font-size:.68rem;color:var(--dim);margin-top:2px}
+.step .mv{display:flex;flex-direction:column;gap:3px;margin-inline-start:auto;flex:none}
+.step .mv button{border:1px solid var(--border);background:var(--card2);color:var(--dim);border-radius:7px;padding:2px 9px;font-size:.72rem;cursor:pointer}
+.step .mv button:hover{color:var(--acc);border-color:var(--acc)}
+.step .ops{display:flex;gap:5px;flex:none}
+.step .ops a,.step .ops button{border:1px solid var(--border);background:var(--card2);color:var(--txt);border-radius:8px;padding:4px 11px;font-size:.7rem;cursor:pointer;font-family:inherit;text-decoration:none}
+.step .ops .g{border-color:var(--ok);color:var(--ok)}
+.add{background:var(--card);border:1px dashed var(--acc);border-radius:13px;padding:14px 16px;margin-top:14px}
+.add input,.add select{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:9px;color:var(--txt);padding:9px 13px;font-family:inherit;font-size:.83rem;margin-top:7px}
+.add .row{display:flex;gap:8px}
+.add button{margin-top:9px;width:100%;background:var(--acc);border:none;color:#0b0f1a;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem}
+.nxt{margin-top:14px;text-align:center}
+.nxt a{display:inline-block;border:1px solid var(--acc);color:var(--acc);border-radius:11px;padding:10px 22px;text-decoration:none;font-size:.85rem}
+.empty{text-align:center;color:var(--dim);padding:36px 10px;font-size:.85rem;line-height:2.1}
+</style>
+</head>
+<body>
+<h1>مِنهَج</h1>
+<div class="sub">رتّب طريقك بيدك: اختر من أدواتك وسلاسلك وكتبك، أعد ترتيبها متى شئت، و«وِرد» يقرأها فيصبح جدولك اليومي هو <b>منهجك أنت</b> لا منهج غيرك.</div>
+<div id="list"></div>
+<div class="add">
+ <b style="color:var(--acc);font-size:.83rem">+ خطوة جديدة في منهجك</b>
+ <select id="pick"><option value="">— اختر من أدواتك الجاهزة —</option></select>
+ <input id="nt" placeholder="أو اكتب خطوتك بنفسك (مثال: ختم تفسير سورة البقرة)">
+ <input id="nu" placeholder="رابطها (اختياري — اتركه فارغاً للخطوات الشخصية)">
+ <button id="add">أضف إلى منهجي</button>
+</div>
+<div class="nxt" id="nxt"></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const K='wird_curriculum';
+const D=()=>JSON.parse(localStorage.getItem(K)||'[]');
+const S=a=>localStorage.setItem(K,JSON.stringify(a));
+const SUGG=[
+ ['📚 التراث — خريطة السلاسل','../manzuma/'],
+ ['📜 نُصوص الدروس المفرّغة','../nusus/'],
+ ['🕌 مِحرَاب — مواقيتك','../mihrab/'],
+ ['📖 مِحفَظ — الحفظ والمراجعة','../mihfaz/'],
+ ['📗 قارئ الفقه','../fiqh_reader/'],
+ ['🕸️ شبكة معاني الحديث','../hadith/net.html'],
+ ['🐫 رِحلَة الراوي','../hadith/ruhawi.html'],
+ ['✝️ فهرس العقيدة والتصوف','../akida/'],
+ ['🇬🇧 روتين الإنجليزية اليومي','../english/routine.html'],
+ ['📚 بطاقات الإنجليزية SRS','../english/srs.html'],
+ ['📖 قصص إنجليزية مدرّجة','../english/story.html'],
+ ['💻 يومك في البرمجة','../prog/today.html'],
+ ['🔍 مُتتبّع الكود','../prog/tracer.html'],
+ ['♻️ المُعيد — إعادة الهيكلة','../prog/refactor.html'],
+];
+$('pick').innerHTML='<option value="">— اختر من أدواتك الجاهزة —</option>'+SUGG.map(s=>`<option value="${s[1]}">${s[0]}</option>`).join('');
+let arr=D();
+function render(){
+ $('list').innerHTML=arr.length?arr.map((s,i)=>`
+  <div class="step ${s.done?'done':''}">
+   <div class="num">${(i+1).toLocaleString('ar-EG')}</div>
+   <div style="flex:1;min-width:0"><div class="st">${esc(s.t)}</div>${s.n?`<div class="sn">${esc(s.n)}</div>`:''}${s.done?'<div class="sn" style="color:var(--ok)">أنجزتها ✓</div>':''}</div>
+   <div class="ops">
+    ${s.u?`<a href="${esc(s.u)}">افتح</a>`:''}
+    <button class="g" data-t="${i}">${s.done?'تراجع':'تم ✓'}</button>
+    <button data-x="${i}" style="color:#c66">✕</button>
+   </div>
+   <div class="mv"><button data-u="${i}">▲</button><button data-v="${i}">▼</button></div>
+  </div>`).join(''):'<div class="empty">منهجك فارغ — أضف أول خطوة أسفله.<br>اجعلها صغيرة: خطوة تنجز اليوم خير من عشرة تُرجى غداً.</div>';
+ const nx=arr.find(s=>!s.done);
+ $('nxt').innerHTML=nx?`<a href="${nx.u||'#'}">خطوتك التالية: ${esc(nx.t)} ←</a>`:(arr.length?'<div class="empty" style="padding:8px">أنهيت منهجك كله — بارك الله فيك، ابنِ التالي</div>':'');
+}
+document.addEventListener('click',e=>{
+ let b;
+ if(b=e.target.closest('[data-t]')){const i=+b.dataset.t;arr[i].done=!arr[i].done;S(arr);render();return}
+ if(b=e.target.closest('[data-x]')){arr.splice(+b.dataset.x,1);S(arr);render();return}
+ if(b=e.target.closest('[data-u]')){const i=+b.dataset.u;if(i>0){[arr[i-1],arr[i]]=[arr[i],arr[i-1]];S(arr);render()}return}
+ if(b=e.target.closest('[data-v]')){const i=+b.dataset.v;if(i<arr.length-1){[arr[i+1],arr[i]]=[arr[i],arr[i+1]];S(arr);render()}return}
+});
+$('add').onclick=()=>{
+ const pk=$('pick').value,pt=$('pick').options[$('pick').selectedIndex].text;
+ const t=$('nt').value.trim()||pk&&pt;
+ if(!t)return;
+ arr.push({t:t.replace(/^\S+\s/,m=>m),u:$('nu').value.trim()||pk,n:$('nt').value.trim()&&pk?pt:'',done:false});
+ S(arr);$('nt').value='';$('nu').value='';$('pick').value='';render();
+};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="manhaj" data-title="مِنهَج"></script>
+</body>
+</html>

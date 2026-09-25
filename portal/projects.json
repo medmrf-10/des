@@ -2293,5 +2293,32 @@
   "desc": "العتبة الدنيا — لا يوم صفري",
   "url": "../mi3tab/",
   "icon": "م"
+ },
+ {
+  "id": "ruhawi",
+  "title": "رِحلَة الراوي",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "رحلة الراوي — أثره عبر الكتب",
+  "url": "../hadith/ruhawi.html",
+  "icon": "ر"
+ },
+ {
+  "id": "verbs",
+  "title": "Verb Drills",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "مدرب الأفعال الشاذة",
+  "url": "../english/verb_drills.html",
+  "icon": "V"
+ },
+ {
+  "id": "refactor",
+  "title": "المُعيد",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "إعادة التهيكلة — شمّ الرائحة وأصلح",
+  "url": "../prog/refactor.html",
+  "icon": "م"
  }
 ]

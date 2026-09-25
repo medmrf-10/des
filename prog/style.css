@@ -698,3 +698,28 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .lb-link{display:inline-block;color:var(--acc);font-size:.7rem;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;margin:4px 0;transition:.15s}
 .lb-link:hover{border-color:var(--acc)}
 .lb-fail{background:#2d1210;border:1px solid #8d3a3a;border-radius:10px;padding:10px 14px;font-size:.78rem;color:#e0a0a0;margin:8px 0;font-family:'IBM Plex Mono',monospace}
+.lb-grid{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start}
+.lb-list{position:sticky;top:12px;max-height:calc(100vh - 60px);overflow:auto}
+@media (max-width:720px){.lb-grid{grid-template-columns:1fr}.lb-list{position:static;max-height:none}}
+
+/* ====== كاتب الاختبارات ====== */
+.tw-test{display:flex;gap:10px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:.15s;margin-bottom:8px}
+.tw-test:hover{border-color:var(--acc)}
+.tw-test input{margin-top:3px;accent-color:var(--acc)}
+.tw-test .tw-l{font-size:.8rem;flex:1}
+.tw-test .tw-e{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);direction:ltr;text-align:left;display:block;margin-top:4px;white-space:pre-wrap;word-break:break-all}
+.tw-test.v-ok{border-color:#6fc76f;background:#1e4620}
+.tw-test.v-bad{border-color:#a04040;background:#4a2020}
+.tw-test.v-pick-miss{border-style:dashed}
+.tw-verdict{font-size:.68rem;font-weight:700;margin-inline-start:auto;flex-shrink:0}
+.tw-w{font-size:.7rem;color:var(--dim);margin-top:4px}
+
+/* ====== تدفق Git ====== */
+.gf-sit{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:.85rem;line-height:1.8;margin-bottom:14px}
+.gf-sit code{font-family:'IBM Plex Mono',monospace;background:var(--bg);padding:1px 6px;border-radius:6px;font-size:.72rem;direction:ltr;display:inline-block}
+.gf-opts{display:flex;flex-direction:column;gap:8px}
+.gf-opt{background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 14px;cursor:pointer;transition:.15s;font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-align:left;direction:ltr}
+.gf-opt:hover{border-color:var(--acc)}
+.gf-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
+.gf-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
+.gf-opt:disabled{cursor:default;opacity:.85}

@@ -56,6 +56,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--border)}
 .res{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:13px;margin-bottom:10px}
 .res .snip{font-size:13px;line-height:1.9;color:#d7dcea;margin:8px 0;padding:10px;background:#10172b;border-radius:10px;border-right:3px solid var(--acc)}
 .res .meta{font-size:11px;color:var(--dim);display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pt{font-size:13px;line-height:1.9;color:#d7dcea;padding:7px 10px;background:#10172b;border-radius:10px;margin-bottom:6px;border-right:3px solid var(--acc)}
 mark{background:rgba(201,162,75,.3);color:#f0d9a0;border-radius:3px;padding:0 2px}
 /* ===== curriculum ===== */
 .subj{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s}
@@ -120,6 +121,9 @@ audio{width:100%;margin:8px 0}
     <div class="muted" id="tStatus" style="font-size:11px"></div>
   </div>
   <div id="tResults"></div>
+  <h2 style="margin-top:20px">دروس مُحلَّلة <span class="muted" id="enrCount" style="font-size:12px"></span></h2>
+  <div class="muted" style="margin-bottom:10px;font-size:12px">كل درس حلّله agy: عنوان موجّه + ملخص + فوائد + سؤال اختبار — يكبر تلقائياً كلما اكتمل تفريغ جديد</div>
+  <div id="enrList"></div>
 </section>
 <!-- ================= CURRICULUM ================= -->
 <section class="sec" id="s-curr">
@@ -180,7 +184,7 @@ function bump(){const today=new Date().toISOString().slice(0,10);let st=LS('mz_s
   if(st.d!==today){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);st.n=(st.d===y)?st.n+1:1;st.d=today;LS('mz_streak',st);}
   $('#streak').style.display='flex';$('#streakN').textContent=st.n;return st}
 /* ---------- tabs ---------- */
-function go(s){$$('nav a').forEach(a=>a.classList.toggle('on',a.dataset.s===s));$$('.sec').forEach(x=>x.classList.toggle('on',x.id==='s-'+s));if(s==='today')renderToday();if(s==='curr'&&!$('#subjList').innerHTML)renderCurr();if(s==='src'&&!$('#srcList').innerHTML)renderSrc();if(s==='studio')renderStudio();if(s==='note')renderNote();location.hash=s;window.scrollTo(0,0)}
+function go(s){$$('nav a').forEach(a=>a.classList.toggle('on',a.dataset.s===s));$$('.sec').forEach(x=>x.classList.toggle('on',x.id==='s-'+s));if(s==='today')renderToday();if(s==='tutor'&&!ENR)renderEnrich();if(s==='curr'&&!$('#subjList').innerHTML)renderCurr();if(s==='src'&&!$('#srcList').innerHTML)renderSrc();if(s==='studio')renderStudio();if(s==='note')renderNote();location.hash=s;window.scrollTo(0,0)}
 $$('nav a').forEach(a=>a.onclick=e=>{e.preventDefault();go(a.dataset.s)});
 addEventListener('hashchange',()=>{const s=location.hash.slice(1);if(s&&$('#s-'+s))go(s)});
 /* ---------- TODAY ---------- */
@@ -229,6 +233,19 @@ function askTutor(){
 }
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
 function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);toast('حُفظ في دفترك')}
+/* ---------- ENRICHED LESSONS ---------- */
+let ENR=null;
+async function renderEnrich(){
+  if(!ENR){try{ENR=await (await fetch('lessons_meta/index.json')).json()}catch(e){ENR=[]}}
+  $('#enrCount').textContent=ENR.length+' درساً';
+  $('#enrList').innerHTML=ENR.map((e,i)=>{
+    const sid=e.id&&/^(\d+)/.exec(e.id);
+    const open=sid?`../durus/index.html#s=${sid[1]}`:'#';
+    return `<div class="res"><b style="font-size:14px">${esc(e.title||e.id)}</b><div class="snip" style="margin-top:6px">${esc(e.summary||'')}</div><div id="enr-${i}" style="display:none;margin-top:8px">${(e.points||[]).map(p=>`<div class="pt">• ${esc(p)}</div>`).join('')}${e.quiz?`<div class="quiz" style="margin-top:10px"><b style="font-size:13px">${esc(e.quiz.q||e.quiz.question||'')}</b>${(e.quiz.options||e.quiz.choices||[]).map((o,j)=>`<button class="opt" onclick="ansQ(this,${j},${e.quiz.a??e.quiz.answer??0})">${esc(o)}</button>`).join('')}</div>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm ghost" onclick="toggleEnr(${i})">الفوائد والاختبار</button><a class="btn sm ghost" target="_blank" href="${open}">السلسلة</a></div></div>`
+  }).join('')||'<div class="empty">الدروس المحلّلة تُجهَّز الآن</div>';
+}
+function toggleEnr(i){const e=$('#enr-'+i);e.style.display=e.style.display==='none'?'block':'none'}
+function ansQ(el,j,a){el.parentElement.querySelectorAll('.opt').forEach((o,k)=>{if(k===a)o.classList.add('right');else if(k===j)o.classList.add('wrong')});bump()}
 /* ---------- CURRICULUM ---------- */
 window.onpopstate=()=>{if(!location.hash.startsWith('#cur-'))showSubj(null);else{const sj=decodeURIComponent(location.hash.slice(5));if(CURR[sj])showSubj(sj,true)}};
 function renderCurr(){

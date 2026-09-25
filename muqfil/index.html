@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مقفل — يومياتك المشفّرة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:16px}
+.lock{text-align:center;padding:60px 20px}
+.lock input{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:12px 20px;font-size:19px;text-align:center;font-family:var(--font-ar);width:200px;letter-spacing:6px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+.entry{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin:8px 0}
+.entry .d{font-size:10.5px;color:var(--acc2)}
+.entry .t{font-family:var(--font-ar);font-size:14px;line-height:1.9;margin-top:5px;white-space:pre-wrap}
+.entry .x{float:left;color:var(--dim);cursor:pointer;font-size:12px}
+.ta{width:100%;min-height:80px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:12px 15px;font-family:var(--font-ar);font-size:14px;resize:vertical}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<div class="lock" id="lock">
+ <div style="font-size:42px">🔒</div>
+ <h2 style="font-family:var(--font-ar);margin:10px 0">مقفل</h2>
+ <div class="muted">يومياتك مشفّرة AES-256 — لا يفتحها أحد سواك، حتى من يملك الملفات.</div>
+ <div style="margin-top:18px"><input id="pin" type="password" inputmode="numeric" placeholder="••••" maxlength="12"></div>
+ <div style="margin-top:12px"><button class="btn" id="open">افتح</button></div>
+ <div class="muted" id="lmsg" style="margin-top:10px"></div>
+</div>
+<div id="app" style="display:none">
+ <div style="display:flex;justify-content:space-between;align-items:center">
+  <h2 style="font-family:var(--font-ar);margin:6px 0">مقفل <span class="muted" style="font-weight:400;font-size:12px">— يومياتك الخاصة</span></h2>
+  <div><button class="btn gh" id="exp">⬇ تصدير مشفّر</button> <button class="btn gh" id="imp">⬆ استيراد</button></div>
+ </div>
+ <textarea class="ta" id="tx" placeholder="اكتب ما تشاء — محفوظ مشفّراً على جهازك…"></textarea>
+ <button class="btn" id="add" style="margin-top:9px">أضف لليوميات</button>
+ <div id="list" style="margin-top:14px"></div>
+ <input type="file" id="file" accept=".json" style="display:none">
+</div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let KEY=null,NOTES=[];
+const enc=new TextEncoder(),dec=new TextDecoder();
+const b64=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+const ub64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function keyOf(pin){const km=await crypto.subtle.importKey('raw',enc.encode(pin),'PBKDF2',0,1);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode('muqfil-mhm'),iterations:210000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},0,['encrypt','decrypt'])}
+async function encJ(o){const iv=crypto.getRandomValues(new Uint8Array(12));
+ const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},KEY,enc.encode(JSON.stringify(o)));
+ return JSON.stringify({iv:b64(iv),ct:b64(ct)})}
+async function decJ(s){try{const o=JSON.parse(s);
+ const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub64(o.iv)},KEY,ub64(o.ct));
+ return JSON.parse(dec.decode(pt))}catch(e){return null}}
+$('#open').onclick=async()=>{
+ const pin=$('pin').value;if(pin.length<4){$('#lmsg').textContent='الرقم 4+ أرقام';return}
+ KEY=await keyOf(pin);
+ const saved=localStorage.getItem('muqfil');
+ if(saved){
+  const o=await decJ(saved);
+  if(o===null){$('#lmsg').textContent='رقم خاطئ';return}
+  NOTES=o}else{
+  NOTES=[];await save()}
+ $('#lock').style.display='none';$('#app').style.display='block';render()};
+async function save(){localStorage.setItem('muqfil',await encJ(NOTES))}
+$('#add').onclick=async()=>{
+ const t=$('tx').value.trim();if(!t)return;
+ NOTES.unshift({t,at:Date.now()});$('tx').value='';await save();render()};
+function render(){
+ $('#list').innerHTML=NOTES.map((n,i)=>`<div class="entry"><span class="x" data-i="${i}">×</span><div class="d">${new Date(n.at).toLocaleString('ar')}</div><div class="t">${esc(n.t)}</div></div>`).join('')||'<div class="muted" style="text-align:center;padding:24px">لا مداخل بعد</div>'}
+$('#list').onclick=async e=>{const x=e.target.closest('.x');if(!x)return;
+ NOTES.splice(+x.dataset.i,1);await save();render()};
+$('#exp').onclick=()=>{const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([localStorage.getItem('muqfil')||'{}'],{type:'application/json'}));
+ a.download='muqfil-backup.json';a.click()};
+$('#imp').onclick=()=>$('file').click();
+$('file').onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ const s=await f.text();
+ const o=await decJ(s);
+ if(o===null){alert('الملف مشفّر برقم مختلف');return}
+ NOTES=o;await save();render()};
+$('pin').addEventListener('keydown',e=>{if(e.key==='Enter')$('open').click()});
+</script>
+<script src="../shared/feedback.js" data-pid="muqfil" data-title="مقفل"></script>
+</body>
+</html>

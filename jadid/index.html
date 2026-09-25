@@ -30,6 +30,8 @@ body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
 .card .open{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--acc);text-decoration:none;text-align:center;font-size:.74rem;padding:7px;font-weight:700}
 .card .open:hover{border-color:var(--acc)}
 .rate{display:flex;gap:8px;align-items:center;border-top:1px dashed var(--border);padding-top:10px;flex-wrap:wrap}
+.qv{font:600 .68rem/1 inherit;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--tx);cursor:pointer}
+.qv:hover{border-color:var(--acc)}
 .rate .lb{font-size:.66rem;color:var(--dim)}
 .num{width:70px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.84rem;padding:6px 10px;text-align:center}
 .ev{display:flex;flex-direction:column;gap:6px}
@@ -132,7 +134,7 @@ function card(p){
     <div class="dd">${esc(p.d)}</div>
     <a class="open" href="${esc(p.u)}" target="_blank">فتح الأداة</a>
     ${histHtml(p)}
-    <div class="rate"><span class="lb">تقييم ${n} من 100:</span><input class="num" type="number" min="0" max="100" data-num="${p.id}" placeholder="0-100"></div>
+    <div class="rate"><span class="lb">تقييم ${n} من 100:</span><input class="num" type="number" min="0" max="100" data-num="${p.id}" placeholder="0-100"><span class="lb">جاهز:</span>${[0,1,51,90].map(v=>`<button class="qv" data-qv="${v}" data-pid="${p.id}">${v}</button>`).join('')}</div>
     <div class="ev">
       <textarea class="tx" data-id="${p.id}" placeholder="ملاحظتك التفصيلية — المشكل والمطلوب — تصلني لحظياً"></textarea>
       <button class="send" data-id="${p.id}">إرسال التقييم ${n}</button>
@@ -170,6 +172,7 @@ function renderGrid(){
   $('cnt').textContent=list.length+' أداة';
   $('grid').innerHTML=list.map(card).join('');
 }
+document.addEventListener('click',e=>{const b=e.target.closest('.qv');if(!b)return;const inp=document.querySelector(`.num[data-num="${b.dataset.pid}"]`);if(inp){inp.value=b.dataset.qv;inp.focus()}});
 async function send(id){
   const num=document.querySelector(`.num[data-num="${id}"]`);
   const tx=document.querySelector(`.tx[data-id="${id}"]`);

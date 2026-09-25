@@ -3,17 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إملاء — إنجليزي بالمحتوى القصير</title>
+<title>الأزواج الدنيا — إنجليزي بالمحتوى القصير</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <link rel="stylesheet" href="style.css">
+<style>
+.pbar{display:flex;align-items:center;gap:8px;margin:5px 0}
+.pbar .pw{width:110px;font-size:13px;direction:ltr;text-align:left;color:var(--ink)}
+.pbar .ptr{flex:1;background:var(--navy-3);border-radius:6px;height:14px;overflow:hidden}
+.pbar .pfl{height:100%;background:var(--bad);border-radius:6px}
+.pbar .pv{font-size:11px;color:var(--muted);width:44px}
+</style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="logo">◈</span>
     <div>
-      <h1>إملاء</h1>
-      <p class="tagline">ثلاث جمل تُقرأ لك — اكتب ما سمعت</p>
+      <h1>الأزواج الدنيا</h1>
+      <p class="tagline">مختبر التمييز السمعي — أيهما سمعت؟</p>
     </div>
   </div>
   <nav class="nav">
@@ -40,10 +47,8 @@
 <footer class="foot">منصة ثابتة بلا خوادم — تقدّمك محفوظ في متصفحك فقط (localStorage)</footer>
 <div id="toast" class="toast hidden"></div>
 
-<script src="../shared/feedback.js" data-pid="en_dict" data-title="إملاء"></script>
+<script src="../shared/feedback.js" data-pid="en_pairs" data-title="الأزواج الدنيا"></script>
 <script src="core.js"></script>
-<script src="data.js"></script>
-<script src="storydata.js"></script>
-<script src="dictation.js"></script>
+<script src="minimal_pairs.js"></script>
 </body>
 </html>

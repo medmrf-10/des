@@ -118,6 +118,10 @@ select.sortsel{background:var(--card);border:1px solid var(--border);border-radi
 .cl .ct2{flex:1;min-width:0;font-size:.82rem;line-height:1.6}
 .cl .sec{font-size:.62rem;color:var(--dim);direction:ltr;white-space:nowrap}
 .cl svg{color:var(--acc2)}
+.clw{position:relative;display:flex;align-items:center}
+.clw .cl{flex:1;min-width:0}
+.trb{flex:0 0 auto;background:none;border:1px dashed var(--acc);border-radius:8px;color:var(--acc2);font-size:.72rem;padding:6px 8px;cursor:pointer;margin-inline-end:6px;min-height:32px}
+.ttext{position:absolute;top:100%;inset-inline:0;z-index:8;background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:14px 16px;font-size:.85rem;line-height:1.9;max-height:60vh;overflow-y:auto;white-space:pre-wrap;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 .clnote{text-align:center;font-size:.7rem;color:var(--dim);padding:8px}
 .retry{display:block;margin:10px auto;min-height:44px;padding:10px 22px;background:var(--card2);border:1px solid var(--acc);border-radius:10px;color:var(--acc2);font-family:inherit;font-size:.78rem;cursor:pointer}
 .skel{height:46px;border-radius:10px;background:var(--skel);margin-bottom:8px;animation:sk 1.2s infinite}
@@ -178,6 +182,7 @@ select.sortsel{background:var(--card);border:1px solid var(--border);border-radi
 
 <script src="data.js"></script>
 <script src="meta.js"></script>
+<script src="transcripts_map.js"></script>
 <script>
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 const $=id=>document.getElementById(id);
@@ -370,9 +375,14 @@ async function loadClips(id,page,q){
     const qs=tok(q);
     const L=clips.map((c,i)=>({...c,i})).filter(c=>!qs.length||qs.every(q=>tok(c.title).some(h=>h.includes(q))));
     const PER=60,n=Math.min(L.length,(page+1)*PER);
-    box.innerHTML=L.slice(0,n).map(c=>`<a class="cl" href="${escH(c.url)}" target="_blank" rel="noopener">
+    const TR=(window.TR_MAP||{})[id]||[];
+    box.innerHTML=L.slice(0,n).map(c=>{const ht=TR.includes(c.i);
+      return `<div class="clw">${ht?`<button class="trb" data-tr="${id}/${c.i}" title="التفريغ النصي">📝</button>`:''}<a class="cl" href="${escH(c.url)}" target="_blank" rel="noopener">
         <span class="n">${c.i+1}</span><span class="ct2">${escH(cleanTitle(c.title,s?s.name:''))}</span>
-        <span class="sec">${fmtS(c.secs||0)}</span><svg class="i" width="14" height="14"><use href="#i-play"/></svg></a>`).join('')
+        <span class="sec">${fmtS(c.secs||0)}</span><svg class="i" width="14" height="14"><use href="#i-play"/></svg></a>${ht?`<div class="ttext" hidden></div>`:''}</div>`}).join('')
+    box.querySelectorAll('.trb').forEach(b=>{b.onclick=async()=>{const tx=b.parentElement.querySelector('.ttext');if(!tx)return;
+      if(tx.hidden){if(!tx.dataset.done){tx.textContent='… يُحمَّل التفريغ';try{tx.textContent=await(await fetch('transcripts/'+b.dataset.tr+'.txt')).text()}catch(e){tx.textContent='تعذّر التحميل'}tx.dataset.done=1}
+        tx.hidden=false;b.textContent='📖'}else{tx.hidden=true;b.textContent='📝'}}});
       +(n<L.length?`<button class="retry" id="cmore">عرض المزيد — ${L.length-n} متبقٍ</button>`:'')
       +(L.length?`':'<div class="clnote">لا مقاطع تطابق البحث</div>'`.slice(2,-1):'');
     const cm=$('cmore');if(cm)cm.onclick=()=>loadClips(id,page+1,q);

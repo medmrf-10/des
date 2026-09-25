@@ -58,7 +58,7 @@ function render(){
  '<div class="body" id="sb">…</div>'+notesHtml+qsHtml;
  s.style.display='block';
  fetch('../manzuma/lessons/'+l.dir+'/phrases.json').then(r=>r.ok?r.json():null).then(ph=>{
-  const t=ph?ph.map(p=>typeof p==='string'?p:(p.t||p.text||'')).filter(Boolean).join('\n'):'';
+  const t=ph?ph.map(p=>typeof p==='string'?p:(p.t||p.text||(p.ws||[]).map(w=>w.w).join(' '))).filter(Boolean).join('\n'):'';
   document.getElementById('sb').textContent=t||'(نص الدرس غير متاح — راجع النسخة الرقمية)';
  }).catch(()=>{document.getElementById('sb').textContent='(النص متاح عند فتح الموقع عبر الشبكة)'});
 }

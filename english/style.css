@@ -158,6 +158,42 @@ td.ltr{direction:ltr; text-align:left}
   padding:8px 14px;
 }
 .ttsbanner.hidden{display:none}
+/* ----- وضع ShortForm ----- */
+body.shortmode{overflow:hidden}
+.feed{overflow-y:scroll; scroll-snap-type:y mandatory; scroll-behavior:smooth}
+.fcard{
+  scroll-snap-align:start; scroll-snap-stop:always; height:100%;
+  display:flex; flex-direction:column; gap:10px; padding:12px 16px 58px; overflow-y:auto;
+}
+.fc-top{display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted)}
+.fc-idx{background:var(--navy-3); border:1px solid var(--gold-dim); border-radius:999px; padding:3px 12px; color:var(--gold-soft)}
+.fc-title{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%}
+.fc-lines{flex:1; overflow-y:auto; padding-inline-end:4px}
+.fc-line{font-size:16px; color:var(--ink); margin-top:10px}
+.fc-words{display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 8px}
+.fc-train{width:100%; margin-top:auto; padding:12px; font-size:15px}
+.fprog{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,.07); z-index:45}
+#fprogbar{height:100%; width:0; background:var(--gold); transition:width .3s}
+.fcounter{
+  position:fixed; bottom:14px; inset-inline-start:14px; z-index:45;
+  background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
+  border-radius:999px; padding:6px 16px; font-size:12px;
+}
+.farrows{position:fixed; bottom:14px; inset-inline-end:14px; display:flex; flex-direction:column; gap:8px; z-index:45}
+.farrows button{
+  width:44px; height:44px; border-radius:50%; cursor:pointer;
+  background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft); font-size:16px;
+}
+.farrows button:hover{background:var(--gold-dim); color:#0a1128}
+@media (max-width:480px){
+  .topbar{padding:10px 12px}
+  .topbar h1{font-size:15px}
+  .tagline{display:none}
+  .nav a{font-size:12px; padding:6px 9px}
+  .fcard{padding:8px 10px 64px; gap:8px}
+  .fc-line{font-size:15px}
+  .fc-words .w{font-size:12px; padding:2px 8px}
+}
 .spk{
   cursor:pointer; background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
   border-radius:8px; padding:3px 8px; font-size:14px; flex-shrink:0;

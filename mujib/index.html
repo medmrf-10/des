@@ -77,10 +77,24 @@ function go(){
  }).join(''):'<div class="none">لا نتائج — جرّب كلمات أعمّ أو بلا تشكيل</div>';
  $('res').onclick=e=>{const h=e.target.closest('.hit');if(h)play(hits[+h.dataset.i])};
  $('st').textContent=hits.length?hits.length+' نتيجة':'';
+ if(window.llmReady&&window.llmReady()&&hits.length){
+  const b=document.createElement('button');b.className='btn';b.style.cssText='margin-top:12px;background:linear-gradient(135deg,var(--acc2),var(--acc))';
+  b.textContent='✦ اشرح لي وأجب عن سؤالي';b.onclick=()=>aiAnswer(hits);
+  $('st').appendChild(document.createTextNode(' '));$('st').appendChild(b);
+ }
+}
+async function aiAnswer(hits){
+ const ctx=hits.slice(0,6).map((h,i)=>`[${i+1}] ${h.t} (${Math.floor(h.s/60)}:${String(Math.floor(h.s%60)).padStart(2,'0')}): «${h.x}»`).join('\n');
+ $('res').insertAdjacentHTML('beforeend','<div class="hit" id="aiA" style="cursor:default;border-color:var(--acc)"><div class="hx" style="color:var(--acc)">يفكّر…</div></div>');
+ try{
+  const out=await window.gemAsk('أنت معلّم يجيب عن سؤال الطالب مستشهداً بمقاطع من دروسه التي وجدها بالبحث. اجب إجابة مركّزة (فقرة أو فقرتين + نقاط إن لزم)، وأشر إلى المقطع [رقمه] عند الاستشهاد.\n\nسؤاله: '+$('q').value+'\n\nالمقاطع:\n'+ctx,{maxTokens:800});
+  $('aiA').innerHTML='<div class="ht" style="color:var(--acc)">✦ إجابة المعلّم</div><div class="hx" style="white-space:pre-wrap">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+ }catch(e){$('aiA').innerHTML='<div class="hx" style="color:var(--dim)">'+esc(e.message)+'</div>'}
 }
 $('go').onclick=go;
 $('q').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
 </script>
+<script src="../shared/llm.js"></script>
 <script src="../shared/feedback.js" data-pid="mujib" data-title="مُجيب"></script>
 </body>
 </html>

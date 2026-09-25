@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>متصفح الموضوعات — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.crumb{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px;margin-bottom:8px}
+.crumb a{color:var(--acc2);text-decoration:none;cursor:pointer}
+.crumb a:hover{color:var(--acc)}
+.crumb .sep{color:var(--dim)}
+.crumb .cnt{margin-inline-start:auto;color:var(--dim);font-size:12px}
+.toolbar{display:flex;gap:10px;align-items:center;margin:0 0 10px;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:200px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.toolbar input:focus{border-color:var(--acc);outline:none}
+.lgnd{display:flex;gap:14px;font-size:12px;color:var(--dim)}
+.lg-sa{color:var(--ok)}.lg-mx{color:var(--acc2)}.lg-zu{color:var(--acc3)}
+.split{display:grid;grid-template-columns:340px minmax(0,1fr);gap:12px;min-height:400px}
+.paneT{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow-y:auto;max-height:calc(100vh - 190px);padding:6px}
+.paneD{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;overflow-y:auto;max-height:calc(100vh - 190px)}
+.tnode{padding:4px 8px;font-size:14px;border-radius:6px;cursor:pointer;user-select:none;white-space:nowrap}
+.tnode:hover{background:var(--card2)}
+.tnode.act{background:var(--card2);color:var(--acc2);font-weight:700}
+.tnode .car{display:inline-block;width:14px;color:var(--dim);font-size:11px}
+.tnode .cnt{color:var(--dim);font-size:11px}
+.tnode mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
+.card{border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:10px;background:var(--card2)}
+.card .taraf{font-family:var(--font-ar);font-size:15px;margin:4px 0 6px;line-height:1.9}
+.card .acts{display:flex;gap:8px;font-size:11px;margin-top:4px}
+.card .acts a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 8px}
+.card .acts a:hover{border-color:var(--acc)}
+.badge{display:inline-block;border-radius:999px;padding:1px 10px;font-size:11px;font-weight:700;vertical-align:middle}
+.bd-sa{background:#14291c;color:var(--ok)}
+.bd-mx{background:#2e2513;color:var(--acc2)}
+.bd-zu{background:#241a33;color:var(--acc3)}
+.bd-h{background:#22303f;color:#9db8d4}
+.mut{color:var(--dim);font-size:12px}
+.err{border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;color:var(--dim)}
+.btn{display:inline-block;border:1px solid var(--acc);color:var(--acc2);background:transparent;border-radius:8px;padding:5px 14px;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none}
+.loadwrap{padding:40px 20px;text-align:center}
+.lbar{height:8px;border-radius:4px;background:var(--card2);max-width:420px;margin:14px auto 0;overflow:hidden}
+.lbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc2),var(--acc));transition:width .2s}
+.more{display:block;width:100%;margin:8px 0;padding:8px;background:var(--card2);border:1px dashed var(--border);color:var(--acc2);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+@media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.paneT{max-height:40vh}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🌳 متصفح الموضوعات</h1>
+  <span class="sub" id="sub">شجرة موضوعات «الجامع» ومعانيها — بمنهج الشامي</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+</header>
+<div class="crumb" id="crumb" hidden><span class="mut">الموضوعات</span><span class="cnt" id="totcnt"></span></div>
+<div class="toolbar" id="toolbar" hidden>
+  <input type="text" id="q" placeholder="ابحث في أسماء الموضوعات…">
+  <span class="lgnd">
+    <span class="lg-sa">● صحيحان فقط</span>
+    <span class="lg-mx">● صحيحان+سنن</span>
+    <span class="lg-zu">● زوائد سنن</span>
+  </span>
+</div>
+<div class="split" id="split" hidden>
+  <div class="paneD" id="det"><p class="mut">اختر موضوعاً من الشجرة، أو ابحث باسمه.</p></div>
+  <div class="paneT" id="tree"></div>
+</div>
+<div class="loadwrap" id="lw">
+  <p id="lmsg">يُحمّل بيانات الموضوعات…</p>
+  <div class="lbar"><i id="lbi"></i></div>
+  <p class="mut" id="lpct"></p>
+</div>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+
+let GN=null,kids={},leafCnt={},aggCnt={},gidSet={};
+const SAHIHAYN=new Set(['bukhari','muslim']);
+const layerOf=w=>{const ks=Object.keys(w||{});const s=ks.some(b=>SAHIHAYN.has(b)),u=ks.some(b=>!SAHIHAYN.has(b));return s&&u?'mx':s?'sa':'zu'};
+const LAR={sa:'صحيحان فقط',mx:'صحيحان + سنن',zu:'زوائد سنن'};
+let S={topic:'',open:new Set(['1'])};
+const PER=60;let shown=0;
+
+async function boot(){
+  const lw=document.getElementById('lw'),bi=document.getElementById('lbi'),pt=document.getElementById('lpct');
+  try{
+    const r=await fetch('analysis.js');
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const tot=+r.headers.get('content-length')||0;
+    const rd=r.body.getReader();const chunks=[];let got=0;
+    for(;;){const{done,value}=await rd.read();if(done)break;chunks.push(value);got+=value.length;
+      if(tot){const p=Math.round(got/tot*100);bi.style.width=p+'%';pt.textContent=arNum(Math.round(got/1024))+' / '+arNum(Math.round(tot/1024))+' ك.ب — '+p+'٪'}
+      else pt.textContent=arNum(Math.round(got/1024))+' ك.ب'}
+    const src=await new Blob(chunks).text();
+    (0,eval)(src);GN=window.GIDNET;
+  }catch(e){
+    lw.innerHTML=`<div class="err"><p>تعذّر تحميل analysis.js — ${esc(e.message)}</p><button class="btn" onclick="location.reload()">إعادة المحاولة</button></div>`;return;
+  }
+  init();
+  lw.hidden=true;
+  document.getElementById('crumb').hidden=false;
+  document.getElementById('toolbar').hidden=false;
+  document.getElementById('split').hidden=false;
+  document.getElementById('sub').textContent=
+    `${arNum(Object.keys(GN.t).length)} موضوعاً · ${arNum(GN.meta.gids)} معنى موحّداً`;
+  document.getElementById('totcnt').textContent=`${arNum(GN.meta.gids)} معنى موحّداً إجمالاً`;
+  const q=document.getElementById('q');
+  q.addEventListener('input',deb(()=>jumpQ(q.value.trim()),160));
+  decHash();paintTree();paintCrumb();
+}
+
+const cntLeaf=id=>{if(leafCnt[id]!=null)return leafCnt[id];
+  let c=(GN.tg[id]||[]).length;
+  for(const k of kids[id]||[])c+=cntLeaf(k);
+  leafCnt[id]=c;return c};
+function init(){
+  kids={};
+  for(const id in GN.t){const p=GN.t[id].p;if(p!=null&&p!=='')(kids[p]=kids[p]||[]).push(id)}
+  leafCnt={};aggCnt={};
+  for(const t in GN.tg)cntLeaf(t);
+  for(const id in kids)for(const k of kids[id])cntLeaf(k);
+  for(const id in GN.t){if(id==='1')continue;cntLeaf(id)}
+  cntLeaf('1');
+  for(const id in kids)kids[id].sort((a,b)=>cntLeaf(b)-cntLeaf(a));
+  /* مجموع المعاني الفريدة عبر العقدة وسلالاتها */
+  gidSet={};
+}
+/* الـgids المرتبطة بالعقدة وكل أبنائها — مجمّعة بدون تكرار */
+function aggGids(id){
+  if(gidSet[id])return gidSet[id];
+  const s=new Set();
+  for(const g of GN.tg[id]||[])s.add(g);
+  for(const k of kids[id]||[])for(const g of aggGids(k))s.add(g);
+  gidSet[id]=s;return s;
+}
+const kidsOf=id=>kids[id]||[];
+
+function paintTree(){
+  const el=document.getElementById('tree');let h='';
+  const walk=(id,dep)=>{
+    const t=GN.t[id];if(!t)return;
+    const kd=kidsOf(id);const open=S.open.has(id);
+    h+=`<div class="tnode${String(id)===String(S.topic)?' act':''}" style="padding-inline-start:${dep*16+6}px" data-tid="${id}">
+      <span class="car" data-tid="${id}">${kd.length?(open?'▾':'▸'):'·'}</span> ${esc(t.n)} <span class="cnt">${arNum(cntLeaf(id))}</span></div>`;
+    if(open)for(const k of kd)walk(k,dep+1);
+  };
+  walk('1',0);
+  el.innerHTML=h;
+}
+document.addEventListener('click',e=>{
+  const row=e.target.closest('.tnode');if(!row)return;
+  pickT(row.dataset.tid);
+});
+function pickT(id){
+  if(S.open.has(id))S.open.delete(id);else S.open.add(id);
+  S.topic=String(id);shown=PER;
+  /* افتح سلسلة الآباء دائماً ليبقى المسار ظاهراً */
+  let a=GN.t[id]&&GN.t[id].p;while(a&&a!==''){S.open.add(a);a=GN.t[a]&&GN.t[a].p}
+  paintTree();paintCrumb();renderDet();
+  const el=document.querySelector('.tnode.act');if(el)el.scrollIntoView({block:'nearest'});
+}
+function paintCrumb(){
+  const c=document.getElementById('crumb');
+  const parts=[`<a onclick="pickT('1')">الموضوعات</a>`];
+  if(S.topic){
+    const path=[];let x=S.topic;
+    while(x&&x!=='1'&&GN.t[x]){path.unshift(x);x=GN.t[x].p}
+    for(const p of path)parts.push(`<span class="sep">‹</span><a onclick="pickT('${p}')">${esc(GN.t[p].n)}</a>`);
+    parts.push(`<span class="cnt">${arNum(aggGids(S.topic).size)} معنى (العقدة وسلالاتها)</span>`);
+  }else{
+    parts.push(`<span class="cnt">${arNum(GN.meta.gids)} معنى موحّداً إجمالاً</span>`);
+  }
+  c.innerHTML=parts.join(' ');
+}
+function gidCard(gid){
+  const g=GN.g[gid];if(!g)return'';
+  const L=layerOf(g.w);
+  return `<div class="card">
+    <div><span class="badge bd-${L}">${LAR[L]}</span> ${g.h?`<span class="badge bd-h">${esc(g.h)}</span>`:''} <span class="mut">#${arNum(gid)} · ${arNum(g.s)} صحابياً</span></div>
+    <p class="taraf">${esc(g.t)}</p>
+    <div class="acts"><a href="net.html#g${gid}">الشبكة ←</a><a href="matn.html#g${gid}">المتن ←</a></div>
+  </div>`;
+}
+function renderDet(){
+  const det=document.getElementById('det');
+  if(!S.topic){det.innerHTML='<p class="mut">اختر موضوعاً من الشجرة، أو ابحث باسمه.</p>';return}
+  const all=[...aggGids(S.topic)];
+  all.sort((a,b)=>{const la=layerOf(GN.g[a]&&GN.g[a].w),lb=layerOf(GN.g[b]&&GN.g[b].w);
+    return {sa:0,mx:1,zu:2}[la]-{sa:0,mx:1,zu:2}[lb]});
+  const direct=GN.tg[S.topic]||[];
+  const own=direct.length?`<p class="mut">منها ${arNum(direct.length)} على العقدة نفسها${kidsOf(S.topic).length?'، والباقي موزّع على '+arNum(kidsOf(S.topic).length)+' فرعاً':''}.</p>`:'';
+  const t=GN.t[S.topic];
+  det.innerHTML=`<h3 style="margin:2px 0 8px;color:var(--acc2)">${esc(t?t.n:'')}</h3>
+    ${own}
+    <div id="cards"></div>
+    ${all.length>shown?`<button class="more" onclick="shown+=PER;paintCards()">عرض المزيد (${arNum(all.length-shown)} متبقٍ)</button>`:''}`;
+  det.dataset.all=JSON.stringify(all.slice(0,shown+PER));
+  det._all=all;paintCards();
+}
+function paintCards(){
+  const det=document.getElementById('det');const all=det._all||[];
+  const more=det.querySelector('.more');
+  det.querySelector('#cards').innerHTML=all.slice(0,shown).map(gidCard).join('');
+  if(more)more.textContent=`عرض المزيد (${arNum(Math.max(0,all.length-shown))} متبقٍ)`;
+  if(more&&all.length<=shown)more.remove();
+}
+/* بحث فوري: أول مطابقة اسم → قفزة مباشرة */
+let normN={};
+function jumpQ(q){
+  if(!q)return;
+  if(!normN._){normN._=1;for(const id in GN.t)normN[id]=norm(GN.t[id].n)}
+  const nq=norm(q);
+  let best=null;
+  for(const id in normN){if(id==='_')continue;if(normN[id].includes(nq)){best=id;break}}
+  if(best)pickT(best);
+}
+/* روابط عميقة: #t<tid> */
+function decHash(){
+  const h=location.hash.slice(1);
+  if(h.startsWith('t')){const id=h.slice(1);
+    if(GN.t[id]){S.topic=id;shown=PER;
+      let a=GN.t[id].p;while(a&&a!==''){S.open.add(a);a=GN.t[a]&&GN.t[a].p}
+      S.open.add(id);renderDet()}}
+}
+window.addEventListener('hashchange',()=>{decHash();paintTree();paintCrumb()});
+boot();
+</script>
+</body>
+</html>

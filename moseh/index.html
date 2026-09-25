@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِصحّح — دفتر أخطائك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.w{display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:6px 13px;margin:3px;font-family:var(--font-ar);font-size:14px}
+.w b{color:#e08080;margin-right:6px}
+.w.hot{border-color:#e08080}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-size:14px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px;text-decoration:none;display:inline-block;margin-top:8px}
+.bar{height:6px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),#e08080)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِصحّح <span class="muted">— دفتر أخطائك عبر المنظومة</span></h2>
+<div class="muted">الكلمات التي تفلت منك في الإملاء + ملخص ضعفك في كل أداة — لتعرف أين يجب الصحّح.</div>
+<div class="card">
+<div class="t" style="color:var(--acc);font-weight:700">كلماتك المتعثّرة في الإملاء</div>
+<div id="words" style="margin-top:8px"></div>
+</div>
+<div class="card">
+<div class="t" style="color:var(--acc);font-weight:700">مستواك عبر الأدوات</div>
+<div id="tools" style="margin-top:8px"></div>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const mh=LS('moseh')||{};
+const sorted=Object.entries(mh).sort((a,b)=>b[1]-a[1]);
+$('#words').innerHTML=sorted.length?
+ sorted.slice(0,40).map(([w,c])=>'<span class="w '+(c>=3?'hot':'')+'">'+esc(w)+'<b>×'+c+'</b></span>').join('')+
+ (sorted.length>40?'<div class="muted" style="margin-top:6px">+ '+(sorted.length-40)+' كلمة أخرى…</div>':''):
+ '<span class="muted">لا أخطاء مسجلة بعد — جرّب <a href="../mustamli/" style="color:var(--acc)">مِستملي</a> وسجلت هنا كل كلمة فاتتك.</span>';
+const T=[
+ {n:'إملاء (مِستملي)',k:'mustamli',f:d=>d.n?({t:'متوسط '+Math.round(d.sum/d.n)+'% في '+d.n+' محاولة',s:d.sum/d.n/100}):null,u:'../mustamli/'},
+ {n:'ترتيب (مِسطرة)',k:'mistr',f:d=>d.best?({t:'أفضل '+d.best+'%',s:d.best/100}):null,u:'../mistr/'},
+ {n:'تشابهات (مِشبه)',k:'mushbih',f:d=>d.n?({t:'إصابة '+Math.round(d.ok/d.n*100)+'% في '+d.n,s:d.ok/d.n}):null,u:'../mushbih/'},
+ {n:'تحقيق (مِتحّق)',k:'mutahhaq',f:d=>d.n?({t:'متوسط مفاتيح '+Math.round(d.sum/d.n)+'/10',s:Math.min(1,d.sum/d.n/10)}):null,u:'../mutahhaq/'},
+ {n:'جس (مِجس)',k:'mijass',f:d=>d.n?({t:'تخمين صحيح '+Math.round(d.ok/d.n*100)+'%',s:d.ok/d.n}):null,u:'../mijass/'},
+ {n:'حفظ (مِسراج)',k:'misraj',f:d=>{const p=Object.values(d).reduce((a,x)=>a+x,0);return p?({t:'أجزاء محفوظة '+p,s:Math.min(1,p/30)}):null},u:'../misraj/'}];
+$('#tools').innerHTML=T.map(t=>{
+ const d=LS(t.k);const r=d?t.f(d):null;
+ const pc=r?Math.round(r.s*100):8;
+ return '<div style="margin-top:9px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>'+t.n+'</span><span class="muted">'+(r?r.t:'لم تستخدمه')+'</span></div><div class="bar"><i style="width:'+pc+'%"></i></div></div>'}).join('')+
+ '<a class="btn" href="../mustamli/">تدرّب الآن ←</a>';
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="moseh" data-title="مِصحّح"></script>
+</body>
+</html>

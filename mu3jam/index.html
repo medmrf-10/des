@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>معجم — لسان المنظومة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{overflow-x:hidden}
+body{max-width:820px;margin:0 auto;padding:14px}
+.qb{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px 16px;font-family:var(--font-ar);font-size:17px}
+.dom{margin:14px 0}
+.dom-h{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;color:var(--acc2);border-bottom:1px solid var(--border);margin-bottom:8px}
+.dom-h .cnt{margin-inline-start:auto;font-size:12px;color:var(--dim)}
+.term{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin:6px 0}
+.term .tt{font-family:var(--font-ar);font-size:15px;font-weight:700;color:var(--acc)}
+.term .tq{font-family:var(--font-ar);font-size:13.5px;line-height:1.9;margin-top:4px;color:var(--txt)}
+.term .tm{font-size:11px;color:var(--dim);margin-top:5px}
+.muted{color:var(--dim);font-size:12px}
+mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
+.src{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.src span{border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:10.5px;color:var(--dim)}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">معجم المنظومة</h1>
+<div class="muted">كلمة واحدة تبحث في كل المجالات: ذرات العقيدة (7,332 مصطلحاً) + ألفاظ القرآن + معاني الحديث + متون المتعلم</div>
+<input class="qb" id="q" placeholder="اكتب مصطلحاً… (التوحيد، الإخلاص، الطهارة، الوضوء…)" autocomplete="off">
+<div id="res"></div>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const L={};const loaders={
+ aqida:()=>new Promise(r=>{const s=document.createElement('script');s.src='../akida/terms.js';s.onload=()=>r(window.TERMS||null);s.onerror=()=>r(null);document.head.appendChild(s)}),
+ muta:()=>new Promise(r=>{const s=document.createElement('script');s.src='../wahy/mutashabih.js';s.onload=()=>r(window.MUTA||null);s.onerror=()=>r(null);document.head.appendChild(s)}),
+ gid:()=>new Promise(r=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=()=>r(window.GIDNET||null);s.onerror=()=>r(null);document.head.appendChild(s)})};
+async function get(k){if(!(k in L))L[k]=await loaders[k]();return L[k]}
+function hl(t,ws){let x=esc(t);for(const w of ws){try{x=x.replace(new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')}catch(e){}}return x}
+let busy=false;
+async function search(){
+ const q=$('#q').value.trim();if(q.length<2){$('#res').innerHTML='';return}
+ if(busy)return;busy=true;
+ const ws=q.split(/\s+/).map(norm).filter(Boolean);
+ const nw=norm(q);
+ const W=ws.length>1?ws:[nw];
+ let html='';
+ // 1) ذرات العقيدة — terms.js
+ const T=await get('aqida');
+ if(T&&T.terms){
+  const hits=[];
+  for(const title in T.terms){
+   if(norm(title).includes(nw))for(const x of T.terms[title])hits.push({t:title,q:x.q||'',src:`${T.books[x.b]||x.b}${x.bab?' — '+x.bab:''}`})}
+  if(hits.length){
+   html+=`<div class="dom"><div class="dom-h">ذرات العقيدة والمتون<span class="cnt">${hits.length.toLocaleString('ar-EG')} مصطلحاً</span></div>`;
+   for(const h of hits.slice(0,12))html+=`<div class="term"><div class="tt">${hl(h.t,W)}</div><div class="tq">${hl(h.q.slice(0,180),W)}${h.q.length>180?'…':''}</div><div class="tm">${esc(h.src)}</div></div>`;
+   html+='</div>'}}
+ // 2) ألفاظ القرآن — نظائر مفردات
+ const M=await get('muta');
+ if(M&&M.sim){
+  const hits=[];
+  for(const k in M.sim){const v=M.sim[k];
+   if(norm(v[2]).includes(nw))hits.push({k,s:v[0],a:v[1],t:v[2],n:(v[3]||[]).length})}
+  if(hits.length){
+   html+=`<div class="dom"><div class="dom-h">في القرآن — ${hits.length.toLocaleString('ar-EG')} آية نظير مفهرسة<span class="cnt"></span></div>`;
+   for(const h of hits.slice(0,10))html+=`<div class="term"><div class="tq">${hl(h.t.slice(0,150),W)}${h.t.length>150?'…':''}</div><div class="src"><span>${M.names[h.s]||'سورة '+h.s} ${h.s}:${h.a}</span>${h.n?`<span>${h.n.toLocaleString('ar-EG')} نظيرة</span>`:''}<a href="../wahy/#s=${h.s}&v=${h.a}" target="_blank" style="color:var(--acc2)">تفسير ↗</a></div></div>`;
+   html+='</div>'}}
+ // 3) معاني الحديث — GIDNET
+ const G=await get('gid');
+ if(G&&G.g){
+  const hits=[];
+  for(const gid in G.g){const e=G.g[gid];
+   if(norm(e.t).includes(nw))hits.push({gid,t:e.t,h:e.h,s:e.s})}
+  hits.sort((a,b)=>(b.s||0)-(a.s||0));
+  if(hits.length){
+   html+=`<div class="dom"><div class="dom-h">معاني الحديث المحكومة<span class="cnt">${hits.length.toLocaleString('ar-EG')} معنى</span></div>`;
+   const vc=h=>h==='صحيح'?'var(--ok)':h==='حسن'?'var(--acc2)':'var(--dim)';
+   for(const h of hits.slice(0,10))html+=`<div class="term"><div class="tt" style="display:flex;justify-content:space-between">${hl(h.t,W)}<span style="color:${vc(h.h)};font-size:12px">${esc(h.h||'')}</span></div><div class="src"><a href="../hadith/net.html#gid=${h.gid}" target="_blank" style="color:var(--acc2)">في شبكة المعنى ↗</a><span>صحابة ${(h.s||0).toLocaleString('ar-EG')}</span></div></div>`;
+   html+='</div>'}}
+ $('#res').innerHTML=html||'<div class="muted" style="text-align:center;padding:30px">لا نتيجة في أي مجال — جرّب صيغة أبسط</div>';
+ busy=false}
+$('#q').addEventListener('input',()=>{clearTimeout(window._tt);window._tt=setTimeout(search,300)});
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mu3jam" data-title="معجم المنظومة"></script>
+</body>
+</html>

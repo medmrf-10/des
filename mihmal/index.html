@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِهمَل — مُهمَلاتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.tool{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 15px;margin-top:7px}
+.tool .nm{font-family:var(--font-ar);font-size:13.5px}
+.tool .when{font-size:11px;color:var(--dim)}
+.tool a{color:var(--acc);font-size:11.5px;text-decoration:none;font-weight:700}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.stale{border-color:#e08080}
+.fresh{border-color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِهمَل <span class="muted">— مُهمَلاتك</span></h2>
+<div class="muted">أدوات هجرتها — آخر استخدام لكل أداة عندك، رتّبها من الأقدم هجرًا.</div>
+<div style="margin-top:9px"><span class="stat">مهجورة >٣ أيام: <b id="ns">٠</b></span><span class="stat">أدواتك: <b id="nt">٠</b></span></div>
+<div class="card"><div class="t">الأقدم هجرًا أولاً</div><div id="list"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const day=d=>Math.floor((Date.now()-d)/86400000);
+const T={
+ 'مِطلع':{u:'../mitla3/',at:()=>{const d=LS('mitla3',{}).days||{};const ks=Object.keys(d).sort();return ks.length?new Date(ks[ks.length-1]).getTime():0}},
+ 'مِجلس':{u:'../majlis/',at:()=>{const v=LS('mijlis_v',{});return v.at||0}},
+ 'مِصباح':{u:'../misbah/',at:()=>{const ks=Object.keys(localStorage).filter(k=>k.startsWith('misbah_')).sort();return ks.length?new Date(ks[ks.length-1].replace('misbah_','')).getTime():0}},
+ 'مِعتكف':{u:'../mi3tikaf/',at:()=>{const d=LS('mi3tikaf',{});const ks=Object.keys(d).sort();return ks.length?new Date(ks[ks.length-1]).getTime():0}},
+ 'مِسوَد':{u:'../miswad/',at:()=>{const h=LS('miswad',{}).hist||[];return h.length?new Date(h[0].at).getTime():0}},
+ 'مِعوَد':{u:'../mi3wad/',at:()=>{const d=LS('mi3wad_done',{});const ks=Object.keys(d).sort();return ks.length?new Date(ks[ks.length-1]).getTime():0}},
+ 'مِقتَحَم':{u:'../miqtaham/',at:()=>LS('miqtaham',{}).n?Date.now()-86400000:0},
+ 'مِحفل':{u:'../mihfil/',at:()=>LS('mihfil',{}).n?Date.now()-86400000:0},
+ 'مِرتّل':{u:'../murattil/',at:()=>Object.keys(LS('murattil',{})).length?Date.now()-86400000:0},
+ 'مِقرأة':{u:'../miqra/',at:()=>Object.keys(LS('miq_cards',{})).length?Date.now()-86400000:0},
+ 'مِختِم':{u:'../mikhtim/',at:()=>{const d=LS('mikhtim',{});return d.d?new Date(d.d).getTime():0}},
+ 'مِجلد':{u:'../mujallad/',at:()=>(LS('mujallad',[])).length?Date.now()-86400000:0},
+ 'مِرمى':{u:'../mirmah/',at:()=>(LS('mirmah',[])).length?Date.now()-86400000:0},
+ 'مِخزَن':{u:'../mikhzan/',at:()=>{const s=LS('mikhzan',[]);return s.length?new Date(s[0].at).getTime():0}},
+ 'مِفتَح':{u:'../miftah/',at:()=>LS('miftah',{}).at||0},
+ 'مِشغل':{u:'../mishghal/',at:()=>Object.keys(LS('mishghal',{})).length?Date.now()-86400000:0},
+ 'الإنجليزية':{u:'../english/',at:()=>Object.keys(LS('en_listen',{})).length?Date.now()-86400000:0},
+ 'البرمجة':{u:'../prog/',at:()=>Object.keys(LS('prog_v1',{})).length?Date.now()-86400000:0},
+};
+const list=Object.entries(T).map(([n,t])=>{try{return{n,u:t.u,at:t.at()}}catch(e){return{n,u:t.u,at:0}}});
+list.sort((a,b)=>a.at-b.at);
+let stale=0;
+$('#list').innerHTML=list.map(t=>{
+ const days=t.at?day(t.at):'∞';
+ if(typeof days==='number'&&days>3)stale++;
+ return '<div class="tool'+(typeof days==='number'&&days>3?' stale':' fresh')+'"><div><div class="nm">'+t.n+'</div><div class="when">'+(t.at?'منذ '+arN(days)+' يوم':'لم تستخدم بعد')+'</div></div><a href="'+t.u+'">استخدمه ←</a></div>';
+}).join('');
+$('#ns').textContent=arN(stale);$('#nt').textContent=arN(list.length);
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mihmal" data-title="مِهمَل"></script>
+</body>
+</html>

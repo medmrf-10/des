@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشرف — لوحة التحكم بالبيانات</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:800px;margin:0 auto;padding:14px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{padding:8px 10px;border-bottom:1px solid var(--card2);font-size:12px;text-align:right}
+th{color:var(--acc3);font-weight:400;font-size:11px}
+td .k{font-family:monospace;font-size:11px;direction:ltr;display:inline-block}
+.x{background:none;border:1px solid var(--border);color:#e07777;border-radius:6px;padding:2px 9px;cursor:pointer;font-size:11px}
+.v{background:none;border:1px solid var(--acc);color:var(--acc);border-radius:6px;padding:2px 9px;cursor:pointer;font-size:11px}
+pre{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;font-size:11px;max-height:280px;overflow:auto;direction:ltr;text-align:left;white-space:pre-wrap;word-break:break-all}
+.bar{height:8px;background:var(--card2);border-radius:4px;overflow:hidden;margin:4px 0}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.muted{color:var(--dim);font-size:11px}
+.stat{display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin:4px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشرف <span class="muted">— كل بياناتك تحت عينك</span></h2>
+<div class="muted">كل شيء تحفظه المنظومة يعيش في متصفحك فقط — لا سيرفرات ولا حسابات. هذه لوحة تشريحها: الحجم، المحتوى، والحذف.</div>
+<div id="sum"></div>
+<table><thead><tr><th>المفتاح</th><th>الحجم</th><th></th></tr></thead><tbody id="tb"></tbody></table>
+<pre id="pv" style="display:none"></pre>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NAMES={mdr_sched:'جدولة مدرسة',mkhatat:'مخططات',mz_note:'مذكرات منظومة',mz_cards:'بطاقات منظومة',mz_prog:'تقدّم منظومة',mz_pos:'موضع منظومة',mu3edd_drafts:'مسودات مسجّل',en_feed_seen:'موجز إنجليزية',en_routine:'روتين إنجليزية',en_srs:'بطاقات SRS إنجليزية',en_bank:'بنك كلمات',en_listen:'جلسات استماع',en_mimic:'تقليد إنجليزي',en_story:'قصص إنجليزية',miq_cards:'بطاقات مقرأة',mnhaj_done:'دروس منهج',zad_done:'زاد',iqra_pos:'موضع اقرأ',prog_exam:'امتحانات برمجة',prog_v1:'دروس برمجة',prog_proj:'مشاريع برمجة',prog_review:'مراجعات برمجة',prog_lab:'مختبر برمجة',fihris_cat:'فهرس',muqtatif:'مقتطفات',mishwar_done:'مشوار',ma3raj:'معراج',sibaq_best:'أفضل سباق',daftar:'دفتر',muqfil:'مقفل',muqfil_pending:'مقفل معلّق',sawanih:'صوانح',ijaza:'إجازة',sirat:'سيرت',minar_:'منار (أسبوعي)',majlis:'مجلس ختمة',midad:'مِداد دقائق',mi3yar_cur:'مِعيار حالي',mi3yar_hist:'مِعيار سجل',miraj3a:'مراجعة',hibr:'حِبر إملاء',itqan:'إتقان',silsila:'سلسلة',mihrab_:'مِحراب يومي',mihrab_times:'أوقات مِحراب',mutabi3:'مُتابع نشاط',portal_comments:'تعليقات',portal_suggestions:'اقتراحات',misraj:'مِسراج نصوص',minsha_draft:'مِنشأ مسودة',mirtaqa:'مرتقى خطبة',mijass:'مِجس حديث',mizkata:'مزكاة',mudarrib:'مُدرّب',mufassir:'مُفسّر',mustamli:'مِستملي',muamma:'مِعمّى مشفّر'};
+function name(k){for(const n in NAMES)if(k.startsWith(n))return NAMES[n];return '—'}
+function render(){
+ const rows=[];let tot=0;
+ for(const k of Object.keys(localStorage)){
+  const v=localStorage.getItem(k)||'';tot+=v.length;
+  let cnt='';try{const j=JSON.parse(v);cnt=Array.isArray(j)?j.length+' عنصر':typeof j==='object'&&j?Object.keys(j).length+' مفتاح':'—'}catch(e){cnt='نص'}
+  rows.push({k,sz:v.length,cnt})}
+ rows.sort((a,b)=>b.sz-a.sz);
+ $('#sum').innerHTML=`<span class="stat"><b>${rows.length.toLocaleString('ar-EG')}</b> مفتاحاً</span>
+ <span class="stat"><b>${(tot/1024).toFixed(1)}</b> ك.ب</span>
+ <span class="stat"><b>${(tot/2621440*100).toFixed(1)}%</b></b> من حصة المتصفح ~</span>`;
+ $('#tb').innerHTML=rows.map(r=>`<tr><td><span class="k">${esc(r.k)}</span><div class="muted">${name(r.k)} · ${r.cnt}</div></td>
+ <td>${r.sz>1024?(r.sz/1024).toFixed(1)+' ك':r.sz+' ب'}</td>
+ <td><button class="v" data-k="${esc(r.k)}">عرض</button> <button class="x" data-k="${esc(r.k)}">حذف</button></td></tr>`).join('')}
+$('#tb').onclick=e=>{
+ const v=e.target.closest('.v'),x=e.target.closest('.x');
+ if(v){const pv=$('#pv');pv.style.display='block';
+  pv.textContent=v.dataset.k+'\n'+JSON.stringify(JSON.parse(localStorage.getItem(v.dataset.k)||'null'),null,2)}
+ if(x&&confirm('احذف «'+x.dataset.k+'» نهائياً؟')){localStorage.removeItem(x.dataset.k);render();$('#pv').style.display='none'}}
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mushrif" data-title="مِشرف"></script>
+</body>
+</html>

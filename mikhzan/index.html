@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِخزَن — مخزنك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:11.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+textarea{width:100%;min-height:75px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px 14px;font-family:var(--font-ar);font-size:13px;line-height:1.9;resize:vertical}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 13px;font-family:var(--font-ar);font-size:12px;width:100%}
+.item{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 15px;margin-top:7px}
+.item .hd{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim);margin-bottom:4px}
+.item .txt{font-family:var(--font-ar);font-size:13.5px;line-height:1.95;white-space:pre-wrap}
+.tag{background:var(--acc);color:#14140f;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700}
+.ft{display:inline-block;padding:4px 10px;border-radius:7px;background:var(--card);border:1px solid var(--border);cursor:pointer;font-size:11px;margin:3px}
+.ft.on{background:var(--acc);color:#14140f;font-weight:700}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِخزَن <span class="muted">— مخزنك</span></h2>
+<div class="muted">خزّن أي شيء فورًا — فكرة، رابط، اقتباس، سؤال — ويصنّف نفسه.</div>
+<div class="card"><div class="t">أضف</div>
+<textarea id="ta" placeholder="اكتب هنا — يصنَّف تلقائيًا حسب محتواه"></textarea>
+<div style="margin-top:8px"><button class="btn" id="add">خزّن</button></div></div>
+<div style="margin-top:10px"><input id="q" placeholder="ابحث في مخزنك…"></div>
+<div style="margin-top:7px" id="fts"></div>
+<div style="margin-top:9px"><span class="stat">مخزونك: <b id="n">٠</b></span></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let S=LS('mikhzan',[]);
+let ft='الكل';
+function classify(t){
+ if(/^https?:\/\//m.test(t))return 'رابط';
+ if(/^[\s\S]*[؟?]/.test(t))return 'سؤال';
+ if(t.length<60)return 'فكرة';
+ if(/[«»"']/.test(t))return 'اقتباس';
+ if(/^[\-\*•]/m.test(t))return 'قائمة';
+ if(/[a-z]{4,}/i.test(t))return 'إنجليزي';
+ return 'ملاحظة';
+}
+const TAGS=['الكل','رابط','سؤال','فكرة','اقتباس','قائمة','إنجليزي','ملاحظة'];
+$('#fts').innerHTML=TAGS.map(t=>'<span class="ft'+(t===ft?' on':'')+'">'+t+'</span>').join('');
+$('#fts').onclick=e=>{
+ const t=e.target.closest('.ft');if(!t)return;
+ ft=t.textContent;
+ document.querySelectorAll('.ft').forEach(x=>x.classList.toggle('on',x===t));
+ render();
+};
+$('#add').onclick=()=>{
+ const t=$('#ta').value.trim();if(!t)return;
+ S.unshift({t,tag:classify(t),at:new Date().toISOString()});
+ SV('mikhzan',S);$('#ta').value='';render();
+};
+$('#q').oninput=render;
+function render(){
+ const q=$('#q').value.trim();
+ const list=S.filter(i=>(ft==='الكل'||i.tag===ft)&&(!q||i.t.includes(q)));
+ $('#n').textContent=arN(S.length);
+ $('#list').innerHTML=list.slice(0,40).map((i,idx)=>
+  '<div class="item"><div class="hd"><span><span class="tag">'+i.tag+'</span></span><span>'+i.at.slice(5,10)+' <span class="rm" data-i="'+S.indexOf(i)+'" style="cursor:pointer">✕</span></span></div><div class="txt">'+esc(i.t)+'</div></div>'
+ ).join('')||'<div class="muted" style="margin-top:12px">فارغ — خزّن شيئًا أعلاه.</div>';
+}
+$('#list').onclick=e=>{
+ const r=e.target.closest('.rm');if(!r)return;
+ S.splice(+r.dataset.i,1);SV('mikhzan',S);render();
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mikhzan" data-title="مِخزَن"></script>
+</body>
+</html>

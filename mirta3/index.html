@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِرتَع — رعي المعرفة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.g{margin-top:14px}
+.g .gt{font-family:var(--font-ar);font-weight:700;font-size:12.5px;color:var(--acc2);margin:10px 0 6px}
+.it{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 14px;margin-top:6px;cursor:pointer;transition:border-color .15s}
+.it:hover{border-color:var(--acc)}
+.it .s{font-size:10px;color:var(--dim)}
+.it .x{font-family:var(--font-ar);font-size:13.5px;line-height:2;margin-top:3px}
+.ctl{display:flex;gap:7px;margin-top:14px;align-items:center}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.timer{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:8px 14px;font-weight:700;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِرتَع <span class="muted">— رعي المعرفة</span></h2>
+<div class="muted">١٠ دقائق ترعى في كل المراعي — آية وحكمة ومسألة وحديث ومصطلح، بلا ترتيب ولا هدف. فقط ترعى.</div>
+<div class="ctl"><button class="btn" id="start">ارعَ ١٠ دقائق</button><span class="timer" id="tm" style="display:none">١٠:٠٠</span></div>
+<div id="zone"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+let d=null,end=0;
+$('#start').onclick=()=>{
+ if(!d){$('#zone').innerHTML='<div class="muted">أجهّز المرعى…</div>';
+  Promise.all([laz('../wahy/mutashabih.js','MUTA'),laz('../hadith/analysis.js','GIDNET'),laz('../hadith/adhkar.js','ADHKAR'),laz('../fiqh_reader/masail.js','MASAIL'),laz('../prog/lab.js','LAB')]).then(([U,G,A,M,L])=>{d={U,G,A,M,L};graze()});
+ }else graze();
+ end=Date.now()+600000;
+ setInterval(()=>{const s=Math.max(0,(end-Date.now())/1000);$('#tm').textContent=Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');if(s===0)$('#tm').textContent='انتهى الرعي'},500);
+ $('#tm').style.display='inline-block';$('#start').textContent='مرعى آخر';
+};
+function graze(){
+ const rnd=a=>a[Math.floor(Math.random()*a.length)];
+ const pk=(o,n)=>{const ks=Object.keys(o);const rs=[];while(rs.length<n&&ks.length)rs.push(ks.splice(Math.floor(Math.random()*ks.length),1)[0]);return rs};
+ let out='';
+ if(d.U){const ks=pk(d.U.sim,4);out+='<div class="g"><div class="gt">من القرآن</div>'+ks.map(k=>'<div class="it" data-k="'+k+'" data-f="v"><div class="s">'+esc(d.U.names[k.split(':')[0]])+'</div><div class="x">'+esc(d.U.sim[k][2])+'</div></div>').join('')+'</div>'}
+ if(d.A){out+='<div class="g"><div class="gt">حكمة</div>'+[...Array(3)].map(()=>{const a=rnd(d.A);return '<div class="it"><div class="x">'+esc(a.t)+'</div></div>'}).join('')+'</div>'}
+ if(d.G){const ks=pk(d.G.g,4);out+='<div class="g"><div class="gt">حديث</div>'+ks.map(k=>'<div class="it"><div class="s">'+esc(d.G.g[k].h)+'</div><div class="x">'+esc(d.G.g[k].t.slice(0,200))+'…</div></div>').join('')+'</div>'}
+ if(d.M){const ks=pk(d.M,3);out+='<div class="g"><div class="gt">مسألة فقهية</div>'+ks.map(k=>'<div class="it"><div class="s">'+esc(d.M[k].a)+'</div><div class="x">'+esc(d.M[k].n)+'</div></div>').join('')+'</div>'}
+ if(d.L&&d.L.ch&&d.L.ch.length){const c=rnd(d.L.ch);out+='<div class="g"><div class="gt">تحدي برمجة</div><div class="it"><div class="s">'+esc(c.t)+'</div><div class="x" dir="ltr" style="text-align:left;font-family:monospace">'+esc((c.i||'').slice(0,180))+'</div></div></div>'}
+ $('#zone').innerHTML=out;
+}
+$('#zone').onclick=e=>{
+ const it=e.target.closest('.it[data-f="v"]');if(!it)return;
+ const k=it.dataset.k,t=d.U.sim[k][2];
+ if(d.U.sim[k][3]&&d.U.sim[k][3].length){const pk2=d.U.sim[k][3][0];
+  it.querySelector('.x').innerHTML=esc(t)+'<div class="s" style="margin-top:5px">↔ متشابه: '+esc(d.U.sim[pk2[0]][2].slice(0,90))+'…</div>'}
+};
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mirta3" data-title="مِرتَع"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِحكَم — ميزان الإحكام</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:10px 14px;font-family:var(--font-ar);font-size:13px;width:100%}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.gauge{display:flex;gap:9px;margin-top:12px}
+.gg{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.gg .n{font-size:26px;font-weight:700;color:var(--acc)}
+.gg .l{font-size:10.5px;color:var(--dim);margin-top:3px}
+.gg .bar{height:5px;background:var(--card2);border-radius:3px;margin-top:9px;overflow:hidden}
+.gg .f{height:100%;background:var(--acc)}
+.verdict{margin-top:14px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.verdict .v{font-family:var(--font-ar);font-size:16px;color:var(--acc)}
+.verdict .w{font-size:11.5px;color:var(--dim);margin-top:5px;line-height:1.8}
+.top{margin-top:12px}
+.top .row{display:flex;gap:9px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:8px 12px;margin-top:5px;font-size:12px;align-items:center}
+.top .s{font-size:10px;color:var(--acc2);min-width:70px}
+.top .x{font-family:var(--font-ar);flex:1;font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحكَم <span class="muted">— ميزان الإحكام</span></h2>
+<div class="muted">قبل أن تبني درساً على موضوع: كم دليلاً يقف وراءه في القرآن والحديث والفقه؟</div>
+<div class="card"><div class="t">الموضوع</div>
+<div style="display:flex;gap:7px"><input id="q" placeholder="الصبر، الزكاة، الربا، الجار…"><button class="btn" id="go">زِن</button></div></div>
+<div id="res"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+let U,G,M;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+Promise.all([laz('../wahy/mutashabih.js','MUTA'),laz('../hadith/analysis.js','GIDNET'),laz('../fiqh_reader/masail.js','MASAIL')]).then(([u,g,m])=>{U=u;G=g;M=m});
+$('#go').onclick=()=>{
+ const raw=$('#q').value.trim();if(!raw)return;
+ const q=norm(raw);
+ let nv=0,nh=0,nm=0,sahih=0,top=[];
+ if(U)Object.keys(U.sim).forEach(k=>{if(norm(U.sim[k][2]).includes(q)){nv++;if(top.length<3)top.push({s:U.names[k.split(':')[0]],x:U.sim[k][2].slice(0,110),k:'آية'})}});
+ if(G)Object.values(G.g).forEach(h=>{if(norm(h.t).includes(q)){nh++;if(/صحيح|sahih/i.test(h.h))sahih++;if(top.length<6&&nh%Math.ceil(nh/3)===1)top.push({s:h.h,x:h.t.slice(0,110),k:'حديث'})}});
+ if(M)Object.keys(M).forEach(k=>{if(norm(M[k].n).includes(q)){nm++;if(top.length<9)top.push({s:M[k].a,x:M[k].n.slice(0,110),k:'فقه'})}});
+ const total=nv+nh+nm;
+ let v,w;
+ if(total>=40){v='موضوع محكم — مادة غنية';w='أدلة كثيرة: خطط لدرس متعدد الأجزاء أو سلسلة.'}
+ else if(total>=10){v='مادة كافية';w='أدلة جيدة تكفي لدرس واحد متكامل.'}
+ else if(total>0){v='مادة خفيفة';w='أدلة قليلة — وسّع الموضوع أو ادمجه مع موضوع قريب.'}
+ else{v='لا أدلة مباشرة';w='جرّب صيغة أخرى من الكلمة أو مرادفاً.'}
+ const pct=c=>Math.min(100,Math.round(c/40*100));
+ $('#res').innerHTML='<div class="gauge">'+
+ '<div class="gg"><div class="n">'+arN(nv)+'</div><div class="l">آية</div><div class="bar"><div class="f" style="width:'+pct(nv)+'%"></div></div></div>'+
+ '<div class="gg"><div class="n">'+arN(nh)+'</div><div class="l">حديث ('+arN(sahih)+' صحيح)</div><div class="bar"><div class="f" style="width:'+pct(nh)+'%"></div></div></div>'+
+ '<div class="gg"><div class="n">'+arN(nm)+'</div><div class="l">مسألة فقهية</div><div class="bar"><div class="f" style="width:'+pct(nm)+'%"></div></div></div></div>'+
+ '<div class="verdict"><div class="v">'+v+'</div><div class="w">'+w+' المجموع: '+arN(total)+' دليلاً.</div></div>'+
+ (top.length?'<div class="top card"><div class="t">أقوى الأدلة</div>'+top.map(t=>'<div class="row"><span class="s">'+t.k+' · '+esc(t.s)+'</span><span class="x">'+esc(t.x)+'…</span></div>').join('')+'<div class="muted" style="margin-top:8px">التقطها في <a href="../milqat/" style="color:var(--acc)">مِلقَط</a></div></div>':'');
+};
+$('#q').onkeydown=e=>{if(e.key==='Enter')$('#go').click()};
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mihkam" data-title="مِحكَم"></script>
+</body>
+</html>

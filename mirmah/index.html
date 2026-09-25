@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِرمى — أهدافك المحقّقة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:660px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+input,select{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:12px;width:100%}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.goal{border:1px solid var(--border);border-radius:12px;padding:11px 15px;margin-top:9px}
+.goal .gt{display:flex;justify-content:space-between;align-items:center}
+.goal .gt b{font-family:var(--font-ar);font-size:14px}
+.goal .bar{height:7px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:8px}
+.goal .bar i{display:block;height:100%;background:var(--acc)}
+.goal .meta{font-size:11px;color:var(--dim);margin-top:5px;display:flex;justify-content:space-between}
+.goal.done{border-color:var(--acc)}
+.goal.done .gt b{color:var(--acc)}
+.over{color:#e08080}
+.add{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.add .full{grid-column:1/-1}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِرمى <span class="muted">— مرماك القادم</span></h2>
+<div class="muted">حدّد هدفًا بموعد — الأداة تقيس تقدّمك الحقيقي من بيانات أدواتك تلقائياً.</div>
+<div class="card"><div class="t">أضف هدفًا</div>
+<div class="add">
+<input class="full" id="gn" placeholder="ماذا تريد تحقيقه؟ (مثال: أتمم 40 حديثاً)">
+<select id="gm">
+<option value="mitla3">حديث «مِطلع» (يوم/حديث)</option>
+<option value="miq_cards">بطاقات مقرأة</option>
+<option value="majlis">آيات مقروءة</option>
+<option value="mijtaz">أجزاء مُجتازة</option>
+<option value="en_srs">كلمات إنجليزية SRS</option>
+<option value="mishwar_done">مِشور مُنجز</option>
+<option value="prog_v1">دروس برمجة</option>
+<option value="mdr_sched">جدولة مراجعة</option>
+<option value="en_routine">روتين إنجليزي</option>
+</select>
+<input id="gt" type="number" placeholder="الهدف (رقم)" min="1">
+<input class="full" id="gd" type="date">
+<button class="btn full" id="add">ارمِ</button></div></div>
+<div id="goals"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let G=LS('mirmah',[]);
+const today=()=>new Date().toISOString().slice(0,10);
+function cur(k){
+ const v=LS(k,null);
+ if(k==='majlis')return Object.values(v||{}).reduce((a,b)=>a+(Array.isArray(b)?b.length:0),0);
+ if(k==='mijtaz')return Object.values(v||{}).flat().length;
+ if(k==='mitla3')return (v&&v.seen)?v.seen.length:0;
+ if(Array.isArray(v))return v.length;
+ if(v&&typeof v==='object')return Object.keys(v).length;
+ return 0;
+}
+$('#add').onclick=()=>{
+ const n=$('#gn').value.trim(),t=+$('#gt').value,d=$('#gd').value;
+ if(!n||!t||!d)return alert('املأ الاسم والرقم والتاريخ');
+ G.push({id:Date.now(),n,m:$('#gm').value,t,d,start:today(),startV:cur($('#gm').value)});
+ $('#gn').value='';$('#gt').value='';$('#gd').value='';
+ SV('mirmah',G);render();
+};
+const MN={mitla3:'حديث مِطلع',miq_cards:'بطاقات مقرأة',majlis:'آيات',mijtaz:'أجزاء',en_srs:'كلمات EN',mishwar_done:'مشاور',prog_v1:'دروس برمجة',mdr_sched:'بطاقات جدولة',en_routine:'جلسات روتين'};
+function render(){
+ $('#goals').innerHTML=G.length?G.map(g=>{
+  const c=cur(g.m)-g.startV;
+  const p=Math.min(100,Math.max(0,Math.round(c/g.t*100)));
+  const done=p>=100;
+  const left=Math.max(0,g.t-c);
+  const days=Math.ceil((new Date(g.d)-new Date(today()))/864e5);
+  const late=days<0&&!done;
+  return '<div class="goal'+(done?' done':'')+'"><div class="gt"><b>'+(done?'✓ ':'')+esc(g.n)+'</b><span class="x" data-id="'+g.id+'" style="cursor:pointer;color:var(--dim)">✕</span></div>'+
+  '<div class="bar"><i style="width:'+p+'%"></i></div>'+
+  '<div class="meta"><span>'+MN[g.m]+': '+arN(Math.max(0,c))+'/'+arN(g.t)+'</span>'+
+  '<span>'+(done?'تمّ — بارك الله':(late?'<span class="over">فات الموعد بـ'+arN(-days)+' يوم':'بقي '+arN(left)+' · '+arN(days)+' يوم'))+'</span></div></div>';
+ }).join(''):'<div class="card muted" style="margin-top:12px">لا أهداف بعد — ارمِ أول هدف.</div>';
+}
+document.onclick=e=>{
+ const x=e.target.closest('.x');
+ if(x){G=G.filter(g=>g.id!=+x.dataset.id);SV('mirmah',G);render()}
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mirmah" data-title="مِرمى"></script>
+</body>
+</html>

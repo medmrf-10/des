@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>وِرد — يومك في صفحة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:18px 14px 40px}
+.hero{text-align:center;padding:18px 0 6px}
+.hero h1{font-family:var(--font-ar);font-size:30px;margin:0;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .gt{color:var(--dim);font-size:.85rem;margin-top:6px}
+.streak{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--acc);border-radius:20px;padding:6px 16px;font-weight:700;color:var(--acc);margin-top:10px;font-size:.85rem}
+.item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:15px;padding:15px 17px;margin-top:11px;display:flex;gap:13px;align-items:center}
+.item.done{opacity:.55;border-color:rgba(61,214,140,.35)}
+.item .ic{font-size:26px;width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--card2);border:1px solid var(--border);border-radius:12px}
+.item .tt{font-size:.95rem;font-weight:700}
+.item .ss{font-size:.74rem;color:var(--dim);margin-top:3px;line-height:1.7}
+.item .aa{margin-inline-start:auto;display:flex;flex-direction:column;gap:6px;flex:none}
+.item .aa a,.item .aa button{border:1px solid var(--acc);background:none;color:var(--acc);border-radius:9px;padding:6px 15px;font-size:.74rem;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center}
+.item .aa .dn{border-color:var(--ok);color:var(--ok)}
+h2{font-size:.8rem;color:var(--acc);margin:22px 0 0;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px;text-align:center}
+.stat b{font-size:20px;color:var(--acc);display:block}
+.stat span{font-size:.66rem;color:var(--dim)}
+.quote{margin-top:20px;text-align:center;color:var(--dim);font-size:.78rem;line-height:2;font-style:italic}
+.nm{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:9px 15px;font-family:inherit;font-size:.9rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="hero">
+ <h1>وِرد</h1>
+ <div class="gt" id="greet">يومك في صفحة واحدة — شيء واحد بعد شيء واحد</div>
+ <div class="streak" id="stk" style="display:none">🔥 <span id="stkN">0</span> يوماً متواصلاً</div>
+</div>
+<h2>وِردك اليوم</h2>
+<div id="items"></div>
+<h2>مسيرك</h2>
+<div class="stats">
+ <div class="stat"><b id="stD">0</b><span>أيام زرت فيها</span></div>
+ <div class="stat"><b id="stT">0</b><span>مهمة أنجزتها</span></div>
+ <div class="stat"><b id="stL">0</b><span>سلسلة أنهيتها</span></div>
+</div>
+<div class="quote" id="qt"></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const LS=(k,v)=>v===undefined?JSON.parse(localStorage.getItem(k)||'null'):localStorage.setItem(k,JSON.stringify(v));
+const today=new Date().toISOString().slice(0,10);
+const QUOTES=['العلم ما نَفَع، ليس ما حُفظ','القليل الدائم خير من الكثير المنقطع','من سار على الدرب وصل','الوقت كالسيف إن لم تقطعه قطعك','أحب الأعمال إلى الله أدومها وإن قلّ','طلب العلم فريضة، وطلب الفضائل منه أفضل'];
+let name=LS('wird_name');
+if(!name){name=(LS('mz_name')||'').trim();if(!name){const t=document.createElement('div');t.style.cssText='margin:14px 0;text-align:center';t.innerHTML='<input class="nm" placeholder="اسمك؟"><div style="color:var(--dim);font-size:.7rem;margin-top:5px">يُحفظ على جهازك فقط</div>';document.querySelector('.hero').appendChild(t);t.querySelector('input').onchange=e=>{LS('wird_name',e.target.value.trim());location.reload()};name=''}}
+const h=new Date().getHours(),tod=h<12?'صباحك':'مساءك';
+$('greet').textContent=name?`${tod} المبارك يا ${name} — وردك جاهز`:'يومك في صفحة واحدة — شيء واحد بعد شيء واحد';
+$('qt').textContent='«'+QUOTES[new Date().getDate()%QUOTES.length]+'»';
+/* streak */
+let log=LS('wird_days')||{};
+if(!log[today])log[today]={done:0};
+const yest=new Date(Date.now()-864e5).toISOString().slice(0,10);
+const days=Object.keys(log).sort();
+let streak=0;for(let i=days.length-1;i>=0;i--){const d=days[i],want=new Date(Date.now()-864e5*streak).toISOString().slice(0,10);if(d===want)streak++;else break}
+if(days.length){$('stk').style.display='inline-flex';$('stkN').textContent=streak.toLocaleString('ar-EG')}
+LS('wird_days',log);
+/* read ecosystem state */
+const mzProg=LS('mz_prog')||{},mzPos=LS('mz_pos')||{},doneIds=Object.keys(mzProg);
+const enR=(LS('en_routine')||{})[today],srs=(LS('en_srs')||{}),srsDue=srs&&srs.cards?Object.values(srs.cards).filter(c=>c.due&&c.due<=Date.now()).length:0;
+const mih=LS('mihfaz_v1')||{},mihDone=Object.keys(mih).length;
+const mun=LS('muntaga')||[];
+const progDone=['prog_debug','prog_patterns','prog_regex','prog_sql','prog_read','prog_git','prog_bigo','prog_refact','prog_lab','prog_api','prog_testw'].filter(k=>LS(k)).length;
+const daft=(LS('daftar')||{}),daftN=typeof daft==='object'?(daft.items||daft.notes||Object.keys(daft)).length||Object.keys(daft).length:0;
+/* compose wird */
+const items=[];
+const cur=(LS('wird_curriculum')||[]),nxStep=cur.find(s=>!s.done);
+if(nxStep)items.push({i:'🎯',t:'منهجك: '+nxStep.t,s:'خطوتك التالية من مِنهَج — الذي بنيته أنت بيدك',u:nxStep.u||'../manhaj/',k:'cur'});
+items.push({i:'📚',t:'تابع تراثك',s:doneIds.length?`أنهيت ${doneIds.length.toLocaleString('ar-EG')} سلسلة — واصل من حيث توقفت`:'لم تبدأ سلسلة بعد — اليوم يوم البداية',u:'../manzuma/',k:'mz'});
+items.push({i:'🇬🇧',t:srsDue?`كلمات مستحقة للمراجعة: ${srsDue.toLocaleString('ar-EG')}`:(enR?'روتين اليوم تم ✓ — دُفعة إضافية؟':'روتينك اليومي بالإنجليزية'),s:'من فلسفتك: تعرّض مكثف قصير كل يوم، لا كثيراً متباعداً',u:srsDue?'../english/srs.html':'../english/routine.html',k:'en'});
+items.push({i:'💻',t:progDone?`تمرين البرمجة التالي (${progDone.toLocaleString('ar-EG')} مهارات لك فيها تقدّم)`:'أول تمرين برمجة لك',s:'اقرأ قبل أن تكتب — المُتتبّع يريّض العين على الكود',u:'../prog/today.html',k:'pg'});
+items.push({i:'📖',t:mihDone?`واصل حفظك — ${mihDone.toLocaleString('ar-EG')} سورة لك فيها تقدّم`:'ابدأ حفظك — سورة واحدة تكفي للبداية',s:'التثبيت قبل الإضافة: راجع ما حفظت ثم أضف',u:'../mihfaz/',k:'mh'});
+if(mun.length)items.push({i:'⭐',t:`منتقاك: ${mun.length.toLocaleString('ar-EG')} مقاطع محفوظة`,s:'سماع ما انتقيت يوماً يثبّته اليوم',u:'../muntaga/',k:'mn'});
+items.push({i:'🕌',t:'صلاة على النبي ﷺ وورد أذكارك',s:'مِسبَح يعدّها لك بالتتابع',u:'../misbah/',k:'sb'});
+const dk=LS('wird_done')||{};
+const done=dk[today]||{};
+function render(){
+ $('items').innerHTML=items.map((it,x)=>{
+  const dn=done[it.k];
+  return `<div class="item ${dn?'done':''}"><div class="ic">${it.i}</div>
+   <div style="flex:1"><div class="tt">${esc(it.t)}</div><div class="ss">${esc(it.s)}</div></div>
+   <div class="aa"><a href="${it.u}">افتح ←</a><button class="dn" data-d="${it.k}">${dn?'✓ تم':'أنجزت'}</button></div></div>`;
+ }).join('');
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-d]');if(!b)return;
+ const k=b.dataset.d;dk[today]=dk[today]||{};
+ if(dk[today][k]){delete dk[today][k];log[today].done=Math.max(0,log[today].done-1)}
+ else{dk[today][k]=1;log[today].done++}
+ LS('wird_done',dk);LS('wird_days',log);render();stats();
+});
+function stats(){
+ $('stD').textContent=days.length.toLocaleString('ar-EG');
+ $('stT').textContent=Object.values(log).reduce((a,x)=>a+(x.done||0),0).toLocaleString('ar-EG');
+ $('stL').textContent=doneIds.length.toLocaleString('ar-EG');
+}
+render();stats();
+</script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="wird" data-title="وِرد"></script>
+</body>
+</html>

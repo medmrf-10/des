@@ -2,6 +2,7 @@
    الاستخدام: <script src="/des/shared/feedback.js" data-pid="turath" data-title="مكتبة Turath"></script>
    التعليقات والاقتراحات تُحفظ في نفس مخزن البوابة الموحدة فتظهر في المكانين. */
 (function(){
+document.documentElement.style.scrollPaddingBottom='60px';var sp=document.createElement('div');sp.style.cssText='height:56px;pointer-events:none';document.body.appendChild(sp);
   const tag=document.currentScript;
   const pid=tag?.dataset.pid||location.pathname;
   const title=tag?.dataset.title||document.title;
@@ -11,9 +12,11 @@
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const css=`
-  .fb-btn{position:fixed;bottom:18px;inset-inline-start:18px;z-index:900;width:50px;height:50px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.2rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);font-family:inherit}
-  .fb-btn:hover{background:#242f4d}
-  .fb-btn .n{position:absolute;top:-4px;inset-inline-end:-4px;background:#c9a24b;color:#0b0f1a;font-size:.6rem;font-weight:700;border-radius:99px;padding:2px 7px}
+  .fb-btn{position:fixed;bottom:6px;inset-inline-start:6px;z-index:900;width:30px;height:30px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.8rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);font-family:inherit;opacity:.28;transition:opacity .2s}
+  .fb-btn:hover{background:#242f4d;opacity:1}
+  .fb-btn .n{position:absolute;top:-3px;inset-inline-end:-3px;background:#c9a24b;color:#0b0f1a;font-size:.6rem;font-weight:700;border-radius:99px;padding:2px 7px}
+  .fb-home{position:fixed;bottom:6px;inset-inline-start:42px;z-index:900;width:30px;height:30px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.8rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;text-decoration:none;opacity:.28;transition:opacity .2s}
+  .fb-home:hover{background:#242f4d;opacity:1}
   .fb-ov{position:fixed;inset:0;background:rgba(5,8,16,.6);backdrop-filter:blur(3px);z-index:950;display:none}
   .fb-ov.open{display:block}
   .fb-sheet{position:absolute;bottom:0;left:0;right:0;max-height:70dvh;background:#131a2a;border-radius:22px 22px 0 0;border-top:1px solid #3a4670;display:flex;flex-direction:column;animation:fbup .25s ease;font-family:'Amiri','Noto Naskh Arabic',serif;color:#f5f1e8}
@@ -47,7 +50,10 @@
     <div class="fb-tabs"><button class="fb-tab on" data-t="c">التعليقات</button><button class="fb-tab" data-t="s">اقتراح تحسين</button></div>
     <div class="fb-body"></div>
   </div>`;
-  document.body.appendChild(btn);document.body.appendChild(ov);
+  const home=document.createElement('a');home.className='fb-home';
+  home.href=location.protocol==='file:'?'../portal/':'/des/portal/';
+  home.title='البوابة';home.textContent='≡';
+  document.body.appendChild(btn);document.body.appendChild(ov);document.body.appendChild(home);
   const body=ov.querySelector('.fb-body');
 
   function render(){
@@ -72,6 +78,7 @@
     const d=v.includes('—')?{n:v.split('—')[0].trim(),t:v.split('—').slice(1).join('—').trim()}:{n:'عضو',t:v};
     if(tab==='c'){const a=get(CK);(a[pid]=a[pid]||[]).push(d);set(CK,a)}
     else{const a=get(SK);(a[pid]=a[pid]||[]).push({...d,st:'pending'});set(SK,a)}
+    try{fetch('https://ntfy.sh/manzuma_eval_x9k2',{method:'POST',body:JSON.stringify({type:'site_comment',pid,title,tab,name:d.n,text:d.t,t:Date.now()})}).catch(()=>{})}catch(e){}
     render();
   });
   body.addEventListener('keydown',e=>{

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِيثاق — عهدك اليومي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.c{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.c.kept{border-color:var(--ok)}
+.c.broken{border-color:#e07777}
+.c .t{flex:1;font-family:var(--font-ar);font-size:13.5px}
+.c .p{min-width:52px;text-align:center}
+.c .p b{font-size:16px;display:block}
+.c .p span{font-size:10px;color:var(--dim)}
+.bar{height:5px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+input,select{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 10px;font-family:var(--font-ar);font-size:12px}
+.add{background:var(--card);border:1px dashed var(--border);border-radius:12px;padding:12px 14px;margin-top:12px}
+.muted{color:var(--dim);font-size:12px}
+.sum{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sum div{background:var(--card);border-radius:9px;padding:8px 13px;font-size:12px}
+.sum b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِيثاق <span class="muted">— عهدك اليومي على نفسك</span></h2>
+<div class="muted">حدّد التزاماتك اليومية — الموقع يحسب الوفاء تلقائياً من نشاطك في المنظومة.</div>
+<div id="sum" class="sum"></div>
+<div id="list"></div>
+<div class="add">
+<div style="font-weight:700;font-size:12.5px;margin-bottom:8px">+ التزام جديد</div>
+<select id="ak">
+<option value="mitla3">حديث يومي (مِطلع)</option>
+<option value="mustamli">إملاء آيات (مِستملي)</option>
+<option value="mushbih">تشابهات (مِشبه)</option>
+<option value="mi3bar">شرح مصطلحات (مِعبّر)</option>
+<option value="mistr">ترتيب آيات (مِسطرة)</option>
+<option value="minhal">جلسة منهل (مِنهال)</option>
+<option value="mudarrib">خطة يوم (مُدرّب)</option>
+<option value="misraj">حفظ بالإخفاء (مِسراج)</option>
+<option value="mutahhaq">تحقيق فهم (مِتحّق)</option>
+<option value="mijass">جس حديث (مِجس)</option>
+</select>
+<select id="ap"><option value="1">١ في اليوم</option><option value="3">٣ في اليوم</option><option value="5">٥ في اليوم</option><option value="10">١٠ في اليوم</option></select>
+<button class="btn" id="add">عاهد</button>
+</div>
+<div class="muted" style="margin-top:14px">الوفاء يُقاس من نتائجك الفعلية في المواقع — حذف بيانات موقع يصفر التزامه.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const today=()=>new Date().toISOString().slice(0,10);
+const cv=()=>JSON.parse(localStorage.getItem('mithaq')||'[]');
+const sv=c=>localStorage.setItem('mithaq',JSON.stringify(c));
+const NAMES={mitla3:'حديث يومي',mustamli:'إملاء آيات',mushbih:'تشابهات',mi3bar:'شرح مصطلحات',mistr:'ترتيب آيات',minhal:'جلسة منهل',mudarrib:'خطة يوم',misraj:'حفظ بالإخفاء',mutahhaq:'تحقيق فهم',mijass:'جس حديث'};
+// عدد الإنجازات اليوم لكل مفتاح
+function doneToday(k){
+ const d=LS(k);
+ if(k==='mitla3'){const dd=(d&&d.days||{})[today()];return dd&&dd.done?1:0}
+ if(!d)return 0;
+ if(k==='mustamli')return d.n||0;
+ if(k==='mushbih'||k==='mutahhaq'||k==='mijass')return (d.ok)||0;
+ if(k==='mi3bar'){const df=LS('daftar')||[];return df.filter(x=>x.s==='mi3bar'&&new Date(x.at).toISOString().slice(0,10)===today()).length}
+ if(k==='mistr')return d.best?1:0;
+ if(k==='minhal'){const m=LS('midad')||{};return (m[today()]||[]).filter(x=>x.m==='minhal').length||d.n||0}
+ if(k==='mudarrib'){return d.plan?1:0}
+ if(k==='misraj'){const m=LS('misraj')||{};return Object.keys(m).length}
+ return 0;
+}
+function render(){
+ const c=cv();const T=today();
+ let kept=0,broken=0;
+ $('#list').innerHTML=c.length?c.map((x,i)=>{
+  const dn=doneToday(x.k);const need=x.p;const ok=dn>=need;
+  ok?kept++:broken++;
+  const pc=Math.min(100,Math.round(dn/need*100));
+  return '<div class="c '+(ok?'kept':'broken')+'">'+
+   '<div class="t"><b style="color:'+(ok?'var(--ok)':'#e07777')+'">'+(ok?'✓ وُفي':'✗ معلّق')+'</b> '+esc(NAMES[x.k]||x.k)+
+   '<div class="bar"><i style="width:'+pc+'%;background:'+(ok?'var(--ok)':'var(--acc)')+'"></i></div></div>'+
+   '<div class="p"><b>'+dn.toLocaleString('ar-EG')+'</b><span>/'+need.toLocaleString('ar-EG')+'</span></div>'+
+   '<button class="btn ghost" style="padding:4px 9px;font-size:10px" onclick="del('+i+')">×</button></div>'}).join(''):
+  '<div class="muted" style="padding:20px;text-align:center">لا التزامات بعد — عاهد نفسك على شيء.</div>';
+ $('#sum').innerHTML='<div>وفيّ: <b>'+kept.toLocaleString('ar-EG')+'</b></div><div>معلّق: <b>'+broken.toLocaleString('ar-EG')+'</b></div>';
+}
+window.del=i=>{const c=cv();c.splice(i,1);sv(c);render()};
+$('#add').onclick=()=>{
+ const c=cv();const k=$('#ak').value;const p=+$('#ap').value;
+ if(c.find(x=>x.k===k))return alert('التزام موجود');
+ c.push({k,p});sv(c);render()};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mithaq" data-title="مِيثاق"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِدرَج — درجتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:600px;margin:0 auto;padding:14px;text-align:center}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px;text-align:right}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.lvl{font-family:var(--font-ar);font-size:70px;font-weight:700;color:var(--acc);margin:16px 0 4px}
+.rank{font-family:var(--font-ar);font-size:17px;color:var(--acc2)}
+.bar{height:12px;background:var(--card2);border-radius:6px;overflow:hidden;margin:14px 0}
+.bar .f{height:100%;background:var(--acc);border-radius:6px;transition:width .5s}
+.xp{font-size:12px;color:var(--dim)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.src{display:flex;justify-content:space-between;font-size:11.5px;padding:4px 0;border-bottom:1px dashed var(--border)}
+.next{background:var(--card);border:1px solid var(--acc);border-radius:11px;padding:10px 15px;margin-top:10px}
+.next .nm{font-family:var(--font-ar);font-size:13.5px}
+.next .det{font-size:11px;color:var(--dim);margin-top:3px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِدرَج <span class="muted">— درجتك</span></h2>
+<div class="muted">كل نشاطك في المنظومة يضاف نقاطًا — درجتك الكلية، ورتبتك، وما يلزم للدرجة التالية.</div>
+<div class="lvl" id="lvl">٠</div>
+<div class="rank" id="rank">—</div>
+<div class="bar"><div class="f" id="pb"></div></div>
+<div class="xp" id="xp"></div>
+<div style="margin-top:10px"><span class="stat">نقاطك: <b id="pt">٠</b></span><span class="stat">الأقرب مصدر: <b id="nx">—</b></span></div>
+<div class="card"><div class="t">نقاطك حسب المصدر</div><div id="src"></div></div>
+<div id="next"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SRC={};
+function add(k,v){SRC[k]=(SRC[k]||0)+v}
+add('حفظ (مِطلع)',Object.keys(LS('mitla3',{}).days||{}).length*30);
+add('قراءة (مِجلس)',Object.values(LS('majlis',{})).flat().length*20);
+add('ورد (مِصباح)',Object.keys(localStorage).filter(k=>k.startsWith('misbah_')).reduce((a,k)=>a+(LS(k,{}).n||0),0)*5);
+add('مراجعات (مِعوَد)',Object.values(LS('mi3wad_done',{})).reduce((a,b)=>a+b,0)*10);
+add('تركيز (مِعتكف)',Math.round(Object.values(LS('mi3tikaf',{})).reduce((a,b)=>a+b,0)/60)*2);
+add('كتابة (مِسوَد)',(LS('miswad',{}).hist||[]).length*15);
+add('تخزين (مِخزَن)',LS('mikhzan',[]).length*5);
+add('ألعاب (مِقتَحَم)',(LS('miqtaham',{}).n||0)*20);
+add('امتحان (مِحرَج)',(LS('mihraj',{}).n||0)*40);
+add('مسائل (مِحفل)',(LS('mihfil',{}).n||0)*10);
+add('بطاقات (مِقرأة)',Object.keys(LS('miq_cards',{})).length*10);
+add('آيات (مِرتّل)',Object.keys(LS('murattil',{})).length*25);
+add('قوائم (مِذكَر)',(LS('mizkar',[])).length*30);
+add('مجلدات (مِجلد)',(LS('mujallad',[])).length*20);
+add('أهداف (مِرمى)',(LS('mirmah',[])).length*40);
+add('مقاصد (مِقصَد)',(LS('miqsad',{}).goals||[]).length*25);
+add('صباحات (مِشمَر)',(LS('mishmar',{}).streak||0)*100);
+add('أيام نشطة',Object.keys(LS('mi3wad_done',{})).length*50);
+add('إنجليزية',Object.keys(LS('en_listen',{})).length*15+Object.keys(LS('en_vocab',{})).length*5);
+add('برمجة',Object.keys(LS('prog_v1',{})).length*15+Object.keys(LS('prog_proj',{})).length*60);
+const total=Object.values(SRC).reduce((a,b)=>a+b,0);
+const LVL=Math.floor(Math.sqrt(total/100))+1;
+const next=(LVL+1)*(LVL+1)*100;
+const cur=LVL*LVL*100;
+const pc=Math.min(100,Math.round((total-cur)/(next-cur)*100));
+$('#lvl').textContent=arN(LVL);
+$('#rank').textContent=LVL>=15?'عالِم عامِل':LVL>=10?'فقيه مثابر':LVL>=7?'طالب مجد':LVL>=4?'مبتدئ نشط':'مبتدئ';
+$('#pb').style.width=pc+'%';
+$('#xp').textContent=arN(pc)+'٪ إلى الدرجة '+arN(LVL+1);
+$('#pt').textContent=arN(total);
+const srcSorted=Object.entries(SRC).sort((a,b)=>b[1]-a[1]);
+$('#src').innerHTML=srcSorted.map(([s,c])=>'<div class="src"><span>'+s+'</span><b style="color:var(--acc)">'+arN(c)+'</b></div>').join('');
+$('#nx').textContent=srcSorted[0]?srcSorted[0][0]:'—';
+const need=next-total;
+$('#next').innerHTML='<div class="next"><div class="nm">للدرجة التالية تحتاج '+arN(need)+' نقطة</div><div class="det">أسرع طريق: '+(need<50?'لعبة مِقتَحَم أو مراجعة مِعوَد':need<150?'درس أو مسوّدة':'نشاط كثيف — صباح مِشمَر أو امتحان مِحرَج')+'</div></div>';
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="midraj" data-title="مِدرَج"></script>
+</body>
+</html>

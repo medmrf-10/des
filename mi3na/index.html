@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعنى — رحلة المعنى عبر الكتب</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.gid{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:14px;padding:14px 18px;margin-top:10px}
+.gid .t{font-family:var(--font-ar);font-size:19px;line-height:2}
+.gid .m{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:2px 9px;font-size:11px}
+.bk{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin-top:9px}
+.bk .h{font-size:12px;color:var(--acc);font-weight:700;display:flex;justify-content:space-between}
+.bk .n{display:inline-block;background:var(--card2);border-radius:7px;padding:2px 9px;font-size:12px;margin:4px 6px 0 0;font-family:var(--font-ar)}
+.muted{color:var(--dim);font-size:12px}
+.raw{margin-top:7px;color:var(--dim);font-size:11px;font-family:var(--font-ar);line-height:1.9}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعنى <span class="muted">— رحلة المعنى عبر الستة</span></h2>
+<div class="muted">«قل هو الله أحد» معنى واحد — لكن بكم طريق ورد، وفي أي كتاب، وبأي حكم؟ اختر معنى وشاهد رحلته.</div>
+<div id="box"></div>
+<script src="../hadith/analysis.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BKS={bukhari:'البخاري',muslim:'مسلم',abudawud:'أبو داود',tirmidhi:'الترمذي',nasai:'النسائي',ibnmajah:'ابن ماجه'};
+const HC={'صحيح':'var(--ok)','حسن':'var(--acc2)','ضعيف':'#e07777','موضوع':'#b33'};
+let G=null;
+function laz(){if(window.GIDNET)return Promise.resolve();
+ return new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+function show(gid){
+ const g=GIDNET.g[gid];if(!g)return;
+ const hc=HC[g.h]||'var(--acc3)';
+ let h=`<div class="gid"><div class="t">«${esc(g.t)}»</div><div class="m">
+ <span class="chip" style="border-color:${hc};color:${hc}">${esc(g.h)}</span>
+ <span class="chip">رواه ${g.s.toLocaleString('ar-EG')} صحابياً</span>
+ <span class="chip">تكرر ${g.r.toLocaleString('ar-EG')} مرة</span></div></div>`;
+ const bks=Object.keys(g.w||{});
+ for(const b of bks){
+  const nums=g.w[b];
+  const jarh=g.j&&g.j[b]?g.j[b]:{};
+  const rawis=g.n&&g.n[b]?g.n[b]:[];
+  h+=`<div class="bk"><div class="h"><span>${BKS[b]||b}</span><span class="muted">${nums.length.toLocaleString('ar-EG')} موضعاً${rawis.length?' · '+rawis.length.toLocaleString('ar-EG')+' طريق':''}</span></div>
+  <div>${nums.slice(0,30).map(n=>{
+   const jr=jarh[n]?`<span style="color:${HC[jarh[n][0]?.[1]?.includes('Sahih')?'var(--ok)':'#e07777']||'var(--dim)'};font-size:10px"> ${jarh[n].map(j=>esc(j[1])).join('،')}</span>`:'';
+   return `<span class="n">${n.toLocaleString('ar-EG')}${jr}</span>`}).join('')}${nums.length>30?`<span class="muted">+${(nums.length-30).toLocaleString('ar-EG')}</span>`:''}</div></div>`}
+ $('#box').innerHTML=h;
+ history.replaceState(0,0,'#'+gid)}
+function rnd(){const ks=Object.keys(GIDNET.g);show(ks[Math.floor(Math.random()*ks.length)])}
+(async()=>{await laz();
+ const btn=document.createElement('button');btn.className='btn';btn.textContent='🎲 معنى عشوائي';
+ btn.style.cssText='background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);margin-top:10px';
+ btn.onclick=rnd;document.body.insertBefore(btn,$('#box'));
+ const h=location.hash.slice(1);if(h&&GIDNET.g[h])show(h);else rnd()})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3na" data-title="مِعنى"></script>
+</body>
+</html>

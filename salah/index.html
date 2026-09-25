@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>صَلاة — سجلّك اليومي</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🕌 صَلاة</h1><p class="tagline">خمس صلوات تُحفَظ على جهازك — مع سلسلة أيامك</p></header>
+<div class="wrap">
+ <div class="card" id="today"></div>
+ <div class="card"><h3>الأسبوع</h3><div id="week"></div></div>
+ <div class="card stat" id="stat"></div>
+</div>
+<script>
+const $=function(q){return document.querySelector(q)};
+const PRAYERS=[['fajr','الفجر'],['dhuhr','الظهر'],['asr','العصر'],['maghrib','المغرب'],['isha','العشاء']];
+const NAWAFIL=[['witr','الوتر'],['duha','الضحى'],['qiyam','قيام الليل']];
+function key(d){return 'salah_'+d}
+function today(){return new Date().toISOString().slice(0,10)}
+function get(d){try{return JSON.parse(localStorage.getItem(key(d)))||{}}catch(e){return{}}}
+function set(d,obj){localStorage.setItem(key(d),JSON.stringify(obj))}
+function dayN(off){const d=new Date();d.setDate(d.getDate()-off);return d.toISOString().slice(0,10)}
+function render(){
+ const d=today(),s=get(d);
+ let h='<h3>اليوم '+d+'</h3>';
+ h+=PRAYERS.map(function(p){return '<div class="row"><button class="b '+(s[p[0]]?'on':'')+'" data-k="'+p[0]+'">'+(s[p[0]]?'✓ ':'')+p[1]+'</button></div>'}).join('');
+ h+='<h3 class="mt">النوافل</h3>';
+ h+=NAWAFIL.map(function(p){return '<div class="row"><button class="b sun '+(s[p[0]]?'on':'')+'" data-k="'+p[0]+'">'+(s[p[0]]?'✓ ':'')+p[1]+'</button></div>'}).join('');
+ document.getElementById('today').innerHTML=h;
+ document.querySelectorAll('#today .b').forEach(function(b){b.onclick=function(){
+  const st=get(today());st[b.dataset.k]=!st[b.dataset.k];set(today(),st);render();
+ }});
+ let wh='<div class="week">';
+ for(let i=6;i>=0;i--){
+  const dd=dayN(i),ss=get(dd);
+  const n=PRAYERS.filter(function(p){return ss[p[0]]}).length;
+  wh+='<div class="wd"><div class="wl">'+dd.slice(5)+'</div><div class="wb"><div class="bf" style="height:'+(n*20)+'%"></div></div><div class="wn">'+n+'/5</div></div>';
+ }
+ document.getElementById('week').innerHTML=wh+'</div>';
+ let streak=0;
+ for(let i=0;i<365;i++){const ss=get(dayN(i));const n=PRAYERS.filter(function(p){return ss[p[0]]}).length;if(n===5)streak++;else if(i>0)break}
+ document.getElementById('stat').innerHTML='سلسلة الأيام الكاملة: <b>'+streak+'</b> يوم';
+}
+render();
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

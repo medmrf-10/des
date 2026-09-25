@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِصطفى — مختارات الأسبوع</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.pick{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:10px;border-right:3px solid var(--acc)}
+.pick .k{font-size:10px;color:var(--acc3);letter-spacing:2px}
+.pick .t{font-family:var(--font-ar);font-size:16px;font-weight:700;margin-top:6px;line-height:1.9}
+.pick .d{color:var(--dim);font-size:12px;margin-top:6px;line-height:1.9}
+.pick a{display:inline-block;margin-top:9px;color:var(--acc);font-size:12px;text-decoration:none;border:1px solid var(--acc);border-radius:8px;padding:4px 12px}
+.muted{color:var(--dim);font-size:12px}
+.big{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:16px;padding:18px 20px;margin-top:12px;font-family:var(--font-ar);font-size:19px;line-height:2.3;text-align:center}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِصطفى <span class="muted">— مختارات الأسبوع</span></h2>
+<div class="muted">قطعة واحدة مختارة من كل باب — تتبدل كل أسبوع. ليس أفضل شيء لكل أحد، بل شيء جيد لك هذا الأسبوع.</div>
+<div class="big" id="ay">…</div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const wk=(()=>{const d=new Date();const t=d.getTime()-new Date(d.getFullYear(),0,1).getTime();return Math.ceil(t/604800000)})();
+const rnd=i=>{const s=(wk*9301+i*49297)%233280;return s/233280};
+const pick=(a,i)=>a[Math.floor(rnd(i)*a.length)];
+async function boot(){
+ const out=[];
+ try{
+  const sn=1+Math.floor(rnd(1)*114);
+  const S=await(await fetch('../wahy/data/surah/'+sn+'.json')).json();
+  const v=S.verses[Math.floor(rnd(2)*S.verses.length)];
+  $('#ay').innerHTML=esc(v.t)+` ﴿${v.a.toLocaleString('ar-EG')}﴾<div class="muted" style="font-size:12px;margin-top:8px">سورة ${esc(S.ar)} — آية الأسبوع · <a href="../mishhad/#${sn}:${v.a}" style="color:var(--acc)">تدبرها ←</a></div>`
+ }catch(e){}
+ try{
+  const D=await(await fetch('../durus/data.js').then(r=>r.text()).then(t=>{const m=t.match(/const SERIES=([\s\S]*?);/);return JSON.parse(m[1])})).catch(()=>null);
+  if(D){
+   const s=pick(D.filter(x=>x.kind!=='خواطر'),3);
+   out.push({k:'سلسلة الأسبوع',t:s.name,d:s.comment||`${s.videos} درساً · ${s.hours} ساعة · ${s.sheikh||''}`,u:`../durus/#${s.id}`})
+   const s2=pick(D.filter(x=>x.kind==='خواطر'||x.sheikh==='صالح آل الشيخ'),4);
+   if(s2)out.push({k:'بديل',t:s2.name,d:s2.comment||`${s2.videos} درساً · ${s2.hours||''} ساعة`,u:`../durus/#${s2.id}`})}
+ }catch(e){}
+ try{
+  const s=document.createElement('script');s.src='../hadith/adhkar.js';
+  await new Promise((ok,bad)=>{s.onload=ok;s.onerror=bad;document.head.appendChild(s)});
+  const a=pick(window.ADHKAR,5);
+  out.push({k:'ذِكر الأسبوع',t:'«'+a.t+'»',d:a.h||'',u:'../hadith/adhkar.html'})}catch(e){}
+ try{
+  const s=document.createElement('script');s.src='../fiqh_reader/masail.js';
+  await new Promise((ok,bad)=>{s.onload=ok;s.onerror=bad;document.head.appendChild(s)});
+  const ks=Object.keys(window.MASAIL);const b=window.MASAIL[pick(ks,6)];
+  const u=pick(b.u,7);
+  out.push({k:'مسألة الأسبوع',t:u.t||u.i,d:`${b.n} — ${b.a}`,u:'../fiqh_reader/'})}catch(e){}
+ out.push({k:'مهمة الأسبوع',t:'سجّل درسك الأول',d:'٥ دقائق في مسجّل — صوتك + نصك = درس يُنشر',u:'../mu3edd/'});
+ $('#out').innerHTML=out.map(x=>`<div class="pick"><div class="k">${x.k}</div><div class="t">${esc(x.t)}</div><div class="d">${esc(x.d)}</div><a href="${x.u}">افتح ←</a></div>`).join('')}
+boot();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mustafa" data-title="مِصطفى"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِرتّل — حلقة الترتيل</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:660px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+select,input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:12px}
+.ayah{font-family:var(--font-ar);font-size:20px;line-height:2.6;text-align:center;padding:16px;margin-top:10px;background:var(--card);border-radius:14px}
+.ayah .hide{color:transparent;text-shadow:0 0 14px var(--dim);user-select:none;cursor:help}
+.w{cursor:pointer}
+.w:hover{color:var(--acc2)}
+.btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.ctr{font-family:var(--font-ar);font-size:15px;color:var(--acc);text-align:center;margin-top:8px}
+.prog{height:5px;background:var(--border);border-radius:3px;margin-top:10px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--acc);transition:width .3s}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِرتّل <span class="muted">— حلقة تحفيظ</span></h2>
+<div class="muted">اختر سورة وآية — كرّرها بالنظر، ثم تُخفى الكلمات تدريجياً، ثم تُختبر ذاكرتك. انقر كلمة لكشفها.</div>
+<div class="card">
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<select id="surah"></select><input id="ay" type="number" min="1" value="1" style="width:70px">
+<button class="btn ghost" id="load">احضر الآية</button>
+</div></div>
+<div class="ayah" id="view">—</div>
+<div class="ctr" id="ctr"></div>
+<div class="prog"><i id="pr" style="width:0%"></i></div>
+<div class="btns">
+<button class="btn ghost" id="less">أظهر كلمة</button>
+<button class="btn" id="more">أخفِ كلمة</button>
+<button class="btn ghost" id="test">اختبرني</button>
+<button class="btn ghost" id="reset">إعادة</button>
+</div>
+<div class="card" id="testC" style="display:none"><div class="t">رتّب الكلمات بذاكرتك (انقر بالترتيب)</div>
+<div id="pool" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
+<div id="line" style="font-family:var(--font-ar);font-size:17px;text-align:center;margin-top:10px;min-height:32px;color:var(--acc)"></div>
+<div class="btns"><button class="btn" id="check">تحقق</button><button class="btn ghost" id="show">أظهر الصحيح</button></div>
+<div id="result" style="text-align:center;margin-top:8px"></div></div>
+<div class="card"><div class="t">سجلّك</div><div id="hist" class="muted"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let words=[],hid=new Set(),curKey=null;
+const SNAMES={1:'الفاتحة',2:'البقرة',3:'آل عمران',4:'النساء',5:'المائدة',6:'الأنعام',7:'الأعراف',8:'الأنفال',9:'التوبة',10:'يونس',11:'هود',12:'يوسف',13:'الرعد',14:'إبراهيم',15:'الحجر',16:'النحل',17:'الإسراء',18:'الكهف',19:'مريم',20:'طه',21:'الأنبياء',22:'الحج',23:'المؤمنون',24:'النور',25:'الفرقان',26:'الشعراء',27:'النمل',28:'القصص',29:'العنكبوت',30:'الروم',31:'لقمان',32:'السجدة',33:'الأحزاب',34:'سبأ',35:'فاطر',36:'يس',37:'الصافات',38:'ص',39:'الزمر',40:'غافر',41:'فصلت',42:'الشورى',43:'الزخرف',44:'الدخان',45:'الجاثية',46:'الأحقاف',47:'محمد',48:'الفتح',49:'الحجرات',50:'ق',51:'الذاريات',52:'الطور',53:'النجم',54:'القمر',55:'الرحمن',56:'الواقعة',57:'الحديد',58:'المجادلة',59:'الحشر',60:'الممتحنة',61:'الصف',62:'الجمعة',63:'المنافقون',64:'التغابن',65:'الطلاق',66:'التحريم',67:'الملك',68:'القلم',69:'الحاقة',70:'المعارج',71:'نوح',72:'الجن',73:'المزمل',74:'المدثر',75:'القيامة',76:'الإنسان',77:'المرسلات',78:'النبأ',79:'النازعات',80:'عبس',81:'التكوير',82:'الانفطار',83:'المطففين',84:'الانشقاق',85:'البروج',86:'الطارق',87:'الأعلى',88:'الغاشية',89:'الفجر',90:'البلد',91:'الشمس',92:'الليل',93:'الضحى',94:'الشرح',95:'التين',96:'العلق',97:'القدر',98:'البينة',99:'الزلزلة',100:'العاديات',101:'القارعة',102:'التكاثر',103:'العصر',104:'الهمزة',105:'الفيل',106:'قريش',107:'الماعون',108:'الكوثر',109:'الكافرون',110:'النصر',111:'المسد',112:'الإخلاص',113:'الفلق',114:'الناس'};
+$('#surah').innerHTML=Object.entries(SNAMES).map(([n,nm])=>'<option value="'+n+'"'+(n==1?' selected':'')+'>'+n+'. '+nm+'</option>').join('');
+function render(){
+ $('#view').innerHTML=words.map((w,i)=>'<span class="w'+(hid.has(i)?' hide':'')+'" data-i="'+i+'">'+esc(w)+'</span>').join(' ');
+ $('#pr').style.width=(hid.size/words.length*100)+'%';
+ $('#ctr').textContent=hid.size?'مخفي '+hid.size+'/'+words.length:'اقرأ ثم ابدأ الإخفاء';
+}
+$('#view').onclick=e=>{const w=e.target.closest('.w');if(!w)return;const i=+w.dataset.i;
+ if(hid.has(i)){hid.delete(i)}else{hid.add(i)}render()};
+$('#more').onclick=()=>{const open=words.map((_,i)=>i).filter(i=>!hid.has(i));
+ if(open.length){hid.add(open[Math.floor(Math.random()*open.length)]);render()}};
+$('#less').onclick=()=>{const h=[...hid];if(h.length){hid.delete(h[Math.floor(Math.random()*h.length)]);render()}};
+$('#reset').onclick=()=>{hid.clear();render();$('#testC').style.display='none'};
+$('#load').onclick=async()=>{
+ const s=$('#surah').value,a=+$('#ay').value;
+ try{
+  const r=await fetch('../wahy/data/surah/'+s+'.json');
+  const j=await r.json();
+  const v=j.verses.find(x=>+x.k.split(':')[1]===a);
+  if(!v)return alert('لا توجد آية رقم '+a);
+  words=(v.t||v.a).split(/\s+/).filter(Boolean);
+  hid.clear();curKey=v.k;render();$('#testC').style.display='none';
+ }catch(e){alert('يتطلب HTTP — افتح عبر GitHub Pages')}
+};
+let picked=[];
+$('#test').onclick=()=>{
+ if(!words.length)return alert('احضر آية أولاً');
+ $('#testC').style.display='block';picked=[];
+ const shuffled=words.map((w,i)=>({w,i})).sort(()=>Math.random()-0.5);
+ $('#pool').innerHTML=shuffled.map(x=>'<button class="btn ghost" style="padding:5px 11px" data-i="'+x.i+'">'+esc(x.w)+'</button>').join('');
+ $('#line').textContent='';$('#result').textContent='';
+};
+$('#pool').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+ b.disabled=true;b.style.opacity='.35';picked.push(+b.dataset.i);
+ $('#line').textContent=picked.map(i=>words[i]).join(' ')};
+$('#check').onclick=()=>{
+ const correct=picked.every((v,i)=>v===i)&&picked.length===words.length;
+ const h=LS('murattil',{});h[curKey]=(h[curKey]||0)+(correct?1:0);SV('murattil',h);
+ $('#result').innerHTML=correct?
+  '<b style="color:var(--acc)">✓ مُتقن — حُفظت الآية</b>':
+  '<b style="color:#e08080">✗ الترتيب خاطئ — انظر الصحيح</b>';
+ renderHist();
+};
+$('#show').onclick=()=>{$('#line').textContent=words.join(' ')};
+function renderHist(){
+ const h=LS('murattil',{});const ok=Object.values(h).reduce((a,b)=>a+b,0);
+ $('#hist').innerHTML='آيات أتقنتها: <b style="color:var(--acc)">'+arN(ok)+'</b>'+
+  (Object.keys(h).length?' — آخرها '+Object.keys(h).slice(-3).join('، '):'');
+}
+renderHist();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="murattil" data-title="مِرتّل"></script>
+</body>
+</html>

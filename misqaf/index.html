@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِسقَف — سقوفك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:600px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.rec{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 16px;margin-top:8px}
+.rec .nm{font-family:var(--font-ar);font-size:13.5px}
+.rec .val{font-family:var(--font-ar);font-size:18px;color:var(--acc);font-weight:700}
+.rec .when{font-size:10.5px;color:var(--dim)}
+.gold{border-color:var(--acc)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِسقَف <span class="muted">— سقوفك</span></h2>
+<div class="muted">أرقامك القياسية — أفضل ما حققته في كل أداة، جميع الأوقات.</div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const R=[];
+const g=(n,k,f)=>{try{const v=f();if(v&&v.v)R.push({n,v:v.v,w:v.w||''})}catch(e){}};
+g('أعلى نتيجة مِقتَحَم','miqtaham',()=>({v:LS('miqtaham',{}).best,w:'في ٦٠ ثانية'}));
+g('أعلى نتيجة مِحرَج','mihraj',()=>({v:LS('mihraj',{}).best,w:'من ١٠'}));
+g('أكثر مسائل مِحفل','mihfil',()=>({v:LS('mihfil',{}).n,w:'مسألة'}));
+g('أكثر صفحات مِجلس','majlis',()=>({v:Object.values(LS('majlis',{})).flat().length,w:'صفحة قراءتها'}));
+g('أطول مِعتكف','mi3tikaf',()=>{const d=LS('mi3tikaf',{});const mx=Math.max(...Object.values(d),0);return{v:Math.round(mx/60),w:'دقيقة'}});
+g('أكثر بطاقات مِقرأة','miq_cards',()=>({v:Object.keys(LS('miq_cards',{})).length,w:'بطاقة'}));
+g('أكثر آيات مِرتّل','murattil',()=>({v:Object.keys(LS('murattil',{})).length,w:'آية'}));
+g('أطول سلسلة صباحات','mishmar',()=>({v:LS('mishmar',{}).streak,w:'صباح متواصل'}));
+g('أكثر مراجعات مِعوَد','mi3wad_done',()=>({v:Object.values(LS('mi3wad_done',{})).reduce((a,b)=>a+b,0),w:'مراجعة'}));
+g('أكثر أيام نشطة (مِعدَل)','',()=>{const days=Object.keys(LS('mi3wad_done',{}));return{v:days.length,w:'يومًا نشطًا'}});
+g('أكثر مسوّدات','miswad',()=>({v:(LS('miswad',{}).hist||[]).length,w:'مسوّدة'}));
+g('أكبر مِخزَن','mikhzan',()=>({v:LS('mikhzan',[]).length,w:'عنصر'}));
+g('أكثر مجلدات','mujallad',()=>({v:LS('mujallad',[]).length,w:'مجلد'}));
+g('أكثر مِجلد عناصر','',()=>{const m=LS('mujallad',[]);return{v:Math.max(...m.map(x=>(x.items||[]).length),0),w:'عنصرًا في مجلد'}});
+g('أفضل نتيجة مِستملي','mustamli',()=>({v:LS('mustamli',{}).best,w:'كلمة صحيحة'}));
+g('أفضل ترتيب مِعراج','ma3raj',()=>{const m=LS('ma3raj',[]);return{v:m.length?Math.max(...m):0,w:'مرتبة'}});
+g('أكثر أهداف مِرمى','mirmah',()=>({v:LS('mirmah',[]).length,w:'هدف'}));
+g('أكثر مقاصد مِقصَد','miqsad',()=>({v:(LS('miqsad',{}).goals||[]).length,w:'مقصدًا اليوم'}));
+g('أطول مِذكَر','mizkar',()=>{const m=LS('mizkar',[]);return{v:m.length?Math.max(...m.map(x=>x.t.split(/\s+/).filter(Boolean).length)):0,w:'كلمة في قائمة'}});
+g('أكثر دروس إنجليزية','en_listen',()=>({v:Object.keys(LS('en_listen',{})).length,w:'درس'}));
+g('أكثر مفردات EN','en_vocab',()=>({v:Object.keys(LS('en_vocab',{})).length,w:'كلمة'}));
+g('أكثر دروس برمجة','prog_v1',()=>({v:Object.keys(LS('prog_v1',{})).length,w:'درس'}));
+g('أكثر مشاريع برمجة','prog_proj',()=>({v:Object.keys(LS('prog_proj',{})).length,w:'مشروع'}));
+g('أكثر امتحانات برمجة','prog_exam',()=>({v:Object.keys(LS('prog_exam',{})).length,w:'امتحان'}));
+g('أفضل سِباق','sibaq_best',()=>({v:LS('sibaq_best',0),w:'نتيجة'}));
+R.sort((a,b)=>b.v-a.v);
+$('#list').innerHTML='<div class="card"><div class="t">سقوفك — '+arN(R.length)+' رقمًا قياسيًا</div>'+
+ R.map((r,i)=>'<div class="rec'+(i<3?' gold':'')+'"><div><div class="nm">'+(i===0?'🥇 ':i===1?'🥈 ':i===2?'🥉 ':'')+r.n+'</div><div class="when">'+r.w+'</div></div><span class="val">'+arN(r.v)+'</span></div>').join('')+'</div>';
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="misqaf" data-title="مِسقَف"></script>
+</body>
+</html>

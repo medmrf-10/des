@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِصطَفى — مختاراتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.muted{color:var(--dim);font-size:12px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.profs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.prof{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .15s}
+.prof:hover{border-color:var(--acc)}
+.prof.on{background:var(--acc);color:#14140f}
+.prof .ic{font-size:22px}
+.prof .nm{font-family:var(--font-ar);font-size:13px;margin-top:5px;font-weight:700}
+.pack{margin-top:14px}
+.pk{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;margin-top:6px}
+.pk .nm{font-family:var(--font-ar);font-size:13px}
+.pk .why{font-size:11px;color:var(--dim);margin-top:2px}
+.pk a{color:var(--acc);font-size:12px;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِصطَفى <span class="muted">— مختاراتك</span></h2>
+<div class="muted">مَن أنت؟ اختر صفتك — تظهر لك سبع أدوات مختارة تناسبك فقط.</div>
+<div class="profs" id="profs"></div>
+<div id="pack"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const PROFS={
+ 'طالب علم':{ic:'📚',pk:[['مِعسكر','../mi3skar/','خطة ٣٠ يومًا'],['مِشغل','../mishghal/','سلاسلك'],['مِطلع','../mitla3/','حديث يومي'],['مِحفل','../mihfil/','مسائل'],['مِرتّل','../murattil/','تحفيظ'],['مِجلد','../mujallad/','مجلداتك'],['مِحراث','../mihrath/','استكمال']]},
+ 'الخطيب والواعظ':{ic:'🎤',pk:[['مُلاَحِن','../mula7hin/','أنتج درسك'],['مِنشأ','../minsha/','مقالك'],['مِذكَر','../mizkar/','حفّظ النص'],['مِعمل','../mi3mal/','حلّل خطبتك'],['مِكشاف','../mikshaf/','جسور الوحيين'],['مُتشابه','../mutashabih/','متشابه الآيات'],['مِجلد','../mujallad/','مكتبتك']]},
+ 'المعلم والمدرس':{ic:'👨‍🏫',pk:[['مِحفل','../mihfil/','مسائل للطلاب'],['مِقلَب','../miqlab/','بطاقات تدريس'],['مِثنَى','../mithna/','لعبة التطابق'],['مِحكَك','../mihkak/','اختبار سريع'],['مِقتَحَم','../miqtaham/','سباق ٦٠'],['مِنشأ','../minsha/','مقال للطلاب'],['مُلاَحِن','../mula7hin/','درس كاراوكي']]},
+ 'المبرمج المتعلم':{ic:'💻',pk:[['البرمجة','../prog/','مساراتك'],['سُلَّم البرمجة','../prog/levelup.html','مستواك'],['المرجع السريع','../prog/reference.html','cheat-sheets'],['مِعتكف','../mi3tikaf/','عكوف التعلم'],['مِجلد','../mujallad/','نظّم موادك'],['مِسوَد','../miswad/','مسوّدك'],['مِرمى','../mirmah/','هدفك']]},
+ 'متعلم الإنجليزية':{ic:'🌍',pk:[['الإنجليزية','../english/','فلسفتك'],['التظليل','../english/shadowing.html','اكتب من الذاكرة'],['يوميات EN','../english/journal.html','اكتب يومك'],['مِعتكف','../mi3tikaf/','عكوف'],['مِعراج','../ma3raj/','صعودك'],['مِجلد','../mujallad/','مجلدك'],['مِرمى','../mirmah/','هدف']]},
+ 'الناشئ المهتم':{ic:'🌱',pk:[['مِفتَح','../miftah/','افتح خطتك'],['مِنشَط','../minshat/','ماذا الآن'],['فجر','../fajr/','افتتاحية'],['مِصباح','../misbah/','وردك'],['مِشمِل','../mishmil/','شمول يومك'],['مِثنَى','../mithna/','تطابق'],['مِعسكر','../mi3skar/','خطة ٣٠']]},
+ 'المنشغل الدائم':{ic:'⏱',pk:[['مِنشَط','../minshat/','ماذا الآن'],['مِطلع','../mitla3/','حديث يومي'],['مِصباح','../misbah/','ورد سريع'],['مِجلس','../majlis/','صفحة قرآن'],['مِقتَحَم','../miqtaham/','٦٠ ثانية'],['مِختِم','../mikhtim/','خاتمة ليلتك'],['مِرمى','../mirmah/','هدف واحد']]},
+ 'الباحث والمحلل':{ic:'🔬',pk:[['مِعلم','../mi3lam/','معالم المكتبة'],['مِقتطف','../miqtaf/','أرقام الشبكة'],['مِخصص','../hadith/takhsis.html','التفرّد'],['مِعمل','../mi3mal/','مختبر النصوص'],['مِزمَن','../mizman/','زمَن العلماء'],['مِشبَك','../mishbak/','شبكة الأدوات'],['مِقتدِر','../miqtadir/','قوتك']]},
+};
+$('#profs').innerHTML=Object.entries(PROFS).map(([n,p])=>
+ '<div class="prof" data-p="'+n+'"><div class="ic">'+p.ic+'</div><div class="nm">'+esc(n)+'</div></div>').join('');
+$('#profs').onclick=e=>{
+ const pr=e.target.closest('.prof');if(!pr)return;
+ document.querySelectorAll('.prof').forEach(x=>x.classList.remove('on'));pr.classList.add('on');
+ const p=PROFS[pr.dataset.p];
+ $('#pack').innerHTML='<div class="card"><div class="t">مختارات «'+esc(pr.dataset.p)+'» — ٧ أدوات</div>'+
+ '<div class="pack">'+p.pk.map(([n,u,w])=>
+  '<div class="pk"><div><div class="nm">'+esc(n)+'</div><div class="why">'+esc(w)+'</div></div><a href="'+u+'">افتح ←</a></div>').join('')+'</div></div>';
+ $('#pack').scrollIntoView({behavior:'smooth'});
+};
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mistafa" data-title="مِصطَفى"></script>
+</body>
+</html>

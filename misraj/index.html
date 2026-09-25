@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05070d">
+<title>مِسراج — مصباح الحفظ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#05070d;color:#e8b93f;font-family:'IBM Plex Sans Arabic',system-ui;min-height:100vh;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none}
+#scr{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;text-align:center}
+#txt{font-size:26px;line-height:2.4;font-family:'Amiri','IBM Plex Sans Arabic',serif;filter:blur(0)}
+#txt.hidden{filter:blur(14px);opacity:.4}
+#num{font-size:12px;color:#5a5340;margin-bottom:18px}
+#bar{height:3px;background:#1a1f2e;position:fixed;top:0;left:0;right:0}
+#bar i{display:block;height:100%;background:#e8b93f;transition:width .3s}
+#pick{padding:14px;max-width:600px;margin:0 auto}
+#pick .p{background:#0d1220;border:1px solid #1f2740;border-radius:12px;padding:12px 16px;margin:7px 0;cursor:pointer;font-size:14.5px;line-height:1.9;color:#c9b98a}
+#pick .p:hover{border-color:#e8b93f}
+#hint{color:#3d4a66;font-size:11.5px;margin-top:22px}
+.btn{background:#e8b93f;color:#14140f;border:0;border-radius:9px;padding:9px 22px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;margin:6px 4px 0}
+.btn.ghost{background:#0d1220;color:#c9b98a;border:1px solid #1f2740}
+</style>
+</head>
+<body>
+<div id="bar"><i id="bi" style="width:0%"></i></div>
+<div id="pick"></div>
+<div id="scr" style="display:none">
+<div id="num"></div>
+<div id="txt" class="hidden"></div>
+<div id="hint">لمس قصير = الكلمة/الجملة التالية · لمس طويل = انظر · ضغط مزدوج = السابقة</div>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const POOL=[
+ {n:'الفاتحة',t:'بسم الله الرحمن الرحيم · الحمد لله رب العالمين · الرحمن الرحيم · مالك يوم الدين · إياك نعبد وإياك نستعين · اهدنا الصراط المستقيم · صراط الذين أنعمت عليهم غير المغضوب عليهم ولا الضالين'},
+ {n:'الإخلاص',t:'قل هو الله أحد · الله الصمد · لم يلد ولم يولد · ولم يكن له كفوا أحد'},
+ {n:'الكوثر',t:'إنا أعطيناك الكوثر · فصل لربك وانحر · إن شانئك هو الأبتر'},
+ {n:'آية الكرسي (مقاطع)',t:'الله لا إله إلا هو الحي القيوم · لا تأخذه سنة ولا نوم · له ما في السماوات وما في الأرض · من ذا الذي يشفع عنده إلا بإذنه · يعلم ما بين أيديهم وما خلفهم · ولا يحيطون بشيء من علمه إلا بما شاء · وسع كرسيه السماوات والأرض · ولا يئوده حفظهما وهو العلي العظيم'},
+ {n:'أذكار الصباح ١',t:'أصبحنا وأصبح الملك لله والحمد لله · لا إله إلا الله وحده لا شريك له · له الملك وله الحمد وهو على كل شيء قدير'},
+ {n:'حديث النية',t:'إنما الأعمال بالنيات · وإنما لكل امرئ ما نوى · فمن كانت هجرته إلى الله ورسوله فهجرته إلى الله ورسوله · ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها فهجرته إلى ما هاجر إليه'},
+ {n:'حديث جبريل',t:'أن تعبد الله كأنك تراه فإن لم تكن تراه فإنه يراك'},
+ {n:'المعوذتان',t:'قل أعوذ برب الفلق · من شر ما خلق · ومن شر غاسق إذا وقب · ومن شر النفاثات في العقد · ومن شر حاسد إذا حسد · قل أعوذ برب الناس · ملك الناس · إله الناس · من شر الوسواس الخناس · الذي يوسوس في صدور الناس · من الجنة والناس'}];
+let cur=null,parts=[],i=0;
+const st=JSON.parse(localStorage.getItem('misraj')||'{}');
+$('#pick').innerHTML='<div style="text-align:center;color:#5a5340;font-size:13px;padding:10px">اختر نصاً — ثم احفظه جملةً جملة في الظلام</div>'+POOL.map((p,x)=>{
+ const done=Math.min(st[x]||0,p.t.split('·').length);
+ return `<div class="p" data-i="${x}"><b style="color:#e8b93f">${esc(p.n)}</b> <span style="color:#3d4a66;font-size:11px">${done}/${p.t.split('·').length}</span><br><span style="font-size:12px;color:#5a5340">${esc(p.t.slice(0,60))}…</span></div>`}).join('');
+$('#pick').onclick=e=>{
+ const p=e.target.closest('.p');if(!p)return;
+ cur=+p.dataset.i;parts=POOL[cur].t.split('·').map(s=>s.trim()).filter(Boolean);
+ i=st[cur]||0;if(i>=parts.length)i=0;
+ $('#pick').style.display='none';$('#scr').style.display='flex';show()};
+function show(){
+ $('#txt').textContent=parts[i];
+ $('#txt').classList.add('hidden');
+ $('#num').textContent=POOL[cur].n+' · '+(i+1)+'/'+parts.length;
+ $('#bi').style.width=(100*(i+1)/parts.length)+'%';
+ st[cur]=i+1;localStorage.setItem('misraj',JSON.stringify(st))}
+let pt=null;
+$('#scr').addEventListener('pointerdown',e=>{pt=setTimeout(()=>{
+ $('#txt').classList.remove('hidden');pt='peek'},450)});
+$('#scr').addEventListener('pointerup',e=>{
+ if(pt==='peek'){pt=null;return}
+ clearTimeout(pt);pt=null;
+ if($('#txt').classList.contains('hidden')){
+  $('#txt').classList.remove('hidden')}else{
+  if(i<parts.length-1){i++;show()}else{
+   $('#txt').textContent='✦ أتممته — '+POOL[cur].n;
+   $('#num').textContent='مكتمل';
+   setTimeout(()=>{$('#scr').style.display='none';$('#pick').style.display='block';location.reload()},1600)}}});
+$('#scr').addEventListener('dblclick',e=>{if(i>0){i--;show()}});
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowLeft'||e.key===' '){e.preventDefault();
+  if($('#txt').classList.contains('hidden'))$('#txt').classList.remove('hidden');
+  else if(i<parts.length-1){i++;show()}}
+ if(e.key==='ArrowRight'&&i>0){i--;show()}
+ if(e.key==='Escape')location.reload()});
+</script>
+</body>
+</html>

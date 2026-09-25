@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِفسّر — درّب نفسك على التفسير</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.aya{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:16px 20px;font-family:var(--font-ar);font-size:20px;line-height:2.2;text-align:center;margin:10px 0}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px;font-family:var(--font-ar);font-size:14px;min-height:100px;resize:vertical;box-sizing:border-box;line-height:1.9}
+textarea:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:8px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.tf{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 17px;margin-top:10px;font-family:var(--font-ar);font-size:14px;line-height:2.05;white-space:pre-wrap}
+.muted{color:var(--dim);font-size:12px}
+.cov{font-size:13px;margin-top:8px}
+.cov b{color:var(--acc)}
+mark{background:rgba(61,214,140,.2);color:#3dd68c;border-radius:3px;padding:0 2px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِفسّر <span class="muted">— افسِر بنفسك ثم قارن بأهل العلم</span></h2>
+<div class="muted">طريقة المتقدمين: تُقرأ الآية، تكتب فهمك بكلامك، ثم تكشف تفسير السعدي فتقيس قربك من المعنى.</div>
+<div class="aya" id="v">…</div>
+<textarea id="me" placeholder="اكتب تفسيرك بكلامك أنت…"></textarea>
+<button class="btn" id="chk">اكشف التفسير</button>
+<button class="btn ghost" id="nx">آية أخرى ⚂</button>
+<div id="res"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const STOP=new Set('في من على الى عن ان أن لا ما الذي الذين هذا هذه كان هو هي و قال قلت يا كل منه له به عليه فيه ثم او اذا كما'.split(' '));
+let T=null,S=null,cur=null;
+async function boot(){
+ if(!T){const buf=await(await fetch('../wahy/data/tafsir/24-tafseer-al-saadi-arabic.json.gz')).arrayBuffer();
+  T=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}))}}
+function pick(){
+ const gs=Object.values(T.groups).filter(g=>{const[fs,fa]=g.f.split(':').map(Number),[ts,ta]=g.t.split(':').map(Number);return fs===ts&&ta-fa<=3&&x(g).length<900});
+ return gs[Math.floor(Math.random()*gs.length)]}
+const x=g=>g.x.replace(/<[^>]+>/g,'');
+async function next(){
+ await boot();
+ cur=pick();
+ const[fs]=cur.f.split(':').map(Number);
+ if(!S||S.n!==fs)S=await(await fetch('../wahy/data/surah/'+fs+'.json')).json();
+ const a=+cur.f.split(':')[1];
+ const v=S.verses.find(z=>z.a===a);
+ $('#v').innerHTML=esc(v?v.t:'')+' <span style="font-size:12px;color:var(--acc)">﴿'+cur.f+'﴾</span>';
+ $('#me').value='';$('#res').innerHTML='';$('#me').focus()}
+$('#chk').onclick=()=>{
+ const tx=x(cur);
+ const mine=new Set(norm($('#me').value).split(/\s+/).filter(w=>w.length>2&&!STOP.has(w)));
+ const tws=norm(tx).split(/\s+/).filter(w=>w.length>2&&!STOP.has(w));
+ const hit=new Set([...mine].filter(w=>tws.includes(w)));
+ const cov=mine.size?Math.round(hit.size/mine.size*100):0;
+ const marked=esc(tx).split(' ').map(w=>hit.has(norm(w))?`<mark>${w}</mark>`:w).join(' ');
+ // سجل
+ const st=JSON.parse(localStorage.getItem('mufassir')||'{"n":0,"sum":0}');
+ st.n++;st.sum+=cov;localStorage.setItem('mufassir',JSON.stringify(st));
+ $('#res').innerHTML=`<div class="tf"><div style="font-size:11px;color:var(--acc);margin-bottom:7px">تفسير السعدي — ${cur.f} إلى ${cur.t}</div>${marked.slice(0,2600)}</div>
+ <div class="cov">كلماتك الدالة التي أصابها التفسير: <b>${cov}%</b> · متوسطك التراكمي <b>${Math.round(st.sum/st.n)}%</b> في ${st.n} محاولة — <span class="muted">الأخضر: كلماتك التي وردت في التفسير</span></div>`};
+$('#nx').onclick=next;
+next();
+</script>
+<script src="../hadith/pako.min.js"></script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mufassir" data-title="مِفسّر"></script>
+</body>
+</html>

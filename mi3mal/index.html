@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعمل — مختبر النصوص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+textarea{width:100%;min-height:150px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;line-height:2;resize:vertical}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-top:10px}
+.stat{background:var(--card);border-radius:10px;padding:9px 12px;text-align:center}
+.stat b{display:block;font-size:19px;color:var(--acc)}
+.stat span{font-size:10.5px;color:var(--dim)}
+.w{display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:4px 11px;margin:3px;font-size:12.5px}
+.w b{color:var(--acc);margin-right:4px}
+.w.rare{border-color:#e08080}
+.w.rare b{color:#e08080}
+.hr{height:5px;background:var(--border);border-radius:3px;margin-top:7px;overflow:hidden}
+.hr i{display:block;height:100%}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعمل <span class="muted">— مختبر النصوص العربية</span></h2>
+<div class="muted">ألصق أي نص — يُحلّل: الكلمات، التفرد، النُدرة، الطول، القراءة، وأكثر الكلمات.</div>
+<div class="card"><textarea id="txt" placeholder="ألصق نصّك هنا…"></textarea>
+<div style="display:flex;gap:8px;margin-top:9px"><button class="btn" id="go">حلّل</button><button class="btn ghost" id="sample">نص تجريبي</button></div></div>
+<div class="stats" id="stats"></div>
+<div class="card" id="topW" style="display:none"><div class="t">أكثر الكلمات تكراراً</div><div id="topL"></div></div>
+<div class="card" id="rareW" style="display:none"><div class="t">الكلمات النادرة (ظهرت مرة)</div><div id="rareL"></div></div>
+<div class="card" id="read" style="display:none"><div class="t">مؤشر القراءة</div><div id="rd"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const arN=n=>(+n).toLocaleString('ar-EG');
+$('#sample').onclick=()=>{$('#txt').value='إنّ الحمد لله نحمده ونستعينه ونستغفره ونعوذ بالله من شرور أنفسنا ومن سيئات أعمالنا من يهده الله فلا مضلّ له ومن يضلل فلا هادي له وأشهد أن لا إله إلا الله وحده لا شريك له وأشهد أن محمداً عبده ورسوله صلى الله عليه وسلم تسليماً كثيراً، أما بعد فإنّ خير الحديث كتاب الله وخير الهدي هدي محمد صلى الله عليه وسلم وشرّ الأمور محدثاتها وكلّ محدثة بدعة وكلّ بدعة ضلالة وكلّ ضلالة في النار. يا أيها الناس اتقوا ربكم الذي خلقكم من نفس واحدة وخلق منها زوجها وبثّ منهما رجالاً كثيراً ونساءً واتقوا الله الذي تساءلون به والأرحام إنّ الله كان عليكم رقيباً.'};
+$('#go').onclick=()=>{
+ const raw=$('#txt').value.trim();if(!raw)return alert('ألصق نصاً');
+ const chars=raw.replace(/\s/g,'').length;
+ const tokens=raw.split(/\s+/).filter(Boolean);
+ const words=tokens.map(norm);
+ const uniq=new Set(words);
+ const freq={};words.forEach(w=>freq[w]=(freq[w]||0)+1);
+ const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+ const hapax=sorted.filter(([w,c])=>c===1);
+ const avgLen=words.length?(words.reduce((a,w)=>a+w.length,0)/words.length):0;
+ const long=words.filter(w=>w.length>=7);
+ const sentences=raw.split(/[.!؟?؛؛\n]/).filter(s=>s.trim()).length||1;
+ const wps=words.length/sentences;
+ $('#stats').innerHTML=[
+  ['كلمة',arN(words.length)],['فريدة',arN(uniq.size)],['نادرة',arN(hapax.length)],
+  ['حروف',arN(chars)],['متوسط حروف/كلمة',avgLen.toFixed(1)],['كلمات/جملة',wps.toFixed(0)],
+  ['كلمات طويلة',arN(long.length)]
+ ].map(([n,v])=>'<div class="stat"><b>'+v+'</b><span>'+n+'</span></div>').join('');
+ $('#topW').style.display='block';
+ $('#topL').innerHTML=sorted.slice(0,20).map(([w,c])=>'<span class="w"><b>×'+c+'</b>'+esc(w)+'</span>').join('');
+ $('#rareW').style.display='block';
+ $('#rareL').innerHTML=hapax.slice(0,30).map(([w])=>'<span class="w rare">'+esc(w)+'</span>').join('')+(hapax.length>30?'<div class="muted" style="margin-top:6px">+ '+(hapax.length-30).toLocaleString('ar-EG')+' أخرى</div>':'');
+ // مؤشر قراءة: قِلّة النُدرة + قِصَر الكلمات = أسهل
+ const ease=Math.max(0,Math.min(100,Math.round(100-(avgLen-3)*18-(hapax.length/words.length*100)*0.5)));
+ $('#read').style.display='block';
+ $('#rd').innerHTML='<div style="font-size:12.5px">'+(ease>70?'سهل القراءة':ease>40?'متوسط':'عسير — نص مركّب')+' — <b style="color:var(--acc)">'+ease+'٪</b></div><div class="hr"><i style="width:'+ease+'%;background:var(--acc)"></i></div>'+
+ '<div class="muted" style="margin-top:7px">حُسب من متوسط طول الكلمة ونسبة النوادر.</div>';
+};
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3mal" data-title="مِعمل"></script>
+</body>
+</html>

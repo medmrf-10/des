@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مخططي — خطة التعلم</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:840px;margin:0 auto;padding:14px}
+.dom{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 15px;margin-bottom:11px}
+.dom h3{margin:0 0 4px;font-size:15px;color:var(--acc)}
+.dom .dd{color:var(--dim);font-size:12px;margin-bottom:9px}
+.step{display:flex;gap:10px;align-items:center;padding:7px 9px;border-radius:9px;cursor:pointer}
+.step:hover{background:var(--card2)}
+.step .box{flex:none;width:19px;height:19px;border:2px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent}
+.step.done .box{background:var(--ok);border-color:var(--ok);color:#fff}
+.step .tx{flex:1;font-size:13.5px}
+.step.done .tx{opacity:.55;text-decoration:line-through}
+.step a{flex:none;color:var(--acc2);font-size:12px;text-decoration:none}
+.pbar{height:5px;background:var(--card2);border-radius:3px;margin-top:9px;overflow:hidden}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--ok));border-radius:3px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">مخططي</h1>
+<div class="muted">خطة تعلمك عبر المنظومة كلها — علّم ما أنجزت، تقدمك محفوظ على جهازك</div>
+<div style="margin:10px 0" class="muted" id="total"></div>
+<div id="doms"></div>
+<script>
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const DOMS=[
+{n:'القرآن وعلومه',d:'قراءة وتدبر ومراجعة',steps:[
+ ['اقرأ سورة كاملة في وحي','../wahy/'],
+ ['قارن تفسيرَي ابن كثير والسعدي لآية واحدة','../wahy/'],
+ ['راجع نظائر سورة واحدة في المتشابهات','../wahy/mutashabih.html'],
+ ['حلّل ألفاظ سورة تحفظها في «كلمات»','../wahy/kalimat.html'],
+ ['أنهِ مجموعة النظائر في مدرستي','../madrasati/']]},
+{n:'الحديث وعلومه',d:'مختبر الحديث كاملاً',steps:[
+ ['افهم شبكة المعنى على مجموعة واحدة','../hadith/net.html'],
+ ['ابحث في المتون عن حديث تحفظه','../hadith/matn.html'],
+ ['اطّلع على الأربعين النووية كلها','../hadith/nawawi.html'],
+ ['افرّق ذكراً صحيحاً عن موضوع في الأذكار','../hadith/adhkar.html'],
+ ['تتبع سلسلة رواة واحدة في المعجم','../hadith/rawi.html'],
+ ['قارن حكم الشامي بحكم العلماء في متون الترمذي','../hadith/matn.html']]},
+{n:'العقيدة والتصوف',d:'مصادر نقية محررة',steps:[
+ ['اقرأ ذرات العقيدة الطحاوية','../akida/real.html'],
+ ['افتح باباً موحداً وقارن مواضع الكتب','../akida/real.html'],
+ ['راجع ذرات العقيدة في مدرستي','../madrasati/']]},
+{n:'الفقه',d:'نصوص مدرسة آل رسلان',steps:[
+ ['اقرأ باباً من متن فقهي في القارئ','../fiqh_reader/'],
+ ['ابحث في مكتبة الفقه عن مسألة','../fiqh/']]},
+{n:'تراث المشايخ',d:'952 سلسلة درس',steps:[
+ ['اسمع درساً حياً بكاراوكي الكلمات','../live/'],
+ ['تصفّح سلسلة في مكتبة التراث','../durus/'],
+ ['أنهِ بطاقات الأربعين في مدرستي','../madrasati/']]},
+{n:'الإنجليزية',d:'فلسفة التعلم + ShortForm',steps:[
+ ['افتح منصة الإنجليزية وجرّب واجهتها','../english/']]},
+{n:'البرمجة',d:'8 مسارات · 68 كورساً · 8416 درساً',steps:[
+ ['اختر مسارك من الكورسات','../prog/'],
+ ['ابدأ كورساً وأنهِ فصلاً كاملاً','../prog/']]},
+{n:'أدوات الإنتاج',d:'أنتج محتواك أنت',steps:[
+ ['أعدّ مسودة درس في مُعِدّ','../mu3edd/'],
+ ['سجّل فهرساً جديداً في الفهرس العام','../fihris/'],
+ ['أرسل تعليقاً أو اقتراحاً من زر 💬','../portal/']]}];
+const key=i=>'mk_'+i;
+const st=JSON.parse(localStorage.getItem('mkhatat')||'{}');
+function save(){localStorage.setItem('mkhatat',JSON.stringify(st));render()}
+let id=0,html='',done=0,all=0;
+DOMS.forEach((d,di)=>{
+ const tot=d.steps.length;let dn=0;let steps='';
+ d.steps.forEach((s,si)=>{const k=key(id++);all++;
+  if(st[k]){dn++;done++}
+  steps+=`<div class="step ${st[k]?'done':''}" data-k="${k}"><span class="box">✓</span><span class="tx">${esc(s[0])}</span><a href="${s[1]}" onclick="event.stopPropagation()">افتح ←</a></div>`});
+ html+=`<div class="dom"><h3>${esc(d.n)}</h3><div class="dd">${esc(d.d)} — ${dn}/${tot}</div>${steps}<div class="pbar"><i style="width:${Math.round(dn/tot*100)}%"></i></div></div>`});
+function render(){
+ id=0;done=0;all=0;html='';
+ DOMS.forEach((d,di)=>{
+  const tot=d.steps.length;let dn=0;let steps='';
+  d.steps.forEach((s,si)=>{const k=key(id++);all++;
+   if(st[k]){dn++;done++}
+   steps+=`<div class="step ${st[k]?'done':''}" data-k="${k}"><span class="box">✓</span><span class="tx">${esc(s[0])}</span><a href="${s[1]}" onclick="event.stopPropagation()">افتح ←</a></div>`});
+  html+=`<div class="dom"><h3>${esc(d.n)}</h3><div class="dd">${esc(d.d)} — <b style="color:var(--ok)">${dn}</b>/${tot}</div>${steps}<div class="pbar"><i style="width:${Math.round(dn/tot*100)}%"></i></div></div>`});
+ document.getElementById('doms').innerHTML=html;
+ document.getElementById('total').innerHTML=`إجمالي التقدم: <b style="color:var(--ok)">${done.toLocaleString('ar-EG')}</b> من ${all.toLocaleString('ar-EG')} خطوة`;
+ document.querySelectorAll('.step').forEach(el=>el.onclick=()=>{const k=el.dataset.k;st[k]=!st[k];if(!st[k])delete st[k];save()})}
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

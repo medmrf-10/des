@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مشوار — طريق المتون</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<script src="../durus/data.js"></script>
+<style>
+body{max-width:880px;margin:0 auto;padding:14px}
+.tr{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.tb{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:99px;padding:7px 17px;font-size:14px;cursor:pointer;font-family:var(--font-ar)}
+.tb.on{background:var(--acc);color:#14140f;border-color:transparent;font-weight:700}
+.lv{margin:14px 0 6px;font-family:var(--font-ar);font-size:15px;color:var(--acc2)}
+.mt{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:7px 0}
+.mt .n{font-family:var(--font-ar);font-size:16px}
+.mt .d{font-size:12px;color:var(--dim);margin-top:3px}
+.srs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sr{font-size:11.5px;background:var(--card2);border:1px solid var(--border);border-radius:99px;padding:3px 11px;color:var(--acc2);text-decoration:none}
+.sr.off{color:var(--dim);border-style:dashed}
+.done{float:left;font-size:11px;border:1px solid var(--border);border-radius:99px;padding:2px 10px;cursor:pointer;color:var(--dim)}
+.done.on{border-color:var(--ok);color:#6fbf87;background:rgba(46,160,80,.1)}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مشوار <span class="muted" style="font-weight:400;font-size:12px">— طريق المتون مرتبةً</span></h2>
+<div class="muted">لكل علم متونه المراتبة مبتدئاً فمتوسطاً فمتقدماً — وتحت كل متن الشروح الموجودة عندنا في التراث تُطابَق حياً. علّم «تم» لما أتممته.</div>
+<div class="tr" id="tracks"></div>
+<div id="body"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const TRACKS={
+'العقيدة':[
+ ['مبتدئ',[['الأجهوري','أجهوري|جهور'],['الأربعون النووية','اربعون|نووية'],['آداب السلوك','اداب']]],
+ ['متوسط',[['العقيدة الطحاوية','طحاوي'],['لمعة الاعتقاد','لمعه'],['السفارينية','سفارين']]],
+ ['متقدم',[['شرح السنة','شرح السنه|بارباهاري'],['الإيمان الكبرى','ايمان كبري'],['الرجبية','رجبي']]]],
+'الفقه':[
+ ['مبتدئ',[['متن أبي شجاع','ابي شجاع'],['الأربعين البدائية','بدائع'],['زاد المستقنع (العبادات)','زاد']]],
+ ['متوسط',[['عمدة الفقه','عمده'],['الرحبية','رحبي'],['الورقات','ورقات']]],
+ ['متقدم',[['روض الطالب','روض'],['زبد ابن رسلان','زبد'],['بلوغ المرام','بلوغ']]]],
+'الحديث':[
+ ['مبتدئ',[['الأربعون النووية','اربعون|نووي'],['المنظومة البيقونية','بيقوني'],['نخبة الفكر','نخبه']]],
+ ['متوسط',[['بلوغ المرام','بلوغ'],['عمدة الأحكام','عمده الاحكام'],['نزهة النظر','نزهه']]],
+ ['متقدم',[['ألفية العراقي','الفيه'],['مقدمة ابن الصلاح','ابن الصلاح|مقدمه ابن']]]],
+'العربية':[
+ ['مبتدئ',[['الأجرومية','اجرومي'],['الطريقة الجزرية','جزري|جزر'],['تحفة الأطفال','تحفه'],['متن الجزرية','جزريه']]],
+ ['متوسط',[['ملحة الإعراب','ملحه'],['الآلية السلطانية','اليه'],['شذور الذهب','شذور']]],
+ ['متقدم',[['ألفية ابن مالك','الفيه ابن مالك'],['لامية الأفعال','لاميه'],['قطر الندى','قطر']]]],
+'التزكية':[
+ ['مبتدئ',[['أدب الطالب','ادب'],['الحكم العطائية','حكم|عطائي'],['رياض الصالحين (مختارات)','رياض']]],
+ ['متوسط',[['إحياء علوم الدين (مختارات)','احياء'],['الرسالة القشيرية','قشيري'],['الجوهر المكنون','جوهر']]],
+ ['متقدم',[['علل القلوب','علل'],['مدارج السالكين','مدارج'],['روضة المحبين','روضه']]]]};
+const DONE=JSON.parse(localStorage.getItem('mishwar_done')||'{}');
+const saveD=()=>localStorage.setItem('mishwar_done',JSON.stringify(DONE));
+let cur=Object.keys(TRACKS)[0];
+$('#tracks').innerHTML=Object.keys(TRACKS).map(t=>`<button class="tb ${t===cur?'on':''}" data-t="${t}">${t}</button>`).join('');
+function matchSeries(pat){
+ const rx=pat.split('|').map(norm);
+ return SERIES.filter(s=>s.kind==='شرح متن'&&rx.some(w=>norm(s.name).includes(w)))}
+function render(){
+ const T=TRACKS[cur];
+ $('#body').innerHTML=T.map(([lv,mts])=>`
+ <div class="lv">${lv}</div>`+mts.map(([mt,pat])=>{
+  const key=cur+'|'+mt;const on=DONE[key];
+  const srs=matchSeries(pat);
+  return `<div class="mt">
+   <span class="done ${on?'on':''}" data-k="${esc(key)}">${on?'✓ تم':'علّم'}</span>
+   <div class="n">${esc(mt)}</div>
+   <div class="srs">${srs.length?srs.map(s=>`<a class="sr" href="../durus/" target="_blank">${esc(s.name.slice(0,42))} — ${esc(s.sheikh)}</a>`).join(''):'<span class="sr off">لا شرح عندنا بعد</span>'}</div>
+  </div>`}).join('')).join('')}
+$('#tracks').onclick=e=>{const b=e.target.closest('.tb');if(!b)return;cur=b.dataset.t;
+ document.querySelectorAll('.tb').forEach(x=>x.classList.toggle('on',x===b));render()};
+$('#body').onclick=e=>{const d=e.target.closest('.done');if(!d)return;const k=d.dataset.k;
+ DONE[k]=!DONE[k];if(!DONE[k])delete DONE[k];saveD();render()};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mishwar" data-title="مشوار"></script>
+</body>
+</html>

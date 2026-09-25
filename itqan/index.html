@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>إتقان — الامتحان الجامع</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.q{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px 18px;margin:10px 0}
+.q .t{font-family:var(--font-ar);font-size:15.5px;line-height:2;margin-bottom:10px}
+.q .src{font-size:10px;color:var(--acc3);border:1px solid var(--acc3);border-radius:99px;padding:2px 10px;display:inline-block;margin-bottom:8px}
+.o{display:block;width:100%;text-align:right;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px 14px;margin:6px 0;font-family:var(--font-ar);font-size:14px;cursor:pointer}
+.o:hover{border-color:var(--acc)}
+.o.ok{border-color:var(--ok);background:rgba(61,214,140,.1)}
+.o.bad{border-color:#e07777;background:rgba(224,119,119,.1)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 24px;font-weight:800;cursor:pointer;font-family:var(--font-ar);font-size:14px}
+.res{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:24px;text-align:center}
+.res .n{font-size:46px;font-weight:800;color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+.bar{height:6px;background:var(--card2);border-radius:99px;margin:10px 0;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .3s}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">إتقان <span class="muted">— الامتحان الجامع</span></h2>
+<div class="muted">أسئلة من كل المصادر معاً: آيات، أحاديث، مصطلحات عقدية، مسائل فقهية — ١٢ سؤالاً يقيس رصيدك الحقيقي، ونتيجته تُحفظ في سجلّك.</div>
+<div style="text-align:center;margin:24px 0" id="start">
+<button class="btn" onclick="begin()">ابدأ الامتحان</button>
+<div class="muted" style="margin-top:10px" id="hist"></div>
+</div>
+<div id="exam" style="display:none">
+<div class="bar"><b id="prg" style="width:0%"></b></div>
+<div class="muted" id="cnt" style="text-align:center"></div>
+<div id="qbox"></div>
+</div>
+<div id="res" style="display:none"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+let QS=[],at=0,score=0;
+async function build(){
+ const out=[];
+ // مصدر ١: مصطلحات العقيدة — «أي كتاب جاء فيه هذا المصطلح؟»
+ try{
+  const T=window.TERMS||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../akida/terms.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.TERMS);
+  const entries=Object.entries(T.terms).filter(([t,v])=>v&&v.length>2);
+  for(let i=0;i<4;i++){
+   const[t,defs]=entries[Math.floor(Math.random()*entries.length)];
+   const real=(T.books&&T.books[defs[0].b])||defs[0].b;
+   const allB=shuffle(Object.values(T.books||{})).slice(0,3);
+   if(!allB.includes(real))allB.push(real);
+   out.push({src:'العقيدة',q:`مصطلح «${t}» ورد في أيّ متن؟`,o:shuffle([...new Set([real,...allB])]).slice(0,4),a:real})}
+ }catch(e){console.warn('terms',e)}
+ // مصدر ٢: آية من إعراب السياق — «أكمل الآية»
+ try{
+  const su=[1,2,18,36,55,67,112,113,114];
+  const n=su[Math.floor(Math.random()*su.length)];
+  const S=await(await fetch(`../wahy/data/surah/${n}.json`)).json();
+  for(let i=0;i<3;i++){
+   const vi=1+Math.floor(Math.random()*(S.verses.length-3));
+   const v=S.verses[vi],nv=S.verses[vi+1];
+   const ws=norm(v.t).split(' ');
+   const cut=Math.max(2,Math.floor(ws.length*.6));
+   out.push({src:'القرآن',q:`أكمل: «${esc(ws.slice(0,cut).join(' '))}…»`,o:shuffle([nv.t,...(S.verses.filter((_,j)=>Math.abs(j-vi)>2).slice(0,3).map(x=>x.t))]).map(t=>t.split(' ').slice(0,8).join(' ')+'…'),a:norm(nv.t).split(' ').slice(0,8).join(' ')})}
+ }catch(e){console.warn('quran',e)}
+ // مصدر ٣: فقه — «هذه المسألة من أي باب؟» من المسائل الحقيقية
+ try{
+  const M=window.MASAIL||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../fiqh_reader/masail.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.MASAIL);
+  const keys=Object.keys(M);
+  const BAB=['الطهارة','الصلاة','الزكاة','الصيام','الحج','البيوع','النكاح','الأيمان','الجنايات','الأطعمة'];
+  for(let i=0;i<3;i++){
+   const k=keys[Math.floor(Math.random()*keys.length)];
+   const m=M[k];if(!m||!m.u||!m.u.length)continue;
+   const unit=m.u[Math.floor(Math.random()*m.u.length)];
+   out.push({src:'الفقه',q:`«${esc(unit.t)}» — هذا الباب من أبواب أيّ موضوع غالباً؟`,o:shuffle([unit.l||'الطهارة',...BAB.filter(b=>b!==unit.l)]).slice(0,4),a:unit.l||'الطهارة'})}
+ }catch(e){console.warn('masail',e)}
+ // مصدر ٤: حديث — «هذا الحديث في أي كتاب؟»
+ try{
+  const G=window.GIDNET||(await new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../hadith/analysis.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}),window.GIDNET);
+  const gids=Object.keys(G.g);const BKN={b:'البخاري',m:'مسلم',t:'الترمذي',a:'أبو داود',n:'النسائي',i:'ابن ماجه'};
+  for(let i=0;i<2;i++){
+   const gid=gids[Math.floor(Math.random()*gids.length)];
+   const g=G.g[gid];const inBook=(g.hs||[]).map(h=>h[0]).filter(x=>BKN[x]);
+   if(!inBook.length)continue;
+   const bk=inBook[0];
+   out.push({src:'الحديث',q:`«${esc(g.t.slice(0,90))}…» — في أيّ كتاب ورد؟`,o:shuffle([BKN[bk],...shuffle(Object.values(BKN).filter(b=>b!==BKN[bk])).slice(0,3)]),a:BKN[bk]})}
+ }catch(e){console.warn('gid',e)}
+ return shuffle(out).slice(0,12)}
+async function begin(){
+ $('#start').innerHTML='<div class="muted">يبني الامتحان من المصادر…</div>';
+ QS=await build();
+ if(QS.length<4){$('#start').innerHTML='<div class="muted">تعذّر تجهيز الأسئلة — جرّب من صفحة منشورة (لا file://)</div>';return}
+ $('#start').style.display='none';$('#exam').style.display='block';
+ at=0;score=0;show()}
+function show(){
+ const q=QS[at];
+ $('#cnt').textContent=`سؤال ${(at+1).toLocaleString('ar-EG')} / ${QS.length.toLocaleString('ar-EG')}`;
+ $('#prg').style.width=(at/QS.length*100)+'%';
+ $('#qbox').innerHTML=`<div class="q"><span class="src">${q.src}</span><div class="t">${q.q}</div>
+ ${q.o.map(o=>`<button class="o">${esc(o)}</button>`).join('')}</div>`;
+ $('#qbox').querySelectorAll('.o').forEach(b=>b.onclick=()=>{
+  const key=q.src==='القرآن'?norm(q.a).split(' ').slice(0,3).join(' '):q.a;
+  const chk=t=>q.src==='القرآن'?norm(t).replace(/…+$/,'').split(' ').slice(0,3).join(' ')===key:t===q.a;
+  const right=chk(b.textContent);
+  $('#qbox').querySelectorAll('.o').forEach(x=>{
+   x.classList.toggle('ok',chk(x.textContent))});
+  if(!right)b.classList.add('bad');else score++;
+  setTimeout(()=>{at++;at<QS.length?show():finish()},900)})}
+function finish(){
+ $('#exam').style.display='none';
+ const pc=Math.round(score/QS.length*100);
+ const h=JSON.parse(localStorage.itqan||'[]');h.push({d:Date.now(),s:pc,n:QS.length});
+ localStorage.itqan=JSON.stringify(h.slice(-20));
+ const prev=h.length>1?h[h.length-2].s:null;
+ $('#res').style.display='block';
+ $('#res').innerHTML=`<div class="res"><div class="muted">نتيجتك</div><div class="n">${pc}%</div>
+ <div class="muted" style="margin-top:8px">${score} / ${QS.length} صحيحة${prev!==null?` · سابقاً: ${prev}%`+(pc>prev?' ↗ تحسّن':pc<prev?' ↘ تراجع':' = ثبات'):''}</div>
+ <div class="muted" style="margin-top:12px;font-size:11px">${pc>=80?'مُتقن — وسّع دائرتك':pc>=50?'طيّب — راجع الأبواب الأضعف':'ابدأ بالأساسيات في المنظومة'}</div>
+ <button class="btn" style="margin-top:16px" onclick="location.reload()">امتحان جديد</button></div>`}
+const H=JSON.parse(localStorage.itqan||'[]');
+if(H.length)$('#hist').textContent='آخر نتيجة: '+H[H.length-1].s+'% · '+H.length.toLocaleString('ar-EG')+' امتحان';
+window.begin=begin;
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="itqan" data-title="إتقان"></script>
+</body>
+</html>

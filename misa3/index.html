@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِساع — سعي المركّز</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:520px;margin:0 auto;padding:14px;text-align:center}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px;text-align:right}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.timer{font-size:64px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;margin:20px 0;direction:ltr}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:11px 24px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin:4px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.btn.danger{background:var(--card);color:var(--acc2);border:1px solid var(--acc2)}
+.reward{background:var(--card);border:2px solid var(--acc);border-radius:13px;padding:16px;margin-top:14px;display:none}
+.reward .vs{font-family:var(--font-ar);font-size:17px;line-height:2.2;color:var(--txt)}
+.reward .nm{font-size:11px;color:var(--acc);margin-top:8px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;width:100%}
+.phase{font-size:12px;color:var(--acc2);margin-bottom:6px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِساع <span class="muted">— سعي المركّز</span></h2>
+<div class="muted">٢٥ دقيقة تركيزاً خالصاً = آية جديدة تحفظها — الفائدة من كل سعي.</div>
+<div class="card"><div class="t">ما الذي ستسعى فيه؟</div><input id="task" placeholder="مهمة هذه الجلسة…"></div>
+<div class="phase" id="ph">استعدّ</div>
+<div class="timer" id="tm">٢٥:٠٠</div>
+<div>
+ <button class="btn" id="go">ابدأ السعي</button>
+ <button class="btn danger" id="ab" style="display:none">ألغِ</button>
+</div>
+<div class="reward" id="rw"><div class="vs" id="rv"></div><div class="nm" id="rn"></div><div class="muted">احفظها — أضفها لـ«مِرتَّل» أو «مِعوّد».</div></div>
+<div id="stats" style="margin-top:12px"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let U,S=LS('misa3',{n:0,hist:[]}),iv=null,left=0;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+laz('../wahy/mutashabih.js','MUTA').then(u=>U=u);
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+$('#go').onclick=()=>{
+ left=25*60;$('#ph').textContent='سعي — لا توقف';
+ $('#go').style.display='none';$('#ab').style.display='inline-block';$('#rw').style.display='none';
+ iv=setInterval(()=>{
+  left--;$('#tm').textContent=fmt(left);
+  if(left<=0){clearInterval(iv);finish(true)}
+ },1000);
+};
+$('#ab').onclick=()=>{clearInterval(iv);$('#go').style.display='inline-block';$('#ab').style.display='none';$('#ph').textContent='انقطع السعي';$('#tm').textContent='٢٥:٠٠'};
+function finish(ok){
+ $('#go').style.display='inline-block';$('#ab').style.display='none';
+ if(!ok)return;
+ S.n++;S.hist.push({t:$('#task').value||'سعي',at:new Date().toISOString()});SV('misa3',S);
+ $('#ph').textContent='أُنجز السعي — أجرُك:';
+ // آية عشوائية لم تُعرض
+ if(U){const ks=Object.keys(U.sim);const k=ks[Math.floor(Math.random()*ks.length)];
+  $('#rv').textContent=U.sim[k][2];$('#rn').textContent=U.names[k.split(':')[0]];
+  $('#rw').style.display='block';}
+ $('#tm').textContent='✓';
+ stats();
+}
+function stats(){
+ $('#stats').innerHTML='<span class="stat">سعايات اليوم: <b>'+arN(S.hist.filter(h=>h.at.slice(0,10)===new Date().toISOString().slice(0,10)).length)+'</b></span>'+
+ '<span class="stat">المجموع: <b>'+arN(S.n)+'</b></span>'+
+ '<span class="stat">دقائق تركيز: <b>'+arN(S.n*25)+'</b></span>';
+}
+stats();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="misa3" data-title="مِساع"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعشَق — لذائذي الصغيرة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:560px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;margin-top:6px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.pl{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 14px;margin-top:6px;display:flex;align-items:center;gap:9px}
+.pl .x{flex:1;font-family:var(--font-ar);font-size:13px}
+.pl .cnt{font-size:10px;color:var(--dim)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.pick{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:13px;padding:16px;text-align:center;margin-top:11px;font-family:var(--font-ar);font-size:14px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعشَق <span class="muted">— لذائذي الصغيرة</span></h2>
+<div class="muted">اللذائذ الصغيرة تُنسى: رائحة المطر، أول رشفة قهوة، كتاب قديم. سجّلها — وزر «ذكّرني بلذة» يختار لك واحدة عشوائياً لتتذوقها اليوم.</div>
+<div class="card"><div class="t">لذة صغيرة</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<input id="nm" placeholder="(صوت المؤذن فجراً، خبز ساخن، مشي بلا هدف…)" style="flex:1;min-width:170px">
+<button class="btn" id="ad">أضِف</button></div>
+<button class="btn ghost" id="pick" style="margin-top:9px">ذكّرني بلذة</button>
+<div id="picked"></div></div>
+<div id="stats"></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let P=LS('mi3shaq',[]);
+$('#ad').onclick=()=>{
+ const n=$('#nm').value.trim();if(!n)return;
+ P.unshift({n,cnt:0,at:Date.now()});
+ SV('mi3shaq',P);$('#nm').value='';render();
+};
+$('#pick').onclick=()=>{
+ if(!P.length)return;
+ const x=P[Math.floor(Math.random()*P.length)];
+ $('#picked').innerHTML='<div class="pick">🍯 '+esc(x.n)+'</div>';
+};
+function render(){
+ const tot=P.reduce((s,x)=>s+x.cnt,0);
+ $('#stats').innerHTML='<span class="stat">لذائذ: <b>'+arN(P.length)+'</b></span>'+
+ '<span class="stat">تذوقتها: <b style="color:var(--ok)">'+arN(tot)+'×</b></span>';
+ $('#list').innerHTML=P.map((x,i)=>{
+  const gi=P.indexOf(x);
+  return '<div class="pl"><span class="x">'+esc(x.n)+'</span>'+
+  '<span class="cnt">'+arN(x.cnt)+'×</span>'+
+  '<button class="btn ghost" data-t="'+gi+'" style="color:var(--ok);font-size:10px;padding:3px 8px">تذوقتها</button>'+
+  '<button class="btn ghost" data-d="'+gi+'" style="color:var(--dim);font-size:10px;padding:3px 7px">✕</button></div>';
+ }).join('')||'<div class="muted" style="margin-top:12px">لا لذائذ — ما الصغير الذي يسعدك؟</div>';
+}
+$('#list').onclick=e=>{
+ const t=e.target.closest('[data-t]'),d=e.target.closest('[data-d]');
+ if(t){P[+t.dataset.t].cnt++;SV('mi3shaq',P);render();return}
+ if(d&&confirm('احذف؟')){P.splice(+d.dataset.d,1);SV('mi3shaq',P);render()}
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3shaq" data-title="مِعشَق"></script>
+</body>
+</html>

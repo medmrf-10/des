@@ -1,0 +1,14 @@
+header{text-align:center;padding:22px 14px 8px}header h1{font-size:1.6rem;color:var(--acc);margin:0}header .tagline{color:var(--tx2);font-size:.82rem;margin:6px 0 0}
+.wrap{max-width:760px;margin:0 auto;padding:10px 14px 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.pick{display:flex;gap:10px;align-items:center}
+#surah{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:11px;font-family:inherit;font-size:.95rem}
+.saved{color:var(--tx3);font-size:.7rem;white-space:nowrap}
+.read{font-size:1.45rem;line-height:2.5;text-align:justify;font-family:'Amiri','Scheherazade New',serif}
+.read .v{cursor:pointer;transition:background .15s;border-radius:6px;padding:2px}
+.read .v:hover{background:rgba(201,162,75,.08)}
+.read .v.cur{background:rgba(201,162,75,.18);border-bottom:2px solid var(--acc)}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border:1px solid var(--acc);border-radius:50%;font-size:.65rem;color:var(--acc);margin:0 6px;font-family:inherit}
+.bism{text-align:center;color:var(--acc);font-size:1.3rem;margin-bottom:14px;padding:8px}
+.empty{text-align:center;color:var(--tx3);font-size:.9rem;padding:30px}
+.hint{background:var(--card2);text-align:center;font-size:.8rem}.hint a{color:var(--acc);text-decoration:none}

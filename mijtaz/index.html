@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِجتاز — إنجازاتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:800px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:14px}
+.bd{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 12px;text-align:center;position:relative}
+.bd .ic{font-size:26px}
+.bd .n{font-weight:700;font-size:12.5px;margin-top:6px;font-family:var(--font-ar)}
+.bd .d{color:var(--dim);font-size:10.5px;margin-top:4px;line-height:1.7}
+.bd.on{border-color:var(--acc);box-shadow:0 0 18px rgba(232,185,63,.12)}
+.bd.on .ic{filter:none}
+.bd:not(.on){opacity:.55}
+.bd:not(.on) .ic{filter:grayscale(1)}
+.muted{color:var(--dim);font-size:12px}
+.score{text-align:center;padding:16px}
+.score .b{font-size:34px;font-weight:700;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِجتاز <span class="muted">— جوازات منظومتك</span></h2>
+<div class="muted">كل ما أنجزته في أدوات المنظومة يُجتاز هنا كأوسمة — رصيدك الحقيقي لا شعاراتك.</div>
+<div class="score" id="sc"></div>
+<div class="grid" id="g"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const LS=k=>JSON.parse(localStorage.getItem(k)||'null');
+const cnt=k=>{const v=LS(k);return v?(Array.isArray(v)?v.length:Object.keys(v).length):0};
+const today=new Date().toISOString().slice(0,10);
+const mid=LS('midad')||{};
+const mins=Object.values(mid).flat().reduce((a,x)=>a+(x.m||0),0);
+const BAD=[
+ {ic:'🎙',n:'المُنتِج',d:'سجّل درسك الأول في مسجّل',ok:()=>cnt('mu3edd_drafts')>0||cnt('mihrab_times')>-1&&false},
+ {ic:'📖',n:'قارئ الجزء',d:'أنهِ سورة في مجلس الختمة',ok:()=>Object.keys(LS('majlis')||{}).length>0},
+ {ic:'🕌',n:'مُكمل الجزء',d:'٣٠ سورة في مجلس الختمة',ok:()=>Object.keys(LS('majlis')||{}).length>=30},
+ {ic:'✍',n:'المُستملي',d:'إملاء آية بدقة ٩٠٪+',ok:()=>{const v=LS('mustamli');return v&&v.best>=90}},
+ {ic:'🪔',n:'حافظ الليل',d:'٥ نصوص في مِسراج',ok:()=>Object.keys(LS('misraj')||{}).length>=5},
+ {ic:'🧠',n:'الناقد',d:'٢٠ تجسيسة حديث في مِجس',ok:()=>{const v=LS('mijass');return v&&v.n>=20}},
+ {ic:'⚖',n:'الميزان',d:'حاسبة الزكاة — عرف نصابك',ok:()=>!!LS('mizkata')},
+ {ic:'📝',n:'المدوِّن',d:'١٠ خواطر في دفتر',ok:()=>cnt('daftar')>=10},
+ {ic:'⏱',n:'صاحب الوقت',d:'١٠٠ دقيقة في مِداد',ok:()=>mins>=100},
+ {ic:'🏋',n:'المُدرَّب',d:'شُخِّص يومك في مِدرّب',ok:()=>!!LS('mudarrib')},
+ {ic:'📚',n:'القارئ',d:'٥ أبواب مسائل في مِعيار',ok:()=>{const v=LS('mi3yar_hist');return v&&v.length>=5}},
+ {ic:'🗺',n:'السالك',d:'٣ دروس في منهج',ok:()=>cnt('mnhaj_done')>=3},
+ {ic:'💻',n:'المبرمج',d:'٥ دروس برمجة',ok:()=>cnt('prog_v1')>=5},
+ {ic:'🧪',n:'المجرب',d:'تحدي في مختبر البرمجة',ok:()=>cnt('prog_lab')>0},
+ {ic:'🗣',n:'المُقلِّد',d:'جلسة تقليد إنجليزي',ok:()=>cnt('en_mimic')>0},
+ {ic:'📰',n:'المُلِم',d:'١٠٠ كلمة في بنك الإنجليزية',ok:()=>cnt('en_srs')>=100},
+ {ic:'📻',n:'المُصغي',d:'جلسة استماع',ok:()=>cnt('en_listen')>0},
+ {ic:'🕌',n:'المحافظ',d:'٧ أيام مِحراب متتالية',ok:()=>{const m=LS('mihrab_times')||{};return Object.keys(m).length>=7}},
+ {ic:'📊',n:'الصامد',d:'٣٠ يوماً نشاطاً مسجّلاً',ok:()=>{const m=LS('mutabi3')||{};return Object.keys(m).length>=30}},
+ {ic:'🗽',n:'حارس الحصّة',d:'مراجعة ٥ قطع مستحقة',ok:()=>cnt('miraj3a')>=5},
+ {ic:'🔖',n:'جامع الكنوز',d:'١٠ مقتطفات',ok:()=>cnt('muqtatif')>=10},
+ {ic:'💡',n:'المُلهَم',d:'٥ صوانح مدوّنة',ok:()=>cnt('sawanih')>=5},
+ {ic:'🎯',n:'الصائب',d:'أفضل إملاء ١٠٠٪',ok:()=>{const v=LS('mustamli');return v&&v.best===100}},
+ {ic:'🌟',n:'المِجتاز',d:'١٥ وساماً مكتسباً',ok:()=>false}];
+let on=0;
+const html=BAD.map(b=>{const ok=b.ok();if(ok)on++;
+ return `<div class="bd ${ok?'on':''}"><div class="ic">${b.ic}</div><div class="n">${b.n}</div><div class="d">${b.d}</div></div>`}).join('');
+if(on>=15){on++}
+$('#sc').innerHTML=`<div class="b">${on.toLocaleString('ar-EG')} / ${(BAD.length+1).toLocaleString('ar-EG')}</div><div class="muted">وساماً مكتسباً</div>`;
+$('#g').innerHTML=html+(on>=15?`<div class="bd on"><div class="ic">🌟</div><div class="n">المِجتاز</div><div class="d">١٥ وساماً — أنت مجتاز المنظومة</div></div>`:'');
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mijtaz" data-title="مِجتاز"></script>
+</body>
+</html>

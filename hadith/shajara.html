@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شجرة الإسناد — السلسلة البصرية | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.pick input[type=number]{width:110px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.btn{background:var(--acc);color:#14140f;border:none;border-radius:8px;padding:8px 18px;font-size:14px;font-family:inherit;cursor:pointer;font-weight:700}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px}
+@media(max-width:760px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.chain{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.node{display:flex;align-items:center;gap:10px;margin:0 auto;width:fit-content;cursor:pointer;user-select:none}
+.node .dot{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--dim);background:var(--card2);flex-shrink:0}
+.node .nm{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:7px 14px;font-size:13px;color:var(--txt);max-width:230px;overflow-wrap:break-word}
+.node:hover .nm{border-color:var(--acc2);color:var(--acc2)}
+.node.sel .nm{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.node .lay{font-size:10px;color:var(--dim);width:80px}
+.link{width:2px;height:18px;background:var(--border);margin:0 auto 0 calc(50% - 1px)}
+.prop .dot{background:var(--acc);border-color:var(--acc);color:#14140f}
+.mus .dot{border-color:var(--acc3,#7c6cf0);color:var(--acc3,#7c6cf0)}
+.ghost .nm{color:var(--dim);font-style:italic}
+.gold .dot{border-color:var(--acc2);color:var(--acc2)}
+.detail{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9}
+.detail h4{margin:0 0 6px;color:var(--acc2);font-size:14px}
+.bdg{border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🌳 شجرة الإسناد</h1>
+  <span class="sub">السلسلة رأسية من النبي ﷺ إلى المصنّف — اضغط راوياً ترَ حجم روايته</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="silsila.html">سلسلة الذهب ←</a>
+</header>
+<div class="pick">
+  <select id="bks"></select>
+  <input type="number" id="num" placeholder="رقم الحديث" min="1">
+  <button class="btn" onclick="go()">اعرض</button>
+  <span class="mut">أو معنى:</span>
+  <input type="number" id="gid" placeholder="gid" style="width:90px">
+  <button class="chip" onclick="goGid()">مواضعه ←</button>
+</div>
+<div id="chips" style="margin-bottom:8px"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div class="wrap">
+  <div class="chain" id="chain"><div class="mut" style="text-align:center;padding:30px 0">اختر حديثاً لتُرسم سلسلته</div></div>
+  <div class="detail" id="detail"><h4>اضغط أي راوٍ</h4><div class="mut">يعرض عدد أحاديثه في الفهرس وتوزيعها على الكتب</div></div>
+</div>
+<script src="pako.min.js"></script>
+<script src="rawi.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';return 'ot'};
+const GHOST=/^(موضع تعليق|إرسال|انقطاع|عبد الله)$/;
+const RW=window.RAWI?window.RAWI.rawi:{};
+const N2R={};for(const rid in RW)N2R[norm(RW[rid].t)]=rid;
+const D={};let GN=null,curB=null,curN=null,chains=[],selChain=0;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+async function loadGN(){
+  if(GN)return GN;
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+  GN=window.GIDNET;return GN;
+}
+/* السلسلة في det معكوسة: المصنّف أولاً → الصحابي آخراً. نرسم ﷺ قمةً */
+const LAY=['الصحابي','التابعي','تابع التابعين','المتأخر','المصنّف'];
+function layName(i,n){return i===n-1?LAY[0]:i===0?LAY[4]:i===n-2?LAY[1]:LAY[Math.min(3,Math.max(2,n-1-i))]}
+function drawChain(){
+  const ch=chains[selChain];if(!ch)return;
+  const names=(ch[1]||[]).slice().reverse(); /* صحابي أولاً */
+  const el=document.getElementById('chain');
+  let html=`<div class="node prop"><div class="dot">ﷺ</div><div class="nm" style="border-color:var(--acc)">رسول الله ﷺ</div><div class="lay"></div></div>`;
+  names.forEach((nm,i)=>{
+    const ghost=GHOST.test(nm);
+    const lay=layName(names.length-1-i,names.length);
+    const rid=N2R[norm(nm)];
+    html+=`<div class="link"></div>
+    <div class="node ${ghost?'ghost':''} ${i===0?'gold':''} ${i===names.length-1?'mus':''}" ${ghost?'':`onclick="pickNode(this,'${esc(nm)}',${rid||'null'})"`}>
+      <div class="dot">${i===0?'ص':i===names.length-1?'م':arNum(names.length-1-i)}</div>
+      <div class="nm">${esc(nm)}</div><div class="lay">${lay}</div></div>`;
+  });
+  html+=`<div class="mut" style="text-align:center;padding-top:10px">حكم السند: <b class="bdg v-${bucket(ch[0])}">${esc(ch[0]||'—')}</b></div>`;
+  el.innerHTML=html;
+}
+window.pickNode=function(el,nm,rid){
+  document.querySelectorAll('.node.sel').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  const R=rid&&RW[rid];
+  const d=document.getElementById('detail');
+  if(!R){d.innerHTML=`<h4>${esc(nm)}</h4><div class="mut">غير مفهرس في RAWI (اسم عام أو نصّي)</div>`;return}
+  const bb=Object.entries(R.b||{}).sort((a,b)=>b[1]-a[1]);
+  const mx=Math.max(1,...bb.map(x=>x[1]));
+  d.innerHTML=`<h4>${esc(R.t)}</h4>
+    <div class="mut">فهرس #${arNum(rid)}</div>
+    <div style="margin:8px 0">أحاديثه: <b style="color:var(--acc2)">${arNum(R.c||0)}</b> · معانيه: <b>${arNum((R.gs||[]).length)}</b></div>
+    ${bb.map(([b,c])=>`<div style="display:flex;gap:8px;font-size:11px;align-items:center;margin-bottom:3px"><span style="width:80px;color:var(--dim)">${BAR[b]}</span><span style="background:var(--acc);height:8px;border-radius:4px;width:${Math.max(6,Math.round(c/mx*120))}px;display:inline-block"></span><b>${arNum(c)}</b></div>`).join('')}
+    <div style="margin-top:10px"><a class="chip" href="ruhawi.html#r=${rid}">رحلته ←</a> <a class="chip" href="alaam.html#r=${rid}">أعلام ←</a></div>`;
+};
+window.go=async function(){
+  curB=document.getElementById('bks').value;
+  curN=+document.getElementById('num').value;if(!curN)return;
+  const j=await loadBook(curB);
+  if(!j.d[curN]){stat.textContent='الرقم غير موجود في '+BAR[curB];return}
+  const raw=j.s[curN]||[];
+  chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+  selChain=0;paintChips();drawChain();
+  document.getElementById('detail').innerHTML=`<h4>${esc(j.d[curN].m.slice(0,90))}…</h4><div class="mut">${arNum(chains.length)} سنداً · معنى ${arNum(j.d[curN].g)}</div>`;
+};
+window.goGid=async function(){
+  const gid=+document.getElementById('gid').value;if(!gid)return;
+  const g=(await loadGN()).g[gid];if(!g){stat.textContent='المعنى غير موجود';return}
+  const b=Object.keys(g.w||{})[0];if(!b)return;
+  document.getElementById('bks').value=b;document.getElementById('num').value=g.w[b][0];go();
+};
+function paintChips(){
+  document.getElementById('chips').innerHTML=chains.map((c,i)=>
+    `<button class="chip" aria-pressed="${i===selChain}" onclick="selChain=${i};paintChips();drawChain()">سند ${arNum(i+1)} من ${arNum(chains.length)}</button>`).join('');
+}
+window.selChain=selChain;
+const bks=document.getElementById('bks');
+for(const b of BOOKS)bks.insertAdjacentHTML('beforeend',`<option value="${b}">${BAR[b]}</option>`);
+/* روابط عميقة #b=كتاب&n=رقم أو #g=معنى */
+const h=location.hash;
+const mh=h.match(/b=([\w-]+)&n=(\d+)/)||h.match(/([\w-]+):(\d+)/);
+if(mh){document.getElementById('bks').value=mh[1].includes('=')?mh[1].split('=').pop():mh[1];
+  document.getElementById('num').value=mh[2];go()}
+else{const g=h.match(/g=(\d+)/);if(g){document.getElementById('gid').value=g[1];goGid()}
+  else{document.getElementById('num').value=1;go()}}
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miq_shajara"></script>
+</body>
+</html>

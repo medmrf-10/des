@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِسقَط — مسقط الإنجاز</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.proj{margin-top:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px}
+.proj .nm{font-family:var(--font-ar);font-size:14px;display:flex;justify-content:space-between}
+.proj .nm span{color:var(--dim);font-size:11px}
+.proj .bar{height:6px;background:var(--card2);border-radius:3px;margin-top:9px;overflow:hidden}
+.proj .f{height:100%;background:var(--acc)}
+.proj .eta{font-size:11px;margin-top:6px}
+.proj .eta.ok{color:var(--ok)}
+.proj .eta.warn{color:var(--acc)}
+.proj .eta.late{color:var(--acc2)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.note{background:var(--card);border:1px dashed var(--acc);border-radius:10px;padding:9px 13px;margin-top:12px;font-size:11.5px;color:var(--dim)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِسقَط <span class="muted">— مسقط الإنجاز</span></h2>
+<div class="muted">على وتيرتك الحالية — متى يكتمل كل هدف؟ حساب الإسقاط من نشاط آخر ٣٠ يوماً.</div>
+<div id="stats"></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const today=()=>new Date().toISOString().slice(0,10);
+// وتيرة النشاط: عدد أيام النشاط الفعلي في آخر ٣٠ يوماً
+function velocity(){
+ const keys=['mi3wad_done','mijdar','mishmar','misa3','mijlab','mishkar'];
+ let days=new Set();
+ keys.forEach(k=>{
+  const v=LS(k,{});
+  if(Array.isArray(v))v.forEach(x=>x.at&&days.add(x.at.slice(0,10)));
+  else Object.keys(v).forEach(d=>{if(/^\d{4}-\d{2}-\d{2}/.test(d))days.add(d);else if(v[d]&&typeof v[d]==='object')Object.keys(v[d]).forEach(dd=>/^\d{4}-\d{2}-\d{2}/.test(dd)&&days.add(dd))});
+ });
+ const cutoff=new Date();cutoff.setDate(cutoff.getDate()-30);
+ const active=[...days].filter(d=>d>=cutoff.toISOString().slice(0,10)).length;
+ return active/30; // نسبة الأيام النشطة
+}
+const vel=velocity();
+const goals=LS('mihtab',[]);
+const q=LS('miqsad',{goals:[]});
+const PROJS=[];
+goals.forEach(g=>{
+ if(!g.tot)return;
+ PROJS.push({n:g.n,done:g.done,tot:g.tot,rate:null});
+});
+// وتيرة إنجاز الهدف: قيمة مضافة لكل يوم نشط
+const perDay=vel>0?1/vel:0; // أيام لكل وحدة إذا أنجزت وحدة كل يوم نشط
+function eta(p){
+ if(p.done>=p.tot)return{t:'مكتمل ✓',c:'ok'};
+ const left=p.tot-p.done;
+ const daysNeeded=Math.ceil(left/perDay);
+ if(!isFinite(daysNeeded)||vel===0)return{t:'لا وتيرة — ابدأ',c:'late'};
+ const d=new Date();d.setDate(d.getDate()+daysNeeded);
+ return{t:d.toISOString().slice(0,10)+' ('+arN(daysNeeded)+' يوماً)',c:daysNeeded>90?'late':daysNeeded>30?'warn':'ok'};
+}
+$('#stats').innerHTML='<span class="stat">أيام نشطة آخر ٣٠ يوماً: <b>'+arN(Math.round(vel*30))+'</b></span>'+
+'<span class="stat">الوتيرة: <b>'+arN(Math.round(vel*100))+'%</b></span>';
+$('#list').innerHTML=PROJS.length?PROJS.map(p=>{
+ const pct=Math.min(100,Math.round(p.done/p.tot*100)),e=eta(p);
+ return '<div class="proj"><div class="nm">'+esc(p.n)+'<span>'+arN(p.done)+'/'+arN(p.tot)+'</span></div>'+
+ '<div class="bar"><div class="f" style="width:'+pct+'%"></div></div>'+
+ '<div class="eta '+e.c+'">الإسقاط: '+e.t+'</div></div>';
+}).join(''):'<div class="muted" style="margin-top:12px">لا أهداف مكمّمة في مِحتَب — أضف أهدافاً بكميات لتُسقطها هنا.</div>';
+$('#list').insertAdjacentHTML('beforeend','<div class="note">الإسقاط يفترض وحدة إنجاز واحدة لكل يوم نشط — الوتيرة الحقيقية تتغير مع عاداتك.</div>');
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="misqat" data-title="مِسقَط"></script>
+</body>
+</html>

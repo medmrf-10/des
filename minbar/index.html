@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِنبَر — رتّب خطبتك</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🕌 مِنبَر</h1><p class="tagline">ابحث في القرآن والحديث، وخُذ ما تحتاجه إلى مسرج خطبتك — الكلام كله من مصادر حقيقية لا توليد</p></header>
+<div class="wrap">
+ <div class="card intro">الخطبة تُبنى من ثلاث: <b>آيات الله</b>، <b>أحاديثه صلى الله عليه وسلم</b>، <b>وكلامك أنت</b>. ابحث بالكلمة، أضِف إلى المسرج، ثم انسخ الخطبة مرتّبة.</div>
+ <div class="card">
+  <input id="q" placeholder="كلمة الموضوع: الصبر، الرحمة، الوالدين…" autocomplete="off">
+  <div class="seg"><button class="sg on" data-m="both">الكل</button><button class="sg" data-m="quran">آيات فقط</button><button class="sg" data-m="hadith">أحاديث فقط</button></div>
+  <div id="stat" class="stat"></div>
+  <div id="hits"></div>
+ </div>
+ <div class="card stage">
+  <div class="st-h"><h3>مسرج خطبتك</h3><span id="stn"></span></div>
+  <div id="stage"><div class="empty" id="stEmpty">لا شيء بعد — أضِف آية أو حديثاً من البحث أعلاه</div></div>
+  <div class="strow">
+   <input id="free" placeholder="+ جملة من عندك (حمد، وصية، دعاء…)">
+   <button class="btn sm" id="addFree">أضِف</button>
+  </div>
+  <div class="strow">
+   <button class="btn" id="copy" style="flex:1">⧉ انسخ الخطبة كاملة</button>
+   <button class="btn ghost" id="clear">امسح</button>
+  </div>
+  <div id="cmsg" class="cmsg"></div>
+ </div>
+ <div class="card tip">تقصّر أدواتك: <a href="../wahy/matn.html">بحث القرآن</a> · <a href="../hadith/matn.html">بحث المتون</a> · <a href="../mu3edd/">مُعِدّ الدرس</a></div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
+const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem('minbar_'+k));return v==null?d:v}catch(e){return d}};
+const SLS=(k,v)=>localStorage.setItem('minbar_'+k,JSON.stringify(v));
+let QURAN=null,HADITH=null,MODE='both';
+async function loadQuran(){
+ if(QURAN)return QURAN;
+ const idx=await fetch('../wahy/data/index.json').then(r=>r.json());
+ const all=await Promise.all(idx.map(s=>fetch('../wahy/data/surah/'+s.n+'.json').then(r=>r.json())));
+ QURAN=[];all.forEach(s=>s.verses.forEach(v=>QURAN.push({k:v.k,s:s.n,sn:s.ar,a:v.a,t:v.t,n:norm(v.t)})));
+ return QURAN;
+}
+const BOOKS=['bukhari','muslim','abi-dawud','tirmidhi','nasai','ibn-majah'];
+async function loadHadith(){
+ if(HADITH)return HADITH;
+ const list=await fetch('../wahy/data/hadith/books.json').then(r=>r.json()).catch(()=>null);
+ const names=list?list.map(b=>b.s||b.slug||b).filter(x=>typeof x==="string"&&/^[a-z-]+$/.test(x)):BOOKS;
+ const arr=[];
+ await Promise.all(names.slice(0,6).map(async nm=>{
+  try{
+   const r=await fetch('../wahy/data/hadith/'+nm+'.json.gz');
+   const ds=new DecompressionStream('gzip');
+   const txt=await new Response(r.body.pipeThrough(ds)).text();
+   const book=JSON.parse(txt);
+   (book.h||[]).forEach(h=>arr.push({b:book.n||nm,n:h.n,h:h.h||'',y:h.y||'',x:h.x,n:norm(h.x)}));
+  }catch(e){}
+ }));
+ return HADITH=arr;
+}
+async function search(){
+ const q=norm($('#q').value.trim());
+ $('#stat').textContent='…';
+ let rows=[];
+ if(!q||q.length<2){$('#hits').innerHTML='';$('#stat').textContent='';return}
+ if(MODE!=='hadith'){const qd=await loadQuran();qd.forEach(v=>{if(v.n.includes(q))rows.push({k:'q',ref:v.sn+' '+v.a,refen:v.k,t:v.t,extra:'﴿ ﴾'})})}
+ if(MODE!=='quran'){const hd=await loadHadith();hd.forEach(h=>{if(h.n.includes(q))rows.push({k:'h',ref:h.b+' '+h.n,t:h.x,extra:(h.h?'['+h.h+'] ':'')+(h.y||'')})})}
+ $('#stat').textContent=rows.length?rows.length.toLocaleString('ar-EG')+' موضعاً':'لا نتائج';
+ $('#hits').innerHTML=rows.slice(0,60).map((r,i)=>`<div class="hit ${r.k}"><div class="h-t"><span class="h-ref">${esc(r.ref)}</span>${esc(r.extra)}</div><div class="h-x">${esc(r.t.slice(0,300))}${r.t.length>300?'…':''}</div><button class="add" data-i="${i}">+ إلى المسرج</button></div>`).join('');
+ window._rows=rows.slice(0,60);
+}
+let to=null;$('#q').addEventListener('input',()=>{clearTimeout(to);to=setTimeout(search,350)});
+document.querySelectorAll('.sg').forEach(b=>b.onclick=()=>{document.querySelectorAll('.sg').forEach(x=>x.classList.remove('on'));b.classList.add('on');MODE=b.dataset.m;search()});
+let STAGE=LS('stage',[]);
+function stRender(){
+ const el=$('#stage');$('#stn').textContent=STAGE.length?STAGE.length.toLocaleString('ar-EG')+' عنصر':'';
+ $('#stEmpty').style.display=STAGE.length?'none':'block';
+ el.querySelectorAll('.st').forEach(n=>n.remove());
+ STAGE.forEach((s,i)=>{
+  const d=document.createElement('div');d.className='st '+s.k;
+  d.innerHTML=`<span class="st-ic">${s.k==='q'?'﴿':s.k==='h'?'📜':'✎'}</span><div class="st-x"><div class="st-ref">${esc(s.ref||'من عندك')}</div><div class="st-t">${esc(s.t)}</div></div><span class="st-b" data-i="${i}" data-a="up">▲</span><span class="st-b" data-i="${i}" data-a="dn">▼</span><span class="st-b del" data-i="${i}" data-a="del">✕</span>`;
+  el.appendChild(d);
+ });
+ SLS('stage',STAGE);
+}
+$('#hits').addEventListener('click',e=>{const b=e.target.closest('.add');if(!b)return;const r=window._rows[+b.dataset.i];if(!r)return;
+ STAGE.push({k:r.k,ref:r.ref,t:r.t,extra:r.extra});stRender();b.textContent='✓ أُضيف';b.disabled=true;});
+$('#stage').addEventListener('click',e=>{const b=e.target.closest('.st-b');if(!b)return;const i=+b.dataset.i,a=b.dataset.a;
+ if(a==='del')STAGE.splice(i,1);
+ else if(a==='up'&&i>0)[STAGE[i-1],STAGE[i]]=[STAGE[i],STAGE[i-1]];
+ else if(a==='dn'&&i<STAGE.length-1)[STAGE[i+1],STAGE[i]]=[STAGE[i],STAGE[i+1]];
+ stRender();});
+$('#addFree').onclick=()=>{const v=$('#free').value.trim();if(!v)return;STAGE.push({k:'f',t:v});$('#free').value='';stRender()};
+$('#clear').onclick=()=>{if(!confirm('تمسح مسرج الخطبة؟'))return;STAGE=[];stRender()};
+$('#copy').onclick=async()=>{
+ if(!STAGE.length)return;
+ let out='الحمد لله رب العالمين…\n\n';
+ STAGE.forEach((s,i)=>{if(s.k==='q')out+=`قال تعالى: ﴿${s.t}﴾ (${s.ref})\n\n`;else if(s.k==='h')out+=`وقال صلى الله عليه وسلم: «${s.t}» — ${s.ref}\n\n`;else out+=s.t+'\n\n'});
+ out+='أسأل الله أن ينفعنا وإياكم بما سمعنا…';
+ try{await navigator.clipboard.writeText(out);$('#cmsg').textContent='نُسخت الخطبة كاملة — الصقها في محرّرك'}
+ catch(e){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('#cmsg').textContent='نُسخت الخطبة'}
+ setTimeout(()=>$('#cmsg').textContent='',2500);
+};
+stRender();
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

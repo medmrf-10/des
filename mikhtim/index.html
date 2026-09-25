@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِختِم — خاتمة يومك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.q{font-family:var(--font-ar);font-size:13.5px;margin-top:11px}
+textarea{width:100%;min-height:56px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font-family:var(--font-ar);font-size:13px;line-height:1.9;resize:vertical;margin-top:5px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:14px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.entry{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-top:8px;font-size:12.5px}
+.entry .d{color:var(--acc);font-weight:700;font-family:var(--font-ar)}
+.entry .a{margin-top:5px}
+.entry .a b{color:var(--acc2)}
+.stamp{font-family:var(--font-ar);font-size:15px;color:var(--acc);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِختِم <span class="muted">— خاتمة يومك</span></h2>
+<div class="muted">ثلاثة أسئلة تختم بها يومك — ما تعلّمت، ما أنجزت، ما غدًا.</div>
+<div class="card"><div class="t">خاتمة الليلة — <span id="d"></span></div>
+<div class="q">١ — ماذا تعلّمتَ اليوم؟ (واقعاً، لا تمنياً)</div><textarea id="a1"></textarea>
+<div class="q">٢ — ماذا أنجزتَ بالمنظومة؟</div><textarea id="a2"></textarea>
+<div class="q">٣ — ما أول عمل غدًا؟</div><textarea id="a3"></textarea>
+<button class="btn" id="seal">اختم اليوم</button>
+<div class="stamp" id="stamp"></div></div>
+<div class="card"><div class="t">خواتيمك السابقة</div><div id="hist" class="muted">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+const DOW=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+const now=new Date();
+$('#d').textContent=DOW[now.getDay()]+' '+today();
+const ent=LS('mikhtim',[]);
+const todayE=ent.find(e=>e.d===today());
+if(todayE){$('#a1').value=todayE.a1;$('#a2').value=todayE.a2;$('#a3').value=todayE.a3;
+ $('#stamp').textContent='خُتِم هذا اليوم — يمكنك تعديله'}
+$('#seal').onclick=()=>{
+ const a1=$('#a1').value.trim(),a2=$('#a2').value.trim(),a3=$('#a3').value.trim();
+ if(!a1&&!a2&&!a3)return alert('اكتب شيئًا');
+ const i=ent.findIndex(e=>e.d===today());
+ const e={d:today(),a1,a2,a3};
+ if(i>=0)ent[i]=e;else ent.unshift(e);
+ SV('mikhtim',ent);
+ $('#stamp').innerHTML='<b style="color:var(--acc)">✓ خُتِم يوم '+today()+'</b>';
+ renderHist();
+};
+function renderHist(){
+ const h=LS('mikhtim',[]);
+ $('#hist').innerHTML=h.length?h.slice(0,10).map(e=>
+  '<div class="entry"><div class="d">'+esc(e.d)+'</div>'+
+  (e.a1?'<div class="a"><b>تعلّم:</b> '+esc(e.a1)+'</div>':'')+
+  (e.a2?'<div class="a"><b>أنجز:</b> '+esc(e.a2)+'</div>':'')+
+  (e.a3?'<div class="a"><b>غدًا:</b> '+esc(e.a3)+'</div>':'')+'</div>').join(''):'لا خواتيم بعد — اختم يومك الأول.';
+}
+renderHist();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mikhtim" data-title="مِختِم"></script>
+</body>
+</html>

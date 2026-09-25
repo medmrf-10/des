@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعسكر — معسكر الثلاثين يوماً</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.hdr{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:16px;padding:16px 20px;margin-top:12px;text-align:center}
+.hdr .d{font-size:34px;font-weight:700;color:var(--acc);font-family:var(--font-ar)}
+.day{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 17px;margin-top:10px}
+.day.open{border-color:var(--acc)}
+.day .h{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.day .h b{font-family:var(--font-ar);font-size:13.5px}
+.day .h .st{font-size:11px}
+.done{color:var(--ok)}
+.pend{color:var(--dim)}
+.tasks{margin-top:9px;display:none}
+.day.open .tasks{display:block}
+.tsk{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;margin-top:4px;font-size:12.5px;background:var(--card2)}
+.tsk.done{background:rgba(80,200,120,.08)}
+.tsk a{color:var(--acc);text-decoration:none;font-size:11px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعسكر <span class="muted">— معسكر الثلاثين يوماً</span></h2>
+<div class="muted">خطة تدريجية عبر المنظومة كلها — مهام كل يوم تُعلَّم تلقائياً من نشاطك. التحقتَ به في يومك الأول.</div>
+<div class="hdr" id="hdr"></div>
+<div id="days"></div>
+<div style="margin-top:14px"><button class="btn" onclick="reset()">↺ بدء معسكر جديد من اليوم</button></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const today=()=>new Date().toISOString().slice(0,10);
+// خطة الثلاثين يوماً: كل يوم = قائمة مهام {أداة,عدد,وصف,رابط}
+const PLAN=[];
+const push=(day,tool,need,desc,url)=>{PLAN[day]=PLAN[day]||[];PLAN[day].push({tool,need,desc,url})};
+const W=[
+ // أسبوع١: التأسيس — القرآن والحديث اليومي
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',1,'إملاء آية','../mustamli/'],['minhal',5,'٥ بطاقات منهل','../minhal/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',1,'إملاء آية','../mustamli/'],['mushbih',3,'٣ تشابهات','../mushbih/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mistr',1,'ترتيب آية','../mistr/'],['mi3bar',1,'شرح مصطلح','../mi3bar/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',2,'إملاء آيتين','../mustamli/'],['misraj',1,'حفظ جزء','../misraj/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mihfil',1,'مجلس مسألة','../mihfil/'],['minhal',5,'٥ بطاقات','../minhal/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mushbih',5,'٥ تشابهات','../mushbih/'],['mutahhaq',1,'تحقيق فهم','../mutahhaq/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['moseh',0,'مراجعة دفتر أخطائك','../moseh/'],['mudarrib',1,'خطة الأسبوع٢','../mudarrib/']],
+ // أسبوع٢: التعمق — الحديث والفقه
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mi3na',1,'رحلة معنى','../mi3na/'],['mustamli',2,'إملاء آيتين','../mustamli/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mijass',3,'٣ جسور حديث','../mijass/'],['mihfil',1,'مجلس مسألة','../mihfil/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['misraj',2,'جزآن حفظ','../misraj/'],['minhal',5,'٥ بطاقات','../minhal/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mi3bar',2,'مصطلحان','../mi3bar/'],['mustamli',1,'إملاء','../mustamli/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mushbih',5,'٥ تشابهات','../mushbih/'],['mihfil',1,'مجلس','../mihfil/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mistr',2,'ترتيب آيتين','../mistr/'],['minhal',7,'٧ بطاقات','../minhal/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['moseh',0,'مصحّح','../moseh/'],['mudarrib',1,'خطة الأسبوع٣','../mudarrib/']],
+ // أسبوع٣: الإتقان
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',3,'٣ إملاءات','../mustamli/'],['misraj',1,'حفظ','../misraj/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mi3na',1,'رحلة معنى','../mi3na/'],['mihfil',2,'مجلسان','../mihfil/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mushbih',7,'٧ تشابهات','../mushbih/'],['minhal',7,'٧ بطاقات','../minhal/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mi3bar',2,'مصطلحان','../mi3bar/'],['mustamli',2,'إملاءان','../mustamli/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mijass',5,'٥ جسور','../mijass/'],['misraj',1,'حفظ','../misraj/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mihfil',1,'مجلس','../mihfil/'],['mistr',1,'ترتيب','../mistr/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['moseh',0,'مصحّح','../moseh/'],['mudarrib',1,'خطة الأسبوع٤','../mudarrib/']],
+ // أسبوع٤: التثبيت والإبداع
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',3,'٣ إملاءات','../mustamli/'],['minsha',0,'مسودة درسك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['minhal',10,'١٠ بطاقات','../minhal/'],['minsha',0,'مسودتك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mushbih',10,'١٠ تشابهات','../mushbih/'],['minsha',0,'مسودتك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mihfil',2,'مجلسان','../mihfil/'],['minsha',0,'مسودتك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mi3bar',3,'٣ مصطلحات','../mi3bar/'],['minsha',0,'مسودتك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['misraj',2,'جزآن','../misraj/'],['minsha',0,'مسودتك','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['moseh',0,'مصحّح','../moseh/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mustamli',5,'٥ إملاءات','../mustamli/'],['minsha',0,'مسودتك النهائية','../minsha/']],
+ [[ 'mitla3',1,'حديثك اليومي','../mitla3/'],['mihdar',0,'حضورك','../mihdar/'],['mijtaz',0,'أوسمتك','../mijtaz/']]];
+W.forEach((day,i)=>day.forEach(t=>push(i,t[0],t[1],t[2],t[3])));
+// عدد الإنجاز اليوم لكل أداة
+function count(k){
+ const d=LS(k);const T=today();
+ if(k==='mitla3'){const dd=(d&&d.days||{})[T];return dd&&dd.done?1:0}
+ if(!d)return 0;
+ if(k==='mustamli'||k==='mushbih'||k==='mijass'||k==='mutahhaq')return d.n||d.ok||0;
+ if(k==='mistr')return d.best?1:0;
+ if(k==='mi3bar'){const df=LS('daftar')||[];return df.filter(x=>x.s==='mi3bar'&&new Date(x.at).toISOString().slice(0,10)===T).length}
+ if(k==='misraj')return Object.keys(d).length;
+ if(k==='minhal'||k==='mudarrib')return d.n||(d.plan?1:0);
+ if(k==='mihfil')return d.n||0;
+ return d?1:0;
+}
+const st=()=>JSON.parse(localStorage.getItem('mi3skar')||'{"start":"'+today()+'"}');
+const sv=s=>localStorage.setItem('mi3skar',JSON.stringify(s));
+function dayIdx(){const s=st();const a=new Date(s.start),b=new Date();return Math.min(PLAN.length-1,Math.max(0,Math.floor((b-a)/86400000)))}
+function render(){
+ const di=dayIdx();const s=st();
+ let doneDays=0;
+ $('#hdr').innerHTML='<div class="d">'+ (di+1).toLocaleString('ar-EG')+'</div><div class="muted">اليوم من '+PLAN.length+' — بدأت '+s.start+'</div>';
+ $('#days').innerHTML=PLAN.map((tasks,d)=>{
+  const done=tasks.every(t=>count(t.tool)>=t.need);
+  if(done&&d<=di)doneDays++;
+  const cur=d===di, past=d<di;
+  return '<div class="day '+(cur?'open':'')+'" data-d="'+d+'"><div class="h" onclick="this.parentNode.classList.toggle(\'open\')">'+
+  '<b>'+ (d+1).toLocaleString('ar-EG')+' — '+(d<7?'أسبوع التأسيس':d<14?'أسبوع التعمق':d<21?'أسبوع الإتقان':'أسبوع التثبيت')+'</b>'+
+  '<span class="st '+(done?'done':'pend')+'">'+(done?'✓ منجز':past?'✗ فات':cur?'اليوم':'قادم')+'</span></div>'+
+  '<div class="tasks">'+tasks.map(t=>{
+   const dn=count(t.tool);const ok=dn>=t.need;
+   return '<div class="tsk '+(ok?'done':'')+'"><span>'+(ok?'✓':'◯')+' '+esc(t.desc)+(t.need>1?' ('+dn+'/'+t.need+')':'')+'</span><a href="'+t.url+'">افتح ←</a></div>'}).join('')+'</div></div>'}).join('');
+ $('#hdr').innerHTML+='<div style="margin-top:8px;font-size:12px">أيام مكتملة: <b style="color:var(--ok)">'+doneDays+'</b></div>';
+}
+window.reset=()=>{if(confirm('بدء معسكر جديد من اليوم؟')){localStorage.removeItem('mi3skar');render()}};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3skar" data-title="مِعسكر"></script>
+</body>
+</html>

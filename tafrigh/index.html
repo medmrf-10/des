@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِفرَغ — طلب التفريغ وتتبّعه</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="hd">
+  <div class="hdrow"><h1>مِفرَغ</h1><button id="mk" class="mkbtn">دخول الصانع</button></div>
+  <p class="sub">اختر الشيخ ← السلسلة ← اضغط طلب — يصلني فوراً ويبدأ التنزيل والتفريغ</p>
+  <div class="searchwrap"><input id="q" type="search" placeholder="ابحث في السلاسل أو المشايخ…"></div>
+</header>
+<div class="stats" id="stats"></div>
+<div class="mkpanel" id="mkpanel" style="display:none"></div>
+<div class="reqbar" id="reqbar" style="display:none"></div>
+<div class="fwrap">
+  <button id="fbtn" class="fbtn">⚙️ الفلاتر والترتيب <span id="fn"></span></button>
+  <div class="fpanel" id="fpanel">
+    <div class="fg"><label>الحالة</label><select id="fst"><option value="">الكل</option><option value="done">مفرّغة كاملة</option><option value="run">يُفرَّغ جزئياً</option><option value="dl">قيد التنزيل</option><option value="req">مطلوبة مني</option><option value="idle">متاحة للطلب</option></select></div>
+    <div class="fg"><label>القناة</label><select id="fch"><option value="">الكل</option></select></div>
+    <div class="fg"><label>أدنى ساعات</label><select id="fh"><option value="0">أي</option><option>5</option><option>10</option><option>20</option><option>50</option></select></div>
+    <div class="fg"><label>أدنى حلقات</label><select id="fv"><option value="0">أي</option><option>10</option><option>20</option><option>40</option></select></div>
+    <div class="fg"><label>الترتيب</label><select id="fso"><option value="n">الأحدث</option><option value="v">أكثر حلقات</option><option value="h">أكثر ساعات</option><option value="tr">الأكثر تفريغاً</option><option value="dl">الأكثر تنزيلاً</option></select></div>
+    <div class="fg chk"><label><input type="checkbox" id="fmine"> طلباتي فقط</label></div>
+    <button id="fclr" class="fclr">مسح الفلاتر</button>
+  </div>
+</div>
+<main id="view"></main>
+<script src="data.js"></script>
+<script>
+var S=window.TRACK||[],SHS=window.TRACK_SH||[],Q='';
+var LS='tafrigh_req',MK='tafrigh_maker';
+var req=new Set(JSON.parse(localStorage.getItem(LS)||'[]'));
+var isMaker=localStorage.getItem(MK)==='1';
+var curSheikh=null;
+var F={st:'',ch:'',h:0,v:0,so:'n',mine:false};
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function fnum(n){return (n||0).toLocaleString('ar-EG');}
+function stgLabel(s){return{done:'✅ مفرّغة',run:'⏳ يُفرَّغ',dl:'⬇ قيد التنزيل',req:'📨 في الطابور',idle:'متاحة'}[s];}
+function stgClass(s){return{done:'done',run:'run',dl:'dl',req:'rq',idle:'idle'}[s];}
+function bar(x){var tv=x.v||1;var p1=Math.min(100,x.tr*100/tv),p2=Math.min(100,x.dl*100/tv);
+return '<div class="bar" title="'+x.tr+' مفرّغ · '+x.dl+' منزّل من '+x.v+'"><span class="b1" style="width:'+p1+'%"></span><span class="b2" style="width:'+Math.max(0,p2-p1)+'%"></span></div>';}
+function passF(x){
+ if(F.st&&x.stg!==F.st)return false;
+ if(F.ch&&x.ch!==F.ch)return false;if(F.h&&(x.h||0)<F.h)return false;if(F.v&&(x.v||0)<F.v)return false;
+ if(F.mine&&!req.has(x.id))return false;
+ if(Q){var h=(x.n||'')+' '+(x.sh||'')+' '+(x.ch||'');if(h.indexOf(Q)<0)return false;}
+ return true;}
+function sortL(L){var s=F.so;
+ if(s==='v')L.sort(function(a,b){return(b.v||0)-(a.v||0)});
+ else if(s==='h')L.sort(function(a,b){return(b.h||0)-(a.h||0)});
+ else if(s==='tr')L.sort(function(a,b){return(b.tr||0)-(a.tr||0)});
+ else if(s==='dl')L.sort(function(a,b){return(b.dl||0)-(a.dl||0)});
+ return L;}
+function stats(){var tr=S.filter(function(x){return x.tr>0}).length;var v=S.reduce(function(a,x){return a+(x.v||0)},0);var h=S.reduce(function(a,x){return a+(x.h||0)},0);
+document.getElementById('stats').innerHTML='<span><b>'+fnum(S.length)+'</b> سلسلة</span><span><b>'+fnum(v)+'</b> حلقة</span><span><b>'+fnum(Math.round(h))+'</b> ساعة</span><span><b>'+tr+'</b> يُفرَّغ/مفرّغة</span><span><b>'+req.size+'</b> مطلوبة</span>';}
+function reqBar(){
+ var el=document.getElementById('reqbar');
+ var mine=S.filter(function(x){return req.has(x.id)});
+ if(!mine.length){el.style.display='none';el.innerHTML='';return}
+ el.style.display='';
+ el.innerHTML='<div class="reqbar-in"><b>📨 طلباتك ('+mine.length+')</b>'+mine.map(function(x){
+  return '<span class="rchip '+stgClass(x.stg)+'" data-go="'+x.sh+'">'+esc(x.n)+' · '+stgLabel(x.stg)+(x.v?(' '+x.tr+'/'+x.v):'')+'</span>'}).join('')+'</div>';
+ el.querySelectorAll('[data-go]').forEach(function(c){c.onclick=function(){openSheikh(c.dataset.go)}});
+}
+function renderSheikhs(){
+ var el=document.getElementById('view');
+ var map={};
+ S.forEach(function(x){if(!map[x.sh])map[x.sh]={n:0,v:0,h:0,tr:0,rq:0};var m=map[x.sh];m.n++;m.v+=x.v||0;m.h+=x.h||0;if(x.tr>0)m.tr++;if(req.has(x.id))m.rq++;});
+ var list=SHS.filter(function(sh){return map[sh]&&(!Q||(sh+map[sh].n).indexOf(Q)>=0||S.some(function(x){return x.sh===sh&&passF(x)}))});
+ list.sort(function(a,b){return(map[b].v)-(map[a].v)});
+ el.innerHTML='<div class="lvl">المشايخ — '+list.length+'</div><div class="grid">'+list.map(function(sh){
+  var m=map[sh];
+  return '<div class="shcard" data-sh="'+esc(sh)+'"><div class="shn">'+esc(sh)+'</div>'
+  +'<div class="shm">'+m.n+' سلسلة · '+fnum(m.v)+' حلقة · '+fnum(Math.round(m.h))+' س</div>'
+  +'<div class="shb">'+(m.tr?'<span class="bd run">'+m.tr+' يُفرَّغ</span>':'')+(m.rq?'<span class="bd rq">'+m.rq+' مطلوبة</span>':'')+'</div>'
+  +'<div class="shgo">دخول ←</div></div>';
+ }).join('')+'</div>';
+ el.querySelectorAll('.shcard').forEach(function(c){c.onclick=function(){openSheikh(c.dataset.sh)}});
+}
+function openSheikh(sh){curSheikh=sh;render();document.getElementById('q').placeholder='ابحث في سلاسل '+sh+'…';window.scrollTo(0,0);}
+function renderSeries(){
+ var el=document.getElementById('view');
+ var L=S.filter(function(x){return x.sh===curSheikh&&passF(x)});
+ sortL(L);
+ var m={n:L.length,v:0,h:0,tr:0};L.forEach(function(x){m.v+=x.v||0;m.h+=x.h||0;if(x.tr)m.tr++});
+ var channels=[...new Set(S.filter(function(x){return x.sh===curSheikh}).map(function(x){return x.ch}).filter(Boolean))];
+ var fch=document.getElementById('fch');var keep=fch.value;
+ fch.innerHTML='<option value="">الكل ('+channels.length+')</option>'+channels.map(function(c){return '<option>'+esc(c)+'</option>'}).join('');
+ if(keep&&channels.indexOf(keep)>=0)fch.value=keep;
+ el.innerHTML='<div class="lvl"><button class="back" id="bk">→ المشايخ</button><div class="shhead"><b>'+esc(curSheikh)+'</b><span>'+m.n+' سلسلة · '+fnum(m.v)+' حلقة · '+fnum(Math.round(m.h))+' س · '+m.tr+' يُفرَّغ</span></div></div>'
+ +'<div class="list">'+L.slice(0,500).map(function(x){
+   var dis=(x.stg==='done'||req.has(x.id));
+   return '<div class="card"><div class="ct">'+esc(x.n)+'</div>'
+   +'<div class="cm">'+esc(x.ch||'')+'</div>'
+   +'<div class="cn">'+fnum(x.v)+' حلقة · '+fnum(Math.round(x.h||0))+' ساعة'+(x.tr?(' · '+x.tr+' مفرّغ'):'')+(x.dl?(' · '+x.dl+' منزّل'):'')+'</div>'
+   ''+bar(x)
+   +'<div class="cf"><span class="bd '+stgClass(x.stg)+'">'+stgLabel(x.stg)+'</span>'
+   +'<button class="rq" data-id="'+x.id+'"'+(dis?' disabled':'')+'>'+(req.has(x.id)?'✓ طلبك مسجّل':'اطلب التفريغ')+'</button></div></div>';
+ }).join('')+(L.length>500?'<div class="note">+ '+(L.length-500)+' سلسلة أخرى — دقّق البحث</div>':'')+(L.length?'':'<div class="empty">لا نتائج</div>')+'</div>';
+ document.getElementById('bk').onclick=function(){curSheikh=null;document.getElementById('q').placeholder='ابحث في السلاسل أو المشايخ…';render();};
+ el.querySelectorAll('button.rq').forEach(function(b){b.onclick=function(){sendReq(+b.dataset.id,b)};});
+}
+function sendReq(id,btn){
+ var x=S.find(function(s){return s.id===id});if(!x||req.has(id))return;
+ req.add(id);localStorage.setItem(LS,JSON.stringify([].slice.call(req)));
+ btn.disabled=true;btn.textContent='✓ طلبك مسجّل';
+ fetch('https://ntfy.sh/manzuma_eval_x9k2',{method:'POST',body:JSON.stringify({type:'tafrigh_req',maker:isMaker,id:x.id,name:x.n,sheikh:x.sh,videos:x.v,hours:x.h,url:x.u,t:Date.now()})}).catch(function(){});
+ var m=document.createElement('div');m.className='toast';m.textContent='📨 طلبك وصل — يبدأ التنزيل ثم التفريغ بـhigh';document.body.appendChild(m);setTimeout(function(){m.remove()},3200);
+ stats();reqBar();
+}
+function render(){reqBar();if(curSheikh)renderSeries();else renderSheikhs();updFn();}
+function updFn(){var n=0;['st','ch'].forEach(function(k){if(F[k])n++});if(F.h>0)n++;if(F.v>0)n++;if(F.mine)n++;
+ document.getElementById('fn').textContent=n?'('+n+')':'';}
+document.getElementById('fbtn').onclick=function(){document.getElementById('fpanel').classList.toggle('open')};
+document.addEventListener('click',function(e){if(!e.target.closest('.fwrap'))document.getElementById('fpanel').classList.remove('open')});
+[['fst','st'],['fch','ch'],['fso','so']].forEach(function(p){document.getElementById(p[0]).onchange=function(){F[p[1]]=this.value;render();};});
+[['fh','h'],['fv','v']].forEach(function(p){document.getElementById(p[0]).onchange=function(){F[p[1]]=+this.value||0;render();};});
+document.getElementById('fmine').onchange=function(){F.mine=this.checked;render();};
+document.getElementById('fclr').onclick=function(){F={st:'',ch:'',h:0,v:0,so:F.so,mine:false};document.getElementById('fst').value='';document.getElementById('fch').value='';document.getElementById('fh').value='0';document.getElementById('fv').value='0';document.getElementById('fmine').checked=false;render();};
+
+document.getElementById('q').addEventListener('input',function(){Q=this.value.trim();render();});
+function mkUI(){
+ var b=document.getElementById('mk'),p=document.getElementById('mkpanel');
+ if(isMaker){b.textContent='صانع المنظومة ⭐';b.classList.add('on');
+  var rows=S.filter(function(x){return req.has(x.id)});
+  p.style.display='';
+  p.innerHTML='<b>طلباتك كصانع ('+rows.length+')</b> '+rows.map(function(x){return '<span class="mreq">'+esc(x.n)+' · '+stgLabel(x.stg)+' <i data-rm="'+x.id+'">✕</i></span>'}).join('')+(rows.length?'':' <span style="color:var(--tx2)">لا طلبات بعد</span>')+' <button id="mkout" class="mkbtn" style="margin-inline-start:8px">خروج</button>';
+  p.querySelectorAll('[data-rm]').forEach(function(i){i.onclick=function(){req.delete(+i.dataset.rm);localStorage.setItem(LS,JSON.stringify([].slice.call(req)));stats();render();mkUI();};});
+  document.getElementById('mkout').onclick=function(){isMaker=false;localStorage.removeItem(MK);mkUI();render();};
+ }else{b.textContent='دخول الصانع';b.classList.remove('on');p.style.display='none';p.innerHTML='';}
+}
+document.getElementById('mk').onclick=function(){
+ if(isMaker)return;
+ var pin=prompt('رقم الصانع:');
+ if(pin==='9999'){isMaker=true;localStorage.setItem(MK,'1');mkUI();render();}
+ else if(pin!==null)alert('رقم غير صحيح');
+};
+stats();render();mkUI();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="tafrigh" data-title="مِفرَغ"></script>
+</body></html>

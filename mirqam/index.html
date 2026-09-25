@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مِرقَم — لوحة يومك</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:680px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:14px}
+.dhead{text-align:center;margin:10px 0 18px}
+.dhead .score{font-size:2.6rem;color:var(--acc);font-weight:700}
+.dhead .lbl{font-size:.72rem;color:var(--dim)}
+.sec{margin-bottom:14px}
+.sec h2{font-size:.82rem;color:var(--acc);margin:0 0 8px;border-bottom:1px solid var(--border);padding-bottom:6px}
+.row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:7px}
+.row .ic{font-size:1.1rem}
+.row .nm{flex:1;font-size:.82rem}
+.row .st{font-size:.72rem;color:var(--dim)}
+.row .st.ok{color:var(--ok)}
+.row a{color:var(--acc);text-decoration:none;font-size:.78rem;border:1px solid var(--border);border-radius:8px;padding:8px 14px;min-height:34px;display:inline-flex;align-items:center}
+.row a:hover{border-color:var(--acc)}
+.empty{color:var(--dim);font-size:.76rem;text-align:center;padding:8px}
+</style></head><body>
+<h1>مِرقَم</h1><div class="sub">لوحة يومك — تجمع حالة كل أدواتك في نظرة واحدة</div>
+<div class="dhead"><div class="score" id="score">—</div><div class="lbl" id="scoreL"></div></div>
+<div id="secs"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const today=new Date().toISOString().slice(0,10);
+const g=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}};
+// (name, icon, url, check()→{done:bool|0-1, label})
+const tools=[
+ ['مِسجِل','📓','../misjil/',()=>{const d=g('misjil');const t=d&&d[today];return{done:!!t,label:t?('سجّلت: '+t.score+'/10'):'لم تسجّل يومك بعد'}}],
+ ['مِعكَر','🎭','../mi3kar/',()=>{const d=g('mi3kar_v1');const t=d&&d[today];return{done:!!t,label:t?('مزاجك: '+['😞','😕','😐','🙂','😄'][t.m-1]):'لم تسجّل مزاجك'}}],
+ ['مِنحَت','🗿','../minhat/',()=>{const d=g('minhat_today');const c=d&&d[today];if(!c)return{done:false,label:'اليوم المثالي غير مُفعّل'};const ok=c.filter(x=>x.done).length;return{done:ok/c.length,label:ok+'/'+c.length+' مقاسات اليوم'}}],
+ ['مِجهَز','🎒','../mijhaz/',()=>{const d=g('mijhaz_cur');const items=d&&d.items||[];const ok=items.filter(x=>x.done).length;return items.length?{done:ok/items.length,label:ok+'/'+items.length+' مهيّأ'}:{done:false,label:'لا قائمة تجهيز نشطة'}}],
+ ['مِعصَب','🌙','../mi3sab/',()=>{const d=g('mi3sab');const t=d&&d[today];return{done:!!t,label:t?'راجعت يومك':'مراجعة ليلية لم تُجرَ'}}],
+ ['مِنهَج','📈','../minhaj/',()=>{const d=g('minhaj');const tot=d?Object.keys(d).length:0;return{done:tot>0,label:tot?tot+' مساراً في منهجك':'لا منهج بعد'}}],
+ ['مِعهَد','🤝','../mi3had/',()=>{const d=g('mi3had')||[];const act=d.filter(x=>!x.result);const t=act.filter(x=>x.ticks&&x.ticks[today]).length;return{done:act.length?t/act.length:null,label:act.length?t+'/'+act.length+' عهود مُوفَّاة اليوم':'لا عهود نشطة'}}],
+ ['مِكسَح','🧹','../miksah/',()=>{const d=g('miksah');const t=d&&d[today];return{done:!!t,label:t?'مسحت اليوم':'المسح اليومي لم يتم'}}],
+ ['مِرفأ','⚓','../mirfaa/',()=>{const d=g('mirfaa_v1')||{};let p=0;Object.values(d).forEach(x=>p+=x.filter(y=>!y.done).length);return{done:p===0&&Object.keys(d).length>0,label:p?p+' ذمّة معلّقة':'الذمّة بريئة'}}],
+ ['مِنقَب','⛏️','../minqab/',()=>{const d=g('minqab')||[];const t=d.filter(x=>x.d===today).length;return{done:t>0,label:t?t+' جلسة مركزة اليوم':'لا جلسة عمق اليوم'}}],
+ ['مِصبَح','🌅','../misbah2/',()=>{const d=g('misbah2');const t=d&&d[today];return{done:!!t,label:t?'شكرت فجرك':'شكر الفجر لم يُسجَّل'}}],
+];
+function render(){
+ let done=0,tracked=0;
+ const rows=tools.map(([n,i,u,f])=>{const r=f();if(r.done!==null&&r.done!==undefined){tracked++;if(r.done===true||r.done>=1)done++;else if(r.done>0)done+=r.done}
+  const st=r.done===true||r.done>=1?'ok':'';
+  return {n,i,u,label:r.label,ok:st}});
+ const pct=tracked?Math.round(done/tracked*100):0;
+ $('score').textContent=tracked?pct+'%':'—';
+ $('scoreL').textContent=tracked?"إنجاز يومك عبر "+tracked+" أدوات":'ابدأ بأي أداة — كلها تظهر هنا';
+ const groups={'أدوات اليوم':rows.filter(r=>r.ok==='ok'||r.label.includes('لم')||r.label.includes('لا ')),'الباقي':rows.filter(r=>!(r.ok==='ok'||r.label.includes('لم')||r.label.includes('لا ')))};
+ $('secs').innerHTML='<div class="sec"><h2>كل الأدوات</h2>'+rows.map(r=>`<div class="row"><span class="ic">${r.i}</span><span class="nm">${r.n}</span><span class="st ${r.ok}">${r.label}</span><a href="${r.u}">افتح</a></div>`).join('')+'</div>';
+}
+render();
+</script></body></html>

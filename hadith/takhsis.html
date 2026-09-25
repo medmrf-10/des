@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِخصص — محلل تفرد الحديث | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.pick input.gid{width:110px}.pick input.wd{flex:1;min-width:160px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip:hover{border-color:var(--acc2);color:var(--acc2)}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.taraf{font-family:var(--font-ar);font-size:16px;line-height:2.1;margin:8px 0}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;min-width:110px}
+.kpi .n{font-size:18px;font-weight:700;color:var(--txt)}
+.kpi .l{font-size:11px;color:var(--dim)}
+.tier{display:inline-block;border-radius:999px;padding:3px 14px;font-size:13px;font-weight:700}
+.t-rare{background:#3a1d1d;color:#e08a8a}.t-low{background:#332a17;color:var(--acc2)}
+.t-mid{background:#22303f;color:#9db8d4}.t-high{background:#14291c;color:var(--ok)}
+.drow{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0}
+.drow .lb{width:100px;color:var(--dim)}
+.drow .bar{flex:1;height:13px;background:var(--card2);border-radius:4px;overflow:hidden}
+.drow .bar i{display:block;height:100%;background:var(--acc2)}
+.drow .cnt{width:100px;font-size:11px;color:var(--txt)}
+.gauge{position:relative;height:10px;border-radius:5px;background:linear-gradient(to left,#3a1d1d 0 4%,#332a17 4% 14%,#22303f 14% 55%,#14291c 55% 100%);margin:14px 0 4px}
+.gauge b{position:absolute;top:-4px;width:2px;height:18px;background:var(--txt)}
+.gauge i{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:var(--acc2);border:2px solid var(--bg);transform:translateX(50%)}
+.sim{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin-bottom:6px;font-size:12.5px;text-decoration:none;color:var(--txt)}
+.sim:hover{border-color:var(--acc2)}
+.sim .tx{flex:1;line-height:1.9}
+.sim .sc{color:var(--acc2);font-weight:700;white-space:nowrap}
+.bdg{border-radius:999px;padding:2px 11px;font-size:11px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.mut{color:var(--dim);font-size:12px}
+.sect{margin-top:14px}.sect h4{margin:0 0 8px;font-size:14px;color:var(--acc)}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🧪 مِخصص</h1>
+  <span class="sub">محلل تفرد الحديث — نادر أم غزير، وأين انتشر</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+</header>
+<div class="pick">
+  <input class="gid" type="number" id="gid" placeholder="رقم المعنى" min="0">
+  <input class="wd" type="text" id="q" placeholder="أو ابحث بكلمات من طرف المعنى…">
+  <button class="chip" id="go">حلّل</button>
+</div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="hits" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم',ot:'أخرى',ns:'بلا حكم'};
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';
+  if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';
+  return 'ot'};
+const tier=s=>s<=1?['نادر — تفرد صحابي واحد','t-rare']:s<=3?['قليل — صحابة قلائل','t-low']:s<=10?['متوسط الانتشار','t-mid']:['غزير الرواية — كثرة صحابية','t-high'];
+const tierIdx=s=>s<=1?1:s<=3?7:s<=10?35:80;
+let GN=null,AVG={s:0,r:0},R2G=null;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadGN(){
+  if(GN)return;
+  stat.textContent='يُحمّل شبكة المعنى (١٢MB)…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='70%'});
+  GN=window.GIDNET;pf.style.width='100%';stat.textContent='';
+  let ss=0,rr=0,n=0;
+  for(const g in GN.g){ss+=GN.g[g].s||0;rr+=GN.g[g].r||0;n++}
+  AVG.s=ss/n;AVG.r=rr/n;
+  R2G={};
+  for(const g in GN.g)for(const b in GN.g[g].n||{})for(const rid of GN.g[g].n[b]){
+    (R2G[rid]=R2G[rid]||new Set()).add(g);
+  }
+}
+function narrSpread(g){
+  /* خريطة انتشار الرواة: لكل كتاب عدد الرواة من n{book:[rids]} */
+  const rows=[];
+  for(const b in g.n||{}){
+    const rids=[...new Set(g.n[b])];
+    const names=rids.map(r=>GN.rawi[r]||('#'+r));
+    rows.push({b,c:rids.length,names});
+  }
+  return rows.sort((a,b)=>b.c-a.c);
+}
+function similar(gid,g){
+  if(!R2G)return[];
+  const mine=new Set();for(const b in g.n||{})for(const r of g.n[b])mine.add(r);
+  if(!mine.size)return[];
+  const cnt={};
+  for(const r of mine)for(const og of R2G[r]||[]){if(String(og)!==String(gid))cnt[og]=(cnt[og]||0)+1}
+  return Object.entries(cnt)
+    .map(([og,c])=>{
+      const other=new Set();for(const b in GN.g[og].n||{})for(const r of GN.g[og].n[b])other.add(r);
+      const uni=mine.size+other.size-c;
+      return{gid:og,j:uni?c/uni:0};
+    }).sort((a,b)=>b.j-a.j).slice(0,5);
+}
+async function analyze(gid){
+  await loadGN();
+  const g=GN.g[gid];const main=document.getElementById('main');
+  if(!g){main.innerHTML='<div class="card mut">لا معنى بهذا الرقم</div>';return}
+  location.hash='g='+gid;
+  const s=g.s||0,r=g.r||0,books=Object.keys(g.w||{});
+  const[tl,tc]=tier(s);
+  const pct=s<=AVG.s*0.35?'أدنى كثيراً من متوسط المادة':s<AVG.s?'دون متوسط المادة':s<=AVG.s*3?'حول متوسط المادة':'أعلى كثيراً من المتوسط';
+  const spread=narrSpread(g);
+  const mx=Math.max(...spread.map(x=>x.c),1);
+  const sims=similar(gid,g);
+  main.innerHTML=`<div class="card">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <b style="color:var(--acc2)">معنى #${arNum(gid)}</b>
+      <span class="bdg v-${bucket(g.h)}">${esc(g.h||'—')}</span>
+      <span class="tier ${tc}">${tl}</span>
+      <span class="mut">${pct}</span>
+    </div>
+    <p class="taraf">${esc(g.t)}</p>
+    <div class="kpis">
+      <div class="kpi"><div class="n">${arNum(s)}</div><div class="l">صحابياً رواه</div></div>
+      <div class="kpi"><div class="n">${arNum(r)}</div><div class="l">مرة ورود في الأمهات</div></div>
+      <div class="kpi"><div class="n">${arNum(books.length)}</div><div class="l">من الكتب الستة</div></div>
+      <div class="kpi"><div class="n">${arNum(Object.values(g.w||{}).reduce((a,x)=>a+x.length,0))}</div><div class="l">موضع وقوع</div></div>
+    </div>
+    <div class="sect"><h4>مقياس الغزارة — مقابل متوسط المادة (${AVG.s.toFixed(1)} صحابياً)</h4>
+      <div class="gauge"><b style="right:${Math.min(AVG.s/30*100,98)}%"></b><i style="right:${tierIdx(s)}%"></i></div>
+      <div class="mut" style="display:flex;justify-content:space-between"><span>نادر</span><span>قليل</span><span>متوسط</span><span>غزير</span></div>
+    </div>
+    <div class="sect"><h4>انتشار الرواة حسب الكتاب</h4>
+      ${spread.map(x=>`
+        <div class="drow"><span class="lb">${BAR[x.b]}</span>
+        <div class="bar"><i style="width:${(x.c/mx*100).toFixed(1)}%"></i></div>
+        <span class="cnt">${arNum(x.c)} راوياً</span></div>`).join('')}
+      ${books.length>=5?'<div class="mut" style="margin-top:6px">● معنى عابر للكتب — ورد في '+arNum(books.length)+' من الستة (متفق/شائع على منهج «الجامع»)</div>':books.length>=2?'<div class="mut" style="margin-top:6px">● ورد في '+arNum(books.length)+' كتباً — رواية مشتركة بين أمهات</div>':'<div class="mut" style="margin-top:6px">● مفرد الكتاب — لم يرد إلا في '+BAR[books[0]||'bukhari']+'</div>'}
+    </div>
+    <div class="sect"><h4>أقرب ٥ معانٍ (تقارب جاكارد على الرواة المشتركين)</h4>
+      ${sims.length?sims.map(sm=>{
+        const og=GN.g[sm.gid];
+        return `<a class="sim" href="#g=${sm.gid}" onclick="analyze(${sm.gid});return false">
+          <span class="tx"><b>#${arNum(sm.gid)}</b> ${esc((og.t||'').slice(0,80))}…</span>
+          <span class="sc">${Math.round(sm.j*100)}٪</span></a>`;
+      }).join(''):'<div class="mut">لا رواة مشتركون لقياس التقارب</div>'}
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      <a class="chip" href="net.html#g${gid}">الشبكة ←</a>
+      <a class="chip" href="naskh.html?g=${gid}">اختلاف اللفظ ←</a>
+      <a class="chip" href="tartil.html#b=${books[0]||'bukhari'}&n=${(g.w&&g.w[books[0]]&&g.w[books[0]][0])||1}">الطرق ←</a>
+    </div></div>`;
+  document.getElementById('hits').innerHTML='';
+}
+let qT;
+document.getElementById('q').addEventListener('input',e=>{
+  clearTimeout(qT);qT=setTimeout(async()=>{
+    const w=norm(e.target.value);if(w.length<6)return;
+    await loadGN();
+    const hits=[];for(const g in GN.g){if(norm(GN.g[g].t).includes(w))hits.push(g);if(hits.length>=8)break}
+    document.getElementById('hits').innerHTML=hits.map(g=>
+      `<button class="chip" onclick="analyze(${g})">#${arNum(g)} — ${esc(GN.g[g].t.slice(0,34))}…</button>`).join('');
+  },350);
+});
+document.getElementById('go').addEventListener('click',()=>{
+  const g=+document.getElementById('gid').value;if(document.getElementById('gid').value!=='')analyze(g);
+});
+document.getElementById('gid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value!=='')analyze(+e.target.value)});
+(async()=>{const m=location.hash.match(/g=(\d+)/);if(m){document.getElementById('gid').value=m[1];analyze(+m[1])}})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miq_takhsis"></script>
+</body>
+</html>

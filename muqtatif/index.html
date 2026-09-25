@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مقتطف — مقص الدروس</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sel,.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 12px;font-family:var(--font-ar);font-size:14px}
+.inp{min-width:0;flex:1}
+.clip{display:flex;gap:9px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin:5px 0}
+.clip .t{font-size:11px;color:var(--acc2);font-family:monospace;direction:ltr}
+.clip .n{flex:1;font-family:var(--font-ar);font-size:14px;outline:none}
+.clip .o{font-size:11px;color:var(--dim);cursor:pointer;white-space:nowrap}
+.clip .o:hover{color:var(--acc2)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.btn.g{background:var(--card2);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+#vid{width:100%;border-radius:12px;margin:10px 0;background:#000;aspect-ratio:16/9}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مقتطف <span class="muted" style="font-weight:400;font-size:12px">— مقصّ الدروس</span></h2>
+<div class="muted">اختر سلسلة ومقطعاً → شغّل → علّم البداية والنهاية → سمِّ المقتطف → يُحفظ عندك مع رابطه العميق، وتصدّر القائمة.</div>
+<div class="row" style="margin-top:10px">
+ <select class="sel" id="sheikh"></select>
+ <select class="sel" id="series" style="flex:1"></select>
+ <select class="sel" id="video" style="flex:1"></select>
+</div>
+<video id="vid" controls playsinline></video>
+<div class="row">
+ <button class="btn g" id="markA">◉ بداية <b id="ta">0:00</b></button>
+ <button class="btn g" id="markB">◎ نهاية <b id="tb">0:00</b></button>
+ <button class="btn g" id="playc">▶ جرّب المقتطف</button>
+ <input class="inp" id="cname" placeholder="اسم المقتطف…">
+ <button class="btn" id="add">+ أضف</button>
+</div>
+<div class="row" style="margin-top:8px">
+ <button class="btn g" id="copy">⧉ انسخ القائمة</button>
+ <button class="btn g" id="exp">⬇ تصدير JSON</button>
+ <button class="btn g" id="clr" style="color:#e07070">مسح الكل</button>
+</div>
+<div id="list" style="margin-top:12px"></div>
+<script src="../durus/data.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=s=>{s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+let A=0,B=0,clips=[];
+try{clips=JSON.parse(localStorage.getItem('muqtatif')||'[]')}catch(e){}
+// تعبئة المشايخ
+const SH=[...new Set(SERIES.map(s=>s.sheikh))];
+$('sheikh').innerHTML=SH.map(s=>`<option>${esc(s)}</option>`).join('');
+function fillSeries(){const sh=$('sheikh').value;
+ $('series').innerHTML=SERIES.filter(s=>s.sheikh===sh).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');fillVids()}
+function fillVids(){const s=SERIES.find(x=>x.id===$('series').value);if(!s)return;
+ $('video').innerHTML=(s.plists||[{videos:s.videos,u:s.plist_url}]).map((p,i)=>`<option value="${i}">قائمة ${i+1} — ${p.videos} مقطعاً</option>`).join('')}
+$('sheikh').onchange=fillSeries;$('series').onchange=fillVids;
+fillSeries();
+// الفيديو: رابط قائمة يوتيوب → لا يمكن تشغيله مباشرة؛ نعرض ملاحظة + نسمح بإدخال رابط mp3/mp4 مباشر
+const vq=new URLSearchParams(location.search).get('v');if(vq)$('vid').src=vq;
+$('vid').addEventListener('timeupdate',()=>{});
+$('markA').onclick=()=>{A=$('vid').currentTime;$('ta').textContent=fmt(A)};
+$('markB').onclick=()=>{B=$('vid').currentTime;$('tb').textContent=fmt(B)};
+$('playc').onclick=()=>{$('vid').currentTime=A;$('vid').play();
+ const stop=setInterval(()=>{if($('vid').currentTime>=B){$('vid').pause();clearInterval(stop)}},200)};
+$('add').onclick=()=>{
+ const s=SERIES.find(x=>x.id===$('series').value);
+ clips.push({n:$('cname').value||'مقتطف '+(clips.length+1),se:s?s.name:'',sh:s?s.sheikh:'',a:Math.round(A),b:Math.round(B),v:$('vid').src||'',at:Date.now()});
+ $('cname').value='';save();render()};
+function save(){localStorage.setItem('muqtatif',JSON.stringify(clips))}
+function render(){
+ $('list').innerHTML=clips.map((c,i)=>`<div class="clip">
+  <span class="t">${fmt(c.a)}→${fmt(c.b)}</span>
+  <div class="n" contenteditable data-i="${i}">${esc(c.n)}</div>
+  <span class="muted">${esc(c.se)}</span>
+  <span class="o" data-m="p" data-i="${i}">▶</span>
+  <span class="o" data-m="l" data-i="${i}">رابط</span>
+  <span class="o" data-m="x" data-i="${i}">×</span></div>`).join('')||'<div class="muted">لا مقتطفات بعد</div>'}
+$('list').onclick=e=>{const o=e.target.closest('.o');if(!o)return;const i=+o.dataset.i,m=o.dataset.m,c=clips[i];
+ if(m==='x'){clips.splice(i,1);save();render()}
+ else if(m==='p'&&c.v){$('vid').src=c.v;$('vid').currentTime=c.a;$('vid').play();
+  const st=setInterval(()=>{if($('vid').currentTime>=c.b){$('vid').pause();clearInterval(st)}},200)}
+ else if(m==='l'){navigator.clipboard.writeText(`${c.n} — ${c.se} (${fmt(c.a)}→${fmt(c.b)}) ${c.v}#t=${c.a}`);o.textContent='نُسخ';setTimeout(()=>o.textContent='رابط',1200)}};
+$('list').addEventListener('input',e=>{const t=e.target;if(t.classList.contains('n')){clips[+t.dataset.i].n=t.textContent;save()}});
+$('copy').onclick=()=>{navigator.clipboard.writeText(clips.map(c=>`• ${c.n} — ${c.se} (${fmt(c.a)}→${fmt(c.b)})`).join('\n'))};
+$('exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(clips,null,1)],{type:'application/json'}));a.download='muqtatif.json';a.click()};
+$('clr').onclick=()=>{if(confirm('مسح كل المقتطفات؟')){clips=[];save();render()}};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="muqtatif" data-title="مقتطف"></script>
+</body>
+</html>

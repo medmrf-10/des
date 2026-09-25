@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مُتشابهات — النظير جنب النظير</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:14px}
+.pair{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:14px 18px;margin-top:12px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.vs>div{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.vs .t{font-family:var(--font-ar);font-size:16.5px;line-height:2.4}
+.vs .loc{font-size:10.5px;color:var(--acc);margin-top:6px}
+.diff{color:#e08080;font-weight:700;text-decoration:underline;text-decoration-color:rgba(224,128,128,.4);text-underline-offset:4px}
+.same{color:var(--txt)}
+.scr{font-size:10px;color:var(--dim)}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-family:var(--font-ar);font-size:13px;width:100%}
+.muted{color:var(--dim);font-size:12px}
+.tag{display:inline-block;background:var(--card);border:1px solid var(--acc);border-radius:9px;padding:2px 10px;font-size:10px;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مُتشابهات <span class="muted">— النظير جنب النظير والفرق مُلوّن</span></h2>
+<div class="muted">اختر آية ← تراها بجوار أشد شواهدها — الفروق ملوّنة بالأحمر. أداة إحكام المتشابه اللفظي.</div>
+<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+<select id="ss" style="flex:1"></select>
+<select id="sa" style="flex:1"></select>
+<button class="btn" id="dice" style="background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer">🎲 عشوائية</button>
+</div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا');
+let S={};
+function laz(u){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+// اختلاف كلمة بكلمة مع إبراز الفروق
+function diffWords(a,b){
+ const wa=a.split(/\s+/),wb=b.split(/\s+/);
+ const la=wa.length,lb=wb.length;
+ // أطول تسلسل مشترك بسيط
+ const dp=Array.from({length:la+1},()=>new Uint16Array(lb+1));
+ for(let i=la-1;i>=0;i--)for(let j=lb-1;j>=0;j--)
+  dp[i][j]=wa[i]===wb[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+ const ra=[],rb=[];let i=0,j=0;
+ while(i<la&&j<lb){
+  if(norm(wa[i])===norm(wb[j])){ra.push({t:wa[i],d:0});rb.push({t:wb[j],d:0});i++;j++}
+  else if(dp[i+1][j]>=dp[i][j+1]){ra.push({t:wa[i],d:1});i++}
+  else{rb.push({t:wb[j],d:1});j++}}
+ while(i<la)ra.push({t:wa[i++],d:1});
+ while(j<lb)rb.push({t:wb[j++],d:1});
+ const html=arr=>arr.map(w=>'<span class="'+(w.d?'diff':'same')+'">'+esc(w.t)+'</span>').join(' ');
+ return [html(ra),html(rb)];
+}
+async function go(){
+ await laz('../wahy/mutashabih.js');
+ const M=window.MUTA;
+ // قائمة السور من names
+ const surahs=[...new Set(Object.keys(M.sim).map(k=>+k.split(':')[0]))].sort((a,b)=>a-b);
+ $('#ss').innerHTML=surahs.map(s=>'<option value="'+s+'">'+s+' — '+esc(M.names[s]||'')+'</option>').join('');
+ $('#ss').value=1;pick();
+ $('#ss').onchange=pick;$('#sa').onchange=render;
+ $('#dice').onclick=()=>{$('#ss').value=surahs[Math.floor(Math.random()*surahs.length)];pick()};
+ function pick(){
+  const s=+$('#ss').value;
+  const as=[...new Set(Object.keys(M.sim).filter(k=>k.startsWith(s+':')).map(k=>+k.split(':')[1]))].sort((a,b)=>a-b);
+  $('#sa').innerHTML=as.map(a=>'<option value="'+a+'">آية '+a+'</option>').join('');
+  render();
+ }
+ function render(){
+  const s=+$('#ss').value,a=+$('#sa').value;
+  const e=M.sim[s+':'+a];
+  if(!e){$('#out').innerHTML='<div class="muted" style="padding:20px">لا متشابهات لهذه الآية.</div>';return}
+  const top=e[3].slice(0,4);
+  $('#out').innerHTML=top.map(([pk,sc])=>{
+   const [ps,pa]=pk.split(':').map(Number);
+   const pe=M.sim[pk];
+   if(!pe)return '';
+   const [ha,hb]=diffWords(e[2],pe[2]);
+   return `<div class="pair"><div style="display:flex;justify-content:space-between"><span class="tag">تشابه ${Math.round(sc*100)}٪</span><span class="scr"><a href="../mishhad/#${s}:${a}" style="color:var(--dim);text-decoration:none">المشهد ←</a></span></div>
+   <div class="vs">
+    <div><div class="t">${ha}</div><div class="loc">${esc(M.names[s])} ${a}</div></div>
+    <div><div class="t">${hb}</div><div class="loc">${esc(M.names[ps]||ps)} ${pa}</div></div>
+   </div></div>`}).join('')||'<div class="muted" style="padding:20px">لا شواهد فوق العتبة.</div>';
+ }
+}
+go();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mutashabih" data-title="مُتشابهات"></script>
+</body>
+</html>

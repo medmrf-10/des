@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مِصرَع — حيث سقطت وما تعلمت</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:600px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:12px}
+textarea,input[type=text]{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;padding:10px;font-size:.82rem;margin:6px 0;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--acc)}
+button.go{width:100%;background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:10px;color:#0b0f1a;font-family:inherit;font-weight:700;padding:11px;cursor:pointer}
+.fall{background:var(--card);border:1px solid var(--border);border-right:3px solid #e07070;border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px}
+.fall .f{font-size:.86rem;font-weight:700}
+.fall .l{font-size:.78rem;color:var(--ok);margin-top:6px;line-height:1.7}
+.fall .d{font-size:.6rem;color:var(--dim);margin-top:6px}
+.fall .ag{font-size:.64rem;color:var(--acc);margin-top:5px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.tags button{background:none;border:1px solid var(--border);border-radius:99px;color:var(--dim);font-family:inherit;font-size:.66rem;padding:4px 12px;cursor:pointer}
+.tags button.on{color:var(--acc);border-color:var(--acc)}
+.insight{background:var(--card);border:1px solid var(--acc);border-radius:var(--r-md);padding:12px;font-size:.78rem;color:var(--acc);margin-bottom:12px;line-height:1.8}
+</style></head><body>
+<h1>مِصرَع</h1><div class="sub">أين سقطت وماذا تعلمت — الوقعة بلا درس هزيمة مضاعفة</div>
+<div class="card">
+<textarea id="f" rows="2" placeholder="ما الوقعة؟ (ماذا حدث بالضبط)"></textarea>
+<div class="tags" id="tg">
+<button data-t="تسرّع">تسرّع</button><button data-t="ثقة زائدة">ثقة زائدة</button><button data-t="إهمال">إهمال</button><button data-t="انفعال">انفعال</button><button data-t="ضعف علم">ضعف علم</button><button data-t="سوء تقدير">سوء تقدير</button>
+</div>
+<textarea id="l" rows="2" placeholder="الدرس المستفاد — كيف لا تسقط هنا ثانية؟"></textarea>
+<button class="go" id="save">سجّل الوقعة والدرس</button>
+</div>
+<div id="ins"></div>
+<div id="hist"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='misra3_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'[]');const S=o=>localStorage.setItem(K,JSON.stringify(o));
+let tag='';
+document.addEventListener('click',e=>{
+ const b=e.target.closest('#tg button');if(b){tag=b.dataset.t;[...document.querySelectorAll('#tg button')].forEach(x=>x.classList.toggle('on',x.dataset.t===tag));return}
+ if(e.target.id==='save'){const f=$('f').value.trim(),l=$('l').value.trim();if(!f)return;const d=D();d.unshift({f,l,tag,t:Date.now()});S(d);$('f').value=$('l').value='';tag='';[...document.querySelectorAll('#tg button')].forEach(x=>x.classList.remove('on'));render()}
+});
+function render(){
+ const d=D();
+ const tags={};d.forEach(x=>{if(x.tag)tags[x.tag]=(tags[x.tag]||0)+1});
+ const top=Object.entries(tags).sort((a,b)=>b[1]-a[1])[0];
+ $('ins').innerHTML=d.length?`<div class="insight">${d.length} وقعة مسجّلة${top?` — أنماطك المتكررة: <b>${esc(top[0])}</b> (${top[1]}×)`:''}. ${d.length>=5?'النمط أوضح من الوقعة نفسها.':''}</div>`:'';
+ $('hist').innerHTML=d.map(x=>`<div class="fall"><div class="f">${esc(x.f)}</div>${x.tag?`<div class="ag">⚑ ${esc(x.tag)}</div>`:''}${x.l?`<div class="l">💡 ${esc(x.l)}</div>`:''}<div class="d">${new Date(x.t).toLocaleDateString('ar')}</div></div>`).join('')||'<div class="sub">لا وقعات مسجّلة — الحمد لله. أو لم توثّق بعد.</div>';
+}
+render();
+</script></body></html>

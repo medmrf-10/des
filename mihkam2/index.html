@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِحكَم — كفتا الميزان</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:10px 14px;font-family:var(--font-ar);font-size:13px;width:100%;margin-top:8px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.col .h{text-align:center;font-family:var(--font-ar);font-size:13px;padding:9px;border-radius:10px;margin-bottom:8px}
+.col.p .h{background:rgba(70,201,109,.1);color:var(--ok);border:1px solid var(--ok)}
+.col.c .h{background:rgba(232,146,75,.1);color:var(--acc2);border:1px solid var(--acc2)}
+.it{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:8px 11px;margin-top:7px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:7px}
+.it .wt{display:flex;gap:3px}
+.wt span{width:7px;height:7px;border-radius:50%;background:var(--card2)}
+.wt span.on{background:var(--acc)}
+.scale{display:flex;height:22px;border-radius:11px;overflow:hidden;margin-top:14px;border:1px solid var(--border)}
+.scale>div{transition:width .5s}
+.verdict{text-align:center;margin-top:14px;font-family:var(--font-ar);font-size:16px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--acc);display:none}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحكَم <span class="muted">— كفتا الميزان</span></h2>
+<div class="muted">قرار يحيّرك؟ زِن كل حجة: الموالاة في كفة، المعارضة في كفة — والميزان يحكم.</div>
+<div class="card"><input id="q" placeholder="القرار: أشتري X؟ أقبل العرض Y؟ أترك Z؟">
+<div class="cols">
+<div class="col p"><div class="h">مع ✓</div>
+<input id="pi" placeholder="حجة مؤيدة…">
+<div style="display:flex;gap:7px;margin-top:7px"><input id="pw" type="number" min="1" max="5" value="3" style="width:70px;margin-top:0" title="الوزن"><button class="btn ghost" id="pa" style="flex:1;padding:9px">أضف للمؤيد</button></div>
+<div id="pl"></div></div>
+<div class="col c"><div class="h">ضد ✗</div>
+<input id="ci" placeholder="حجة معارضة…">
+<div style="display:flex;gap:7px;margin-top:7px"><input id="cw" type="number" min="1" max="5" value="3" style="width:70px;margin-top:0" title="الوزن"><button class="btn ghost" id="ca" style="flex:1;padding:9px">أضف للمعارض</button></div>
+<div id="cl"></div></div>
+</div>
+<div class="scale"><div id="sp" style="background:var(--ok);width:50%"></div><div id="sc" style="background:var(--acc2);width:50%"></div></div>
+<div id="stats" style="margin-top:10px"></div>
+<div class="verdict" id="vd"></div>
+<button class="btn ghost" id="clr" style="margin-top:12px">صفّر الميزان</button></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let D=LS('mihkam2',{q:'',p:[],c:[]});
+$('#q').value=D.q||'';
+$('#q').oninput=()=>{D.q=$('#q').value;SV('mihkam2',D)};
+$('#pa').onclick=()=>{const t=$('#pi').value.trim();if(!t)return;D.p.push({t,w:+$('#pw').value});SV('mihkam2',D);$('#pi').value='';render()};
+$('#ca').onclick=()=>{const t=$('#ci').value.trim();if(!t)return;D.c.push({t,w:+$('#cw').value});SV('mihkam2',D);$('#ci').value='';render()};
+$('#clr').onclick=()=>{if(confirm('صفّر؟')){D={q:'',p:[],c:[]};SV('mihkam2',D);$('#q').value='';render()}};
+function render(){
+ const pw=D.p.reduce((s,x)=>s+x.w,0),cw=D.c.reduce((s,x)=>s+x.w,0),tot=pw+cw||1;
+ $('#sp').style.width=(pw/tot*100)+'%';$('#sc').style.width=(cw/tot*100)+'%';
+ $('#stats').innerHTML='<span class="stat">مع: <b>'+arN(pw)+'</b></span><span class="stat">ضد: <b>'+arN(cw)+'</b></span>'+
+ '<span class="stat">حجج: <b>'+arN(D.p.length+D.c.length)+'</b></span>';
+ const vd=$('#vd');
+ if(pw+cw>=6){vd.style.display='block';
+  const r=pw/(pw+cw);
+  vd.innerHTML=r>=.7?'⚖️ الميزان يرجح: <b style="color:var(--ok)">افعل</b> ('+arN(Math.round(r*100))+'٪)':r<=.35?'⚖️ الميزان يرجح: <b style="color:var(--acc2)">لا تفعل</b> ('+arN(Math.round((1-r)*100))+'٪)':'⚖️ الميزان متعادل — أجّل أو استخِر';
+ }else vd.style.display='none';
+ const it=(x,i,side)=>'<div class="it"><span style="flex:1">'+esc(x.t)+'</span><span class="wt">'+
+ [1,2,3,4,5].map(k=>'<span class="'+(k<=x.w?'on':'')+'"></span>').join('')+'</span>'+
+ '<button class="btn ghost" data-s="'+side+'" data-i="'+i+'" style="padding:3px 8px;color:var(--acc2)">✕</button></div>';
+ $('#pl').innerHTML=D.p.map((x,i)=>it(x,i,'p')).join('');
+ $('#cl').innerHTML=D.c.map((x,i)=>it(x,i,'c')).join('');
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-s]');if(!b)return;
+ D[b.dataset.s].splice(+b.dataset.i,1);SV('mihkam2',D);render();
+});
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mihkam2" data-title="مِحكَم"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِحفل — أجب ثم انظر المذاهب</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.q{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:16px;padding:16px 20px;margin-top:12px}
+.q .t{font-family:var(--font-ar);font-size:16.5px;line-height:2}
+textarea{width:100%;min-height:88px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;margin-top:10px;resize:vertical}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin-top:12px}
+.col{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 13px}
+.col .m{font-size:11px;font-weight:700;color:var(--acc);margin-bottom:5px}
+.col .u{font-family:var(--font-ar);font-size:12.5px;line-height:1.9}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:10px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.verdict{background:var(--card);border:1px solid var(--acc2);border-radius:12px;padding:11px 15px;margin-top:10px;font-size:13px;line-height:1.9}
+.muted{color:var(--dim);font-size:12px}
+mark{background:rgba(201,162,75,.25);color:var(--acc);padding:0 2px;border-radius:3px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحفل <span class="muted">— اجلس للمسألة أولاً، ثم انظر موائد المذاهب</span></h2>
+<div class="muted">طريقة المجالس القديمة: تُعرض المسألة ← تجيب بما عندك ← تُكشف أقوال المذاهب ← يُقاس ما غطّيت منها.</div>
+<div id="stage"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const stopW=new Set('في على إلى من عن أن إن ما لا لم لن هو هي كان هذا هذه ذلك التي الذي أو ثم قد يكون ليس كما حيث كل بعد قبل عند عندما لكن لأن لان بين غير ضمن دون فوق تحت أمام وراء مع حتى إذا لو لولا إلا نعم بلى كلا بل ربما قد كأن كي لكي لكيما إذ إذن إما'.split(' '));
+const kws=t=>{const c={};norm(t).split(/\s+/).forEach(w=>{if(w.length>2&&!stopW.has(w))c[w]=(c[w]||0)+1});
+ return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0])};
+function laz(){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src='../fiqh_reader/masail.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+const MADH={h:'حنفي',m:'مالكي',s:'شافعي',b:'حنبلي',o:'آخر'};
+let cur=null;
+async function pick(){
+ await laz();const M=window.MASAIL;
+ const slugs=Object.keys(M).filter(k=>M[k].u&&M[k].u.length>=3);
+ const slug=slugs[Math.floor(Math.random()*slugs.length)];
+ cur={slug,b:M[slug]};
+ $('#stage').innerHTML='<div class="q"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--dim)"><span>'+esc(cur.b.n)+' — '+esc(cur.b.a||'')+'</span><span>'+cur.b.u.length+' وحدة</span></div>'+
+ '<div class="t" style="margin-top:8px">'+esc(cur.b.u[0].t)+'</div>'+
+ '<div class="muted" style="margin-top:6px">اكتب ما تعرفه عن هذه المسألة — اذكر أقوالاً أو أدلة أو تفاصيل:</div>'+
+ '<textarea id="ans" placeholder="جوابك هنا…"></textarea>'+
+ '<div style="display:flex;gap:8px"><button class="btn" id="reveal">اكشف المذاهب</button><button class="btn ghost" id="another">مسألة أخرى</button></div></div>'+
+ '<div id="cols"></div>';
+ $('#reveal').onclick=reveal;$('#another').onclick=pick;
+}
+function reveal(){
+ const b=cur.b;const mine=kws($('#ans').value);
+ // جمع نصوص الوحدات مجمّعة كتقريب مذهبي عبر الكتب
+ const books={};
+ b.u.forEach(u=>{const bk=u.l||'المتن';books[bk]=(books[bk]||'')+' '+u.t});
+ const cols=Object.entries(books).slice(0,4).map(([bk,txt])=>({bk,txt}));
+ const mineSet=new Set(mine);
+ let covered=0;
+ const html=cols.map(c=>{
+  const kw=kws(c.txt);const hit=kw.filter(k=>mineSet.has(k));covered+=hit.length;
+  return '<div class="col"><div class="m">'+esc(c.bk)+'</div><div class="u">'+esc(c.txt.slice(0,700))+(c.txt.length>700?'…':'')+'</div></div>'}).join('');
+ const totKw=new Set(cols.flatMap(c=>kws(c.txt)));
+ const cov=mine.filter(k=>totKw.has(k));
+ $('#cols').innerHTML='<div class="cols">'+html+'</div>'+
+ '<div class="verdict"><b>غطّيت من مفاتيح المسألة:</b> '+(cov.length?cov.map(k=>'<mark>'+esc(k)+'</mark>').join('، '):'لا شيء من أبرزها')+
+ ' — '+(cov.length>=4?'تغطية طيبة':cov.length>=2?'تغطية مقبولة':'راجع النصوص أعلاه')+'</div>'+
+ '<button class="btn ghost" id="another2" style="margin-top:10px">مسألة أخرى</button>';
+ $('#another2').onclick=pick;
+ const st=JSON.parse(localStorage.getItem('mihfil')||'{"n":0,"sum":0}');
+ st.n++;st.sum+=cov.length;localStorage.setItem('mihfil',JSON.stringify(st));
+}
+pick();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mihfil" data-title="مِحفل"></script>
+</body>
+</html>

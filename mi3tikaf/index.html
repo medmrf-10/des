@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعتكف — عكوف التعلم</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px;text-align:center}
+.timer{font-family:var(--font-ar);font-size:72px;font-weight:700;color:var(--acc);margin:30px 0 8px;letter-spacing:2px}
+.ayah{font-family:var(--font-ar);font-size:17px;line-height:2.4;color:var(--txt);padding:14px 20px;background:linear-gradient(135deg,var(--card),var(--card2));border-radius:14px;margin-top:20px;border:1px solid var(--border)}
+.mins{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.mn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 18px;font-family:var(--font-ar);font-size:13px;cursor:pointer}
+.mn.on{background:var(--acc);color:#14140f;font-weight:700}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:11px 28px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:14px;margin-top:20px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);padding:8px 16px;font-size:12px;margin-top:12px}
+.muted{color:var(--dim);font-size:12px}
+.toolpick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.toolpick a{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:11.5px;color:var(--txt);text-decoration:none}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعتكف <span class="muted">— عكّف على التعلم</span></h2>
+<div class="muted">اختر مدة — العداد يحصي، والآية ترافقك، والهاتف يشجّعك على البقاء.</div>
+<div class="mins" id="mins"></div>
+<div class="timer" id="tm">00:00</div>
+<div id="status" class="muted"></div>
+<div class="ayah" id="ay">«وَقُل رَّبِّ زِدْنِي عِلْمًا»</div>
+<button class="btn" id="go">ابدأ العكوف</button>
+<button class="btn ghost" id="stop" style="display:none">إيقاف مبكر</button>
+<div class="toolpick" style="margin-top:22px" id="tools">
+<span class="muted" style="width:100%;font-size:11px">أدوات تناسب العكوف:</span>
+</div>
+<div class="muted" style="margin-top:18px" id="hist"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const MINS=[5,10,15,25,45,60];
+let chosen=15,iv=null,left=0,total=0;
+$('#mins').innerHTML=MINS.map(m=>'<button class="mn'+(m===chosen?' on':'')+'" data-m="'+m+'">'+m+' د</button>').join('');
+$('#mins').onclick=e=>{const b=e.target.closest('.mn');if(!b||iv)return;
+ document.querySelectorAll('.mn').forEach(x=>x.classList.toggle('on',x===b));chosen=+b.dataset.m};
+const TOOLS=[['مِستملي','../mustamli/'],['مِشبه','../mushbih/'],['مِسطرة','../mistr/'],['مِنهال','../minhal/'],['مِسراج','../misraj/'],['مِطلع','../mitla3/'],['مِحفل','../mihfil/'],['مِعتمد','../mi3tamad/']];
+$('#tools').innerHTML+=TOOLS.map(t=>'<a href="'+t[1]+'" target="_blank">'+t[0]+' ↗</a>').join('');
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const today=()=>new Date().toISOString().slice(0,10);
+const hist=()=>JSON.parse(localStorage.getItem('mi3tikaf')||'{}');
+const svh=h=>localStorage.setItem('mi3tikaf',JSON.stringify(h));
+// آية اليوم
+(async()=>{try{
+ const s=document.createElement('script');s.src='../wahy/mutashabih.js';
+ await new Promise((ok,bad)=>{s.onload=ok;s.onerror=bad;document.head.appendChild(s)});
+ const M=window.MUTA;const keys=Object.keys(M.sim);
+ const k=keys[[...today()].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7)%keys.length];
+ $('#ay').textContent='«'+M.sim[k][2]+'» — '+M.names[k.split(':')[0]];
+}catch(e){}})();
+function renderHist(){
+ const h=hist();const d=today();
+ const todaySecs=h[d]||0;const all=Object.values(h).reduce((a,b)=>a+b,0);
+ $('#hist').innerHTML='عكوفك اليوم: <b style="color:var(--acc)">'+Math.round(todaySecs/60)+'</b> د — إجمالي <b>'+Math.round(all/60)+'</b> د';
+}
+$('#go').onclick=()=>{
+ total=left=chosen*60;
+ $('#go').style.display='none';$('#stop').style.display='';
+ document.querySelectorAll('.mn').forEach(x=>x.style.pointerEvents='none');
+ $('#status').textContent='عكوف جارٍ — بقِّ حيث أنت';
+ iv=setInterval(()=>{
+  left--;
+  $('#tm').textContent=pad(Math.floor(left/60))+':'+pad(left%60);
+  if(left<=0){finish(true)}
+ },1000);
+ $('#tm').textContent=pad(chosen)+':00';
+};
+$('#stop').onclick=()=>finish(false);
+function finish(full){
+ clearInterval(iv);iv=null;
+ const done=total-left;
+ const h=hist();const d=today();h[d]=(h[d]||0)+done;svh(h);
+ $('#stop').style.display='none';$('#go').style.display='';$('#tm').textContent='00:00';
+ document.querySelectorAll('.mn').forEach(x=>x.style.pointerEvents='');
+ $('#status').innerHTML=full?
+  '✓ تمّ العكوف — '+chosen+' دقيقة محفوظة. بارك الله في وقتك':
+  'أُوقف — '+Math.round(done/60)+' د من '+chosen+' سُجّلت';
+ renderHist();
+}
+renderHist();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3tikaf" data-title="مِعتكف"></script>
+</body>
+</html>

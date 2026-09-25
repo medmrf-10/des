@@ -1,4 +1,7 @@
 /* المنظومة — نظام تصميم موحد (v1) */
+@font-face{font-family:'Amiri';src:url('fonts/amiri-regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Amiri';src:url('fonts/amiri-bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'IBM Plex Sans Arabic';src:url('fonts/plex-400.woff2') format('woff2');font-weight:400;font-display:swap}
 :root{
   --bg:#0b0f1a;
   --card:#141b2e;
@@ -16,3 +19,11 @@
   --font-ar:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;
   --font-ui:'IBM Plex Sans Arabic','Amiri','Noto Naskh Arabic',system-ui,sans-serif;
 }
+
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);margin:0;line-height:1.7}
+
+/* tap-target floor — hadith/prog chip audit: chips were ~24-28px tall */
+.chip,.rchip,.f,.sg,.fbtn{min-height:34px!important}
+.chip,.f,.sg{padding-top:7px!important;padding-bottom:7px!important}
+.rchip{padding-top:4px!important;padding-bottom:4px!important}

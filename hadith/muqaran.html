@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>المقارنة — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:1100px;margin:0 auto;padding:14px}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:14px;width:100%}
+.gcard{border:1px solid var(--border);border-radius:9px;padding:7px 10px;margin:5px 0;cursor:pointer;background:var(--card2)}
+.gcard:hover{border-color:var(--acc)}
+.cols{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
+.col{flex:1;min-width:270px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 13px}
+.col h4{margin:0 0 8px;font-size:13px;color:var(--acc)}
+.col .it{font-size:13.5px;line-height:2;border-top:1px dashed var(--border);padding:8px 0 4px}
+.col .it:first-of-type{border:none}
+.col .num{color:var(--dim);font-size:11px}
+.uniq{background:rgba(224,187,85,.22);color:var(--acc);border-radius:3px;padding:0 1px}
+.muted{color:var(--dim);font-size:12px}
+.load{color:var(--acc2);font-size:13px;margin:8px 0}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">المقارنة</h1>
+<div class="muted">متون الحديث الواحد في الكتب الستة جنباً إلى جنب — الملوّن = ما ينفرد به هذا المصدر عن بقية المصادر</div>
+<div style="margin:10px 0"><input id="q" placeholder="ابحث في المعاني: النية، العلم، الصبر…" oninput="search()"></div>
+<div id="gres"></div>
+<div id="cmp"></div>
+<script src="analysis.js"></script>
+<script>
+const BAR={'bukhari':'البخاري','muslim':'مسلم','tirmidhi':'الترمذي','abi-dawud':'أبو داود','nasai':'النسائي','ibn-majah':'ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[^\u0600-\u06FF ]/g,' ').replace(/\s+/g,' ').trim();
+const D={};
+async function loadBook(b){
+ if(D[b])return;
+ const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+ const t=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+ D[b]=JSON.parse(t)}
+function search(){
+ const ws=norm(document.getElementById('q').value).split(' ').filter(w=>w.length>1);
+ if(!ws.length){document.getElementById('gres').innerHTML='';return}
+ const hits=[];
+ for(const g in GIDNET.g){const it=GIDNET.g[g];const t=norm(it.t);let sc=0;
+  for(const w of ws)if(t.includes(w))sc++;
+  if(sc>=Math.min(ws.length,2))hits.push({g:+g,t:it.t,h:it.h,s:it.s,sc})}
+ hits.sort((a,b)=>b.sc-a.sc||b.s-a.s);
+ document.getElementById('gres').innerHTML=hits.slice(0,10).map(x=>`<div class="gcard" onclick="cmp(${x.g})"><b>${esc(x.t)}</b><div class="muted">${x.h||''} · ${x.s} صحابة · ${Object.keys(x&&GIDNET.g[x.g].n||{}).length} كتب</div></div>`).join('')}
+window.cmp=async gid=>{
+ document.getElementById('gres').innerHTML='';
+ document.getElementById('cmp').innerHTML='<div class="load">يُحمّل المتون…</div>';
+ const it=GIDNET.g[gid];
+ const books=Object.keys(it.n||{}).filter(b=>BAR[b]);
+ for(const b of books){if(!D[b])await loadBook(b).catch(()=>{})}
+ // اجمع كل مواضع المعنى: من w{} (أرقام المواضع لكل كتاب) أو x
+ const perBook={};
+ for(const b of books){
+  const nums=(it.w&&it.w[b])||[];
+  const entries=[];
+  for(const num of nums){const e=D[b]&&D[b].d[num];if(e)entries.push({num,m:e.m})}
+  if(entries.length)perBook[b]=entries}
+ // كلمات شائعة عبر كل المصادر (لمقارنة الانفراد)
+ const allToks=[];
+ for(const b in perBook)for(const e of perBook[b])allToks.push(new Set(norm(e.m).split(' ').filter(w=>w.length>2)));
+ const freq={};
+ for(const s of allToks)for(const w of s)freq[w]=(freq[w]||0)+1;
+ const nsrc=Math.max(1,allToks.length);
+ // كلمة «منفردة»: توجد في هذا الموضع وفي أقل من 40% من المواضع
+ const mark=(m)=>{
+  const toks=norm(m).split(' ');
+  let i=0;
+  return esc(m).split(' ').map(w=>{
+   const nw=toks[i++]||'';
+   return (nw.length>2&&freq[nw]&&freq[nw]<nsrc*0.4)?`<span class="uniq">${w}</span>`:w}).join(' ')};
+ let html=`<div class="muted" style="margin:8px 0">«${esc(it.t)}» — ${allToks.length.toLocaleString('ar-EG')} موضعاً في ${Object.keys(perBook).length.toLocaleString('ar-EG')} كتب · ${it.h||''}</div><div class="cols">`;
+ for(const b in perBook){
+  html+=`<div class="col"><h4>${BAR[b]} (${perBook[b].length})</h4>${perBook[b].slice(0,8).map(e=>`<div class="it"><span class="num">#${e.num}</span><br>${mark(e.m)}</div>`).join('')}</div>`}
+ html+='</div>';
+ document.getElementById('cmp').innerHTML=html}
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

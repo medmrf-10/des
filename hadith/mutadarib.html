@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مُتدافِر — اختلاف الرواية بين النسخ | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1080px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.pick input.gid{width:110px}.pick input.wd{flex:1;min-width:160px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip:hover{border-color:var(--acc2);color:var(--acc2)}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.vrow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.ver{cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;background:var(--card2)}
+.ver:hover{border-color:var(--acc2)}
+.ver[aria-pressed=true]{border-color:var(--acc);background:#1d2a1f}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media(max-width:700px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.col h5{margin:0 0 6px;font-size:13px;color:var(--acc2);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mtn{font-family:var(--font-ar);font-size:15px;line-height:2.2}
+.difA{background:#3a1d1d;color:#ffb3b3;border-radius:4px;padding:0 2px}
+.difB{background:#14291c;color:#8fe0a8;border-radius:4px;padding:0 2px}
+.bdg{border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.legend{display:flex;gap:14px;font-size:11.5px;color:var(--dim);margin:8px 0}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-left:4px;vertical-align:-2px}
+.pair{display:flex;justify-content:space-between;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:12px;cursor:pointer}
+.pair:hover{border-color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚡ مُتدافِر</h1>
+  <span class="sub">المعنى الواحد بروايتين — ولوّن ما اختلف بينهما</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="naskh.html">⇄ اختلاف اللفظ ←</a>
+</header>
+<div class="pick">
+  <input class="gid" type="number" id="gid" placeholder="رقم المعنى" min="0">
+  <input class="wd" type="text" id="q" placeholder="أو ابحث بكلمات من طرف المعنى…">
+  <button class="chip" id="go">قارن</button>
+</div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div id="hits" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
+<div id="pairs"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم',ot:'أخرى',ns:'بلا حكم'};
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';
+  if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';
+  return 'ot'};
+let GN=null;const D={},S={a:null,b:null,vers:[]};
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+async function loadGN(){
+  if(GN)return;
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='60%'});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  return D[b];
+}
+const words=t=>norm(t).replace(/[،.؛:!?]/g,'').split(' ').filter(Boolean);
+/* LCS word diff بين نصين */
+function diff(A,B){
+  const a=words(A),b=words(B);
+  const m=a.length,n=b.length;
+  const dp=Array.from({length:m+1},()=>new Uint16Array(n+1));
+  for(let i=m-1;i>=0;i--)for(let j=n-1;j>=0;j--)
+    dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const marksA=new Array(m).fill(0),marksB=new Array(n).fill(0);
+  let i=0,j=0;
+  while(i<m&&j<n){
+    if(a[i]===b[j]){i++;j++}
+    else if(dp[i+1][j]>=dp[i][j+1])marksA[i++]=1;
+    else marksB[j++]=1;
+  }
+  while(i<m)marksA[i++]=1;while(j<n)marksB[j++]=1;
+  return{marksA,marksB};
+}
+const wt=s=>norm(s).replace(/[،.؛:!?]/g,'').split(' ').filter(Boolean);
+async function show(gid){
+  await loadGN();
+  const g=GN.g[gid];const main=document.getElementById('main');
+  if(!g){main.innerHTML='<div class="card mut">لا معنى بهذا الرقم</div>';return}
+  location.hash='g='+gid;
+  /* كل مواضع الوقوع = نسخ */
+  S.vers=[];
+  for(const b of Object.keys(g.w||{}))for(const n of g.w[b])
+    S.vers.push({b,n});
+  if(S.vers.length<2){main.innerHTML='<div class="card mut">المعنى في كتاب واحد فقط — لا تدافر</div>';return}
+  for(const v of S.vers){const j=await loadBook(v.b);v.m=j.d[v.n].m;v.h=j.s[v.n]&&j.s[v.n][0]?(j.s[v.n][0][0]||''):''}
+  S.a=0;S.b=1;
+  paintVersions(gid,g);
+}
+function paintVersions(gid,g){
+  const main=document.getElementById('main');
+  const vH=S.vers.map((v,i)=>`<span class="ver" data-i="${i}" aria-pressed="${i===S.a||i===S.b}">${BAR[v.b]} #${arNum(v.n)}</span>`).join('');
+  const A=S.vers[S.a],B=S.vers[S.b];
+  const{marksA,marksB}=diff(A.m,B.m);
+  const wa=wt(A.m),wb=wt(B.m);
+  const agree=Math.round((wa.length-marksA.reduce((a,x)=>a+x,0))/Math.max(wa.length,wb.length)*100);
+  main.innerHTML=`<div class="card">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <b style="color:var(--acc2)">معنى #${arNum(gid)}</b>
+      <span class="bdg v-${bucket(g.h)}">${esc(g.h||'—')}</span>
+      <span class="mut">${arNum(S.vers.length)} نسخة — اختر اثنتين للمقارنة</span>
+      <span class="mut">توافق النسختين: <b style="color:var(--acc2)">${arNum(agree)}٪</b></span>
+    </div>
+    <p class="mut" style="font-size:13px;line-height:1.9;margin:6px 0">${esc(g.t)}</p>
+    <div class="vrow">${vH}</div>
+    <div class="legend"><span><span class="sw" style="background:#3a1d1d"></span>في ${esc(BAR[A.b])} فقط</span><span><span class="sw" style="background:#14291c"></span>في ${esc(BAR[B.b])} فقط</span></div>
+    <div class="cols">
+      <div class="col"><h5>${BAR[A.b]} <b>#${arNum(A.n)}</b> <span class="bdg v-${bucket(A.h)}">${esc(A.h||'—')}</span></h5>
+        <p class="mtn">${wa.map((w,i)=>marksA[i]?`<span class="difA">${esc(w)}</span>`:esc(w)).join(' ')}</p>
+        <a class="mut" href="tartil.html#b=${A.b}&n=${A.n}">طرقه ←</a></div>
+      <div class="col"><h5>${BAR[B.b]} <b>#${arNum(B.n)}</b> <span class="bdg v-${bucket(B.h)}">${esc(B.h||'—')}</span></h5>
+        <p class="mtn">${wb.map((w,i)=>marksB[i]?`<span class="difB">${esc(w)}</span>`:esc(w)).join(' ')}</p>
+        <a class="mut" href="tartil.html#b=${B.b}&n=${B.n}">طرقه ←</a></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      <a class="chip" href="net.html#g${gid}">الشبكة ←</a>
+      <a class="chip" href="naskh.html?g=${gid}">كل النسخ ←</a>
+    </div></div>`;
+  main.querySelectorAll('.ver').forEach(el=>el.addEventListener('click',()=>{
+    const i=+el.dataset.i;
+    if(i===S.a)return;
+    if(i===S.b){S.b=S.a;S.a=i}else{S.b=i}
+    paintVersions(gid,g);
+  }));
+}
+async function pairs(){
+  await loadGN();
+  const rows=[];
+  for(const g in GN.g){
+    const bs=Object.keys(GN.g[g].w||{});
+    if(bs.length>=4)rows.push({g,bk:bs.length,pos:Object.values(GN.g[g].w).reduce((a,x)=>a+x.length,0)});
+  }
+  rows.sort((a,b)=>b.pos-a.pos);
+  document.getElementById('pairs').innerHTML=rows.slice(0,24).map(r=>`
+    <div class="pair" onclick="document.getElementById('gid').value=${r.g};show(${r.g})">
+      <span><b>#${arNum(r.g)}</b> ${esc(GN.g[r.g].t.slice(0,55))}…</span>
+      <span class="mut">${arNum(r.bk)} كتباً · ${arNum(r.pos)} نسخة</span></div>`).join('');
+}
+let qT;
+document.getElementById('q').addEventListener('input',e=>{
+  clearTimeout(qT);qT=setTimeout(async()=>{
+    const w=norm(e.target.value);if(w.length<6)return;
+    await loadGN();
+    const hits=[];for(const g in GN.g){const bs=Object.keys(GN.g[g].w||{});if(bs.length>=2&&norm(GN.g[g].t).includes(w))hits.push(g);if(hits.length>=8)break}
+    document.getElementById('hits').innerHTML=hits.map(g=>
+      `<button class="chip" onclick="document.getElementById('gid').value=${g};show(${g})">#${arNum(g)} — ${esc(GN.g[g].t.slice(0,30))}…</button>`).join('');
+  },350);
+});
+document.getElementById('go').addEventListener('click',()=>{const g=+document.getElementById('gid').value;if(document.getElementById('gid').value!=='')show(g)});
+document.getElementById('gid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value!=='')show(+e.target.value)});
+(async()=>{
+  const m=location.hash.match(/g=(\d+)/);
+  if(m){document.getElementById('gid').value=m[1];await show(+m[1]);stat.textContent='';pf.style.width='100%'}
+  else{stat.textContent='يُحمّل أمثلة متدافرة…';await pairs();stat.textContent='';pf.style.width='100%'}
+})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miq_mutadarib"></script>
+</body>
+</html>

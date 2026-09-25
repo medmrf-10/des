@@ -140,7 +140,7 @@
       }
       const tx = TX.atoms[id];
       inner += `<article class="rd-atom" id="ra-${esc(id)}" data-text="${esc(a.t + ' ' + id)}">
-        <div class="atom-head"><span class="atom-id">${esc(id)}</span><span class="atom-t">${esc(a.t)}</span>${tx && tx.pg[0] ? `<span class="atom-r">ص ${tx.pg[0]}${tx.pg[1] && tx.pg[1] !== tx.pg[0] ? '–' + tx.pg[1] : ''}</span>` : ''}</div>`;
+        <div class="atom-head"><span class="atom-id">${esc(id)}</span><span class="atom-t">${esc(a.t)}</span>${tx && tx.pg[0] ? `<span class="atom-r">ص ${tx.pg[0]}${tx.pg[1] && tx.pg[1] !== tx.pg[0] ? '–' + tx.pg[1] : ''}</span>` : ''}<button class="aiA" data-tx="${esc(id)}" style="display:none;border:1px solid var(--acc);background:none;color:var(--acc);border-radius:7px;padding:2px 10px;font-size:10px;cursor:pointer;font-family:inherit;margin-inline-start:auto">✦ بسّطها</button></div><div class="aiAx" id="ax-${esc(id)}"></div>`;
       if (tx && tx.x && tx.x.length) {
         inner += '<div class="rd-text">' + tx.x.map((seg) =>
           `${seg[0] ? `<span class="pgmark">ص ${seg[0]}</span>` : ''}${esc(seg[1]).replace(/\n/g, '<br>')}`
@@ -188,6 +188,8 @@
   function openReader(code, atomId) {
     const bk = bookByCode[code];
     if (!bk) return;
+    const target = 'r=' + code + (atomId ? '/' + atomId : '');
+    if (location.hash.slice(1) !== target) { suppressHash = true; location.hash = target; suppressHash = false; }
     readBook = code;
     setMode('read');
     main.innerHTML = '<div class="empty">جارٍ تحميل نص الكتاب…</div>';
@@ -198,8 +200,26 @@
         if (el) el.scrollIntoView({ block: 'start' });
       }
       applySearch();
+      if (window.llmReady && window.llmReady()) {
+        main.querySelectorAll('.aiA').forEach(b=>{b.style.display='inline-block'});
+      }
     });
   }
+  main.addEventListener('click', async (e) => {
+    const b = e.target.closest('.aiA'); if (!b) return;
+    const id = b.dataset.tx;
+    const art = document.getElementById('ra-' + id);
+    const bx = document.getElementById('ax-' + id);
+    if (!art || !bx) return;
+    b.disabled = true;
+    bx.innerHTML = '<div style="color:var(--acc);font-size:12px;padding:7px">يفكّر…</div>';
+    try {
+      const txt = art.querySelector('.rd-text') ? art.querySelector('.rd-text').textContent : '';
+      const out = await window.gemAsk('هذا نص عقيدة/تصوّف من كتاب '+(readBook||'')+'. \nاشرحه للطالب المبتدئ بأسلوب بسيط: المعنى في سطرين، أي مصطلح غريب مع شرحه، والعقيدة الصحيحة المقصودة من النص.\n\nالنص:\n'+txt.slice(0,2200), {maxTokens: 700});
+      bx.innerHTML = '<div style="background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:12px;line-height:2;margin:4px 0 8px">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+    } catch(err){ bx.innerHTML='<div style="color:var(--dim);font-size:11px;padding:5px">'+esc(err.message)+'</div>'; }
+    b.disabled = false;
+  });
 
   function setMode(m) {
     mode = m;
@@ -273,10 +293,24 @@
     const [code, id] = el.dataset.read.split('/');
     openReader(code, id);
   });
+
+  // ---- deep linking: #r=book[/atom] | #m=mode ----
+  let suppressHash = false;
+  function applyHash() {
+    if (suppressHash) return;
+    const h = location.hash.slice(1);
+    if (h.startsWith('r=')) {
+      const [code, id] = h.slice(2).split('/').map(decodeURIComponent);
+      if (bookByCode[code]) { openReader(code, id); return; }
+    }
+    if (h.startsWith('m=')) { switchMode(decodeURIComponent(h.slice(2))); }
+  }
+  window.addEventListener('hashchange', applyHash);
   $('#expand-all').addEventListener('click', () => main.querySelectorAll('.bab').forEach((s) => toggleSec(s, true)));
   $('#collapse-all').addEventListener('click', () => main.querySelectorAll('.bab').forEach((s) => toggleSec(s, false)));
   search.addEventListener('input', applySearch);
 
   buildUnified();
   openSec(0, true);
+  applyHash();
 })();

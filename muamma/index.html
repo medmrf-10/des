@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعمّى — مفكرتك المشفّرة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.lock{text-align:center;padding:40px 20px}
+.lock .ic{font-size:44px}
+.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:11px 15px;font-family:var(--font-ar);font-size:15px;width:200px;text-align:center;letter-spacing:6px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar)}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);padding:8px 14px;font-size:12px}
+.note{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:8px;position:relative}
+.note .t{font-family:var(--font-ar);font-size:14px;line-height:1.95;white-space:pre-wrap}
+.note .at{color:var(--dim);font-size:10px;margin-top:7px}
+.note .x{position:absolute;top:8px;left:8px;background:none;border:0;color:var(--dim);cursor:pointer;font-size:12px}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:11px;font-family:var(--font-ar);font-size:14px;min-height:80px;resize:vertical;box-sizing:border-box;line-height:1.9}
+textarea:focus{outline:none;border-color:var(--acc)}
+.muted{color:var(--dim);font-size:11px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعمّى <span class="muted">— مفكرة مشفّرة AES-256</span></h2>
+<div id="app"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const enc=new TextEncoder(),dec=new TextDecoder();
+let KEY=null;
+async function kdf(pin,salt){
+ const km=await crypto.subtle.importKey('raw',enc.encode(pin),'PBKDF2',0,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:210000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},0,['encrypt','decrypt'])}
+async function encText(t){
+ const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+ const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},KEY,enc.encode(t));
+ const b=x=>btoa(String.fromCharCode(...x));
+ return b(salt)+'.'+b(iv)+'.'+b(new Uint8Array(ct))}
+async function decText(blob){
+ const[s,i,c]=blob.split('.').map(x=>Uint8Array.from(atob(x),ch=>ch.charCodeAt(0)));
+ const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:i},KEY,c);
+ return dec.decode(pt)}
+const load=()=>JSON.parse(localStorage.getItem('muamma')||'[]');
+const save=l=>localStorage.setItem('muamma',JSON.stringify(l));
+function lockUI(){
+ $('#app').innerHTML=`<div class="lock"><div class="ic">🔐</div>
+ <div class="muted" style="margin:12px 0">أدخل رقمك السري — بدونه لا يُفتح شيء (التشفير حقيقي: PBKDF2 ٢١٠ألف + AES-GCM ٢٥٦)</div>
+ <input class="inp" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="••••"><br>
+ <button class="btn" id="go" style="margin-top:14px">افتح</button></div>`;
+ $('#go').onclick=unlock;$('#pin').onkeydown=e=>{if(e.key==='Enter')unlock()};$('#pin').focus()}
+async function unlock(){
+ const pin=$('#pin').value;if(pin.length<4){alert('٤ أرقام على الأقل');return}
+ const salt=enc.encode('muamma_v1');
+ KEY=await kdf(pin,salt);
+ // اختبر على أول مذكرة مشفرة
+ const l=load();
+ try{if(l.length)await decText(l[0].t)}catch(e){alert('رقم خاطئ');KEY=null;return}
+ main()}
+async function add(){
+ const t=$('#nt').value.trim();if(!t)return;
+ const l=load();l.unshift({t:await encText(t),at:Date.now()});save(l);$('#nt').value='';render()}
+async function render(){
+ const l=load();const out=$('#list');
+ out.innerHTML='';
+ for(let i=0;i<l.length;i++){
+  try{const t=await decText(l[i].t);
+   out.innerHTML+=`<div class="note"><button class="x" data-i="${i}">✕</button><div class="t">${esc(t)}</div><div class="at">${new Date(l[i].at).toLocaleString('ar-EG')}</div></div>`}
+  catch(e){out.innerHTML+=`<div class="note"><div class="t muted">[مذكرة معطوبة]</div></div>`}}
+ out.onclick=e=>{const b=e.target.closest('.x');if(!b)return;const l=load();l.splice(+b.dataset.i,1);save(l);render()}}
+async function main(){
+ $('#app').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
+ <div class="muted">${load().length.toLocaleString('ar-EG')} مذكرة مشفّرة — تُحفظ على جهازك فقط</div>
+ <button class="btn ghost" id="lock">🔒 اقفل</button></div>
+ <textarea id="nt" placeholder="اكتب مذكرة سرّية…"></textarea>
+ <button class="btn" id="add">أضف مشفّرة</button>
+ <div id="list"></div>`;
+ $('#lock').onclick=()=>{KEY=null;lockUI()};
+ $('#add').onclick=add;render()}
+lockUI();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="muamma" data-title="مِعمّى"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+header{text-align:center;padding:22px 14px 8px}header h1{font-size:1.6rem;color:var(--acc);margin:0}header .tagline{color:var(--tx2);font-size:.82rem;margin:6px 0 0}
+.wrap{max-width:760px;margin:0 auto;padding:10px 14px 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+#q{width:100%;box-sizing:border-box;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:11px 14px;font-family:inherit;font-size:.95rem}
+#q:focus{outline:none;border-color:var(--acc)}
+.seg{display:flex;gap:6px;margin-top:10px}
+.sg{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--tx2);border-radius:9px;padding:7px;font-size:.8rem;cursor:pointer;font-family:inherit}
+.sg.on{border-color:var(--acc);color:var(--acc);background:rgba(201,162,75,.07)}
+.stat{color:var(--tx3);font-size:.72rem;margin-top:9px;min-height:14px}
+.bk{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-bottom:8px;text-decoration:none;position:relative}
+.bk:hover{border-color:var(--acc)}
+.bk-t{color:var(--txt);font-size:.94rem;font-weight:600;line-height:1.7}
+.bk-m{color:var(--tx2);font-size:.72rem;margin-top:3px}
+.cat{position:absolute;top:12px;left:14px;font-size:.62rem;padding:2px 9px;border-radius:999px;border:1px solid}
+.cat.fiqh{color:var(--acc2);border-color:var(--acc2)}.cat.tafsir{color:var(--acc);border-color:var(--acc)}.cat.hadith{color:#7fb8e0;border-color:#7fb8e0}

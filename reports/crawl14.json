@@ -1,0 +1,607 @@
+{
+ "generated": "2026-09-25T06:33:51.479Z",
+ "sites": {
+  "minhaj": {
+   "url": "https://medmrf-10.github.io/des/minhaj/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 365,
+    "dcl": 274,
+    "rsp": 130
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "جارية: ٠"
+    ],
+    "empty_containers": 0,
+    "body_len": 208
+   },
+   "search": {
+    "input": "المادة (رياض الصالحين، CS50، سلسلة البردوني…)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirjam": {
+   "url": "https://medmrf-10.github.io/des/mirjam/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 116,
+    "dcl": 106,
+    "rsp": 87
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 184
+   },
+   "search": {
+    "input": "…",
+    "query": "ا",
+    "results": 2,
+    "before": 2
+   }
+  },
+  "minshar": {
+   "url": "https://medmrf-10.github.io/des/minshar/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 191,
+    "dcl": 182,
+    "rsp": 162
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 200
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "milhaf": {
+   "url": "https://medmrf-10.github.io/des/milhaf/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 121,
+    "dcl": 111,
+    "rsp": 93
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 191
+   },
+   "search": {
+    "input": "ما الذي تلهف إليه؟",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirqab": {
+   "url": "https://medmrf-10.github.io/des/mirqab/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 132,
+    "dcl": 119,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 219
+   },
+   "search": {
+    "input": "الاسم",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "misbar2": {
+   "url": "https://medmrf-10.github.io/des/misbar2/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 142,
+    "dcl": 132,
+    "rsp": 114
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 221
+   },
+   "search": {
+    "input": "العادة (أتصفح الهاتف قبل النوم)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "miftah": {
+   "url": "https://medmrf-10.github.io/des/miftah/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 128,
+    "dcl": 118,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 229
+   },
+   "search": {
+    "input": "القاعدة (لا أرد فوراً على الرسائل الغاضبة)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirsad": {
+   "url": "https://medmrf-10.github.io/des/mirsad/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 164,
+    "dcl": 154,
+    "rsp": 136
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 240
+   },
+   "search": {
+    "input": "النمط (أتسوّل عن المهام مساءً)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mi3taq": {
+   "url": "https://medmrf-10.github.io/des/mi3taq/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 136,
+    "dcl": 126,
+    "rsp": 108
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 201
+   },
+   "search": {
+    "input": "(الضغينة تجاه…، فوضى الملفات، كثرة التطبيقات…)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mi3shaq": {
+   "url": "https://medmrf-10.github.io/des/mi3shaq/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 133,
+    "dcl": 120,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 237
+   },
+   "search": {
+    "input": "(صوت المؤذن فجراً، خبز ساخن، مشي بلا هدف…)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mihraj": {
+   "url": "https://medmrf-10.github.io/des/mihraj/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 133,
+    "dcl": 119,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 214
+   },
+   "search": {
+    "input": "القرار (أبقى في الوظيفة أم أنتقل؟)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "misjil": {
+   "url": "https://medmrf-10.github.io/des/misjil/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 126,
+    "dcl": 111,
+    "rsp": 89
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 205
+   },
+   "search": {
+    "input": "سطر واحد: كيف كان؟",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirzaq": {
+   "url": "https://medmrf-10.github.io/des/mirzaq/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 153,
+    "dcl": 139,
+    "rsp": 113
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 283
+   },
+   "search": {
+    "input": "ماذا جاءك من حيث لا تحتسب؟",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "minshaq": {
+   "url": "https://medmrf-10.github.io/des/minshaq/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 134,
+    "dcl": 115,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 204
+   },
+   "search": {
+    "input": "الهدف (أتعلم بايثون)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mis3af": {
+   "url": "https://medmrf-10.github.io/des/mis3af/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 143,
+    "dcl": 133,
+    "rsp": 113
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 180
+   },
+   "search": {
+    "input": "الشخص",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirhaf": {
+   "url": "https://medmrf-10.github.io/des/mirhaf/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 123,
+    "dcl": 113,
+    "rsp": 94
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 207
+   },
+   "search": {
+    "input": "الموقف (قال فلان كلمة…)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mirkab": {
+   "url": "https://medmrf-10.github.io/des/mirkab/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 116,
+    "dcl": 103,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 175
+   },
+   "search": {
+    "input": "(أقرأ ١٠ صفحات، أمشي ٢٠ دقيقة، أحفظ ٥ كلمات…)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "midhnab": {
+   "url": "https://medmrf-10.github.io/des/midhnab/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 128,
+    "dcl": 117,
+    "rsp": 98
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 345
+   },
+   "search": {
+    "input": "الذنب/الزلّة (بلا تفاصيل تحتاجها)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mi3jab": {
+   "url": "https://medmrf-10.github.io/des/mi3jab/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 137,
+    "dcl": 127,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 223
+   },
+   "search": {
+    "input": "فيمن أعجبتك؟ (شخص/شخصية)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "mishar": {
+   "url": "https://medmrf-10.github.io/des/mishar/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 138,
+    "dcl": 121,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 261
+   },
+   "search": {
+    "input": "ملاحظة (اختياري)",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  }
+ }
+}

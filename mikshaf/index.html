@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِكشاف — كاشف الجسور</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.hadt{font-family:var(--font-ar);font-size:14.5px;line-height:2;background:var(--card);border-radius:11px;padding:10px 14px;margin-top:8px}
+.hadt .key{color:var(--acc);font-weight:700}
+.verse{background:var(--card);border-right:3px solid var(--acc);border-radius:0 10px 10px 0;padding:9px 14px;margin-top:8px;font-family:var(--font-ar);font-size:13.5px;line-height:2.1}
+.verse .m{color:var(--acc2);font-weight:700}
+.verse .src{font-size:10.5px;color:var(--dim);margin-top:3px}
+.kw{display:inline-block;background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:3px 9px;margin:2px;font-size:11.5px;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِكشاف <span class="muted">— كاشف الجسور</span></h2>
+<div class="muted">يأخذ حديثاً، يستخرج كلماته المفتاحية، ويكشف الآيات التي تتشاركها — جسر بين الوحيين.</div>
+<div style="margin-top:10px"><button class="btn" id="go">حديث جديد</button> <span class="muted" id="n"></span></div>
+<div class="card"><div class="t">الحديث</div><div class="hadt" id="hadt">—</div>
+<div style="margin-top:8px">الكلمات المفتاحية: <span id="kws"></span></div></div>
+<div class="card"><div class="t">الآيات المتجاورة</div><div id="verses">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const STOP=new Set(['من','في','على','الى','عن','ما','ان','اذا','كان','قال','يا','هو','هي','الذي','التي','لا','لقد','و','ف','ب','ل','ك','ثم','او','كل','بين','عند','له','لها','لهم','به','بها','بهم','منه','منها','منهم','فيه','فيها','فيهم','عليه','عليها','عليهم','الله','رسول','صلى','سلم','عنه','عنها','عنهم','رضي','حدثنا','اخبرنا','سمعت','ابي','ابن','بن','ابا','حدثني','انه','انها','انهم','انا','نحن','انت','انتم','هذا','هذه','ذلك','تلك','هؤلاء','اولئك','الذين','اللاتي','لو','ان','ليكن','لم','لن','قد','سوف','كما','اذ','حتى','اذا','مع','غير','دون','سوى','ايا','اي','هل','متى','اين','كيف','لماذا','ماذا','منذ','قبل','بعد','تحت','فوق','يمين','يسار','خلف','امام']);
+let G,U;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=no;document.head.appendChild(s)});
+Promise.all([laz('../hadith/analysis.js','GIDNET'),laz('../wahy/mutashabih.js','MUTA')]).then(([g,u])=>{G=g;U=u;$('#n').textContent=Object.keys(G.g).length+' حديثًا جاهزًا';go()});
+function go(){
+ const ks=Object.keys(G.g);const k=ks[Math.floor(Math.random()*ks.length)];const h=G.g[k];
+ // كلمات مفتاحية: أطول 4 كلمات نادرة غير وظيفية
+ const ws=h.t.split(/\s+/).map(norm).filter(w=>w.length>=4&&!STOP.has(w));
+ const uniq=[...new Set(ws)].sort((a,b)=>b.length-a.length).slice(0,5);
+ $('#kws').innerHTML=uniq.map(w=>'<span class="kw">'+esc(w)+'</span>').join('');
+ // أبرز الكلمات في نص الحديث
+ let ht=esc(h.t);uniq.forEach(w=>{ht=ht.replace(new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[\\u064B-\\u0652]*|[\\u0621-\\u064A]*'+w+')','g'),'<span class="key">$1</span>')});
+ $('#hadt').innerHTML=ht+'<div class="muted" style="margin-top:6px">'+esc(h.h)+' · '+G.meta.books[k.split(':')[0]]+' '+k.split(':')[1]+'</div>';
+ // جسور: آيات تتشارك الكلمات
+ const verses=[];
+ const seen=new Set();
+ for(const [key,sim] of Object.entries(U.sim)){
+  const txt=sim[2];const nt=norm(txt);
+  const hits=uniq.filter(w=>nt.includes(w));
+  if(hits.length>=2){
+   const [s,a]=key.split(':');if(seen.has(s+':'+a))continue;seen.add(s+':'+a);
+   verses.push({txt,s,a,hits,sc:hits.length});
+  }
+ }
+ verses.sort((a,b)=>b.sc-a.sc);
+ $('#verses').innerHTML=verses.slice(0,7).map(v=>{
+  let vt=esc(v.txt);v.hits.forEach(w=>{vt=vt.replace(new RegExp('[\\u0621-\\u064A]*'+w+'[\\u064B-\\u0652]*','g'),'<span class="m">$&</span>')});
+  return '<div class="verse">'+vt+'<div class="src">'+esc(U.names[v.s])+' '+v.a+' — مشترك: '+v.hits.map(esc).join('، ')+'</div></div>';
+ }).join('')||'<span class="muted">لا جسور قوية لهذا الحديث — جرّب آخر</span>';
+}
+$('#go').onclick=go;
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mikshaf" data-title="مِكشاف"></script>
+</body>
+</html>

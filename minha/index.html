@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>منحة — زادك اليومي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:16px}
+.dc{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:16px 19px;margin:11px 0;position:relative;overflow:hidden}
+.dc::before{content:attr(data-g);position:absolute;top:10px;left:14px;font-size:10px;color:var(--acc2);border:1px solid var(--border);border-radius:99px;padding:2px 10px}
+.dc .t{font-family:var(--font-ar);font-size:16px;line-height:2.1;margin-top:18px}
+.dc .s{font-size:11px;color:var(--dim);margin-top:9px}
+.dc a{color:var(--acc2);font-size:11px;text-decoration:none}
+#dte{font-family:var(--font-ar);font-size:13px;color:var(--dim);text-align:center}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0;text-align:center">منحة</h2>
+<div id="dte"></div>
+<div class="muted" style="text-align:center">زادك اليومي: آية وحديث وقاعدة ومسألة فقهية وذِكر — تُستقّت بحساب التاريخ فتكون نفسها لك اليوم كله.</div>
+<div id="cards" style="margin-top:14px"></div>
+<script src="../wahy/mutashabih.js"></script>
+<script src="../hadith/adhkar.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script src="../fiqh_reader/masail.js"></script>
+<script src="../hadith/pako.min.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const now=new Date();
+const seed=now.getFullYear()*10000+(now.getMonth()+1)*100+now.getDate();
+let s=seed;const rng=()=>{s=(s*1103515245+12345)%2147483648;return s/2147483648};
+const pick=(arr)=>arr[Math.floor(rng()*arr.length)];
+$('#dte').textContent=now.toLocaleDateString('ar',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const out=[];
+const ks=Object.keys(MUTA.sim);const k=pick(ks);const v=MUTA.sim[k];
+out.push({g:'آية اليوم',t:'﴿'+v[2]+'﴾',s:(MUTA.names&&MUTA.names[v[0]])+' '+v[0]+':'+v[1],u:'../wahy/'});
+const ad=pick(ADHKAR);
+out.push({g:'ذكر اليوم',t:(ad.t||'')+' — '+(ad.h||''),s:'حديث '+ad.g,u:'../hadith/adhkar.html'});
+const nw=pick(NAWAWI);
+out.push({g:'حديث اليوم',t:nw.an||nw.n||'',s:'الأربعون النووية '+nw.n,u:'../hadith/nawawi.html'});
+const cs=Object.keys(ATOMS);const c=pick(cs);const aks=Object.keys(ATOMS[c].atoms);const a=pick(aks);const at=ATOMS[c].atoms[a];
+out.push({g:'قاعدة اليوم',t:(at.t?at.t+' — ':'')+at.q,s:ATOMS[c].name+' · '+a,u:'../akida/masadir.html#'+c});
+const bs=Object.keys(MASAIL);const b=pick(bs);const u=pick(MASAIL[b].u);
+out.push({g:'مسألة اليوم',t:u.t,s:MASAIL[b].n+' — باب '+u.i,u:`../fiqh_reader/index.html#${b}/${u.i}`});
+$('#cards').innerHTML=out.map(x=>`<div class="dc" data-g="${x.g}"><div class="t">${esc(x.t)}</div><div class="s">${esc(x.s)} · <a href="${x.u}" target="_blank">افتح ↗</a></div></div>`).join('');
+(async()=>{
+ try{
+  const b=['bukhari','muslim','tirmidhi'][Math.floor(rng()*3)];
+  const r=await fetch(`../wahy/data/hadith/${b}-det.json.gz`);
+  const j=JSON.parse(pako.ungzip(new Uint8Array(await r.arrayBuffer()),{to:'string'}));
+  const ns=Object.keys(j.d);const n=pick(ns);
+  $('#cards').insertAdjacentHTML('beforeend',`<div class="dc" data-g="حديث مُفصَّل"><div class="t">${esc(j.d[n].m)}</div><div class="s">${b} ${n} · <a href="../hadith/misbar.html?b=${b}&n=${n}" target="_blank">ملفّه ↗</a></div></div>`)}catch(e){}})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="minha" data-title="منحة"></script>
+</body>
+</html>

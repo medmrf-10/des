@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مُلحّن — ألّف درسك الكاراوكي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc)}
+textarea{width:100%;min-height:120px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;line-height:2;resize:vertical}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.btn.rec{background:#c33}
+.btn.stop{background:#e07777;animation:pulse 1s infinite alternate}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+@keyframes pulse{to{opacity:.75}}
+.muted{color:var(--dim);font-size:12px}
+.karaoke{font-family:var(--font-ar);font-size:19px;line-height:2.6;padding:14px;border-radius:12px;background:var(--card);margin-top:10px;min-height:60px}
+.karaoke span{transition:.15s;padding:1px 2px;border-radius:4px}
+.karaoke span.on{background:rgba(201,162,75,.3);color:var(--acc)}
+.karaoke span.done{color:var(--dim)}
+.stat{font-size:11px;color:var(--dim);margin-top:6px}
+audio{width:100%;margin-top:8px}
+.steps{display:flex;gap:4px;margin:10px 0}
+.steps div{flex:1;height:4px;border-radius:2px;background:var(--border)}
+.steps div.on{background:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مُلحّن <span class="muted">— اكتب، سجّل، العب الكاراوكي</span></h2>
+<div class="muted">درسك الأول: اكتب نصّك ← سجّل صوتك تقرؤه ← شغّله مع الكلمات المضيئة. الحزمة قابلة للتنزيل.</div>
+<div class="steps"><div class="on" id="s1"></div><div id="s2"></div><div id="s3"></div><div id="s4"></div></div>
+<div class="card">
+<div class="t">١ — نصّ درسك</div>
+<textarea id="txt" placeholder="اكتب نص درسك هنا… مثال: بسم الله الرحمن الرحيم، الحمد لله رب العالمين…"></textarea>
+<div class="stat" id="wcount"></div>
+</div>
+<div class="card">
+<div class="t">٢ — سجّل صوتك</div>
+<div class="muted">اقرأ نصّك بصوت واضح — الميكروفون يطلب إذناً أول مرة.</div>
+<div style="display:flex;gap:8px;margin-top:9px">
+<button class="btn rec" id="rec">⏺ ابدأ التسجيل</button>
+<button class="btn ghost" id="stop" style="display:none">⏹ إيقاف</button>
+<span class="muted" id="tmr" style="align-self:center"></span>
+</div>
+<audio id="au" controls style="display:none"></audio>
+</div>
+<div class="card" id="pk" style="display:none">
+<div class="t">٣ — شغّل وشاهد</div>
+<div class="karaoke" id="kar"></div>
+<div style="display:flex;gap:8px;margin-top:9px">
+<button class="btn" id="play">▶ شغّل</button>
+<button class="btn ghost" id="dl">⬇ حمّل الحزمة (json)</button>
+</div>
+<div class="stat" id="align"></div>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let mr=null,chunks=[],t0=0,tick=null,words=[];
+$('#txt').oninput=()=>{const w=$('#txt').value.trim().split(/\s+/).filter(Boolean);
+ $('#wcount').textContent=w.length?w.length.toLocaleString('ar-EG')+' كلمة':'';
+ words=w};
+$('#rec').onclick=async()=>{
+ if(!words.length)return alert('اكتب النص أولاً');
+ try{const st=await navigator.mediaDevices.getUserMedia({audio:true});
+ mr=new MediaRecorder(st);chunks=[];
+ mr.ondataavailable=e=>chunks.push(e.data);
+ mr.onstop=()=>{
+  const blob=new Blob(chunks,{type:mr.mimeType});
+  $('#au').src=URL.createObjectURL(blob);$('#au').style.display='block';
+  align();};
+ mr.start();t0=Date.now();
+ tick=setInterval(()=>{$('#tmr').textContent=Math.round((Date.now()-t0)/1000)+' ث'},300);
+ $('#rec').style.display='none';$('#stop').style.display='';$('#stop').classList.add('stop');
+ $('#s2').classList.add('on');
+}catch(e){alert('الميكروفون: '+e.message)}};
+$('#stop').onclick=()=>{mr&&mr.stop();mr.stream.getTracks().forEach(t=>t.stop());
+ clearInterval(tick);$('#stop').style.display='none';$('#rec').style.display='';$('#tmr').textContent=''};
+function align(){
+ const dur=(Date.now()-t0)/1000;
+ const per=dur/Math.max(1,words.length);
+ // words.json: توزيع متساوٍ تقريبي
+ words.forEach((w,i)=>{
+  const wsp=document.createElement('span');wsp.textContent=w;wsp.id='w'+i;
+  $('#kar').appendChild(wsp);$('#kar').appendChild(document.createTextNode(' '))});
+ $('#pk').style.display='block';$('#s3').classList.add('on');
+ window._align={dur,per};
+ $('#align').textContent='مدة التسجيل '+Math.round(dur)+' ث — '+words.length+' كلمة ≈ '+(per).toFixed(2)+' ث/كلمة (مواءمة تقريبية — الدقيق بـwhisper)';
+}
+$('#play').onclick=()=>{
+ const a=$('#au');a.currentTime=0;a.play();$('#s4').classList.add('on');
+ const per=window._align.per;
+ const iv=setInterval(()=>{
+  const t=a.currentTime;const i=Math.min(words.length-1,Math.floor(t/per));
+  words.forEach((w,j)=>{
+   const el=$('#w'+j);if(!el)return;
+   el.className=j<i?'done':j===i?'on':''});
+  if(a.ended||a.paused){clearInterval(iv)}
+ },90)};
+$('#dl').onclick=()=>{
+ const dur=window._align.dur,per=window._align.per;
+ const wj=words.map((w,i)=>({w,s:+(i*per).toFixed(2),e:+((i+1)*per).toFixed(2)}));
+ const phrases=[];let cur={t:'',s:0};
+ words.forEach((w,i)=>{if(!cur.t)cur.s=i*per;cur.t+=(cur.t?' ':'')+w;
+  if(i%8===7||i===words.length-1){phrases.push({t:cur.t,s:+cur.s.toFixed(2),e:+((i+1)*per).toFixed(2)});cur={t:'',s:0}}});
+ const out={title:'درسي',dur:+dur.toFixed(1),words:wj,phrases};
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
+ a.download='lesson.json';a.click()};
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mula7hin" data-title="مُلحّن"></script>
+</body>
+</html>

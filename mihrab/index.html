@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِحراب — مواقيتك ووِردك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:14px}
+#clock{text-align:center;margin:14px 0}
+#clock .t{font-size:46px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+#clock .s{font-size:13px;color:var(--dim)}
+.pt{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 16px;margin:7px 0}
+.pt .n{flex:1;font-family:var(--font-ar);font-size:15px}
+.pt .tm{font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums}
+.pt .in{font-size:10.5px;color:var(--dim)}
+.pt.next{border-color:var(--acc);background:rgba(201,162,75,.07)}
+.pt.next .n{color:var(--acc)}
+.pt.done{opacity:.5}
+.wird{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:8px 0;display:flex;gap:12px;align-items:center}
+.wird .b{flex:1;font-family:var(--font-ar);font-size:14px}
+.wird .d{font-size:10.5px;color:var(--dim)}
+.wird input{width:20px;height:20px;accent-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.muted{color:var(--dim);font-size:12px}
+h4{font-family:var(--font-ar);margin:16px 0 6px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِحراب <span class="muted">— مواقيت الصلاة ووِردك اليومي</span></h2>
+<div id="clock"><div class="t">--:--</div><div class="s">الصلاة التالية بعد…</div></div>
+<div id="times"></div>
+<div id="loc" class="muted" style="margin:8px 0"></div>
+<h4>وِردك بين الصلوات</h4>
+<div id="wirds"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const PRAY=['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+const NM={Fajr:'الفجر',Sunrise:'الشروق',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+const WIRDS=[
+ {t:'أذكار الصباح',w:'بعد الفجر',l:'../hadith/adhkar.html'},
+ {t:'أذكار المساء',w:'بعد العصر',l:'../hadith/adhkar.html'},
+ {t:'ورد القراءة (مجلس)',w:'أي وقت',l:'../majlis/'},
+ {t:'مراجعة الحفظ',w:'أي وقت',l:'../miraj3a/'},
+ {t:'أذكار النوم',w:'قبل النوم',l:'../hadith/adhkar.html'},
+ {t:'سبحة المساء',w:'الليل',l:'../misbah/'}];
+let T=null,coords=null;
+function renderTimes(){
+ if(!T)return;
+ const now=new Date();
+ const items=PRAY.map(k=>{
+  const[hh,mm]=T[k].split(':');const dt=new Date(now);dt.setHours(+hh,+mm,0,0);
+  return{k,dt}});
+ const next=items.find(x=>x.dt>now);
+ items.forEach(x=>x.next=next&&x.k===next.k);
+ $('#times').innerHTML=items.map(x=>`<div class="pt ${x.dt<now?'done':''} ${x.next?'next':''}">
+  <span class="n">${NM[x.k]}</span>
+  <span class="in">${x.dt<now?'فاتت':x.next?'القادمة':''}</span>
+  <span class="tm">${x.dt.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}</span></div>`).join('');
+ if(next){const ms=next.dt-now;const m=Math.floor(ms/60000),h=Math.floor(m/60);
+  $('#clock').innerHTML=`<div class="t">${h?h+' س ':' '}${(m%60).toLocaleString('ar-EG')} د</div><div class="s">حتى ${NM[next.k]} — ${next.dt.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}</div>`}
+ else $('#clock').innerHTML='<div class="t">—</div><div class="s">انتهت صلوات اليوم</div>'}
+function renderWirds(){
+ const day=new Date().toISOString().slice(0,10);
+ const done=JSON.parse(localStorage['mihrab_'+day]||'[]');
+ $('#wirds').innerHTML=WIRDS.map((w,i)=>`<label class="wird">
+  <input type="checkbox" data-i="${i}" ${done.includes(i)?'checked':''}>
+  <span class="b">${w.t}<span class="d"> · ${w.w}</span></span>
+  <a class="btn" style="background:var(--card2);color:var(--acc);text-decoration:none;padding:5px 13px;font-size:11px" href="${w.l}">افتح</a></label>`).join('');
+ $('#wirds').onchange=e=>{const c=e.target.closest('input');if(!c)return;
+  const d=JSON.parse(localStorage['mihrab_'+day]||'[]');
+  const i=+c.dataset.i;
+  const ix=d.indexOf(i);c.checked?(ix<0&&d.push(i)):d.splice(ix,1);
+  localStorage['mihrab_'+day]=JSON.stringify(d)}}
+async function loadTimes(){
+ const day=new Date().toISOString().slice(0,10);
+ const cache=JSON.parse(localStorage.mihrab_times||'{}');
+ if(cache[day]){T=cache[day].t;coords=cache[day].c;renderTimes();return}
+ let lat=36.19,lng=5.41,name='الجزائر (تقريبي)';
+ if(navigator.geolocation){
+  try{const p=await new Promise((ok,bad)=>navigator.geolocation.getCurrentPosition(ok,bad,{timeout:6000}));
+   lat=p.coords.latitude;lng=p.coords.longitude;name='موقعك'}catch(e){}}
+ try{
+  const r=await(await fetch(`https://api.aladhan.com/v1/timings/${Math.floor(Date.now()/1000)}?latitude=${lat}&longitude=${lng}&method=3`)).json();
+  T=r.data.timings;coords=name;
+  cache[day]={t:T,c:name};localStorage.mihrab_times=JSON.stringify(cache);
+  $('#loc').textContent='المواقيت: '+name+' — مذهب الحساب: رابطة العالم الإسلامي';
+  renderTimes()}catch(e){$('#loc').textContent='تعذّر جلب المواقيت — تحقق من الاتصال'}}
+renderWirds();loadTimes();setInterval(renderTimes,30000);
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mihrab" data-title="مِحراب"></script>
+</body>
+</html>

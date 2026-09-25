@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>الأربعون النووية — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:900px;margin:0 auto;padding:14px}
+.hd{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px;cursor:pointer;display:flex;gap:10px;align-items:center}
+.hd:hover{border-color:var(--acc)}
+.hd .n{flex:none;width:32px;height:32px;border-radius:8px;background:var(--card2);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.hd .t{flex:1;font-size:13px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd .k{flex:none;font-size:11px;color:var(--acc2)}
+.body{display:none;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:-4px 0 10px}
+.body .txt{font-size:15px;line-height:2.1}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.links a{color:var(--acc2);font-size:12px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px}
+.links a.g{border-color:var(--acc);color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+.open .hd{border-color:var(--acc)}
+</style>
+</head>
+<body>
+<h1 style="font-size:18px;margin:6px 0 2px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">الأربعون النووية</h1>
+<div class="muted">٤٢ حديثاً جامعاً — كل حديث مربوط بمواضعه في الكتب الستة وبمعناه في شبكة المعنى</div>
+<div id="list" style="margin-top:12px"></div>
+<script src="nawawi.js"></script>
+<script src="analysis.js"></script>
+<script>
+const BAR={'bukhari':'البخاري','muslim':'مسلم','tirmidhi':'الترمذي','abi-dawud':'أبو داود','nasai':'النسائي','ibn-majah':'ابن ماجه'};
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const list=document.getElementById('list');
+list.innerHTML=NAWAWI.map(h=>{
+ const mainGid=(h.hits.find(x=>x.g&&x.ov>=5)||h.hits.find(x=>x.g)||{}).g;
+ const kh=mainGid&&GIDNET.g[mainGid]?GIDNET.g[mainGid].h:'';
+ return `<div data-n="${h.n}"><div class="hd" onclick="tog(${h.n})"><span class="n">${h.an.toLocaleString('ar-EG')}</span><span class="t">${esc(h.t.slice(0,80))}…</span><span class="k">${h.hits.length?h.hits.length+' مواضع':''}${kh?' · '+kh:''}</span></div>
+ <div class="body" id="b${h.n}"><div class="txt">${esc(h.t)}</div><div class="links">${h.hits.map(x=>`<a href="matn.html" title="${BAR[x.b]||x.b} ${x.num}">${BAR[x.b]||x.b} ${x.num}</a>`).join('')}${mainGid?`<a class="g" href="net.html#gid=${mainGid}">المعنى #${mainGid}${kh?' — '+esc(kh):''}</a>`:''}<a href="matn.html" onclick="localStorage.setItem('mq',this.dataset.q)" data-q="${esc(h.t.split(' ').slice(0,4).join(' '))}">بحث المتون</a><button class="aiN" data-n="${h.n}" style="display:none;border:1px solid var(--acc);background:none;color:var(--acc);border-radius:8px;padding:3px 12px;font-size:11px;cursor:pointer;font-family:inherit">✦ اشرحها لي</button></div><div class="aiNBx" id="nb${h.n}"></div></div></div>`
+}).join('');
+window.tog=n=>{const el=document.querySelector(`[data-n="${n}"]`);el.classList.toggle('open');const b=document.getElementById('b'+n);b.style.display=b.style.display==='block'?'none':'block'};
+if(window.llmReady&&window.llmReady()){document.querySelectorAll('.aiN').forEach(b=>b.style.display='inline-block')}
+list.addEventListener('click',async e=>{
+ const b=e.target.closest('.aiN');if(!b)return;e.stopPropagation();
+ const n=+b.dataset.n;const h=NAWAWI.find(x=>x.n===n);const bx=document.getElementById('nb'+n);if(!h||!bx)return;
+ b.disabled=true;bx.innerHTML='<div style="color:var(--acc);font-size:12px;padding:8px">يفكّر…</div>';
+ try{
+  const out=await window.gemAsk('اشرح هذا الحديث من الأربعين النووية للطالب باختصار: المعنى في سطرين، أهم فائدتين عمليتين في حياته اليوم.\n\nالحديث رقم '+h.an+': «'+h.t+'»',{maxTokens:550});
+  bx.innerHTML='<div style="background:var(--card);border:1px solid var(--acc);border-radius:10px;padding:11px 14px;font-size:13px;line-height:2;margin:6px 0">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+ }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:11px">'+esc(err.message)+'</div>'}
+ b.disabled=false;
+});
+</script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

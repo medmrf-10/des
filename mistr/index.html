@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِسطرة — رتّب الآيات</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.row{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:6px 0;font-family:var(--font-ar);font-size:14.5px;line-height:1.9;display:flex;gap:8px;align-items:center;cursor:grab}
+.row .hd{color:var(--dim);font-size:16px;cursor:grab;user-select:none}
+.row.done{opacity:.55}
+.hint{background:var(--card2);border-radius:10px;padding:8px 14px;font-size:12px;margin-top:8px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:7px 11px;font-family:var(--font-ar);font-size:13px;width:70px;text-align:center}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِسطرة <span class="muted">— رتّب الآيات</span></h2>
+<div class="muted">قطعة من سورة خلّطت — أعد ترتيبها بالسحب أو بالأسهم. يقيس إحكامك لسياق الآيات.</div>
+<div style="display:flex;gap:7px;margin:10px 0;flex-wrap:wrap;align-items:center">
+<input class="inp" id="s" type="number" min="1" max="114" value="112" placeholder="سورة">
+<input class="inp" id="a" type="number" min="1" value="1" placeholder="من آية">
+<input class="inp" id="n" type="number" min="3" max="10" value="4" placeholder="عدد">
+<button class="btn ghost" id="ld">هات</button>
+</div>
+<div id="list"></div>
+<div id="st"></div>
+<div style="margin-top:12px">
+<button class="btn" id="chk">افحص الترتيب</button>
+<button class="btn ghost" id="rst">اخلط ثانية</button>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let order=[],correct=[],dragI=null;
+async function load(){
+ const s=+$('#s').value,a=+$('#a').value,n=+$('#n').value;
+ const S=await(await fetch('../wahy/data/surah/'+s+'.json')).json();
+ const slice=S.verses.filter(v=>v.a>=a&&v.a<a+n).map(v=>v.t+' ﴿'+v.a+'﴾');
+ if(slice.length<3){alert('لا يوجد هذا المقطع');return}
+ correct=[...slice];
+ do{order=[...slice].sort(()=>Math.random()-.5)}while(order.every((x,i)=>x===correct[i]));
+ render()}
+function render(){
+ $('#list').innerHTML=order.map((t,i)=>`<div class="row" draggable="true" data-i="${i}">
+ <span class="hd">☰</span><span>${esc(t)}</span></div>`).join('');
+ $('#list').querySelectorAll('.row').forEach(r=>{
+  r.ondragstart=()=>dragI=+r.dataset.i;
+  r.ondragover=e=>e.preventDefault();
+  r.ondrop=()=>{const j=+r.dataset.i;const x=order.splice(dragI,1)[0];order.splice(j,0,x);render()};
+  r.onclick=e=>{if(e.target.classList.contains('hd'))return;
+   // نقر يجمع النص للتبادل
+   const i=+r.dataset.i;
+   if(window._sel===undefined){window._sel=i;r.style.borderColor='var(--acc)';return}
+   const x=order.splice(window._sel,1)[0];order.splice(i,0,x);window._sel=undefined;render()}})}
+$('#ld').onclick=load;
+$('#rst').onclick=()=>{if(!correct.length)return;
+ do{order=[...correct].sort(()=>Math.random()-.5)}while(order.every((x,i)=>x===correct[i]));render()};
+$('#chk').onclick=()=>{
+ if(!correct.length)return;
+ let ok=0;order.forEach((t,i)=>{if(t===correct[i])ok++});
+ const pc=Math.round(ok/correct.length*100);
+ const st=JSON.parse(localStorage.getItem('mistr')||'{"n":0,"best":0}');
+ st.n++;if(pc>st.best)st.best=pc;localStorage.setItem('mistr',JSON.stringify(st));
+ $('#st').innerHTML=`<div class="hint">${ok.toLocaleString('ar-EG')}/${correct.length.toLocaleString('ar-EG')} في مكانها الصحيح (<b>${pc}%</b>) — أفضل نتيجتك ${st.best}%</div>`;
+ if(pc===100)$('#st').insertAdjacentHTML('beforeend','<div class="muted" style="margin-top:5px">إتقان تام 🎯</div>')};
+load();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mistr" data-title="مِسطرة"></script>
+</body>
+</html>

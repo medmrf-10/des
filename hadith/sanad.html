@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>شجرة الأسانيد — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:920px;margin:0 auto;padding:14px}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:14px;width:100%}
+.bks{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.bk{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:4px 13px;font-size:12px;cursor:pointer}
+.bk.on{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.tree{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.tree ul{list-style:none;margin:0;padding-right:16px;border-right:1px solid var(--border)}
+.tree>ul{border:none;padding:0}
+.tree li{margin:3px 0;line-height:1.9}
+.nm{color:var(--txt)}
+.nm.sahabi{color:var(--ok);font-weight:700}
+.cnt{color:var(--dim);font-size:11px}
+.btitle{color:var(--acc);font-size:14px;font-weight:700;margin-bottom:6px}
+.gcard{border:1px solid var(--border);border-radius:9px;padding:7px 10px;margin:5px 0;cursor:pointer;background:var(--card2)}
+.gcard:hover{border-color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">شجرة الأسانيد</h1>
+<div class="muted">ابحث في المعاني ← اختر مجموعة ← شاهد أسانيدها كشجرة واحدة تلتقي عند الرواة المشتركين</div>
+<div style="margin:10px 0"><input id="q" placeholder="ابحث في المعاني: نية، صبر، صلاة…" oninput="search()"></div>
+<div id="gres"></div>
+<div class="bks" id="bks"></div>
+<div id="trees"></div>
+<script src="analysis.js"></script>
+<script>
+const BAR={'bukhari':'البخاري','muslim':'مسلم','tirmidhi':'الترمذي','abi-dawud':'أبو داود','nasai':'النسائي','ibn-majah':'ابن ماجه'};
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').trim();
+let gid=null,bk=null;
+function search(){
+ const ws=norm(document.getElementById('q').value).split(' ').filter(w=>w.length>1);
+ if(!ws.length){document.getElementById('gres').innerHTML='';return}
+ const hits=[];
+ for(const g in GIDNET.g){const it=GIDNET.g[g];const t=norm(it.t);let sc=0;
+  for(const w of ws)if(t.includes(w))sc++;
+  if(sc>=Math.min(ws.length,2))hits.push({g:+g,t:it.t,h:it.h,s:it.s,sc})}
+ hits.sort((a,b)=>b.sc-a.sc||b.s-a.s);
+ document.getElementById('gres').innerHTML=hits.slice(0,12).map(x=>`<div class="gcard" onclick="pick(${x.g})"><b>${esc(x.t)}</b><div class="muted">${x.h||''} · ${x.s} صحابة · معنى #${x.g}</div></div>`).join('')}
+window.pick=g=>{gid=g;document.getElementById('gres').innerHTML='';
+ const it=GIDNET.g[g];
+ document.getElementById('bks').innerHTML=Object.keys(it.n||{}).map(b=>`<button class="bk" data-b="${b}">${BAR[b]} (${it.n[b].length})</button>`).join('');
+ document.getElementById('bks').onclick=e=>{const c=e.target.closest('.bk');if(!c)return;
+  document.querySelectorAll('.bk').forEach(x=>x.classList.toggle('on',x===c));renderTrees(c.dataset.b)};
+ document.getElementById('trees').innerHTML=`<div class="muted" style="margin:10px 0">«${esc(it.t)}» — اختر كتاباً لعرض شجرة أسانيده (${Object.values(it.n).reduce((a,x)=>a+x.length,0)} سلسلة)</div>`}
+function renderTrees(book){
+ const it=GIDNET.g[gid];const rids=(it.n||{})[book]||[];
+ // كل سلسلة: مصنف ← ... ← صحابي. ابنِ شجرة بدمج الأسماء عند نفس العمق
+ const root={kids:{},cnt:0};
+ for(const rid of rids){const chain=String(GIDNET.rawi[rid]||'').split(/ بن | ابن /).map(s=>s.trim()).filter(Boolean);
+  let node=root;node.cnt++;
+  for(const nm of chain){node.kids[nm]=node.kids[nm]||{kids:{},cnt:0};node=node.kids[nm];node.cnt++}}
+ const depth=n=>{let d=0,k=n;while(k){d++;k=Object.values(k.kids)[0]}return d};
+ const leafKey=n=>{const ks=Object.keys(n.kids);return ks.length?null:true};
+ const render=(n,d)=>{
+  const entries=Object.entries(n.kids);
+  if(!entries.length)return '';
+  return '<ul>'+entries.map(([nm,k])=>{
+   const isSahabi=!Object.keys(k.kids).length||d>=99;
+   return `<li><span class="nm ${isSahabi?'sahabi':''}">${esc(nm)}</span> <span class="cnt">×${k.cnt}</span>${render(k,d+1)}</li>`}).join('')+'</ul>'};
+ document.getElementById('trees').innerHTML=`<div class="tree"><div class="btitle">${BAR[book]} — ${rids.length} سلسلة مدمجة في شجرة</div>${render(root,0)}</div>
+ <div class="muted">العدد بجانب الاسم = كم سلسلة تمرّ به. الأخضر = نهاية السلسلة (الصحابي/المصدر). <a href="net.html#gid=${gid}" style="color:var(--acc2)">نصوص المجموعة في الشبكة ←</a></div>`}
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

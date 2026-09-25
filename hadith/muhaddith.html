@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة المحدثين — ملفات التحكيم | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.sc{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer}
+.sc:hover{border-color:var(--acc2)}
+.sc .nm{font-size:15px;font-weight:700;color:var(--txt)}
+.sc .rl{font-size:11px;color:var(--dim)}
+.sc .st{text-align:left;font-size:12px;color:var(--dim)}
+.sc .st b{color:var(--acc2);font-size:14px}
+.strict{height:8px;border-radius:4px;background:var(--card2);overflow:hidden;margin-top:6px;min-width:120px}
+.strict i{display:block;height:100%}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;min-width:110px}
+.kpi .n{font-size:18px;font-weight:700;color:var(--txt)}
+.kpi .l{font-size:11px;color:var(--dim)}
+.dist{margin:10px 0}
+.drow{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0}
+.drow .lb{width:110px;color:var(--dim)}
+.drow .bar{flex:1;height:14px;background:var(--card2);border-radius:4px;overflow:hidden}
+.drow .bar i{display:block;height:100%}
+.drow .cnt{width:64px;font-size:11px;color:var(--txt)}
+.i-sa{background:var(--ok)}.i-hs{background:var(--acc2)}.i-df{background:#c05c5c}.i-sd{background:#e04b4b}.i-mw{background:#7d2a2a}.i-ot,.i-ns{background:#5a6470}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.hrow{display:flex;justify-content:space-between;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:12px;text-decoration:none;color:var(--txt)}
+.hrow:hover{border-color:var(--acc2)}
+.bdg{border-radius:6px;padding:1px 8px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.bdg.v-sa{color:var(--ok);border:1px solid var(--ok)}.bdg.v-hs{color:var(--acc2);border:1px solid var(--acc2)}
+.bdg.v-df{color:#e08a8a;border:1px solid #a04848}.bdg.v-sd{color:#ff7070;border:1px solid #c04040}
+.bdg.v-mw{color:#c0392b;border:1px solid #7d2a2a}.bdg.v-ot,.bdg.v-ns{color:var(--dim);border:1px solid var(--border)}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.more{width:100%;padding:9px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--acc2);cursor:pointer;font-family:inherit}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🧑‍⚖️ لوحة المحدثين</h1>
+  <span class="sub">توزيع أحكام كل محدث ومؤشر تشدّده — من البيانات نفسها</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="takhrij.html">⚖ التخريج ←</a>
+</header>
+<div class="list" id="list"></div>
+<div class="status" id="stat"></div>
+<div id="prof"></div>
+<script src="pako.min.js"></script>
+<script src="scholar.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم بالوضع',ot:'أخرى',ns:'بلا حكم'};
+const W={sa:0,hs:1,df:2,sd:3,mw:4,ot:1,ns:1};
+const bucket=v=>{
+  if(!v)return 'ns';
+  const s=String(v).toLowerCase();
+  if(/شديد الضعف|very da|very weak/.test(s))return 'sd';
+  if(/متهم بالوضع|موضوع|maudu|fabricat/.test(s))return 'mw';
+  if(/متصل|صحيح|sahih|saheeh/.test(s))return 'sa';
+  if(/حسن|hasan/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول|مدلس|da|weak/.test(s))return 'df';
+  return 'ot';
+};
+/* strictness: 0=لين … 100=متشدد */
+const strictIndex=vs=>{if(!vs.length)return 0;const s=vs.reduce((a,b)=>a+W[b],0);return Math.round(s/vs.length*25)};
+const strictColor=x=>x<25?'var(--ok)':x<45?'var(--acc2)':x<65?'#d08050':'#e04b4b';
+const SCAR={'Ahmad Muhammad Shakir':'أحمد شاكر','Al-Albani':'الألباني','Zubair Ali Zai':'زبير علي زائي','Bashar Awad Maarouf':'بشار عواد معروف','Shuaib Al-Arnaut':'شعيب الأرنؤوط'};
+const sAr=n=>SCAR[n]||n;
+const D={},SCH={};
+const stat=document.getElementById('stat');
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+/* ——— تجميع المحققين من scholar.js ——— */
+(function(){
+  for(const b in window.SCHOLAR)for(const num in SCHOLAR[b])
+    for(const[nm,g]of SCHOLAR[b][num]){
+      SCH[nm]=SCH[nm]||{recs:[],books:{}};
+      SCH[nm].recs.push({b,n:+num,v:g});
+      SCH[nm].books[b]=(SCH[nm].books[b]||0)+1;
+    }
+})();
+function dist(vs){const d={};for(const b of vs)d[b]=(d[b]||0)+1;return d}
+function distHtml(d){
+  const tot=Object.values(d).reduce((a,b)=>a+b,0);
+  return Object.entries(d).sort((a,b)=>b[1]-a[1]).map(([k,c])=>`
+    <div class="drow"><span class="lb">${HB[k]}</span>
+    <div class="bar"><i class="i-${k}" style="width:${(c/tot*100).toFixed(1)}%"></i></div>
+    <span class="cnt">${arNum(c)} · ${(c/tot*100).toFixed(0)}٪</span></div>`).join('');
+}
+function bookChips(bks){
+  return Object.entries(bks).sort((a,b)=>b[1]-a[1])
+    .map(([b,c])=>`<span class="chip" aria-pressed="false" style="cursor:default">${BAR[b]} <b>${arNum(c)}</b></span>`).join('');
+}
+/* ——— قائمة المحدثين ——— */
+function list(){
+  const rows=[];
+  rows.push({key:'__shami',nm:'صالح الشامي — الجامع',rl:'يحكم على كل طريق في الكتب الستة',cnt:'كسلاً',bks:6,idx:null});
+  for(const nm in SCH){
+    const vs=SCH[nm].recs.map(r=>bucket(r.v));
+    rows.push({key:nm,nm:sAr(nm),rl:`محقق — ${arNum(SCH[nm].recs.length)} تخريجاً`,cnt:arNum(SCH[nm].recs.length),bks:Object.keys(SCH[nm].books).length,idx:strictIndex(vs)});
+  }
+  rows.sort((a,b)=>{
+    if(a.key==='__shami')return -1;
+    if(b.key==='__shami')return 1;
+    return SCH[b.key].recs.length-SCH[a.key].recs.length;
+  });
+  document.getElementById('list').innerHTML=rows.map((r,i)=>`
+    <div class="sc" onclick="profile('${esc(r.key)}')">
+      <div><div class="nm">${esc(r.nm)}</div><div class="rl">${esc(r.rl)} · ${arNum(r.bks)} كتاباً</div></div>
+      <div class="st"><b>${r.cnt==='كسلاً'?'…':r.cnt}</b> تخريجاً
+        ${r.idx!=null?`<div class="strict"><i style="width:${r.idx}%;background:${strictColor(r.idx)}"></i></div><span class="mut" style="font-size:10px">تشدّد ${arNum(r.idx)}</span>`:''}
+      </div></div>`).join('');
+}
+/* ——— ملف محدث ——— */
+let cur={flt:null,recs:null,who:null,b:null,shown:80};
+window.profile=async function(key){
+  const p=document.getElementById('prof');
+  if(key==='__shami'){
+    p.innerHTML=`<div class="card"><h3 style="margin:0 0 8px;color:var(--acc2)">صالح الشامي — الجامع</h3>
+      <div class="mut">أحكامه محفوظة نصاً على رأس كل سند في الكتب الستة. اختر كتاباً لتجميع توزيعه:</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px" id="shb">
+      ${BOOKS.map(b=>`<button class="chip" onclick="shamiBook('${b}')">${BAR[b]}</button>`).join('')}</div>
+      <div id="shp"></div></div>`;
+    location.hash='s=shami';return;
+  }
+  const s=SCH[key];if(!s)return;
+  const vs=s.recs.map(r=>bucket(r.v));
+  const idx=strictIndex(vs);
+  cur={flt:null,recs:s.recs,who:key,shown:80};
+  p.innerHTML=`<div class="card">
+    <h3 style="margin:0 0 8px;color:var(--acc2)">${esc(sAr(key))}</h3>
+    <div class="kpis">
+      <div class="kpi"><div class="n">${arNum(s.recs.length)}</div><div class="l">تخريجاً</div></div>
+      <div class="kpi"><div class="n">${arNum(Object.keys(s.books).length)}</div><div class="l">كتباً</div></div>
+      <div class="kpi"><div class="n" style="color:${strictColor(idx)}">${arNum(idx)}</div><div class="l">مؤشر التشدد /١٠٠</div></div>
+    </div>
+    <div class="dist">${distHtml(dist(vs))}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">${bookChips(s.books)}</div>
+    <div class="mut" style="margin-bottom:6px">أحاديث خرّجها:</div>
+    <div id="hlist"></div></div>`;
+  location.hash='s='+encodeURIComponent(key);
+  hlist();
+};
+function hlist(){
+  const el=document.getElementById('hlist');
+  const rs=cur.recs.filter(r=>!cur.flt||bucket(r.v)===cur.flt);
+  el.innerHTML=rs.slice(0,cur.shown).map(r=>`
+    <a class="hrow" href="takhrij.html#b=${r.b}&n=${r.n}">
+      <span>${BAR[r.b]} <b>#${arNum(r.n)}</b></span>
+      <span class="bdg v-${bucket(r.v)}">${esc(r.v)}</span></a>`).join('')
+    +(rs.length>cur.shown?`<button class="more" onclick="cur.shown+=80;hlist()">عرض المزيد (${arNum(rs.length-cur.shown)})</button>`:'');
+}
+window.shamiBook=async function(b){
+  const j=await loadBook(b);
+  const recs=[];
+  for(const n in j.s){
+    const raw=j.s[n];const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+    for(const ch of chains)recs.push({b,n:+n,v:ch[0]||'—'});
+  }
+  const vs=recs.map(r=>bucket(r.v));const idx=strictIndex(vs);
+  cur={flt:null,recs,who:'__shami',b,shown:80};
+  document.getElementById('shp').innerHTML=`
+    <div class="kpis" style="margin-top:10px">
+      <div class="kpi"><div class="n">${arNum(recs.length)}</div><div class="l">حكمَ سندٍ في ${BAR[b]}</div></div>
+      <div class="kpi"><div class="n" style="color:${strictColor(idx)}">${arNum(idx)}</div><div class="l">مؤشر التشدد /١٠٠</div></div>
+    </div>
+    <div class="dist">${distHtml(dist(vs))}</div>
+    <div class="mut">أحاديث حكم عليها (كل سند تخريجاً):</div>
+    <div id="hlist"></div>`;
+  hlist();
+};
+(function(){
+  list();
+  const hm=location.hash.match(/s=([^&]+)/);
+  if(hm){const k=decodeURIComponent(hm[1]);profile(k==='shami'?'__shami':k)}
+})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="hadith_muhaddith"></script>
+</body>
+</html>

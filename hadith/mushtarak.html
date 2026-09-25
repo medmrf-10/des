@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المشترك | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:900px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+.chip.on{outline:2px solid var(--acc2)}
+.chip .seen{color:var(--ok)}
+.taraf{font-family:var(--font-ar);font-size:16px;line-height:2;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:8px 0}
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+table.tb th{color:var(--dim);font-weight:400;font-size:11px;text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)}
+table.tb td{padding:7px 8px;border-bottom:1px solid var(--border);font-family:var(--font-ar)}
+.bdg{border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;font-family:var(--font-ui)}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:10px}
+@media(max-width:640px){.cols{grid-template-columns:minmax(0,1fr)}}
+.vcol{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;line-height:2}
+.vcol h4{font-size:12px;margin:0 0 6px;color:var(--acc2);font-family:var(--font-ui)}
+.vcol[data-c="0"] mark{background:transparent;color:#ef9c8c;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.vcol[data-c="1"] mark{background:transparent;color:#9db8e8;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.btn{background:var(--acc);color:#101420;border:0;border-radius:8px;padding:7px 18px;font-family:inherit;font-size:13.5px;cursor:pointer;font-weight:700;margin-top:8px}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.stats b{color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+.bk{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;margin-top:8px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🤲 المشترك</h1>
+  <span class="sub">حديث واحد ترويه كتب متعددة — الطرف مرة واحدة وخريطة روايته</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="naskh.html">اختلاف اللفظ ←</a>
+</header>
+<div class="stats" id="stats"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div class="chips" id="chips"></div>
+<div id="main"><div class="mut" style="padding:30px;text-align:center">يُحمّل المشتركات…</div></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[^\p{L}\s]/gu,' ').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';return 'ot'};
+const D={};let GN=null,POOL=[],CUR=null;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+const SKEY='miq_mushtarak';
+const getL=()=>{try{return JSON.parse(localStorage.getItem(SKEY)||'{}')}catch(e){return{}}};
+const markSeen=g=>{const l=getL();l[g]={seen:1};try{localStorage.setItem(SKEY,JSON.stringify(l))}catch(e){}};
+async function loadGN(){
+  if(GN)return;stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+function buildPool(){
+  const cand=[];
+  for(const gid in GN.g){
+    const g=GN.g[gid];const wb=Object.keys(g.w||{}).filter(b=>g.w[b].length);
+    if(wb.length<3)continue;
+    const tot=wb.reduce((a,b)=>a+g.w[b].length,0);
+    cand.push({gid,nb:wb.length,tot});
+  }
+  cand.sort((a,b)=>b.nb-a.nb||b.tot-a.tot);
+  POOL=cand.slice(0,12);
+}
+function paintChips(){
+  const l=getL();
+  document.getElementById('chips').innerHTML=POOL.map((p,i)=>{
+    return `<button class="chip ${CUR&&CUR.ix===i?'on':''}" onclick="show(${i})">${arNum(i+1)}${l[p.gid]?'<span class="seen"> ✓</span>':''} · ${arNum(p.nb)} كتب</button>`;
+  }).join('');
+}
+window.show=async function(ix){
+  const p=POOL[ix];CUR={p,ix,cmp:null};
+  markSeen(p.gid);
+  const g=GN.g[p.gid];
+  const wb=Object.keys(g.w||{}).filter(b=>g.w[b].length);
+  stat.textContent='يجمع خريطة الرواية…';
+  const rows=[];
+  for(const b of wb){
+    const jv=(g.j&&g.j[b])?g.j[b]:{};
+    const vs=[];for(const n of g.w[b])if(jv[n])vs.push(...jv[n]);
+    rows.push({b,nums:g.w[b],vs:[...new Set(vs)]});
+  }
+  stat.textContent='';
+  document.getElementById('main').innerHTML=`
+    <div class="card">
+      <div class="mut" style="margin-bottom:6px">معنى #${arNum(p.gid)} · الحكم الموحد <b class="bdg v-${bucket(g.h)}">${esc(g.h)}</b> · ${arNum(wb.length)} كتب · ${arNum(p.tot)} موضعاً</div>
+      <div class="taraf">${esc(g.t)}</div>
+      <table class="tb"><tr><th>الكتاب</th><th>المواضع</th><th>الأحكام</th></tr>
+      ${rows.map(r=>`<tr><td style="font-family:var(--font-ui);color:var(--acc2)">${BAR[r.b]}</td>
+        <td style="font-family:var(--font-ui)">${arNum(r.nums.length)} — ${r.nums.slice(0,4).map(n=>arNum(n)).join('، ')}${r.nums.length>4?'…':''}</td>
+        <td>${r.vs.length?r.vs.map(v=>`<span class="bdg v-${bucket(v)}">${esc(v)}</span> `).join(''):'<span class="mut">—</span>'}</td></tr>`).join('')}
+      </table>
+      <div style="text-align:center"><button class="btn" onclick="cmp(${ix})">⚡ قارن الكتب — فروق المتن</button>
+      <a class="bk" href="net.html#g${p.gid}">الشبكة ←</a>
+      <a class="bk" href="mutadarib.html#g=${p.gid}">متدافر ←</a></div>
+      <div id="cmp"></div>
+    </div>`;
+  paintChips();
+};
+window.cmp=async function(ix){
+  const p=POOL[ix];const g=GN.g[p.gid];
+  const wb=Object.keys(g.w||{}).filter(b=>g.w[b].length);
+  const [b1,b2]=wb.slice(0,2);
+  stat.textContent='يقارن '+BAR[b1]+' × '+BAR[b2]+'…';
+  const j1=await loadBook(b1),j2=await loadBook(b2);
+  const m1=j1.d[g.w[b1][0]]?j1.d[g.w[b1][0]].m:'',m2=j2.d[g.w[b2][0]]?j2.d[g.w[b2][0]].m:'';
+  const w1=norm(m1).split(' ').filter(Boolean),w2=norm(m2).split(' ').filter(Boolean);
+  const s1=new Set(w1),s2=new Set(w2);
+  const hit=w1.filter(w=>s2.has(w)).length+w2.filter(w=>s1.has(w)).length;
+  const score=Math.round(100*hit/(w1.length+w2.length));
+  const mk=(m,other)=>m.split(/\s+/).map(w=>other.has(norm(w))?esc(w):`<mark>${esc(w)}</mark>`).join(' ');
+  stat.textContent='';
+  document.getElementById('cmp').innerHTML=`
+    <div class="mut" style="margin-top:10px">توافق لفظي بين ${BAR[b1]} و${BAR[b2]}: <b style="color:var(--acc2)">${arNum(score)}٪</b></div>
+    <div class="cols">
+      <div class="vcol" data-c="0"><h4>${BAR[b1]} #${arNum(g.w[b1][0])}</h4>${mk(m1,s2)}</div>
+      <div class="vcol" data-c="1"><h4>${BAR[b2]} #${arNum(g.w[b2][0])}</h4>${mk(m2,s1)}</div>
+    </div>`;
+};
+(async()=>{
+  await loadGN();
+  stat.textContent='ينتقي المشتركات…';
+  buildPool();
+  const l=getL();const seen=Object.keys(l).filter(k=>l[k].seen).length;
+  document.getElementById('stats').innerHTML=
+    `مشتركات: <b>${arNum(POOL.length)}</b> · شاهدت: <b>${arNum(seen)}</b>`;
+  stat.textContent='';pf.style.width='60%';
+  paintChips();
+  const h=location.hash.match(/g=(\d+)/);
+  if(h&&GN.g[h[1]]){const ix=POOL.findIndex(p=>+p.gid===+h[1]);if(ix>=0)show(ix);}
+  else if(POOL.length)show(0);
+})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miq_mushtarak"></script>
+</body>
+</html>

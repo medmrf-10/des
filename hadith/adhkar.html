@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>الأذكار المحكومة — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:860px;margin:0 auto;padding:14px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.f{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.f.on{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-bottom:9px;display:flex;gap:12px;align-items:flex-start}
+.card .t{flex:1;font-size:14.5px;line-height:2}
+.v{flex:none;font-size:11.5px;border:1px solid;border-radius:8px;padding:3px 10px;margin-top:4px;white-space:nowrap}
+.sahih{color:var(--ok);border-color:var(--ok)}
+.hasan{color:var(--acc2);border-color:var(--acc2)}
+.weak{color:#e0a;border-color:#e0a}
+.fab{color:#e33;border-color:#e33}
+.meta{color:var(--dim);font-size:11.5px;margin-top:6px}
+.meta a{color:var(--acc2);text-decoration:none;margin-left:8px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">الأذكار المحكومة</h1>
+<div style="color:var(--dim);font-size:13px">٢٨٥ مجموعة ذكر ودعاء مصنّفة بحكم صالح الشامي — الصحيح يقودك والموضوع مُنبّه عليه</div>
+<div class="filters" id="fl"></div>
+<div id="list"></div>
+<script src="adhkar.js"></script>
+<script>
+const CLS={'صحيح':'sahih','حسن':'hasan'};
+const vcls=h=>h==='صحيح'?'sahih':h==='حسن'?'hasan':/موضوع|وضع/.test(h)?'fab':'weak';
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const groups={'الكل':null,'صحيح':x=>x==='صحيح','حسن':x=>x==='حسن','ضعيف وما دونه':x=>!/صحيح|حسن/.test(x)};
+let f='الكل';
+const fl=document.getElementById('fl');
+fl.innerHTML=Object.keys(groups).map(k=>`<button class="f ${k===f?'on':''}" data-f="${k}">${k}</button>`).join('');
+fl.onclick=e=>{const b=e.target.closest('.f');if(!b)return;f=b.dataset.f;
+ fl.querySelectorAll('.f').forEach(x=>x.classList.toggle('on',x===b));render()};
+function render(){
+ const fn=groups[f];
+ const list=ADHKAR.filter(x=>!fn||fn(x.h));
+ document.getElementById('list').innerHTML=list.map(x=>`<div class="card"><div class="t">${esc(x.t)}<div class="meta">رواه ${(+x.s).toLocaleString('ar-EG')} من الصحابة · تكرار ${(+x.r).toLocaleString('ar-EG')}<a href="net.html#gid=${x.g}">شبكة المعنى #${x.g}</a><a href="matn.html">المتون الكاملة ←</a></div></div><span class="v ${vcls(x.h)}">${esc(x.h||'—')}</span></div>`).join('')||'<div style="color:var(--dim);text-align:center;padding:20px">لا نتائج</div>'}
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

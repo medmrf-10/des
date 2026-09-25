@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشرَب — سجل الماء</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:520px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.cups{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px;justify-content:center}
+.cup{width:52px;height:64px;border-radius:9px 9px 14px 14px;border:2px solid var(--border);background:var(--card2);cursor:pointer;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.cup i{display:block;width:100%;background:linear-gradient(180deg,#5ab3d8,#3d7ea8);transition:height .4s}
+.cup.full i{height:100%}
+.cup:not(.full) i{height:0}
+.big{font-family:var(--font-ar);font-size:26px;color:var(--acc);text-align:center;margin-top:8px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.hist{display:flex;gap:6px;margin-top:10px;justify-content:center}
+.hd{width:34px;text-align:center}
+.hd .b{height:60px;background:var(--card2);border-radius:7px;position:relative;overflow:hidden}
+.hd .b i{position:absolute;bottom:0;width:100%;background:#3d7ea8}
+.hd .d{font-size:9px;color:var(--dim);margin-top:4px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشرَب <span class="muted">— سجل الماء</span></h2>
+<div class="muted">٨ كؤوس هدفك — اضغط كوباً تشربه. جسدك أمين على ما تسقيه.</div>
+<div class="card"><div class="big" id="big"></div>
+<div class="cups" id="cups"></div>
+<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+<button class="btn ghost" id="goal8" style="font-size:10px">هدف: ٨</button>
+<button class="btn ghost" id="goal10" style="font-size:10px">هدف: ١٠</button>
+<button class="btn ghost" id="goal12" style="font-size:10px">هدف: ١٢</button></div></div>
+<div id="stats"></div>
+<div class="card"><div class="t">آخر ٧ أيام</div><div class="hist" id="hist"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let D=LS('mishrab',{}),GOAL=LS('mishrab_goal',8);
+const today=()=>new Date().toISOString().slice(0,10);
+const get=()=>D[today()]||0;
+$('#goal8').onclick=()=>{GOAL=8;SV('mishrab_goal',GOAL);render()};
+$('#goal10').onclick=()=>{GOAL=10;SV('mishrab_goal',GOAL);render()};
+$('#goal12').onclick=()=>{GOAL=12;SV('mishrab_goal',GOAL);render()};
+function render(){
+ const n=get();
+ $('#big').innerHTML=arN(n)+' / '+arN(GOAL)+(n>=GOAL?' 🏆':'');
+ $('#cups').innerHTML=Array.from({length:GOAL},(_,i)=>'<div class="cup'+(i<n?' full':'')+'" data-i="'+i+'"><i></i></div>').join('');
+ let done7=0,d=new Date;const hist=[];
+ for(let i=6;i>=0;i--){const dd=new Date(Date.now()-i*864e5);const k=dd.toISOString().slice(0,10);const c=D[k]||0;if(c>=GOAL&&i>0)done7++;hist.push({k,c,dow:dd.toLocaleDateString('ar-EG',{weekday:'short'})})}
+ const total=Object.values(D).reduce((s,x)=>s+x,0);
+ $('#stats').innerHTML='<span class="stat">أيام الهدف المكتمل: <b style="color:var(--ok)">'+arN(done7)+'/٧</b></span>'+
+ '<span class="stat">كؤوس إجمالاً: <b>'+arN(total)+'</b></span>';
+ $('#hist').innerHTML=hist.map(h=>'<div class="hd"><div class="b"><i style="height:'+Math.min(100,h.c/GOAL*100)+'%"></i></div><div class="d">'+h.dow+'</div></div>').join('');
+}
+$('#cups').onclick=e=>{
+ const c=e.target.closest('.cup');if(!c)return;
+ const i=+c.dataset.i,n=get();
+ D[today()]=i<n?i:n+1;SV('mishrab',D);render();
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mishrab" data-title="مِشرَب"></script>
+</body>
+</html>

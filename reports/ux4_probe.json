@@ -1,0 +1,89 @@
+{
+ "sites": {
+  "hadith-misbar": {
+   "url": "https://medmrf-10.github.io/des/hadith/misbar.html",
+   "errs": [],
+   "act": {
+    "typed": true,
+    "clicked": "افحص"
+   },
+   "after": {
+    "docH": 900,
+    "sw": 360,
+    "cards": 0,
+    "cardSample": [],
+    "smallTaps": 0,
+    "heads": [
+     "H2:مسبار — كل ما نعرفه عن حديث وا"
+    ],
+    "els": 30,
+    "bodyLen": 269
+   }
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "errs": [],
+   "act": {
+    "typed": true,
+    "clicked": null
+   },
+   "after": {
+    "docH": 1234,
+    "sw": 360,
+    "cards": 0,
+    "cardSample": [],
+    "smallTaps": 0,
+    "heads": [
+     "H1:شجرة الأسانيد"
+    ],
+    "els": 57,
+    "bodyLen": 1597
+   }
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "errs": [],
+   "act": {
+    "typed": true,
+    "clicked": null
+   },
+   "after": {
+    "docH": 8706,
+    "sw": 360,
+    "cards": 0,
+    "cardSample": [],
+    "smallTaps": 0,
+    "heads": [
+     "H1:معجم الرواة"
+    ],
+    "els": 1015,
+    "bodyLen": 8326
+   }
+  },
+  "hadith-index": {
+   "url": "https://medmrf-10.github.io/des/hadith/index.html",
+   "errs": [],
+   "act": {
+    "typed": true,
+    "clicked": "السند"
+   },
+   "after": {
+    "docH": 1060,
+    "sw": 360,
+    "cards": 4,
+    "cardSample": [
+     "332x74",
+     "332x846",
+     "302x19"
+    ],
+    "smallTaps": 16,
+    "heads": [
+     "H1:⛓ مختبر الحديث",
+     "H3:الإسناد (من النبي ﷺ إلى المؤلف"
+    ],
+    "els": 97,
+    "bodyLen": 1223
+   }
+  }
+ }
+}

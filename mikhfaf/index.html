@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِخفَف — خفّف حِملك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:11.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.btn.warn{background:#e08080;color:#14140f}
+.k{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin-top:6px;font-size:12.5px}
+.k .sz{color:var(--acc);font-family:var(--font-ar)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِخفَف <span class="muted">— خفّف حِملك</span></h2>
+<div class="muted">مفتاح localStorage لكل بياناتك — حجم كل واحد، تفريغه إن ثقل.</div>
+<div style="margin-top:9px"><span class="stat">مفاتيح: <b id="nk">٠</b></span><span class="stat">حجم كلي: <b id="sz">٠</b></span></div>
+<div class="card"><div class="t">الأثقل أولاً</div><div id="list"></div></div>
+<div class="card"><div class="t">أرشيف قبل المسح</div>
+<div class="muted">زرّ «أرشِف» يحفظ المفتاح في ملف نصي قبل مسحه — لا يفقد شيء.</div>
+<div style="margin-top:8px"><button class="btn ghost" id="exp">أرشِف كل شيء (.json)</button></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+function kb(n){return n>1024?arN(Math.round(n/102.4)/10)+'KB':arN(n)+'B'}
+function render(){
+ const keys=[];
+ for(let i=0;i<localStorage.length;i++){
+  const k=localStorage.key(i),v=localStorage.getItem(k)||'';
+  keys.push({k,sz:v.length});
+ }
+ keys.sort((a,b)=>b.sz-a.sz);
+ const tot=keys.reduce((a,b)=>a+b.sz,0);
+ $('#nk').textContent=arN(keys.length);$('#sz').textContent=kb(tot);
+ $('#list').innerHTML=keys.map((k,i)=>
+  '<div class="k"><span>'+esc(k.k)+'</span><span><span class="sz">'+kb(k.sz)+'</span> <button class="btn ghost" data-k="'+esc(k.k)+'" data-a="arc">أرشِف</button> <button class="btn warn" data-k="'+esc(k.k)+'" data-a="del">✕</button></span></div>').join('')||'—';
+}
+$('#list').onclick=e=>{
+ const b=e.target.closest('[data-k]');if(!b)return;
+ const k=b.dataset.k,v=localStorage.getItem(k)||'';
+ if(b.dataset.a==='arc'){
+  const bl=new Blob([JSON.stringify({key:k,value:JSON.parse(v||'null')},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='archive_'+k+'.json';a.click();
+ }else if(b.dataset.a==='del'){
+  if(confirm('امسح «'+k+'» نهائيًا؟')){localStorage.removeItem(k);render()}
+ }
+};
+$('#exp').onclick=()=>{
+ const all={};
+ for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);try{all[k]=JSON.parse(localStorage.getItem(k))}catch(e){all[k]=localStorage.getItem(k)}}
+ const bl=new Blob([JSON.stringify(all,null,1)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='mikhfaf_full_backup.json';a.click();
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mikhfaf" data-title="مِخفَف"></script>
+</body>
+</html>

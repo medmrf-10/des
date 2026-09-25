@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>أعلام — صفحات الرواة | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1100px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+.pick input{flex:1;min-width:200px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.hits{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.hit{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:13px}
+.hit:hover{border-color:var(--acc2)}
+.hit .c{color:var(--dim);font-size:11px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.card h2{margin:0 0 2px;font-size:19px;color:var(--acc2);font-family:var(--font-ar);line-height:1.9}
+.card .fl{color:var(--dim);font-size:12px;margin-bottom:10px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;min-width:110px}
+.kpi .n{font-size:18px;font-weight:700;color:var(--txt)}
+.kpi .l{font-size:11px;color:var(--dim)}
+.bdist{margin:12px 0}
+.brow{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0}
+.brow .bk{width:110px;color:var(--dim)}
+.brow .bar{flex:1;height:14px;background:var(--card2);border-radius:4px;overflow:hidden}
+.brow .bar i{display:block;height:100%;background:var(--acc2)}
+.brow .cnt{width:70px;color:var(--txt);font-size:11px}
+.sect{margin-top:14px}
+.sect h4{margin:0 0 8px;font-size:14px;color:var(--acc)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-size:11px;color:var(--txt);text-decoration:none;background:var(--card2)}
+.pill:hover{border-color:var(--acc2);color:var(--acc2)}
+.co{display:flex;gap:6px;flex-wrap:wrap;font-size:12px}
+.co .nm{border:1px solid var(--border);border-radius:8px;padding:4px 9px;background:var(--card2)}
+.co .nm b{color:var(--acc2);font-size:11px}
+.snds{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.9}
+.snds a{color:var(--acc);text-decoration:none}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⭐ أعلام</h1>
+  <span class="sub">صفحة راوٍ كاملة — من فهرس الرواة</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="silsila.html">⛓ السلسلة ←</a>
+</header>
+<div class="pick"><input type="text" id="q" placeholder="اسم الراوي — مثال: أبو هريرة / شعبة / عبد الرحمن بن صخر"></div>
+<div class="hits" id="hits"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script src="rawi.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const N2R={};
+for(const rid in RAWI.rawi)N2R[norm(RAWI.rawi[rid].t)]=rid;
+const D={};
+async function loadBook(b){
+  if(D[b])return D[b];
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  return D[b];
+}
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+document.getElementById('q').addEventListener('input',deb(()=>{
+  const w=norm(document.getElementById('q').value);
+  const box=document.getElementById('hits');
+  if(w.length<3){box.innerHTML='';return}
+  const hits=[];
+  for(const rid in RAWI.rawi){const r=RAWI.rawi[rid];
+    if(norm(r.t).includes(w)||norm(r.l).startsWith(w)||norm(r.f+' '+r.l).includes(w))hits.push([rid,r]);
+  }
+  hits.sort((a,b)=>b[1].c-a[1].c);
+  box.innerHTML=hits.slice(0,12).map(([rid,r])=>
+    `<div class="hit" onclick="show(${rid})"><span>${esc(r.t)}</span><span class="c">${arNum(r.c)} حديثاً · #${arNum(rid)}</span></div>`).join('')||'<div class="mut">لا نتيجة</div>';
+},200));
+async function ways(rid,b){
+  const r=RAWI.rawi[rid];const nm=norm(r.t);
+  const j=await loadBook(b);
+  const pre={},suc={};let cnt=0;const samples=[];
+  for(const num in j.s){
+    const raw=j.s[num];
+    const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+    for(const ch of chains){
+      const ns=(ch[1]||[]).map(norm);
+      const i=ns.indexOf(nm);
+      if(i<0)continue;
+      cnt++;
+      if(i>0)pre[ch[1][i-1]]=(pre[ch[1][i-1]]||0)+1;
+      if(i<ns.length-1)suc[ch[1][i+1]]=(suc[ch[1][i+1]]||0)+1;
+      if(samples.length<4)samples.push(num);
+      break;
+    }
+  }
+  const top=o=>Object.entries(o).sort((a,bb)=>bb[1]-a[1]).slice(0,6)
+    .map(([nm,c])=>`<span class="nm">${esc(nm)} <b>×${arNum(c)}</b></span>`).join('')||'<span class="mut">—</span>';
+  document.getElementById('ways').innerHTML=`
+    <div class="sect"><h4>في ${BAR[b]} — ${arNum(cnt)} سنداً يمرّ به</h4>
+      <div class="mut" style="margin-bottom:4px">روى عنهم:</div><div class="co">${top(pre)}</div>
+      <div class="mut" style="margin:6px 0 4px">روى عنه:</div><div class="co">${top(suc)}</div>
+      <div class="snds">أمثلة: ${samples.map(n=>`<a href="silsila.html#b=${b}&n=${n}">#${arNum(n)}</a>`).join(' · ')}</div>
+    </div>`;
+}
+async function show(rid){
+  const r=RAWI.rawi[rid];if(!r)return;
+  const main=document.getElementById('main');
+  const books=BOOKS.filter(b=>r.b&&r.b[b]);
+  const mx=Math.max(...books.map(b=>r.b[b]),1);
+  const gids=(r.gs||[]).slice(0,14);
+  main.innerHTML=`<div class="card">
+    <h2>${esc(r.t)}</h2>
+    <div class="fl">${esc(r.f)} بن … بن ${esc(r.l)} · رقم ${arNum(rid)} في الفهرس</div>
+    <div class="kpis">
+      <div class="kpi"><div class="n">${arNum(r.c)}</div><div class="l">حديثاً يرويه</div></div>
+      <div class="kpi"><div class="n">${arNum(r.g||0)}</div><div class="l">معنى متميز</div></div>
+      <div class="kpi"><div class="n">${arNum(books.length)}</div><div class="l">كتباً يظهر فيها</div></div>
+      <div class="kpi"><div class="n">${arNum((r.gs||[]).length)}</div><div class="l">معنى مربوط (gs)</div></div>
+    </div>
+    <div class="bdist">
+      <h4 style="margin:0 0 6px;font-size:14px;color:var(--acc)">توزيع أحاديثه على الكتب</h4>
+      ${books.sort((a,b)=>r.b[b]-r.b[a]).map(b=>`
+        <div class="brow"><span class="bk">${BAR[b]}</span><div class="bar"><i style="width:${(r.b[b]/mx*100).toFixed(1)}%"></i></div><span class="cnt">${arNum(r.b[b])}</span></div>`).join('')}
+    </div>
+    ${gids.length?`<div class="sect"><h4>معانٍ يرويها (${arNum((r.gs||[]).length)} — أول ${arNum(gids.length)})</h4>
+      <div class="pills">${gids.map(g=>`<a class="pill" href="net.html#g${g}">#${arNum(g)}</a>`).join('')}</div></div>`:''}
+    <div class="sect"><h4>طرقه في كتاب — اختر:</h4>
+      <div class="pills">${BOOKS.map(b=>`<button class="pill" style="cursor:pointer;font-family:inherit" onclick="ways(${rid},'${b}')">${BAR[b]}</button>`).join('')}</div>
+      <div id="ways"></div>
+    </div>
+    <div class="sect"><a class="pill" href="rawi.html#${rid}">صفحة الراوي التفصيلية ←</a></div>
+  </div>`;
+  document.getElementById('hits').innerHTML='';
+  location.hash=`r=${rid}`;
+}
+function decHash(){
+  const hm=location.hash.match(/r=(\d+)/);const q=new URLSearchParams(location.search).get('r');
+  return (hm&&hm[1])||q||null;
+}
+(async()=>{const r=decHash();if(r&&RAWI.rawi[r])show(+r)})();
+addEventListener('hashchange',()=>{const r=decHash();if(r&&RAWI.rawi[r])show(+r)});
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

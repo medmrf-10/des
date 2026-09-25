@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِجوَل — جوال المكتبة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.node{background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:11px 16px;margin-top:10px}
+.node .kind{font-size:10.5px;color:var(--acc2);margin-bottom:4px}
+.node .txt{font-family:var(--font-ar);font-size:14px;line-height:2}
+.link{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:6px 12px;margin:4px;cursor:pointer;font-size:11.5px;transition:all .15s}
+.link:hover{border-color:var(--acc);color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:11.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.crumbs{font-size:11.5px;color:var(--dim);margin-top:8px}
+.crumbs span{cursor:pointer;color:var(--acc)}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِجوَل <span class="muted">— جوال المكتبة</span></h2>
+<div class="muted">تجوال لا نهائي: حديث ← راوٍ ← رواياته ← آية ← متشابهاتها — كل عقدة تفتح أبوابًا جديدة.</div>
+<div style="margin-top:9px"><span class="stat">خطواتك: <b id="st">٠</b></span><button class="btn ghost" id="re" style="margin-inline-start:6px">تجوال جديد</button></div>
+<div id="crumb" class="crumbs"></div>
+<div id="here"></div>
+<div class="card"><div class="t">أبوابك التالية</div><div id="doors"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let G,U,path=[],steps=0;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+Promise.all([laz('../hadith/analysis.js','GIDNET'),laz('../wahy/mutashabih.js','MUTA')]).then(([g,u])=>{G=g;U=u;wander()});
+const STOP=new Set('أن الله في من على إلى عن أنه قال وما كان كما ما له له عليه رسول عز جل ربك الذي إن يا أو ومن حتى الذين عند هو وعن'.split(' '));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+function kws(t){return (t||'').split(/\s+/).map(norm).filter(w=>w.length>4&&!STOP.has(w))}
+function wander(){
+ steps=0;path=[];
+ const gs=Object.keys(G.g);const k=gs[Math.floor(Math.random()*gs.length)];
+ path.push({type:'hadith',key:k});show();
+}
+function show(){
+ const n=path[path.length-1];
+ let here='',doors=[];
+ if(n.type==='hadith'){
+  const h=G.g[n.key];
+  here='<div class="node"><div class="kind">حديث</div><div class="txt">'+esc(h.t)+'</div><div class="muted" style="margin-top:6px">الحكم: '+esc(h.h)+' · '+arN(h.s)+' صحابيًا · '+arN(h.r)+' مرة</div></div>';
+  // باب ١: راوي
+  const rids=(h.n&&h.n[Object.keys(h.n)[0]])||[];
+  rids.slice(0,3).forEach(rid=>{if(G.rawi[rid])doors.push({l:'الراوي: '+G.rawi[rid].n,type:'rawi',key:String(rid)})});
+  // باب ٢: آية جسر
+  const kw=kws(h.t);
+  if(U){
+   const hit=Object.keys(U.sim).find(k=>kws(U.sim[k][2]).some(w=>kw.includes(w)));
+   if(hit)doors.push({l:'آية تلاقيه: '+U.sim[hit][2].slice(0,40)+'…',type:'verse',key:hit});
+  }
+ }else if(n.type==='rawi'){
+  const r=G.rawi[+n.key]||{};
+  const hs=[];
+  Object.keys(G.g).forEach(k=>{
+   Object.values(G.g[k].n||{}).forEach(arr=>{
+    if(arr.includes(+n.key)&&hs.length<20)hs.push(k);
+   });
+  });
+  here='<div class="node"><div class="kind">راوٍ</div><div class="txt">'+esc(r.n||'راوٍ '+n.key)+'</div><div class="muted" style="margin-top:6px">'+arN(hs.length)+' حديثًا في المكتبة</div></div>';
+  hs.slice(0,6).forEach(k=>doors.push({l:'حديث: '+G.g[k].t.slice(0,45)+'…',type:'hadith',key:k}));
+ }else if(n.type==='verse'){
+  const s=U.sim[n.key];
+  if(!s){path.pop();show();return}
+  here='<div class="node"><div class="kind">آية</div><div class="txt">'+esc(s[2])+'</div><div class="muted" style="margin-top:6px">'+esc(U.names[n.key.split(':')[0]])+'</div></div>';
+  (s[3]||[]).slice(0,6).forEach(([pk,sc])=>{
+   const ps=U.sim[pk];if(ps)doors.push({l:'متشابهة '+Math.round(sc*100)+'٪: '+ps[2].slice(0,40)+'…',type:'verse',key:pk});
+  });
+ }
+ if(!doors.length)doors.push({l:'↩ عودة لنقطة البداية',type:'restart'});
+ $('#here').innerHTML=here;
+ $('#doors').innerHTML=doors.map((d,i)=>'<span class="link" data-i="'+i+'">'+esc(d.l)+'</span>').join('');
+ $('#crumb').innerHTML='المسار: '+path.slice(-4).map((p,i)=>{
+  const nm=p.type==='hadith'?'حديث':p.type==='rawi'?'راوٍ':'آية';
+  return '<span>'+nm+'</span>'+(i<Math.min(path.length,4)-1?' ← ':'');
+ }).join('');
+ $('#doors').onclick=e=>{
+  const t=e.target.closest('.link');if(!t)return;
+  const d=doors[+t.dataset.i];
+  if(d.type==='restart'){wander();return}
+  path.push({type:d.type,key:d.key});steps++;
+  $('#st').textContent=arN(steps);show();
+ };
+ $('#st').textContent=arN(steps);
+ const v=LS('mijwal',{s:0,w:0});v.s=Math.max(v.s,steps);v.w++;SV('mijwal',v);
+}
+$('#re').onclick=wander;
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mijwal" data-title="مِجوَل"></script>
+</body>
+</html>

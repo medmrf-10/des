@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشمَر — صباحك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:480px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.stp{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 15px;margin-top:8px}
+.stp .cb{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;cursor:pointer;transition:all .15s}
+.stp.done .cb{background:var(--acc);border-color:var(--acc)}
+.stp .nm{font-family:var(--font-ar);font-size:14px;flex:1}
+.stp.done .nm{color:var(--dim)}
+.stp .u{font-size:10.5px;color:var(--acc);text-decoration:none}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.prog{height:9px;background:var(--card2);border-radius:5px;overflow:hidden;margin-top:12px}
+.prog .f{height:100%;background:var(--acc);border-radius:5px;transition:width .4s}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+.hr{font-family:var(--font-ar);font-size:15px;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشمَر <span class="muted">— صباحك</span></h2>
+<div class="muted">روتينك الصباحي — خطوات قبل أن يبدأ يومك حقًا.</div>
+<div style="margin-top:9px"><span class="stat">صباحك اليوم: <b id="pc">٠٪</b></span><span class="stat" id="tm"></span>
+<div class="prog"><div class="f" id="pb"></div></div></div>
+<div class="card"><div class="t">روتينك</div><div id="list"></div>
+<div style="margin-top:10px"><button class="btn ghost" id="reset">أعد الخطوات</button></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+const ST=[
+ {n:'ذِكر الصباح',u:'../misbah/'},
+ {n:'صفحة مِجلس',u:'../majlis/'},
+ {n:'حديث مِطلع',u:'../mitla3/'},
+ {n:'١٥ دقيقة مِعتكف',u:'../mi3tikaf/'},
+ {n:'مسوّدة مِسوَد',u:'../miswad/'},
+ {n:'مقاصد مِقصَد',u:'../miqsad/'},
+];
+let S=LS('mishmar',{date:today(),done:{},streak:0,last:''});
+if(S.date!==today()){S.done={};S.date=today();SV('mishmar',S)}
+function render(){
+ let dn=0;
+ $('#list').innerHTML=ST.map((s,i)=>{
+  const d=!!S.done[i];
+  if(d)dn++;
+  return '<div class="stp'+(d?' done':'')+'"><div class="cb" data-i="'+i+'"></div><span class="nm">'+s.n+'</span><a href="'+s.u+'" class="u">افتح ←</a></div>';
+ }).join('');
+ const pc=Math.round(dn/ST.length*100);
+ $('#pc').textContent=arN(pc)+'٪';
+ $('#pb').style.width=pc+'%';
+ const h=new Date().getHours();
+ $('#tm').textContent=h<12?'الصباح بخير':h<17?'النهار بخير':'المساء بخير';
+ if(pc===100&&S.last!==today()){
+  S.streak++;S.last=today();SV('mishmar',S);
+ }
+ const sk=document.getElementById('stk');if(sk)sk.textContent=arN(S.streak||0);
+}
+$('#list').onclick=e=>{
+ const cb=e.target.closest('.cb');if(!cb)return;
+ const i=+cb.dataset.i;
+ S.done[i]=!S.done[i];SV('mishmar',S);render();
+};
+$('#reset').onclick=()=>{S.done={};SV('mishmar',S);render()};
+render();
+</script>
+<div style="text-align:center;margin-top:10px"><span class="stat">سلسلة صباحاتك: <b id="stk">٠</b></span></div>
+<script>
+$('#stk').textContent=arN(LS('mishmar',{}).streak||0);
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mishmar" data-title="مِشمَر"></script>
+</body>
+</html>

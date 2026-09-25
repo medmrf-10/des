@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِسوَد — مسوّدتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+textarea{width:100%;min-height:280px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:12px 15px;font-family:var(--font-ar);font-size:14px;line-height:2.1;resize:vertical}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11.5px;color:var(--dim)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:11.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.tab{display:inline-block;padding:5px 12px;border-radius:8px;background:var(--card);border:1px solid var(--border);cursor:pointer;font-size:11.5px;margin:3px}
+.tab.on{background:var(--acc);color:#14140f;font-weight:700}
+.hist{max-height:150px;overflow-y:auto;font-size:11px;color:var(--dim)}
+.hist div{padding:3px 0;border-bottom:1px dashed var(--border)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِسوَد <span class="muted">— مسوّدتك الحرة</span></h2>
+<div class="muted">اكتب أي شيء — يُحفظ تلقائياً كل ثانية، ويُقاس، ويُصدَّر.</div>
+<div class="card">
+<div id="tabs"></div>
+<textarea id="txt" placeholder="مسوّدتك هنا — خواطر، مخطط درس، ملاحظة…"></textarea>
+<div class="bar"><span id="st"></span>
+<div class="btns">
+<button class="btn ghost" id="copy">نسخ</button>
+<button class="btn ghost" id="dl">تنزيل .txt</button>
+<button class="btn ghost" id="clear">مسح</button>
+<button class="btn" id="send3">أرسل لـ«مِعمل»</button>
+</div></div>
+<div class="hist" id="hist" style="margin-top:9px"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const SLOTS=['أ','ب','ج','د'];
+let cur=0;
+let T=LS('miswad',{slots:{},hist:[]});
+if(!T.slots)T.slots={};
+if(!T.hist)T.hist=[];
+function save(){
+ T.slots[cur]=$('#txt').value;
+ T.hist.unshift({at:new Date().toISOString(),len:$('#txt').value.length});
+ if(T.hist.length>20)T.hist.pop();
+ SV('miswad',T);stats();
+}
+function stats(){
+ const t=$('#txt').value;
+ const ws=t.split(/\s+/).filter(Boolean).length;
+ const ch=t.length;
+ $('#st').textContent=arN(ws)+' كلمة · '+arN(ch)+' حرف · حُفظ تلقائيًا';
+ $('#hist').innerHTML=T.hist.slice(0,8).map(h=>'<div>'+h.at.slice(11,16)+' — '+arN(h.len)+' حرف</div>').join('');
+}
+function tabs(){
+ $('#tabs').innerHTML=SLOTS.map((s,i)=>'<span class="tab'+(i===cur?' on':'')+'" data-i="'+i+'">'+s+'</span>').join('');
+}
+$('#tabs').onclick=e=>{const t=e.target.closest('.tab');if(!t)return;
+ T.slots[cur]=$('#txt').value;cur=+t.dataset.i;
+ $('#txt').value=T.slots[cur]||'';tabs();stats();
+};
+let iv;
+$('#txt').oninput=()=>{clearTimeout(iv);iv=setTimeout(save,800);stats()};
+$('#copy').onclick=()=>{navigator.clipboard.writeText($('#txt').value);$('#st').textContent='✓ نُسخ'};
+$('#dl').onclick=()=>{
+ const b=new Blob([$('#txt').value],{type:'text/plain'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='miswad_'+cur+'.txt';a.click();
+};
+$('#clear').onclick=()=>{if(confirm('امسح هذا المسوّد؟')){$('#txt').value='';save()}};
+$('#send3').onclick=()=>{location.href='../mi3mal/?t='+encodeURIComponent($('#txt').value.slice(0,2000))};
+$('#txt').value=T.slots[0]||'';tabs();stats();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miswad" data-title="مِسوَد"></script>
+</body>
+</html>

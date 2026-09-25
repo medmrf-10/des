@@ -1,0 +1,13 @@
+header{text-align:center;padding:22px 14px 8px}header h1{font-size:1.6rem;color:var(--acc);margin:0}header .tagline{color:var(--tx2);font-size:.82rem;margin:6px 0 0}
+.wrap{max-width:720px;margin:0 auto;padding:10px 14px 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.stat{text-align:center;font-size:.95rem;color:var(--tx2);line-height:1.9}.stat b{color:var(--acc);font-size:1.15rem}
+#q{width:100%;box-sizing:border-box;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:11px 14px;font-family:inherit;font-size:.92rem}
+#q:focus{outline:none;border-color:var(--acc)}
+.day{color:var(--acc);font-size:.78rem;font-weight:700;margin:16px 2px 6px}
+.row{display:flex;gap:10px;align-items:baseline;padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.03);font-size:.8rem}
+.row:hover{background:rgba(201,162,75,.04)}
+.hh{color:var(--acc2);font-family:monospace;font-size:.7rem;flex:none}
+.mm{flex:1;color:var(--txt);line-height:1.6}
+.tt{color:var(--tx3);font-size:.66rem;flex:none}
+.tip{background:var(--card2);text-align:center;font-size:.78rem;color:var(--tx2)}

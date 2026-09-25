@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الموازنة | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.pairs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.pchip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+.pchip.on{outline:2px solid var(--acc2)}
+.pchip .seen{color:var(--ok)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+@media(max-width:640px){.cols{grid-template-columns:minmax(0,1fr)}}
+.scol{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px}
+.scol.win{border-color:var(--ok);box-shadow:0 0 10px #6fb36f33}
+.scol h3{font-size:13px;margin:0 0 8px;color:var(--acc2);font-weight:700}
+.chain{display:flex;flex-direction:column;align-items:center;gap:0}
+.node{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-family:var(--font-ar);font-size:13.5px;min-width:150px;text-align:center}
+.node.src{background:var(--acc2);color:#151005;font-weight:700}
+.node.dst{border-color:var(--acc)}
+.lnk{color:var(--acc3);font-size:11px;padding:2px 0;font-family:var(--font-ar)}
+.bdg{border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.opt{display:block;width:100%;margin:5px 0;padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--txt);cursor:pointer;font-family:inherit;font-size:13.5px;text-align:right}
+.opt.on{outline:2px solid var(--acc2)}
+.opt.right{border-color:var(--ok)}.opt.wrong{border-color:#e08a8a}
+.reveal{border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:13px}
+.reveal.good{border-color:var(--ok);background:#14291c55}
+.reveal.bad{border-color:#e08a8a;background:#3a1d1d55}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.stats b{color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+.bk{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;margin-top:8px}
+.kv{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--dim);margin-top:6px}
+.kv b{color:var(--txt)}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚖️ الموازنة</h1>
+  <span class="sub">إسنادان لنفس المعنى جنباً إلى جنب — أيهما أقوى ولماذا؟</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="tarjih.html">الترجيح ←</a>
+</header>
+<div class="stats" id="stats"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div class="pairs" id="pairs"></div>
+<div id="main"><div class="mut" style="padding:30px;text-align:center">يُحمّل الأزواج…</div></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[^\p{L}\s]/gu,' ').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';return 'ot'};
+const BRK={sa:5,hs:4,ot:3,ns:2,df:1,sd:0,mw:-1};
+const GAP=/إرسال|ارسال|انقطاع|منقطع|مقطوع|مرسل|تدليس|عنعن|مجهول|منكر/;
+const GHOST=/موضع تعليق|إرسال|انقطاع/;
+const D={};let GN=null,POOL=[],CUR=null;
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+const SKEY='miq_muwazan';
+const getL=()=>{try{return JSON.parse(localStorage.getItem(SKEY)||'{}')}catch(e){return{}}};
+const saveL=l=>{try{localStorage.setItem(SKEY,JSON.stringify(l))}catch(e){}};
+function stats(){
+  const l=getL();
+  document.getElementById('stats').innerHTML=
+    `موازنات: <b>${arNum(l.tried||0)}</b> · مبرر صحيح: <b>${arNum(l.ok||0)}</b>${l.tried?` (${arNum(Math.round(100*l.ok/l.tried))}٪)`:''}`;
+}
+async function loadGN(){
+  if(GN)return;stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+/* ~15 زوجاً: gid بمواضع في كتابين مختلفين، يفضّل اختلاف طبقات الأحكام بين الجهتين */
+function buildPool(){
+  const cand=[];
+  for(const gid in GN.g){
+    const g=GN.g[gid];const wb=Object.keys(g.w||{}).filter(b=>g.w[b].length);
+    if(wb.length<2)continue;
+    const vs={};
+    for(const b of wb)vs[b]=(g.j&&g.j[b]&&g.j[b][g.w[b][0]]&&g.j[b][g.w[b][0]][0])||'';
+    const bkts=new Set(Object.values(vs).map(bucket));
+    cand.push({gid,a:{b:wb[0],n:g.w[wb[0]][0]},z:{b:wb[1],n:g.w[wb[1]][0]},spread:bkts.size});
+  }
+  cand.sort((x,y)=>y.spread-x.spread);
+  POOL=cand.slice(0,15);
+}
+function paintPairs(){
+  const l=getL();
+  document.getElementById('pairs').innerHTML=POOL.map((p,i)=>{
+    const k=p.gid+'-'+p.a.b+p.a.n+'-'+p.z.b+p.z.n;
+    return `<button class="pchip ${CUR&&CUR.ix===i?'on':''}" onclick="show(${i})">
+      ${arNum(i+1)}${l[k]?'<span class="seen"> ✓</span>':''} <span style="color:var(--dim)">${BAR[p.a.b].replace('صحيح ','').replace('سنن ','')} × ${BAR[p.z.b].replace('صحيح ','').replace('سنن ','')}</span></button>`;
+  }).join('');
+}
+window.show=async function(ix){
+  const p=POOL[ix];CUR={p,ix};
+  stat.textContent='يُحمّل الكتابين…';
+  const ja=await loadBook(p.a.b),jz=await loadBook(p.z.b);
+  const g=GN.g[p.gid];
+  const chA=(ja.s[p.a.n]&&ja.s[p.a.n][0]&&ja.s[p.a.n][0][1]||[]).filter(n=>!GHOST.test(n));
+  const chZ=(jz.s[p.z.n]&&jz.s[p.z.n][0]&&jz.s[p.z.n][0][1]||[]).filter(n=>!GHOST.test(n));
+  const vA=ja.s[p.a.n]&&ja.s[p.a.n][0]&&ja.s[p.a.n][0][0]||'';
+  const vZ=jz.s[p.z.n]&&jz.s[p.z.n][0]&&jz.s[p.z.n][0][0]||'';
+  const jA=(g.j&&g.j[p.a.b]&&g.j[p.a.b][p.a.n])||[];
+  const jZ=(g.j&&g.j[p.z.b]&&g.j[p.z.b][p.z.n])||[];
+  /* الدرجة: طبقة الحكم أولاً، ثم غياب مفردات الخلل، ثم طول السلسلة */
+  const scA=BRK[bucket(vA)]*10-(GAP.test(vA)?3:0)+Math.min(chA.length,9)*.5;
+  const scZ=BRK[bucket(vZ)]*10-(GAP.test(vZ)?3:0)+Math.min(chZ.length,9)*.5;
+  const winner=scA===scZ?0:(scA>scZ?1:-1);
+  /* المبرر الصحيح: اختلاف الحكم → أصح؛ تساوٍ مع خلل لغوي → أقل انقطاعاً؛ تساوٍ تام → أطول */
+  let right;
+  if(bucket(vA)!==bucket(vZ))right=2;
+  else if(GAP.test(vA)!==GAP.test(vZ))right=1;
+  else right=0;
+  CUR={p,ix,chA,chZ,vA,vZ,jA,jZ,winner,right};
+  const col=(ch,v,js,side)=>`
+    <div class="scol" id="sc${side}">
+      <h3>${BAR[side?p.z.b:p.a.b]} #${arNum(side?p.z.n:p.a.n)}</h3>
+      <div class="chain">
+        <div class="node src">ﷺ</div>
+        ${[...ch].reverse().map(nm=>`<div class="lnk">عن</div><div class="node">${esc(nm)}</div>`).join('')}
+        <div class="lnk">عن</div><div class="node dst">${BAR[side?p.z.b:p.a.b]}</div>
+      </div>
+      <div class="kv"><span>رجال: <b>${arNum(ch.length)}</b></span>
+        <span>الحكم: <b class="bdg v-${bucket(v)}">${esc(v||'—')}</b></span></div>
+      <div id="jv${side}"></div>
+    </div>`;
+  stat.textContent='';pf.style.width='100%';
+  document.getElementById('main').innerHTML=`
+    <div class="card">
+      <div class="mut" style="margin-bottom:8px">معنى #${arNum(p.gid)} · ${esc(g.t.slice(0,110))}${g.t.length>110?'…':''}</div>
+      <div class="cols">${col(chA,vA,jA,0)}${col(chZ,vZ,jZ,1)}</div>
+      <div id="quiz" style="margin-top:10px">
+        <div class="mut" style="margin-bottom:6px">أيهما أقوى سنداً وما المبرر؟</div>
+        <button class="opt" onclick="pick(0)">الأطول رجالاً — كثرة الشهود تقوّي الطريق</button>
+        <button class="opt" onclick="pick(1)">الأقل انقطاعاً — اتصال الأسماء لا عوائق فيه</button>
+        <button class="opt" onclick="pick(2)">الأصح أحكاماً — حكم العلماء على طريقه أعلى</button>
+      </div>
+      <div id="rev"></div>
+    </div>`;
+  paintPairs();
+};
+window.pick=function(ans){
+  const {p,chA,chZ,vA,vZ,jA,jZ,winner,right}=CUR;
+  const ok=ans===right;
+  const l=getL();
+  l.tried=(l.tried||0)+1;l.ok=(l.ok||0)+(ok?1:0);
+  l[p.gid+'-'+p.a.b+p.a.n+'-'+p.z.b+p.z.n]={ok:ok?1:0};
+  saveL(l);stats();
+  document.querySelectorAll('#quiz .opt').forEach((o,i)=>{
+    if(i===ans)o.classList.add('on');
+    if(i===right)o.classList.add('right');
+    else if(i===ans)o.classList.add('wrong');
+  });
+  if(winner!==0){
+    const w=winner>0?0:1;
+    const el=document.getElementById('sc'+w);if(el)el.classList.add('win');
+  }
+  const names=['الأطول رجالاً','الأقل انقطاعاً','الأصح أحكاماً'];
+  const why=[
+    `رجال الجهة الأولى ${arNum(chA.length)} مقابل ${arNum(chZ.length)}`,
+    `خلل لفظي في الحكم: ${GAP.test(vA)?'الأولى موصوفة بخلل':'الأولى بلا خلل'} / ${GAP.test(vZ)?'الثانية موصوفة بخلل':'الثانية بلا خلل'}`,
+    `طبقة الحكم: ${bucket(vA)} مقابل ${bucket(vZ)}`
+  ];
+  const wtxt=winner===0?'متعادلتان':(winner>0?'الأولى أقوى':'الثانية أقوى');
+  document.getElementById('rev').innerHTML=
+    `<div class="reveal ${ok?'good':'bad'}">
+      <b>${ok?'أصبت المبرر ✓':'المبرر غير موفّق'}</b> — النتيجة: <b>${wtxt}</b> · المبرر الأقوم: «${names[right]}»
+      <div class="mut" style="margin-top:6px">${why.join(' · ')}</div>
+      <div class="mut" style="margin-top:6px">أحكام العلماء — الأولى: ${jA.length?jA.map(v=>`<span class="bdg v-${bucket(v)}">${esc(v)}</span>`).join(' '):'—'}<br>الثانية: ${jZ.length?jZ.map(v=>`<span class="bdg v-${bucket(v)}">${esc(v)}</span>`).join(' '):'—'}</div>
+      <div class="mut" style="margin-top:6px">الموازنة تزن الحكم على الطريق والاتصال وعدد الشهود معاً — لا معيار واحد.</div>
+      <a class="bk" href="net.html#g${p.gid}">المعنى في الشبكة ←</a>
+      <a class="bk" href="shajara.html#${p.a.b}&${p.a.n}">شجرة الأولى ←</a>
+      <a class="bk" href="shajara.html#${p.z.b}&${p.z.n}">شجرة الثانية ←</a>
+    </div>`;
+  paintPairs();
+};
+(async()=>{
+  await loadGN();
+  stat.textContent='ينتقي الأزواج…';
+  buildPool();
+  stats();
+  stat.textContent='';pf.style.width='60%';
+  paintPairs();
+  if(POOL.length)show(0);else document.getElementById('main').innerHTML='<div class="mut">لا أزواج</div>';
+})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="miq_muwazan"></script>
+</body>
+</html>

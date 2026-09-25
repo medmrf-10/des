@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِظلة — يومك في نظرة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:920px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px;margin-top:12px}
+.w{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px}
+.w .h{font-size:12px;color:var(--acc);font-weight:700;display:flex;justify-content:space-between;margin-bottom:7px}
+.w .h a{color:var(--acc3);text-decoration:none;font-weight:400;font-size:11px}
+.w .b{font-family:var(--font-ar);font-size:13.5px;line-height:1.95}
+.muted{color:var(--dim);font-size:11.5px}
+.big{font-size:21px;font-weight:700}
+.ok{color:var(--ok)}
+.bar{height:5px;background:var(--card2);border-radius:99px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِظلة <span class="muted">— كل يومك في نظرة واحدة</span></h2>
+<div class="muted" id="date"></div>
+<div class="grid" id="g"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>Number(n||0).toLocaleString('ar-EG');
+const today=new Date().toISOString().slice(0,10);
+$('#date').textContent=new Date().toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'});
+const g=$('g');
+function W(id,title,link,body){g.insertAdjacentHTML('beforeend',`<div class="w"><div class="h"><span>${title}</span><a href="${link}">افتح ←</a></div><div class="b">${body}</div></div>`)}
+// الصلاة — القادمة
+(async()=>{
+ try{
+  const c=JSON.parse(localStorage.getItem('mihrab_times')||'{}');
+  let t=c[today];
+  if(!t){
+   const lat=36.19,lon=5.41;
+   const r=await(await fetch('https://api.aladhan.com/v1/timings/'+Math.floor(Date.now()/1000)+'?latitude='+lat+'&longitude='+lon+'&method=3')).json();
+   t=r.data.timings;c[today]=t;localStorage.setItem('mihrab_times',JSON.stringify(c))}
+  const now=new Date(),hh=now.getHours()*60+now.getMinutes();
+  const seq=[['الفجر','Fajr'],['الشروق','Sunrise'],['الظهر','Dhuhr'],['العصر','Asr'],['المغرب','Maghrib'],['العشاء','Isha']];
+  let next=null;
+  for(const[n,k]of seq){const[h,m]=t[k].split(':').map(Number);
+   if(h*60+m>hh){next=[n,t[k]];break}}
+  if(!next)next=[seq[0][0],t[seq[0][1]]+' (غداً)'];
+  W('pr','الصلاة','../mihrab/','<span class="big ok">'+esc(next[0])+' '+esc(next[1])+'</span><br><span class="muted">الصلاة القادمة — توقيت الإقليم</span>')}
+ catch(e){W('pr','الصلاة','../mihrab/','<span class="muted">افتح مِحراب لضبط التوقيت</span>')}})();
+// سجل الدفتر
+{
+ const d=JSON.parse(localStorage.getItem('daftar')||'[]');
+ const td=d.filter(x=>x.at&&x.at.slice(0,10)===today);
+ W('df','دفتر اليوم','../daftar/','<span class="big">'+arN(td.length)+'</span> مدخلات اليوم<br><span class="muted">'+(td[0]?esc(String(td[0].t||'').slice(0,60)):'لا مدخلات بعد — أول فكرة؟')+'</span><div class="bar"><i style="width:'+Math.min(100,td.length*14)+'%"></i></div>')}
+// مداد
+{
+ const m=JSON.parse(localStorage.getItem('midad')||'{}');
+ const mins=(m[today]||[]).reduce((a,x)=>a+(x.m||0),0);
+ W('md','مِداد اليوم','../midad/','<span class="big">'+arN(mins)+'</span> دقيقة قياساً<br><span class="muted">'+((m[today]||[]).map(x=>x.s).join('، ')||'لا جلسات بعد')+'</span><div class="bar"><i style="width:'+Math.min(100,mins/1.5)+'%"></i></div>')}
+// الختمة
+{
+ const mj=JSON.parse(localStorage.getItem('majlis')||'{}');
+ const sur=Object.keys(mj).length;
+ W('mj','مجلس الختمة','../majlis/','<span class="big">'+arN(sur)+'</span> سورة مُنجزة<br><span class="muted">'+(sur?((sur/114*100).toFixed(0)+'% من المصحف'):'ابدأ رحلتك')+'</span><div class="bar"><i style="width:'+(sur/114*100)+'%"></i></div>')}
+// مراجعة
+{
+ const R=JSON.parse(localStorage.getItem('miraj3a')||'{}');
+ const M=JSON.parse(localStorage.getItem('ma3raj')||'{}');
+ const now=Date.now();
+ const due=Object.keys(M).filter(n=>!R[n]||((now-R[n])/864e5>=7)).length;
+ W('rv','مراجعة','../miraj3a/','<span class="big">'+arN(due)+'</span> قطعة مستحقة<br><span class="muted">'+(due?'دورك عليها':'لا شيء مستحق — كافئة نفسك')+'</span><div class="bar"><i style="width:'+Math.min(100,due*20)+'%"></i></div>')}
+// سواهج
+{
+ const s=JSON.parse(localStorage.getItem('sawanih')||'[]');
+ W('sw','صوانح','../sawanih/','<span class="big">'+arN(s.length)+'</span> فكرة مدوّنة<br><span class="muted">'+(s[s.length-1]?esc(String(s[s.length-1].t||s[s.length-1]||'').slice(0,60)):'')+'</span>')}
+// مِنار
+{
+ const mn=JSON.parse(localStorage.getItem('minar_'+new Date().toISOString().slice(0,10))||'null')||JSON.parse(localStorage.getItem('minar')||'{}');
+ W('mn','مِنار','../minar/','<span class="muted">شعلتك الأسبوعية — تفاصيلك داخل مِنار</span>')}
+// متابِع
+{
+ const mt=JSON.parse(localStorage.getItem('mutabi3')||'{}');
+ const tot=Object.values(mt).reduce((a,b)=>a+b,0);
+ W('mt','إحصاء التطبيقات','../mutabi3/','<span class="big">'+arN(tot)+'</span> فعالية مسجّلة عبر '+arN(Object.keys(mt).length)+' نشاطاً')}
+// إنجليزية
+{
+ const en=JSON.parse(localStorage.getItem('en_srs')||'{}');
+ const due=Object.values(en).filter(c=>c&&(c.state==='new'||!c.lastReview||!c.nextReview||c.nextReview<=today)).length;
+ W('en','إنجليزية','../english/srs.html','<span class="big">'+arN(due)+'</span> بطاقة مستحقة<br><span class="muted">'+arN(Object.keys(en).length)+' كلمة في بنكك</span>')}
+// برمجة
+{
+ const pv=JSON.parse(localStorage.getItem('prog_v1')||'{}');
+ W('pg','برمجة','../prog/','<span class="big">'+arN(Object.keys(pv).length)+'</span> درساً منجزاً<br><span class="muted">مساراتك في منصة البرمجة</span>')}
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="midhallah" data-title="مِظلة"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مكتبتي — مساحتك الشخصية</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 15px;margin-bottom:11px}
+.sec h3{margin:0 0 8px;font-size:14px;color:var(--acc);display:flex;justify-content:space-between}
+.sec h3 a{font-size:11px;color:var(--acc2);text-decoration:none}
+.it{font-size:13.5px;line-height:1.9;padding:7px 0;border-top:1px dashed var(--border)}
+.it:first-of-type{border:none}
+.it .w{color:var(--dim);font-size:11px}
+.muted{color:var(--dim);font-size:12px}
+.big{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.big div{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px}
+.big b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">مكتبتي</h1>
+<div class="muted">كل ما تلمسه المنظومة يبقى هنا — ملاحظاتك وتقدمك ومراجعاتك على جهازك</div>
+<div class="big" id="big"></div>
+<div class="sec"><h3>🔖 ملاحظاتك المحفوظة <a href="../manzuma/">المعلم ←</a></h3><div id="notes"><span class="muted">لا ملاحظات — احفظ من إجابات المعلم أو البطاقات</span></div></div>
+<div class="sec"><h3>📚 مراجعاتك <a href="../madrasati/">مدرستي ←</a></h3><div id="rev"></div></div>
+<div class="sec"><h3>خ تقدم خطتك <a href="../mukhatat/">مخططي ←</a></h3><div id="plan"></div></div>
+<div class="sec"><h3>ع مسوداتك <a href="../mu3edd/">مُعِدّ ←</a></h3><div id="drafts"><span class="muted">ابدأ مسودة درس في مُعِدّ — تُحفظ هنا تلقائياً</span></div></div>
+<script>
+const arN=n=>(+n).toLocaleString('ar-EG');
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const J=k=>{try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return{}}};
+// ملاحظات المعلم/المنظومة — مفاتيح محتملة
+const keys=Object.keys(localStorage).filter(k=>/note|note|ملاحظ|tutor|save/i.test(k));
+let notes=[];
+for(const k of keys){const v=J(k);if(Array.isArray(v))notes.push(...v);else if(v&&typeof v==='object'&&v.t)notes.push(v)}
+// دعم تنسيق manzuma saveNote إن كان يخزن ككائنات
+const rawNotes=localStorage.getItem('manzuma_notes')||localStorage.getItem('notes');
+if(rawNotes){try{const p=JSON.parse(rawNotes);notes.push(...(Array.isArray(p)?p:Object.values(p)))}catch(e){}}
+document.getElementById('notes').innerHTML=notes.length?notes.slice(-20).reverse().map(n=>`<div class="it">${esc((n&&n.t)||String(n).slice(0,160))}<div class="w">${n&&n.d?esc(n.d):''}</div></div>`).join(''):'<span class="muted">لا ملاحظات بعد</span>';
+// مراجعات
+const sch=J('mdr_sched');const scIds=Object.keys(sch);
+const due=scIds.filter(k=>new Date(sch[k].nextReview)<=new Date()).length;
+document.getElementById('rev').innerHTML=scIds.length?`<div class="it">بطاقات في جدولك: <b style="color:var(--acc)">${arN(scIds.length)}</b> · مستحقة الآن: <b style="color:${due?'var(--acc)':'var(--ok)'}">${arN(due)}</b></div><div class="it muted">${due?'لديك بطاقات تنتظر مراجعتها':'كل جدولك مُنجز'}</div>`:'<span class="muted">لم تبدأ المراجعة — افتح مدرستي وقيّم أول بطاقة</span>';
+// الخطة
+const mk=J('mkhatat');const mkDone=Object.keys(mk).filter(k=>mk[k]).length;
+document.getElementById('plan').innerHTML=mkDone?`<div class="it">أنجزت <b style="color:var(--ok)">${arN(mkDone)}</b> من 27 خطوة</div><div class="pbar" style="height:6px;background:var(--card2);border-radius:3px;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:${Math.round(mkDone/27*100)}%;background:linear-gradient(90deg,var(--acc),var(--ok))"></i></div>`:'<span class="muted">افتح مخططي وعلّم أول خطوة</span>';
+// مسودات مُعِدّ
+const drafts=J('mu3edd_drafts');
+const darr=Array.isArray(drafts)?drafts:Object.values(drafts);
+document.getElementById('drafts').innerHTML=darr.length?darr.slice(-10).reverse().map(d=>`<div class="it"><b>${esc(d.title||'مسودة')}</b><div class="w">${esc((d.text||'').slice(0,140))}…</div></div>`).join(''):'<span class="muted">لا مسودات</span>';
+document.getElementById('big').innerHTML=`<div>🔖 <b>${arN(notes.length)}</b> ملاحظة</div><div>📚 <b>${arN(scIds.length)}</b> بطاقة</div><div>خ <b>${arN(mkDone)}</b>/٢٧ خطوة</div><div>ع <b>${arN(darr.length)}</b> مسودة</div>`;
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

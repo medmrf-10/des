@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِذكَر — مُذكِّر القوائم</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:660px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+textarea{width:100%;min-height:100px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:13px;line-height:2;resize:vertical}
+input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:12px;width:100%}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.txt{font-family:var(--font-ar);font-size:17px;line-height:2.5;background:var(--card);border-radius:12px;padding:14px;text-align:center}
+.txt .w{cursor:pointer}
+.txt .w.hide{color:transparent;text-shadow:0 0 12px var(--dim);user-select:none}
+.txt .w:hover{color:var(--acc2)}
+.lst{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin-top:7px;font-size:12.5px}
+.lst .open{color:var(--acc);cursor:pointer;font-weight:700}
+.lst .del{color:var(--dim);cursor:pointer}
+.btns{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِذكَر <span class="muted">— مُذكِّر قوائمك</span></h2>
+<div class="muted">ضع أي نص (متن، أذكار، أبيات، مصطلحات) — احفظه قائمة ثم تدرّب بإخفاء الكلمات.</div>
+<div class="card"><div class="t">أضف قائمة</div>
+<input id="ln" placeholder="اسم القائمة (مثال: أذكار الصباح)">
+<textarea id="lt" placeholder="النص الكامل…" style="margin-top:7px"></textarea>
+<button class="btn" id="add" style="margin-top:8px">احفظ وتدرّب</button></div>
+<div class="card" id="drill" style="display:none"><div class="t" id="dt">—</div>
+<div class="txt" id="txt"></div>
+<div class="btns">
+<button class="btn ghost" id="less">أظهر كلمة</button>
+<button class="btn" id="more">أخفِ كلمة</button>
+<button class="btn ghost" id="reset">إعادة</button>
+</div>
+<div class="muted" style="text-align:center;margin-top:8px" id="pct"></div></div>
+<div class="card"><div class="t">قوائمك</div><div id="lists" class="muted">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let L=LS('mizkar',[]);
+let words=[],hid=new Set(),cur=null;
+$('#add').onclick=()=>{
+ const n=$('#ln').value.trim(),t=$('#lt').value.trim();
+ if(!n||!t)return alert('املأ الاسم والنص');
+ L.push({id:Date.now(),n,t});$('#ln').value='';$('#lt').value='';
+ SV('mizkar',L);openList(L.length-1);
+};
+function openList(i){
+ cur=i;const l=L[i];
+ words=l.t.split(/\s+/).filter(Boolean);hid.clear();
+ $('#dt').textContent='تدرّب: '+l.n;
+ $('#drill').style.display='block';render();renderLists();
+ $('#drill').scrollIntoView({behavior:'smooth'});
+}
+function render(){
+ $('#txt').innerHTML=words.map((w,i)=>'<span class="w'+(hid.has(i)?' hide':'')+'" data-i="'+i+'">'+esc(w)+'</span>').join(' ');
+ $('#pct').textContent=hid.size?'مخفي '+hid.size+'/'+words.length+' ('+Math.round(hid.size/words.length*100)+'٪)':'انقر كلمة لإخفائها';
+}
+$('#txt').onclick=e=>{const w=e.target.closest('.w');if(!w)return;const i=+w.dataset.i;
+ hid.has(i)?hid.delete(i):hid.add(i);render()};
+$('#more').onclick=()=>{const o=words.map((_,i)=>i).filter(i=>!hid.has(i));
+ if(o.length){hid.add(o[Math.floor(Math.random()*o.length)]);render()}};
+$('#less').onclick=()=>{const h=[...hid];if(h.length){hid.delete(h[Math.floor(Math.random()*h.length)]);render()}};
+$('#reset').onclick=()=>{hid.clear();render()};
+function renderLists(){
+ $('#lists').innerHTML=L.length?L.map((l,i)=>
+  '<div class="lst"><span>'+esc(l.n)+' <span class="muted">('+l.t.split(/\s+/).filter(Boolean).length+' كلمة)</span></span>'+
+  '<span><span class="open" data-i="'+i+'">تدرّب</span> · <span class="del" data-i="'+i+'">✕</span></span></div>').join(''):'لا قوائم بعد';
+}
+document.onclick=e=>{
+ const o=e.target.closest('.open');if(o){openList(+o.dataset.i);return}
+ const d=e.target.closest('.del');if(d){L.splice(+d.dataset.i,1);SV('mizkar',L);renderLists()}
+};
+renderLists();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mizkar" data-title="مِذكَر"></script>
+</body>
+</html>

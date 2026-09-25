@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِعتَب — العتبة الدنيا</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{min-height:100dvh;padding:18px clamp(10px,3vw,30px) 60px}
+.wrap{max-width:760px;margin:0 auto}
+.muted{color:var(--dim);font-size:.8rem;line-height:1.8}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px;margin-bottom:12px}
+.card .t{color:var(--acc);font-weight:700;font-size:.85rem;margin-bottom:8px}
+input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.82rem;padding:9px 11px;margin-top:6px}
+input:focus{outline:none;border-color:var(--acc)}
+.btn{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-weight:700;font-size:.78rem;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:none;border:1px solid var(--border);color:var(--dim)}
+.habit{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px;margin-bottom:10px}
+.habit .hh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.habit .hh b{font-size:.9rem}
+.habit .min-l{font-size:.72rem;color:var(--dim);margin-top:2px}
+.habit .min-l b{color:var(--acc)}
+.streak{font-size:.66rem;color:var(--acc);border:1px solid var(--acc);border-radius:99px;padding:2px 9px;white-space:nowrap}
+.streak.zero{color:var(--dim);border-color:var(--border)}
+.heat{display:flex;gap:3px;margin-top:10px}
+.heat i{flex:1;height:16px;border-radius:3px;background:var(--card2);position:relative}
+.heat i.full{background:var(--acc)}
+.heat i.min{background:linear-gradient(90deg,var(--acc) 50%,var(--card2) 50%)}
+.heat i.td{outline:1px solid var(--acc)}
+.heat i[title]{cursor:default}
+.hbtns{display:flex;gap:8px;margin-top:10px}
+.hbtns button{flex:1;border-radius:8px;font-family:inherit;font-size:.72rem;font-weight:700;padding:8px;cursor:pointer;border:1px solid var(--border);background:var(--card2);color:var(--dim);transition:.15s}
+.hbtns button.full{background:var(--ok);border-color:var(--ok);color:#0b0f1a}
+.hbtns button.min{background:var(--acc);border-color:var(--acc);color:#0b0f1a}
+.wk{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.wk b{color:var(--acc)}
+.del{background:none;border:none;color:var(--dim);cursor:pointer;font-size:.8rem}
+.del:hover{color:#e07070}
+.ins{font-size:.72rem;color:var(--acc2);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعتَب <span class="muted">— العتبة الدنيا</span></h2>
+<div class="muted">لكل عادة «أصغر نسخة» ليومٍ رديء: آية واحدة لا صفحة. القاعدة: يوم غير صِفري أبداً — العتبة تُنجز دائماً، والكاملة حين تقدر. <b>تعليم اليوم: ✓ = كاملة · ½ = عتبة</b></div>
+<div class="card"><div class="t">عادة جديدة + عتبتها</div>
+<input id="h" placeholder="العادة الكاملة — مثال: ورد صفحة من المصحف">
+<input id="m" placeholder="عتبتها الدنيا — مثال: آية واحدة">
+<button class="btn" id="ad" style="margin-top:9px">أضف</button></div>
+<div id="stats"></div>
+<div id="list"></div>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let H=LS('mi3tab',[]);
+const dstr=d=>d.toISOString().slice(0,10);
+const today=()=>dstr(new Date());
+const daysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return dstr(d)};
+function streak(x){
+ let s=0,d=x.done||{};
+ for(let i=0;i<365;i++){const k=daysAgo(i);if(d[k]==='full'||d[k]==='min')s++;else if(i===0)continue;else break}
+ return s;
+}
+function wkRate(x){
+ let f=0,m=0,d=x.done||{};
+ for(let i=0;i<7;i++){const v=d[daysAgo(i)];if(v==='full')f++;else if(v==='min')m++}
+ return {f,m};
+}
+function heat(x){
+ const d=x.done||{};
+ return '<div class="heat">'+Array.from({length:14},(_,j)=>{const k=daysAgo(13-j),v=d[k]||'',cls=(v==='full'?'full':v==='min'?'min':'')+(j===13?' td':'');
+  return `<i class="${cls}" title="${k.slice(5)}: ${v==='full'?'كاملة':v==='min'?'عتبة':'صفر'}"></i>`}).join('')+'</div>';
+}
+$('#ad').onclick=()=>{
+ const h=$('#h').value.trim(),m=$('#m').value.trim();if(!h||!m)return;
+ H.push({h,m,done:{}});SV('mi3tab',H);$('#h').value=$('#m').value='';render();
+};
+function render(){
+ const t=today();
+ const nF=H.filter(x=>x.done&&x.done[t]==='full').length,nM=H.filter(x=>x.done&&x.done[t]==='min').length;
+ const allStreak=H.length?Math.max(...H.map(streak)):0;
+ $('#stats').innerHTML='<span class="wk">عادات: <b>'+arN(H.length)+'</b></span>'+
+ '<span class="wk">اليوم كاملة: <b>'+arN(nF)+'</b></span>'+
+ '<span class="wk">عتبة: <b>'+arN(nM)+'</b></span>'+
+ '<span class="wk">صفر: <b>'+arN(H.length-nF-nM)+'</b></span>'+
+ '<span class="wk">أطول سلسلة: <b>'+arN(allStreak)+' يوم</b></span>';
+ $('#list').innerHTML=H.map((x,i)=>{
+  const st=x.done&&x.done[t],s=streak(x),w=wkRate(x);
+  return `<div class="habit"><div class="hh"><div><b>${esc(x.h)}</b><div class="min-l">العتبة: <b>${esc(x.m)}</b></div></div>
+  <div style="display:flex;gap:6px;align-items:center"><span class="streak${s?'':' zero'}">🔥 ${arN(s)}</span><button class="del" data-d="${i}">✕</button></div></div>
+  ${heat(x)}
+  <div class="ins">الأسبوع: ${arN(w.f)} كاملة · ${arN(w.m)} عتبة</div>
+  <div class="hbtns"><button class="${st==='full'?'full':''}" data-f="${i}">✓ أنجزتها كاملة</button><button class="${st==='min'?'min':''}" data-m="${i}">½ العتبة فقط</button></div></div>`;
+ }).join('')||'<div class="muted" style="margin-top:12px">لا عادات — أضف الأولى: «ورد صفحة» بعتبة «آية واحدة».</div>';
+}
+$('#list').onclick=e=>{
+ const f=e.target.closest('[data-f]'),m=e.target.closest('[data-m]'),d=e.target.closest('[data-d]');
+ if(d){if(confirm('حذف العادة وتاريخها؟')){H.splice(+d.dataset.d,1);SV('mi3tab',H);render()}return}
+ const i=f?+f.dataset.f:m?+m.dataset.m:-1;if(i<0)return;
+ const t=today(),mode=f?'full':'min';
+ H[i].done=H[i].done||{};
+ H[i].done[t]=H[i].done[t]===mode?undefined:mode;
+ SV('mi3tab',H);render();
+};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="mi3tab" data-title="مِعتَب"></script>
+</body>
+</html>

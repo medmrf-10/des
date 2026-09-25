@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>معراج — رحلة حفظ القرآن</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:900px;margin:0 auto;padding:14px}
+.ring{display:flex;gap:20px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 20px;margin:12px 0}
+.ring svg{transform:rotate(-90deg)}
+.ring .big{font-size:30px;font-weight:800;color:var(--acc2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:5px;margin-top:10px}
+.s{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:9px;font-size:12px;font-family:var(--font-ar);cursor:pointer;position:relative;transition:.15s;background:var(--card)}
+.s:hover{border-color:var(--acc)}
+.s .nm{position:absolute;bottom:1px;font-size:7.5px;color:var(--dim);max-width:100%;overflow:hidden;white-space:nowrap}
+.s.f{background:rgba(46,160,80,.16);border-color:rgba(46,160,80,.4)}
+.s.f .nm{color:#6fbf87}
+.s.p{background:rgba(220,160,40,.13);border-color:rgba(220,160,40,.35)}
+.jz{font-size:13px;color:var(--acc2);margin:16px 0 6px;font-family:var(--font-ar)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 16px;font-weight:700;cursor:pointer}
+.muted{color:var(--dim);font-size:12px}
+.stat{flex:1;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--acc2)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">معراج <span class="muted" style="font-weight:400;font-size:12px">— رحلة حفظك</span></h2>
+<div class="muted">اضغط السورة تبدّل حالتها: لم تُحفظ → قيد الحفظ → محفوظة. يُحفظ على جهازك. مقرأة تراجع ما حفظته بالتباعد.</div>
+<div class="ring">
+ <svg width="90" height="90"><circle cx="45" cy="45" r="38" fill="none" stroke="var(--card2)" stroke-width="9"/>
+ <circle id="arc" cx="45" cy="45" r="38" fill="none" stroke="var(--acc)" stroke-width="9" stroke-dasharray="238.7" stroke-dashoffset="238.7" stroke-linecap="round"/></svg>
+ <div class="stat"><b id="pct">0%</b><span class="muted">من القرآن</span></div>
+ <div class="stat"><b id="done">0</b><span class="muted">سورة محفوظة</span></div>
+ <div class="stat"><b id="ay">0</b><span class="muted">آية</span></div>
+ <div class="stat"><b id="rev">0</b><span class="muted">بطاقة مراجعة</span></div>
+ <a class="btn" href="../miqraa/" style="text-decoration:none">راجع ←</a>
+</div>
+<div id="map"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SU=[[1,'الفاتحة',7],[2,'البقرة',286],[3,'آل عمران',200],[4,'النساء',176],[5,'المائدة',120],[6,'الأنعام',165],[7,'الأعراف',206],[8,'الأنفال',75],[9,'التوبة',129],[10,'يونس',109],[11,'هود',123],[12,'يوسف',111],[13,'الرعد',43],[14,'إبراهيم',52],[15,'الحجر',99],[16,'النحل',128],[17,'الإسراء',111],[18,'الكهف',110],[19,'مريم',98],[20,'طه',135],[21,'الأنبياء',112],[22,'الحج',78],[23,'المؤمنون',118],[24,'النور',64],[25,'الفرقان',77],[26,'الشعراء',227],[27,'النمل',93],[28,'القصص',88],[29,'العنكبوت',69],[30,'الروم',60],[31,'لقمان',34],[32,'السجدة',30],[33,'الأحزاب',73],[34,'سبأ',54],[35,'فاطر',45],[36,'يس',83],[37,'الصافات',182],[38,'ص',88],[39,'الزمر',75],[40,'غافر',85],[41,'فصلت',54],[42,'الشورى',53],[43,'الزخرف',89],[44,'الدخان',59],[45,'الجاثية',37],[46,'الأحقاف',35],[47,'محمد',38],[48,'الفتح',29],[49,'الحجرات',18],[50,'ق',45],[51,'الذاريات',60],[52,'الطور',49],[53,'النجم',62],[54,'القمر',55],[55,'الرحمن',78],[56,'الواقعة',96],[57,'الحديد',29],[58,'المجادلة',22],[59,'الحشر',24],[60,'الممتحنة',13],[61,'الصف',14],[62,'الجمعة',11],[63,'المنافقون',11],[64,'التغابن',18],[65,'الطلاق',12],[66,'التحريم',12],[67,'الملك',30],[68,'القلم',52],[69,'الحاقة',52],[70,'المعارج',44],[71,'نوح',28],[72,'الجن',28],[73,'المزمل',20],[74,'المدثر',56],[75,'القيامة',40],[76,'الإنسان',31],[77,'المرسلات',50],[78,'النبأ',40],[79,'النازعات',46],[80,'عبس',42],[81,'التكوير',29],[82,'الانفطار',19],[83,'المطففين',36],[84,'الانشقاق',25],[85,'البروج',22],[86,'الطارق',17],[87,'الأعلى',19],[88,'الغاشية',26],[89,'الفجر',30],[90,'البلد',20],[91,'الشمس',15],[92,'الليل',21],[93,'الضحى',11],[94,'الشرح',8],[95,'التين',8],[96,'العلق',19],[97,'القدر',5],[98,'البينة',8],[99,'الزلزلة',8],[100,'العاديات',11],[101,'القارعة',11],[102,'التكاثر',8],[103,'العصر',3],[104,'الهمزة',9],[105,'الفيل',5],[106,'قريش',4],[107,'الماعون',7],[108,'الكوثر',3],[109,'الكافرون',6],[110,'النصر',3],[111,'المسد',5],[112,'الإخلاص',4],[113,'الفلق',5],[114,'الناس',6]];
+const JUZ=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+const JUZ_START=[1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,402,422,442,462,482,502,522,542,562,582];// صفحات تقريبية→سور
+let st={};try{st=JSON.parse(localStorage.getItem('ma3raj')||'{}')}catch(e){}
+const save=()=>localStorage.setItem('ma3raj',JSON.stringify(st));
+// حالة: 0 لا، 1 قيد، 2 محفوظة
+function render(){
+ let done=0,ay=0,pend=0;
+ SU.forEach(s=>{const v=st[s[0]]||0;if(v===2){done++;ay+=s[2]}if(v===1)pend++});
+ const tot=SU.reduce((a,s)=>a+s[2],0);
+ $('#pct').textContent=Math.round(ay/tot*100)+'%';
+ $('#arc').style.strokeDashoffset=238.7*(1-ay/tot);
+ $('#done').textContent=done.toLocaleString('ar-EG');
+ $('#ay').textContent=ay.toLocaleString('ar-EG');
+ let rc=0;try{const c=JSON.parse(localStorage.getItem('miq_cards')||'{}');rc=Object.keys(c).length}catch(e){}
+ $('#rev').textContent=rc.toLocaleString('ar-EG');
+ // الخريطة: مجموعات سور لكل جزء (تقسيم بسيط بالتساوي ~3-4 سور)
+ let h='';const per=Math.ceil(114/30);
+ for(let j=0;j<30;j++){
+  h+=`<div class="jz">جزء ${(j+1).toLocaleString('ar-EG')}</div><div class="grid">`;
+  for(let k=0;k<per;k++){const i=j*per+k;if(i>=114)break;const s=SU[i];const v=st[s[0]]||0;
+   h+=`<div class="s ${v===2?'f':v===1?'p':''}" data-n="${s[0]}" title="${esc(s[1])} — ${s[2]} آية">${s[0]}<span class="nm">${esc(s[1])}</span></div>`}
+  h+='</div>'}
+ $('#map').innerHTML=h}
+$('#map').onclick=e=>{const d=e.target.closest('.s');if(!d)return;const n=+d.dataset.n;
+ st[n]=((st[n]||0)+1)%3;if(!st[n])delete st[n];save();render()};
+render();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="ma3raj" data-title="معراج"></script>
+</body>
+</html>

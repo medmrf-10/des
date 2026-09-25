@@ -664,3 +664,11 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .rx-ex{display:flex;gap:10px;align-items:baseline;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.76rem}
 .rx-ex code{color:var(--acc);font-family:'IBM Plex Mono',monospace;min-width:90px}
 .rx-ex span{color:var(--mut)}
+
+/* ====== اقرأ الكود ====== */
+.cr-chip{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:99px;padding:2px 9px;font-size:.64rem;color:var(--mut);margin-inline-start:4px}
+.cr-chip b{color:var(--acc)}
+.cr-wrongs{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:.76rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cr-wrongs>b{color:#e0a0a0}
+.cr-why{margin:6px 0;padding-inline-start:18px}
+.cr-why li{font-size:.76rem;line-height:1.8;color:var(--txt)}

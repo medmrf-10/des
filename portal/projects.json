@@ -2068,5 +2068,32 @@
   "desc": "جابر القلوب — مواساة من الكتاب والسنة",
   "url": "../mijbar/",
   "icon": "م"
+ },
+ {
+  "id": "graded",
+  "title": "مِجزَأ",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "المصنَّف — تصفّح الستين ألفاً بالكتاب والحكم",
+  "url": "../hadith/graded.html",
+  "icon": "م"
+ },
+ {
+  "id": "pairs",
+  "title": "Minimal Pairs",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "مختبر الأزواج الصغرى — تمييز الأصوات",
+  "url": "../english/minimal_pairs.html",
+  "icon": "P"
+ },
+ {
+  "id": "roadmap",
+  "title": "الخارطة",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "شجرة خارطة الطريق — ٨ مسارات كاملة",
+  "url": "../prog/roadmap.html",
+  "icon": "خ"
  }
 ]

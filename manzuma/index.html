@@ -568,7 +568,10 @@ const SRCS=[
  {ic:'🛗',n:'مِرفَع',d:'الرافعة — ٣ خطوات تصعد بك',u:'../mirfa3/',t:'إدارة'},
  {ic:'🤝',n:'مِعتَق',d:'عهودك — وفاءً بالتزام',u:'../mi3taq/',t:'ذِكر'},
  {ic:'📡',n:'مِرتَس',d:'عن المنظومة — القصة والمقاييس',u:'../mirtas/',t:'تراث'},
- {ic:'💗',n:'مِجبَر',d:'جابر القلوب — مواساة من الكتاب والسنة',u:'../mijbar/',t:'ذِكر'}
+ {ic:'💗',n:'مِجبَر',d:'جابر القلوب — مواساة من الكتاب والسنة',u:'../mijbar/',t:'ذِكر'} ,
+ {ic:'⚖️',n:'مِجزَأ',d:'المصنَّف — تصفح الستين ألفاً',u:'../hadith/graded.html',t:'حديث'} ,
+ {ic:'👂',n:'Minimal Pairs',d:'مختبر الأزواج الصغرى',u:'../english/minimal_pairs.html',t:'إنجليزية'} ,
+ {ic:'🗺️',n:'الخارطة',d:'شجرة خارطة الطريق',u:'../prog/roadmap.html',t:'برمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

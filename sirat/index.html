@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>صراط — طريقك مع كل شيخ</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.shl{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:12px}
+.sh{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center;cursor:pointer}
+.sh:hover{border-color:var(--acc)}
+.sh .n{font-family:var(--font-ar);font-size:15px}
+.sh .m{font-size:10.5px;color:var(--dim);margin-top:5px}
+.sh .bar{height:4px;background:var(--card2);border-radius:9px;margin-top:9px;overflow:hidden}
+.sh .bar i{display:block;height:100%;background:var(--acc)}
+.sr{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 14px;margin:7px 0;display:flex;gap:11px;align-items:center}
+.sr .no{width:28px;height:28px;border-radius:50%;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--acc2);flex-shrink:0}
+.sr .t{flex:1}
+.sr .t b{font-family:var(--font-ar);font-size:13.5px;display:block}
+.sr .t span{font-size:10.5px;color:var(--dim)}
+.sr .done{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
+.sr .done.on{background:var(--ok);border-color:var(--ok)}
+.sr a{color:var(--acc2);font-size:11px}
+.muted{color:var(--dim);font-size:12px}
+.kn{font-size:9.5px;border:1px solid var(--border);border-radius:99px;padding:1px 8px;color:var(--acc3);display:inline-block;margin-left:4px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">صراط <span class="muted" style="font-weight:400;font-size:12px">— طريقك مع كل شيخ</span></h2>
+<div class="muted">اختر شيخاً — سلاسله مرتبة للدراسة: شروح المتون أولاً ثم المحاضرات والمقتطفات. علّم ما أنهيت — يحسب طريقك معه.</div>
+<div class="shl" id="shl"></div>
+<div id="path" style="margin-top:14px"></div>
+<script src="../durus/data.js"></script>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ST;try{ST=JSON.parse(localStorage.getItem('sirat')||'{}')}catch(e){ST={}}
+const save=()=>localStorage.setItem('sirat',JSON.stringify(ST));
+const KORD={'شرح متن':0,'متن':0,'برامج':1,'محاضرات':2,'خطب':3,'مقتطفات':4,'رحلات ومؤتمرات':5,'مقابلات':6,'أخرى':7};
+function seriesOf(sh){return SERIES.filter(s=>s.sheikh===sh&&s.videos>0)
+ .sort((a,b)=>(KORD[a.kind]??7)-(KORD[b.kind]??7)||b.videos-a.videos)}
+function render(){
+ const per=SHEIKHS.map(sh=>{
+  const ss=seriesOf(sh.id);
+  const done=ss.filter(s=>ST[s.id]).length;
+  return{sh,n:ss.length,vids:ss.reduce((a,s)=>a+s.videos,0),done,p:ss.length?done/ss.length*100:0}}).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);
+ $('#shl').innerHTML=per.map(x=>`<div class="sh" data-s="${x.sh.id}"><div class="n">${esc(x.sh.name)}</div><div class="m">${x.n.toLocaleString('ar-EG')} سلسلة · ${x.vids.toLocaleString('ar-EG')} درساً</div><div class="bar"><i style="width:${x.p}%"></i></div><div class="m">${x.done}/${x.n} سلسلة</div></div>`).join('')}
+function path(sh){
+ const ss=seriesOf(sh);
+ $('#path').innerHTML=`<h3 style="font-family:var(--font-ar);margin:12px 0">${esc(sh.name)} <span class="muted" style="font-size:11px;font-weight:400">${ss.filter(s=>ST[s.id]).length}/${ss.length} سلسلة</span></h3>`+
+ ss.map((s,i)=>`<div class="sr"><span class="no">${(i+1).toLocaleString('ar-EG')}</span>
+  <div class="t"><b>${esc(s.name)}</b><span><span class="kn">${esc(s.kind||'أخرى')}</span>${s.videos.toLocaleString('ar-EG')} درساً${s.matn_id?` · <a href="../durus/?s=${s.id}" target="_blank">افتح</a>`:''}</span></div>
+  <span class="done ${ST[s.id]?'on':''}" data-id="${s.id}"></span></div>`).join('');
+ $('#path').scrollIntoView({behavior:'smooth'})}
+$('#shl').onclick=e=>{const c=e.target.closest('.sh');if(!c)return;
+ path(SHEIKHS.find(s=>s.id===c.dataset.s))};
+$('#path').onclick=e=>{const d=e.target.closest('.done');if(!d)return;
+ ST[d.dataset.id]=!ST[d.dataset.id];save();
+ d.classList.toggle('on',ST[d.dataset.id]);render();
+ $('#path').querySelector('h3 span').textContent=''};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="sirat" data-title="صراط"></script>
+</body>
+</html>

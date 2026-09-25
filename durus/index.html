@@ -244,6 +244,7 @@ if(h.startsWith('#p=')){const m=/p=(\d+)\.(\d+)/.exec(h);if(m){const sid=+m[1],i
 const pos=LS('durus_pos');if(pos){try{const p=JSON.parse(pos);if(p.sid)console.log('last',p)}catch(e){}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

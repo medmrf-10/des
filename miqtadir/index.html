@@ -72,6 +72,7 @@ $('#fields').innerHTML=F.map(([n,s],i)=>
 $('#note').textContent=top[1]>10?'أقوى ميادينك: «'+top[0]+'» — حافظ عليها وقوِّ بقيتها':'ابدأ بأي أداة — ستظهر قوتك هنا بصدق.';
 $('#evid').innerHTML=F.slice(0,3).map(([n,s,ev])=>'<div style="margin-top:8px"><b style="color:var(--acc)">'+esc(n)+'</b> — '+ev.map(e=>esc(e)).join(' · ')+'</div>').join('');
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="miqtadir" data-title="مِقتدِر"></script>
 </body>
 </html>

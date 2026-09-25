@@ -55,6 +55,7 @@ $('#all').innerHTML=W.length?
  grps.map(g=>'<div class="grp">'+g+'</div>'+W.filter(w=>w.grp===g).map(w=>'<div class="w"><div class="t">'+esc(w.title)+'<div class="src">'+w.src+'</div></div>'+(w.badge?'<span class="badge">'+w.badge+'</span>':'')+'<a class="btn" href="'+w.url+'">استكمل ←</a></div>').join('')).join(''):
  '<div class="empty">لا أعمال معلّقة — كل شيء منجّز أو لم يبدأ بعد.<br>ابدأ أي موقع من المنظومة وسيظهر هنا تلقائياً.</div>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mihrath" data-title="مِحراث"></script>
 </body>
 </html>

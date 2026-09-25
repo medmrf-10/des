@@ -64,6 +64,7 @@ $('#bars').innerHTML=vals.map((v,i)=>{
 }).join('');
 $('#src').innerHTML=Object.entries(src).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([s,c])=>'<div class="row"><span>'+s+'</span><b style="color:var(--acc)">'+arN(c)+'</b></div>').join('')||'—';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mi3dal" data-title="مِعدَل"></script>
 </body>
 </html>

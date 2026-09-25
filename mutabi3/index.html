@@ -86,6 +86,7 @@ if(bank.length)G4.r.push({t:'كلمات في البنك',n:bank.length,l:'كلم
  g.r.map(x=>`<div class="row"><div class="ic">${g.ic}</div><div class="t">${esc(x.t)}<div class="bar"><i style="width:${Math.min(100,(+x.n)/30*100)}%"></i></div></div><div class="n">${num(x.n)}<span>${esc(x.l)}</span></div></div>`).join('')});
 if(!$('#out').innerHTML)$('#out').innerHTML='<div class="muted" style="text-align:center;padding:40px">لا نشاط مسجلاً بعد — ابدأ بأي تطبيق وسيظهر هنا</div>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mutabi3" data-title="متابع"></script>
 </body>
 </html>

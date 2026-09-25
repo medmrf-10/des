@@ -112,6 +112,7 @@ const tl=Object.entries(byTool).sort((a,b)=>b[1]-a[1]);
 const NAMES={'daftar':'دفتر اليوميات','muqtatif':'مُقتطف','ma3raj':'مِعراج','sawanih':'سوانح','muamma':'مُعمّى','midad':'مِداد','mijtaz':'مِجتاز','mihrab_times':'مِحراب','mutabi3':'مُتتبع','mi3skar':'مِعسكر','mu3edd_drafts':'مُعدّ','minsha_draft':'مِنشأ','hibr':'حِبر','misbah':'مِصباح'};
 $('#tools').innerHTML=tl.length?tl.map(([s,c])=>'<div style="font-size:12px;margin-top:5px">'+(NAMES[s]||s)+' — '+c+'</div>').join(''):'<span class="muted">لا بيانات</span>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mizan" data-title="مِيزان"></script>
 </body>
 </html>

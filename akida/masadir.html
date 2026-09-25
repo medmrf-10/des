@@ -55,6 +55,7 @@ function run(){
   return `<div class="tcard"><div class="tt">${esc(t)} <span class="muted" style="font-weight:400">(${occ.length.toLocaleString('ar-EG')} موضع)</span></div>${occ.slice(0,4).map(o=>`<div class="occ"><span class="bk">${esc(TERMS.books[o.b]||o.b)} · ${esc(o.a)}${o.bab?' · '+esc(o.bab):''}</span><div style="color:var(--dim);font-size:12.5px">${esc(o.q)}</div></div>`).join('')}${occ.length>4?`<div class="muted" style="margin-top:5px">+${(occ.length-4).toLocaleString('ar-EG')} موضعاً آخر — <a href="real.html" style="color:var(--acc2)">الفهرس الكامل ←</a></div>`:''}</div>`}).join('')||'<div class="muted" style="text-align:center;padding:20px">لا نتائج</div>'}
 run();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

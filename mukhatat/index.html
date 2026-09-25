@@ -87,6 +87,7 @@ function render(){
  document.querySelectorAll('.step').forEach(el=>el.onclick=()=>{const k=el.dataset.k;st[k]=!st[k];if(!st[k])delete st[k];save()})}
 render();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

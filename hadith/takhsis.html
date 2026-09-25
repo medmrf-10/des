@@ -185,6 +185,7 @@ document.getElementById('go').addEventListener('click',()=>{
 document.getElementById('gid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value!=='')analyze(+e.target.value)});
 (async()=>{const m=location.hash.match(/g=(\d+)/);if(m){document.getElementById('gid').value=m[1];analyze(+m[1])}})();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="miq_takhsis"></script>
 </body>
 </html>

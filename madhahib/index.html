@@ -54,6 +54,7 @@ function go(){
   ${list.map(x=>`<div class="mi">${esc(x.t)}<span class="bk">${esc(x.bk)}</span><a href="../fiqh_reader/index.html#${x.slug}/${x.i}" target="_blank">اقرأ النص ↗</a></div>`).join('')}</div>`}).join('')||'<div class="muted" style="grid-column:1/-1;text-align:center;padding:30px">لا أبواب مطابقة</div>'}
 let deb;$('q').addEventListener('input',()=>{clearTimeout(deb);deb=setTimeout(go,300)});
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="madhahib" data-title="مذاهب"></script>
 </body>
 </html>

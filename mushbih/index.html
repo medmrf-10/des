@@ -64,6 +64,7 @@ go();
 const pr=JSON.parse(localStorage.getItem('mushbih')||'{"n":0,"ok":0}');
 if(pr.n)$('#st').innerHTML+=`<span class="pill">سابقاً: ${pr.ok.toLocaleString('ar-EG')}/${pr.n.toLocaleString('ar-EG')}</span>`;
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mushbih" data-title="مِشبه"></script>
 </body>
 </html>

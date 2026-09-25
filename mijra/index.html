@@ -104,6 +104,7 @@ const NAMES={daftar:'دفتر اليوميات',muqtatif:'مُقتطف',sawanih:
 $('#tools').innerHTML=Object.entries(tools).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([s,c])=>
  '<div style="font-size:12px;margin-top:4px">'+(NAMES[s]||s)+' — '+arN(c)+'</div>').join('')||'لا بيانات بالفترة';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mijra" data-title="مِجرى"></script>
 </body>
 </html>

@@ -21,3 +21,4 @@
 }
 
 html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);margin:0;line-height:1.7}

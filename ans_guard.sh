@@ -6,7 +6,7 @@ TOPIC=https://ntfy.sh/med-qz-x7k2-out
 touch "$ALOG"
 # عودة للملاحة الخلفية: استكمال من آخر رسالة محفوظة
 while true; do
-  curl -s -N "$TOPIC/sse?since=1d" | while IFS= read -r line; do
+  curl -s -N "$TOPIC/sse?since=all" | while IFS= read -r line; do
     case "$line" in
       data:*)
         msg="${line#data:}"

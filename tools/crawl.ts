@@ -61,6 +61,12 @@ const SITE_CFG2: Record<string, { q?: string; items?: string; search?: boolean }
   "hadith-adhkar": { q: "الصباح", items: ".card,.matn,.hit,.row,.dkr" },
   "hadith-sanad": { q: "نية", items: ".card,.matn,.hit,.row,.snd" },
   "hadith-muqaran": { q: "النية", items: ".card,.matn,.hit,.row,.mq" },
+  "hadith-index": { q: "الأعمال", items: ".card,.matn,.had,.hit,.row,.ent" },
+  "hadith-misbar": { q: "نية", items: ".card,.matn,.hit,.row,.ent,.msb" },
+  "hadith-ahkam": { q: "نية", items: ".card,.matn,.hit,.row,.ent" },
+  "hadith-tabaqat": { q: "مالك", items: ".card,.row,.hit,.tab,.ent" },
+  "kutub": { q: "الله", items: ".card,.row,.hit,.book,.ent,.k" },
+  "mi3tad": { q: "الله", items: ".card,.row,.hit,.ent" },
   "team-fikra": { search: false },
 };
 Object.assign(SITE_CFG, SITE_CFG2);

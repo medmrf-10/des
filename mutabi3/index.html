@@ -24,7 +24,7 @@ body{max-width:760px;margin:0 auto;padding:14px}
 <div class="muted">يقرأ بياناتك المحلية من كل تطبيق (لا خادم، كلها على جهازك) ويعرض إنجازك ونشاطك في صفحة واحدة.</div>
 <div id="out"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const num=v=>(+v||0).toLocaleString('ar-EG');
 const G=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};

@@ -1312,5 +1312,32 @@
   "desc": "عكوف التعلم — عدّاد تركيز مع آية",
   "url": "../mi3tikaf/",
   "icon": "م"
+ },
+ {
+  "id": "asma",
+  "title": "أسماء الرجال",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "شجرة الرواة — صحابي وتلاميذه",
+  "url": "../hadith/asma.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en-journal",
+  "title": "يوميات إنجليزية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "اكتب يومك بإنجليزية — تقييم ذاتي",
+  "url": "../english/journal.html",
+  "icon": "En"
+ },
+ {
+  "id": "prog-ref",
+  "title": "المرجع السريع",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "مكتبة cheat-sheets لكل مسار",
+  "url": "../prog/reference.html",
+  "icon": "<>"
  }
 ]

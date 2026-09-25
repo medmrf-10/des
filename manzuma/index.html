@@ -484,7 +484,10 @@ const SRCS=[
  {ic:'🥤',n:'مِشرب',d:'ميلك المذهبي — تقبل وترّد فينكشف مشربك',u:'../mishrab/',t:'الفقه'},
  {ic:'🎙',n:'مُلحّن',d:'اكتب نصّك وسجّل صوتك — درس كاراوكي جاهز',u:'../mula7hin/',t:'إنتاج'},
  {ic:'🧪',n:'مِعمل',d:'مختبر النصوص — تحليل وإحصاء وقراءة',u:'../mi3mal/',t:'اللغة'},
- {ic:'🕌',n:'مِعتكف',d:'عكوف التعلم — عدّاد تركيز بآية',u:'../mi3tikaf/',t:'إدارة'}
+ {ic:'🕌',n:'مِعتكف',d:'عكوف التعلم — عدّاد تركيز بآية',u:'../mi3tikaf/',t:'إدارة'},
+ {ic:'🌳',n:'أسماء الرجال',d:'شجرة الرواة — صحابي وتلاميذه',u:'../hadith/asma.html',t:'الحديث'},
+ {ic:'✒',n:'يوميات إنجليزية',d:'اكتب يومك بإنجليزية — تقييم ذاتي',u:'../english/journal.html',t:'الإنجليزية'},
+ {ic:'📋',n:'المرجع السريع',d:'cheat-sheets لكل مسار برمجي',u:'../prog/reference.html',t:'البرمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

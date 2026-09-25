@@ -36,7 +36,7 @@ body{max-width:700px;margin:0 auto;padding:14px}
 <div class="chips" id="tags"></div>
 <div id="list"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const TAGS=['فائدة','فكرة','رابط','نص','سؤال','مهمة'];
 let IT=JSON.parse(localStorage.warid||'[]');

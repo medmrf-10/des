@@ -34,7 +34,7 @@ body{max-width:560px;margin:0 auto;padding:14px;overflow-x:hidden}
 <script src="../hadith/nawawi.js"></script>
 <script src="../madrasati/atoms.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const DECK=[];
 ADHKAR.forEach(a=>{if((a.h||'').length<130)DECK.push({g:'ذِكر',t:a.h||a.t,s:'حديث '+a.g})});

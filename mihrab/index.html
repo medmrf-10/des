@@ -35,7 +35,7 @@ h4{font-family:var(--font-ar);margin:16px 0 6px}
 <h4>وِردك بين الصلوات</h4>
 <div id="wirds"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PRAY=['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
 const NM={Fajr:'الفجر',Sunrise:'الشروق',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};

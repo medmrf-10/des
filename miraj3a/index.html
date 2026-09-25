@@ -29,7 +29,7 @@ h4{font-family:var(--font-ar);margin:16px 0 6px}
 <h4>لم تُحفَظ بعد <span class="muted">(من معراج)</span></h4>
 <div id="none"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let MEM={},REV={},SU=[];
 try{MEM=JSON.parse(localStorage.ma3raj||'{}')}catch(e){}

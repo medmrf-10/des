@@ -41,7 +41,7 @@ mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
 </div>
 <div id="list"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let N=[];try{N=JSON.parse(localStorage.getItem('daftar')||'[]')}catch(e){}
 const save=()=>localStorage.setItem('daftar',JSON.stringify(N));

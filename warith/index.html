@@ -1,60 +1,61 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>وِرث — حساب الفرائض</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
-<header><h1>⚖️ وِرث</h1><p class="tagline">حاسبة الفرائض — من توفي عنه تركة؟ أدخل ورثته، واحصل على الأنصبة</p></header>
+<header><h1>⚖️ وِرث</h1><p class="tagline">حاسبة الفرائض — أدخل الورثة، تحصل على الأنصبة</p></header>
 <div class="wrap">
  <div class="card">
   <div class="seg"><button class="sg on" data-g="m">المتوفى رجل</button><button class="sg" data-g="f">المتوفى امرأة</button></div>
   <div id="rows"></div>
  </div>
  <div class="card res"><h3>النتيجة</h3><div id="r" class="r">حدد الورثة…</div></div>
- <div class="card tip">هذه حاسبة للحالات الشائعة على مذهب الجمهور — القضايا المعقدة (الجد مع الإخوة، المُعادّة، الحمل، المفقود…) تحتاج مفتياً. لا تُقسَّم التركة على ضوئها وحدها.</div>
+ <div class="card tip">هذه حاسبة للحالات الشائعة على مذهب الجمهور — القضايا المعقدة تحتاج مفتياً. لا تقسّم التركة على ضوئها وحدها.</div>
 </div>
 <script>
-const $=q=>document.querySelector(q);
 let G='m';
 const HEIRS=[
- {k:'wife',n:'الزوجة',mOnly:true},{k:'husb',n:'الزوج',fOnly:true},
- {k:'son',n:'الأبناء',num:true},{k:'dau',n:'البنات',num:true},
+ {k:'wife',n:'الزوجة',mo:1},{k:'husb',n:'الزوج',fo:1},
+ {k:'son',n:'الأبناء',num:1},{k:'dau',n:'البنات',num:1},
  {k:'father',n:'الأب'},{k:'mother',n:'الأم'},
- {k:'bro',n:'الإخوة الأشقاء',num:true},{k:'sis',n:'الأخوات الشقيقات',num:true},
- {k:'brop',n:'الإخوة لأب',num:true},{k:'sisp',n:'الأخوات لأب',num:true},
+ {k:'bro',n:'الإخوة الأشقاء',num:1},{k:'sis',n:'الأخوات الشقيقات',num:1},
+ {k:'brop',n:'الإخوة لأب',num:1},{k:'sisp',n:'الأخوات لأب',num:1},
 ];
 let V={wife:0,husb:0,son:0,dau:0,father:0,mother:0,bro:0,sis:0,brop:0,sisp:0};
+function heir(k){for(var i=0;i<HEIRS.length;i++)if(HEIRS[i].k===k)return HEIRS[i];return null}
 function rows(){
- $('#rows').innerHTML=HEIRS.filter(h=>!(h.mOnly&&G!=='m')&&!(h.fOnly&&G!=='f')).map(h=>
-  '<div class="row"><label>'+h.n+'</label><div class="ctl"><button class="m" data-k="'+h.k+'" data-d="-1">−</button><span id="c_'+h.k+'">'+V[h.k]+'</span><button class="m" data-k="'+h.k+'" data-d="1">+</button></div></div>'
- ).join('');
- $('#rows').querySelectorAll('.m').forEach(b=>b.onclick=()=>{
-  const k=b.dataset.k,d=+b.dataset.d;
-  if(!HEIRS.find(h=>h.k===k).num){V[k]=V[k]?0:1}else{V[k]=Math.max(0,Math.min(15,V[k]+d))}
-  $('#c_'+k).textContent=V[k];calc();
- });
+ var h=HEIRS.filter(function(x){return !(x.mo&&G!=='m')&&!(x.fo&&G!=='f')}).map(function(x){
+  return '<div class="row"><label>'+x.n+'</label><div class="ctl"><button class="m" data-k="'+x.k+'" data-d="-1">−</button><span id="c_'+x.k+'">'+V[x.k]+'</span><button class="m" data-k="'+x.k+'" data-d="1">+</button></div></div>';
+ }).join('');
+ document.getElementById('rows').innerHTML=h;
+ document.querySelectorAll('#rows .m').forEach(function(b){b.onclick=function(){
+  var k=b.dataset.k,d=+b.dataset.d;
+  if(!heir(k).num){V[k]=V[k]?0:1}else{V[k]=Math.max(0,Math.min(15,V[k]+d))}
+  document.getElementById('c_'+k).textContent=V[k];calc();
+ }});
 }
-document.querySelectorAll('.sg').forEach(b=>b.onclick=()=>{document.querySelectorAll('.sg').forEach(x=>x.classList.remove('on'));b.classList.add('on');G=b.dataset.g;
- if(G==='m')V.husb=0;else V.wife=0;rows();calc()});
+document.querySelectorAll('.sg').forEach(function(b){b.onclick=function(){
+ document.querySelectorAll('.sg').forEach(function(x){x.classList.remove('on')});b.classList.add('on');G=b.dataset.g;
+ if(G==='m')V.husb=0;else V.wife=0;rows();calc();
+}});
 function calc(){
- const hasChildren=V.son>0||V.dau>0;
- const parts=[];
- // Spouse
- if(V.wife)parts.push({w:'الزوجة',f:hasChildren?'1/8':'1/4'});
- if(V.husb)parts.push({w:'الزوج',f:hasChildren?'1/4':'1/2'});
- // Parents
- if(V.father)parts.push({w:'الأب',f:hasChildren?'1/6':'1/6 + الباقي'});
- if(V.mother)parts.push({w:'الأم',f:hasChildren?'1/6':'1/3'});
- // Children — عصبة: للذكر مثل حظ الأنثيين
+ var hasCh=V.son>0||V.dau>0;
+ var p=[];
+ if(V.wife)p.push(['الزوجة',hasCh?'1/8':'1/4']);
+ if(V.husb)p.push(['الزوج',hasCh?'1/4':'1/2']);
+ if(V.father)p.push(['الأب',hasCh?'1/6':'1/6 + الباقي']);
+ if(V.mother)p.push(['الأم',hasCh?'1/6':'1/3']);
  if(V.son||V.dau){
-  const girls=V.son? 'بعد أصحاب الفروض — للذكر مثل حظ الأنثيين':'النصف لواحدة، الثلثان للجمع';
-  parts.push({w:(V.son?V.son+' ابن':'')+(V.son&&V.dau?' + ':'')+(V.dau?V.dau+' بنت':''),f:V.son?'الباقي تعصيباً — للذكر مثل حظ الأنثيين':girls});
+  var w=(V.son?V.son+' ابن':'')+(V.son&&V.dau?' + ':'')+(V.dau?V.dau+' بنت':'');
+  var f=V.son?'الباقي تعصيباً — للذكر مثل حظ الأنثيين':(V.dau>1?'2/3':'1/2');
+  p.push([w,f]);
  }
- // Siblings (only if no children and no father — approximation of الجمهور)
- if(!hasChildren&&!V.father){
-  if(V.bro)parts.push({w:V.bro+' أخ شقيق',f:'الباقي'});
-  if(V.sis)parts.push({w:V.sis+' أخت شقيقة',f:V.bro?'مع الإخوة — للذكر مثل حظ الأنثيين':(V.sis>1?'2/3':'1/2')});
-  if(V.brop)parts.push({w:V.brop+' أخ لأب',f:'الباقي'});
-  if(V.sisp)parts.push({w:V.sisp+' أخت لأب',f:V.brop?'مع الإخوة':(V.sisp>1?'2/3':'1/2')});
+ if(!hasCh&&!V.father){
+  if(V.bro)p.push([V.bro+' أخ شقيق','الباقي']);
+  if(V.sis)p.push([V.sis+' أخت شقيقة',V.bro?'مع الإخوة — للذكر مثل حظ الأنثيين':(V.sis>1?'2/3':'1/2')]);
+  if(V.brop)p.push([V.brop+' أخ لأب','الباقي']);
+  if(V.sisp)p.push([V.sisp+' أخت لأب',V.brop?'مع الإخوة':(V.sisp>1?'2/3':'1/2')]);
  }
- if(!parts.length){$('#r').innerHTML='حدد الورثة…';return}
- $('#r').innerHTML=parts.map(p=>'<div class="rl"><span>'+p.w+'</span><b>'+p.f+'</b></div>').join('')+
+ var el=document.getElementById('r');
+ if(!p.length){el.innerHTML='حدد الورثة…';return}
+ el.innerHTML=p.map(function(x){return '<div class="rl"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>'}).join('')+
   '<div class="rl note">تقريبٌ للحالات الشائعة — راجع التفاصيل مع مفتيك</div>';
 }
 rows();calc();

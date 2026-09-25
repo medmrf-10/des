@@ -66,7 +66,9 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
 .sg .st{color:var(--gold); font-size:.62rem; display:block; margin-bottom:2px}
 .sg.ok{border-style:solid; border-color:rgba(70,201,109,.4)}
 .sg.ok .st{color:#46c96d}
-.cin{display:flex; gap:6px; margin-top:8px}
+.cin{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+.cin .r{display:flex; gap:6px}
+.cin .note{font-size:.62rem; color:var(--dim)}
 .cin input{flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--txt); font-family:inherit; font-size:.78rem; padding:8px 10px}
 .cin input:focus{outline:none; border-color:var(--acc)}
 .cin button{background:linear-gradient(135deg,var(--acc),var(--acc2)); border:none; border-radius:8px; color:#0b0f14; font-family:inherit; font-size:.72rem; font-weight:700; padding:8px 14px; cursor:pointer}
@@ -85,6 +87,7 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
 .pm .row{display:flex; gap:8px}
 .pm .row button{flex:1; font-family:inherit; font-size:.8rem; font-weight:700; border-radius:10px; padding:11px; cursor:pointer; border:1px solid var(--border); background:var(--card2); color:var(--txt)}
 .pm .row .go{background:linear-gradient(135deg,var(--gold),#8a6a2f); color:#0b0f14; border:none}
+@media(min-width:768px){.wrap{max-width:1040px}#projs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.proj{margin-bottom:0}}
 .foot{margin-top:26px; text-align:center; color:var(--dim); font-size:.66rem; line-height:1.9}
 .foot .pulse{display:inline-block; width:7px; height:7px; border-radius:50%; background:#46c96d; margin-inline-end:5px; box-shadow:0 0 8px rgba(70,201,109,.8); animation:pul 2s infinite}
 @keyframes pul{50%{opacity:.4}}
@@ -144,11 +147,11 @@ function projCard(p,i){
     </div>
     <div class="csec" id="c-${p.id}">
       ${cs.map(c=>`<div class="cm"><span class="n">${escH(c.n)}</span>${escH(c.t)}</div>`).join('')||'<div class="cm" style="color:var(--dim)">لا تعليقات بعد — كن أول من يعلّق</div>'}
-      <div class="cin"><input placeholder="اسمك — تعليقك" data-in="${p.id}"><button data-add="c" data-p="${p.id}">أضف</button></div>
+      <div class="cin"><div class="r"><input placeholder="اسمك" data-nn="${p.id}" style="max-width:34%"><input placeholder="تعليقك" data-in="${p.id}"><button data-add="c" data-p="${p.id}">أضف</button></div><span class="note">التعليقات تُحفظ في متصفحك حالياً — المزامنة بين الأجهزة قادمة</span></div>
     </div>
     <div class="csec" id="s-${p.id}">
       ${ss.map(s=>`<div class="sg${s.st==='ok'?' ok':''}"><span class="st">${s.st==='pending'?'⏳ بانتظار موافقة الصانع':'✓ مقبول'} — ${escH(s.n)}</span>${escH(s.t)}</div>`).join('')||'<div class="sg">لا اقتراحات بعد</div>'}
-      <div class="cin"><input placeholder="اسمك — اقتراحك للصانع" data-ins="${p.id}"><button data-add="s" data-p="${p.id}">أرسل</button></div>
+      <div class="cin"><div class="r"><input placeholder="اسمك" data-nn="${p.id}" style="max-width:34%"><input placeholder="اقتراحك للصانع" data-ins="${p.id}"><button data-add="s" data-p="${p.id}">أرسل</button></div></div>
     </div>
   </div>`;
 }
@@ -169,26 +172,25 @@ document.addEventListener('click',e=>{
   const tb=e.target.closest('.ptool');
   if(tb){const sec=document.getElementById(tb.dataset.act+'-'+tb.dataset.p);sec.classList.toggle('open');tb.classList.toggle('open',sec.classList.contains('open'));return}
   const ad=e.target.closest('[data-add]');
-  if(ad){
-    const pid=ad.dataset.p,kind=ad.dataset.add;
-    const inp=document.querySelector(kind==='c'?`[data-in="${pid}"]`:`[data-ins="${pid}"]`);
-    const v=inp.value.trim();if(!v)return;
-    const d=v.includes('—')?{n:v.split('—')[0].trim(),t:v.split('—').slice(1).join('—').trim()}:{n:'عضو',t:v};
-    if(kind==='c'){(cmts[pid]=cmts[pid]||[]).push(d);saveC()}
-    else{(sgts[pid]=sgts[pid]||[]).push({...d,st:'pending'});saveS()}
-    renderPJ();
-    document.getElementById(kind+'-'+pid).classList.add('open');
-  }
+  if(ad){addEntry(ad.dataset.p,ad.dataset.add);return}
 });
+function addEntry(pid,kind){
+  const inp=document.querySelector(kind==='c'?`[data-in="${pid}"]`:`[data-ins="${pid}"]`);
+  const nin=document.querySelector(`[data-nn="${pid}"]`);
+  const v=inp.value.trim();if(!v)return;
+  const d={n:(nin&&nin.value.trim())||'عضو',t:v};
+  if(kind==='c'){(cmts[pid]=cmts[pid]||[]).push(d);saveC()}
+  else{(sgts[pid]=sgts[pid]||[]).push({...d,st:'pending'});saveS()}
+  inp.value='';renderPJ();
+  document.getElementById(kind+'-'+pid).classList.add('open');
+  const tb=document.querySelector(`.ptool[data-act="${kind}"][data-p="${pid}"]`);if(tb)tb.classList.add('open');
+}
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     const inp=e.target;if(!inp.dataset.in&&!inp.dataset.ins)return;
     const pid=inp.dataset.in||inp.dataset.ins,kind=inp.dataset.in?'c':'s';
-    const v=inp.value.trim();if(!v)return;
-    const d=v.includes('—')?{n:v.split('—')[0].trim(),t:v.split('—').slice(1).join('—').trim()}:{n:'عضو',t:v};
-    if(kind==='c'){(cmts[pid]=cmts[pid]||[]).push(d);saveC()}
-    else{(sgts[pid]=sgts[pid]||[]).push({...d,st:'pending'});saveS()}
-    renderPJ();document.getElementById(kind+'-'+pid).classList.add('open');
+    if(!inp.value.trim())return;
+    addEntry(pid,kind);
   }
 });
 const MKF={'محمد':'mohamed','أمجد':'amjad'};

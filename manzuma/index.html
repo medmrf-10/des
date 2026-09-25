@@ -197,11 +197,11 @@ function renderToday(){
   // continue last
   let html='';
   const last=me.pos._last;
-  if(last&&SM[last])html+=`<div class="cont"><div class="ic">▶</div><div style="flex:1"><b style="font-size:14px">${esc(SM[last].n)}</b><div class="muted">أكمل من حيث توقفت — ${SH[SM[last].sh]||''}</div></div><a class="btn sm" href="../durus/index.html#s=${last}">تابع</a></div>`;
+  if(last&&SM[last])html+=`<div class="cont"><div class="ic">▶</div><div style="flex:1"><b style="font-size:14px">${esc(SM[last].n)}</b><div class="muted">أكمل من حيث توقفت — ${SM[last].sh||''}</div></div><a class="btn sm" href="../durus/index.html#s=${last}">تابع</a></div>`;
   // next up: first unfinished in most-progressed subject
   let next=null,best=-1;
   for(const sj in CURR){const list=CURR[sj];let dn=0;for(const e of list)if(me.prog[e.i])dn++;const r=dn/list.length;if(r>best&&dn<list.length){best=r;next=list.find(e=>!me.prog[e.i])}}
-  if(next)html+=`<div class="cont"><div class="ic">📍</div><div style="flex:1"><b style="font-size:14px">التالي لك: ${esc(next.n)}</b><div class="muted">${SH[next.sh]||''} · ${next.v||'?'} درساً</div></div><a class="btn sm ghost" href="../durus/index.html#s=${next.i}">ابدأ</a></div>`;
+  if(next)html+=`<div class="cont"><div class="ic">📍</div><div style="flex:1"><b style="font-size:14px">التالي لك: ${esc(next.n)}</b><div class="muted">${next.sh||''} · ${next.v||'?'} درساً</div></div><a class="btn sm ghost" href="../durus/index.html#s=${next.i}">ابدأ</a></div>`;
   const due=dueCards?dueCards().length:0;
   if(due)html+=`<div class="cont"><div class="ic">🃏</div><div style="flex:1"><b style="font-size:14px">${due} بطاقة مراجعة مستحقة</b><div class="muted">جدولة FSRS — راجع قبل ما تنسى</div></div><button class="btn sm" onclick="go('note')">راجع</button></div>`;
   $('#todayBody').innerHTML=html||'<div class="card"><div class="muted">ابدأ رحلتك: تصفّح <a href="#curr" style="color:var(--acc)">المنهج</a> واختر أول سلسلة.</div></div>';
@@ -227,7 +227,7 @@ function askTutor(){
     res.sort((a,b)=>b.sc-a.sc);
     const top=res.slice(0,12);
     $('#tResults').innerHTML=top.length?top.map(r=>{
-      const sr=SM[r.s]||{n:'سلسلة '+r.s,sh:''};const shName=SH[sr.sh]||'';
+      const sr=SM[r.s]||{n:'سلسلة '+r.s,sh:''};const shName=sr.sh||'';
       const ttl=r.ty==='t'?(sr.n+(r.l?' — الدرس '+r.l:'')):r.t;
       const body=r.ty==='t'?`<div class="snip">${hl(r.x,words)}</div>`:'';
       const link=r.ty==='c'?r.u:`../durus/index.html#s=${r.s}`;
@@ -279,7 +279,7 @@ function showSubj(sj,nopush){
   const list=CURR[sj];
   $('#subjBody').innerHTML=`<button class="btn ghost sm" onclick="showSubj(null);history.replaceState(null,'','#curr')">→ المواضيع</button><h2 style="margin:8px 0 0">${sj}</h2><div class="path">`+list.map((e,ix)=>{
     const done=!!me.prog[e.i];
-    return `<div class="node ${done?'done':''}"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><b style="font-size:14px">${esc(e.n)}</b><div class="muted">${SH[e.sh]||''} · ${e.v||'?'} درساً${e.h?' · '+Math.round(e.h)+' س':''}</div></div></div><div style="display:flex;gap:8px;margin-top:9px"><a class="btn sm ghost" href="../durus/index.html#s=${e.i}">فتح</a><button class="btn sm ${done?'':'ghost'}" style="${done?'background:#3dd68c':''}" onclick="toggleDone(${e.i},'${sj}')">${done?'✓ أنهيتها':'أنهيتها'}</button></div></div>`
+    return `<div class="node ${done?'done':''}"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><b style="font-size:14px">${esc(e.n)}</b><div class="muted">${e.sh||''} · ${e.v||'?'} درساً${e.h?' · '+Math.round(e.h)+' س':''}</div></div></div><div style="display:flex;gap:8px;margin-top:9px"><a class="btn sm ghost" href="../durus/index.html#s=${e.i}">فتح</a><button class="btn sm ${done?'':'ghost'}" style="${done?'background:#3dd68c':''}" onclick="toggleDone(${e.i},'${sj}')">${done?'✓ أنهيتها':'أنهيتها'}</button></div></div>`
   }).join('')+'</div>';
 }
 function toggleDone(id,sj){if(me.prog[id])delete me.prog[id];else{me.prog[id]={d:Date.now()};me.pos._last=id;LS('mz_pos',me.pos)}LS('mz_prog',me.prog);bump();showSubj(sj)}

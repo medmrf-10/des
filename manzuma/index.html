@@ -154,6 +154,8 @@ audio{width:100%;margin:8px 0}
 <section class="sec" id="s-note">
   <div class="muted" style="margin-bottom:12px">دفترك — كل مقطع أو فائدة حفظتها، وأسئلة اختبار مولّدة من دروسك.</div>
   <div id="noteList"></div>
+  <h2>مراجعة متباعدة</h2>
+  <div id="reviewBox"></div>
   <h2>اختبر نفسك</h2>
   <div id="quizBox"></div>
 </section>
@@ -179,7 +181,7 @@ const tok=s=>norm(s).split(' ').filter(w=>w.length>1);
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
 const SM={};for(const sj in CURR)for(const e of CURR[sj])SM[e.i]=e;
 /* ---------- profile / streak ---------- */
-const me={name:LS('mz_name'),prog:LS('mz_prog')||{},note:LS('mz_note')||[],pos:LS('mz_pos')||{}};
+const me={name:LS('mz_name'),prog:LS('mz_prog')||{},note:LS('mz_note')||[],pos:LS('mz_pos')||{},cards:LS('mz_cards')||{}};
 function bump(){const today=new Date().toISOString().slice(0,10);let st=LS('mz_streak')||{d:'',n:0};
   if(st.d!==today){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);st.n=(st.d===y)?st.n+1:1;st.d=today;LS('mz_streak',st);}
   $('#streak').style.display='flex';$('#streakN').textContent=st.n;return st}
@@ -232,7 +234,21 @@ function askTutor(){
   });
 }
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
-function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);toast('حُفظ في دفترك')}
+function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);
+  const k='n'+(me.note.length-1);if(!me.cards[k])me.cards[k]={repetitions:0,ease:2.5,interval:0,lastReview:null};LS('mz_cards',me.cards);
+  toast('حُفظ في دفترك')}
+/* ---------- FSRS review ---------- */
+function dueCards(){const now=Date.now();return Object.keys(me.cards).map(k=>({k,c:me.cards[k]})).filter(({c})=>{if(c.repetitions===0&&!c.lastReview)return true;return c.lastReview&&(now-new Date(c.lastReview).getTime())>=c.interval*864e5})}
+function renderReview(){
+  const due=dueCards();
+  const box=$('#reviewBox');if(!box)return;
+  if(!due.length){box.innerHTML='<div class="muted" style="font-size:12px">لا بطاقات مستحقة — احفظ فوائد من المعلّم أو الدروس المحلّلة لتدخل جدول المراجعة الذكي</div>';return}
+  const {k,c}=due[0];
+  const ni=+k.slice(1);const n=me.note[ni];
+  box.innerHTML=`<div class="muted" style="font-size:12px;margin-bottom:8px">${due.length} بطاقة مستحقة — جدولة FSRS</div><div class="card quiz"><b style="font-size:13.5px">${esc(n?n.t:k)}</b><div class="muted" style="margin:8px 0;font-size:11px">${n&&n.s&&SM[n.s]?esc(SM[n.s].n):''} · تكرّرت ${c.repetitions}×</div><div style="display:flex;gap:8px">${[['صعب',2],['جيد',4],['سهل',5]].map(([t,q])=>`<button class="btn sm ${q===4?'':'ghost'}" style="flex:1" onclick="rateCard('${k}',${q})">${t}</button>`).join('')}</div></div>`;
+}
+function rateCard(k,q){const c=me.cards[k];c.quality=q;const r=FSRS.schedule(c);Object.assign(c,{repetitions:r.repetitions,ease:r.newEase,interval:r.newInterval,lastReview:new Date().toISOString()});delete c.quality;LS('mz_cards',me.cards);bump();renderReview()}
+function delNote(i){me.note.splice(i,1);LS('mz_note',me.note);renderNote()}
 /* ---------- ENRICHED LESSONS ---------- */
 let ENR=null;
 async function renderEnrich(){
@@ -241,7 +257,7 @@ async function renderEnrich(){
   $('#enrList').innerHTML=ENR.map((e,i)=>{
     const sid=e.id&&/^(\d+)/.exec(e.id);
     const open=sid?`../durus/index.html#s=${sid[1]}`:'#';
-    return `<div class="res"><b style="font-size:14px">${esc(e.title||e.id)}</b><div class="snip" style="margin-top:6px">${esc(e.summary||'')}</div><div id="enr-${i}" style="display:none;margin-top:8px">${(e.points||[]).map(p=>`<div class="pt">• ${esc(p)}</div>`).join('')}${e.quiz?`<div class="quiz" style="margin-top:10px"><b style="font-size:13px">${esc(e.quiz.q||e.quiz.question||'')}</b>${(e.quiz.options||e.quiz.choices||[]).map((o,j)=>`<button class="opt" onclick="ansQ(this,${j},${e.quiz.a??e.quiz.answer??0})">${esc(o)}</button>`).join('')}</div>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm ghost" onclick="toggleEnr(${i})">الفوائد والاختبار</button><a class="btn sm ghost" target="_blank" href="${open}">السلسلة</a></div></div>`
+    return `<div class="res"><b style="font-size:14px">${esc(e.title||e.id)}</b><div class="snip" style="margin-top:6px">${esc(e.summary||'')}</div><div id="enr-${i}" style="display:none;margin-top:8px">${(e.points||[]).map(p=>`<div class="pt">• ${esc(p)}</div>`).join('')}${e.quiz?`<div class="quiz" style="margin-top:10px"><b style="font-size:13px">${esc(e.quiz.q||e.quiz.question||'')}</b>${(e.quiz.options||e.quiz.choices||[]).map((o,j)=>`<button class="opt" onclick="ansQ(this,${j},${e.quiz.a??e.quiz.answer??0})">${esc(o)}</button>`).join('')}</div>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm ghost" onclick="toggleEnr(${i})">الفوائد والاختبار</button><a class="btn sm ghost" target="_blank" href="${open}">السلسلة</a><button class="btn sm ghost" onclick='saveNote(${JSON.stringify({s:sid?+sid[1]:0,t:(e.title||e.id).slice(0,90),u:open})})'>🔖</button></div></div>`
   }).join('')||'<div class="empty">الدروس المحلّلة تُجهَّز الآن</div>';
 }
 function toggleEnr(i){const e=$('#enr-'+i);e.style.display=e.style.display==='none'?'block':'none'}
@@ -294,6 +310,7 @@ async function playLesson(i){
 /* ---------- NOTEBOOK ---------- */
 let QZ=null;
 async function renderNote(){
+  renderReview();
   $('#noteList').innerHTML=me.note.length?me.note.slice().reverse().map((n,i)=>`<div class="nt"><b style="font-size:13.5px">${esc(n.t)}</b><div class="meta muted" style="margin:6px 0">${SM[n.s]?esc(SM[n.s].n):''}</div><div style="display:flex;gap:8px"><a class="btn sm ghost" target="_blank" href="${n.u}">فتح</a><button class="btn sm ghost" onclick="delNote(${me.note.length-1-i})">حذف</button></div></div>`).join(''):'<div class="empty">دفترك فارغ — احفظ مقاطع من المعلّم بالزر 🔖</div>';
   if(!QZ){try{QZ=await (await fetch('quizidx.json')).json()}catch(e){QZ=[]}}
   const box=$('#quizBox');
@@ -302,12 +319,12 @@ async function renderNote(){
   box.innerHTML=`<div class="card quiz"><b style="font-size:14px">${esc(q.q)}</b><div style="margin-top:10px">${q.options.map((o,i)=>`<button class="opt" onclick="answerQuiz(this,${i},${q.a})">${esc(o)}</button>`).join('')}</div><div class="muted" style="margin-top:8px;font-size:11px">${esc(q.src||'')}</div></div><button class="btn ghost sm" onclick="renderNote()">سؤال آخر</button>`;
 }
 function answerQuiz(el,i,a){$$('#quizBox .opt').forEach((o,j)=>{if(j===a)o.classList.add('right');else if(j===i)o.classList.add('wrong')});bump()}
-function delNote(i){me.note.splice(i,1);LS('mz_note',me.note);renderNote()}
 /* ---------- boot ---------- */
 const init=location.hash.slice(1);
 if(init.startsWith('cur-')){const sj=decodeURIComponent(init.slice(4));if(CURR[sj]){go('curr');renderCurr();showSubj(sj,true)}else renderToday()}
 else if(init&&$('#s-'+init))go(init);else renderToday();
 </script>
+<script src="../shared/fsrs.js"></script>
 <script src="../shared/feedback.js" data-pid="manzuma" data-title="المنظومة"></script>
 </body>
 </html>

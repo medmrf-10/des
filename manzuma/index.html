@@ -489,7 +489,8 @@ const SRCS=[
  {ic:'✒',n:'يوميات إنجليزية',d:'اكتب يومك بإنجليزية — تقييم ذاتي',u:'../english/journal.html',t:'الإنجليزية'},
  {ic:'📋',n:'المرجع السريع',d:'cheat-sheets لكل مسار برمجي',u:'../prog/reference.html',t:'البرمجة'},
  {ic:'📊',n:'مِعلم',d:'معالم مكتبتك — إحصاءات حية',u:'../mi3lam/',t:'معرفة'},
- {ic:'🎙',n:'مِرتّل',d:'حلقة تحفيظ — إخفاء واختبار ترتيب',u:'../murattil/',t:'القرآن'}
+ {ic:'🎙',n:'مِرتّل',d:'حلقة تحفيظ — إخفاء واختبار ترتيب',u:'../murattil/',t:'القرآن'},
+ {ic:'💪',n:'مِقتدِر',d:'خريطة قوتك بصدق',u:'../miqtadir/',t:'إدارة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

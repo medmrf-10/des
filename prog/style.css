@@ -529,3 +529,22 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 #dbEd:focus{outline:none;border-color:var(--acc)}
 .lb-ed-h{font-size:.72rem;color:var(--acc2);font-weight:600;margin-bottom:6px}
 .lb-count{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--acc2)}
+
+/* ====== المرجِع (خوارزميات) ====== */
+.rf-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.rf-card-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.rf-cat-tag{font-size:.62rem;color:var(--acc2);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+.rf-name{margin:6px 0 0;font-size:.95rem}
+.rf-big{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--acc);background:rgba(212,175,55,.08);border:1px solid var(--border);border-radius:8px;padding:5px 10px;white-space:nowrap}
+.rf-big-s{color:var(--dim)}
+.rf-def{font-size:.78rem;color:var(--txt);line-height:1.8;margin:8px 0 4px}
+.rf-when{font-size:.72rem;color:var(--dim);line-height:1.8;margin:0 0 10px}
+.rf-when b{color:var(--acc2)}
+.rf-code-wrap{position:relative}
+.rf-code{background:#0a0e1c;border:1px solid var(--border);border-radius:10px;padding:26px 12px 10px;font-size:.7rem;line-height:1.7;overflow:auto;white-space:pre;margin:0}
+.rf-code code{font-family:'IBM Plex Mono',monospace;color:#9fdc9f}
+.rf-copy{position:absolute;top:6px;inset-inline-start:8px;z-index:2;background:var(--card2);border:1px solid var(--border);border-radius:7px;color:var(--acc2);font-size:.62rem;padding:3px 9px;cursor:pointer}
+.rf-copy:hover{border-color:var(--acc)}
+.rf-learn{margin-top:10px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--dim);font-size:.68rem;padding:4px 12px;cursor:pointer;font-family:inherit}
+.rf-learn.done{color:#7fd47f;border-color:#3a6e3a}
+.rf-empty{text-align:center;color:var(--dim);font-size:.8rem;padding:30px}

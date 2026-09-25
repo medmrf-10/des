@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>ملمّع — محرر عبارات الدروس</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:900px;margin:0 auto;padding:14px;padding-bottom:120px}
+.ph{display:flex;gap:8px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:5px 0}
+.ph.cur{border-color:var(--acc);background:var(--card2)}
+.ph .tm{font-size:11px;color:var(--acc2);white-space:nowrap;cursor:pointer;padding-top:3px;min-width:40px}
+.ph .tx{flex:1;font-family:var(--font-ar);font-size:15px;line-height:1.9;outline:none;border-radius:6px}
+.ph .tx:focus{background:rgba(201,162,75,.06)}
+.ph .op{font-size:11px;color:var(--dim);cursor:pointer;white-space:nowrap}
+.ph .op:hover{color:var(--acc2)}
+#player{position:fixed;bottom:0;right:0;left:0;background:var(--bg);border-top:1px solid var(--border);padding:10px 14px;display:flex;gap:10px;align-items:center}
+#player audio{flex:1;height:34px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 16px;font-weight:700;cursor:pointer;font-size:13px}
+.muted{color:var(--dim);font-size:12px}
+input[type=file]{display:none}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">ملمّع <span class="muted" style="font-weight:400;font-size:12px">— محرر عبارات التفريغ</span></h2>
+<div class="muted">حمّل phrases.json (أو افتح ?l=NNN لدرس في المنظومة) → اضغط العبارة تسمعها → عدّل النص / ادمج / قسّم → صدّر الملف المصحح.</div>
+<div style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap">
+ <label class="btn" style="background:var(--card2);color:var(--txt)">رفع phrases.json<input type="file" id="fj" accept=".json"></label>
+ <label class="btn" style="background:var(--card2);color:var(--txt)">رفع الصوت<input type="file" id="fa" accept="audio/*"></label>
+ <button class="btn" id="exp">⬇ تصدير المصحح</button>
+ <span id="st" class="muted" style="align-self:center"></span>
+</div>
+<div id="list"></div>
+<div id="player"><audio id="au" controls></audio><span class="muted" id="curp"></span></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let PH=[],dirty=false;
+const fmt=s=>{s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function render(){
+ $('list').innerHTML=PH.map((p,i)=>`<div class="ph" id="ph${i}">
+  <span class="tm" data-i="${i}">▶${fmt(p.s)}</span>
+  <div class="tx" contenteditable data-i="${i}">${esc(txt(p))}</div>
+  <span class="op" data-m="m" data-i="${i}" title="ادمج مع التالية">دمج↓</span>
+  <span class="op" data-m="s" data-i="${i}" title="قسّم هنا">✂</span>
+  <span class="op" data-m="d" data-i="${i}" title="احذف">×</span>
+ </div>`).join('');
+ $('st').textContent=PH.length.toLocaleString('ar-EG')+' عبارة'+(dirty?' · معدّل':'')}
+const txt=p=>p.t||(p.ws||[]).map(w=>w.w).join(' ');
+$('fj').onchange=e=>{const f=e.target.files[0];if(!f)return;
+ f.text().then(t=>{PH=JSON.parse(t);dirty=false;render()})};
+$('fa').onchange=e=>{const f=e.target.files[0];if(f)$('au').src=URL.createObjectURL(f)};
+const m=new URLSearchParams(location.search).get('l');
+if(m){fetch(`../manzuma/lessons/${m}/phrases.json`).then(r=>r.json()).then(j=>{PH=j;render()});
+ $('au').src=`../manzuma/lessons/${m}/audio.mp3`}
+$('list').onclick=e=>{
+ const t=e.target;
+ if(t.classList.contains('tm')){const i=+t.dataset.i;$('au').currentTime=PH[i].s;$('au').play();curMark(i);return}
+ if(!t.classList.contains('op'))return;
+ const i=+t.dataset.i,m=t.dataset.m;
+ if(m==='d'){PH.splice(i,1)}
+ else if(m==='m'&&i<PH.length-1){const a=PH[i],b=PH[i+1];a.t=txt(a)+' '+txt(b);a.ws=[...(a.ws||[]),...(b.ws||[])];PH.splice(i+1,1)}
+ else if(m==='s'){const w=PH[i].ws||[];if(w.length<2)return;
+  const mid=Math.floor(w.length/2);
+  PH.splice(i+1,0,{s:w[mid].s,ws:w.slice(mid)});PH[i].ws=w.slice(0,mid);PH[i].t=''}
+ dirty=true;render();curMark(i)};
+$('list').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('tx'))return;
+ PH[+t.dataset.i].t=t.textContent;dirty=true;$('st').textContent=PH.length.toLocaleString('ar-EG')+' عبارة · معدّل'});
+function curMark(i){document.querySelectorAll('.ph').forEach(x=>x.classList.remove('cur'));
+ const el=$('ph'+i);if(el){el.classList.add('cur');el.scrollIntoView({block:'center'});$('curp').textContent='عبارة '+(i+1).toLocaleString('ar-EG')}}
+$('au').addEventListener('timeupdate',()=>{const t=$('au').currentTime;
+ for(let i=PH.length-1;i>=0;i--)if(PH[i].s<=t){if(!$('ph'+i)||!$('ph'+i).classList.contains('cur'))curMark(i);break}});
+$('exp').onclick=()=>{
+ const out=PH.map(p=>({s:p.s,t:txt(p),ws:p.ws||[]}));
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out)],{type:'application/json'}));
+ a.download='phrases_clean.json';a.click()};
+document.addEventListener('keydown',e=>{if(e.key===' '&&e.target.tagName!=='DIV'&&e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='INPUT'){e.preventDefault();$('au').paused?$('au').play():$('au').pause()}});
+</script>
+<script src="../shared/feedback.js" data-pid="mulammi3" data-title="ملمّع"></script>
+</body>
+</html>

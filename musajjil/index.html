@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مسجّل — سجّل درسك من هاتفك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:16px;text-align:center}
+#disc{width:160px;height:160px;border-radius:50%;background:var(--card);border:3px solid var(--border);margin:26px auto;display:flex;align-items:center;justify-content:center;font-size:56px;transition:.3s;cursor:pointer;user-select:none}
+#disc.rec{border-color:#e05a5a;box-shadow:0 0 0 14px rgba(224,90,90,.15);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 10px rgba(224,90,90,.18)}50%{box-shadow:0 0 0 20px rgba(224,90,90,.06)}}
+#tm{font-size:30px;font-family:var(--font-ar);color:var(--acc2);margin:8px 0}
+.row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:10px;padding:11px 22px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:14px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+input.ttl{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px 16px;font-family:var(--font-ar);font-size:15px;width:100%;margin-top:14px}
+audio{width:100%;margin-top:12px}
+canvas{width:100%;height:64px;margin-top:10px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مسجّل <span class="muted" style="font-weight:400;font-size:12px">— اضغط وسجّل درسك</span></h2>
+<div class="muted">سجّل من هاتفك أو حاسوبك، حمّل الصوت، أرسله لي مع نصّه — يتحول لدرس كاراوكي منشور في المنظومة.</div>
+<div id="disc">🎙</div>
+<div id="tm">0:00</div>
+<input class="ttl" id="ttl" placeholder="عنوان الدرس…">
+<div class="row">
+ <button class="btn" id="dl" style="display:none">⬇ حمّل الصوت</button>
+ <button class="btn gh" id="again" style="display:none">↺ إعادة</button>
+</div>
+<canvas id="cv"></canvas>
+<audio id="pl" controls style="display:none"></audio>
+<div class="muted" style="margin-top:12px">الصيغة: <b id="fmt"></b> · التسجيل يبقى على جهازك — لا يُرفع لأي خادم</div>
+<script>
+const $=q=>document.querySelector('#'+q);
+let rec,chunks=[],stream,ctx,analyser,t0,iv;
+const d=$('disc'),c=$('cv').getContext('2d');
+function fmt(t){return Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0')}
+async function start(){
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){alert('الميكروفون غير متاح — اسمح بالوصول');return}
+ chunks=[];const mime=['audio/webm','audio/mp4','audio/ogg'].find(m=>MediaRecorder.isTypeSupported(m))||'';
+ rec=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);
+ rec.ondataavailable=e=>chunks.push(e.data);
+ rec.onstop=finish;
+ rec.start();t0=Date.now();d.classList.add('rec');d.textContent='⏹';
+ $('dl').style.display=$('again').style.display=$('pl').style.display='none';
+ ctx=ctx||new AudioContext();
+ const src=ctx.createMediaStreamSource(stream);
+ analyser=ctx.createAnalyser();analyser.fftSize=256;src.connect(analyser);
+ iv=setInterval(()=>{$('tm').textContent=fmt((Date.now()-t0)/1000)},300);
+ draw()}
+function draw(){
+ if(!analyser)return;
+ const a=new Uint8Array(analyser.frequencyBinCount);analyser.getByteTimeDomainData(a);
+ c.clearRect(0,0,c.canvas.width=innerWidth-32,64);
+ c.beginPath();a.forEach((v,i)=>{const x=i/a.length*c.canvas.width,y=(v-128)/128*30+32;i?c.lineTo(x,y):c.moveTo(x,y)});
+ c.strokeStyle='#c9a24b';c.lineWidth=1.6;c.stroke();
+ if(d.classList.contains('rec'))requestAnimationFrame(draw)}
+function finish(){
+ d.classList.remove('rec');d.textContent='🎙';analyser=null;clearInterval(iv);
+ stream.getTracks().forEach(t=>t.stop());
+ const blob=new Blob(chunks,{type:rec.mimeType});
+ const url=URL.createObjectURL(blob);
+ $('pl').src=url;$('pl').style.display='';
+ const ext=rec.mimeType.includes('mp4')?'m4a':rec.mimeType.includes('ogg')?'ogg':'webm';
+ $('fmt').textContent=ext+' · '+Math.round(blob.size/1024).toLocaleString('ar-EG')+' ك.ب';
+ $('dl').style.display=$('again').style.display='';
+ window._blob={url,ext}}
+d.onclick=()=>d.classList.contains('rec')?rec.stop():start();
+$('dl').onclick=()=>{const a=document.createElement('a');a.href=window._blob.url;
+ a.download=($('ttl').value||'درس').replace(/\s+/g,'_')+'.'+window._blob.ext;a.click()};
+$('again').onclick=start;
+</script>
+<script src="../shared/feedback.js" data-pid="musajjil" data-title="مسجل"></script>
+</body>
+</html>

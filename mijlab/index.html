@@ -4,110 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f1a">
-<title>مِجلَب — جالِب الحسنة</title>
+<title>مِجلَب — مراجعة اليوم</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
-body{max-width:520px;margin:0 auto;padding:14px}
+body{max-width:560px;margin:0 auto;padding:14px}
 .card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
 .card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
 .muted{color:var(--dim);font-size:12px}
-.deed{background:var(--card);border:2px solid var(--acc);border-radius:15px;padding:22px;margin-top:16px;text-align:center;cursor:pointer;transition:all .2s}
-.deed .x{font-family:var(--font-ar);font-size:20px;line-height:1.9}
-.deed .cat{font-size:11px;color:var(--acc2);margin-top:8px}
-.deed.done{border-style:dashed;opacity:.65}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.item{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px 15px;margin-top:8px}
+.item .src{font-size:10px;color:var(--acc);font-weight:700}
+.item .q{font-family:var(--font-ar);font-size:13px;margin-top:6px}
+.item .a{font-family:var(--font-ar);font-size:13px;color:var(--ok);margin-top:8px;display:none}
+.item.show .a{display:block}
 .stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
 .stat b{color:var(--acc)}
-.row{display:flex;gap:7px;margin-top:14px;justify-content:center}
-.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
-.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
-.hist{margin-top:10px}
-.hist .h{display:flex;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:8px 13px;margin-top:5px;font-size:12px}
-.hist .h span{color:var(--dim)}
 </style>
 </head>
 <body>
-<h2 style="font-family:var(--font-ar);margin:6px 0">مِجلَب <span class="muted">— جالِب الحسنة</span></h2>
-<div class="muted">حسنة اليوم — صغيرة لكنها مؤكدة. اضغط البطاقة إذا فعلتها.</div>
-<div id="st"></div>
-<div class="deed" id="deed"><div class="x" id="dx">…</div><div class="cat" id="dc"></div></div>
-<div class="row"><button class="btn" id="nx">جُب لي أخرى</button><button class="btn ghost" id="all">الكل</button></div>
-<div class="hist" id="hist"></div>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِجلَب <span class="muted">— مراجعة اليوم</span></h2>
+<div class="muted">يجمع كل ما درسته حديثاً من أدوات المنظومة — ويستدعي استرجاعك له. الاسترجاع هو التثبيت.</div>
+<div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+<button class="btn" id="pull">اجلب مواد اليوم</button>
+<button class="btn ghost" id="rev">اكشف الكل</button></div>
+<div id="stats"></div>
+<div id="list"></div>
 <script>
 const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const arN=n=>(+n).toLocaleString('ar-EG');
 const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
-const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const today=()=>new Date().toISOString().slice(0,10);
-const DEEDS=[
- ['صدقة ولو بشق تمرة','مال'],
- ['الدعاء لوالديك','دعاء'],
- ['إفشاء السلام','خلق'],
- ['صلة رحم — اتصل بأحد أقاربك','أسرة'],
- ['إماطة الأذى عن الطريق','خدمة'],
- ['التبسّم في وجه أخيك','خلق'],
- ['الدعاء لأخيك بظهر الغيب','دعاء'],
- ['قراءة آية الكرسي','قرآن'],
- ['سبحان الله وبحمده ١٠٠ مرة','ذِكر'],
- ['الاستغفار ١٠٠ مرة','ذِكر'],
- ['قراءة سورة الملك','قرآن'],
- ['عيادة مريض أو السؤال عنه','خدمة'],
- ['إطعام طعام ولو لقطة','مال'],
- ['صلاة الضحى','صلاة'],
- ['التواضع مع أحد صغارك','خلق'],
- ['كفّ أذى — امسك لسانك','خلق'],
- ['علّم أحداً شيئاً تعرفه','علم'],
- ['استمع لمن يحتاج أذناً','خلق'],
- ['قُل «رب اغفر لي» لأحد أسأت إليه','خلق'],
- ['امشِ إلى المسجد','صلاة'],
- ['احتسب الأجر في عملك اليومي','نية'],
- ['زيارة قريب أو صديق قديم','أسرة'],
- ['سدد ديناً صغيراً أو سامح فيه','مال'],
- ['اقرأ حديثاً وشاركه','علم'],
- ['أطعم طائراً أو حيواناً','خدمة'],
- ['صدقة سرّية لا يعلمها أحد','مال'],
- ['قُل لأهلك «أحبكم»','أسرة'],
- ['اقرأ صفحة من كتاب علم','علم'],
- ['ساهم في تنظيف مكان عام','خدمة'],
- ['ادعُ لأمة الإسلام','دعاء'],
-];
-let S=LS('mijlab',{done:{},cur:null,hist:[]});
-if(!S.done[today()])S.done[today()]={};
-const doneToday=()=>Object.keys(S.done[today()]||{}).length;
-function cur(){
- if(S.cur===null||S.done[today()][S.cur]){
-  const i=Math.floor(Math.random()*DEEDS.length);
-  if(S.done[today()][i])return pickFresh();
-  S.cur=i;
- }
- const i=S.cur;
- $('#dx').textContent=DEEDS[i][0];$('#dc').textContent=DEEDS[i][1];
- $('#deed').classList.toggle('done',!!S.done[today()][i]);
- SV('mijlab',S);stats();
+const DAY=864e5, ago=n=>Date.now()-n*DAY;
+function pull(){
+ const items=[];
+ /* mitwaq pearls */
+ const tw=LS('mitwaq',{cards:[]});
+ (tw.cards||[]).forEach(c=>{if(c.front)items.push({s:'مِتوَق',q:c.front,a:c.back||''})});
+ /* mi3wad Qur'an pairs — ask first line, answer=meaning hint */
+ const mw=LS('mi3wad_q',{});
+ Object.entries(mw).forEach(([k,v])=>{if(v&&v.at>ago(7))items.push({s:'مِعوَد (أُضيف حديثاً)',q:'مقطع Qur\'an استُعرض: '+esc(k),a:'من مِعوَد — افتحه وأعِد التسميع'})});
+ /* English bank recent words */
+ const eb=LS('enbank',[]);
+ (eb||[]).filter(w=>w.at>ago(3)).forEach(w=>items.push({s:'بنك الإنجليزية',q:w.en||w.w||'',a:w.ar||''}));
+ /* mi3raf notes tested recently */
+ const mf=LS('mi3raf_notes',[]);
+ (mf||[]).filter(n=>n.at>ago(3)).forEach(n=>items.push({s:'مِعرَف',q:(n.text||'').slice(0,80)+'…',a:'من ملاحظاتك في مِعرَف'}));
+ /* mishrat if-then rules */
+ const mr=LS('mishrat',[]);
+ (mr||[]).forEach(r=>items.push({s:'مِشرَط (قاعدتك)',q:'إذا… '+esc(r.if||r.i||''),a:'فـ'+(r.then||r.t||'')}));
+ /* mislak decisions to revisit */
+ const ml=LS('mislak',[]);
+ (ml||[]).filter(d=>d.at>ago(14)&&!d.review).forEach(d=>items.push({s:'مِسلَك',q:'قرار: '+esc((d.t||'').slice(0,70)),a:'السبب كان: '+(d.r||'—')+' — قيّم النتيجة اليوم'}));
+ items.sort(()=>Math.random()-.5);
+ const today=new Date().toISOString().slice(0,10);
+ const hist=LS('mijlab',{});hist[today]=items.length;localStorage.setItem('mijlab',JSON.stringify(hist));
+ $('#list').innerHTML=items.map((it,i)=>'<div class="item" data-i="'+i+'"><div class="src">'+it.s+'</div>'+
+ '<div class="q">'+it.q+'</div><div class="a">'+it.a+'</div></div>').join('')||
+ '<div class="muted" style="margin-top:12px">لا مواد حديثة — استعمل أدوات المنظومة أولاً.</div>';
+ $('#stats').innerHTML='<span class="stat">مواد مُجلَبة: <b>'+arN(items.length)+'</b></span>'+
+ '<span class="stat">مصادر مختلفة: <b>'+arN(new Set(items.map(i=>i.s)).size)+'</b></span>';
 }
-function pickFresh(){
- const free=DEEDS.map((_,i)=>i).filter(i=>!S.done[today()][i]);
- if(!free.length){S.cur=null;$('#dx').textContent='أتممت كل حسنات اليوم ✓';$('#dc').textContent='';return}
- S.cur=free[Math.floor(Math.random()*free.length)];
-}
-$('#deed').onclick=()=>{
- if(S.cur===null)return;
- if(!S.done[today()][S.cur]){
-  S.done[today()][S.cur]=new Date().toISOString();
-  S.hist.unshift({d:DEEDS[S.cur][0],at:S.done[today()][S.cur]});
- }
- SV('mijlab',S);cur();
-};
-$('#nx').onclick=()=>{S.cur=null;cur()};
-$('#all').onclick=()=>{
- $('#hist').innerHTML=DEEDS.map((d,i)=>'<div class="h"><span>'+(S.done[today()][i]?'✓ ':'')+esc(d[0])+'</span><span>'+d[1]+'</span></div>').join('');
-};
-function stats(){
- $('#st').innerHTML='<span class="stat">اليوم: <b>'+arN(doneToday())+'/'+arN(DEEDS.length)+'</b></span>'+
- '<span class="stat">المجموع: <b>'+arN(S.hist.length)+'</b></span>';
- $('#hist').innerHTML=S.hist.slice(0,5).map(h=>'<div class="h"><span>'+esc(h.d)+'</span><span>'+h.at.slice(5,10)+'</span></div>').join('');
-}
-cur();
+$('#pull').onclick=pull;
+$('#rev').onclick=()=>document.querySelectorAll('.item').forEach(i=>i.classList.add('show'));
+$('#list').onclick=e=>{const it=e.target.closest('.item');if(it)it.classList.toggle('show')};
+pull();
 </script>
 <script src="../shared/feedback.js" data-pid="mijlab" data-title="مِجلَب"></script>
 </body>

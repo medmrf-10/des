@@ -1690,5 +1690,23 @@
   "desc": "سلسلة الإسناد — من ﷺ إلى آخر راوٍ",
   "url": "../misnad/",
   "icon": "م"
+ },
+ {
+  "id": "mutadarib",
+  "title": "مُتدافِر",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "اختلاف الرواية — نصوص متقاربة",
+  "url": "../hadith/mutadarib.html",
+  "icon": "م"
+ },
+ {
+  "id": "en_dict",
+  "title": "إملاء",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "إملاء — اكتب ما تسمع",
+  "url": "../english/dictation.html",
+  "icon": "إ"
  }
 ]

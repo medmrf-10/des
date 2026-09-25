@@ -147,7 +147,7 @@ function drawQ(){
   if(lMode==='dictate'){
     app.innerHTML = `<div class="quiz">${head}
     <div class="q"><div class="stem" style="color:var(--muted);font-size:13px">استمع ثم اكتب الجملة بالإنجليزية:</div>
-      <div class="opts" style="direction:ltr"><input id="ans_in" class="tin" placeholder="Type what you heard..." autocomplete="off"></div>
+      <div class="opts" style="direction:ltr"><input id="ans_in" class="tin" placeholder="Type what you heard..." autocomplete="off" onkeydown="if(event.key==='Enter')checkDict()"></div>
       <div class="opts"><button class="btn" onclick="checkDict()">تحقق</button></div>
       <div class="res" id="res"></div>
     </div>
@@ -159,7 +159,7 @@ function drawQ(){
     const opts=[q,...distract].sort(()=>Math.random()-.5);
     app.innerHTML = `<div class="quiz">${head}
     <div class="q" id="qc"><div class="stem" style="color:var(--muted);font-size:13px">استمع ثم اختر الجملة التي سمعتها:</div>
-      <div class="opts" style="flex-direction:column;align-items:stretch">${opts.map(o=>`<button style="text-align:left" onclick="pickTTS(this,'${esc(o.en)}')">${esc(o.en)}</button>`).join('')}</div>
+      <div class="opts" style="flex-direction:column;align-items:stretch">${opts.map((o,i)=>`<button style="text-align:left" onclick="pickTTS(this,${i})" data-en="${esc(o.en)}">${esc(o.en)}</button>`).join('')}</div>
       <div class="ar-hint">المعنى: ${esc(q.ar)}</div>
     </div>
     <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQ()">التالي ←</button></div></div>`;
@@ -179,16 +179,16 @@ function checkDict(){
     <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(inp)}»</div></div>`;
   $('#nextBtn').style.display='inline-block';
 }
-function pickTTS(btn, en){
+function pickTTS(btn, i){
   const q = quiz[qi], qc = $('#qc');
   if(qc.classList.contains('done')) return;
   qc.classList.add('done');
   qc.querySelectorAll('.opts button').forEach(b=>{
-    if(b.textContent===q.en) b.classList.add('right');
+    if(b.dataset.en===q.en) b.classList.add('right');
     else if(b===btn) b.classList.add('wrong');
     b.disabled=true;
   });
-  if(en===q.en) score++;
+  if(btn.dataset.en===q.en) score++;
   $('#nextBtn').style.display='inline-block';
 }
 function viewListenMenu(){
@@ -214,22 +214,22 @@ function drawQClips(){
     <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${q.clip}" title="listen" allowfullscreen></iframe></div>
     <div class="q" id="qc">
       <div class="stem">${esc(q.text)}</div>
-      <div class="opts">${opts.map(o=>`<button onclick="pick(this,'${esc(o)}')">${esc(o)}</button>`).join('')}</div>
+      <div class="opts">${opts.map((o,i)=>`<button onclick="pick(this,${i})" data-en="${esc(o)}">${esc(o)}</button>`).join('')}</div>
       <div class="ar-hint">المعنى: ${esc(q.ar)}</div>
     </div>
     <div style="text-align:center;margin-top:14px"><button class="btn" id="nextBtn" style="display:none" onclick="qi++;drawQClips()">التالي ←</button></div>
   </div>`;
 }
-function pick(btn, o){
+function pick(btn, i){
   const q = quiz[qi], qc = $('#qc');
   if(qc.classList.contains('done')) return;
   qc.classList.add('done');
   qc.querySelectorAll('.opts button').forEach(b=>{
-    if(b.textContent === q.answer) b.classList.add('right');
+    if(b.dataset.en === q.answer) b.classList.add('right');
     else if(b === btn) b.classList.add('wrong');
     b.disabled = true;
   });
-  if(o === q.answer) score++;
+  if(btn.dataset.en === q.answer) score++;
   $('#nextBtn').style.display = 'inline-block';
 }
 

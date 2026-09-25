@@ -638,7 +638,10 @@ const SRCS=[
  {ic:'🗿',n:'مِنحَت',d:'اليوم المثالي',u:'../minhat/',t:'إدارة'},
  {ic:'🧹',n:'مِكسَح',d:'المسح اليومي',u:'../miksah/',t:'إدارة'},
  {ic:'🔍',n:'مِخدَع',d:'كشّاف الخداع',u:'../mikhda3/',t:'إدارة'},
- {ic:'✂️',n:'مِشذَب',d:'تقليم الالتزامات',u:'../mishdhab/',t:'إدارة'}
+ {ic:'✂️',n:'مِشذَب',d:'تقليم الالتزامات',u:'../mishdhab/',t:'إدارة'},
+ {ic:'📖',n:'غريب الحديث',d:'قاموس غريب الحديث',u:'../hadith/gharib.html',t:'شريعة'},
+ {ic:'🌿',n:'العائلات اللفظية',d:'٤٠ عائلة كلمات',u:'../english/word_families.html',t:'إنجليزية'},
+ {ic:'🧪',n:'مختبر الريجيكس',d:'١٢ تحدي ريجيكس',u:'../prog/regex.html',t:'برمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

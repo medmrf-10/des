@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مختبر الريجيكس — برمج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../shared/theme.css">
+</head>
+<body>
+<header>
+  <div class="wrap head-row">
+    <div>
+      <h1>برمج</h1>
+      <div class="tagline">مختبر الريجيكس — اكتب نمطاً يجتاز النصوص الستة</div>
+    </div>
+    <div class="prog"><span id="rxCount"></span><a class="btn ghost sm" href="index.html" style="text-decoration:none;color:var(--acc2)">← المنصة</a></div>
+  </div>
+  <div class="wrap"><div class="prog-bar"><span id="rxBar"></span></div></div>
+</header>
+
+<main class="wrap">
+  <div class="rx-splits">
+    <aside class="rx-side" id="rxList"></aside>
+    <section id="rxMain" class="lb-main"></section>
+  </div>
+</main>
+
+<footer><div class="wrap">برمج — أنماطك محفوظة على جهازك</div></footer>
+<script src="regex.js"></script>
+<script src="../shared/feedback.js" data-pid="prog_regex" data-title="برمج — مختبر الريجيكس"></script>
+</body>
+</html>

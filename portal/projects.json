@@ -2698,5 +2698,32 @@
   "desc": "تقليم الالتزامات المتكررة",
   "url": "../mishdhab/",
   "icon": "م"
+ },
+ {
+  "id": "gharib",
+  "title": "غريب الحديث",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "قاموس غريب الحديث الحي",
+  "url": "../hadith/gharib.html",
+  "icon": "غ"
+ },
+ {
+  "id": "word_families",
+  "title": "العائلات اللفظية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "٤٠ عائلة كلمات من الكوربوس",
+  "url": "../english/word_families.html",
+  "icon": "ع"
+ },
+ {
+  "id": "regexlab",
+  "title": "مختبر الريجيكس",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "١٢ تحدي ريجيكس متدرجاً",
+  "url": "../prog/regex.html",
+  "icon": "م"
  }
 ]

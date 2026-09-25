@@ -83,4 +83,42 @@
     if(e.key!=='Enter'||e.target.tagName!=='INPUT')return;
     e.target.closest('.fb-in')?.querySelector('button')?.click();
   });
+
+  /* — لوحة قفز: Ctrl+K يفتح بحث كل التطبيقات — */
+  const pj=document.createElement('div');
+  pj.style.cssText='position:fixed;inset:0;background:rgba(5,8,16,.7);backdrop-filter:blur(4px);z-index:990;display:none';
+  pj.innerHTML=`<div style="max-width:520px;margin:12dvh auto 0;background:#131a2a;border:1px solid #3a4670;border-radius:16px;overflow:hidden;font-family:'Amiri','Noto Naskh Arabic',serif">
+    <input id="fbQ" placeholder="اقفز إلى أي أداة… (Esc للإغلاق)" style="width:100%;background:#0b0f1a;border:0;border-bottom:1px solid #232b45;color:#f5f1e8;padding:15px 18px;font-family:inherit;font-size:1rem;outline:none;box-sizing:border-box">
+    <div class="res" style="max-height:50dvh;overflow-y:auto;padding:8px"></div></div>`;
+  document.body.appendChild(pj);
+  let PJ=null,pi=0;
+  const pjRes=pj.querySelector('.res');
+  async function pjLoad(){if(PJ)return PJ;
+    const u=location.protocol==='file:'?'../portal/projects.json':'/des/portal/projects.json';
+    try{PJ=await(await fetch(u)).json()}catch(e){PJ=[]}return PJ}
+  function pjShow(){
+    const q=pj.querySelector('#fbQ').value.trim();
+    const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+    const L=(PJ||[]).filter(p=>!q||norm(p.title).includes(norm(q))||norm(p.desc).includes(norm(q))||norm(p.field).includes(norm(q))).slice(0,12);
+    pjRes.innerHTML=L.map((p,i)=>{
+      const dir=location.pathname.replace(/[^/]*$/, '');
+      const parent=dir.replace(/[^/]+\/$/, '');
+      const href=location.protocol==='file:'?p.url:p.url.replace(/^\.\./, parent);
+      return `<a href="${href}" data-i="${i}" style="display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;text-decoration:none;color:#f5f1e8;background:${i===pi?'#1a2238':'transparent'};outline:${i===pi?'1px solid #c9a24b':'none'}">
+      <span style="width:30px;height:30px;border-radius:8px;background:#1a2238;border:1px solid #2a3350;display:flex;align-items:center;justify-content:center;color:#c9a24b;font-size:.85rem">${esc(p.icon||'•')}</span>
+      <span style="flex:1"><b style="font-size:.88rem">${esc(p.title)}</b><span style="display:block;font-size:.68rem;color:#8b93b0">${esc(p.desc||'')}</span></span>
+      <span style="font-size:.6rem;color:#8b93b0">${esc(p.field||'')}</span></a>`}).join('')
+      ||'<div style="color:#8b93b0;font-size:.8rem;text-align:center;padding:16px">لا نتائج</div>'}
+  document.addEventListener('keydown',async e=>{
+    if(e.key==='k'&&(e.ctrlKey||e.metaKey)){e.preventDefault();
+      pj.style.display='block';await pjLoad();pi=0;pjShow();
+      const q=pj.querySelector('#fbQ');q.value='';q.focus()}
+    else if(e.key==='Escape'&&pj.style.display==='block')pj.style.display='none';
+    else if(pj.style.display==='block'&&(e.key==='ArrowDown'||e.key==='ArrowUp')){
+      e.preventDefault();const n=pjRes.querySelectorAll('a').length;if(!n)return;
+      pi=(pi+(e.key==='ArrowDown'?1:-1)+n)%n;pjShow()}
+    else if(pj.style.display==='block'&&e.key==='Enter'){
+      const a=pjRes.querySelectorAll('a')[pi];if(a)location.href=a.href}});
+  pj.querySelector('#fbQ').addEventListener('input',()=>{pi=0;pjShow()});
+  pj.onclick=e=>{if(e.target===pj)pj.style.display='none'};
 })();

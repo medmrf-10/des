@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِفتَح — مفتاحك للمنظومة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:14px;color:var(--acc);margin-bottom:9px}
+.q{font-family:var(--font-ar);font-size:15px;margin-top:14px;margin-bottom:7px}
+.opts{display:grid;gap:6px}
+.opt{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;font-size:13px;transition:all .15s}
+.opt:hover{border-color:var(--acc)}
+.opt.on{background:var(--acc);color:#14140f;font-weight:700}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 24px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:14px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.day{background:var(--card);border-right:3px solid var(--acc);border-radius:0 10px 10px 0;padding:9px 14px;margin-top:8px}
+.day b{color:var(--acc);font-family:var(--font-ar);font-size:12.5px}
+.day .tools{font-size:12px;margin-top:4px}
+.day a{color:var(--acc);text-decoration:none}
+.day .why{font-size:11px;color:var(--dim);margin-top:3px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِفتَح <span class="muted">— مفتاحك للمنظومة</span></h2>
+<div class="muted">ثلاثة أسئلة تفتح لك خطة أسبوعك الأول — مصمّمة على وقتك واهتمامك ومستواك.</div>
+<div class="card" id="quiz">
+<div class="q">١ — كم دقيقة تملك يوميًا؟</div>
+<div class="opts" data-q="time">
+<div class="opt" data-v="15">١٥ دقيقة — أبدأ خفيفًا</div>
+<div class="opt" data-v="45">٤٥ دقيقة — وقت معقول</div>
+<div class="opt" data-v="90">٩٠+ دقيقة — وقت وفير</div></div>
+<div class="q">٢ — ما ميلك الأول؟</div>
+<div class="opts" data-q="focus">
+<div class="opt" data-v="quran">القرآن وتدبّره</div>
+<div class="opt" data-v="hadith">الحديث وفقهه</div>
+<div class="opt" data-v="aqida">العقيدة والتزكية</div>
+<div class="opt" data-v="skills">مهارات عصرية (برمجة/إنجليزية)</div></div>
+<div class="q">٣ — ما مستواك العلمي؟</div>
+<div class="opts" data-q="level">
+<div class="opt" data-v="b">مبتدئ — أبدأ من الصفر</div>
+<div class="opt" data-v="m">متوسط — قرأت ودرست</div>
+<div class="opt" data-v="a">متقدم — أريد التعمّق</div></div>
+<button class="btn" id="build">افتح لي خطتي</button></div>
+<div id="plan"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ans={};
+document.querySelectorAll('.opts').forEach(o=>{
+ o.onclick=e=>{
+  const opt=e.target.closest('.opt');if(!opt)return;
+  o.querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));
+  opt.classList.add('on');ans[o.dataset.q]=opt.dataset.v;
+ };
+});
+const TOOLS={
+ quran:[['مِشهد','../mishhad/','تدبّر آية والتفسير'],['مِجلس','../majlis/','سجّل قراءتك'],['مِرتّل','../murattil/','حلقة تحفيظ'],['مُتشابه','../mutashabih/','تشابه الآيات'],['مِجتاز','../mijtaz/','أجزاء مُجتازة']],
+ hadith:[['مِطلع','../mitla3/','حديثك اليومي'],['مِحفل','../mihfil/','المسائل والأحكام'],['مِستملي','../mustamli/','تدرّب بالاستملاء'],['مِقتطف','../miqtaf/','أرقام الشبكة'],['مِكشاف','../mikshaf/','جسور القرآن']],
+ aqida:[['العقيدة','../akida/','مصادر مصفّاة'],['مِعتمد','../mi3tamad/','معتمداتك'],['مِصباح','../misbah/','وردك اليومي'],['مِشوار','../mishwar/','أذكار موجّهة'],['مِعبَر','../mi3bar/','ماذا بعد']],
+ skills:[['البرمجة','../prog/','مساراتك البرمجية'],['الإنجليزية','../english/','فلسفة التعلم'],['مِعراج','../ma3raj/','صعودك'],['مِجلد','../mujallad/','مجلداتك'],['مِرمى','../mirmah/','أهدافك']],
+};
+const CORE=[['مِعسكر','../mi3skar/','خطة ٣٠ يومًا'],['مِنار','../minar/','معالم أسبوعك'],['مِجلد','../mujallad/','نظّم مكتبتك'],['مِحراث','../mihrath/','ما بدأته ولم تنهه'],['فجر','../fajr/','افتتاحية اليوم']];
+$('#build').onclick=()=>{
+ if(!ans.time||!ans.focus||!ans.level)return alert('أجب عن الأسئلة الثلاثة');
+ const t=+ans.time,lv={b:'مبتدئ',m:'متوسط',a:'متقدم'}[ans.level];
+ const tools=TOOLS[ans.focus];
+ const perDay=t<=15?1:t<=45?2:3;
+ const plan=[];
+ let ti=0;
+ for(let d=0;d<7;d++){
+  const dayTools=[];
+  for(let i=0;i<perDay;i++){dayTools.push(tools[ti%tools.length]);ti++}
+  if(d===0)dayTools.push(['مِجلد','../mujallad/','أنشئ مجلد «'+lv+'»']);
+  if(d===3)dayTools.push(CORE[4]);
+  if(d===6)dayTools.push(['مِعراج','../ma3raj/','راجع صعودك']);
+  plan.push({d:d+1,tools:dayTools});
+ }
+ const rm=t<=15?'خطة خفيفة':t<=45?'خطة متوسطة':'خطة عميقة';
+ $('#plan').innerHTML='<div class="card"><div class="t">خطتك الأولى — '+rm+' × '+lv+'</div>'+
+  plan.map(p=>'<div class="day"><b>يوم '+p.d+'</b><div class="tools">'+p.tools.map(x=>'<a href="'+x[1]+'">'+x[0]+' ←</a> · '+x[2]).join('<br>')+'</div></div>').join('')+
+  '<div class="muted" style="margin-top:9px">بعد الأسبوع افتح «مِعبَر» لتكمل المسار — و«مِعتكف» لأيام التركيز العميق.</div></div>';
+ $('#plan').scrollIntoView({behavior:'smooth'});
+};
+</script>
+<script src="../shared/feedback.js" data-pid="miftah" data-title="مِفتَح"></script>
+</body>
+</html>

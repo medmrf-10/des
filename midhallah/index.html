@@ -87,7 +87,7 @@ function W(id,title,link,body){g.insertAdjacentHTML('beforeend',`<div class="w">
 // إنجليزية
 {
  const en=JSON.parse(localStorage.getItem('en_srs')||'{}');
- const due=Object.values(en).filter(c=>c.due&&new Date(c.due)<=new Date()).length;
+ const due=Object.values(en).filter(c=>c&&(c.state==='new'||!c.lastReview||!c.nextReview||c.nextReview<=today)).length;
  W('en','إنجليزية','../english/srs.html','<span class="big">'+arN(due)+'</span> بطاقة مستحقة<br><span class="muted">'+arN(Object.keys(en).length)+' كلمة في بنكك</span>')}
 // برمجة
 {

@@ -294,3 +294,23 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .pt-fill{position:absolute;bottom:0;right:0;left:0;height:3px;background:var(--card)}
 .pt-fill i{display:block;height:100%;background:var(--ok)}
 .pt-card.part .pt-fill i{background:var(--acc)}
+
+/* ====== مشاريع مصغّرة ====== */
+.pj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:26px}
+.pj-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;transition:border-color .2s}
+.pj-card.open{border-color:rgba(70,201,109,.35)}
+.pj-card.lock{opacity:.75}
+.pj-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pj-title{font-weight:700;font-size:.95rem;color:var(--txt)}
+.pj-pct{font-size:.68rem;color:var(--dim);white-space:nowrap}
+.pj-desc{font-size:.78rem;color:var(--dim);line-height:1.7;margin-top:6px}
+.pj-locknote{font-size:.7rem;color:var(--acc);margin-bottom:8px}
+.pj-reqs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pj-req{font-size:.68rem;padding:4px 9px;border-radius:8px;background:var(--card2);border:1px solid var(--border);color:var(--dim);text-decoration:none}
+.pj-req:hover{border-color:var(--acc)}
+.pj-req.ok{color:var(--ok);border-color:rgba(70,201,109,.4)}
+.pj-steps{border-top:1px dashed var(--border);padding-top:10px}
+.pj-steps-h{font-size:.7rem;color:var(--acc2);font-weight:700;margin-bottom:8px}
+.pj-step{display:flex;align-items:flex-start;gap:8px;font-size:.76rem;color:var(--txt);padding:5px 0;cursor:pointer}
+.pj-step.lock{opacity:.5;cursor:not-allowed}
+.pj-step input{accent-color:var(--ok);margin-top:3px}

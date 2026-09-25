@@ -142,5 +142,23 @@
   "desc": "نظائر الآيات اللفظية جنباً إلى جنب",
   "url": "../wahy/mutashabih.html",
   "icon": "م"
+ },
+ {
+  "id": "rawi",
+  "title": "معجم الرواة",
+  "maker": "محمد",
+  "field": "تراث",
+  "desc": "6,384 سلسلة أسناد باستعمالاتها",
+  "url": "../hadith/rawi.html",
+  "icon": "ر"
+ },
+ {
+  "id": "nawawi",
+  "title": "الأربعون النووية",
+  "maker": "محمد",
+  "field": "تراث",
+  "desc": "42 حديثاً جامعاً مربوطة بالمعنى",
+  "url": "../hadith/nawawi.html",
+  "icon": "٤٠"
  }
 ]

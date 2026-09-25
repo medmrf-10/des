@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a"><title>الفهرس العام — أصول الفقه</title>
+<link rel="stylesheet" href="../../shared/theme.css">
+<style>
+body{min-height:100dvh;padding:20px clamp(10px,3vw,30px) 60px}
+.wrap{max-width:1180px;margin:0 auto}
+.hd{text-align:center;margin:20px 0 14px}
+.hd h1{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin:0}
+.hd .sub{color:var(--dim);font-size:.84rem;margin-top:8px;line-height:1.9;max-width:760px;margin-inline:auto}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:.74rem;color:var(--dim)}
+.stat b{color:var(--acc);font-size:.95rem;display:block;text-align:center}
+.bar{display:flex;gap:8px;margin-bottom:14px}
+.bar input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.9rem;padding:10px 16px}
+.bar input:focus{outline:none;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:14px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.tree{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;max-height:76vh;overflow:auto}
+.tnode{border-radius:8px}
+.trow{display:flex;align-items:center;gap:6px;padding:6px 8px;cursor:pointer;border-radius:8px}
+.trow:hover{background:var(--card2)}
+.trow.on{background:var(--card2);outline:1px solid var(--acc)}
+.trow .tt{flex:1;font-size:.86rem}
+.trow.on .tt{color:var(--acc);font-weight:700}
+.tgl{width:20px;color:var(--dim);font-size:.7rem;text-align:center;flex-shrink:0}
+.bdg{font-size:.62rem;width:18px;text-align:center;flex-shrink:0;border-radius:99px}
+.bdg.e{color:var(--ok)}
+.bdg.a{color:var(--acc3)}
+.bdg.m{color:var(--border)}
+.ch{display:none;padding-inline-start:18px;border-inline-start:1px dashed var(--border);margin-inline-start:10px}
+.ch.open{display:block}
+.reader{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;min-height:300px}
+.reader .nt{color:var(--acc);font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.reader .nid{color:var(--dim);font-size:.68rem;direction:ltr;text-align:end;margin-bottom:12px}
+.bcard{background:var(--card2);border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.bcard .bh{display:flex;align-items:center;gap:8px;padding:9px 13px;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.bcard .bh .bt{font-weight:700;font-size:.85rem}
+.bcard .bh .pg{color:var(--dim);font-size:.68rem}
+.bcard .bh .kt{margin-inline-start:auto;font-size:.64rem;border-radius:99px;padding:2px 10px;border:1px solid}
+.kt.e{color:var(--ok);border-color:var(--ok)}
+.kt.a{color:var(--acc3);border-color:var(--acc3)}
+.bcard .txt{font-family:var(--font-ar);font-size:1.06rem;line-height:2.15;padding:12px 16px;max-height:340px;overflow:auto;white-space:pre-wrap}
+.bcard .cap{font-size:.68rem;color:var(--dim);padding:6px 13px;border-top:1px dashed var(--border)}
+.nolink{color:var(--dim);font-size:.78rem;padding:10px 13px;background:var(--card2);border:1px dashed var(--border);border-radius:10px;margin-bottom:12px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.66rem;color:var(--dim);margin:6px 2px 12px}
+.legend b{font-weight:400}
+.placeholder{color:var(--dim);text-align:center;padding:70px 20px;font-size:.86rem}
+mark{background:#c9a24b44;color:inherit;border-radius:3px}
+</style></head><body>
+<div class="wrap">
+  <div class="hd">
+    <h1>الفهرس العام — أصول الفقه</h1>
+    <div class="sub">نموذج أولي: شجرة موضوعات مبنية من عناوين كتابين حقيقيين، كل عقدة مربوطة بموضعها الدقيق في كل كتاب.
+    اختر موضوعاً من الشجرة فيظهر نصه الحرفي من كل كتاب. <b>●</b> باب مستقل — <b>◐</b> داخل وحدة أوسع — <b>—</b> غير مبحوث في الكتاب.</div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="bar"><input id="q" placeholder="ابحث في عناوين الفهرس…"></div>
+  <div class="legend" id="legend"></div>
+  <div class="grid">
+    <div class="tree" id="tree"></div>
+    <div class="reader" id="reader"><div class="placeholder">← اختر موضوعاً من الفهرس</div></div>
+  </div>
+</div>
+<script src="data/index.js"></script>
+<script src="data/units_waraqat.js"></script>
+<script src="data/units_usul.js"></script>
+<script src="app.js"></script>
+</body></html>

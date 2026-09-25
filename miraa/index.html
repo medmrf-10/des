@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِرآة — أسبوعك أمامك</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🪞 مِرآة</h1><p class="tagline">أسبوعك الذي مضى، وأسبوعك الذي قبله — بصدق</p></header>
+<div class="wrap">
+ <div class="card intro">هذه المرآة لا تحكم عليك — تعرض لك أسبوعك كما كان، جنباً إلى جنب مع أسبوعه الماضي. صعود سهم واحدٍ أفضلُ من خمسة أسهم لا تتحرك.</div>
+ <div class="grid2">
+  <div class="card"><h3>أيام الأوردة</h3><div id="dChart" class="chart"></div><div id="dLab" class="lab"></div></div>
+  <div class="card"><h3>الدروس التي أنهيت</h3><div id="lChart" class="chart"></div><div id="lLab" class="lab"></div></div>
+ </div>
+ <div class="card"><h3>ميزان الأسبوعين</h3><div id="bal"></div></div>
+ <div class="card"><h3>إشارات أخرى</h3><div id="sig"></div></div>
+ <button class="btn" id="aiM" style="display:none;width:100%;padding:12px;font-size:15px">✦ نظرة المعلّم على أسبوعي</button>
+ <div id="aiB"></div>
+ <div class="card tip"><a href="../hisad/">حِصَاد — خلاصة يومك</a> · <a href="../wird/">وِرد — خطّتك اليوم</a></div>
+</div>
+<script src="../shared/llm.js"></script>
+<script>
+const RLS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const dayN=n=>{const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)};
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAY=['أحد','اثن','ثلا','أرب','خمس','جمع','سبت'];
+// wird days: wird_done {date:[ids]} ; count per day
+const wd=RLS('wird_done',{});
+// lessons done timestamps: mz_prog {series:{cur,n,last}} has last ts only — count mz_daily? use wird entries marked l?
+const prog=RLS('mz_prog',{});
+const enr=RLS('en_routine',{});
+const srs=RLS('en_srs',{});
+const mih=RLS('mihfaz_v1',{});
+const mun=RLS('muntaga',[]);
+function bars(id,get,lab){
+ let mx=1,days=[];
+ for(let i=13;i>=0;i--){const k=dayN(i);const v=get(k);mx=Math.max(mx,v);days.push({k,v,w:i<7?0:1,d:new Date(k)})}
+ document.getElementById(id).innerHTML=days.map(d=>`<div class="col"><div class="b ${d.w?'old':''}" style="height:${Math.max(4,d.v/mx*86)}px" title="${d.k}: ${d.v}"></div><div class="dl">${d.d.getDate()}/${d.d.getMonth()+1}</div></div>`).join('');
+ document.getElementById(lab).innerHTML='هذا الأسبوع: <b>'+days.slice(7).reduce((a,x)=>a+x.v,0).toLocaleString('ar-EG')+'</b> · الماضي: <b>'+days.slice(0,7).reduce((a,x)=>a+x.v,0).toLocaleString('ar-EG')+'</b>';
+}
+bars('dChart',k=>(wd[k]||[]).length,'dLab');
+// lessons per day approximated by live cur changes is untracked — count en_srs reviews done per day + prog last changed
+const done=RLS('mz_done_log',{}); // {date:n} if live writes it; fallback wird items 'l:...'
+bars('lChart',k=>(done[k]||0)+ (wd[k]||[]).filter(x=>/^l:/.test(x)).length,'lLab');
+// balance rows
+function row(name,a,b,unit){const d=b-a;const arrow=d>0?'▲':d<0?'▼':'—';const cls=d>0?'up':d<0?'dn':'eq';
+ return `<div class="brow"><span>${name}</span><span class="n">${a.toLocaleString('ar-EG')} ${unit} ← ${b.toLocaleString('ar-EG')} ${unit}</span><span class="${cls}">${arrow}</span></div>`}
+const sum7=(get,off)=>{let s=0;for(let i=off;i<off+7;i++)s+=get(dayN(i));return s};
+document.getElementById('bal').innerHTML=
+ row('عناصر الورد المنجزة',sum7(k=>(wd[k]||[]).length,7),sum7(k=>(wd[k]||[]).length,0),'عنصر')+
+ row('أيام أنجزت فيها شيئاً',sum7(k=>(wd[k]||[]).length?1:0,7),sum7(k=>(wd[k]||[]).length?1:0,0),'يوم')+
+ row('أيام التدريب الإنجليزي',sum7(k=>enr[k]&&Object.keys(enr[k]).some(x=>enr[k][x])?1:0,7),sum7(k=>enr[k]&&Object.keys(enr[k]).some(x=>enr[k][x])?1:0,0),'يوم');
+const streak=RLS('mz_streak',{}),wr=RLS('wird_days',{});
+document.getElementById('sig').innerHTML='<div class="sigrid">'+
+ `<div class="sig"><span>🔥 سلسلة الأيام</span><b>${(streak.n||0).toLocaleString('ar-EG')}</b></div>`+
+ `<div class="sig"><span>📖 سور تُحفظ</span><b>${Object.keys(mih).length.toLocaleString('ar-EG')}</b></div>`+
+ `<div class="sig"><span>🎞 مقاطع منتقاة</span><b>${mun.length.toLocaleString('ar-EG')}</b></div>`+
+ `<div class="sig"><span>🃏 كلمات تحفظها</span><b>${Object.keys(srs).length.toLocaleString('ar-EG')}</b></div>`+
+ '</div>';
+document.getElementById('aiM').style.display=window.llmReady&&window.llmReady()?'block':'none';
+document.getElementById('aiM').onclick=async()=>{
+ const b=document.getElementById('aiM');b.disabled=true;const bx=document.getElementById('aiB');
+ const thisW=sum7(k=>(wd[k]||[]).length,0),lastW=sum7(k=>(wd[k]||[]).length,7);
+ const enThis=sum7(k=>enr[k]&&Object.keys(enr[k]).some(x=>enr[k][x])?1:0,0),enLast=sum7(k=>enr[k]&&Object.keys(enr[k]).some(x=>enr[k][x])?1:0,7);
+ bx.innerHTML='<div style="color:var(--acc);text-align:center;padding:12px">المعلّم يقرأ أسبوعك…</div>';
+ try{
+  const out=await window.gemAsk('أنت معلّم يعرف تلميذه ويكتب «نظرة على أسبوعه» بالعربية الفصيحة الدافئة بلا توبيخ. أسبوعه هذا: '+thisW+' عنصراً منجزاً ('+enThis+' أيام إنجليزية)، سلسلة '+((streak.n)||0)+' يوم. أسبوعه الماضي: '+lastW+' عنصراً ('+enLast+' أيام إنجليزية). اكتب 4-6 أسطر: صدّق جهده بإنصاف، سمِّ الشيء الواحد الأهم لأسبوعه القادم، وأنهِ بسطر واحد صادق يعلق في قلبه.',{maxTokens:500});
+  bx.innerHTML='<div class="card" style="border-color:var(--acc);line-height:2.05">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+ }catch(e){bx.innerHTML='<div class="card">'+esc(e.message)+'</div>'}
+ b.disabled=false;
+};
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

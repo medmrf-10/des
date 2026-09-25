@@ -1006,5 +1006,32 @@
   "desc": "مختارات الأسبوع — قطعة مختارة من كل باب تتبدل",
   "url": "../mustafa/",
   "icon": "م"
+ },
+ {
+  "id": "ilal",
+  "title": "عِلل الحديث",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "علل الحديث — استكشاف الأحاديث المعلّة وأحكامها",
+  "url": "../hadith/ilal.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en-story",
+  "title": "قصص مدرّجة",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "Graded reader — قصص A2-B1 بجمل مسموعة وقاموس",
+  "url": "../english/story.html",
+  "icon": "En"
+ },
+ {
+  "id": "prog-map",
+  "title": "خريطة البرمجة",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "شجرة إتقان البرمجة بحلقات تقدّم",
+  "url": "../prog/map.html",
+  "icon": "<>"
  }
 ]

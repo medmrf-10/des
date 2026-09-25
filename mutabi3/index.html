@@ -27,7 +27,7 @@ body{max-width:760px;margin:0 auto;padding:14px}
 const $=q=>document.querySelector('#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const num=v=>(+v||0).toLocaleString('ar-EG');
-const G=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return d}};
+const G=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
 const rows=[];
 const G1={n:'المراجعة والحفظ',ic:'📖',r:[]};
 const due=G('mdr_sched',{});

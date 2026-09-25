@@ -7,6 +7,7 @@
 <title>إجازة — سماعُك موثَّقاً حتى الإتمام</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+html,body{overflow-x:hidden}
 body{max-width:840px;margin:0 auto;padding:14px}
 .inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:11px 15px;font-family:var(--font-ar);font-size:15px;margin:10px 0}
 .sr{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin:7px 0}
@@ -45,7 +46,7 @@ body{max-width:840px;margin:0 auto;padding:14px}
 </div></div>
 <script src="../durus/data.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let ST;try{ST=JSON.parse(localStorage.getItem('ijaza')||'{}')}catch(e){ST={}}
 const save=()=>localStorage.setItem('ijaza',JSON.stringify(ST));

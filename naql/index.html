@@ -29,7 +29,7 @@ input[type=file]{background:var(--card);border:1px solid var(--border);color:var
 <div class="cd"><h4>⬆ استرجاع</h4><p>اختر ملف النسخة — يستبدل بيانات هذا الجهاز كلياً.</p><input type="file" id="imp" accept=".json"><button class="btn gh" id="go" style="margin-top:9px">استرجع</button></div>
 <div id="msg"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const NAMES={mdr_sched:'مراجعات مدرسة',miq_cards:'بطاقات مقرأة',ma3raj:'سور معراج',en_srs:'مراجعة إنجليزية',en_routine:'روتين إنجليزية',en_feed_seen:'مقاطع شورت فورم',en_bank:'بنك الكلمات',zad_done:'زاد',mnhaj_done:'منهج',mishwar_done:'مشوار',prog_v1:'تقدم البرمجة',prog_exam:'امتحان البرمجة',mz_note:'فوائد المنظومة',mz_cards:'بطاقات المنظومة',daftar:'الدفتر',muqtatif:'مقتطفات',mu3edd_drafts:'مسودات معدّ',mkhatat:'مخططات',iqra_pos:'مواضع القراءة',fihris_cat:'تصنيفات الفهرس',sibaq_best:'أفضل طباعة',ijaza:'إجازات',portal_comments:'تعليقات',portal_suggestions:'اقتراحات',en_listen:'إملاء إنجليزية',prog_proj:'مشاريع البرمجة'};
 function collect(){const o={};

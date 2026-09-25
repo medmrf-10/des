@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>علل الحديث — المعاني المجروحة | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{flex:1;min-width:180px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.summary{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.summary b{color:var(--txt)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.card .mh{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px}
+.card .mh b{color:var(--acc2);font-size:13px}
+.card .taraf{font-family:var(--font-ar);font-size:14.5px;line-height:2;margin:8px 0 4px}
+.card .rsns{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rsn{border:1px dashed var(--acc3);border-radius:8px;padding:3px 9px;font-size:11px;color:#d9c4f0;background:#1a1424}
+.card .acts{display:flex;gap:6px;margin-top:6px}
+.card .acts a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 9px;font-size:11px}
+.bdg{display:inline-block;border-radius:999px;padding:2px 11px;font-size:11px;font-weight:700}
+.v-hs{background:#2e2513;color:var(--acc2)}.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}
+.v-ot,.v-ns{background:#22303f;color:#9db8d4}.v-sa{background:#14291c;color:var(--ok)}
+.more{display:block;width:100%;margin:10px 0;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--acc2);font-size:13px;cursor:pointer;font-family:inherit}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🔍 علل الحديث</h1>
+  <span class="sub">المعاني المحكومة بغير «صحيح» — مع أسباب الجرح</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="ahkam.html">⚖ الأحكام ←</a>
+</header>
+<div class="pick">
+  <input type="text" id="q" placeholder="بحث في أطراف المعاني…">
+  <span id="hchips"></span>
+</div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div class="summary" id="sum"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const bucket=v=>{
+  if(!v)return 'ns';
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول|مدلس/.test(v))return 'df';
+  return 'ot';
+};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا حكم'};
+const HORD=['hs','df','sd','mw','ot','ns'];
+/* سبب الجرح: نص الحكم بعد حذف عبارات الثقة والحشو */
+const reason=v=>{
+  let r=String(v||'').replace(/إسناده|رجاله ثقات|رجال البخاري|،/g,' ').replace(/\s+/g,' ').trim();
+  r=r.replace(/^(هو|الذي|و)\s+/,'').trim();
+  return r.slice(0,42)||'—';
+};
+let GN=null,S={hukm:new Set(),q:''},LIST=[];
+async function loadGN(){
+  const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='70%'});
+  pf.style.width='100%';stat.textContent='';
+  GN=window.GIDNET;
+}
+function paintChips(){
+  document.getElementById('hchips').innerHTML=
+    `<button class="chip" data-h="__all" aria-pressed="${S.hukm.size===0}">الكل</button>`+
+    HORD.map(h=>`<button class="chip" data-h="${h}" aria-pressed="${S.hukm.has(h)}">${HB[h]}</button>`).join('');
+}
+document.getElementById('hchips').parentElement.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c||!c.dataset.h)return;
+  const h=c.dataset.h;
+  if(h==='__all')S.hukm.clear();
+  else if(S.hukm.has(h))S.hukm.delete(h);
+  else S.hukm.add(h);
+  paintChips();run();
+});
+document.getElementById('q').addEventListener('input',()=>{S.q=document.getElementById('q').value;run()});
+const PER=60;let shown=PER;
+function run(){
+  if(!GN)return;
+  const q=norm(S.q);
+  const recs=[];
+  for(const gid in GN.g){
+    const g=GN.g[gid];
+    const bk=bucket(g.h||'');
+    if(bk==='sa')continue;
+    if(S.hukm.size&&!S.hukm.has(bk))continue;
+    if(q&&!norm(g.t).includes(q))continue;
+    /* اجمع آراء الجرح */
+    const vs=[],wvs=[];
+    if(g.j)for(const b in g.j)for(const num in g.j[b])for(const v of g.j[b][num]){
+      vs.push(v);if(bucket(v)!=='sa')wvs.push(v);
+    }
+    const rc={};
+    for(const v of wvs){const r=reason(v);rc[r]=(rc[r]||0)+1}
+    const rsn=Object.entries(rc).sort((a,bb)=>bb[1]-a[1]).slice(0,3).map(x=>x[0]);
+    recs.push({gid,t:g.t,h:g.h,bk,tot:vs.length,wr:wvs.length,rsn,s:g.s});
+  }
+  recs.sort((a,b)=>HORD.indexOf(a.bk)-HORD.indexOf(b.bk)||b.wr-a.wr);
+  LIST=recs;shown=PER;paint();
+}
+function paint(){
+  const main=document.getElementById('main');
+  const cnt={};for(const r of LIST)cnt[r.bk]=(cnt[r.bk]||0)+1;
+  document.getElementById('sum').innerHTML=`<span>المعاني المجروحة: <b>${arNum(LIST.length)}</b></span>`+
+    HORD.filter(h=>cnt[h]).map(h=>`<span>${HB[h]}: <b>${arNum(cnt[h])}</b></span>`).join('');
+  const cards=LIST.slice(0,shown).map(r=>`
+    <div class="card">
+      <div class="mh"><b>معنى #${arNum(r.gid)}</b>
+        <span class="bdg v-${r.bk}">${esc(r.h||'—')}</span>
+        ${r.s?`<span class="mut">${arNum(r.s)} صحابياً</span>`:''}
+        <span class="mut">${r.wr?`مجروح في ${arNum(r.wr)} من ${arNum(r.tot)} تقييماً`:'لا آراء جرح مسجلة'}</span>
+      </div>
+      <p class="taraf">${esc(r.t)}</p>
+      ${r.rsn.length?`<div class="rsns">${r.rsn.map(x=>`<span class="rsn">${esc(x)}</span>`).join('')}</div>`:''}
+      <div class="acts"><a href="net.html#g${r.gid}">الشبكة ←</a><a href="naskh.html?g=${r.gid}">اختلاف اللفظ ←</a></div>
+    </div>`).join('');
+  main.innerHTML=cards+(LIST.length>shown?`<button class="more" onclick="shown+=PER;paint()">عرض المزيد (${arNum(LIST.length-shown)} متبقٍ)</button>`:'');
+}
+(async()=>{
+  paintChips();
+  try{await loadGN();run()}catch(e){document.getElementById('stat').textContent='تعذّر تحميل البيانات'}
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="hadith_ilal"></script>
+</body>
+</html>

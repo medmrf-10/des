@@ -30,7 +30,7 @@ canvas{width:100%;max-width:420px;display:block;margin:12px auto;background:var(
 <h4 style="font-family:var(--font-ar);margin:14px 0 6px">التقييمات السابقة</h4>
 <div id="hist"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const SUBS=['قرآن','حديث','عقيدة','فقه','عربية','إنجليزية','برمجة','تصوف'];
 let cur=JSON.parse(localStorage.mi3yar_cur||'{}');
 let hist=JSON.parse(localStorage.mi3yar_hist||'[]');

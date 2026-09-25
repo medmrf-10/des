@@ -7,6 +7,7 @@
 <title>نصوص — تفريغات الدروس</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+html,body{overflow-x:hidden}
 body{max-width:860px;margin:0 auto;padding:14px}
 .sr{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin:8px 0;cursor:pointer}
 .sr:hover{border-color:var(--acc)}
@@ -30,7 +31,7 @@ mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
 <div id="view"></div>
 <div id="tx" style="display:none"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let IDX=null;
 async function idx(){if(!IDX)IDX=await(await fetch('data/index.json')).json();return IDX}

@@ -32,7 +32,7 @@ body{max-width:820px;margin:0 auto;padding:14px}
 <div class="prev" id="pvx"></div>
 <script src="../hadith/pako.min.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const BK={bukhari:'صحيح البخاري',muslim:'صحيح مسلم',tirmidhi:'سنن الترمذي','abi-dawud':'سنن أبي داود',nasai:'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
 const BKA={بخاري:'bukhari',مسلم:'muslim',ترمذي:'tirmidhi','ابو داود':'abi-dawud','أبي داود':'abi-dawud',نسائي:'nasai','ابن ماجه':'ibn-majah','ابن ماجه':'ibn-majah'};

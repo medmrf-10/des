@@ -34,7 +34,7 @@ body{max-width:860px;margin:0 auto;padding:14px}
 <div id="path" style="margin-top:14px"></div>
 <script src="../durus/data.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let ST;try{ST=JSON.parse(localStorage.getItem('sirat')||'{}')}catch(e){ST={}}
 const save=()=>localStorage.setItem('sirat',JSON.stringify(ST));

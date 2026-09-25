@@ -35,7 +35,7 @@ body{max-width:700px;margin:0 auto;padding:14px;text-align:center}
 <h4 style="font-family:var(--font-ar);text-align:right;margin:18px 0 6px">جلسات اليوم</h4>
 <div id="log"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const SUBS=['قرآن','حديث','عقيدة','فقه','لغة عربية','إنجليزية','برمجة','كتابة','تصوف','أخرى'];
 let cur=null,mins=25,timer=null,left=0,t0=0;
 $('#subs').innerHTML=SUBS.map(s=>`<span class="chip" data-s="${s}">${s}</span>`).join('');

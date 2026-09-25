@@ -443,7 +443,10 @@ const SRCS=[
  {ic:'⛲',n:'مِنهال',d:'نبع لا ينضب — مرّر آية وحديث ومسألة وذِكر',u:'../minhal/',t:'الشريعة'},
  {ic:'🧵',n:'مِغزل',d:'غزلك اليومي: آية وتفسيرها وحديث ومسألة وذِكر',u:'../mighzal/',t:'الشريعة'},
  {ic:'۩',n:'مِشهد',d:'أي آية: نصّها وتفسيرها من 6 تفاسير ونظائرها اللفظية',u:'../mishhad/',t:'الشريعة'},
-
+,
+ {ic:'🕳',n:'عِلل',d:'علل الحديث — الأحاديث المعلّة وأحكامها',u:'../hadith/ilal.html',t:'الحديث'},
+ {ic:'📖',n:'قصص مدرّجة',d:'Graded reader — قصص A2-B1 بجمل مسموعة وقاموس',u:'../english/story.html',t:'الإنجليزية'},
+ {ic:'🗺',n:'خريطة البرمجة',d:'شجرة إتقان البرمجة بحلقات تقدّم',u:'../prog/map.html',t:'البرمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

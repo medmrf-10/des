@@ -25,6 +25,7 @@ h1{font-family:var(--font-ar);font-size:26px;background:linear-gradient(120deg,v
 <p class="sub">فلسفة التعلم التي بُنيت عليها المنظومة — كل مبدأ وأين يعمل في المشاريع. ليس موقعاً للاستعمال بقدر ما هو خريطة «لماذا»: اقرأ المبدأ ثم افتح أداته.</p>
 <div id="list"></div>
 <script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const M=[
 {d:'التعلم — كيف أتعلم',items:[

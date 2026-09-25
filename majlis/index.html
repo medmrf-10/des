@@ -7,6 +7,7 @@
 <title>مجلس — القراءة والختمة</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+html,body{overflow-x:hidden}
 body{max-width:860px;margin:0 auto;padding:14px}
 .sur{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin:5px 0}
 .sur:hover{border-color:var(--acc)}
@@ -36,7 +37,7 @@ body{max-width:860px;margin:0 auto;padding:14px}
 <div id="list"></div>
 <div id="reader" style="display:none"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let IX=null,ST=JSON.parse(localStorage.majlis||'{}');
 let onlyLeft=false;

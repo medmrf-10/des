@@ -37,6 +37,7 @@ body{max-width:960px;margin:0 auto;padding:14px}
 <div class="prog"><i id="pfill"></i></div>
 <div class="status" id="stat"></div>
 <div id="hits"></div>
+<script src="scholar.js"></script>
 <script>
 const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
 const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
@@ -52,7 +53,8 @@ async function loadBook(b){
  const j=JSON.parse(txt);
  const recs=[];
  for(const num in j.d){const e=j.d[num];const sv=j.s&&j.s[num]?j.s[num][0]:'';const raws=j.s&&j.s[num]?j.s[num][1]:[];
-   recs.push({n:+num,m:e.m,g:e.g,v:sv,rs:raws,nm:norm(e.m)})}
+   const sch=window.SCHOLAR&&window.SCHOLAR[b]?window.SCHOLAR[b]:{};
+  recs.push({n:+num,m:e.m,g:e.g,v:sv,rs:raws,nm:norm(e.m),sc:sch[num]||null})}
  D[b]={raw:j,recs};
 }
 async function ensure(sel){
@@ -77,7 +79,7 @@ function render(hits,words){
    const V={'ا':'[اأإآٱ]','ي':'[يى]','ه':'[هة]','و':'[وؤ]'};
    let m=esc(h.m);for(const w of words){const flex=w.split('').map(c=>V[c]||c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('[ً-ْٰـ]*');const rx=new RegExp('('+flex+')','gi');m=m.replace(rx,'<mark>$1</mark>')}
    const gidLink=h.g?`<a href="net.html#gid=${h.g}" style="color:var(--acc2);text-decoration:none">شبكة المعنى #${h.g}</a>`:'';
-   return `<div class="hit" onclick="this.toggleAttribute('data-open')"><div class="m">${m}</div><div class="meta"><span class="chip">${esc(h.bk)}</span><span class="chip">#${h.n.toLocaleString('ar-EG')}</span>${h.v?`<span class="v ${vcls(h.v)}">${esc(h.v)}</span>`:''}${h.g?`<span class="chip">معنى ${h.g}</span>`:''}</div>${h.rs&&h.rs.length?`<div class="raws">▼ السند (${h.rs.length}) — اضغط للطي</div><div class="rawlist">${h.rs.map(esc).join(' ← ')}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px">${gidLink}</div></div>`
+   return `<div class="hit" onclick="this.toggleAttribute('data-open')"><div class="m">${m}</div><div class="meta"><span class="chip">${esc(h.bk)}</span><span class="chip">#${h.n.toLocaleString('ar-EG')}</span>${h.v?`<span class="v ${vcls(h.v)}">${esc(h.v)}</span>`:''}${h.g?`<span class="chip">معنى ${h.g}</span>`:''}${h.sc?h.sc.map(g=>`<span class="chip" style="border-color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'};color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'}" title="${esc(g[0])}">${esc(g[0].split(' ').slice(-1)[0])}: ${esc(g[1])}</span>`).join(''):''}</div>${h.rs&&h.rs.length?`<div class="raws">▼ السند (${h.rs.length}) — اضغط للطي</div><div class="rawlist">${h.rs.map(esc).join(' ← ')}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px">${gidLink}</div></div>`
  }).join('');
 }
 let to=null;

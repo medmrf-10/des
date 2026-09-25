@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الفهرس الحقيقي — نتاج القراءة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="titles">
+      <h1>الفهرس الحقيقي — نتاج القراءة</h1>
+      <p class="subtitle">مشروع العقيدة الصوفية — <span id="stat-babs"></span> باباً موحّداً · <span id="stat-topics"></span> موضوعاً · <span id="stat-atoms"></span> ذرة حرفية · <span id="stat-books"></span> كتب · <a class="hdr-link" href="index.html">الفهرس القياسي ←</a></p>
+    </div>
+    <div class="search-box">
+      <input id="search" type="search" placeholder="ابحث في الموضوعات والذرات…" autocomplete="off">
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button id="tab-unified" class="tab active">الأبواب الموحدة</button>
+    <button id="tab-books" class="tab">بالكتب</button>
+    <button id="tab-read" class="tab">قراءة الكتب</button>
+  </div>
+</header>
+<div class="layout">
+  <nav id="toc" aria-label="التصفح"><div class="toc-ctl"><button id="expand-all">فتح الكل</button><button id="collapse-all">طيّ الكل</button></div></nav>
+  <main id="main"></main>
+</div>
+<footer>
+  <p>المصدر: <code>docs/UNIFIED_INDEX.md</code> + <code>indexes/*/atoms.md</code> + نصوص الكتب · توليد: <code>tools/gen_real_index.py</code> + <code>tools/cut_texts.py</code> · مستودع <a href="https://github.com/medmrf-10/akidsofi">medmrf-10/akidsofi</a></p>
+</footer>
+<script src="real_data.js"></script>
+<script src="texts/index.js"></script>
+<script src="real.js"></script>
+<script src="../shared/feedback.js" data-pid="akida" data-title="فهرس العقيدة"></script>
+</body>
+</html>

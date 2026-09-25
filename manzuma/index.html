@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>المنظومة — تعلّم، أنتج، تقدّم</title>
+<link rel="icon" type="image/png" href="../portal/logo-96.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+:root{--r:16px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{max-width:100vw;overflow-x:hidden}
+body{background:var(--bg);color:var(--tx);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;padding-bottom:78px}
+a{color:inherit;text-decoration:none}
+/* ===== header ===== */
+header{position:sticky;top:0;z-index:40;background:rgba(11,15,26,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#1a2340,#0d1322);display:grid;place-items:center;font-size:19px;border:1px solid #2a3350;flex-shrink:0}
+h1{font-size:19px;font-weight:800;background:linear-gradient(90deg,#e8c876,#c9a24b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:11px;color:var(--tx3);margin-top:1px}
+.streak{margin-inline-start:auto;display:flex;align-items:center;gap:6px;background:var(--cd);border:1px solid var(--bd);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--acc)}
+/* ===== tabs ===== */
+nav{position:fixed;bottom:0;inset-inline:0;z-index:50;background:rgba(13,17,30,.96);backdrop-filter:blur(14px);border-top:1px solid var(--bd);display:flex;height:64px;padding-bottom:env(safe-area-inset-bottom)}
+nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;color:var(--tx3);font-weight:600;transition:.15s}
+nav a.on{color:var(--acc)}
+nav a svg{width:21px;height:21px}
+/* ===== generic ===== */
+main{max-width:860px;margin:0 auto;padding:16px}
+.sec{display:none}
+.sec.on{display:block;animation:fadein .25s}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:#1a2340;color:#b8c2de;font-size:11px;font-weight:600;border-radius:20px;padding:4px 11px;border:1px solid #2a3350}
+.chip.g{background:rgba(201,162,75,.12);color:var(--acc);border-color:rgba(201,162,75,.35)}
+.btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#d4af5e,#b8934a);color:#14131f;font-weight:700;border:none;border-radius:12px;padding:10px 18px;font-size:13px;cursor:pointer;font-family:inherit}
+.btn.ghost{background:var(--cd2);color:var(--tx);border:1px solid var(--bd)}
+.btn.sm{padding:7px 13px;font-size:12px;border-radius:10px}
+input[type=text],input[type=search],textarea,select{width:100%;background:#10172b;border:1px solid var(--bd);border-radius:12px;padding:12px 14px;color:var(--tx);font-family:inherit;font-size:14px;outline:none}
+input:focus,textarea:focus{border-color:var(--acc)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.stat{background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--acc)}
+.stat span{font-size:11px;color:var(--tx3)}
+.muted{color:var(--tx3);font-size:12px;line-height:1.8}
+h2{font-size:16px;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+h2::after{content:"";flex:1;height:1px;background:var(--bd)}
+/* ===== today ===== */
+.hero{background:linear-gradient(135deg,#141b33,#0e1424);border:1px solid #25305a;border-radius:20px;padding:22px;margin-bottom:14px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-40%;left:-10%;width:60%;height:180%;background:radial-gradient(ellipse,rgba(201,162,75,.14),transparent 65%)}
+.hero h3{font-size:20px;font-weight:800;margin-bottom:6px}
+.cont{display:flex;align-items:center;gap:12px;background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.cont .ic{width:44px;height:44px;border-radius:12px;background:rgba(201,162,75,.12);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+/* ===== tutor ===== */
+.tutor-q{display:flex;gap:8px;margin-bottom:14px}
+.tutor-q input{flex:1}
+.res{background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px}
+.res .snip{font-size:13px;line-height:1.9;color:#d7dcea;margin:8px 0;padding:10px;background:#10172b;border-radius:10px;border-right:3px solid var(--acc)}
+.res .meta{font-size:11px;color:var(--tx3);display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+mark{background:rgba(201,162,75,.3);color:#f0d9a0;border-radius:3px;padding:0 2px}
+/* ===== curriculum ===== */
+.subj{background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s}
+.subj:active{transform:scale(.98)}
+.subj .nm{font-weight:700;font-size:14px}
+.subj .bar{flex:1;height:6px;background:#10172b;border-radius:3px;overflow:hidden;min-width:60px}
+.subj .bar i{display:block;height:100%;background:linear-gradient(90deg,#c9a24b,#e8c876);border-radius:3px}
+.path{position:relative;padding-inline-start:22px}
+.path::before{content:"";position:absolute;inset-inline-start:7px;top:8px;bottom:8px;width:2px;background:var(--bd)}
+.node{position:relative;background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px}
+.node::before{content:"";position:absolute;inset-inline-start:-19px;top:18px;width:10px;height:10px;border-radius:50%;background:#10172b;border:2px solid var(--bd)}
+.node.done{border-color:rgba(201,162,75,.5)}
+.node.done::before{background:var(--acc);border-color:var(--acc)}
+/* ===== sources ===== */
+.src{display:flex;gap:14px;align-items:center;background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:15px;margin-bottom:11px;transition:.15s}
+.src:active{transform:scale(.985)}
+.src .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+/* ===== studio ===== */
+.plr{background:#0a0e1a;border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-top:10px}
+.ph{cursor:pointer;padding:7px 10px;border-radius:9px;font-size:14.5px;line-height:2;transition:.12s}
+.ph:hover{background:#141b33}
+.ph.act{background:rgba(201,162,75,.15)}
+.ph .w{transition:.12s;border-radius:4px;padding:1px 3px}
+.ph .w.act{background:var(--acc);color:#14131f;font-weight:700}
+audio{width:100%;margin:8px 0}
+/* ===== notebook ===== */
+.nt{background:var(--cd);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px}
+.quiz .opt{display:block;width:100%;text-align:start;background:#10172b;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:6px 0;color:var(--tx);font-family:inherit;font-size:13px;cursor:pointer}
+.quiz .opt.right{border-color:#3dd68c;background:rgba(61,214,140,.12)}
+.quiz .opt.wrong{border-color:#e5484d;background:rgba(229,72,77,.12)}
+.empty{text-align:center;color:var(--tx3);padding:40px 20px;font-size:13px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a2340;border:1px solid var(--acc);color:var(--tx);padding:9px 18px;border-radius:24px;font-size:12.5px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+@media (max-width:520px){.grid{grid-template-columns:1fr}.hero h3{font-size:17px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">☪</div>
+  <div><h1>المنظومة</h1><div class="sub">تعلّم · أنتج · تقدّم</div></div>
+  <div class="streak" id="streak" style="display:none">🔥 <span id="streakN">0</span> يوم</div>
+</header>
+<main>
+<!-- ================= TODAY ================= -->
+<section class="sec on" id="s-today">
+  <div class="hero">
+    <h3 id="greet">السلام عليكم</h3>
+    <div class="muted" id="greetSub">منظومة تعلمك الشخصية — كل شيء في مكان واحد</div>
+  </div>
+  <div id="todayBody"></div>
+  <h2>إحصاءاتك</h2>
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))" id="statsGrid"></div>
+  <h2>خطة اليوم</h2>
+  <div class="card"><div class="muted" id="todayPlan">أنهِ سلسلة واحدة أو احفظ 3 مقاطع في دفترك أو أجب على 5 أسئلة — أي نشاط يُحسب في سلسلتك اليومية.</div></div>
+</section>
+<!-- ================= TUTOR ================= -->
+<section class="sec" id="s-tutor">
+  <div class="card" style="background:linear-gradient(135deg,#141b33,#0e1424)">
+    <b style="font-size:15px">المعلّم</b>
+    <div class="muted" style="margin:5px 0 12px">اسأل عن أي موضوع — أبحث في 60,000+ مقطع وفي نصوص الدروس المفرّغة، وأجيبك بالمقطع الدقيق ومصدره</div>
+    <div class="tutor-q"><input type="search" id="tq" placeholder="مثال: صفة الوحدانية، الطهارة، معنى التوحيد..." enterkeyhint="search"><button class="btn" onclick="askTutor()">اسأل</button></div>
+    <div class="muted" id="tStatus" style="font-size:11px"></div>
+  </div>
+  <div id="tResults"></div>
+</section>
+<!-- ================= CURRICULUM ================= -->
+<section class="sec" id="s-curr">
+  <div class="muted" style="margin-bottom:12px">خريطة المنهج — 952 سلسلة مرتّبة بالموضوع والمستوى. علّم ما أنهيته لتتلوّن طريقك.</div>
+  <div id="subjList"></div>
+  <div id="subjView" style="display:none">
+    <button class="btn ghost sm" onclick="showSubj(null)" style="margin-bottom:12px">→ كل المواضيع</button>
+    <div id="subjBody"></div>
+  </div>
+</section>
+<!-- ================= SOURCES ================= -->
+<section class="sec" id="s-src">
+  <div class="muted" style="margin-bottom:12px">مكتبتك الكاملة — مصادر نقية بلا OCR ولا صور: نصوص رقمية مُنظّمة.</div>
+  <div id="srcList"></div>
+</section>
+<!-- ================= STUDIO ================= -->
+<section class="sec" id="s-studio">
+  <div class="card" style="background:linear-gradient(135deg,#141b33,#0e1424)">
+    <b style="font-size:15px">استوديو الدروس</b>
+    <div class="muted" style="margin-top:5px">دروسك أنت — صوتك ونصك يتحولان لدرس كاراوكي كلمة-بكلمة قابل للنشر. أنتج درسك الأول: أرسل ملف الصوت والنص المفرّغ، وسيُعاد لك جاهزاً.</div>
+    <button class="btn" style="margin-top:12px" onclick="suggest('استوديو: طلب إنتاج درس جديد')">＋ اطلب إنتاج درس</button>
+  </div>
+  <h2>دروسك المنتَجة</h2>
+  <div id="myLessons"></div>
+  <div id="playerBox"></div>
+</section>
+<!-- ================= NOTEBOOK ================= -->
+<section class="sec" id="s-note">
+  <div class="muted" style="margin-bottom:12px">دفترك — كل مقطع أو فائدة حفظتها، وأسئلة اختبار مولّدة من دروسك.</div>
+  <div id="noteList"></div>
+  <h2>اختبر نفسك</h2>
+  <div id="quizBox"></div>
+</section>
+</main>
+<nav>
+  <a href="#today" class="on" data-s="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>اليوم</a>
+  <a href="#tutor" data-s="tutor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>المعلّم</a>
+  <a href="#curr" data-s="curr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M12 7l6-3M12 13l-6-3"/></svg>المنهج</a>
+  <a href="#src" data-s="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4zM4 9h16M9 5v14"/></svg>المصادر</a>
+  <a href="#studio" data-s="studio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4z"/></svg>استوديو</a>
+  <a href="#note" data-s="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16l-7-4-7 4z"/></svg>دفتري</a>
+</nav>
+<div class="toast" id="toast"></div>
+<script src="curriculum.js"></script>
+<script src="tsnip.js"></script>
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const LS=(k,v)=>v===undefined?(localStorage.getItem(k)&&JSON.parse(localStorage.getItem(k))):localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.replace(/[\u064B-\u0652\u0670]/g,'').replace(/[أإآٱ]/g,'ا').replace(/[ىي]/g,'ي').replace(/[ة]/g,'ه').replace(/[ؤ]/g,'و').replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
+const tok=s=>norm(s).split(' ').filter(w=>w.length>1);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+const SM={};for(const sj in CURR)for(const e of CURR[sj])SM[e.i]=e;
+/* ---------- profile / streak ---------- */
+const me={name:LS('mz_name'),prog:LS('mz_prog')||{},note:LS('mz_note')||[],pos:LS('mz_pos')||{}};
+function bump(){const today=new Date().toISOString().slice(0,10);let st=LS('mz_streak')||{d:'',n:0};
+  if(st.d!==today){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);st.n=(st.d===y)?st.n+1:1;st.d=today;LS('mz_streak',st);}
+  $('#streak').style.display='flex';$('#streakN').textContent=st.n;return st}
+/* ---------- tabs ---------- */
+function go(s){$$('nav a').forEach(a=>a.classList.toggle('on',a.dataset.s===s));$$('.sec').forEach(x=>x.classList.toggle('on',x.id==='s-'+s));if(s==='today')renderToday();if(s==='curr'&&!$('#subjList').innerHTML)renderCurr();if(s==='src'&&!$('#srcList').innerHTML)renderSrc();if(s==='studio')renderStudio();if(s==='note')renderNote();location.hash=s;window.scrollTo(0,0)}
+$$('nav a').forEach(a=>a.onclick=e=>{e.preventDefault();go(a.dataset.s)});
+addEventListener('hashchange',()=>{const s=location.hash.slice(1);if(s&&$('#s-'+s))go(s)});
+/* ---------- TODAY ---------- */
+function renderToday(){
+  if(!me.name){$('#greet').innerHTML='ما اسمك؟ <input type="text" id="nm" style="display:inline-block;width:130px;padding:6px 10px;margin-inline-start:6px" placeholder="اسمك"> <button class="btn sm" onclick="setName()">حفظ</button>';}
+  else $('#greet').textContent='أهلاً '+me.name+' 👋';
+  bump();
+  // continue last
+  let html='';
+  const last=me.pos._last;
+  if(last&&SM[last])html+=`<div class="cont"><div class="ic">▶</div><div style="flex:1"><b style="font-size:14px">${esc(SM[last].n)}</b><div class="muted">أكمل من حيث توقفت — ${SH[SM[last].sh]||''}</div></div><a class="btn sm" href="../durus/index.html#open=${last}">تابع</a></div>`;
+  // next up: first unfinished in most-progressed subject
+  let next=null,best=-1;
+  for(const sj in CURR){const list=CURR[sj];let dn=0;for(const e of list)if(me.prog[e.i])dn++;const r=dn/list.length;if(r>best&&dn<list.length){best=r;next=list.find(e=>!me.prog[e.i])}}
+  if(next)html+=`<div class="cont"><div class="ic">📍</div><div style="flex:1"><b style="font-size:14px">التالي لك: ${esc(next.n)}</b><div class="muted">${SH[next.sh]||''} · ${next.v||'?'} درساً</div></div><a class="btn sm ghost" href="../durus/index.html#open=${next.i}">ابدأ</a></div>`;
+  $('#todayBody').innerHTML=html||'<div class="card"><div class="muted">ابدأ رحلتك: تصفّح <a href="#curr" style="color:var(--acc)">المنهج</a> واختر أول سلسلة.</div></div>';
+  const dn=Object.keys(me.prog).length,nb=me.note.length;
+  $('#statsGrid').innerHTML=[['سلسلة منجزة',dn],['محفوظات',nb],['موضوع',Object.keys(CURR).length],['مقطع متاح','60k+']].map(x=>`<div class="stat"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+}
+function setName(){const v=$('#nm').value.trim();if(v){me.name=v;LS('mz_name',v);renderToday();toast('أهلاً بك يا '+v)}}
+function suggest(what){const s=LS('portal_suggestions')||{};(s['manzuma']=s['manzuma']||[]).push({n:me.name||'?',t:what,st:'pending'});LS('portal_suggestions',s);toast('سُجّل طلبك — يُنفَّذ بإذن الله')}
+/* ---------- TUTOR ---------- */
+let CX=null;
+async function loadIdx(){if(CX)return CX;$('#tStatus').textContent='أحمّل فهرس 60 ألف مقطع...';await new Promise(r=>{const sc=document.createElement('script');sc.src='../durus/clipindex.js';sc.onload=r;document.head.appendChild(sc)});CX={clips:CLIPIDX};return CX}
+function askTutor(){
+  const q=$('#tq').value.trim();if(!q)return;
+  const words=tok(q);if(!words.length)return;
+  bump();
+  loadIdx().then(()=>{
+    $('#tStatus').textContent='';
+    const res=[];
+    // clips: AND-match all tokens in normalized title
+    for(const c of CX.clips){const t=norm(c.t);let hit=0;for(const w of words)if(t.includes(w))hit++;else break;if(hit===words.length)res.push({ty:'c',s:c.i,t:c.t,u:c.u,sc:hit+t.length/500})}
+    // transcript snippets
+    for(const e of TSNIP){const t=norm(e.x);let hit=0;for(const w of words)if(t.includes(w))hit++;if(hit===words.length)res.push({ty:'t',s:e.s,l:e.l,x:e.x,sc:hit+0.5})}
+    res.sort((a,b)=>b.sc-a.sc);
+    const top=res.slice(0,12);
+    $('#tResults').innerHTML=top.length?top.map(r=>{
+      const sr=SM[r.s]||{n:'سلسلة '+r.s,sh:''};const shName=SH[sr.sh]||'';
+      const ttl=r.ty==='t'?(sr.n+(r.l?' — الدرس '+r.l:'')):r.t;
+      const body=r.ty==='t'?`<div class="snip">${hl(r.x,words)}</div>`:'';
+      const link=r.ty==='c'?r.u:`../durus/index.html#open=${r.s}`;
+      return `<div class="res"><b style="font-size:14px">${esc(ttl)}</b>${body}<div class="meta"><span class="chip">${esc(sr.n)}</span><span class="chip g">${esc(shName)}</span>${r.l?`<span class="chip">درس ${r.l}</span>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="${link}">▶ شغّل</a><button class="btn sm ghost" onclick='saveNote(${JSON.stringify({s:r.s,l:r.l||null,t:ttl,u:link})})'>🔖 احفظ</a></div></div>`
+    }).join(''):'<div class="empty">لا نتيجة — جرّب كلمات أبسط (مثال: «الصلاة» بدل «حكم صلاة الجمعة»)</div>';
+  });
+}
+function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
+function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);toast('حُفظ في دفترك')}
+/* ---------- CURRICULUM ---------- */
+function renderCurr(){
+  $('#subjList').innerHTML=Object.keys(CURR).map(sj=>{
+    const list=CURR[sj];const dn=list.filter(e=>me.prog[e.i]).length;
+    return `<div class="subj" onclick="showSubj('${sj}')"><div style="flex:1"><div class="nm">${sj}</div><div class="muted">${list.length} سلسلة · أنهيت ${dn}</div></div><div class="bar"><i style="width:${Math.round(dn/list.length*100)}%"></i></div><span style="font-size:12px;color:var(--tx3)">‹</span></div>`
+  }).join('<div style="height:8px"></div>');
+}
+function showSubj(sj){
+  if(!sj){$('#subjView').style.display='none';$('#subjList').style.display='block';return}
+  $('#subjList').style.display='none';$('#subjView').style.display='block';
+  const list=CURR[sj];
+  $('#subjBody').innerHTML=`<h2 style="margin-top:0">${sj}</h2><div class="path">`+list.map((e,ix)=>{
+    const done=!!me.prog[e.i];
+    return `<div class="node ${done?'done':''}"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><b style="font-size:14px">${esc(e.n)}</b><div class="muted">${SH[e.sh]||''} · ${e.v||'?'} درساً${e.h?' · '+Math.round(e.h)+' س':''}</div></div></div><div style="display:flex;gap:8px;margin-top:9px"><a class="btn sm ghost" href="../durus/index.html#open=${e.i}">فتح</a><button class="btn sm ${done?'':'ghost'}" style="${done?'background:#3dd68c':''}" onclick="toggleDone(${e.i},'${sj}')">${done?'✓ أنهيتها':'أنهيتها'}</button></div></div>`
+  }).join('')+'</div>';
+}
+function toggleDone(id,sj){if(me.prog[id])delete me.prog[id];else{me.prog[id]={d:Date.now()};me.pos._last=id;LS('mz_pos',me.pos)}LS('mz_prog',me.prog);bump();showSubj(sj)}
+/* ---------- SOURCES ---------- */
+const SRCS=[
+ {ic:'📖',n:'وحي — القرآن والحديث والتفسير',d:'105 تفسير كامل + 425 كتاب حديث بأسانيد وأحكام — مصادر QUL النقية',u:'../wahy/',t:'الشريعة'},
+ {ic:'🏛',n:'مكتبة التراث',d:'952 سلسلة دروس · 60 ألف مقطع · 10 مشايخ',u:'../durus/',t:'الشريعة'},
+ {ic:'📜',n:'فهرس العقيدة',d:'نصوص العقيدة والتصوف كاملة بفهرسة موضوعية',u:'../akida/real.html',t:'الشريعة'},
+ {ic:'🎬',n:'الدروس الحية',d:'دروس كاراوكي كلمة-بكلمة متزامنة مع الصوت',u:'../live/',t:'الشريعة'},
+ {ic:'🧭',n:'Port — البوابة',d:'كل المشاريع بفلترة الصانع والمجال',u:'../portal/',t:'إدارة'},
+ {ic:'🗂',n:'الفهرس العام',d:'فهرس كل شيء — قابل للتعديل منك مباشرة',u:'../fihris/',t:'إدارة'},
+];
+function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
+/* ---------- STUDIO ---------- */
+let LSN=null;
+async function renderStudio(){
+  if(!LSN){try{LSN=await (await fetch('lessons/index.json')).json()}catch(e){LSN=[]}}
+  $('#myLessons').innerHTML=LSN.length?LSN.map((l,i)=>`<div class="cont"><div class="ic">🎙</div><div style="flex:1"><b style="font-size:14px">${esc(l.title)}</b><div class="muted">${l.dur?Math.round(l.dur/60)+' د · ':''}كاراوكي متزامن</div></div><button class="btn sm" onclick="playLesson(${i})">شغّل</button></div>`).join(''):'<div class="empty">لا دروس منتَجة بعد — أول درس يُجهَّز الآن في المعمل</div>';
+}
+async function playLesson(i){
+  const l=LSN[i];
+  const [w,ph]=await Promise.all([fetch(l.dir+'/words.json').then(r=>r.json()),fetch(l.dir+'/phrases.json').then(r=>r.json())]);
+  $('#playerBox').innerHTML=`<div class="card"><b>${esc(l.title)}</b><audio id="au" controls src="${l.dir}/${l.audio}"></audio><div id="phBox" style="max-height:44vh;overflow-y:auto">${ph.map((p,ix)=>`<div class="ph" data-s="${p.s}" data-e="${p.e}">${p.ws.map(x=>`<span class="w" data-s="${x.s}" data-e="${x.e}">${esc(x.w)}</span>`).join(' ')}</div>`).join('')}</div></div>`;
+  const au=$('#au'),phs=$$('#phBox .ph');
+  phs.forEach(p=>p.onclick=()=>{au.currentTime=+p.dataset.s+.01;au.play()});
+  au.ontimeupdate=()=>{const t=au.currentTime;let act=null;phs.forEach(p=>{const on=t>=+p.dataset.s&&t<=+p.dataset.e;p.classList.toggle('act',on);if(on)act=p;p.querySelectorAll('.w').forEach(w=>w.classList.toggle('act',t>=+w.dataset.s&&t<=+w.dataset.e))});if(act){const b=$('#phBox');const r=act.getBoundingClientRect(),br=b.getBoundingClientRect();if(r.top<br.top||r.bottom>br.bottom)act.scrollIntoView({block:'center',behavior:'smooth'})}};
+  au.play();
+  $('#s-studio').scrollIntoView();
+}
+/* ---------- NOTEBOOK ---------- */
+let QZ=null;
+async function renderNote(){
+  $('#noteList').innerHTML=me.note.length?me.note.slice().reverse().map((n,i)=>`<div class="nt"><b style="font-size:13.5px">${esc(n.t)}</b><div class="meta muted" style="margin:6px 0">${SM[n.s]?esc(SM[n.s].n):''}</div><div style="display:flex;gap:8px"><a class="btn sm ghost" target="_blank" href="${n.u}">فتح</a><button class="btn sm ghost" onclick="delNote(${me.note.length-1-i})">حذف</button></div></div>`).join(''):'<div class="empty">دفترك فارغ — احفظ مقاطع من المعلّم بالزر 🔖</div>';
+  if(!QZ){try{QZ=await (await fetch('quizidx.json')).json()}catch(e){QZ=[]}}
+  const box=$('#quizBox');
+  if(!QZ.length){box.innerHTML='<div class="empty">أسئلة الاختبار تُولَّد الآن من الدروس المفرّغة — تظهر هنا فور جاهزيتها</div>';return}
+  const q=QZ[Math.floor(Math.random()*QZ.length)];
+  box.innerHTML=`<div class="card quiz"><b style="font-size:14px">${esc(q.q)}</b><div style="margin-top:10px">${q.options.map((o,i)=>`<button class="opt" onclick="answerQuiz(this,${i},${q.a})">${esc(o)}</button>`).join('')}</div><div class="muted" style="margin-top:8px;font-size:11px">${esc(q.src||'')}</div></div><button class="btn ghost sm" onclick="renderNote()">سؤال آخر</button>`;
+}
+function answerQuiz(el,i,a){$$('#quizBox .opt').forEach((o,j)=>{if(j===a)o.classList.add('right');else if(j===i)o.classList.add('wrong')});bump()}
+function delNote(i){me.note.splice(i,1);LS('mz_note',me.note);renderNote()}
+/* ---------- boot ---------- */
+const init=location.hash.slice(1);
+if(init&&$('#s-'+init))go(init);else renderToday();
+</script>
+<script src="../shared/feedback.js" data-pid="manzuma" data-title="المنظومة"></script>
+</body>
+</html>

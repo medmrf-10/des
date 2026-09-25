@@ -40,8 +40,10 @@ function showTopics(){
   document.querySelectorAll('.bookbtn').forEach(b=>b.classList.remove('active'));
   $('#homeBtn').classList.add('on');
   location.hash = 'topics';
-  content.innerHTML = `<h2 class="utitle">الفهرس الموحّد — ${TOPICS.length} موضوعاً × ${idx.length} كتاباً</h2>
-    <div class="tgrid">${TOPICS.map((t,i)=>`<div class="tcard" data-t="${i}"><b>${esc(t.t)}</b><span>${new Set(t.books.map(b=>b.s)).size} كتاباً · ${t.books.length} موضعاً</span></div>`).join('')}</div>`;
+  const q = norm(query);
+  const shown = TOPICS.map((t,i)=>[t,i]).filter(([t])=>!q||norm(t.t).includes(q)||t.books.some(b=>norm(b.t).includes(q)));
+  content.innerHTML = `<h2 class="utitle">الفهرس الموحّد — ${q?shown.length+' من ':''}${TOPICS.length} موضوعاً × ${idx.length} كتاباً</h2>
+    <div class="tgrid">${shown.map(([t,i])=>`<div class="tcard" data-t="${i}"><b>${esc(t.t)}</b><span>${new Set(t.books.map(b=>b.s)).size} كتاباً · ${t.books.length} موضعاً</span></div>`).join('')}</div>`;
   content.querySelectorAll('.tcard').forEach(el=>el.onclick=()=>showTopic(+el.dataset.t));
 }
 
@@ -57,9 +59,9 @@ function showTopic(ti){
   content.innerHTML = `<div class="crumbs"><a href="#topics">الفهرس الموحّد</a> ← ${esc(t.t)}</div>
     <h2 class="utitle">${esc(t.t)}</h2>
     <div class="umeta"><span>${order.length} كتاباً نصّت عليه · ${t.books.length} موضعاً — اختر كتاباً لتقرأ نصّ مؤلفه كاملاً في هذا الباب</span></div>
-    ${order.map(s=>{const m=bookMeta(s);return `<div class="tg">
-      <div class="tg-head" data-s="${s}"><span>${esc(m.title||s)} <span style="font-weight:400;font-size:12px">— ${esc(m.author||'')}</span></span><span class="cnt">${esc(m.madh||'')} · ${bySlug[s].length}</span></div>
-      ${bySlug[s].map(b=>`<div class="trow" data-s="${s}" data-i="${b.i}"><span class="tt">${esc(b.t)}</span><span class="pg">ص ${b.p}</span></div>`).join('')}
+    ${order.map(s=>{const m=bookMeta(s);const q=norm(query);const rows=q?bySlug[s].filter(b=>norm(b.t).includes(q)):bySlug[s];if(q&&!rows.length)return '';return `<div class="tg">
+      <div class="tg-head" data-s="${s}"><span>${esc(m.title||s)} <span style="font-weight:400;font-size:12px">— ${esc(m.author||'')}</span></span><span class="cnt">${esc(m.madh||'')} · ${rows.length}</span></div>
+      ${rows.map(b=>`<div class="trow" data-s="${s}" data-i="${b.i}"><span class="tt">${esc(b.t)}</span><span class="pg">ص ${b.p}</span></div>`).join('')}
     </div>`}).join('')}`;
   content.querySelectorAll('.trow').forEach(el=>el.onclick=()=>selectBook(el.dataset.s,+el.dataset.i));
   content.querySelectorAll('.tg-head').forEach(el=>el.onclick=()=>{const s=el.dataset.s; const rows=el.parentElement.querySelectorAll('.trow'); rows.forEach(r=>r.style.display=r.style.display==='none'?'':'none');});
@@ -159,7 +161,7 @@ function showUnit(i){
 let deb;
 $('#q').addEventListener('input', e=>{
   clearTimeout(deb);
-  deb = setTimeout(()=>{ query = e.target.value; if(curBook) renderTree(); },200);
+  deb = setTimeout(()=>{ query = e.target.value; if(curBook) renderTree(); else if (location.hash==='#topics'||location.hash.startsWith('#topic/')) fromHash(); else showTopics(); },200);
 });
 
 /* ---------- رابط عميق ---------- */

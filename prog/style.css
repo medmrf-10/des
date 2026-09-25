@@ -766,3 +766,20 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .mp-d-rem{font-size:.72rem;color:var(--dim);margin-bottom:10px}
 .mp-d-rem a{color:var(--acc2);text-decoration:none}
 @media(max-width:640px){.mp-skill{width:44%}}
+
+/* مُتتبّع — كود مرقّم ولوحة مخرجات */
+.mono{font-family:'IBM Plex Mono',monospace}
+.tr-grid{display:grid;grid-template-columns:1fr 200px;gap:12px;margin:12px 0}
+.tr-code{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;direction:ltr;text-align:left;font-size:.78rem;line-height:1.8}
+.tr-line{display:flex;gap:10px}
+.tr-ln{color:var(--dim);min-width:16px;text-align:right;user-select:none;font-size:.66rem;padding-top:3px}
+.tr-line code{white-space:pre-wrap;color:var(--txt)}
+.tr-watch{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px}
+.tr-wt{font-size:.64rem;color:var(--acc2);font-weight:700;margin-bottom:8px}
+.tr-outs{direction:ltr;text-align:left;font-size:.78rem}
+.tr-out{background:var(--card2);border-radius:6px;padding:4px 8px;margin-bottom:4px;color:#a8e6a8}
+.tr-none{color:var(--dim);font-size:.72rem;font-style:normal}
+.tr-q{font-size:.85rem;margin:10px 0 8px}
+.tr-why{font-size:.74rem;color:var(--dim);background:var(--card2);border-radius:8px;padding:8px 12px;margin-top:10px}
+.tr-why b{color:var(--txt)}
+@media(max-width:720px){.tr-grid{grid-template-columns:1fr}}

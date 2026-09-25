@@ -30,7 +30,7 @@ mark{background:rgba(61,214,140,.28);color:var(--ok);border-radius:3px;padding:0
 <div id="verses"></div>
 <script>
 const STOP=new Set('الله من على في إلى ما لا أن إن هو هى هم الذين الذي التي ذا ذلك هذه هذا أو ثم و كان كانت قد لن لم له لها لهم لكن عن مع كل غير بين عند بعد قبل إذ إذا كما لما يا أيها أولئك أولءك عما مما لدى حتى حيث إنه إنها إنهم أنه أنتم أنت نحن فمن فمن فلا فهو ولا وما بلا بلى كلا نعم بل كيف متى أين نعم هل ولو لولا أم أى إيه'.split(' '));
-const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[؟!.,;:،؛()""'']/g,'').replace(/\s+/g,' ').trim();
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[؟!.,;:،؛()""'']/g,'').replace(/\s+/g,' ').trim();
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let S=null,NAMES={},FREQ={},VMAP={},cur='';
 fetch('data/index.json').then(r=>r.json()).then(ix=>{ix.forEach(s=>NAMES[s.n]=s.ar);

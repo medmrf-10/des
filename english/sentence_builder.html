@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ركّب الجملة — إنجليزي بالمحتوى القصير</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="stylesheet" href="style.css">
+<style>
+.cbar{display:flex;align-items:center;gap:8px;margin:5px 0}
+.cbar .cw{width:150px;font-size:13px;color:var(--ink);text-align:left}
+.cbar .ctr{flex:1;background:var(--navy-3);border-radius:6px;height:14px;overflow:hidden}
+.cbar .cfl{height:100%;background:var(--bad);border-radius:6px}
+.cbar .cv{font-size:11px;color:var(--muted);width:44px}
+.inp{background:var(--navy-3);border:1px solid var(--gold-dim);border-radius:10px;padding:9px 12px;color:var(--ink);font-size:15px}
+.inp:focus{outline:none;border-color:var(--gold)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◈</span>
+    <div>
+      <h1>ركّب الجملة</h1>
+      <p class="tagline">رتّب الكلمات المخلوطة — جملك الحقيقية</p>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="index.html">الرئيسية</a>
+    <a href="index.html#/short">ShortForm</a>
+    <a href="library.html">الفهرس</a>
+    <a href="listen.html">الإملاء</a>
+    <a href="mimic.html">قلّد</a>
+    <a href="story.html">القصص</a>
+    <a href="srs.html">مفردات SRS</a>
+    <a href="routine.html">روتين اليوم</a>
+    <a href="practice.html">تمرين اليوم</a>
+    <a href="journal.html">يومياتي</a>
+    <a href="shadowing.html">التظليل</a>
+    <a href="collocations.html">التراكيب</a>
+    <a href="dictation.html">إملاء صوتي</a>
+    <a href="picture_dict.html">المعجم المصور</a>
+    <a href="minimal_pairs.html">الأزواج الدنيا</a>
+    <a href="story_builder.html">بناء القصة</a>
+    <a href="verb_drills.html">الأفعال الشاذة</a>
+    <a href="chunking.html">تراكيب جاهزة</a>
+    <a href="word_families.html">عائلات الكلمات</a>
+    <a href="shadow_chain.html">سلسلة الظل</a>
+    <a href="sentence_builder.html">ركّب الجملة</a>
+  </nav>
+</header>
+
+<main id="app"></main>
+
+<footer class="foot">منصة ثابتة بلا خوادم — تقدّمك محفوظ في متصفحك فقط (localStorage)</footer>
+<div id="toast" class="toast hidden"></div>
+
+<script src="../shared/feedback.js" data-pid="en_builder" data-title="ركّب الجملة"></script>
+<script src="core.js"></script>
+<script src="data.js"></script>
+<script src="storydata.js"></script>
+<script src="sentence_builder.js"></script>
+</body>
+</html>

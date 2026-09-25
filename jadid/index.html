@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a"><title>جديد المنظومة — تقييم خاص</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
+.wrap{max-width:1100px;margin:0 auto}
+.hd{text-align:center;margin:26px 0 8px}
+.hd h1{font-size:clamp(1.5rem,4vw,2.2rem);color:var(--acc);margin:0}
+.hd .sub{color:var(--dim);font-size:.86rem;margin-top:8px;line-height:1.9}
+.gate{max-width:360px;margin:60px auto;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:30px 24px;text-align:center}
+.gate .ic{font-size:2.4rem;margin-bottom:10px}
+.gate input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:1.1rem;padding:12px;text-align:center;letter-spacing:.4em;margin:14px 0}
+.gate input:focus{outline:none;border-color:var(--acc)}
+.gate button{width:100%;background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:10px;color:#0b0f1a;font-family:inherit;font-weight:700;font-size:.95rem;padding:12px;cursor:pointer}
+.gate .err{color:#e07070;font-size:.78rem;margin-top:10px;min-height:1em}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 22px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 18px;font-size:.78rem;color:var(--dim)}
+.stat b{color:var(--acc);font-size:1rem;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px}
+.card .top{display:flex;align-items:center;gap:10px}
+.card .ic{font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--card2);border-radius:10px;flex-shrink:0}
+.card .tt{font-weight:700;font-size:.95rem}
+.card .ff{font-size:.62rem;color:var(--dim);border:1px solid var(--border);border-radius:99px;padding:2px 8px;display:inline-block;margin-top:3px}
+.card .dd{font-size:.76rem;color:var(--dim);line-height:1.8}
+.card .open{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--acc);text-decoration:none;text-align:center;font-size:.74rem;padding:7px;font-weight:700}
+.card .open:hover{border-color:var(--acc)}
+.rate{display:flex;gap:5px;align-items:center;border-top:1px dashed var(--border);padding-top:10px}
+.rate .lb{font-size:.66rem;color:var(--dim)}
+.rate button.st{background:none;border:none;font-size:1.15rem;cursor:pointer;color:var(--dim);padding:0 1px;transition:.15s}
+.rate button.st.on{color:var(--acc)}
+.rate button.st:hover{transform:scale(1.2)}
+.ev{display:flex;flex-direction:column;gap:6px}
+.ev textarea{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.74rem;padding:8px;resize:vertical;min-height:38px}
+.ev textarea:focus{outline:none;border-color:var(--acc)}
+.ev .send{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-size:.72rem;font-weight:700;padding:8px;cursor:pointer}
+.ev .sent{font-size:.66rem;color:var(--ok);text-align:center}
+.verdicts{display:flex;gap:5px;flex-wrap:wrap}
+.verdicts button{background:none;border:1px solid var(--border);border-radius:99px;color:var(--dim);font-family:inherit;font-size:.62rem;padding:4px 11px;cursor:pointer}
+.verdicts button.on{color:var(--acc);border-color:var(--acc)}
+.search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.88rem;padding:11px 16px;margin-bottom:16px}
+.search:focus{outline:none;border-color:var(--acc)}
+@media (max-width:600px){body{padding:14px 10px 50px}}
+</style></head><body>
+<div class="wrap">
+  <div class="hd"><h1>جديد المنظومة</h1><div class="sub">كل ما أُنجز هذه الجولة في صفحة واحدة — قيّم، اكتب ملاحظة، أرسل. تقييمك يصلني لحظياً ويوجّه العمل: ألغي، أحوّل، أُعمّق.</div></div>
+  <div class="gate" id="gate">
+    <div class="ic">🔐</div>
+    <div style="font-size:.9rem;color:var(--dim)">هذه الصفحة خاصة — أدخل الرقم السري</div>
+    <input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••">
+    <button id="unlock">فتح</button>
+    <div class="err" id="err"></div>
+  </div>
+  <div id="app" style="display:none">
+    <div class="stats">
+      <div class="stat"><b id="stAll">0</b>أداة جديدة</div>
+      <div class="stat"><b id="stRated">0</b>قيّمتها</div>
+      <div class="stat"><b id="stAvg">—</b>متوسط تقييمك</div>
+      <div class="stat"><b id="stSent">0</b>تقييم أُرسل</div>
+    </div>
+    <input class="search" id="q" placeholder="ابحث في الأدوات…">
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+<script src="jadid/data.js"></script>
+<script src="data.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TOPIC='manzuma_eval_x9k2';
+const NT='https://ntfy.sh/'+TOPIC;
+const LSK='jadid_eval_v1';
+const ev=()=>JSON.parse(localStorage.getItem(LSK)||'{}');
+const sev=(o)=>localStorage.setItem(LSK,JSON.stringify(o));
+let CAT=null;
+
+async function unlock(pin){
+  const enc=document.querySelector('script[src="data.js"]')||{src:''};
+  const raw=window.JADID_ENC;
+  const bin=Uint8Array.from(atob(raw),c=>c.charCodeAt(0));
+  const iv=bin.slice(0,12),tag=bin.slice(-16),ct=bin.slice(12,-16);
+  const kh=await crypto.subtle.importKey('raw',new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('jadid-manzuma:'+pin))),{name:'AES-GCM'},false,['decrypt']);
+  try{
+    const full=new Uint8Array([...ct,...tag]);
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},kh,full);
+    CAT=JSON.parse(new TextDecoder().decode(pt));
+    return true;
+  }catch(e){return false}
+}
+
+function stars(id){
+  const r=ev()[id]||{};let h='<div class="rate"><span class="lb">تقييمك:</span>';
+  for(let i=1;i<=5;i++)h+=`<button class="st ${r.stars>=i?'on':''}" data-s="${i}" data-id="${id}">★</button>`;
+  return h+'</div>';
+}
+function card(p){
+  const r=ev()[p.id]||{};
+  return `<div class="card" data-name="${esc(p.t+' '+p.d+' '+p.f)}">
+    <div class="top"><div class="ic">${p.i||'📦'}</div><div><div class="tt">${esc(p.t)}</div><span class="ff">${esc(p.f)}</span></div></div>
+    <div class="dd">${esc(p.d)}</div>
+    <a class="open" href="${esc(p.u)}" target="_blank">فتح الأداة</a>
+    ${stars(p.id)}
+    <div class="verdicts">${['ممتاز','جيد','يُعاد','أُلغِه'].map(v=>`<button class="vd ${r.v===v?'on':''}" data-v="${v}" data-id="${p.id}">${v}</button>`).join('')}</div>
+    <div class="ev">
+      <textarea class="tx" data-id="${p.id}" placeholder="ملاحظتك — تصلني لحظياً">${esc(r.note||'')}</textarea>
+      <button class="send" data-id="${p.id}">إرسال التقييم</button>
+      <div class="sent" data-id="${p.id}"></div>
+    </div>
+  </div>`;
+}
+function renderStats(){
+  const E=ev();const keys=Object.keys(E);
+  $('stAll').textContent=CAT.length;
+  $('stRated').textContent=keys.length;
+  const sc=keys.map(k=>E[k].stars).filter(Boolean);
+  $('stAvg').textContent=sc.length?('★'+(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(1)):'—';
+  $('stSent').textContent=keys.filter(k=>E[k].sent).length;
+}
+function renderGrid(q){
+  q=(q||'').trim();
+  const list=CAT.filter(p=>!q||((p.t+p.d+p.f).includes(q)));
+  $('grid').innerHTML=list.map(card).join('');
+}
+async function send(id){
+  const o=ev();const r=o[id]||{};
+  if(!r.stars&&!r.v&&!r.note){const s=document.querySelector(`.sent[data-id="${id}"]`);s.textContent='قيّم أولاً (نجوم أو حكم أو ملاحظة)';s.style.color='var(--acc3)';setTimeout(()=>{s.textContent='';s.style.color=''},2200);return}
+  const p=CAT.find(x=>x.id===id)||{};
+  const payload={tool:id,title:p.t,field:p.f,stars:r.stars||0,verdict:r.v||'',note:r.note||'',t:Date.now()};
+  try{await fetch(NT,{method:'POST',body:JSON.stringify(payload)})}catch(e){}
+  o[id]=Object.assign({},r,{sent:true,ts:Date.now()});sev(o);
+  const s=document.querySelector(`.sent[data-id="${id}"]`);s.textContent='✓ أُرسل — وصلني';
+  renderStats();
+}
+document.addEventListener('click',e=>{
+  const st=e.target.closest('.st');const vd=e.target.closest('.vd');const sd=e.target.closest('.send');
+  if(st){const id=st.dataset.id;const o=ev();o[id]=Object.assign({},o[id],{stars:+st.dataset.s});sev(o);renderGrid($('q').value);renderStats()}
+  if(vd){const id=vd.dataset.id;const o=ev();const cur=(o[id]||{}).v;o[id]=Object.assign({},o[id],{v:cur===vd.dataset.v?'':vd.dataset.v});sev(o);renderGrid($('q').value);renderStats()}
+  if(sd){const id=sd.dataset.id;const tx=document.querySelector(`.tx[data-id="${id}"]`);const o=ev();o[id]=Object.assign({},o[id],{note:tx?tx.value:''});sev(o);send(id)}
+});
+$('q').addEventListener('input',e=>renderGrid(e.target.value));
+$('unlock').addEventListener('click',async()=>{
+  const pin=$('pin').value.trim();
+  if(await unlock(pin)){$('gate').style.display='none';$('app').style.display='block';renderGrid('');renderStats()}
+  else $('err').textContent='رقم غير صحيح';
+});
+$('pin').addEventListener('keydown',e=>{if(e.key==='Enter')$('unlock').click()});
+</script></body></html>

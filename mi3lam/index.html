@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعلم — معالم المكتبة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border:0}
+.row b{color:var(--acc)}
+.muted{color:var(--dim);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:10px}
+.big{background:var(--card);border-radius:12px;padding:12px;text-align:center}
+.big b{display:block;font-size:24px;color:var(--acc);font-family:var(--font-ar)}
+.big span{font-size:11px;color:var(--dim)}
+.bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعلم <span class="muted">— معالم مكتبتك الرقمية</span></h2>
+<div class="muted">إحصاءات حقيقية محسوبة الآن من بيانات المنظومة — لا أرقام مخترعة.</div>
+<div class="grid" id="top"></div>
+<div class="card" id="hadC"><div class="t">الحديث — توزيع الأحكام</div><div id="had"></div></div>
+<div class="card" id="fiqC"><div class="t">الفقه — توزيع المذاهب والكتب</div><div id="fiq"></div></div>
+<div class="card" id="qurC"><div class="t">القرآن — المتشابه اللفظي</div><div id="qur"></div></div>
+<div class="card" id="serC"><div class="t">الدروس — المكتبة المرئية</div><div id="ser"></div></div>
+<div class="muted" style="margin-top:14px">حُسب مباشرة من analysis.js وmasail.js وmutashabih.js وdurus/data.js.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=no;document.head.appendChild(s)});
+(async()=>{
+ const [G,M,U,S]=await Promise.all([
+  laz('../hadith/analysis.js','GIDNET'),
+  laz('../fiqh_reader/masail.js','MASAIL'),
+  laz('../wahy/mutashabih.js','MUTA'),
+  laz('../durus/data.js','SERIES'),
+ ]);
+ const gs=Object.values(G.g);
+ const hs={};gs.forEach(g=>{hs[g.h]=(hs[g.h]||0)+1});
+ const totH=gs.length;
+ const sahaba=[...new Set(Object.values(G.rawi).filter(r=>r.s).map(r=>r.n))].length;
+ const scholars=[...new Set(Object.values(G.tg).map(t=>t.n))].length;
+ const books=Object.keys(G.meta.books).length;
+ const avgS=(gs.reduce((a,g)=>a+g.s,0)/totH).toFixed(1);
+ const avgR=(gs.reduce((a,g)=>a+g.r,0)/totH).toFixed(1);
+ // مسائل
+ const us=Object.values(M);const totU=us.reduce((a,b)=>a+b.u.length,0);
+ const mh={};us.forEach(b=>{const m={h:'حنفي',m:'مالكي',s:'شافعي',b:'حنبلي',o:'أخرى'}[b.m]||b.m;mh[m]=(mh[m]||0)+b.u.length});
+ const topB=us.slice().sort((a,b)=>b.u.length-a.u.length).slice(0,5);
+ // متشابه
+ const sims=Object.entries(U.sim);const totV=Object.keys(U.names).length?sims.length:0;
+ let oneP=0,manyP=0;const scDist={};
+ sims.forEach(([k,v])=>{const ps=v[3]||[];if(ps.length===1)oneP++;if(ps.length>=3)manyP++;ps.slice(0,3).forEach(p=>{const s=Math.round(p[1]*10)/10;scDist[s]=(scDist[s]||0)+1})});
+ // سلاسل
+ const totS=S.length;const totV2=S.reduce((a,s)=>a+(s.videos||0),0);const totHrs=S.reduce((a,s)=>a+(s.hours||0),0);
+ const kinds={};S.forEach(s=>{const k=s.kind||'أخرى';kinds[k]=(kinds[k]||0)+1});
+ const sheikhs=[...new Set(S.map(s=>s.sheikh))].length;
+ $('#top').innerHTML=[
+  [arN(totH),'حديثًا في الشبكة'],[arN(totU),'مسألة فقهية'],[arN(totV2),'مقطع مرئي'],[arN(totS),'سلسلة'],
+  [arN(books),'كتاب حديث'],[arN(us.length),'كتاب فقه'],[arN(sahaba),'صحابي راوٍ'],[arN(scholars),'مُحكِّم'],
+  [arN(Math.round(totHrs)),'ساعة مشاهدة'],[arN(sheikhs),'مُدرِّس'],[arN(totV),'آية متشابهة'],[arN(manyP),'آية متشعبة']
+ ].map(([v,n])=>'<div class="big"><b>'+v+'</b><span>'+n+'</span></div>').join('');
+ const mx=Math.max(...Object.values(hs));
+ $('#had').innerHTML=Object.entries(hs).sort((a,b)=>b[1]-a[1]).map(([h,c])=>
+  '<div class="row"><span>'+esc(h)+'</span><b>'+arN(c)+'</b></div>'+
+  '<div class="bar"><i style="width:'+Math.round(c/mx*100)+'%"></i></div>').join('')+
+  '<div class="muted" style="margin-top:8px">متوسط '+avgS+' صحابي للحديث · متوسط تكرار '+avgR+'</div>';
+ $('#fiq').innerHTML=Object.entries(mh).sort((a,b)=>b[1]-a[1]).map(([m,c])=>
+  '<div class="row"><span>'+esc(m)+'</span><b>'+arN(c)+' مسألة</b></div>').join('')+
+  '<div class="t" style="margin-top:10px;font-size:12px">أكثر الكتب مسائل:</div>'+
+  topB.map(b=>'<div class="row"><span>'+esc(b.n)+' <span class="muted">'+esc(b.a)+'</span></span><b>'+arN(b.u.length)+'</b></div>').join('');
+ $('#qur').innerHTML=
+  '<div class="row"><span>آيات بشريك واحد فقط</span><b>'+arN(oneP)+'</b></div>'+
+  '<div class="row"><span>آيات بثلاثة شركاء+</span><b>'+arN(manyP)+'</b></div>'+
+  '<div class="muted" style="margin-top:7px">تشابه ≥70٪: '+arN(Object.entries(scDist).filter(([s])=>+s>=0.7).reduce((a,[,c])=>a+c,0))+' زوجًا — أعلى درجات التشابه تُبحث في «مُتشابه».</div>';
+ $('#ser').innerHTML=Object.entries(kinds).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,c])=>
+  '<div class="row"><span>'+esc(k)+'</span><b>'+arN(c)+' سلسلة</b></div>').join('')+
+  '<div class="muted" style="margin-top:7px">متوسط '+Math.round(totV2/totS)+' مقطعًا و'+ (totHrs/totS).toFixed(1)+' ساعة لكل سلسلة.</div>';
+})().catch(e=>{document.body.insertAdjacentHTML('beforeend','<div class="card muted">خطأ تحميل البيانات — يعمل عبر HTTP فقط</div>')});
+</script>
+<script src="../shared/feedback.js" data-pid="mi3lam" data-title="مِعلم"></script>
+</body>
+</html>

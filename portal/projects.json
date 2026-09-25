@@ -2779,5 +2779,32 @@
   "desc": "تشريح عادة — محفّز/حاجة/كلفة",
   "url": "../misbar2/",
   "icon": "م"
+ },
+ {
+  "id": "i3tilaf",
+  "title": "اختلاف الروايات",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "مقارن روايات الحديث لفظاً وحكماً",
+  "url": "../hadith/i3tilaf.html",
+  "icon": "ر"
+ },
+ {
+  "id": "shadow_chain",
+  "title": "سلسلة الظل",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "استمع—اكتب—قارن SRS",
+  "url": "../english/shadow_chain.html",
+  "icon": "س"
+ },
+ {
+  "id": "code_reading",
+  "title": "اقرأ الكود",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "خمّن الناتج ثم شغّل",
+  "url": "../prog/code_reading.html",
+  "icon": "ق"
  }
 ]

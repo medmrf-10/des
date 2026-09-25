@@ -2869,5 +2869,14 @@
   "desc": "استمع واكتب — word-diff",
   "url": "../english/dictation.html",
   "icon": "إ"
+ },
+ {
+  "id": "mirja3",
+  "title": "مِرجَع",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "أسئلة تعود إليها",
+  "url": "../mirja3/",
+  "icon": "م"
  }
 ]

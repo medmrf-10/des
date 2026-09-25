@@ -630,3 +630,13 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .dh-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
 .dh-count{font-size:.7rem;color:var(--acc2)}
 .dh-idx{font-size:.66rem;color:var(--dim);font-family:'IBM Plex Mono',monospace}
+
+/* ====== حاسبة التعقيد ====== */
+.bo-stats{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 16px;font-size:.78rem;margin-bottom:16px;text-align:center}
+.bo-stats b{color:var(--acc);font-family:'IBM Plex Mono',monospace}
+.bo-opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+.bo-opt{background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:.8rem;padding:10px 16px;cursor:pointer;transition:.15s}
+.bo-opt:hover{border-color:var(--acc)}
+.bo-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
+.bo-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
+.bo-opt:disabled{cursor:default;opacity:.85}

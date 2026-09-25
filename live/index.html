@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>الدروس الحية — شرح منظومة الأجهوري</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,14 @@ body{background:#0b0f1a;color:#f5f1e8;font-family:'Amiri','Noto Naskh Arabic','T
 .stage{flex:1;width:100%;max-width:520px;display:flex;flex-direction:column;justify-content:center;padding:24px 20px 8px}
 .card{background:linear-gradient(160deg,#141b2e,#0e1424);border:1px solid #2a3350;border-radius:24px;padding:28px 22px;min-height:42dvh;display:flex;flex-direction:column;justify-content:center;box-shadow:0 18px 50px -12px #000}
 .title{font-size:.82rem;color:#8b93b0;text-align:center;letter-spacing:.5px;margin-bottom:18px}
-.ph{white-space:nowrap;font-size:1.75rem;line-height:1.6;text-align:center;direction:rtl}
+.ph{font-size:1.75rem;line-height:2;text-align:center;direction:rtl;word-break:break-word}
 .w{transition:all .12s ease;color:#7f88a8}
 .w+.w{margin-inline-start:.32em}
 .w.past{color:#dde2f2}
 .w.now{color:#ffd98a;transform:scale(1.15);display:inline-block;text-shadow:0 0 24px #ffd98aa6}
 .controls{width:100%;max-width:520px;padding:16px 20px 30px}
-.bar{height:5px;background:#232b45;border-radius:99px;overflow:hidden;cursor:pointer}
+.bar{height:5px;background:#232b45;border-radius:99px;cursor:pointer;position:relative}
+.bar::before{content:'';position:absolute;inset:-10px 0}
 .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a6a2f,#e8c97a);transition:width .15s linear}
 .row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px}
 .btn{width:56px;height:56px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.3rem;cursor:pointer}
@@ -82,8 +83,7 @@ function render(cur){
       s.textContent=o.w;s.onclick=()=>{au.currentTime=o.s};
       ph.appendChild(s);spans.push(s);
     });
-    let fs=2.1;ph.style.fontSize=fs+'rem';
-    while(ph.scrollWidth>ph.clientWidth-10&&fs>1.15){fs-=.1;ph.style.fontSize=fs+'rem'}
+
   }
   const P=phrases[Math.max(pi,0)];if(!P)return;
   let wi=-1;P.ws.forEach((o,i)=>{if(o.s<=cur)wi=i});

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِلقَط — مُلقِط الأدلة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+input,textarea{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;width:100%}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.hit{display:flex;gap:8px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-top:7px}
+.hit .s{font-size:10px;color:var(--acc2);min-width:70px;padding-top:2px}
+.hit .x{font-family:var(--font-ar);font-size:12.5px;line-height:1.9;flex:1}
+.hit button{flex-shrink:0}
+.out{margin-top:14px;background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:12px 15px}
+.out .sec{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--border)}
+.out .sec:last-child{border:0}
+.out .tag{font-size:9.5px;border-radius:99px;padding:1px 9px;flex-shrink:0;margin-top:2px}
+.out .tag.v{background:var(--acc)22;color:var(--acc)}
+.out .tag.h{background:var(--acc2)22;color:var(--acc2)}
+.out .tag.f{background:#7a5cc222;color:#c9b8ff}
+.out .x{font-family:var(--font-ar);font-size:12.5px;flex:1;line-height:1.9}
+.out .mv{color:var(--dim);cursor:pointer;padding:0 4px;background:none;border:0;font-size:13px}
+textarea#md{height:180px;direction:rtl;font-family:var(--font-ar);font-size:12px;margin-top:10px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِلقَط <span class="muted">— مُلقِط الأدلة</span></h2>
+<div class="muted">ابحث في القرآن والحديث والفقه، التقط الأدلة لدرسك القادم، ثم صدّر المخطط نصاً للاستوديو.</div>
+<div class="card"><div class="t">عنوان الدرس</div><input id="title" placeholder="درس: …"></div>
+<div class="card"><div class="t">ابحث والتقط</div>
+<div style="display:flex;gap:7px"><input id="q" placeholder="كلمة أو عبارة…"><button class="btn" id="go">ابحث</button></div>
+<div id="hits"></div></div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+let U,G,M;
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+Promise.all([laz('../wahy/mutashabih.js','MUTA'),laz('../hadith/analysis.js','GIDNET'),laz('../fiqh_reader/masail.js','MASAIL')]).then(([u,g,m])=>{U=u;G=g;M=m});
+let items=LS('milqat',{title:'',items:[]});
+$('#title').value=items.title||'';
+$('#title').oninput=()=>{items.title=$('#title').value;SV('milqat',items);md()};
+$('#go').onclick=()=>{
+ const q=norm($('#q').value.trim());if(!q)return;
+ const hits=[];
+ if(U)Object.keys(U.sim).forEach(k=>{if(norm(U.sim[k][2]).includes(q))hits.push({kind:'v',src:U.names[k.split(':')[0]],x:U.sim[k][2],key:k})});
+ if(G)Object.values(G.g).forEach(h=>{if(hits.length<200&&norm(h.t).includes(q))hits.push({kind:'h',src:h.h,x:h.t.slice(0,180),key:h.g||h.t.slice(0,30)})});
+ if(M)Object.keys(M).forEach(k=>{if(hits.length<300&&norm(M[k].n).includes(q))hits.push({kind:'f',src:M[k].a,x:M[k].n,key:k})});
+ $('#hits').innerHTML=hits.slice(0,12).map(h=>'<div class="hit"><span class="s">'+({v:'آية',h:'حديث',f:'فقه'}[h.kind])+' · '+esc(h.src)+'</span><span class="x">'+esc(h.x)+'…</span><button class="btn ghost" data-k="'+esc(h.key)+'" data-kind="'+h.kind+'">التقط</button></div>').join('')||'<div class="muted">لا نتائج.</div>';
+ window._hits=hits;
+};
+$('#hits').onclick=e=>{
+ const b=e.target.closest('[data-k]');if(!b)return;
+ const h=(window._hits||[]).find(x=>x.key===b.dataset.k&&x.kind===b.dataset.kind);
+ if(!h||items.items.some(x=>x.key===h.key&&x.kind===h.kind))return;
+ items.items.push(h);SV('milqat',items);render();
+};
+function render(){
+ $('#out').innerHTML='<div class="out"><div class="t" style="font-family:var(--font-ar);font-weight:700;color:var(--acc);margin-bottom:6px">مخطط الدرس — '+arN(items.items.length)+' دليلاً</div>'+
+ items.items.map((h,i)=>'<div class="sec"><span class="tag '+h.kind+'">'+({v:'آية',h:'حديث',f:'فقه'}[h.kind])+'</span><span class="x"><b>'+esc(h.src)+'</b> — '+esc(h.x.slice(0,120))+'</span><button class="mv" data-i="'+i+'" data-d="-1">↑</button><button class="mv" data-i="'+i+'" data-d="1">↓</button><button class="mv" data-i="'+i+'" data-d="x">✕</button></div>').join('')+
+ (items.items.length?'<div style="margin-top:9px"><button class="btn" id="exp">صدّر نصاً</button></div><textarea id="md" style="display:none"></textarea>':'')+
+ '</div>';
+ md();
+ document.getElementById('exp')?.addEventListener('click',()=>{
+  const t=document.getElementById('md');t.style.display='block';t.select();navigator.clipboard?.writeText(t.value);
+ });
+}
+function md(){
+ const t=document.getElementById('md');if(!t)return;
+ t.value='# '+(items.title||'درس')+'\n\n'+items.items.map(h=>'## '+(h.kind==='v'?'الآية':h.kind==='h'?'الحديث':'المسألة')+' — '+h.src+'\n'+h.x+'\n').join('\n');
+}
+$('#out').onclick=e=>{
+ const b=e.target.closest('.mv');if(!b)return;
+ const i=+b.dataset.i,d=b.dataset.d;
+ if(d==='x')items.items.splice(i,1);
+ else{const j=i+ +d;if(j>=0&&j<items.items.length)[items.items[i],items.items[j]]=[items.items[j],items.items[i]]}
+ SV('milqat',items);render();
+};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="milqat" data-title="مِلقَط"></script>
+</body>
+</html>

@@ -289,6 +289,7 @@ function renderSearch(el){
 function decHash(){
   const h=(location.hash||'').replace('#','');
   if(/^g\d+$/.test(h))S.gid=h.slice(1);
+  if(/^gid=\d+$/.test(h))S.gid=h.split('=')[1];
   if(/^t\d+$/.test(h)){S.topic=h.slice(1);let x=S.topic;while(x&&GN&&GN.t[x]){x=GN.t[x].p;if(x)S.open.add(x)}}
 }
 addEventListener('hashchange',()=>{if(!GN)return;decHash();renderTree();renderDet();

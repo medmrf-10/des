@@ -271,3 +271,26 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .tday-open{display:inline-block;text-decoration:none}
 .tday-rev .ex-opt.sm{padding:8px 14px;font-size:.8rem;display:inline-block;margin:4px 4px 0 0;width:auto}
 .tday-opts{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ====== مسارات التعلم ====== */
+.pt-stats{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:22px;text-align:center}
+.pt-num{font-size:1.2rem}
+.pt-num b{color:var(--acc2);font-size:1.5rem}
+.pt-break{font-size:.75rem;color:var(--dim);margin-top:4px}
+.pt-cols{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+.pt-col{flex:0 0 250px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;max-height:70vh;display:flex;flex-direction:column}
+.pt-col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pt-col-name{font-weight:700;font-size:.88rem;color:var(--acc2)}
+.pt-col-cnt{font-size:.68rem;color:var(--dim)}
+.pt-cards{overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.pt-card{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;font-size:.78rem;color:var(--txt);text-decoration:none;transition:border-color .15s;position:relative;overflow:hidden}
+.pt-card:hover{border-color:var(--acc)}
+.pt-card.ok{border-color:rgba(70,201,109,.5);background:rgba(70,201,109,.08)}
+.pt-card-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--dim)}
+.pt-card.ok .pt-card-num{background:var(--ok);color:#0b0f1a;border-color:var(--ok);font-weight:700}
+.pt-card-t{flex:1;line-height:1.5}
+.pt-card.part{border-color:rgba(201,162,75,.45)}
+.pt-card-meta{font-size:.65rem;color:var(--dim);white-space:nowrap}
+.pt-fill{position:absolute;bottom:0;right:0;left:0;height:3px;background:var(--card)}
+.pt-fill i{display:block;height:100%;background:var(--ok)}
+.pt-card.part .pt-fill i{background:var(--acc)}

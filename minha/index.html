@@ -29,7 +29,7 @@ body{max-width:720px;margin:0 auto;padding:16px}
 <script src="../fiqh_reader/masail.js"></script>
 <script src="../hadith/pako.min.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const now=new Date();
 const seed=now.getFullYear()*10000+(now.getMonth()+1)*100+now.getDate();

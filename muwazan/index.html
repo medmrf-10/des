@@ -7,6 +7,7 @@
 <title>موازن — المصطلح عند المتون</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+html,body{overflow-x:hidden}
 body{max-width:1020px;margin:0 auto;padding:14px}
 .inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:12px 16px;font-family:var(--font-ar);font-size:15px;margin-top:10px}
 #sugs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -31,7 +32,7 @@ mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
 <script src="../akida/terms.js"></script>
 <script src="../madrasati/atoms.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
 const TERMS_=Object.keys(TERMS.terms);

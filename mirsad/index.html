@@ -34,7 +34,7 @@ body{max-width:820px;margin:0 auto;padding:14px}
 </div>
 <div id="list"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const CK='portal_comments',SK='portal_suggestions';
 const get=k=>JSON.parse(localStorage.getItem(k)||'{}');

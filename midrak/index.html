@@ -7,6 +7,7 @@
 <title>مدراك — اختبار فهم من أي نص</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+html,body{overflow-x:hidden}
 body{max-width:780px;margin:0 auto;padding:14px}
 .ta{width:100%;min-height:130px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:13px 16px;font-family:var(--font-ar);font-size:15px;line-height:1.9;resize:vertical}
 .q{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin:9px 0}
@@ -29,7 +30,7 @@ body{max-width:780px;margin:0 auto;padding:14px}
 <div id="quiz" style="margin-top:14px"></div>
 <div id="res"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const STOP=new Set('في من على إلى عن أن إن كان هو هي التي الذي هذا هذه ذلك ما لا لم لن ولا أو ثم قد لقد بين لدى كل بعض غير عند عندما إذا كما حتى منذ ليس بعد قبل مع نحو مثل ضد نحن أنا أنت هم أصحاب قال يقول له لها به بها فيه فيها عليه عليها منه منها إليه إليها'.split(' '));
 function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}

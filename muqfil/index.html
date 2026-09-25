@@ -40,7 +40,7 @@ body{max-width:720px;margin:0 auto;padding:16px}
  <input type="file" id="file" accept=".json" style="display:none">
 </div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let KEY=null,NOTES=[];
 const enc=new TextEncoder(),dec=new TextDecoder();

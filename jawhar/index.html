@@ -27,7 +27,7 @@ body{max-width:860px;margin:0 auto;padding:14px}
 <div id="view"></div>
 <script src="../akida/terms.js"></script>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const byBk={};
 for(const t in TERMS.terms)for(const c of TERMS.terms[t])(byBk[c.b]=byBk[c.b]||{})[t]=(byBk[c.b][t]||0)+1;

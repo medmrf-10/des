@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../shared/theme.css">
 <script src="rawi.js"></script>
 <style>
+html,body{overflow-x:hidden}
 body{max-width:900px;margin:0 auto;padding:14px}
 .gs{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
 .g{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:99px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--font-ar)}
@@ -32,7 +33,7 @@ body{max-width:900px;margin:0 auto;padding:14px}
 <div class="bar"><i id="pg" style="width:0"></i></div>
 <div id="list"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
 const GEN={'1':'الصحابة','2':'التابعون','3':'أتباع التابعين','4':'الشيوخ','5':'العلماء الأئمة','6':'المصنفون'};

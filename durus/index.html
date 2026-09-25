@@ -15,9 +15,9 @@ body{margin:0;background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans A
 header{position:sticky;top:0;z-index:60;background:rgba(11,15,26,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:10px 14px}
 [data-theme=light] header{background:rgba(246,243,236,.92)}
 .hrow{display:flex;align-items:center;gap:10px}
-.hrow h1{font-size:17px;margin:0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
-.search{flex:1;display:flex;gap:6px}
-.search input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font:inherit;font-size:16px}
+.hrow h1{font-size:17px;margin:0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.search{flex:1;display:flex;gap:6px;min-width:0}
+.search input{flex:1;min-width:0;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 12px;font:inherit;font-size:16px}
 .search input:focus{outline:none;border-color:var(--acc)}
 .icobtn{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:8px 10px;cursor:pointer;font-size:14px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}

@@ -125,8 +125,8 @@ function pass(s){
  if(F.kind&&s.kind!==F.kind)return false;
  if(F.sheikh&&s.sheikh!==F.sheikh)return false;
  if(F.onlyRated&&!valMap[s.id])return false;
- if(F.q){const n=norm(F.q);const hay=norm(s.name)+' '+norm(s.sheikh)+' '+norm(s.comment||'');
-  if(!hay.includes(n)&&!F.q.split(/\s+/).every(w=>hay.includes(norm(w))))return false}
+ if(F.q){const n=norm(F.q);if(!s._hay)s._hay=norm(s.name)+' '+norm(s.sheikh)+' '+norm(s.comment||'');
+  if(!s._hay.includes(n)&&!F.q.split(/\s+/).every(w=>s._hay.includes(norm(w))))return false}
  return true;
 }
 let filtered=[];
@@ -187,9 +187,9 @@ $('q').addEventListener('input',e=>{
  F.q=e.target.value;refilter();clearTimeout(deepTO);
  const q=F.q.trim();if(norm(q).length<3){$('dsrch').innerHTML='';return}
  deepTO=setTimeout(async()=>{
-   if(!state.clipIdx){try{state.clipIdx=(await(await fetch('clipindex.js')).text()).match(/CLIPIDX=(\[.*\])/s);state.clipIdx=JSON.parse(state.clipIdx[1])}catch(err){state.clipIdx=[]}}
+   if(!state.clipIdx){try{state.clipIdx=(await(await fetch('clipindex.js')).text()).match(/CLIPIDX=(\[.*\])/s);state.clipIdx=JSON.parse(state.clipIdx[1]);state.clipIdx.forEach(c=>c._n=norm(c.t))}catch(err){state.clipIdx=[]}}
    const nq=norm(q);const hits=[];
-   for(const c of state.clipIdx){if(norm(c.t).includes(nq)){hits.push(c);if(hits.length>=25)break}}
+   for(const c of state.clipIdx){if((c._n||norm(c.t)).includes(nq)){hits.push(c);if(hits.length>=25)break}}
    $('dsrch').innerHTML=hits.map(c=>'<a class="dhit" href="#" onclick="openClip('+c.i+',\''+esc(ytId(c.u))+'\');return false"><b>'+esc(SNAME(c.i))+'</b><span>'+esc(c.t)+'</span></a>').join('')+(hits.length>=25?'<div class="mut" style="color:var(--dim);font-size:11px">+ نتائج أخرى…</div>':'');
  },300);
 });

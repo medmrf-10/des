@@ -1,0 +1,278 @@
+{
+ "generated": "2026-09-25T03:37:25.697Z",
+ "sites": {
+  "english-story": {
+   "url": "https://medmrf-10.github.io/des/english/story.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/english/story.html",
+    "https://medmrf-10.github.io/des/english/story.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "fiqh_reader-masail": {
+   "url": "https://medmrf-10.github.io/des/fiqh_reader/masail.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/fiqh_reader/masail.html",
+    "https://medmrf-10.github.io/des/fiqh_reader/masail.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-ilal": {
+   "url": "https://medmrf-10.github.io/des/hadith/ilal.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/hadith/ilal.html",
+    "https://medmrf-10.github.io/des/hadith/ilal.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mijass": {
+   "url": "https://medmrf-10.github.io/des/mijass/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mijass/",
+    "https://medmrf-10.github.io/des/mijass/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mijtaz": {
+   "url": "https://medmrf-10.github.io/des/mijtaz/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mijtaz/",
+    "https://medmrf-10.github.io/des/mijtaz/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "minhal": {
+   "url": "https://medmrf-10.github.io/des/minhal/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/minhal/",
+    "https://medmrf-10.github.io/des/minhal/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mizkata": {
+   "url": "https://medmrf-10.github.io/des/mizkata/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mizkata/",
+    "https://medmrf-10.github.io/des/mizkata/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mudarrib": {
+   "url": "https://medmrf-10.github.io/des/mudarrib/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mudarrib/",
+    "https://medmrf-10.github.io/des/mudarrib/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mukhtalif": {
+   "url": "https://medmrf-10.github.io/des/mukhtalif/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mukhtalif/",
+    "https://medmrf-10.github.io/des/mukhtalif/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "musnad": {
+   "url": "https://medmrf-10.github.io/des/musnad/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/musnad/",
+    "https://medmrf-10.github.io/des/musnad/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mustafa": {
+   "url": "https://medmrf-10.github.io/des/mustafa/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mustafa/",
+    "https://medmrf-10.github.io/des/mustafa/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mustamli": {
+   "url": "https://medmrf-10.github.io/des/mustamli/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mustamli/",
+    "https://medmrf-10.github.io/des/mustamli/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-map": {
+   "url": "https://medmrf-10.github.io/des/prog/map.html",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/prog/map.html",
+    "https://medmrf-10.github.io/des/prog/map.html"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  }
+ }
+}

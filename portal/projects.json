@@ -1906,5 +1906,32 @@
   "desc": "مركز التعليقات — وافق أو ارفض الاقتراحات",
   "url": "../markaz/",
   "icon": "م"
+ },
+ {
+  "id": "hd_books",
+  "title": "فهرس الكتب",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "فهرس الكتب الستة — عدد الأحاديث والأحكام",
+  "url": "../hadith/kutub_index.html",
+  "icon": "ف"
+ },
+ {
+  "id": "en_pics",
+  "title": "المعجم المصور",
+  "maker": "محمد",
+  "field": "English",
+  "desc": "معجم مصور — مشاهد ومفردات مسموعة",
+  "url": "../english/picture_dict.html",
+  "icon": "م"
+ },
+ {
+  "id": "pg_ref",
+  "title": "المرجِع",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "مرجع الخوارزميات والهياكل — ١٥ بطاقة",
+  "url": "../prog/reference.html",
+  "icon": "م"
  }
 ]

@@ -2806,5 +2806,14 @@
   "desc": "خمّن الناتج ثم شغّل",
   "url": "../prog/code_reading.html",
   "icon": "ق"
+ },
+ {
+  "id": "mi3shaq",
+  "title": "مِعشَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "لذائذي الصغيرة",
+  "url": "../mi3shaq/",
+  "icon": "م"
  }
 ]

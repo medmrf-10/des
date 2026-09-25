@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِجرى — منحى تعلّمك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:680px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.bars{display:flex;align-items:flex-end;gap:3px;height:110px;margin-top:12px;direction:ltr}
+.b{flex:1;background:var(--acc);border-radius:3px 3px 0 0;min-height:2px;opacity:.85;position:relative}
+.b:hover{opacity:1}
+.b i{position:absolute;bottom:-20px;right:50%;transform:translateX(50%);font-size:8.5px;color:var(--dim);font-style:normal;white-space:nowrap}
+.dir{font-family:var(--font-ar);font-size:15px;padding:10px 16px;border-radius:12px;margin-top:12px;text-align:center}
+.up{background:rgba(212,175,55,.12);color:var(--acc)}
+.flat{background:var(--card);color:var(--txt)}
+.down{background:rgba(224,128,128,.1);color:#e08080}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:7px 14px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِجرى <span class="muted">— اتجاه تعلّمك</span></h2>
+<div class="muted">يقيس نشاطك لآخر ١٤ يومًا ويخبرك بصدق: هل تتصاعد أم تتباطأ أم ثابت؟</div>
+<div class="dir" id="dir">—</div>
+<div class="card"><div class="t">نشاطك اليومي — آخر ١٤ يومًا</div>
+<div class="bars" id="bars"></div></div>
+<div class="card"><div class="t">التفاصيل</div><div id="detail"></div></div>
+<div class="card"><div class="t">أنشط أدواتك بالفترة</div><div id="tools" class="muted">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const ISO=d=>new Date(d).toISOString().slice(0,10);
+// اجمع كل طوابع الوقت من كل المفاتيح
+const events=[];
+const KEYS=['daftar','muqtatif','sawanih','muamma','minsha_draft','mu3edd_drafts','hibr'];
+for(const k of KEYS){
+ try{const v=JSON.parse(localStorage.getItem(k));
+  if(Array.isArray(v))v.forEach(x=>{const t=new Date(x.at||x.date||x.d);if(!isNaN(t))events.push({t,s:k})});
+  else if(v&&typeof v==='object')Object.values(v).flat().forEach(x=>{const t=new Date(x&&x.at);if(!isNaN(t))events.push({t,s:k})});
+ }catch(e){}
+}
+// مفاتيح يومية بصيغة key_YYYY-MM-DD
+for(const k of Object.keys(localStorage)){
+ const m=k.match(/^(misbah|mihrab|minar|muqfil)_(\d{4}-\d{2}-\d{2})/);
+ if(m){
+  try{const v=JSON.parse(localStorage.getItem(k));const n=Array.isArray(v)?v.length:Object.keys(v||{}).length;
+   const t=new Date(m[2]+'T12:00:00');if(!isNaN(t))for(let i=0;i<Math.min(n,10);i++)events.push({t,s:m[1]});
+  }catch(e){}
+ }
+ // {day:[...]} و{day:act}
+ for(const kk of ['midad','mutabi3','mitla3','mijtaz']){
+  if(k!==kk)continue;
+  try{const v=JSON.parse(localStorage.getItem(k));
+   const inner=v.days||v;
+   Object.entries(inner||{}).forEach(([d,arr])=>{
+    if(!/^\d{4}-\d{2}-\d{2}/.test(d))return;
+    const t=new Date(d+'T12:00:00');if(isNaN(t))return;
+    const n=Array.isArray(arr)?arr.length:1;
+    for(let i=0;i<Math.min(n,8);i++)events.push({t,s:kk});
+   });
+  }catch(e){}
+ }
+}
+// آخر 14 يوم
+const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(ISO(d))}
+const counts=Object.fromEntries(days.map(d=>[d,0]));
+const toolByDay={};days.forEach(d=>toolByDay[d]={});
+events.forEach(e=>{
+ const d=ISO(e.t);if(!(d in counts))return;
+ counts[d]++;toolByDay[d][e.s]=(toolByDay[d][e.s]||0)+1;
+});
+const vals=days.map(d=>counts[d]);
+const mx=Math.max(1,...vals);
+$('#bars').innerHTML=days.map((d,i)=>{
+ const v=vals[i];
+ return '<div class="b" style="height:'+Math.max(3,v/mx*100)+'%" title="'+d+' — '+v+'"><i>'+(v||'')+'<br>'+d.slice(5)+'</i></div>';
+}).join('');
+// الاتجاه: النصف الأول vs الثاني
+const h1=vals.slice(0,7).reduce((a,b)=>a+b,0);const h2=vals.slice(7).reduce((a,b)=>a+b,0);
+const diff=h2-h1;
+const active=vals.filter(v=>v>0).length;
+const dir=diff>3?'up':diff<-3?'down':'flat';
+const msgs={
+ up:'↑ تتصاعد — نشاطك الأسبوع الأخير أعلى بـ'+arN(diff)+'. استمر، هذا منحى الإتقان.',
+ flat:'→ ثابت — أنت مستمر بلا تذبذب كبير. لترتقي، ارفع الجرعة لا الانتظام.',
+ down:'↓ تتباطأ — نشاطك الأخير أقل بـ'+arN(-diff)+' من سابقه. استأنف اليوم ولو بعشر دقائق.'
+};
+$('#dir').className='dir '+dir;
+$('#dir').innerHTML=msgs[dir]+'<div class="muted" style="margin-top:5px;font-size:11px">'+arN(active)+'/١٤ يومًا نشطًا</div>';
+const tot=vals.reduce((a,b)=>a+b,0);const avg=(tot/14).toFixed(1);
+$('#detail').innerHTML=
+ '<span class="stat">إجمالي أحداث: <b>'+arN(tot)+'</b></span>'+
+ '<span class="stat">يوميًا بالمتوسط: <b>'+avg+'</b></span>'+
+ '<span class="stat">أفضل يوم: <b>'+days[vals.indexOf(mx)]+' ('+arN(mx)+')</b></span>'+
+ '<span class="stat">النصف الأول: <b>'+arN(h1)+'</b> · الثاني: <b>'+arN(h2)+'</b></span>';
+const tools={};events.forEach(e=>{if(ISO(e.t)>=days[0])tools[e.s]=(tools[e.s]||0)+1});
+const NAMES={daftar:'دفتر اليوميات',muqtatif:'مُقتطف',sawanih:'سوانح',muamma:'مُعمّى',minsha_draft:'مِنشأ',mu3edd_drafts:'مُعدّ',hibr:'حِبر',misbah:'مِصباح',mihrab:'مِحراب',minar:'مِنار',muqfil:'مُقفل',midad:'مِداد',mutabi3:'مُتتبع',mitla3:'مِطلع',mijtaz:'مِجتاز'};
+$('#tools').innerHTML=Object.entries(tools).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([s,c])=>
+ '<div style="font-size:12px;margin-top:4px">'+(NAMES[s]||s)+' — '+arN(c)+'</div>').join('')||'لا بيانات بالفترة';
+</script>
+<script src="../shared/feedback.js" data-pid="mijra" data-title="مِجرى"></script>
+</body>
+</html>

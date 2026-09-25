@@ -55,14 +55,12 @@ function render(){
  else if(cat==='الكتب الستة')L=HB.filter(x=>SIX.includes(x.s)).map(x=>({n:x.n,a:x.a,t:x.t,q:x.q,k:'h',s:x.s}));
  else L=HB.filter(x=>cat==='الكل'||x.t===cat).map(x=>({n:x.n,a:x.a,t:x.t,q:x.q,k:'h',s:x.s,d:x.d}));
  if(q)L=L.filter(x=>norm(x.n).includes(q)||norm(x.a).includes(q)||norm(x.t).includes(q));
- $('#list').innerHTML=L.slice(0,120).map(x=>{
-  const link=x.k==='h'&&SIX.includes(x.s)?`../hadith/misbar.html`:x.k==='h'&&x.s?`../wahy/`:x.k==='tf'?'../wahy/':null;
-  return `<div class="bk"><span class="t">${esc(x.t)}</span>
-  <span class="n">${link?`<a href="${link}" style="color:var(--txt);text-decoration:none;border-bottom:1px dotted var(--acc)">${esc(x.n)}</a>`:esc(x.n)}
-  <span class="a">${esc(x.a||'')}</span></span>
-  <span class="q">${x.q?(x.q).toLocaleString('ar-EG'):''}</span></div>`}).join('')
- +(L.length>120?`<div class="muted" style="text-align:center;padding:10px">…و${(L.length-120).toLocaleString('ar-EG')} كتاباً آخر — صفِّ بالبحث</div>`:'')}
- ||'<div class="muted" style="text-align:center;padding:26px">لا نتائج</div>'}
+ const rows=L.slice(0,120).map(x=>{
+  const link=x.k==='h'&&SIX.includes(x.s)?'../hadith/misbar.html':x.k==='h'&&x.s?'../wahy/':x.k==='tf'?'../wahy/':null;
+  const nm=link?'<a href="'+link+'" style="color:var(--txt);text-decoration:none;border-bottom:1px dotted var(--acc)">'+esc(x.n)+'</a>':esc(x.n);
+  return `<div class="bk"><span class="t">${esc(x.t)}</span><span class="n">${nm}<span class="a">${esc(x.a||'')}</span></span><span class="q">${x.q?(x.q).toLocaleString('ar-EG'):''}</span></div>`}).join('');
+ const more=L.length>120?`<div class="muted" style="text-align:center;padding:10px">…و${(L.length-120).toLocaleString('ar-EG')} كتاباً آخر — صفِّ بالبحث</div>`:'';
+ $('#list').innerHTML=rows?(rows+more):'<div class="muted" style="text-align:center;padding:26px">لا نتائج</div>'}
 $('#cats').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;cat=c.textContent;
  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));render()};
 $('q').addEventListener('input',render);

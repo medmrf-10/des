@@ -94,11 +94,13 @@ function selectBook(slug, unitI){
   }
   tree.innerHTML = '<div class="skel">…يُحمَّل الكتاب</div>';
   content.innerHTML = '<div class="skel">…يُحمَّل الكتاب</div>'; // مؤشر على الهاتف حيث الشجرة مخفية
-  const s = document.createElement('script');
-  s.src = 'data/'+slug+'.js';
-  s.onload = ()=>{ curBook = window.READER_BOOKS[slug]; renderTree(); if(unitI!=null) showUnit(unitI); };
-  s.onerror = ()=>{ tree.innerHTML = '<div class="skel">تعذّر تحميل بيانات الكتاب (data/'+slug+'.js)</div>'; };
-  document.body.appendChild(s);
+  fetch('data/'+slug+'.js.gz').then(r=>{
+    if(!r.ok) throw 0;
+    return r.body.pipeThrough(new DecompressionStream('gzip'));
+  }).then(rs=>new Response(rs).text()).then(code=>{
+    new Function(code)();
+    curBook = window.READER_BOOKS[slug]; renderTree(); if(unitI!=null) showUnit(unitI);
+  }).catch(()=>{ tree.innerHTML = '<div class="skel">تعذّر تحميل بيانات الكتاب (data/'+slug+'.js.gz)</div>'; });
 }
 
 /* ---------- شجرة الوحدات ---------- */

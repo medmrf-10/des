@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعوَد — مُعاوَدة المراجعة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.review{background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:12px 16px;margin-top:9px}
+.review .src{font-size:10.5px;color:var(--acc2);margin-bottom:5px}
+.review .txt{font-family:var(--font-ar);font-size:14.5px;line-height:2}
+.review .act{display:flex;gap:6px;margin-top:9px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعوَد <span class="muted">— مُعاوَدة المراجعة</span></h2>
+<div class="muted">يجمع ما تعلّمته من كل الأدوات ويعيده عليك على جدولة متباعدة (١،٣،٧،١٤،٣٠ يومًا).</div>
+<div style="margin-top:9px"><span class="stat">مستحق الآن: <b id="due">٠</b></span><span class="stat">مراجعة اليوم: <b id="done">٠</b></span><span class="stat">إجمالي معاد: <b id="tot">٠</b></span></div>
+<div class="card"><div class="t">مراجعتك التالية</div><div id="rev" class="muted">—</div>
+<div style="margin-top:11px"><button class="btn" id="again">أعدْها بعدًا</button> <button class="btn ghost" id="easy">سهلة — أجّلها</button> <button class="btn ghost" id="skip">تخطّي</button></div></div>
+<div class="card"><div class="t">مخزونك المجدول حسب المصدر</div><div id="src" class="muted">—</div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const today=()=>new Date().toISOString().slice(0,10);
+const INTERVALS=[1,3,7,14,30];
+// اجمع كل عناصر قابلة للمراجعة من أدوات المنظومة
+function gather(){
+ const out=[];
+ const push=(src,txt,key)=>out.push({src,txt,key});
+ // حديث مِطلع
+ const mt=LS('mitla3',{});
+ if(mt.days)Object.entries(mt.days).forEach(([d,v])=>{if(v.done)push('مِطلع','حديث '+d,'mitla3:'+d)});
+ if(mt.seen)mt.seen.forEach(k=>push('مِطلع',k,'mitla3:'+k));
+ // بطاقات مقرأة
+ const miq=LS('miq_cards',{});
+ Object.keys(miq).forEach(k=>push('مِقرأة',k,'miq:'+k));
+ // آيات مِرتّل
+ const mr=LS('murattil',{});
+ Object.keys(mr).forEach(k=>push('مِرتّل','آية '+k,'murattil:'+k));
+ // قوائم مِذكَر
+ const mz=LS('mizkar',[]);
+ mz.forEach((l,i)=>push('مِذكَر',l.n+' ('+l.t.split(/\s+/).filter(Boolean).length+' كلمة)','mizkar:'+i));
+ // مُتشابه
+ const msb=LS('mushbih',{n:0,ok:0});
+ if(msb.n)push('مِشبه','مراجعة '+arN(msb.n)+' مقارنة','mushbih');
+ // مسائل مِحفل
+ const mf=LS('mihfil',{n:0,sum:0});
+ if(mf.n)push('مِحفل','مراجعة '+arN(mf.n)+' مسألة','mihfil');
+ // مُستملي
+ const mst=LS('mustamli',{n:0,sum:0,best:0});
+ if(mst.n)push('مِستملي','درس استملاء — أفضل '+arN(mst.best||0),'mustamli');
+ // كلمات إنجليزية
+ const ev=LS('en_vocab',{});
+ Object.keys(ev).slice(0,30).forEach(k=>push('EN vocab',k,'envoc:'+k));
+ // دروس برمجة
+ const pv=LS('prog_v1',{});
+ Object.keys(pv).slice(0,20).forEach(k=>push('البرمجة','درس '+k,'prog:'+k));
+ return out;
+}
+// جدولة: لكل عنصر nextReview محفوظ
+let Q=LS('mi3wad_q',{});
+function ensure(items){
+ let added=0;
+ items.forEach(it=>{
+  if(!(it.key in Q)){Q[it.key]={idx:0,at:today()};added++}
+ });
+ if(added)SV('mi3wad_q',Q);
+}
+function due(items){
+ return items.filter(it=>{
+  const q=Q[it.key];if(!q)return true;
+  const next=new Date(q.at);next.setDate(next.getDate()+INTERVALS[q.idx]);
+  return next<=new Date();
+ });
+}
+function render(){
+ const items=gather();ensure(items);
+ const d=due(items);
+ $('#due').textContent=arN(d.length);
+ $('#tot').textContent=arN(Object.keys(Q).length);
+ const dn=LS('mi3wad_done',{});$('#done').textContent=arN((dn[today()]||0));
+ if(!d.length){$('#rev').innerHTML='✓ كل مراجعاتك محدثة — عُد غدًا أو تعلّم جديدًا لتُملأ';return}
+ const it=d[0];
+ $('#rev').innerHTML='<div class="review"><div class="src">من «'+esc(it.src)+'»</div><div class="txt">'+esc(it.txt)+'</div></div>';
+ $('#rev').dataset.key=it.key;
+}
+function mark(easy){
+ const k=$('#rev').dataset.key;if(!k)return;
+ const q=Q[k]||{idx:0};
+ if(easy)q.idx=Math.min(q.idx+1,INTERVALS.length-1);
+ else q.idx=0;
+ q.at=today();Q[k]=q;SV('mi3wad_q',Q);
+ const dn=LS('mi3wad_done',{});dn[today()]=(dn[today()]||0)+1;SV('mi3wad_done',dn);
+ render();
+}
+$('#again').onclick=()=>mark(false);
+$('#easy').onclick=()=>mark(true);
+$('#skip').onclick=()=>{
+ const k=$('#rev').dataset.key;if(!k)return;
+ const q=Q[k]||{idx:0};q.at=today();q.idx=Math.min(q.idx+1,INTERVALS.length-1);Q[k]=q;SV('mi3wad_q',Q);render();
+};
+// مخزون حسب المصدر
+const items=gather();const bySrc={};items.forEach(i=>bySrc[i.src]=(bySrc[i.src]||0)+1);
+$('#src').innerHTML=Object.entries(bySrc).sort((a,b)=>b[1]-a[1]).map(([s,c])=>'<div style="font-size:12px;margin-top:4px">'+esc(s)+' — '+arN(c)+' عنصر</div>').join('');
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="mi3wad" data-title="مِعوَد"></script>
+</body>
+</html>

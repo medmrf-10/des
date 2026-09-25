@@ -6,75 +6,52 @@
 <title>الرِّحلة — رحلة الراوي | مختبر الحديث</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
-body{max-width:980px;margin:0 auto;padding:0 14px 60px}
-/* ==== hero ==== */
-.hero{position:relative;padding:38px 0 26px;text-align:center;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(201,162,75,.13),transparent 70%);pointer-events:none}
-.hero .glyph{font-size:40px;filter:drop-shadow(0 4px 18px rgba(201,162,75,.35))}
-.hero h1{font-size:34px;margin:6px 0 4px;font-weight:800;background:linear-gradient(120deg,var(--acc) 10%,var(--acc2) 50%,var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.5px}
-.hero .sub{color:var(--dim);font-size:13px;max-width:520px;margin:0 auto;line-height:1.9}
-.topnav{display:flex;gap:8px;justify-content:center;margin-top:14px}
-.topnav a{color:var(--acc);font-size:12px;text-decoration:none;border:1px solid var(--border);padding:5px 13px;border-radius:999px;transition:.15s}
-.topnav a:hover{border-color:var(--acc);background:rgba(201,162,75,.08)}
-/* ==== search ==== */
-.pick{position:relative;display:flex;gap:10px;align-items:center;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:14px 18px;margin-bottom:8px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
-.pick input{flex:1;min-width:180px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:12px 16px;font-size:15px;font-family:inherit;transition:border-color .2s}
-.pick input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(201,162,75,.12)}
-#hits{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:7px 15px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
-.chip:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-1px)}
-.status{color:var(--dim);font-size:12px;padding:4px 2px;text-align:center}
-.prog{height:5px;background:var(--card2);border-radius:3px;margin:8px 0;overflow:hidden}
-.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .3s;border-radius:3px}
-/* ==== kpis ==== */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
-.kpi{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 16px;font-size:11.5px;color:var(--dim);position:relative;overflow:hidden}
-.kpi::after{content:'';position:absolute;top:0;inset-inline-start:0;width:3px;height:100%;background:linear-gradient(180deg,var(--acc),transparent)}
-.kpi b{display:block;color:var(--acc);font-size:22px;font-weight:800;margin-top:2px}
-/* ==== journey stations ==== */
-.journey{position:relative;margin:22px 0;padding:6px 0 6px}
-.jline{position:absolute;top:0;bottom:0;inset-inline-start:11px;width:2px;background:linear-gradient(180deg,var(--acc),rgba(201,162,75,.15))}
-.stn{position:relative;padding:0 34px 22px;margin-inline-start:2px}
-.stn::before{content:'';position:absolute;inset-inline-start:5px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px rgba(201,162,75,.18),0 0 14px rgba(201,162,75,.4)}
-.stn.off::before{background:var(--card2);box-shadow:none;border:2px solid var(--border)}
-.stn .sname{font-size:15px;font-weight:700;color:var(--acc2)}
-.stn.off .sname{color:var(--dim)}
-.stn .scount{font-size:11px;color:var(--dim)}
-.stn .strack{height:8px;background:var(--card2);border-radius:4px;margin:7px 0;overflow:hidden;max-width:420px}
-.stn .strack i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:4px}
-/* ==== panels ==== */
-.panel{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:16px 20px;margin-bottom:14px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
-.panel h3{margin:0 0 12px;font-size:14.5px;color:var(--acc);display:flex;align-items:center;gap:8px}
-.panel h3::before{content:'';width:8px;height:8px;border-radius:2px;background:var(--acc);transform:rotate(45deg)}
-.con{display:flex;gap:7px;flex-wrap:wrap}
-.cchip{border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:999px;padding:6px 14px;font-size:12px;transition:.15s;color:var(--txt);text-decoration:none}
-.cchip b{color:var(--acc)}
-a.cchip:hover{border-color:var(--acc);transform:translateY(-1px)}
-.tl{max-height:420px;overflow:auto;padding-inline-start:6px;scrollbar-width:thin}
-.tl .itm{display:flex;gap:9px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--border);font-size:12.5px}
-.tl .nm{color:var(--acc);font-weight:700;white-space:nowrap}
-.tl .bk{color:var(--dim);font-size:10.5px;width:84px;flex-shrink:0}
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.pick input{flex:1;min-width:180px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip:hover{border-color:var(--acc2);color:var(--acc2)}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--dim)}
+.kpi b{display:block;color:var(--acc2);font-size:18px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px}
+.panel h3{margin:0 0 10px;font-size:14px;color:var(--acc2)}
+.bar{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);margin-bottom:5px}
+.bar .lab{width:88px;text-align:left}
+.bar .track{flex:1;background:var(--card2);border-radius:4px;height:16px;overflow:hidden}
+.bar .track i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.bar .cnt{width:52px;color:var(--txt);font-weight:700}
+.tl{max-height:360px;overflow:auto;padding-inline-start:8px}
+.tl .itm{display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--border);font-size:12px}
+.tl .nm{color:var(--acc2);font-weight:700;white-space:nowrap}
+.tl .bk{color:var(--dim);font-size:10.5px;width:80px;flex-shrink:0}
 .tl a{color:var(--txt);text-decoration:none}
-.tl a:hover{color:var(--acc)}
+.tl a:hover{color:var(--acc2)}
 .tl .tt{flex:1;color:var(--txt);font-family:var(--font-ar);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.con{display:flex;gap:6px;flex-wrap:wrap}
+.cchip{border:1px solid var(--border);background:var(--card2);border-radius:999px;padding:4px 11px;font-size:11.5px}
+.cchip b{color:var(--acc2)}
 .mut{color:var(--dim);font-size:12px}
-.namecard{text-align:center;margin:18px 0 6px}
-.namecard .nm{font-family:var(--font-ar);font-size:26px;font-weight:800;color:var(--acc)}
-.namecard .meta{color:var(--dim);font-size:12px;margin-top:3px}
-@media (max-width:520px){.hero h1{font-size:26px}.kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="glyph">🐫</div>
-  <h1>الرِّحلة</h1>
-  <div class="sub">رحلة الراوي عبر الكتب الست — في أيّها ورد، وكم يحمل من متن، ومن جاوره في الأسانيد</div>
-  <nav class="topnav"><a href="index.html">مختبر الحديث ←</a><a href="alaam.html">أعلام الرواة ←</a></nav>
+<header class="top">
+  <h1>🐫 الرِّحلة</h1>
+  <span class="sub">رحلة الراوي عبر الأمهات الست — متونه، حضوره، ومشاركوه في الأسانيد</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="alaam.html">أعلام ←</a>
 </header>
 <div class="pick">
-  <input type="text" id="q" placeholder="اكتب اسم راوٍ — أبو هريرة، هناد بن السرى، وكيع…" enterkeyhint="search">
+  <input type="text" id="q" placeholder="اكتب اسم راوٍ (عربي) — أبو هريرة، هناد بن السرى، وكيع…">
+  <span id="hits"></span>
 </div>
-<div id="hits"></div>
 <div class="prog"><i id="pfill"></i></div>
 <div class="status" id="stat"></div>
 <div id="kpis" class="kpis"></div>
@@ -105,6 +82,7 @@ async function loadBook(b){
   D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
   return D[b];
 }
+/* بحث فوري عن الراوي */
 document.getElementById('q').addEventListener('input',e=>{
   const w=norm(e.target.value);const el=document.getElementById('hits');
   if(w.length<3){el.innerHTML='';return}
@@ -119,6 +97,7 @@ window.show=async function(rid){
   const R=RW[rid];if(!R)return;
   await loadGN();
   const gids=(R.gs||[]).map(String);
+  /* المواضع: لكل معنى كل مواضعه — لكن راوينا موجود في أسانيدها */
   const pos=[];const bkCnt={};const tpos=[];
   for(const gid of gids){
     const g=GN.g[gid];if(!g||!g.w)continue;
@@ -127,6 +106,7 @@ window.show=async function(rid){
   }
   const ord=Object.fromEntries(BOOKS.map((b,i)=>[b,i]));
   pos.sort((a,c)=>(ord[a[0]]-ord[c[0]])||(a[1]-c[1]));
+  /* المشاركون: امسح أسانيد مواضع معانيه، عدّ الأسماء المجاورة لاسمه */
   const name=norm(R.t);
   const co={};let chains=0;
   const usedBooks=[...new Set(pos.map(p=>p[0]))];
@@ -146,6 +126,7 @@ window.show=async function(rid){
       }
     }
   }
+  /* أرشّح المشاركين لأسماء فهرسية معروفة عبر N2R */
   const coTop=Object.entries(co).sort((a,c)=>c[1]-a[1]).slice(0,14);
   pf.style.width='100%';stat.textContent='';
   document.getElementById('kpis').innerHTML=
@@ -155,16 +136,10 @@ window.show=async function(rid){
      <div class="kpi">أسانيد يمرّ بها<b>${arNum(chains)}</b></div>
      <div class="kpi">أحاديثه في الفهرس<b>${arNum(R.c||0)}</b></div>`;
   const maxB=Math.max(1,...Object.values(bkCnt));
-  const byBook={};tpos.forEach(p=>{(byBook[p.b]=byBook[p.b]||[]).push(p)});
   document.getElementById('body').innerHTML=`
-  <div class="namecard"><div class="nm">${esc(R.t)}</div><div class="meta">${R.f?esc(R.f):''}${R.l?' · '+esc(R.l):''}</div></div>
-  <div class="panel"><h3>محطات رحلته — الكتب الست</h3>
-    <div class="journey"><div class="jline"></div>
-    ${BOOKS.map(b=>{
-      const c=bkCnt[b]||0;
-      return `<div class="stn${c?'':' off'}"><div class="sname">${BAR[b]} <span class="scount">${c?arNum(c)+' موضعاً':'لم يحضر'}</span></div>
-        ${c?`<div class="strack"><i style="width:${Math.round(c/maxB*100)}%"></i></div>`:''}</div>`;
-    }).join('')}</div>
+  <div class="panel"><h3>${esc(R.t)} — حضوره في الكتب</h3>
+    ${BOOKS.filter(b=>bkCnt[b]).map(b=>
+      `<div class="bar"><span class="lab">${BAR[b]}</span><div class="track"><i style="width:${Math.round(bkCnt[b]/maxB*100)}%"></i></div><span class="cnt">${arNum(bkCnt[b])}</span></div>`).join('')}
   </div>
   <div class="panel"><h3>أبرز مشاركيه في الأسانيد (${arNum(Object.keys(co).length)} اسماً)</h3>
     <div class="con">${coTop.map(([nm,c])=>{
@@ -172,15 +147,14 @@ window.show=async function(rid){
       return r2?`<a class="cchip" href="ruhawi.html#r=${r2}" onclick="show(${r2});return false">${esc(nm)} <b>${arNum(c)}</b></a>`
                :`<span class="cchip">${esc(nm)} <b>${arNum(c)}</b></span>`}).join('')}</div>
   </div>
-  ${BOOKS.filter(b=>byBook[b]).map(b=>`
-  <div class="panel"><h3>${BAR[b]} — ${arNum(byBook[b].length)} موضعاً</h3>
-    <div class="tl">${byBook[b].slice(0,400).map(p=>
-      `<div class="itm"><span class="nm">#${arNum(p.n)}</span>
+  <div class="panel"><h3>رحلته الروائية — ${arNum(tpos.length)} موضعاً مرتبة بالكتب ثم الرقم</h3>
+    <div class="tl">${tpos.slice(0,400).map(p=>
+      `<div class="itm"><span class="bk">${BAR[p.b]}</span><span class="nm">#${arNum(p.n)}</span>
        <a class="tt" href="matn.html#${p.b}:${p.n}" title="${esc(p.t||'')}">${esc(p.t||'متن')}</a>
        <a class="mut" href="net.html#g${p.gid}">⛓</a></div>`).join('')}
-    ${byBook[b].length>400?`<div class="mut" style="padding-top:6px">+ ${arNum(byBook[b].length-400)} موضعاً آخر</div>`:''}
-    </div></div>`).join('')}
-  <div class="mut" style="text-align:center;margin:14px 0">روابط: <a class="chip" href="alaam.html#r=${rid}">أعلام ←</a> <a class="chip" href="rawi.html#${rid}">صفحة الراوي ←</a></div>`;
+    ${tpos.length>400?`<div class="mut" style="padding-top:6px">+ ${arNum(tpos.length-400)} موضعاً آخر — قيود العرض ٤٠٠</div>`:''}
+    </div></div>
+  <div class="mut">روابط: <a class="chip" href="alaam.html#r=${rid}">أعلام ←</a> <a class="chip" href="rawi.html#${rid}">صفحة الراوي ←</a></div>`;
 };
 const h=location.hash;const mh=h.match(/r=(\d+)/);if(mh)show(+mh[1]);
 </script>

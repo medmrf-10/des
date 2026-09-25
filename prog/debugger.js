@@ -153,7 +153,7 @@ function execSrc(src) {
   const fake = { log: (...a) => logs.push(a.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' ')), error: (...a) => logs.push('❌ ' + a.join(' ')) };
   const names = [...src.matchAll(/^(?:let|const|var)\s+([^;\n]+)/gm)]
     .flatMap(m => m[1].split(',').map(d => { const n = d.match(/^\s*([A-Za-z_$][\w$]*)/); return n ? n[1] : null; }).filter(Boolean))
-    .concat([...src.matchAll(/^function\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]))
+    .concat([...src.matchAll(/^(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]))
     .filter((v, i, a) => a.indexOf(v) === i);
   try {
     const fn = new Function('console', '__src', `"use strict";\n${src}\n; return { ${names.join(',')}, _src: __src };`);

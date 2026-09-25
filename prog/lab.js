@@ -126,7 +126,7 @@ function runTests() {
       const nm = d.match(/^\s*([A-Za-z_$][\w$]*)/);
       return nm ? nm[1] : null;
     }).filter(Boolean))
-    .concat([...src.matchAll(/^function\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]));
+    .concat([...src.matchAll(/^(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]));
   const logs = [];
   const fakeConsole = { log: (...a) => logs.push(a.join(' ')) };
   let scope = {};

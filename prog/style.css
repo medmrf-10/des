@@ -692,3 +692,9 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 @media(max-width:640px){.sq-cmp{grid-template-columns:1fr}}
 .sq-cap{font-size:.68rem;color:var(--mut);margin-bottom:4px}
 .sq-empty{font-size:.72rem;color:var(--mut);padding:10px;text-align:center;border:1px dashed var(--border);border-radius:8px}
+
+/* ====== منقّح — مفقودات ====== */
+.lb-main{min-width:0}
+.lb-link{display:inline-block;color:var(--acc);font-size:.7rem;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;margin:4px 0;transition:.15s}
+.lb-link:hover{border-color:var(--acc)}
+.lb-fail{background:#2d1210;border:1px solid #8d3a3a;border-radius:10px;padding:10px 14px;font-size:.78rem;color:#e0a0a0;margin:8px 0;font-family:'IBM Plex Mono',monospace}

@@ -1240,5 +1240,32 @@
   "desc": "استشر النصوص — سؤالك يستقي آية وحديثاً ومسألة",
   "url": "../mishawar/",
   "icon": "م"
+ },
+ {
+  "id": "muhaddith",
+  "title": "المحدّثون",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "لوحة المحدثين — أحكامهم وتشددّهم وكتبهم",
+  "url": "../hadith/muhaddith.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en-vocab",
+  "title": "مفرداتي",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "كلماتك الشخصية — بطاقات وكويز معاني",
+  "url": "../english/vocab.html",
+  "icon": "En"
+ },
+ {
+  "id": "prog-proj",
+  "title": "مشاريعي",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "متتبع المشاريع وأعمالك المحفوظة",
+  "url": "../prog/project.html",
+  "icon": "<>"
  }
 ]

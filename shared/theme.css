@@ -22,3 +22,8 @@
 
 html,body{overflow-x:hidden}
 body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);margin:0;line-height:1.7}
+
+/* tap-target floor — hadith/prog chip audit: chips were ~24-28px tall */
+.chip,.rchip,.f,.sg,.fbtn{min-height:34px!important}
+.chip,.f,.sg{padding-top:7px!important;padding-bottom:7px!important}
+.rchip{padding-top:4px!important;padding-bottom:4px!important}

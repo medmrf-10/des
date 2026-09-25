@@ -89,6 +89,7 @@ const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tir
 const BOOKS=['bukhari','muslim','abi-dawud','tirmidhi','nasai','ibn-majah'];
 const RW=window.RAWI?window.RAWI.rawi:{};
 const N2R={};for(const rid in RW)N2R[norm(RW[rid].t)]=rid;
+const KUNYA={"ابو هريره":"40","ابو بكر":"5253","ابن مسعود":"51","ابن عباس":"64","ابن عمر":"269","ابو سعيد الخدري":"89","جابر بن عبد الله":"79","انس بن مالك":"3858","ابو موسي الاشعري":"4178","معاذ بن جبل":"842","عمر بن الخطاب":"5226","عثمان بن عفان":"130","خباب":"2980","زيد بن حارثه":"6336","ابو ذر":"814","ابو سفيان":"2884","عمار":"345","بلال":"418","ابو عبيده":"1583","طلحه":"1452","سعد بن معاذ":"5840","عقبه بن عامر":"609","اسامه بن زيد":"806","ابو ايوب الانصاري":"2104","ابو الطفيل":"1926","مالك بن الحويرث":"502","زيد بن ثابت":"1359","ابراهيم النخعي":"395","مجاهد":"765","سعيد بن المسيب":"369","قتاده":"343","هشام بن عروه":"937","عروه":"429","ابو حازم":"762","عبد الله بن ابي بكر":"102","سفيان الثوري":"25","مالك بن انس":"106","الاوزاعي":"267","ورقاء":"1173","يونس بن يزيد الايلي":"457","ابن جريج":"2165","موسي بن عقبه":"176","سفيان بن عيينه":"191","وكيع":"24","ابن المبارك":"126","عبد الرزاق":"147","عبد الرحمن بن مهدي":"58","احمد بن حنبل":"222","يحيي بن معين":"983","البخاري":"981","مسلم":"22","ابو داود":"65","الترمذي":"1594","النسائي":"265","ابن ماجه":"347"};
 const GHOST=/^(موضع تعليق|إرسال|انقطاع)$/;
 const D={};let GN=null;
 const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
@@ -108,9 +109,10 @@ async function loadBook(b){
 document.getElementById('q').addEventListener('input',e=>{
   const w=norm(e.target.value);const el=document.getElementById('hits');
   if(w.length<3){el.innerHTML='';return}
-  const hits=Object.keys(RW).filter(r=>
+  let hits=Object.keys(RW).filter(r=>
     norm(RW[r].t).includes(w)||norm(RW[r].f||'').includes(w)||norm(RW[r].l||'').includes(w))
     .sort((a,b)=>(RW[b].c||0)-(RW[a].c||0)).slice(0,10);
+  if(KUNYA[w]!==undefined&&!hits.includes(KUNYA[w]))hits.unshift(KUNYA[w]);
   el.innerHTML=hits.map(r=>
     `<button class="chip" onclick="show(${r})">${esc(RW[r].t)} <span class="mut">${arNum(RW[r].c||0)}</span></button>`).join('');
 });

@@ -615,3 +615,18 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .rf-plus{color:#6fc76f}
 .rf-minus{color:#e0a0a0;text-decoration:line-through;opacity:.8}
 .rf-sol-h{font-size:.72rem;color:var(--acc2);font-weight:600;margin:14px 0 8px}
+
+/* ====== صائد الأخطاء ====== */
+.dh-code{font-size:.72rem;color:#e8c46a;max-height:none}
+.dh-ask{font-size:.72rem;color:var(--dim);margin:10px 0 10px}
+.dh-opts{display:flex;flex-direction:column;gap:8px}
+.dh-opt{background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-size:.75rem;padding:10px 14px;text-align:start;cursor:pointer;transition:.15s;font-family:inherit}
+.dh-opt:hover{border-color:var(--acc)}
+.dh-opt.ok{background:#1e4620;border-color:#6fc76f;color:#9fdc9f}
+.dh-opt.bad{background:#4a2020;border-color:#a04040;color:#e0a0a0}
+.dh-opt:disabled{cursor:default;opacity:.85}
+.dh-why{background:rgba(212,175,55,.08);border:1px solid var(--acc);border-radius:10px;padding:12px 14px;font-size:.75rem;line-height:1.9;margin-top:6px}
+.dh-why b{color:var(--acc)}
+.dh-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.dh-count{font-size:.7rem;color:var(--acc2)}
+.dh-idx{font-size:.66rem;color:var(--dim);font-family:'IBM Plex Mono',monospace}

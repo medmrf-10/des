@@ -41,6 +41,11 @@ body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
 .verdicts button.on{color:var(--acc);border-color:var(--acc)}
 .search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.88rem;padding:11px 16px;margin-bottom:16px}
 .search:focus{outline:none;border-color:var(--acc)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.bar .search{flex:1;min-width:160px;margin-bottom:0}
+.bar select{background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.78rem;padding:10px 12px;cursor:pointer}
+.bar select:focus{outline:none;border-color:var(--acc)}
+.cnt{color:var(--dim);font-size:.72rem;white-space:nowrap}
 @media (max-width:600px){body{padding:14px 10px 50px}}
 </style></head><body>
 <div class="wrap">
@@ -59,7 +64,12 @@ body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
       <div class="stat"><b id="stAvg">—</b>متوسط تقييمك</div>
       <div class="stat"><b id="stSent">0</b>تقييم أُرسل</div>
     </div>
-    <input class="search" id="q" placeholder="ابحث في الأدوات…">
+    <div class="bar">
+      <input class="search" id="q" placeholder="ابحث في الأدوات…">
+      <select id="ff"><option value="">كل المجالات</option></select>
+      <select id="fr"><option value="">الكل</option><option value="n">غير مقيَّم</option><option value="y">مقيَّم</option><option value="lt">أقل من 50</option><option value="ge">50 فأكثر</option></select>
+      <span class="cnt" id="cnt"></span>
+    </div>
     <div class="grid" id="grid"></div>
   </div>
 </div>
@@ -116,9 +126,16 @@ function renderStats(){
   $('stAvg').textContent=sc.length?(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(0)+'/100':'—';
   $('stSent').textContent=keys.filter(k=>E[k].sent).length;
 }
-function renderGrid(q){
-  q=(q||'').trim();
-  const list=CAT.filter(p=>!q||((p.t+p.d+p.f).includes(q)));
+function isRated(id){const r=ev()[id]||{};return !!(r.stars||r.v||r.note)}
+function renderGrid(){
+  const q=($('q').value||'').trim();
+  const ff=$('ff').value,fr=$('fr').value;
+  const list=CAT.filter(p=>
+    (!q||((p.t+p.d+p.f).includes(q)))&&
+    (!ff||p.f===ff)&&
+    (!fr||fr==='n'&&!isRated(p.id)||fr==='y'&&isRated(p.id)||fr==='lt'&&(ev()[p.id]||{}).stars>0&&(ev()[p.id]||{}).stars<50||fr==='ge'&&(ev()[p.id]||{}).stars>=50)
+  );
+  $('cnt').textContent=list.length+' أداة';
   $('grid').innerHTML=list.map(card).join('');
 }
 async function send(id){
@@ -136,14 +153,18 @@ async function send(id){
 }
 document.addEventListener('click',e=>{
   const vd=e.target.closest('.vd');const sd=e.target.closest('.send');
-  if(vd){const id=vd.dataset.id;const o=ev();const cur=(o[id]||{}).v;o[id]=Object.assign({},o[id],{v:cur===vd.dataset.v?'':vd.dataset.v});sev(o);renderGrid($('q').value);renderStats()}
+  if(vd){const id=vd.dataset.id;const o=ev();const cur=(o[id]||{}).v;o[id]=Object.assign({},o[id],{v:cur===vd.dataset.v?'':vd.dataset.v});sev(o);renderGrid();renderStats()}
   if(sd){const id=sd.dataset.id;const tx=document.querySelector(`.tx[data-id="${id}"]`);const o=ev();o[id]=Object.assign({},o[id],{note:tx?tx.value:''});sev(o);send(id)}
 });
-$('q').addEventListener('input',e=>renderGrid(e.target.value));
+$('q').addEventListener('input',renderGrid);
+$('ff').addEventListener('change',renderGrid);
+$('fr').addEventListener('change',renderGrid);
 document.addEventListener('input',e=>{const n=e.target.closest('.num');if(n){const id=n.dataset.num;const o=ev();o[id]=Object.assign({},o[id],{stars:Math.max(0,Math.min(100,+n.value||0))});sev(o);renderStats()}});
 $('unlock').addEventListener('click',async()=>{
   const pin=$('pin').value.trim();
-  if(await unlock(pin)){$('gate').style.display='none';$('app').style.display='block';renderGrid('');renderStats()}
+  if(await unlock(pin)){$('gate').style.display='none';$('app').style.display='block';
+    const fs=[...new Set(CAT.map(p=>p.f).filter(Boolean))];$('ff').innerHTML='<option value="">كل المجالات</option>'+fs.map(f=>`<option>${esc(f)}</option>`).join('');
+    renderGrid();renderStats()}
   else $('err').textContent='رقم غير صحيح';
 });
 $('pin').addEventListener('keydown',e=>{if(e.key==='Enter')$('unlock').click()});

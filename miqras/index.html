@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِقرَس — القراءة المتأنية</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+textarea{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:12px;font-family:var(--font-ar);font-size:14px;width:100%;min-height:130px;resize:vertical}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.chunk{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:22px;margin-top:12px;font-family:var(--font-ar);font-size:17px;line-height:2.1}
+.nav{display:flex;gap:9px;margin-top:11px;align-items:center;justify-content:space-between}
+.prog{background:var(--card2);border-radius:99px;height:6px;overflow:hidden;margin-top:10px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .4s}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِقرَس <span class="muted">— القراءة المتأنية</span></h2>
+<div class="muted">الصق نصاً طويلاً — يُقدَّم لك قِطعة قِطعة بلا استعجال: تدبُّر لا تصفُّح.</div>
+<div class="card"><div class="t">الصق النص</div>
+<textarea id="src" placeholder="فصل، مقال، متن علمي…"></textarea>
+<div style="display:flex;gap:8px;margin-top:9px;align-items:center">
+<span class="muted">حجم القطعة:</span>
+<select id="sz" style="background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px"><option value="18">صغيرة (18 كلمة)</option><option value="30" selected>متوسطة (30 كلمة)</option><option value="50">كبيرة (50 كلمة)</option></select>
+<button class="btn" id="go">ابدأ</button></div></div>
+<div id="rd"></div>
+<div id="stats"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let ch=[],idx=0;
+let st=LS('miqras',{sess:0,chunks:0});
+$('#go').onclick=()=>{
+ const t=$('#src').value.trim();if(!t)return;
+ const words=t.split(/\s+/),sz=+$('#sz').value;
+ ch=[];for(let i=0;i<words.length;i+=sz)ch.push(words.slice(i,i+sz).join(' '));
+ idx=0;st.sess++;SV('miqras',st);render();
+};
+function render(){
+ if(!ch.length)return;
+ $('#rd').innerHTML='<div class="chunk">'+ch[idx].replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</div>'+
+ '<div class="prog"><i style="width:'+((idx+1)/ch.length*100)+'%"></i></div>'+
+ '<div class="nav"><button class="btn ghost" id="prev"'+(idx===0?' disabled':'')+'>‹ السابق</button>'+
+ '<span class="muted">'+arN(idx+1)+' / '+arN(ch.length)+'</span>'+
+ '<button class="btn" id="nxt">'+(idx===ch.length-1?'أنهيت ✓':'التالي ›')+'</button></div>';
+ $('#prev').onclick=()=>{if(idx>0){idx--;render()}};
+ $('#nxt').onclick=()=>{
+  if(idx===ch.length-1){st.chunks+=ch.length;SV('miqras',st);
+   $('#rd').innerHTML='<div class="chunk" style="text-align:center;color:var(--ok)">أتممت النص — '+arN(ch.length)+' قطعة بتأنٍّ. 🌿</div>';
+   renderStats();return}
+  idx++;render()};
+}
+function renderStats(){
+ $('#stats').innerHTML='<span class="stat">جلسات: <b>'+arN(st.sess)+'</b></span>'+
+ '<span class="stat">قطع مُتدبَّرة: <b>'+arN(st.chunks)+'</b></span>';
+}
+renderStats();
+</script>
+<script src="../shared/feedback.js" data-pid="miqras" data-title="مِقرَس"></script>
+</body>
+</html>

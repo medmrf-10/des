@@ -684,3 +684,393 @@ age = 14
   ]
 },
 ];
+
+/* ====== مسار JavaScript متوسط (wave-3) ====== */
+TRACKS.push({
+  id: 'jsm', name: 'JavaScript متوسط', lang: 'web',
+  desc: 'ما بعد الأساسيات: DOM المتقدم، الأحداث، المصفوفات والكائنات، JSON والتخزين، fetch والبرمجة غير المتزامنة، الأصناف والإغلاقات.',
+  lessons: [
+    {
+      id: 'm1', t: 'إنشاء العناصر وإضافتها للصفحة',
+      d: `بعد اختيار عنصر بـ <code>querySelector</code> يمكنك بناء عناصر جديدة:
+- <code>document.createElement('li')</code> تنشئ عنصراً في الذاكرة
+- <code>el.textContent</code> تضبط نصه
+- <code>parent.appendChild(el)</code> تُلحقه بالصفحة كآخر ابن
+العنصر لا يظهر في الصفحة إلا بعد إلحاقه بعنصر موجود.`,
+      tip: 'أنشئ العنصر ثم اضبطه ثم ألحقه — ترتيب مهم.',
+      ex: { html: `<h3>قائمتي</h3>
+<ul id="list"></ul>`, css: '', js: `var list = document.querySelector('#list');
+var item = document.createElement('li');
+item.textContent = 'أول عنصر';
+list.appendChild(item);` },
+      task: {
+        p: 'أنشئ داخل <code>#list</code> ثلاثة عناصر <code>li</code> باستعمال <code>document.createElement</code> و <code>appendChild</code>.',
+        checks: [
+          { desc: 'استعملت document.createElement', kind: 'src', lang: 'js', contains: 'createElement' },
+          { desc: 'يوجد 3 عناصر li داخل #list', kind: 'count', sel: '#list li', n: 3 },
+          { desc: 'ألحقتها بالقائمة (appendChild أو append)', kind: 'src', lang: 'js', re: 'appendChild|append\\(' },
+        ]
+      },
+      quiz: [
+        { q: 'document.createElement تُعيد:', o: ['عنصراً جديداً في الذاكرة', 'عنصراً ظاهراً مباشرة', 'نصاً'], a: 0 },
+        { q: 'appendChild تضيف العنصر إلى:', o: ['العنصر الأب الذي استدعاها', 'أول الصفحة', 'آخر المستند'], a: 0 },
+        { q: 'نص العنصر يُضبط بخاصية:', o: ['textContent', 'innerText فقط', 'value'], a: 0 },
+      ]
+    },
+    {
+      id: 'm2', t: 'الأحداث: addEventListener',
+      d: `<code>el.addEventListener('click', fn)</code> تربط دالة بحدث على عنصر.
+الوسيط الأول اسم الحدث (<code>click</code>، <code>input</code>، <code>submit</code>…) والثاني الدالة.
+ميزتها على <code>onclick</code>: تسمح بعدة مستمعين لنفس الحدث وتفصل JS عن HTML.`,
+      tip: 'الحدث الأشهر click — لكن جرّب input لتحديث فوري أثناء الكتابة.',
+      ex: { html: `<button id="b">اضغطني</button>
+<p id="msg">لم تضغط بعد</p>`, css: '', js: `var b = document.querySelector('#b');
+b.addEventListener('click', function(){
+  document.querySelector('#msg').textContent = 'ضغطت الزر!';
+});` },
+      task: {
+        p: 'اربط بالزر <code>#btn</code> حدث <code>click</code> عبر <code>addEventListener</code> يجعل <code>#res</code> يعرض «تم الضغط!».',
+        checks: [
+          { desc: 'استعملت addEventListener', kind: 'src', lang: 'js', contains: 'addEventListener' },
+          { desc: 'الضغط على #btn يغيّر نص #res', kind: 'js', expr: 'document.querySelector("#btn").click();document.querySelector("#res").textContent.indexOf("تم الضغط")>=0' },
+          { desc: 'يوجد الزر #btn في الصفحة', kind: 'exists', sel: '#btn' },
+        ]
+      },
+      quiz: [
+        { q: 'الوسيط الثاني لـ addEventListener هو:', o: ['دالة تُنفَّذ عند الحدث', 'نص يُعرض', 'اسم العنصر'], a: 0 },
+        { q: 'اسم حدث الضغط بالفأرة:', o: ['click', 'press', 'push'], a: 0 },
+        { q: 'ميزة addEventListener عن onclick:', o: ['تسمح بعدة مستمعين لنفس الحدث', 'أسرع تنفيذاً دائماً', 'لا تحتاج دالة'], a: 0 },
+      ]
+    },
+    {
+      id: 'm3', t: 'تفويض الأحداث: مستمع واحد لقائمة كاملة',
+      d: `بدل مستمع على كل عنصر، ضع مستمعاً واحداً على الأب — الأحداث «تصعد» من الابن للأب.
+داخل المستمع: <code>e.target</code> هو العنصر المضغوط فعلياً، و<code>t.closest('li')</code> تجد العنصر الحاوي، و<code>t.dataset.name</code> تقرأ خاصية <code>data-name</code>.`,
+      tip: 'التفويض ضروري للعناصر المضافة لاحقاً عبر JS — المستمع على الأب يلتقطها تلقائياً.',
+      ex: { html: `<ul id="menu">
+  <li data-name="الرئيسية">الرئيسية</li>
+  <li data-name="الدروس">الدروس</li>
+</ul>
+<p id="out">—</p>`, css: '', js: `var menu = document.querySelector('#menu');
+menu.addEventListener('click', function(e){
+  var li = e.target.closest('li');
+  if (li) document.querySelector('#out').textContent = 'اخترت: ' + li.dataset.name;
+});` },
+      task: {
+        p: 'اجعل الضغط على أي <code>li</code> داخل <code>#menu</code> يكتب اسمها في <code>#out</code> — بمستمع واحد على القائمة (تفويض).',
+        checks: [
+          { desc: 'مستمع واحد عبر addEventListener', kind: 'src', lang: 'js', contains: 'addEventListener' },
+          { desc: 'قرأت العنصر المضغوط عبر target', kind: 'src', lang: 'js', contains: 'target' },
+          { desc: 'الضغط على عنصر يملأ #out', kind: 'js', expr: 'var l=document.querySelectorAll("#menu li");l.length&&l[0].click();document.querySelector("#out").textContent.trim().length>0' },
+        ]
+      },
+      quiz: [
+        { q: 'تفويض الأحداث يعني:', o: ['مستمع واحد على العنصر الأب يلتقط أحداث الأبناء', 'مستمع لكل عنصر', 'حذف المستمعين'], a: 0 },
+        { q: 'داخل المستمع، العنصر المضغوط فعلياً هو:', o: ['e.target', 'e.parent', 'this دائماً'], a: 0 },
+        { q: 'خاصية data-name على العنصر تُقرأ في JS بـ:', o: ['el.dataset.name', 'el.data.name', 'el.getAttr(name)'], a: 0 },
+      ]
+    },
+    {
+      id: 'm4', t: 'map و filter على المصفوفات',
+      d: `<code>arr.map(fn)</code> تُعيد مصفوفة جديدة بتطبيق fn على كل عنصر — بنفس الطول.
+<code>arr.filter(fn)</code> تُعيد مصفوفة بالعناصر التي يعيد لها fn قيمة true فقط.
+كلتاهما لا تغيّران المصفوفة الأصلية.`,
+      tip: 'سلسلة ممكنة: arr.filter(...).map(...) — الترشيح أولاً ثم التحويل.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `var nums = [1, 2, 3, 4];
+var dbl = nums.map(function(n){ return n * 2; });
+var big = nums.filter(function(n){ return n > 2; });
+console.log(dbl);
+console.log(big);` },
+      task: {
+        p: 'مع <code>nums = [5, 12, 3, 20, 8]</code>: اطبع مضاعفاتها بـ <code>map</code>، ثم الأكبر من 10 بـ <code>filter</code>.',
+        checks: [
+          { desc: 'استعملت map', kind: 'src', lang: 'js', contains: 'map' },
+          { desc: 'استعملت filter', kind: 'src', lang: 'js', contains: 'filter' },
+          { desc: 'المخرجات فيها 24 (12×2)', kind: 'log', contains: '24' },
+        ]
+      },
+      quiz: [
+        { q: 'map تُعيد:', o: ['مصفوفة جديدة بنفس الطول', 'قيمة واحدة', 'المصفوفة نفسها معدّلة'], a: 0 },
+        { q: 'filter تُبقي العناصر التي:', o: ['يعيد لها الشرط true', 'تقع في البداية', 'ليست أرقاماً'], a: 0 },
+        { q: 'الدالة الممررة لـ map/filter تسمى:', o: ['دالة ردّ callback', 'مؤقت', 'محدد'], a: 0 },
+      ]
+    },
+    {
+      id: 'm5', t: 'reduce و find',
+      d: `<code>arr.reduce(fn, start)</code> تجمع المصفوفة لقيمة واحدة: المجمّع يتراكم عبر العناصر.
+<code>arr.find(fn)</code> تُعيد أول عنصر يحقق الشرط، أو <code>undefined</code> إن لم يوجد.`,
+      tip: 'reduce أقوى من حلقة الجمع لكنها تربك المبتدئين — اقرأ (a, b) كـ «المجمّع والعنصر».',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `var prices = [5, 10, 2];
+var total = prices.reduce(function(a, b){ return a + b; }, 0);
+console.log('المجموع: ' + total);
+var item = prices.find(function(p){ return p > 4; });
+console.log('أول ما فوق 4: ' + item);` },
+      task: {
+        p: 'اجمع المصفوفة <code>[5, 10, 2]</code> بـ <code>reduce</code> واطبع المجموع (17)، ثم استعمل <code>find</code> على أي مصفوفة واطبع نتيجتها.',
+        checks: [
+          { desc: 'استعملت reduce', kind: 'src', lang: 'js', contains: 'reduce' },
+          { desc: 'استعملت find', kind: 'src', lang: 'js', contains: 'find' },
+          { desc: 'المخرجات فيها المجموع 17', kind: 'log', contains: '17' },
+        ]
+      },
+      quiz: [
+        { q: 'reduce تحتاج:', o: ['دالة مجمّع + قيمة أولية', 'شرطاً فقط', 'مصفوفتين'], a: 0 },
+        { q: 'find تُعيد:', o: ['أول عنصر يحقق الشرط', 'كل المطابقين', 'عدد المطابقين'], a: 0 },
+        { q: 'ناتج reduce دائماً:', o: ['قيمة واحدة متراكمة', 'مصفوفة', 'بوليان'], a: 0 },
+      ]
+    },
+    {
+      id: 'm6', t: 'الكائنات: خواص وأساليب',
+      d: `الكائن يجمع بيانات مترابطة: <code>{name: 'سارة', age: 25}</code>.
+الوصول للخاصية: <code>obj.name</code> أو <code>obj['name']</code>.
+الدالة داخل كائن تسمى أسلوباً (method)، وداخلها تشير <code>this</code> للكائن نفسه.`,
+      tip: 'هذا أساس كل ما سيأتي: JSON والاستجابات من fetch كلها كائنات.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `var car = {
+  name: 'كورولا',
+  year: 2020,
+  say: function(){ console.log('سيارة: ' + this.name + ' — ' + this.year); }
+};
+car.say();` },
+      task: {
+        p: 'أنشئ كائن <code>student</code> بخواص <code>name</code> = «سارة» و <code>grade</code> = 90، وأسلوب <code>greet()</code> يطبع «أنا سارة». استدعِه.',
+        checks: [
+          { desc: 'أنشأت كائن student', kind: 'js', expr: 'typeof student==="object" && student !== null' },
+          { desc: 'استعملت this داخل الأسلوب', kind: 'src', lang: 'js', contains: 'this' },
+          { desc: 'المخرجات فيها «أنا سارة»', kind: 'log', contains: 'أنا سارة' },
+        ]
+      },
+      quiz: [
+        { q: 'الوصول لخاصية name في obj:', o: ['obj.name', 'obj(name)', 'name.obj'], a: 0 },
+        { q: 'داخل الأسلوب this تشير إلى:', o: ['الكائن المالك', 'الصفحة', 'الدالة نفسها'], a: 0 },
+        { q: 'الكائن يُنشأ بأقواس:', o: ['{ }', '[ ]', '( )'], a: 0 },
+      ]
+    },
+    {
+      id: 'm7', t: 'JSON و localStorage',
+      d: `<code>JSON.stringify(obj)</code> تحوّل الكائن إلى نص، و<code>JSON.parse(s)</code> تعيده كائناً.
+<code>localStorage.setItem('k', نص)</code> يخزّن نصاً على الجهاز، و<code>getItem('k')</code> يسترجعه — حتى بعد إغلاق الصفحة.
+المختبر يحاكي localStorage محلياً داخل iframe.`,
+      tip: 'localStorage يخزّن نصوصاً فقط — الكائنات تمرّ عبر stringify أولاً.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `var user = { name: 'سالم', score: 95 };
+localStorage.setItem('user', JSON.stringify(user));
+var back = JSON.parse(localStorage.getItem('user'));
+console.log(back.name + ' — ' + back.score);` },
+      task: {
+        p: 'خزّن كائناً باسم <code>«user»</code> في localStorage بعد تحويله بـ <code>JSON.stringify</code>، ثم استرجعه بـ <code>JSON.parse</code> واطبع خاصية <code>name</code> منه.',
+        checks: [
+          { desc: 'استعملت JSON.stringify', kind: 'src', lang: 'js', contains: 'JSON.stringify' },
+          { desc: 'استعملت JSON.parse و localStorage', kind: 'src', lang: 'js', re: 'JSON\\.parse[\\s\\S]*localStorage|localStorage[\\s\\S]*JSON\\.parse' },
+          { desc: 'الكائن خُزّن فعلاً في localStorage', kind: 'js', expr: '(function(){try{var o=JSON.parse(localStorage.getItem("user"));return o&&typeof o.name==="string"&&o.name.length>0}catch(e){return false}})()' },
+        ]
+      },
+      quiz: [
+        { q: 'JSON.stringify تحوّل:', o: ['كائناً إلى نص', 'نصاً إلى كائن', 'رقماً إلى نص'], a: 0 },
+        { q: 'localStorage يخزّن:', o: ['نصوصاً فقط', 'كائنات مباشرة', 'صوراً'], a: 0 },
+        { q: 'getItem لقيمة غير موجودة تُعيد:', o: ['null', 'undefined', 'خطأ'], a: 0 },
+      ]
+    },
+    {
+      id: 'm8', t: 'fetch: جلب البيانات',
+      d: `<code>fetch(url)</code> تبدأ طلب شبكة وتُعيد <code>Promise</code> فوراً.
+<code>.then(r =&gt; r.json())</code> تحوّل الاستجابة لكائن، و<code>.then(d =&gt; ...)</code> تتعامل مع البيانات.
+المختبر يحاكي خادماً تجريبياً: <code>fetch('/api/user')</code> تعيد <code>{name:'سارة', age:25}</code>.`,
+      tip: 'fetch غير متزامنة — كودك يكمل التنفيذ والنتيجة تصل لاحقاً داخل then.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `fetch('/api/user')
+  .then(function(r){ return r.json(); })
+  .then(function(d){ console.log('المستخدم: ' + d.name); });` },
+      task: {
+        p: 'اجلب <code>/api/user</code> بـ <code>fetch</code> واطبع قيمة <code>name</code> من الاستجابة (سارة).',
+        checks: [
+          { desc: 'استعملت fetch', kind: 'src', lang: 'js', contains: 'fetch' },
+          { desc: 'حوّلت الاستجابة عبر .json()', kind: 'src', lang: 'js', contains: '.json' },
+          { desc: 'المخرجات فيها «سارة»', kind: 'log', contains: 'سارة' },
+        ]
+      },
+      quiz: [
+        { q: 'fetch تُعيد:', o: ['Promise', 'البيانات مباشرة', 'كائن JSON جاهزاً'], a: 0 },
+        { q: 'r.json() تفعل:', o: ['تحوّل جسم الاستجابة لكائن', 'ترسل طلباً جديداً', 'تغلق الاتصال'], a: 0 },
+        { q: '.then تُنفَّذ:', o: ['عند وصول النتيجة', 'فوراً', 'عند الخطأ فقط'], a: 0 },
+      ]
+    },
+    {
+      id: 'm9', t: 'async و await',
+      d: `دالة <code>async</code> تعيد Promise وتسمح داخلها بـ <code>await</code> التي توقف التنفيذ حتى يكتمل الوعد — قراءة أسهل من سلاسل then.
+الأخطاء تُلتقط بـ <code>try/catch</code> حول await.`,
+      tip: 'await تعمل فقط داخل دالة async — خارجها تحتاج .then.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `async function load(){
+  try {
+    var r = await fetch('/api/post');
+    var d = await r.json();
+    console.log('العنوان: ' + d.title);
+  } catch(e) {
+    console.log('فشل الجلب');
+  }
+}
+load();` },
+      task: {
+        p: 'اكتب دالة <code>async</code> تجلب <code>/api/post</code> بـ <code>await</code> داخل <code>try</code>، واطبع <code>title</code> المقال («أسرار الويب»).',
+        checks: [
+          { desc: 'دالة async', kind: 'src', lang: 'js', contains: 'async' },
+          { desc: 'استعملت await', kind: 'src', lang: 'js', contains: 'await' },
+          { desc: 'المخرجات فيها «أسرار الويب»', kind: 'log', contains: 'أسرار الويب' },
+        ]
+      },
+      quiz: [
+        { q: 'await تعمل داخل:', o: ['دالة async فقط', 'أي دالة', 'class فقط'], a: 0 },
+        { q: 'أخطاء await تُلتقط بـ:', o: ['try/catch', 'if/else', 'return'], a: 0 },
+        { q: 'الدالة async تُعيد دائماً:', o: ['Promise', 'قيمة مباشرة', 'JSON'], a: 0 },
+      ]
+    },
+    {
+      id: 'm10', t: 'Promise.all: مهام متوازية',
+      d: `<code>Promise.all([p1, p2])</code> تشغّل الوعود معاً وتُعيد وعداً واحداً بنتائجها كمصفوفة.
+أسرع من الانتظار المتسلسل حين لا تعتمد النتائج على بعضها.
+إن رُفض أحد الوعود يفشل كل شيء.`,
+      tip: 'استعملها لجلب عدة موارد دفعة واحدة — المستخدمين والمنتجات معاً.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `Promise.all([fetch('/api/user'), fetch('/api/users')])
+  .then(function(rs){ return Promise.all(rs.map(function(r){ return r.json(); })); })
+  .then(function(ds){
+    console.log('المستخدم: ' + ds[0].name);
+    console.log('العدد: ' + ds[1].length);
+  });` },
+      task: {
+        p: 'اجلب <code>/api/user</code> و <code>/api/users</code> معاً عبر <code>Promise.all</code>، واطبع اسم المستخدم وعدد المستخدمين (3).',
+        checks: [
+          { desc: 'استعملت Promise.all', kind: 'src', lang: 'js', contains: 'Promise.all' },
+          { desc: 'المخرجات فيها «سارة»', kind: 'log', contains: 'سارة' },
+          { desc: 'المخرجات فيها العدد 3', kind: 'log', contains: '3' },
+        ]
+      },
+      quiz: [
+        { q: 'Promise.all تُعيد:', o: ['مصفوفة بنتائج كل الوعود', 'أول نتيجة تصل', 'آخر نتيجة'], a: 0 },
+        { q: 'إن رُفض أحد الوعود:', o: ['يفشل كل الوعد المجمع', 'يتجاهله', 'يعيد undefined مكانه'], a: 0 },
+        { q: 'فائدتها الأساسية:', o: ['تنفيذ متوازٍ أسرع', 'إلغاء الأخطاء', 'تبسيط المتغيرات'], a: 0 },
+      ]
+    },
+    {
+      id: 'm11', t: 'الأصناف: class و extends',
+      d: `<code>class</code> قالب لإنشاء كائنات متشابهة: <code>constructor</code> تُستدعى عند <code>new</code>.
+<code>class Cat extends Animal</code> وراثة — الابن يأخذ أساليب الأب ويستدعيها بـ <code>super</code>.`,
+      tip: 'الصنف مجرد قالب — لا شيء يعمل حتى تنشئ نسخة بـ new.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `class Animal {
+  constructor(name){ this.name = name; }
+  speak(){ console.log(this.name + ' يصدر صوتاً'); }
+}
+class Cat extends Animal {
+  speak(){ console.log(this.name + ': مواء'); }
+}
+var c = new Cat('مشمش');
+c.speak();` },
+      task: {
+        p: 'أنشئ <code>class Car</code> بـ <code>constructor</code> يحفظ <code>this.m</code>، وأسلوب <code>info()</code> يطبع «سيارة كامري» عند إنشائه بـ <code>new Car(«كامري»)</code>.',
+        checks: [
+          { desc: 'عرفت class', kind: 'src', lang: 'js', contains: 'class' },
+          { desc: 'فيها constructor', kind: 'src', lang: 'js', contains: 'constructor' },
+          { desc: 'المخرجات فيها «كامري»', kind: 'log', contains: 'كامري' },
+        ]
+      },
+      quiz: [
+        { q: 'constructor تُستدعى:', o: ['عند إنشاء نسخة بـ new', 'عند التعريف', 'عند الطباعة'], a: 0 },
+        { q: 'الوراثة من صنف آخر بكلمة:', o: ['extends', 'inherits', 'parent'], a: 0 },
+        { q: 'استدعاء أسلوب الأب من الابن بـ:', o: ['super', 'parent', 'base'], a: 0 },
+      ]
+    },
+    {
+      id: 'm12', t: 'الإغلاقات: دالة تنتج دالة',
+      d: `الإغلاقة (closure): دالة داخلية تتذكر متغيرات الدالة الخارجية حتى بعد انتهائها.
+<code>function counter(){ var n=0; return function(){ n++; return n; } }</code> — كل استدعاء للدالة الداخلية يزيد نفس n.`,
+      tip: 'الإغلاقة تمنحك «حالة خاصة» لا يلمسها أحد من الخارج — أساس الأنماط المتقدمة.',
+      ex: { html: `<p>افتح وحدة التحكم أسفل الناتج.</p>`, css: '', js: `function counter(){
+  var n = 0;
+  return function(){ n++; return n; };
+}
+var c = counter();
+console.log(c());
+console.log(c());` },
+      task: {
+        p: 'اكتب <code>counter()</code> تعيد دالة تزيد عداداً داخلياً وتعيد قيمته — اطبع نتائج ثلاثة استدعاءات متتالية (1، 2، 3).',
+        checks: [
+          { desc: 'الدالة تعيد دالة', kind: 'src', lang: 'js', re: 'return\\s*(function|\\()' },
+          { desc: 'متغير داخلي للعداد', kind: 'src', lang: 'js', re: '(var|let|const)\\s+\\w+' },
+          { desc: 'المخرجات فيها 3 (ثالث استدعاء)', kind: 'log', contains: '3' },
+        ]
+      },
+      quiz: [
+        { q: 'الإغلاقة هي:', o: ['دالة داخلية تتذكر نطاق خارجيتها', 'متغير عام', 'حلقة تكرار'], a: 0 },
+        { q: 'المتغير n داخل counter يبقى:', o: ['محفوظاً بين الاستدعاءات', 'يُمحى فوراً', 'عاماً للكل'], a: 0 },
+        { q: 'كل استدعاء للدالة الداخلية:', o: ['يزيد نفس العداد', 'يبدأ من صفر', 'ينشئ عداداً جديداً'], a: 0 },
+      ]
+    },
+    {
+      id: 'm13', t: 'المؤقتات: setTimeout و setInterval',
+      d: `<code>setTimeout(fn, ms)</code> تؤجل التنفيذ مرة واحدة بعد ms ميلي ثانية.
+<code>setInterval(fn, ms)</code> تكرره كل ms حتى توقفه بـ <code>clearInterval(id)</code> — الـ id يرجعه setInterval.`,
+      tip: 'الميلي ثانية: 1000 = ثانية واحدة. لا تنسَ clearInterval وإلا استمر الأبد.',
+      ex: { html: `<p id="t">انتظر…</p>`, css: '', js: `setTimeout(function(){
+  document.querySelector('#t').textContent = 'مرت ثانية!';
+}, 1000);
+var i = 0;
+var t = setInterval(function(){
+  i++;
+  console.log('تيك ' + i);
+  if (i >= 3) clearInterval(t);
+}, 500);` },
+      task: {
+        p: 'استعمل <code>setTimeout</code> لطباعة «انتهى الوقت» بعد 100 ميلي ثانية، و<code>setInterval</code> لطباعة عدّاد يتوقف بـ <code>clearInterval</code> بعد 3 تكرارات.',
+        checks: [
+          { desc: 'استعملت setTimeout', kind: 'src', lang: 'js', contains: 'setTimeout' },
+          { desc: 'استعملت setInterval مع clearInterval', kind: 'src', lang: 'js', re: 'setInterval[\\s\\S]*clearInterval' },
+          { desc: 'المخرجات فيها «انتهى الوقت»', kind: 'log', contains: 'انتهى الوقت' },
+        ]
+      },
+      quiz: [
+        { q: 'setTimeout تُنفذ الدالة:', o: ['مرة واحدة بعد المهلة', 'باستمرار', 'فوراً'], a: 0 },
+        { q: 'إيقاف setInterval يكون بـ:', o: ['clearInterval(id)', 'stop(id)', 'break'], a: 0 },
+        { q: 'الوسيط الثاني (الزمن) يُقاس بـ:', o: ['الميلي ثانية', 'الثواني', 'الدقائق'], a: 0 },
+      ]
+    },
+  ]
+});
+
+/* بطاقات المفاهيم — [سؤال, جواب] لكل درس، تُجدول عبر FSRS في تبويب المراجعة */
+const CARDS = {
+  h1: [['وسم العنوان الرئيسي', '<h1>…</h1> — أكبر عنوان في الصفحة'], ['الوسم (tag)', 'علامة < > تحيط بالمحتوى وتحدد نوعه']],
+  h2: [['مستويات العناوين', 'من h1 الأكبر إلى h6 الأصغر'], ['العناوين الفرعية', 'h2–h6 لتنظيم المحتوى تحت العنوان الرئيسي']],
+  h3: [['وسم الرابط', '<a href="url"> — href تحدد الوجهة'], ['وسم الصورة', '<img src="…" alt="…"> — src المصدر وalt النص البديل']],
+  h4: [['القائمة المرتبة <ol>', 'عناصرها مرقّمة تلقائياً'], ['<ul> و <li>', 'قائمة بنقاط — كل عنصر داخل li']],
+  h6: [['وسم input', 'حقل إدخال — placeholder يعرض نصاً إرشادياً'], ['النموذج form', 'حاوية تجمع حقول الإدخال وزر الإرسال']],
+  c1: [['color', 'خاصية تلوّن نص العنصر'], ['background-color', 'خاصية تلوّن الخلفية']],
+  c2: [['font-size', 'حجم الخط — مثلاً 24px'], ['font-weight', 'سماكة الخط — bold للعريض']],
+  c3: [['padding', 'حشوة داخلية بين المحتوى والإطار'], ['margin', 'هامش خارجي يفصل العنصر عن جيرانه']],
+  c4: [['الكلاس class', 'اسم مشترك يُستهدف بـ .name ويطبق على عدة عناصر'], ['المعرف id', 'اسم فريد يُستهدف بـ #id ولا يتكرر']],
+  c6: [['display:flex', 'يحوّل الحاوية إلى صندوق مرن يرتّب أبناءه'], ['justify-content', 'توزيع العناصر على المحور الرئيسي — مثل space-between']],
+  j1: [['console.log', 'تطبع قيمة في وحدة التحكم للمطور'], ['alert', 'نافذة تنبيه منبثقة']],
+  j2: [['let', 'تعريف متغير قابل لإعادة الإسناد'], ['const', 'تعريف ثابت لا يُعاد إسناده']],
+  j3: [['function', 'كتلة كود مسماة قابلة لإعادة الاستدعاء'], ['return', 'تُعيد قيمة من الدالة وتنهي تنفيذها']],
+  j4: [['if', 'تنفيذ مشروط عند تحقق الشرط'], ['else', 'الفرع البديل عند عدم تحقق الشرط']],
+  j5: [['document.querySelector', 'تجلب أول عنصر مطابق لمحدد CSS'], ['textContent', 'تقرأ أو تغيّر نص العنصر']],
+  j6: [['onclick', 'خاصية تربط دالة بحدث الضغط'], ['الحدث (event)', 'فعل يحدث في الصفحة: ضغط، كتابة، تحميل…']],
+  j7: [['حلقة for', 'تكرار بعدّاد: (بداية؛ شرط؛ زيادة)'], ['i++', 'اختصار زيادة المتغير بمقدار 1']],
+  j8: [['المصفوفة', 'قائمة مرتبة من القيم داخل [ ]'], ['push و length', 'push تضيف لآخر المصفوفة، length عدد عناصرها']],
+  p1: [['print()', 'دالة الطباعة — تعرض قيماً في المخرجات'], ['التعليق #', 'سطر يتجاهله المفسّر — للشرح']],
+  p2: [['المتغير', 'اسم يحفظ قيمة: x = 5'], ['أنواع القيم', 'نص "…"، عدد، قائمة […]']],
+  p3: [['input()', 'تقرأ نصاً من المستخدم وتعيده كنص'], ['int()', 'تحوّل النص إلى عدد صحيح']],
+  p4: [['if / elif / else', 'فروع شرطية — الشرط يسبق النقطتين'], ['المسافة البادئة', 'تحدد الكتلة التابعة للشرط — إلزامية في بايثون']],
+  p5: [['for x in range(n)', 'تكرار بعدّاد من 0 إلى n-1'], ['while', 'تتكرر ما دام الشرط محققاً']],
+  p6: [['القائمة list', 'قيم مرتبة داخل [ ]، فهارسها تبدأ من 0'], ['append و len', 'append تضيف لآخر القائمة، len عدد عناصرها']],
+  p7: [['def', 'تعريف دالة بمعاملات'], ['return', 'تُعيد قيمة من الدالة']],
+  p8: [['f-string', 'نص مسبوق بـ f يدمج {متغيرات}'], ['{expr}', 'داخل f-string تُقيَّم العبارة وتُدرج نتيجتها']],
+  m1: [['createElement', 'تنشئ عنصراً جديداً في الذاكرة'], ['appendChild', 'تُلحق عنصراً بآخر كابن أخير']],
+  m2: [['addEventListener', 'تربط دالة بحدث على عنصر — تسمح بعدة مستمعين'], ['click', 'حدث الضغط بالفأرة/اللمس']],
+  m3: [['تفويض الأحداث', 'مستمع واحد على الأب يلتقط أحداث الأبناء'], ['e.target و dataset', 'target العنصر المضغوط، dataset تقرأ خواص data-*']],
+  m4: [['map', 'تحوّل كل عنصر وتُعيد مصفوفة جديدة بنفس الطول'], ['filter', 'تُعيد مصفوفة بالعناصر المطابقة للشرط']],
+  m5: [['reduce', 'تجمع المصفوفة لقيمة واحدة بمجمّع وقيمة أولية'], ['find', 'تُعيد أول عنصر يحقق الشرط أو undefined']],
+  m6: [['الكائن', 'بنية {مفتاح:قيمة} تجمع خواصاً وأساليب'], ['this', 'داخل الأسلوب تشير للكائن المالك']],
+  m7: [['JSON.stringify', 'تحوّل الكائن إلى نص JSON'], ['JSON.parse', 'تحوّل نص JSON إلى كائن']],
+  m8: [['fetch', 'تبدأ طلب شبكة وتُعيد Promise'], ['response.json()', 'تحوّل جسم الاستجابة لكائن']],
+  m9: [['async', 'تجعل الدالة تعيد Promise وتسمح بـ await'], ['await', 'توقف التنفيذ داخل async حتى يكتمل الوعد']],
+  m10: [['Promise.all', 'تنتظر مجموعة وعود وتُعيد مصفوفة نتائجها'], ['الفشل في Promise.all', 'رفض أي وعد يفشل العملية كلها']],
+  m11: [['class', 'قالب لإنشاء كائنات بخواص وأساليب مشتركة'], ['extends و super', 'الوراثة من صنف آخر، وsuper يستدعي أسلوب الأب']],
+  m12: [['الإغلاقة closure', 'دالة داخلية تتذكر متغيرات خارجيتها بعد انتهائها'], ['فائدتها', 'حالة خاصة محفوظة بين الاستدعاءات بلا متغيرات عامة']],
+  m13: [['setTimeout', 'تنفيذ مؤجل مرة واحدة بعد مهلة بالميلي ثانية'], ['setInterval و clearInterval', 'تنفيذ متكرر يُوقف بـ clearInterval(id)']],
+};

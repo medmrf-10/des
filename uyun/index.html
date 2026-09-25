@@ -1,19 +1,26 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>عينات التفريغ — مفاتيح خارج الماك</title><style>
-:root{--bg:#0d1117;--card:#161b22;--card2:#1c2128;--border:#30363d;--txt:#e6edf3;--dim:#8b949e;--acc:#58a6ff;--acc2:#3fb950;--ok:#3fb950;--r-lg:12px;--font-ar:'Amiri','Noto Naskh Arabic',serif;--font-ui:system-ui}
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>عينات التفريغ ومقارنة النماذج</title><style>
+:root{--bg:#0d1117;--card:#161b22;--card2:#1c2128;--border:#30363d;--txt:#e6edf3;--dim:#8b949e;--acc:#58a6ff;--acc2:#3fb950;--r-lg:12px;--font-ar:'Amiri','Noto Naskh Arabic',serif;--font-ui:system-ui}
 *{box-sizing:border-box}body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);margin:0;padding:20px;max-width:900px;margin:auto}
 h1{font-family:var(--font-ar);font-size:1.6rem;color:var(--acc);margin-bottom:4px}
+h2{font-family:var(--font-ar);font-size:1.2rem;color:var(--acc);margin:26px 0 10px}
 .sub{color:var(--dim);font-size:.9rem;margin-bottom:18px}
 .meta{background:var(--card2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:20px;font-size:.85rem;line-height:1.9}
 .meta b{color:var(--acc2)}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:14px}
 .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .badge{background:var(--acc);color:#0d1117;font-weight:700;font-size:.75rem;padding:3px 10px;border-radius:20px}
+.mdl{direction:ltr}
 .model{color:var(--dim);font-size:.75rem;direction:ltr}
+.ok{color:var(--acc2);font-size:.75rem}
 .tr{font-family:var(--font-ar);font-size:1.15rem;line-height:2.1;margin:0}
-.failed{border-color:#8b3a3a;opacity:.6}
+.fb{background:#3d1f1f;color:#f88;padding:0 4px;border-radius:3px;font-size:.85rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:20px}
+.tbl td,.tbl th{border:1px solid var(--border);padding:6px 10px;text-align:right}
+.tbl th{background:var(--card2);color:var(--acc)}
 footer{color:var(--dim);font-size:.75rem;text-align:center;margin-top:30px}
-<h1 style="margin-top:0">مقارنة جودة التفريغ — نفس الدرس × كل النماذج</h1>
-<div class="sub">أول 8 دقائق من الدرس الثاني (ق135 — المنهج المنتخب) = 8 مقاطع × 60ث، كل نموذج يفرّغها كلها بنفس الأمر والمفتاح</div>
+</style></head><body>
+<h1>مقارنة جودة التفريغ — نفس الدرس × كل النماذج</h1>
+<div class="sub">أول 8 دقائق من الدرس الثاني (ق135: كل ما أدى ثبوته إلى نفيه فنفيه أولى — المنهج المنتخب) = 8 مقاطع × 60ث — كل نموذج يفرّغها كلها بنفس الأمر ونفس المفتاح</div>
 <table class="tbl"><tr><th>النموذج</th><th>الحالة</th><th>الناتج</th></tr><tr><td dir="ltr">gemini-3.8-flash</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3.7-flash</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3.6-flash</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3.6-flash-lite</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3.5-flash</td><td>✅ 1/8 مقاطع</td><td>405 حرف</td></tr><tr><td dir="ltr">gemini-3.5-flash-lite</td><td>✅ 5/8 مقاطع</td><td>1628 حرف</td></tr><tr><td dir="ltr">gemini-3.5-transcribe</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3-flash-preview</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-3.1-flash-lite</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-omni-flash-preview</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-flash-latest</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr><tr><td dir="ltr">gemini-flash-lite-latest</td><td>⏳ يُجرّب</td><td>0 حرف</td></tr></table>
 <div class="card"><div class="head"><span class="badge mdl">gemini-3.5-flash</span><span class="ok">1/8</span></div><p class="tr"><span class="fb">[فشل  c00</span>
 
@@ -45,16 +52,8 @@ footer{color:var(--dim);font-size:.75rem;text-align:center;margin-top:30px}
 الذي أعتقها مدين مدين للزوج يجب عليه أن يرد له الصداق وهو معدم وإذا كان مدينا معدما لا يصح تبرعه كل ما تبرع به يرد لأنه تبرع بمال بمال غيره فعتق هذه الأمة يرد وإذا رد عتقها لم يبق لها خيار أنت في الخيار   إذا إثبات الشيء إذا أدى إلغائه كان إبطاله من الأصالة أولى  وإذا شهد رجل مع آخر على عتق عبد فأعتق وقبلت شهادته وشهد ذلك الرجل مرة أخرى فردت شهادته
 
 بجرحة فشهد العبد المعتق فيه بالجرحة فلا تقبل شهادته لأنه إن قبلت شهادته ثبتت ثبتت جرحة الشاهد فإذا ثبتت بطل عتق العبد العبد وإذا بطل سقطت شهادته وإذا سقطت لم يصح تجريحه للشاهد وإذا لم يصح تجريحه ثبتت شهادته وإذا ثبتت صح عتق العتق العبد وإذا صح عتقه صحت شهادته وإذا صحت شهادته صحت تجريحه ودارت المسألة أبدا. سلفي ينتاور شاهد شخص مع شخص على عتق عبد</p></div>
-<hr style="border-color:var(--border);margin:30px 0">
-<style>.tbl{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:20px}.tbl td,.tbl th{border:1px solid var(--border);padding:6px 10px;text-align:right}.tbl th{background:var(--card2);color:var(--acc)}.fb{background:#3d1f1f;color:#f88;padding:0 4px;border-radius:3px;font-size:.85rem}.mdl{direction:ltr}</style><h1 style="display:none">عينات تفريغ حقيقية — مفاتيح AI Studio خارج الماك</h1>
-<div class="sub">تقرير تجربة حيّة: تفريغ بمفتاح واحد من جهاز ديفن (سيرفر سحابي) — كل مقطع نجح بنداء API مباشر لجوجل</div>
-<div class="meta">
-<b>السلسلة:</b> شرح المنهج المنتخب (د83 — ق136: الأصل أن من أتلف مثلياً فعليه مثله) — الشيخ محمد البردوني الحسيمي<br>
-<b>المصدر:</b> يوتيوب، الدرس الأول من قائمة السلسلة (985)<br>
-<b>الطريقة:</b> تقسيم الصوت لمقاطع 60 ثانية + نداء واحد لكل مقطع + تدوير 5 نماذج على نفس المفتاح عند الـ503<br>
-<b>النتيجة حتى الآن:</b> 19 مقطعاً ناجحاً من 20 معالَجاً — 19 نجاح / 1 فشل كلي (c002 بعد 8 محاولات)<br>
-<b>أول 429 حقيقي:</b> ظهر على gemini-3.5-flash بعد ~20 طلباً — يؤكد كوتة 20/يوم/نموذج لكل مفتاح
-</div>
+<h2>عينات تفريغ سابقة — الدرس الأول (د83)</h2>
+<div class="meta"><b>إثبات اليوم:</b> الـ503 ليس حظراً — نفس المفتاح فشل من جهازك على 3.8 ونجح على 3.5-lite في نفس الدقيقة، وجهازي 503 أيضاً على 3.8 ونجح على 3.5-lite. الـ503 سعة نموذج لا حظر IP.</div>
 <div class="card"><div class="head"><span class="badge">مقطع 000</span><span class="model">gemini-3.5-flash-lite</span></div><p class="tr">بسم الله الرحمن الرحيم. الحمد لله رب العالمين والصلاة والسلام على سيدنا ومولانا رسول الله وعلى آله وصحبه أجمعين إلى آخره. هنا المصنف رحمه الله تعالى تعرض لذكر الأصل في الضمان بأي شيء يكون هل يكون بالمثليات أو يكون بالمقومات فقال أن في هذه المسألة تفصيلا فان كان الشيء الضائع المتلف مقوما فالأصل فيه أن يضمن بالمقوم. وإن كان مثليا فالأصل فيه أن يضمن بالمثل. واستثنيت مسائل من الأصلين. المقوم ضمن بالمثل في</p></div>
 <div class="card"><div class="head"><span class="badge">مقطع 001</span><span class="model">gemini-3.5-flash-lite</span></div><p class="tr">بعض المسائل في بعض المسائل والمثل ضُمنا بالمقوم في بعض المسائل. قال الشارح المنظور رحمه الله تعالى، قال في إيضاح المسالك الأصل أن من أتلف مثلياً فعليه مثله إلا في المساراه الشاة التي تُمنع من ولدها أو أنها تُترك ولا تحلب حتى يجتمع اللبن في ضرعها فتُؤخذ إلى السوق فيراها المشتري فيحسب أن ذلك اللبن الذي يحصل في ضرعها كل يوم فإذا به هو مجتمع من أيام، فإذا ذهب بها إلى منزله وحلبها اليوم الأول واليوم الثاني ففي الثالث لا يجد فيها لبناً هذه الشاة إن حلب</p></div>
 <div class="card"><div class="head"><span class="badge">مقطع 003</span><span class="model">gemini-flash-lite-latest</span></div><p class="tr">فلا يدرا القدر الذي حصل عند المشتري ولا القدر الذي حصل عند البائع. قال لاجل اختلاط لبن البائع بلبن المشتري وعدم تمييز المقدار. وفي الجزاف وغاصب الماء كذلك اذن الجزاف طعام مثلا اذا بيع على سبيل الجزاف، أي بدون كيلين ولا وزنين. ولا عدين. هناك بعض الأشياء تباع على العد، وهناك ما يباع على الكيل، وهناك ما يباع على الوزن. إذا بيع هذا الشيء جزافاً. فالاصل فيه أن يضمن بالمثل. كل ما يكال أو يوزن أو يعد، فإنه يضمن بالمثل. لكن هنا هل يضمن بالمثل أو بالقيمة؟ قال هنا يضمن بالقيمة.</p></div>
@@ -75,6 +74,6 @@ footer{color:var(--dim);font-size:.75rem;text-align:center;margin-top:30px}
 <div class="card"><div class="head"><span class="badge">مقطع 018</span><span class="model">gemini-flash-lite-latest</span></div><p class="tr">تعذر أو تعسر رُجِعَ إلى القيمة. وهذا أصل مذهب مالك في ضمان ما سوى المكيلات والموزونات والمعدودات بالقيمة. المكيلات والموزونات والمعدودات تضمن بالمثل. قولا واحدا ولا إشكال في ذلك. من أتلف ما يُكال أو يوزن أو يُعد، يجب عليه أن يأتي بالمثل. والمقوم الذي في الذمة يضْمَن بالمثل أيضاً. ما لم يتعذر المثل أو يتعسر. فإن تعذر العثور على المثل أو يتعسر فحينئذٍ يُصار إلى القيمة. وهذا أصل في مذهب مالك رحمه الله. وتأول حديث القَصْعَةِ.</p></div>
 <div class="card"><div class="head"><span class="badge">مقطع 019</span><span class="model">gemini-flash-lite-latest</span></div><p class="tr">حديث القصعة وهو أن إحدى أمهات المؤمنين أرسلت طعاماً في قصعة النبي صلى الله عليه وسلم وهو في بيت عائشة.  كان اليوم يوم عائشة فأرسلت طعاماً إليه فأخذت عائشة رضي الله تعالى عنها تلك القصعة وهي مملوءة بالطعام فكسرتها بالارض.  الغيره النساء ناقصات عقل ودين.  نعم.  والنبي صلى الله عليه وسلم ينظر إليها فقال غارت أمكم لم يلم على ذلك. قال غارت أمكم  فأخذت الطعام بيده الشريفة وجمعها في قصعة أخرى وأكل ذلك الطعام فلما فرغ أخذ القصعة الصحيحة وردها ليه.</p></div>
 
-<div class="card failed"><div class="head"><span class="badge">مقطع 002</span><span class="model">FAILED ×8</span></div><p class="tr">فشل بعد 8 محاولات موزّعة على 5 نماذج — نافذة سعة مغلقة في تلك الدقائق.</p></div>
-<footer>أُنشئ آلياً من نتائج تجربة حيّة — 19 مقطعاً — 2026-09-25 12:50 UTC</footer>
+<div class="card" style="border-color:#8b3a3a;opacity:.6"><div class="head"><span class="badge">مقطع 002</span><span class="model">FAILED ×8</span></div><p class="tr">فشل بعد 8 محاولات موزّعة على 5 نماذج — نافذة سعة مغلقة.</p></div>
+<footer>تحديث حي — 2026-09-25 13:57 UTC</footer>
 </body></html>

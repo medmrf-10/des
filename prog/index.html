@@ -40,6 +40,7 @@
       <button class="tab on" data-pane="learn">الدرس</button>
       <button class="tab" data-pane="lab">المختبر</button>
       <button class="tab" data-pane="task">التمرين</button>
+      <button class="tab" data-pane="quiz">المراجعة</button>
     </div>
 
     <!-- الدرس -->
@@ -57,20 +58,26 @@
           <button class="etab on" data-et="html">HTML</button>
           <button class="etab" data-et="css">CSS</button>
           <button class="etab" data-et="js">JS</button>
+          <span class="etab on py-tag" id="pyTag" hidden>Python</span>
         </div>
         <div class="lab-actions">
           <button class="btn ghost sm" id="resetCode">إعادة المثال</button>
           <button class="btn sm" id="runBtn">تشغيل ⟵</button>
         </div>
       </div>
+      <div class="py-bar" id="pyBar" hidden>
+        <label>قيم <code>input()</code> — كل سطر قيمة:</label>
+        <input id="pyStdin" dir="ltr" spellcheck="false" placeholder="سارة">
+      </div>
       <div class="lab">
         <div class="edcol">
           <textarea id="ed_html" class="editor" spellcheck="false" dir="ltr"></textarea>
           <textarea id="ed_css" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
           <textarea id="ed_js" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
+          <textarea id="ed_py" class="editor" spellcheck="false" dir="ltr" hidden></textarea>
         </div>
         <div class="pvc">
-          <div class="pv-title">الناتج</div>
+          <div class="pv-title" id="pvTitle">الناتج</div>
           <iframe id="preview" sandbox="allow-scripts"></iframe>
           <div class="conso" id="conso" hidden></div>
         </div>
@@ -95,6 +102,15 @@
           <button class="btn" id="nextBtn">الدرس التالي ←</button>
           <button class="btn ghost" id="redoBtn">مراجعة الدرس</button>
         </div>
+      </div>
+    </div>
+
+    <!-- المراجعة -->
+    <div class="pane" id="pane-quiz">
+      <div class="task-card">
+        <h3>بطاقات التثبيت</h3>
+        <p class="quiz-intro" id="quizIntro"></p>
+        <div id="quizBox"></div>
       </div>
     </div>
   </section>

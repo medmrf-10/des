@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>حِصَاد — حصيلة يومك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:600px;margin:0 auto;padding:20px 14px 50px}
+.hero{text-align:center;padding:12px 0 10px}
+.hero h1{font-family:var(--font-ar);font-size:30px;margin:0;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .d{color:var(--dim);font-size:.8rem;margin-top:5px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:15px;padding:15px 17px;margin-top:11px}
+.card h3{margin:0 0 9px;font-size:.85rem;color:var(--acc)}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:.83rem;padding:7px 0;border-bottom:1px dashed var(--border)}
+.row:last-child{border:none}
+.row b{color:var(--txt)}
+.row .v{color:var(--acc);font-weight:700;font-size:.95rem}
+.aiBox{margin-top:14px;background:linear-gradient(135deg,rgba(201,162,75,.08),transparent);border:1px solid var(--acc);border-radius:15px;padding:16px 18px;line-height:2.15;font-size:.88rem}
+.aiBox .hd{color:var(--acc);font-size:.75rem;font-weight:700;margin-bottom:8px}
+button.big{display:block;width:100%;margin-top:14px;background:var(--acc);border:none;color:#0b0f1a;border-radius:12px;padding:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem}
+.hint{color:var(--dim);font-size:.7rem;text-align:center;margin-top:9px;line-height:1.9}
+.empty{color:var(--dim);text-align:center;padding:30px;font-size:.85rem;line-height:2}
+a.lnk{color:var(--acc);font-size:.72rem;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:3px 10px}
+</style>
+</head>
+<body>
+<div class="hero"><h1>حِصَاد</h1><div class="d" id="dt"></div></div>
+<div id="rows"></div>
+<div id="aiZone"></div>
+<div class="hint">كل شيء يُحسب على جهازك — لا يغادر متصفحك شيء إلا عند الضغط على ✦ (يرسل عدّادات فقط لا نصوصاً).</div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const today=new Date().toISOString().slice(0,10);
+$('dt').textContent=new Date().toLocaleDateString('ar',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+/* gather signals */
+const S=[];let facts=[];
+const enR=(LS('en_routine')||{}),enToday=enR[today];
+const srs=LS('en_srs')||{};const srsDue=srs.cards?Object.values(srs.cards).filter(c=>c.due&&c.due<=Date.now()).length:0;
+const mzProg=LS('mz_prog')||{};const mzN=Object.keys(mzProg).length;
+const mzToday=Object.values(mzProg).filter(x=>x.d&&new Date(x.d).toISOString().slice(0,10)===today).length;
+const wd=LS('wird_done')||{};const wdToday=wd[today]?Object.keys(wd[today]).length:0;
+const cur=(LS('wird_curriculum')||[]);const curDone=cur.filter(s=>s.done).length,curN=cur.length;
+const mun=(LS('muntaga')||[]).length;
+const mih=LS('mihfaz_v1')||{};const mihN=Object.keys(mih).length;
+const misraj=LS('misraj')||{};const misrajN=typeof misraj==='object'?(misraj.days?Object.keys(misraj.days).length:0):0;
+const progKeys=['prog_debug','prog_patterns','prog_regex','prog_sql','prog_read','prog_git','prog_bigo','prog_refact','prog_lab','prog_api','prog_testw'].filter(k=>LS(k)).length;
+const daft=LS('daftar')||{};const daftN=Object.keys(daft).length;
+const quizIdx=LS('quizidx')||LS('manzuma_quiz')||{};
+/* rows */
+if(mzToday)S.push(['📚 سلاسل التراث أنهيتها اليوم',mzN&&`${mzToday} — مجموعك ${mzN.toLocaleString('ar-EG')}`],facts.push('سلاسل أنهيت اليوم: '+mzToday+' (مجموع '+mzN+')'));
+if(enToday)S.push(['🇬🇧 روتين الإنجليزية اليومي','تم ✓'],facts.push('روتين إنجليزية: تم'));
+if(srsDue)S.push(['🗂 كلمات تستحق المراجعة الآن',srsDue.toLocaleString('ar-EG')],facts.push('كلمات مستحقة: '+srsDue));
+if(progKeys)S.push(['💻 مهارات برمجة لك فيها تقدّم',progKeys.toLocaleString('ar-EG')],facts.push('أدوات برمجة عمل فيها: '+progKeys));
+if(mihN)S.push(['📖 سور فيها تقدّم في مِحفَظ',mihN.toLocaleString('ar-EG')],facts.push('سور مِحفَظ: '+mihN));
+if(mun)S.push(['⭐ مقاطع منتقاك',mun.toLocaleString('ar-EG')],facts.push('مقاطع محفوظة: '+mun));
+if(curN)S.push(['🎯 منهجك',curDone.toLocaleString('ar-EG')+'/'+curN.toLocaleString('ar-EG')+' خطوة'],facts.push('منهج شخصي: '+curDone+' من '+curN));
+if(wdToday)S.push(['🌅 مهام وردك المنجزة اليوم',wdToday.toLocaleString('ar-EG')],facts.push('مهام ورد اليوم: '+wdToday));
+if(daftN)S.push(['📝 مدخلات دفترك',daftN.toLocaleString('ar-EG')],facts.push('ملاحظات دفتر: '+daftN));
+$('rows').innerHTML=S.length?`<div class="card"><h3>يومك بالأرقام</h3>${S.map(r=>`<div class="row"><b>${r[0]}</b><span class="v">${r[1]}</span></div>`).join('')}</div>`:'<div class="empty">لا نشاط مسجّلاً اليوم بعد — افتح «وِرد» وابدأ بخطوة واحدة.<br><br><a class="lnk" href="../wird/">← إلى وِرد</a></div>';
+/* AI narration */
+const ai=$('aiZone');
+if(window.llmReady&&window.llmReady()){
+ ai.innerHTML='<button class="big" id="aiH">✦ اكتب لي خلاصة يومي بلسان معلّمي</button>';
+ $('aiH').onclick=async()=>{
+  const b=$('aiH');b.disabled=true;b.textContent='يكتب…';
+  try{
+   const out=await window.gemAsk('أنت معلّمه الذي يعرفه. هذه عدّادات نشاطه اليوم على منصته الشخصية (محمد، طالب علم شرعي وبرمجة وإنجليزية).\\nاكتب له «حصيلة يومه» بلسان دافئ صادق: ماذا أنجز فعلاً اليوم، أين التقدّم الحقيقي (لا تجميل زائف — إن كان قليلاً قل له بصراحة محبّة)، والخطوة الواحدة التي لو فعلها الليلة أتمّ اليوم. لا تتجاوز 150 كلمة.\\n\\nالعدّادات:\\n'+facts.join('\\n'),{maxTokens:600,temperature:.7});
+   ai.innerHTML=`<div class="aiBox"><div class="hd">✦ معلّمك يقرأ يومك</div>${esc(out).replace(/\n/g,'<br>')}</div>`+ai.innerHTML;
+   b.textContent='✦ حدّث الخلاصة';b.disabled=false;
+  }catch(err){b.textContent='تعذّر — '+err.message;b.disabled=false}
+ };
+}else{
+ ai.innerHTML='<div class="hint">افتح «جديد» برقمك أولاً ليستيقظ المعلّم ✦ — حينها يقرأ يومك ويكتبه لك.</div>';
+}
+</script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/feedback.js" data-pid="hisad" data-title="حِصَاد"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حديث اليوم — عتبة صباحك</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🌅 حديث اليوم</h1><p class="tagline">حديثٌ واحد كل يوم من الكتب الستة — اقرأ، احفظ، وضِف ما تعلمته</p></header>
+<div class="wrap">
+ <div class="card day"><div id="dnum"></div><div id="dtxt" class="dtxt">يُحمَّل…</div><div id="dmeta" class="dmeta"></div>
+  <div class="drow">
+   <button class="btn sm" id="prev">‹ أمس</button>
+   <button class="btn sm" id="rand">↺ عشوائي</button>
+   <button class="btn sm" id="next">غداً ›</button>
+  </div>
+ </div>
+ <div class="card"><h3>ما الذي تعلمته اليوم؟</h3><textarea id="learn" placeholder="سطر واحد — يُخزَّن في مُلاحظاتك"></textarea><button class="btn sm" id="sv" style="margin-top:8px">احفظ في مُلاحظاتي</button><span id="msg" class="msg"></span></div>
+ <div class="card tip">نفس الحديث يظهر لك اليوم كله — التغيير مع شروق الغد. افتح <a href="../muraji3/">مُراجِع</a> لتراه يعود إليك.</div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAY=''+new Date().toISOString().slice(0,10);
+let dayOff=0;let BOOK=null;
+async function load(){
+ const r=await fetch('../wahy/data/hadith/bukhari.json.gz');
+ const ds=new DecompressionStream('gzip');
+ const txt=await new Response(r.body.pipeThrough(ds)).text();
+ BOOK=JSON.parse(txt).h.filter(h=>h.h&&/صحيح|حسن/.test(h.h)&&h.x.length>40&&h.x.length<400);
+ pick();
+}
+function seed(){const d=new Date();const base=Math.floor((d.getTime()+dayOff*86400000)/86400000);return base%BOOK.length}
+function pick(){
+ const h=BOOK[seed()];
+ $('#dnum').textContent=dayOff===0?'اليوم — حديث رقم '+h.n.toLocaleString('ar-EG'):(dayOff<0?'أمس':'غداً — تخيّل')+' (#'+h.n+')';
+ $('#dtxt').textContent=h.x;
+ $('#dmeta').innerHTML=`<span class="v ${/صحيح/.test(h.h)?'ok':'hs'}">${esc(h.h)}</span> · ${esc(h.y||'')} · صحيح البخاري`;
+}
+$('#prev').onclick=()=>{dayOff--;pick()};
+$('#next').onclick=()=>{dayOff++;pick()};
+$('#rand').onclick=()=>{dayOff=Math.floor(Math.random()*9999)-5000;pick()};
+$('#sv').onclick=()=>{
+ const v=$('#learn').value.trim();if(!v)return;
+ let o={};try{o=JSON.parse(localStorage.getItem('hadith_notes')||'{}')}catch(e){}
+ o['daily:'+DAY]=v;
+ localStorage.setItem('hadith_notes',JSON.stringify(o));
+ $('#msg').textContent='حُفظ — ستجده في مُلاحظاتي';$('#learn').value='';
+ setTimeout(()=>$('#msg').textContent='',2500);
+};
+load();
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

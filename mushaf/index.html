@@ -10,27 +10,26 @@
  <div class="card hint">آخر ورد محفوظ تلقائياً · <a href="../wird/">وِرد اليوم</a> · <a href="../wahy/matn.html">بحث القرآن</a></div>
 </div>
 <script>
-const $=q=>document.querySelector(q);
-const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=function(q){return document.querySelector(q)};
 let IDX=null;
-fetch('../wahy/data/index.json').then(r=>r.json()).then(idx=>{
+fetch('../wahy/data/index.json').then(function(r){return r.json()}).then(function(idx){
  IDX=idx;
- $('#surah').innerHTML='<option value="">— السور —</option>'+idx.map(s=>`<option value="${s.n}">${s.n}. ${s.ar} (${s.ayahs})</option>`).join('');
+ $('#surah').innerHTML='<option value="">— السور —</option>'+idx.map(function(s){return '<option value="'+s.n+'">'+s.n+'. '+s.ar+' ('+s.ayahs+')</option>'}).join('');
  const last=localStorage.getItem('mushaf_last');
- if(last){const s=idx.find(x=>x.n==last);if(s){$('#saved').textContent='آخر ورد: '+s.ar;openSurah(last)}}
- $('#surah').onchange=()=>{if($('#surah').value)openSurah(+$('#surah').value)};
+ if(last){const s=idx.find(function(x){return x.n==last});if(s){$('#saved').textContent='آخر ورد: '+s.ar;openSurah(+last)}}
+ $('#surah').onchange=function(){if($('#surah').value)openSurah(+$('#surah').value)};
 });
-async function openSurah(n){
- const s=await fetch('../wahy/data/surah/'+n+'.json').then(r=>r.json());
- localStorage.setItem('mushaf_last',n);
- const bism=s.bismillah===false?'':'<div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
- $('#read').innerHTML=bism+s.verses.map(v=>`<span class="v" id="v${v.a}">${v.t} <span class="num">${v.a}</span></span>`).join(' ');
- document.title='مِصحَف — '+s.ar;
- // mark position on click
- $('#read').querySelectorAll('.v').forEach(v=>v.onclick=()=>{
-  localStorage.setItem('mushaf_pos',s.n+':'+v.id.replace('v',''));
-  $('#read').querySelectorAll('.v').forEach(x=>x.classList.remove('cur'));
-  v.classList.add('cur');
+function openSurah(n){
+ fetch('../wahy/data/surah/'+n+'.json').then(function(r){return r.json()}).then(function(s){
+  localStorage.setItem('mushaf_last',n);
+  const bism=(s.bismillah===false)?'':'<div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
+  $('#read').innerHTML=bism+s.verses.map(function(v){return '<span class="v" id="v'+v.a+'">'+v.t+' <span class="num">'+v.a+'</span></span>'}).join(' ');
+  document.title='مِصحَف — '+s.ar;
+  $('#read').querySelectorAll('.v').forEach(function(v){v.onclick=function(){
+   localStorage.setItem('mushaf_pos',s.n+':'+v.id.replace('v',''));
+   $('#read').querySelectorAll('.v').forEach(function(x){x.classList.remove('cur')});
+   v.classList.add('cur');
+  }});
  });
 }
 </script>

@@ -519,3 +519,13 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 #pgFrame{width:100%;height:400px;background:#fff;border:1px solid var(--border);border-radius:10px}
 #pgLog{background:#0a0e1c;border:1px solid var(--border);border-radius:10px;padding:10px;margin:0;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:#9fdc9f;min-height:52px;max-height:150px;overflow:auto;white-space:pre-wrap}
 @media (max-width:900px){.pg-grid{grid-template-columns:1fr}}
+
+/* ====== المُنقِّح ====== */
+.db-bug{background:rgba(224,92,92,.08);border:1px solid #a04040;border-radius:10px;padding:10px 14px;font-size:.78rem;color:#e0a0a0;line-height:1.8;margin:10px 0}
+.db-tools{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.db-net{font-size:.66rem;color:var(--dim);border:1px dashed var(--border);border-radius:8px;padding:4px 10px}
+.db-out{background:#0a0e1c;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:0 0 12px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#9fdc9f;min-height:40px;white-space:pre-wrap}
+#dbEd{width:100%;min-height:220px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:.75rem;padding:12px;line-height:1.7;box-sizing:border-box}
+#dbEd:focus{outline:none;border-color:var(--acc)}
+.lb-ed-h{font-size:.72rem;color:var(--acc2);font-weight:600;margin-bottom:6px}
+.lb-count{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--acc2)}

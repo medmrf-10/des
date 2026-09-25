@@ -121,12 +121,12 @@ function runTests() {
   if (lastCtx.err) { $('#lbTests').innerHTML = `<div class="lb-err">أصلح خطأ التنفيذ أولاً: ${escH(lastCtx.err.message)}</div>`; return; }
   /* استخرج المتغيرات المعرفة: أعد تنفيذ الكود وجمع أسماء let/const/function */
   const src = lastCtx.src;
-  const declNames = [...src.matchAll(/(?:let|const|var)\s+([^;\n]+)/g)]
+  const declNames = [...src.matchAll(/^(?:let|const|var)\s+([^;\n]+)/gm)]
     .flatMap(m => m[1].split(',').map(d => {
       const nm = d.match(/^\s*([A-Za-z_$][\w$]*)/);
       return nm ? nm[1] : null;
     }).filter(Boolean))
-    .concat([...src.matchAll(/function\s+([A-Za-z_$][\w$]*)/g)].map(m => m[1]));
+    .concat([...src.matchAll(/^function\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]));
   const logs = [];
   const fakeConsole = { log: (...a) => logs.push(a.join(' ')) };
   let scope = {};

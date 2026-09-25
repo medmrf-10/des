@@ -55,10 +55,30 @@ function viewBank(){
 }
 function fmtDue(t){ const d=t-Date.now(), m=Math.round(d/60000); if(m<60) return `بعد ${m} د`; const h=Math.round(m/60); if(h<48) return `بعد ${h} س`; return `بعد ${Math.round(h/24)} يوم`; }
 function addWordPrompt(){
-  const en = prompt('الكلمة بالإنجليزية:'); if(!en) return;
-  const ar = prompt('المعنى بالعربية:'); if(!ar) return;
-  bank[en.trim().toLowerCase()] = {en:en.trim(), ar:ar.trim(), clip:'manual', box:1, due:Date.now(), seen:0, ok:0};
-  save(); toast('أُضيفت إلى البنك'); viewBank(); refreshPills();
+  app.insertAdjacentHTML('beforeend', `<div class="mov open" id="mword" onclick="if(event.target===this)closeModal('mword')">
+  <div class="mbox">
+    <h3 style="color:var(--gold-soft);margin-bottom:14px">إضافة كلمة يدوياً</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <input id="mw_en" class="tin" placeholder="English word — e.g. journey" autocomplete="off">
+      <input id="mw_ar" class="tin" style="direction:rtl;text-align:right" placeholder="المعنى بالعربية — مثال: رحلة" autocomplete="off">
+      <div id="mw_err" style="color:var(--bad);font-size:12px;min-height:14px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="closeModal('mword')">إلغاء</button>
+        <button class="btn" onclick="saveWordModal()">حفظ</button>
+      </div>
+      <div style="color:var(--muted);font-size:11px;margin-top:4px">أمثلة: journey — رحلة · weather — طقس · appointment — موعد</div>
+    </div>
+  </div></div>`);
+  $('#mw_en').focus();
+  $('#mw_ar').addEventListener('keydown', e=>{ if(e.key==='Enter') saveWordModal(); });
+}
+function closeModal(id){ const m = $('#'+id); if(m) m.remove(); }
+function saveWordModal(){
+  const en = $('#mw_en').value.trim(), ar = $('#mw_ar').value.trim(), err = $('#mw_err');
+  if(!/^[a-zA-Z' -]+$/.test(en)){ err.textContent = 'أدخل كلمة إنجليزية صحيحة.'; return; }
+  if(!ar){ err.textContent = 'أدخل المعنى العربي.'; return; }
+  bank[en.toLowerCase()] = {en, ar, clip:'manual', box:1, due:Date.now(), seen:0, ok:0};
+  save(); closeModal('mword'); toast('أُضيفت إلى البنك'); viewBank(); refreshPills();
 }
 function delWord(en){ delete bank[en.toLowerCase()]; save(); viewBank(); refreshPills(); }
 
@@ -117,9 +137,27 @@ function viewContent(){
 }
 
 /* ---------- النطق (SpeechSynthesis) ---------- */
-let ttsRate = 1;
+let ttsRate = 1, ttsAvail = null;
+function ttsCheck(){
+  if(!('speechSynthesis' in window)) return false;
+  const v = speechSynthesis.getVoices();
+  if(!v.length) return null;                     // القائمة لم تُحمَّل بعد — وضع غير معروف
+  return v.some(x => /^en/i.test(x.lang));
+}
+function ttsRefresh(){
+  const a = ttsCheck();
+  if(a !== null) ttsAvail = a;
+  const b = document.getElementById('ttsbanner');
+  if(b) b.classList.toggle('hidden', ttsAvail !== false);
+}
+function ttsInit(){
+  ttsRefresh();
+  if('speechSynthesis' in window) speechSynthesis.onvoiceschanged = ttsRefresh;
+  setTimeout(ttsRefresh, 1500);
+}
 function speak(text, rate){
   try{
+    if(!('speechSynthesis' in window) || ttsAvail === false){ toast('النطق غير متاح بجهازك — فعّل أصوات النظام'); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US'; u.rate = rate || ttsRate;
@@ -127,10 +165,56 @@ function speak(text, rate){
   }catch(e){ toast('النطق غير مدعوم في متصفحك'); }
 }
 
+/* ---------- محرك تدقيق الإملاء المتسامح ---------- */
+const HOMO = {to:'too two',too:'to two',two:'to too',there:"their they're",their:"there they're","they're":'there their',your:"you're","you're":'your',its:"it's","it's":'its',here:'hear',hear:'here',right:'write',write:'right',know:'no',no:'know',where:'wear',wear:'where',for:'four',four:'for',by:'buy bye',buy:'by bye',bye:'by buy',one:'won',won:'one',hour:'our',our:'hour',week:'weak',weak:'week',see:'sea',sea:'see',son:'sun',sun:'son',peace:'piece',piece:'peace',ate:'eight',eight:'ate',i:'eye',eye:'i'};
+function normTok(w){ return w.toLowerCase().replace(/[^a-z'0-9]/g,''); }
+function editDist1(a,b){ // هل تبعدان بتحرير واحد على الأكثر؟
+  let i=0,j=0,d=0;
+  while(i<a.length && j<b.length){
+    if(a[i]===b[j]){ i++; j++; }
+    else{ d++; if(d>1) return false;
+      if(a.length>b.length) i++; else if(a.length<b.length) j++; else { i++; j++; } }
+  }
+  return d+(a.length-i)+(b.length-j) <= 1;
+}
+function wmatch(tw, u){
+  if(tw === u) return 1;
+  if((HOMO[tw]||'').split(' ').includes(u)) return 1;
+  if(tw.length>3 && editDist1(tw,u)) return 0.5;
+  return 0;
+}
+function dictDiff(target, typed){
+  const Traw = target.trim().split(/\s+/).filter(Boolean);
+  const T = Traw.map(normTok);
+  const U = typed.trim().split(/\s+/).filter(Boolean).map(normTok);
+  const m = T.length, n = U.length;
+  const dp = Array.from({length:m+1},()=>Array(n+1).fill(0));
+  for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--)
+    dp[i][j] = Math.max(dp[i+1][j+1] + wmatch(T[i],U[j]), dp[i+1][j], dp[i][j+1]);
+  let i=0, j=0, ok=0, extra=0; const cells=[];
+  while(i<m && j<n){
+    const w = wmatch(T[i],U[j]);
+    if(w>0 && dp[i][j] === dp[i+1][j+1] + w){
+      ok += w;
+      cells.push(w===1
+        ? `<span class="rw">${esc(Traw[i])}</span>`
+        : `<span class="rn">${esc(Traw[i])}</span>`);
+      i++; j++;
+    } else if(dp[i+1][j] >= dp[i][j+1]){
+      cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++;
+    } else { extra++; j++; }
+  }
+  while(i<m){ cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++; }
+  extra += n - j;
+  const pct = m ? Math.round(ok/m*100) : 0;
+  return {html:cells.join(' '), pct, extra};
+}
+
 /* ---------- اختبار الاستماع ---------- */
 let lMode = 'dictate', lLevel = 'all', quiz = [], qi = 0, score = 0;
 function viewListen(){
   if(lMode==='clips'){ quiz=[...LISTEN_QUIZ].sort(()=>Math.random()-.5); qi=0; score=0; drawQClips(); return; }
+  if(lMode==='dicclip'){ viewDicclip(); return; }
   let pool = LISTEN_LINES.filter(l=>lLevel==='all'||l.level===lLevel);
   quiz = pool.sort(()=>Math.random()-.5).slice(0,10); qi=0; score=0;
   drawQ();
@@ -167,15 +251,11 @@ function drawQ(){
 }
 function checkDict(){
   const q = quiz[qi], inp = $('#ans_in').value.trim();
-  const norm = s => s.toLowerCase().replace(/[^a-z' ]/g,'').replace(/\s+/g,' ').trim();
-  const a = norm(q.en).split(' '), b = norm(inp).split(' ');
-  let ok = 0;
-  const html = a.map(w=>{ const good = b.includes(w); if(good) ok++; return `<span class="${good?'rw':'rb'}">${esc(w)}</span>`; }).join(' ');
-  const pct = a.length? Math.round(ok/a.length*100):0;
-  if(pct===100) score++;
-  else if(pct>=70) score+=0.5;
-  $('#res').innerHTML = `<div style="margin-top:10px"><div class="en" style="font-size:16px">${html}</div>
-    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${pct}% — ${esc(q.ar)}</div>
+  const d = dictDiff(q.en, inp);
+  if(d.pct===100) score++;
+  else if(d.pct>=70) score+=0.5;
+  $('#res').innerHTML = `<div style="margin-top:10px"><div class="en" style="font-size:16px">${d.html}</div>
+    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${d.pct}%${d.extra?` · ${d.extra} كلمة زائدة`:''} — ${esc(q.ar)}</div>
     <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(inp)}»</div></div>`;
   $('#nextBtn').style.display='inline-block';
 }
@@ -192,9 +272,12 @@ function pickTTS(btn, i){
   $('#nextBtn').style.display='inline-block';
 }
 function viewListenMenu(){
+  const noTts = (ttsAvail === false);
+  if(noTts && (lMode==='dictate' || lMode==='choice')) lMode = 'dicclip';
   app.innerHTML = `<div class="quiz"><div class="head"><h2>اختبار الاستماع</h2></div>
+  ${noTts?'<div style="color:var(--gold-soft);font-size:13px;margin-bottom:12px;border:1px dashed var(--gold-dim);border-radius:10px;padding:8px 14px">النطق الاصطناعي غير متاح بجهازك — تمارين TTS معطّلة؛ استعمل «إملاء مقطع» أو «مقاطع يوتيوب».</div>':''}
   <div class="filters">
-    <select onchange="lMode=this.value"><option value="dictate" ${lMode==='dictate'?'selected':''}>إملاء: استمع واكتب</option><option value="choice" ${lMode==='choice'?'selected':''}>اختيار: استمع واختر</option><option value="clips" ${lMode==='clips'?'selected':''}>مقاطع يوتيوب</option></select>
+    <select onchange="lMode=this.value"><option value="dictate" ${noTts?'disabled':''} ${lMode==='dictate'?'selected':''}>إملاء TTS: استمع واكتب${noTts?' (غير متاح)':''}</option><option value="choice" ${noTts?'disabled':''} ${lMode==='choice'?'selected':''}>اختيار: استمع واختر${noTts?' (غير متاح)':''}</option><option value="dicclip" ${lMode==='dicclip'?'selected':''}>إملاء مقطع: صوت حقيقي</option><option value="clips" ${lMode==='clips'?'selected':''}>مقاطع يوتيوب</option></select>
     <select onchange="lLevel=this.value"><option value="all" ${lLevel==='all'?'selected':''}>كل المستويات</option>${LEVELS.map(l=>`<option value="${l}" ${l===lLevel?'selected':''}>${LEVEL_AR[l]}</option>`).join('')}</select>
     <button class="btn" onclick="viewListen()">ابدأ ←</button>
   </div>
@@ -233,8 +316,201 @@ function pick(btn, i){
   $('#nextBtn').style.display = 'inline-block';
 }
 
+/* ---------- مدرب المفردات FSRS ---------- */
+const CARDS_KEY = 'en_cards';
+const todayISO = () => new Date().toISOString().slice(0,10);
+function vocabPool(){
+  const seen = new Set(), out = [];
+  const push = (en, ar, src) => {
+    const k = en.toLowerCase(); if(seen.has(k)) return;
+    seen.add(k); out.push({en, ar, src});
+  };
+  for(const w of SEED_WORDS) push(w[0], w[1], 'seed');
+  for(const c of CONTENT) for(const l of c.lines) push(l.en, l.ar, c.id);
+  return out;
+}
+function loadCards(){ try{ return JSON.parse(localStorage.getItem(CARDS_KEY)||'{}'); }catch(e){ return {}; } }
+function saveCards(c){ localStorage.setItem(CARDS_KEY, JSON.stringify(c)); }
+function ensureDeck(){
+  let cards = loadCards();
+  if(Object.keys(cards).length === 0){
+    vocabPool().slice(0, 80).forEach((v, i)=>{
+      cards['c'+i] = {en:v.en, ar:v.ar, src:v.src, repetitions:0, ease:2.5, interval:0, lastReview:null, nextReview:null, lapses:0, state:'new'};
+    });
+    saveCards(cards);
+  }
+  return cards;
+}
+let tQueue = [], tCard = null, tRevealed = false;
+function viewTrain(){
+  const cards = ensureDeck();
+  const due = Object.entries(cards).filter(([id,c]) =>
+    c.state==='new' || !c.lastReview || !c.nextReview || c.nextReview <= todayISO());
+  const learned = Object.values(cards).filter(c=>c.repetitions>0).length;
+  const lapses = Object.values(cards).reduce((s,c)=>s+(c.lapses||0),0);
+  tQueue = due.sort((a,b)=> (a[1].state==='new'?1:0)-(b[1].state==='new'?1:0));
+  if(!tQueue.length){
+    app.innerHTML = `<div class="quiz"><div class="head"><h2>مدرب المفردات (FSRS)</h2></div>
+    <div class="empty">لا بطاقات مستحقة اليوم — عدّ غداً.<br><br>
+    <span style="font-size:13px">المجموع: ${Object.keys(cards).length} · متعلَّمة: ${learned} · نسيان: ${lapses}</span><br><br>
+    <button class="btn" onclick="route()">العودة</button></div></div>`;
+    return;
+  }
+  tCard = tQueue[0]; tRevealed = false;
+  drawTrain();
+}
+function drawTrain(){
+  const [id, c] = tCard;
+  app.innerHTML = `<div class="quiz">
+  <div class="head"><h2>مدرب المفردات (FSRS)</h2><span style="color:var(--muted)">متبقية: ${tQueue.length} · ${c.state==='new'?'جديدة':'مراجعة'}</span></div>
+  <div class="q" style="text-align:center">
+    <div class="en" style="font-size:26px;margin:18px 0">${esc(c.en)}</div>
+    <div id="back" style="display:none">
+      <div style="color:var(--gold-soft);font-size:18px;margin-bottom:16px">${esc(c.ar)}</div>
+      <div class="grades">${[['نسيت',1],['صعب',3],['جيد',4],['سهل',5]].map(([t,q])=>{
+        const nx = window.FSRS.schedule({repetitions:c.repetitions, ease:c.ease, interval:c.interval, lastReview:c.lastReview, quality:q});
+        return `<button class="btn" onclick="gradeCard(${q})"><span style="display:block;font-size:11px;opacity:.75">${nx.newInterval}ي</span>${t}</button>`;
+      }).join('')}</div>
+    </div>
+    <button class="btn" id="revBtn" onclick="document.getElementById('back').style.display='block';this.style.display='none'">أظهر المعنى</button>
+  </div></div>`;
+}
+function gradeCard(q){
+  const [id, c] = tCard;
+  const res = window.FSRS.schedule({repetitions:c.repetitions, ease:c.ease, interval:c.interval, lastReview:c.lastReview, quality:q}, {fuzz:true});
+  const cards = loadCards();
+  cards[id] = {...c, repetitions:res.repetitions, ease:res.newEase, interval:res.newInterval,
+    lastReview:todayISO(), nextReview:res.nextReview, lapses:res.lapses, state:res.state};
+  saveCards(cards);
+  tQueue.shift();
+  if(!tQueue.length){ viewTrain(); return; }
+  tCard = tQueue[0]; drawTrain();
+}
+
+/* ---------- إملاء مقطع (صوت المكتبة فقط) ---------- */
+let dcItem = null;
+function viewDicclip(){
+  const pool = [];
+  for(const c of CLIPS) for(const s of (c.sentences||[])) if(s.text && s.text.split(' ').length>=3) pool.push({clip:c.id, title:c.title, text:s.text});
+  dcItem = pool[Math.floor(Math.random()*pool.length)];
+  app.innerHTML = `<div class="quiz">
+  <div class="head"><h2>إملاء مقطع</h2><span style="color:var(--muted)">استمع للمقطع واكتب الجملة</span></div>
+  <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${dcItem.clip}" title="dictation" allowfullscreen></iframe></div>
+  <div class="q"><div class="stem" style="color:var(--muted);font-size:13px">${esc(dcItem.title)} — اكتب الجملة التي تسمعها (حرف بحرف):</div>
+    <div class="opts" style="direction:ltr"><input id="dc_in" class="tin" placeholder="Type the sentence..." autocomplete="off" onkeydown="if(event.key==='Enter')checkDicclip()"></div>
+    <div class="opts"><button class="btn" onclick="checkDicclip()">تحقق</button>
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="viewDicclip()">جملة أخرى</button></div>
+    <div class="res" id="dc_res"></div>
+  </div></div>`;
+  $('#dc_in').focus();
+}
+function checkDicclip(){
+  const typed = $('#dc_in').value;
+  const d = dictDiff(dcItem.text, typed);
+  $('#dc_res').innerHTML = `<div class="en" style="font-size:18px;margin-top:10px;letter-spacing:.3px">${d.html}</div>
+    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${d.pct}%${d.extra?` · ${d.extra} كلمة زائدة`:''}</div>
+    <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(typed)}»</div>
+    <div style="margin-top:10px"><button class="btn" onclick="viewDicclip()">التالي ←</button></div>`;
+}
+
+/* ---------- اختبار الإتقان ---------- */
+const MASTERY_KEY = 'en_mastery';
+let mQs = [], mI = 0, mScore = 0;
+function masteryPool(){
+  const out = [];
+  for(const c of CONTENT) for(const l of c.lines) out.push({en:l.en, ar:l.ar, level:c.level});
+  return out;
+}
+function viewMaster(){
+  const pool = masteryPool();
+  const used = new Set(); mQs = []; mI = 0; mScore = 0;
+  while(mQs.length < 10 && used.size < pool.length){
+    const s = pool[Math.floor(Math.random()*pool.length)];
+    if(used.has(s.en)) continue;
+    const norm = s.en.replace(/[^a-zA-Z' ]/g,'');
+    const words = norm.split(' ').filter(w=>w.length>3);
+    if(!words.length) continue;
+    used.add(s.en);
+    const ans = words[Math.floor(Math.random()*words.length)];
+    const parts = s.en.split(' ');
+    const idx = parts.findIndex(p=>p.toLowerCase().replace(/[^a-z']/g,'')===ans.toLowerCase());
+    if(idx < 0) continue;
+    parts[idx] = '_____';
+    const others = new Set();
+    let guard = 0;
+    while(others.size < 3 && guard++ < 60){
+      const s2 = pool[Math.floor(Math.random()*pool.length)];
+      const ws = s2.en.replace(/[^a-zA-Z' ]/g,'').split(' ').filter(w=>w.length>3 && w.toLowerCase()!==ans.toLowerCase());
+      if(ws.length) others.add(ws[Math.floor(Math.random()*ws.length)]);
+    }
+    if(others.size < 3) continue;
+    mQs.push({blank:parts.join(' '), ans, opts:[ans, ...others].sort(()=>Math.random()-.5), en:s.en, ar:s.ar});
+  }
+  drawM();
+}
+function drawM(){
+  if(mI >= mQs.length){
+    const hist = JSON.parse(localStorage.getItem(MASTERY_KEY)||'[]');
+    hist.push({d:todayISO(), s:mScore, t:mQs.length});
+    localStorage.setItem(MASTERY_KEY, JSON.stringify(hist));
+    app.innerHTML = `<div class="quiz"><div class="score">الإتقان: ${mScore} / ${mQs.length}</div>
+      <div class="empty"><button class="btn" onclick="viewMaster()">إعادة</button>
+      <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="location.hash='#/progress'">التقدم ←</button></div></div>`;
+    return;
+  }
+  const q = mQs[mI];
+  app.innerHTML = `<div class="quiz">
+    <div class="head"><h2>اختبار الإتقان</h2><span style="color:var(--muted)">سؤال ${mI+1}/${mQs.length}</span></div>
+    <div class="q" id="mq"><div class="stem" style="direction:ltr;text-align:left;font-size:17px">${esc(q.blank)}</div>
+      <div class="opts">${q.opts.map(o=>`<button data-en="${esc(o)}" onclick="pickM(this)">${esc(o)}</button>`).join('')}</div>
+      <div class="ar-hint">${esc(q.ar)}</div>
+    </div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="mNext" style="display:none" onclick="mI++;drawM()">التالي ←</button></div></div>`;
+}
+function pickM(btn){
+  const q = mQs[mI], mq = $('#mq');
+  if(mq.classList.contains('done')) return;
+  mq.classList.add('done');
+  mq.querySelectorAll('.opts button').forEach(b=>{
+    if(b.dataset.en === q.ans) b.classList.add('right');
+    else if(b === btn) b.classList.add('wrong');
+    b.disabled = true;
+  });
+  if(btn.dataset.en === q.ans) mScore++;
+  $('#mNext').style.display = 'inline-block';
+}
+
+/* ---------- التقدم ---------- */
+function viewProgress(){
+  const cards = loadCards();
+  const ids = Object.values(cards);
+  const due = ids.filter(c=>c.state==='new' || !c.nextReview || c.nextReview <= todayISO()).length;
+  const learned = ids.filter(c=>c.repetitions>0).length;
+  const lapses = ids.reduce((s,c)=>s+(c.lapses||0),0);
+  const mast = JSON.parse(localStorage.getItem(MASTERY_KEY)||'[]');
+  const avg = mast.length ? Math.round(mast.reduce((s,m)=>s+m.s/m.t,0)/mast.length*100) : 0;
+  app.innerHTML = `<div class="quiz"><div class="head"><h2>التقدم</h2></div>
+  <div class="sent" style="margin-bottom:14px"><h3 style="color:var(--gold-soft)">مدرب المفردات (FSRS)</h3>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:8px">
+      <span>البطاقات: <b style="color:var(--gold-soft)">${ids.length}</b></span>
+      <span>مستحقة اليوم: <b style="color:var(--gold-soft)">${due}</b></span>
+      <span>متعلَّمة: <b style="color:var(--ok)">${learned}</b></span>
+      <span>نسيان: <b style="color:var(--bad)">${lapses}</b></span>
+    </div>
+    <div style="margin-top:10px"><button class="btn" onclick="location.hash='#/train'">ابدأ التدريب ←</button></div>
+  </div>
+  <div class="sent" style="margin-bottom:14px"><h3 style="color:var(--gold-soft)">بنك الكلمات</h3>
+    <div style="margin-top:8px">المحفوظة: <b style="color:var(--gold-soft)">${Object.keys(bank).length}</b> · مستحقة: <b style="color:var(--gold-soft)">${dueList().length}</b></div>
+  </div>
+  <div class="sent"><h3 style="color:var(--gold-soft)">اختبار الإتقان</h3>
+    <div style="margin-top:8px">المحاولات: <b style="color:var(--gold-soft)">${mast.length}</b> · متوسط الدقة: <b style="color:var(--gold-soft)">${avg}%</b></div>
+    ${mast.length ? `<div style="margin-top:10px">${mast.slice(-10).map(m=>`<div style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:5px 0;font-size:13px"><span>${m.d}</span><span style="color:${m.s/m.t>=0.7?'var(--ok)':'var(--bad)'}">${m.s}/${m.t}</span></div>`).join('')}</div>` : '<div style="color:var(--muted);font-size:13px;margin-top:8px">لا محاولات بعد.</div>'}
+    <div style="margin-top:10px"><button class="btn" onclick="viewMaster()">ابدأ اختبار الإتقان ←</button></div>
+  </div></div>`;
+}
+
 /* ---------- توجيه ---------- */
-const routes = {'feed':viewFeed, 'content':viewContent, 'bank':viewBank, 'review':viewReview, 'listen':viewListenMenu};
+const routes = {'feed':viewFeed, 'content':viewContent, 'train':viewTrain, 'bank':viewBank, 'review':viewReview, 'listen':viewListenMenu, 'progress':viewProgress};
 function route(){
   const r = (location.hash.replace('#/','') || 'feed');
   (routes[r] || viewFeed)();
@@ -242,6 +518,8 @@ function route(){
   refreshPills();
 }
 window.addEventListener('hashchange', route);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.querySelectorAll('.mov.open').forEach(m=>m.remove()); });
+ttsInit();
 route();
 
 /* ---------- تفويض النقرات ---------- */

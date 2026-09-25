@@ -11,11 +11,11 @@
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const css=`
-  .fb-btn{position:fixed;bottom:18px;inset-inline-start:18px;z-index:900;width:50px;height:50px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.2rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);font-family:inherit}
-  .fb-btn:hover{background:#242f4d}
+  .fb-btn{position:fixed;bottom:10px;inset-inline-start:10px;z-index:900;width:36px;height:36px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.95rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);font-family:inherit;opacity:.45;transition:opacity .2s}
+  .fb-btn:hover{background:#242f4d;opacity:1}
   .fb-btn .n{position:absolute;top:-4px;inset-inline-end:-4px;background:#c9a24b;color:#0b0f1a;font-size:.6rem;font-weight:700;border-radius:99px;padding:2px 7px}
-  .fb-home{position:fixed;bottom:78px;inset-inline-start:18px;z-index:900;width:50px;height:50px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:1.15rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;text-decoration:none}
-  .fb-home:hover{background:#242f4d}
+  .fb-home{position:fixed;bottom:10px;inset-inline-start:52px;z-index:900;width:36px;height:36px;border-radius:50%;border:1px solid #3a4670;background:#1a2238;color:#e8c97a;font-size:.95rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;text-decoration:none;opacity:.45;transition:opacity .2s}
+  .fb-home:hover{background:#242f4d;opacity:1}
   .fb-ov{position:fixed;inset:0;background:rgba(5,8,16,.6);backdrop-filter:blur(3px);z-index:950;display:none}
   .fb-ov.open{display:block}
   .fb-sheet{position:absolute;bottom:0;left:0;right:0;max-height:70dvh;background:#131a2a;border-radius:22px 22px 0 0;border-top:1px solid #3a4670;display:flex;flex-direction:column;animation:fbup .25s ease;font-family:'Amiri','Noto Naskh Arabic',serif;color:#f5f1e8}

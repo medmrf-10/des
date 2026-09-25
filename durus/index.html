@@ -197,7 +197,7 @@ window.openClip=async(sid,vid)=>{const card=list.querySelector('.card[data-id="'
  if(card){card.scrollIntoView({block:'center'});if(!card.hasAttribute('data-open'))await toggleCard(sid,card);
   const clips=state.clipCache[sid]||[];const idx=clips.findIndex(c=>ytId(c.url)===vid);
   if(idx>=0){const el=card.querySelector('.clip[data-idx="'+idx+'"]');el&&el.click();el&&el.scrollIntoView({block:'center'})}}
- else{F.subj='';F.kind='';F.sheikh='';F.q='';$('q').value='';refilter();await new Promise(r=>setTimeout(r,60));const c2=list.querySelector('.card[data-id="'+sid+'"]');if(c2){c2.scrollIntoView({block:'center'});await toggleCard(sid,c2);const clips=state.clipCache[sid]||[];const idx=clips.findIndex(c=>ytId(c.url)===vid);if(idx>=0)c2.querySelector('.clip[data-idx="'+idx+'"]').click()}}
+ else{F.subj='';F.kind='';F.sheikh='';F.q='';$('q').value='';refilter();const fi2=filtered.findIndex(x=>x.id===sid);if(fi2>=state.shown){state.shown=fi2+1;renderList()}await new Promise(r=>setTimeout(r,60));const c2=list.querySelector('.card[data-id="'+sid+'"]');if(c2){c2.scrollIntoView({block:'center'});await toggleCard(sid,c2);const clips=state.clipCache[sid]||[];const idx=clips.findIndex(c=>ytId(c.url)===vid);if(idx>=0)c2.querySelector('.clip[data-idx="'+idx+'"]').click()}}
 };
 
 /* ================= player ================= */
@@ -236,7 +236,7 @@ renderChips($('sheikhChips'),SHEIKH_LIST,'sheikh','كل المشايخ');
 $('sheikhChips').classList.add('open');
 const h=location.hash;
 refilter();
-if(h.startsWith('#s=')){const id=+h.slice(3);const c=list.querySelector('.card[data-id="'+id+'"]');c&&c.scrollIntoView({block:'center'})}
+if(h.startsWith('#s=')){const id=+h.slice(3);const fi0=filtered.findIndex(x=>x.id===id);if(fi0>=state.shown){state.shown=fi0+1;renderList()}const c=list.querySelector('.card[data-id="'+id+'"]');c&&c.scrollIntoView({block:'center'})}
 if(h.startsWith('#p=')){const m=/p=(\d+)\.(\d+)/.exec(h);if(m){const sid=+m[1],idx=+m[2];
   const fi=filtered.findIndex(x=>x.id===sid);if(fi>=state.shown)state.shown=fi+1,renderList();
   let c=list.querySelector('.card[data-id="'+sid+'"]');

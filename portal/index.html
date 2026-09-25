@@ -147,11 +147,11 @@ function projCard(p,i){
     </div>
     <div class="csec" id="c-${p.id}">
       ${cs.map(c=>`<div class="cm"><span class="n">${escH(c.n)}</span>${escH(c.t)}</div>`).join('')||'<div class="cm" style="color:var(--dim)">لا تعليقات بعد — كن أول من يعلّق</div>'}
-      <div class="cin"><div class="r"><input placeholder="اسمك" data-nn="${p.id}" style="max-width:34%"><input placeholder="تعليقك" data-in="${p.id}"><button data-add="c" data-p="${p.id}">أضف</button></div><span class="note">التعليقات تُحفظ في متصفحك حالياً — المزامنة بين الأجهزة قادمة</span></div>
+      <div class="cin"><div class="r"><input placeholder="اسمك" data-nnc="${p.id}" style="max-width:34%"><input placeholder="تعليقك" data-in="${p.id}"><button data-add="c" data-p="${p.id}">أضف</button></div><span class="note">التعليقات تُحفظ في متصفحك حالياً — المزامنة بين الأجهزة قادمة</span></div>
     </div>
     <div class="csec" id="s-${p.id}">
-      ${ss.map(s=>`<div class="sg${s.st==='ok'?' ok':''}"><span class="st">${s.st==='pending'?'⏳ بانتظار موافقة الصانع':'✓ مقبول'} — ${escH(s.n)}</span>${escH(s.t)}</div>`).join('')||'<div class="sg">لا اقتراحات بعد</div>'}
-      <div class="cin"><div class="r"><input placeholder="اسمك" data-nn="${p.id}" style="max-width:34%"><input placeholder="اقتراحك للصانع" data-ins="${p.id}"><button data-add="s" data-p="${p.id}">أرسل</button></div></div>
+      ${ss.map(s=>`<div class="sg${s.st==='ok'?' ok':''}"><span class="st">${s.st==='pending'?'⏳ مسودة محفوظة بجهازك — تصل الصانع عند المزامنة':'✓ مقبول'} — ${escH(s.n)}</span>${escH(s.t)}</div>`).join('')||'<div class="sg">لا اقتراحات بعد</div>'}
+      <div class="cin"><div class="r"><input placeholder="اسمك" data-nns="${p.id}" style="max-width:34%"><input placeholder="اقتراحك للصانع" data-ins="${p.id}"><button data-add="s" data-p="${p.id}">أرسل</button></div><span class="note">الاقتراحات تُحفظ في متصفحك حالياً</span></div>
     </div>
   </div>`;
 }
@@ -176,7 +176,7 @@ document.addEventListener('click',e=>{
 });
 function addEntry(pid,kind){
   const inp=document.querySelector(kind==='c'?`[data-in="${pid}"]`:`[data-ins="${pid}"]`);
-  const nin=document.querySelector(`[data-nn="${pid}"]`);
+  const nin=inp.closest('.cin').querySelector(kind==='c'?`[data-nnc="${pid}"]`:`[data-nns="${pid}"]`);
   const v=inp.value.trim();if(!v)return;
   const d={n:(nin&&nin.value.trim())||'عضو',t:v};
   if(kind==='c'){(cmts[pid]=cmts[pid]||[]).push(d);saveC()}
@@ -200,8 +200,13 @@ async function unlockPriv(){
   const er=document.getElementById('pmE');
   if(!pin){er.textContent='أدخل الرقم السري';return}
   er.textContent='…';
+  let d;
   try{
-    const d=await(await fetch('../private/'+MKF[mk]+'.enc.json')).json();
+    const r=await fetch('../private/'+MKF[mk]+'.enc.json');
+    if(!r.ok)throw new Error('http');
+    d=await r.json();
+  }catch(e){er.textContent='تعذر تحميل الملف — تحقق من الاتصال';return}
+  try{
     const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveKey']);
     const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(d.salt),iterations:d.iter,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
     const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(d.iv)},key,b64(d.ct));

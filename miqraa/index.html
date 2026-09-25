@@ -55,7 +55,7 @@ const save=()=>localStorage.setItem(LSK,JSON.stringify(cards));
 async function jget(u){const r=await fetch(u);return r.json()}
 async function boot(){
  IDX=await jget('../wahy/data/index.json');
- $('#sur').innerHTML=IDX.map((s,i)=>`<option value="${i+1}" ${i===0?'selected':''}>${i+1}. ${s.ar} (${s.v.toLocaleString('ar-EG')})</option>`).join('');
+ $('#sur').innerHTML=IDX.map((s,i)=>`<option value="${i+1}" ${i===0?'selected':''}>${i+1}. ${s.ar} (${s.ayahs.toLocaleString('ar-EG')})</option>`).join('');
  const duen=Object.entries(cards).filter(([k,c])=>c.repetitions===0||(c.lastReview&&(Date.now()-new Date(c.lastReview).getTime())>=c.interval*864e5)).length;
  $('#due').textContent=duen?`${duen.toLocaleString('ar-EG')} آية مستحقة في دفترك`:'';
  const h=location.hash.match(/s=(\d+)/);if(h)$('#sur').value=h[1];

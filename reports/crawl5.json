@@ -1,0 +1,3172 @@
+{
+ "generated": "2026-09-25T04:04:49.303Z",
+ "sites": {
+  "akida": {
+   "url": "https://medmrf-10.github.io/des/akida/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 15,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 299,
+    "dcl": 254,
+    "rsp": 121
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 2316
+   },
+   "search": {
+    "input": "ابحث في الأبواب والفصول والكتب…",
+    "query": "الله",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "akida-masadir": {
+   "url": "https://medmrf-10.github.io/des/akida/masadir.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 382,
+    "dcl": 381,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 33233
+   },
+   "search": {
+    "input": "ابحث: قدرة، إيمان، كشف، وحدة الوجود…",
+    "query": "قدرة",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "akida-real": {
+   "url": "https://medmrf-10.github.io/des/akida/real.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 15,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 282,
+    "dcl": 248,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 2593
+   },
+   "search": {
+    "input": "ابحث في الموضوعات والذرات…",
+    "query": "ا",
+    "results": 13,
+    "before": 13
+   }
+  },
+  "buraq": {
+   "url": "https://medmrf-10.github.io/des/buraq/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 124,
+    "dcl": 123,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 240
+   },
+   "search": {
+    "input": "wpm",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "daftar": {
+   "url": "https://medmrf-10.github.io/des/daftar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##add' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/daftar/:44:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 117,
+    "dcl": 117,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 188
+   },
+   "search": {
+    "input": "ابحث في ملاحظاتك…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "durus": {
+   "url": "https://medmrf-10.github.io/des/durus/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 260,
+    "dcl": 257,
+    "rsp": 102
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 6983
+   },
+   "search": {
+    "input": "ابحث في 952 سلسلة و60 ألف مقطع…",
+    "query": "الله",
+    "results": 65,
+    "before": 40
+   }
+  },
+  "english": {
+   "url": "https://medmrf-10.github.io/des/english/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 13,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 1315,
+    "dcl": 287,
+    "rsp": 132
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 2258
+   },
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "english-library": {
+   "url": "https://medmrf-10.github.io/des/english/library.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 17,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 130,
+    "dcl": 130,
+    "rsp": 19
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1340
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-listen": {
+   "url": "https://medmrf-10.github.io/des/english/listen.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 6,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 578,
+    "dcl": 139,
+    "rsp": 32
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 280
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-mimic": {
+   "url": "https://medmrf-10.github.io/des/english/mimic.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 7,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 175,
+    "dcl": 174,
+    "rsp": 80
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 942
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-routine": {
+   "url": "https://medmrf-10.github.io/des/english/routine.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 9,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 117,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 481
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "english-srs": {
+   "url": "https://medmrf-10.github.io/des/english/srs.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 6,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 121,
+    "dcl": 120,
+    "rsp": 14
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 257
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "fihris": {
+   "url": "https://medmrf-10.github.io/des/fihris/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 29,
+    "broken": [
+     "404 https://medmrf-10.github.io/des/fiqh_reader/masail.html"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 289,
+    "dcl": 288,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 26862
+   },
+   "search": {
+    "input": "ابحث في الفهرس...",
+    "query": "فقه",
+    "results": 87,
+    "before": 463
+   }
+  },
+  "fiqh": {
+   "url": "https://medmrf-10.github.io/des/fiqh/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 188,
+    "dcl": 177,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 2149
+   },
+   "search": {
+    "input": "ابحث في الكتب والأبواب… (مثال: الصلاة، الرهن، الاستبراء)",
+    "query": "الصلاة",
+    "results": 5,
+    "before": 55
+   }
+  },
+  "fiqh_reader": {
+   "url": "https://medmrf-10.github.io/des/fiqh_reader/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 321,
+    "dcl": 316,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 3899
+   },
+   "search": {
+    "input": "ابحث في العناوين والنصوص… (تجاهل الهمزات والتشكيل)",
+    "query": "الله",
+    "results": 55,
+    "before": 55
+   }
+  },
+  "hadith-adhkar": {
+   "url": "https://medmrf-10.github.io/des/hadith/adhkar.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 116,
+    "dcl": 113,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 50284
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-ahkam": {
+   "url": "https://medmrf-10.github.io/des/hadith/ahkam.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 209,
+    "dcl": 209,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 10769
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-alaam": {
+   "url": "https://medmrf-10.github.io/des/hadith/alaam.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 283,
+    "dcl": 282,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 67
+   },
+   "search": {
+    "input": "اسم الراوي — مثال: أبو هريرة / شعبة / عبد الرحمن بن صخر",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith": {
+   "url": "https://medmrf-10.github.io/des/hadith/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 10,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 27,
+    "dcl": 27,
+    "rsp": 19
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1223
+   },
+   "search": {
+    "input": "بحث في المتن…",
+    "query": "الأعمال",
+    "results": 2,
+    "before": 2
+   }
+  },
+  "hadith-matla3": {
+   "url": "https://medmrf-10.github.io/des/hadith/matla3.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##list' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/hadith/matla3.html:34:21)\n    at https://medmrf-10.gi",
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##cnt' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/hadith/matla3.html:34:21)\n    at search (https://medmr"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 270,
+    "dcl": 269,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 165
+   },
+   "search": {
+    "input": "مطلع… (إنما الأعمال، كان رسول الله، حدثنا)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-matn": {
+   "url": "https://medmrf-10.github.io/des/hadith/matn.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 4,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 32,
+    "dcl": 26,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 229
+   },
+   "search": {
+    "input": "مثال: إنما الأعمال بالنيات / من كذب علي / خيركم من تعلم القر",
+    "query": "إنما الأعمال",
+    "results": 13,
+    "before": 0
+   }
+  },
+  "hadith-misbar": {
+   "url": "https://medmrf-10.github.io/des/hadith/misbar.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 222,
+    "dcl": 215,
+    "rsp": 205
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 224
+   },
+   "search": {
+    "input": "نص الحديث…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-muqaran": {
+   "url": "https://medmrf-10.github.io/des/hadith/muqaran.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 810,
+    "dcl": 810,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 112
+   },
+   "search": {
+    "input": "ابحث في المعاني: النية، العلم، الصبر…",
+    "query": "النية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-naskh": {
+   "url": "https://medmrf-10.github.io/des/hadith/naskh.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 114,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 95
+   },
+   "search": {
+    "input": "أو كلمات من طرف المعنى — مثال: الأعمال بالنيات",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-nawawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/nawawi.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 37,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 506,
+    "dcl": 505,
+    "rsp": 96
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 4258
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-net": {
+   "url": "https://medmrf-10.github.io/des/hadith/net.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 27,
+    "dcl": 26,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 477
+   },
+   "search": {
+    "input": "ابحث في أطراف المعاني أو برقم المجموعة (gid)…",
+    "query": "صبر",
+    "results": 33,
+    "before": 0
+   }
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 184,
+    "dcl": 183,
+    "rsp": 85
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 163
+   },
+   "search": {
+    "input": "مثال: شعبة بن الحجاج / مالك بن أنس / هشام بن عروة",
+    "query": "مالك",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 231,
+    "dcl": 230,
+    "rsp": 98
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 103
+   },
+   "search": {
+    "input": "ابحث في المعاني: نية، صبر، صلاة…",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-silsila": {
+   "url": "https://medmrf-10.github.io/des/hadith/silsila.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 61,
+    "dcl": 60,
+    "rsp": 14
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 250
+   },
+   "search": {
+    "input": "رقم الحديث",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "hadith-tabaqat": {
+   "url": "https://medmrf-10.github.io/des/hadith/tabaqat.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##gs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/hadith/tabaqat.html:35:21)\n    at https://medmrf-10.git"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 138,
+    "dcl": 138,
+    "rsp": 110
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 167
+   },
+   "search": {
+    "input": "اسم راوٍ… (مالك، حماد، الزهري، شعبة)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-tartil": {
+   "url": "https://medmrf-10.github.io/des/hadith/tartil.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 109,
+    "dcl": 108,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 166
+   },
+   "search": {
+    "input": "أو لفظ من المتن — مثال: إنما الأعمال بالنيات",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-tathabbut": {
+   "url": "https://medmrf-10.github.io/des/hadith/tathabbut.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 122,
+    "dcl": 116,
+    "rsp": 106
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 144
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-topic": {
+   "url": "https://medmrf-10.github.io/des/hadith/topic.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 25,
+    "dcl": 19,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 482
+   },
+   "search": {
+    "input": "ابحث في أسماء الموضوعات…",
+    "query": "ا",
+    "results": 60,
+    "before": 0
+   }
+  },
+  "hibr": {
+   "url": "https://medmrf-10.github.io/des/hibr/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##in' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/hibr/:35:21)\n    at https://medmrf-10.github.io/des/hib"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 133,
+    "dcl": 124,
+    "rsp": 116
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 153
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "ijaza": {
+   "url": "https://medmrf-10.github.io/des/ijaza/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##list' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/ijaza/:48:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 113,
+    "rsp": 84
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 138
+   },
+   "search": {
+    "input": "ابحث عن سلسلة أو شيخ…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "ikhtibirni": {
+   "url": "https://medmrf-10.github.io/des/ikhtibirni/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 201,
+    "dcl": 201,
+    "rsp": 94
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 326
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "root": {
+   "url": "https://medmrf-10.github.io/des/root",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/root",
+    "https://medmrf-10.github.io/des/root"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 27,
+    "dcl": 27,
+    "rsp": 22
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "iqraa": {
+   "url": "https://medmrf-10.github.io/des/iqraa/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 121,
+    "dcl": 121,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 71
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "itqan": {
+   "url": "https://medmrf-10.github.io/des/itqan/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 113,
+    "dcl": 113,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 165
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "jawhar": {
+   "url": "https://medmrf-10.github.io/des/jawhar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##view' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/jawhar/:30:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 171,
+    "dcl": 171,
+    "rsp": 105
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 169
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "kharita": {
+   "url": "https://medmrf-10.github.io/des/kharita/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 156,
+    "dcl": 154,
+    "rsp": 117
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 586
+   },
+   "search": {
+    "input": "ابحث في السلاسل… (متن، شرح، مقتطفات…)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "kutub": {
+   "url": "https://medmrf-10.github.io/des/kutub/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##cats' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/kutub/:33:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 32,
+    "dcl": 27,
+    "rsp": 18
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 35
+   },
+   "search": {
+    "input": "ابحث باسم الكتاب أو المؤلف أو النوع…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "live": {
+   "url": "https://medmrf-10.github.io/des/live/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 453,
+    "dcl": 163,
+    "rsp": 116
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 118
+   },
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "lohah": {
+   "url": "https://medmrf-10.github.io/des/lohah/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 17,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 276,
+    "dcl": 276,
+    "rsp": 120
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 662
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "ma3raj": {
+   "url": "https://medmrf-10.github.io/des/ma3raj/",
+   "console_errors": [
+    "EXCEPTION: Uncaught ReferenceError: $ is not defined\n    at https://medmrf-10.github.io/des/ma3raj/:67:1"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 104,
+    "dcl": 99,
+    "rsp": 86
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 182
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "madhahib": {
+   "url": "https://medmrf-10.github.io/des/madhahib/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##hot' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/madhahib/:33:21)\n    at https://medmrf-10.github.io/de"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 284,
+    "dcl": 284,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 170
+   },
+   "search": {
+    "input": "موضوع… (الوضوء، الغسل، الجمعة، الجمع، الحيض، الربا، الطلاق)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "madrasati": {
+   "url": "https://medmrf-10.github.io/des/madrasati/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 45,
+    "dcl": 45,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 251
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "majlis": {
+   "url": "https://medmrf-10.github.io/des/majlis/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##list' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/majlis/:39:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 120,
+    "dcl": 113,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "…"
+    ],
+    "empty_containers": 0,
+    "body_len": 47
+   },
+   "search": {
+    "input": "سورة…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "maktabati": {
+   "url": "https://medmrf-10.github.io/des/maktabati/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 5,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 142,
+    "dcl": 142,
+    "rsp": 114
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 312
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "manzuma": {
+   "url": "https://medmrf-10.github.io/des/manzuma/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 8,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 157,
+    "dcl": 156,
+    "rsp": 14
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 376
+   },
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "masrood": {
+   "url": "https://medmrf-10.github.io/des/masrood/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 121,
+    "dcl": 120,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 129
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mi3yar": {
+   "url": "https://medmrf-10.github.io/des/mi3yar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##subs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mi3yar/:33:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 131,
+    "dcl": 131,
+    "rsp": 109
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 161
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "midad": {
+   "url": "https://medmrf-10.github.io/des/midad/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##subs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/midad/:38:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 112,
+    "dcl": 111,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 144
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "midhallah": {
+   "url": "https://medmrf-10.github.io/des/midhallah/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##date' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/midhallah/:28:21)\n    at https://medmrf-10.github.io/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 114,
+    "dcl": 114,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 34
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "midrak": {
+   "url": "https://medmrf-10.github.io/des/midrak/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##gen' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/midrak/:32:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 113,
+    "dcl": 108,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 171
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mighzal": {
+   "url": "https://medmrf-10.github.io/des/mighzal/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##dt' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mighzal/:30:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 100,
+    "dcl": 100,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "…",
+     "…"
+    ],
+    "empty_containers": 0,
+    "body_len": 50
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mihbar": {
+   "url": "https://medmrf-10.github.io/des/mihbar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##go' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mihbar/:35:21)\n    at https://medmrf-10.github.io/des/m"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 113,
+    "dcl": 106,
+    "rsp": 97
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 186
+   },
+   "search": {
+    "input": "عنوان المقال/الدرس…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mihrab": {
+   "url": "https://medmrf-10.github.io/des/mihrab/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##wirds' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mihrab/:38:21)\n    at renderWirds (https://medmrf-10"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 124,
+    "dcl": 124,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 85
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mikyal": {
+   "url": "https://medmrf-10.github.io/des/mikyal/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##go' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mikyal/:41:21)\n    at https://medmrf-10.github.io/des/m"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 114,
+    "dcl": 106,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 216
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "minar": {
+   "url": "https://medmrf-10.github.io/des/minar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##goals' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/minar/:35:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 122,
+    "dcl": 121,
+    "rsp": 106
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 123
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "minbar": {
+   "url": "https://medmrf-10.github.io/des/minbar/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 114,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 220
+   },
+   "search": {
+    "input": "النطاق: كل العناصر، أو مثلاً 1-20",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "minha": {
+   "url": "https://medmrf-10.github.io/des/minha/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##dte' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/minha/:32:21)\n    at https://medmrf-10.github.io/des/m"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 186,
+    "dcl": 186,
+    "rsp": 116
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 108
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "minhaj": {
+   "url": "https://medmrf-10.github.io/des/minhaj/",
+   "console_errors": [
+    "EXCEPTION: Uncaught ReferenceError: $ is not defined\n    at https://medmrf-10.github.io/des/minhaj/:45:1"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 120,
+    "dcl": 120,
+    "rsp": 109
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 158
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "minjal": {
+   "url": "https://medmrf-10.github.io/des/minjal/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##t' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/minjal/:31:21)\n    at https://medmrf-10.github.io/des/mi"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 115,
+    "rsp": 97
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 223
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "miqraa": {
+   "url": "https://medmrf-10.github.io/des/miqraa/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 113,
+    "dcl": 105,
+    "rsp": 90
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "تعذّر تحميل البيانات — افتح عبر الموقع المنشور",
+     "تعذّر تحميل البيانات — افتح عبر الموقع المنشور"
+    ],
+    "empty_containers": 0,
+    "body_len": 180
+   },
+   "search": {
+    "input": "af",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "miraj3a": {
+   "url": "https://medmrf-10.github.io/des/miraj3a/",
+   "console_errors": [
+    "EXCEPTION: Uncaught (in promise) SyntaxError: Failed to execute 'querySelector' on 'Document': '##hdr' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/miraj3a/:32:21)\n    at render (https://me"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 114,
+    "dcl": 113,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 218
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mirjan": {
+   "url": "https://medmrf-10.github.io/des/mirjan/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##sur' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mirjan/:41:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 114,
+    "dcl": 112,
+    "rsp": 94
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 184
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mirsad": {
+   "url": "https://medmrf-10.github.io/des/mirsad/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##list' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mirsad/:37:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 112,
+    "dcl": 112,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 162
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "misbah": {
+   "url": "https://medmrf-10.github.io/des/misbah/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##cnt' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/misbah/:45:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 127,
+    "dcl": 127,
+    "rsp": 113
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 148
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mishhad": {
+   "url": "https://medmrf-10.github.io/des/mishhad/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##tfs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mishhad/:41:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 123,
+    "dcl": 115,
+    "rsp": 107
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 159
+   },
+   "search": {
+    "input": "سورة",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mishwar": {
+   "url": "https://medmrf-10.github.io/des/mishwar/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##tracks' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mishwar/:33:21)\n    at https://medmrf-10.github.io/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 126,
+    "dcl": 126,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 162
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mizan": {
+   "url": "https://medmrf-10.github.io/des/mizan/",
+   "console_errors": [
+    "EXCEPTION: Uncaught (in promise) SyntaxError: Failed to execute 'querySelector' on 'Document': '##doms' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/mizan/:29:21)\n    at https://medmrf-10.g"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 141,
+    "dcl": 140,
+    "rsp": 132
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 103
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mu3edd": {
+   "url": "https://medmrf-10.github.io/des/mu3edd/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 141,
+    "dcl": 140,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1638
+   },
+   "search": {
+    "input": "كلمة البحث في المعاني (مثال: نية، صبر، علم)",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mu3jam": {
+   "url": "https://medmrf-10.github.io/des/mu3jam/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 135,
+    "dcl": 132,
+    "rsp": 121
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 124
+   },
+   "search": {
+    "input": "اكتب مصطلحاً… (التوحيد، الإخلاص، الطهارة، الوضوء…)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mukhatat": {
+   "url": "https://medmrf-10.github.io/des/mukhatat/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 19,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 69,
+    "dcl": 69,
+    "rsp": 40
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1443
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mulammi3": {
+   "url": "https://medmrf-10.github.io/des/mulammi3/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 124,
+    "dcl": 122,
+    "rsp": 105
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 195
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "munshur": {
+   "url": "https://medmrf-10.github.io/des/munshur/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##src' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/munshur/:39:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 117,
+    "dcl": 115,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 199
+   },
+   "search": {
+    "input": "التوقيع أسفل البطاقة",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "muqfil": {
+   "url": "https://medmrf-10.github.io/des/muqfil/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##open' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/muqfil/:43:21)\n    at https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 108,
+    "dcl": 102,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 83
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "muqtatif": {
+   "url": "https://medmrf-10.github.io/des/muqtatif/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 139,
+    "dcl": 139,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1702
+   },
+   "search": {
+    "input": "اسم المقتطف…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "musajjil": {
+   "url": "https://medmrf-10.github.io/des/musajjil/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 121,
+    "dcl": 119,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 183
+   },
+   "search": {
+    "input": "عنوان الدرس…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mutabi3": {
+   "url": "https://medmrf-10.github.io/des/mutabi3/",
+   "console_errors": [
+    "EXCEPTION: Uncaught TypeError: Cannot convert undefined or null to object\n    at Object.keys (<anonymous>)\n    at https://medmrf-10.github.io/des/mutabi3/:34:11"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 120,
+    "dcl": 120,
+    "rsp": 103
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 140
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "muwazan": {
+   "url": "https://medmrf-10.github.io/des/muwazan/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##sugs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/muwazan/:34:21)\n    at https://medmrf-10.github.io/de",
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##sugs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/muwazan/:34:21)\n    at HTMLInputElement.<anonymous> ("
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 143,
+    "dcl": 140,
+    "rsp": 115
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 141
+   },
+   "search": {
+    "input": "مفهوم… (الإيمان، القضاء، الصفات، الولاية)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "naql": {
+   "url": "https://medmrf-10.github.io/des/naql/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##exp' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/naql/:32:21)\n    at https://medmrf-10.github.io/des/na"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 101,
+    "dcl": 101,
+    "rsp": 87
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 331
+   },
+   "search": {
+    "note": "eval fail"
+   }
+  },
+  "nusus": {
+   "url": "https://medmrf-10.github.io/des/nusus/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##view' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/nusus/:33:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 115,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 127
+   },
+   "search": {
+    "input": "ابحث داخل كل التفريغات…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "portal": {
+   "url": "https://medmrf-10.github.io/des/portal/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 5,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 96,
+    "dcl": 76,
+    "rsp": 17
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "سجّل درسك من هاتفك — صوت يُحمّل وأُحوّله لدرس كارا"
+    ],
+    "empty_containers": 0,
+    "body_len": 9732
+   },
+   "search": {
+    "input": "ابحث عن مشروع…",
+    "query": "دروس",
+    "results": 5,
+    "before": 95
+   }
+  },
+  "prog-exam": {
+   "url": "https://medmrf-10.github.io/des/prog/exam.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 257,
+    "dcl": 257,
+    "rsp": 135
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 430
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog": {
+   "url": "https://medmrf-10.github.io/des/prog/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 136,
+    "dcl": 135,
+    "rsp": 17
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 873
+   },
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "prog-lab": {
+   "url": "https://medmrf-10.github.io/des/prog/lab.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 205,
+    "dcl": 204,
+    "rsp": 84
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 559
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-paths": {
+   "url": "https://medmrf-10.github.io/des/prog/paths.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 205,
+    "dcl": 205,
+    "rsp": 102
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 3137
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-proj": {
+   "url": "https://medmrf-10.github.io/des/prog/proj.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 147,
+    "dcl": 147,
+    "rsp": 27
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [
+     "حالة تحميل أثناء الجلب"
+    ],
+    "empty_containers": 0,
+    "body_len": 4685
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-review": {
+   "url": "https://medmrf-10.github.io/des/prog/review.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 204,
+    "dcl": 204,
+    "rsp": 96
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 176
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "prog-today": {
+   "url": "https://medmrf-10.github.io/des/prog/today.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 221,
+    "dcl": 221,
+    "rsp": 101
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 293
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "sawanih": {
+   "url": "https://medmrf-10.github.io/des/sawanih/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##p' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/sawanih/:37:21)\n    at https://medmrf-10.github.io/des/s"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 110,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 117
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "shabaka": {
+   "url": "https://medmrf-10.github.io/des/shabaka/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 308,
+    "dcl": 304,
+    "rsp": 100
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1259
+   },
+   "search": {
+    "input": "مفهوم… (الإيمان، القضاء، التوحيد، الولاية، الصوفية)",
+    "query": "ا",
+    "results": 57,
+    "before": 57
+   }
+  },
+  "sibaq": {
+   "url": "https://medmrf-10.github.io/des/sibaq/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##in' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/sibaq/:48:21)\n    at https://medmrf-10.github.io/des/si"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 110,
+    "dcl": 108,
+    "rsp": 88
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 189
+   },
+   "search": {
+    "input": "ابدأ الكتابة هنا…",
+    "query": "ا",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "silsila": {
+   "url": "https://medmrf-10.github.io/des/silsila/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##mk' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/silsila/:41:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 212,
+    "dcl": 212,
+    "rsp": 86
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 199
+   },
+   "search": {
+    "input": "ابحث في 952 سلسلة — اسم أو شيخ أو نوع…",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "sirat": {
+   "url": "https://medmrf-10.github.io/des/sirat/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##shl' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/sirat/:37:21)\n    at https://medmrf-10.github.io/des/s"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 142,
+    "dcl": 141,
+    "rsp": 117
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 137
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "team-amjad-fikra": {
+   "url": "https://medmrf-10.github.io/des/team/amjad/fikra/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 435,
+    "dcl": 173,
+    "rsp": 111
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 135
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "team-amjad": {
+   "url": "https://medmrf-10.github.io/des/team/amjad/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 27,
+    "dcl": 23,
+    "rsp": 15
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 252
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "team": {
+   "url": "https://medmrf-10.github.io/des/team/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 32,
+    "dcl": 25,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 294
+   },
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "wahy": {
+   "url": "https://medmrf-10.github.io/des/wahy/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 8,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 134,
+    "dcl": 131,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 3878
+   },
+   "search": {
+    "input": "ابحث عن سورة…",
+    "query": "الفاتحة",
+    "results": 9,
+    "before": 122
+   }
+  },
+  "wahy-kalimat": {
+   "url": "https://medmrf-10.github.io/des/wahy/kalimat.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 24,
+    "dcl": 23,
+    "rsp": 12
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1457
+   },
+   "search": {
+    "input": "رشّح الكلمات…",
+    "query": "الله",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "wahy-mishkat": {
+   "url": "https://medmrf-10.github.io/des/wahy/mishkat.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 117,
+    "rsp": 104
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1490
+   },
+   "search": {
+    "input": "ayah",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "wahy-muqaran_tafsir": {
+   "url": "https://medmrf-10.github.io/des/wahy/muqaran_tafsir.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 32,
+    "dcl": 31,
+    "rsp": 17
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 4508
+   },
+   "search": {
+    "input": "ay",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "wahy-mutashabih": {
+   "url": "https://medmrf-10.github.io/des/wahy/mutashabih.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 78,
+    "dcl": 31,
+    "rsp": 13
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 15552
+   },
+   "search": {
+    "input": "أو ابحث بلفظ من الآية…",
+    "query": "الصلاة",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "warid": {
+   "url": "https://medmrf-10.github.io/des/warid/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##tags' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/warid/:39:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 130,
+    "dcl": 123,
+    "rsp": 107
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 138
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "wasl": {
+   "url": "https://medmrf-10.github.io/des/wasl/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 135,
+    "dcl": 129,
+    "rsp": 121
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 195
+   },
+   "search": {
+    "input": "نص أو مفهوم… (الصلاة، البر، الإيمان بالقضاء، حسن الخلق)",
+    "query": "ا",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "zad": {
+   "url": "https://medmrf-10.github.io/des/zad/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 6,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 159,
+    "dcl": 158,
+    "rsp": 106
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 553
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  }
+ }
+}

@@ -97,7 +97,7 @@ async function run(){
  await ensure(sel);
  const hits=[];
  for(const b of sel){for(const r of D[b].recs){let hit=0;for(const w of words){if(r.nm.includes(norm(w)))hit++}
-   if(hit===words.length)hits.push({bk:BAR[b],b,n:r.n,m:r.m,g:r.g,v:r.v,rs:r.rs,sc:r.m.length})}}
+   if(hit===words.length)hits.push({bk:BAR[b],b,n:r.n,m:r.m,g:r.g,v:r.v,rs:r.rs,sc:r.sc})}}
  hits.sort((a,b)=>a.sc-b.sc);
  document.getElementById('stat').textContent=hits.length?hits.length.toLocaleString('ar-EG')+' نتيجة (تُعرض أفضل ٦٠ أقصرها متناً)':'لا نتيجة — جرّب لفظاً أبسط';
  render(hits,words);

@@ -16,3 +16,5 @@
   --font-ar:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;
   --font-ui:'IBM Plex Sans Arabic','Amiri','Noto Naskh Arabic',system-ui,sans-serif;
 }
+
+html,body{overflow-x:hidden}

@@ -47,6 +47,8 @@ input:focus,textarea:focus{border-color:var(--acc)}
   <input type="search" id="q" placeholder="ابحث في الفهرس..." style="margin-bottom:14px" oninput="render()">
   <div id="list"></div>
 </main>
+<div class="grp" style="margin-top:24px;padding:0 16px;max-width:860px;margin-inline:auto">الفهرس العميق <span class="chip" id="catCnt"></span> <span class="muted" style="font-size:11px">— كل سلسلة وكتاب ومتن في المنظومة</span></div>
+<div id="catList" style="margin-bottom:30px;max-width:860px;margin-inline:auto;padding:0 16px"></div>
 <div id="editBar">
   <button class="btn sm" onclick="addEntry()">＋ أضف مدخلاً</button>
   <button class="btn ghost sm" onclick="exportJson()">⤓ صدّر الفهرس (JSON)</button>
@@ -128,6 +130,26 @@ function exportJson(){const blob=new Blob([JSON.stringify(CAT,null,1)],{type:'ap
 function resetEdits(){if(!confirm('إرجاع الفهرس الأصلي؟ تعديلاتك المحلية تُمحى.'))return;CAT=JSON.parse(JSON.stringify(BASE));EDIT={};LS('fihris_cat',CAT);LS('fihris_edited',EDIT);render()}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
 render();
+/* deep catalog */
+let CATD=[],catShown=80;
+function renderCat(){
+ const q=norm(document.getElementById('q').value.trim());
+ const hits=q?CATD.filter(c=>norm(c.n+' '+c.d).includes(q)):CATD;
+ const groups={};
+ for(const c of hits){(groups[c.g]=groups[c.g]||[]).push(c)}
+ document.getElementById('catCnt').textContent=hits.length;
+ let html='';
+ for(const g in groups){
+   html+=`<div class="grp">${esc(g)} <span class="chip">${groups[g].length}</span></div>`;
+   for(const c of groups[g].slice(0,q?60:catShown)){
+     html+=`<div class="ent"><div class="ic">${c.u?'🔗':'•'}</div><div style="flex:1"><b style="font-size:13px">${esc(c.n)}</b><div class="d" style="font-size:11px">${esc(c.d)}</div></div>${c.u?`<a class="btn sm ghost" href="${c.u}">فتح</a>`:''}</div>`}
+   if(!q&&groups[g].length>catShown)html+=`<button class="btn ghost sm" onclick="catShown+=200;renderCat()" style="margin:6px 0 14px">+ ${groups[g].length-catShown} أخرى…</button>`;
+ }
+ document.getElementById('catList').innerHTML=html||'<div style="text-align:center;color:var(--tx3);padding:20px">لا نتائج في الفهرس العميق</div>';
+}
+const _origRender=render;
+render=function(){_origRender();if(CATD.length)renderCat()};
+fetch('catalog.js').then(r=>r.text()).then(t=>{const m=t.match(/CATALOG=(\[.*\]);/s);if(m){CATD=JSON.parse(m[1]);renderCat()}}).catch(()=>{});
 </script>
 <script src="../shared/feedback.js" data-pid="fihris" data-title="الفهرس العام"></script>
 </body>

@@ -672,3 +672,23 @@ footer{text-align:center;color:var(--skip);font-size:.75rem;padding:30px 0 10px}
 .cr-wrongs>b{color:#e0a0a0}
 .cr-why{margin:6px 0;padding-inline-start:18px}
 .cr-why li{font-size:.76rem;line-height:1.8;color:var(--txt)}
+
+/* ====== مختبر SQL ====== */
+.sq-splits{display:grid;grid-template-columns:230px 1fr;gap:16px}
+.sq-side{display:flex;flex-direction:column;gap:6px}
+@media(max-width:760px){.sq-splits{grid-template-columns:1fr}.sq-side{flex-direction:row;overflow-x:auto}}
+.lb-cat2{font-size:.6rem;color:var(--mut);margin-inline-start:auto;font-family:'IBM Plex Mono',monospace}
+.sq-tables{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;max-height:230px;overflow:auto}
+.sq-t{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:.7rem}
+.sq-tname{background:var(--card2);padding:5px 10px;font-family:'IBM Plex Mono',monospace;color:var(--acc);font-size:.68rem;border-bottom:1px solid var(--border)}
+.sq-t table{border-collapse:collapse;width:100%}
+.sq-t th{background:var(--card2);color:var(--acc);padding:3px 8px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-align:start}
+.sq-t td{padding:3px 8px;border-top:1px solid var(--border);color:var(--txt);font-size:.68rem}
+.sq-in{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:.8rem;padding:10px;line-height:1.7;box-sizing:border-box;resize:vertical}
+.sq-in:focus{border-color:var(--acc);outline:none}
+.sq-btns{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.sq-note{font-size:.72rem;color:var(--mut);margin:6px 0}
+.sq-cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:640px){.sq-cmp{grid-template-columns:1fr}}
+.sq-cap{font-size:.68rem;color:var(--mut);margin-bottom:4px}
+.sq-empty{font-size:.72rem;color:var(--mut);padding:10px;text-align:center;border:1px dashed var(--border);border-radius:8px}

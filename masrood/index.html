@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مسرود — منصة الإلقاء</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{height:100%}
+body{margin:0;display:flex;flex-direction:column}
+.setup{max-width:700px;margin:0 auto;padding:16px;width:100%}
+.setup textarea{width:100%;min-height:180px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:13px;padding:14px;font-family:var(--font-ar);font-size:16px;line-height:2;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;align-items:center}
+.pick{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:7px 12px;font-family:inherit;font-size:13px;cursor:pointer}
+.stage{flex:1;position:relative;overflow:hidden;background:#000;display:none}
+.script{position:absolute;inset:0;padding:10vh 8vw;font-family:var(--font-ar);font-size:32px;line-height:2.4;color:#f5f1e8;text-align:center;white-space:pre-wrap}
+.script .dim{color:#3a4060}
+.guide{position:absolute;top:50%;left:4vw;right:4vw;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.5;pointer-events:none}
+.tbar{position:absolute;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:5}
+.tbar .ctl{background:#1a2238;border:1px solid #3a4670;color:#e8c97a;border-radius:10px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:14px}
+.tbar .rng{flex:1;display:flex;align-items:center;gap:8px;color:#8b93b0;font-size:12px}
+.tbar input[type=range]{flex:1;accent-color:var(--acc)}
+.mirror{color:#8b93b0;font-size:11px}
+.big{position:absolute;bottom:0;left:0;right:0;padding:10px;text-align:center;color:#556;font-size:12px}
+</style>
+</head>
+<body>
+<div class="setup" id="setup">
+ <h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">مسرود</h1>
+ <div class="muted">منصة إلقاء للتسجيل: نصك يجري بسرعتك على الشاشة — سجّل صوتك في أي تطبيق وأنت تقرأ</div>
+ <div class="row">
+  <select id="draft" class="pick" onchange="pickDraft()"><option value="">— مسودات مُعِدّ —</option></select>
+  <button class="pick" onclick="sample()">نص تجريبي</button>
+ </div>
+ <textarea id="ta" placeholder="الصق نص درسك هنا — أو اختر مسودة من مُعِدّ"></textarea>
+ <div class="row">
+  <button class="btn" onclick="startP()">ابدأ الإلقاء ←</button>
+ </div>
+</div>
+<div class="stage" id="stage">
+ <div class="guide"></div>
+ <div class="script" id="scr"></div>
+ <div class="tbar">
+  <button class="ctl" onclick="toggle()"><span id="pp">❚❚</span></button>
+  <button class="ctl" onclick="back()">← الخلف</button>
+  <button class="ctl" onclick="fsz(0)">خط +</button>
+  <div class="rng">بطيء<input type="range" id="spd" min="3" max="40" value="12">سريع</div>
+  <span class="mirror" id="eta"></span>
+ </div>
+ <div class="big">اضغط أي مكان للتوقف/المواصلة · المسافة = قفزة · Esc = خروج</div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// مسودات معد
+try{
+ const dr=JSON.parse(localStorage.getItem('mu3edd_drafts')||'[]');
+ $('#draft').innerHTML='<option value="">— مسودات مُعِدّ —</option>'+dr.map((d,i)=>`<option value="${i}">${esc(d.title.slice(0,40))}</option>`).join('');
+ window._dr=dr;
+}catch(e){window._dr=[]}
+function pickDraft(){const i=+$('#draft').value;if(window._dr[i])$('#ta').value=window._dr[i].text}
+function sample(){$('#ta').value='بسم الله الرحمن الرحيم\n\nالحمد لله رب العالمين، والصلاة والسلام على سيدنا محمد وعلى آله وصحبه أجمعين.\n\nأما بعد:\n\nفإن أصول الدين قواعد يبنى عليها كل علم، ومن أحكمها استقام له طريق الفهم، ومن أهملها ضلّ في زحمة الفروع.\n\nوالتوحيد أسّ هذه القواعد: إفراد الله بالربوبية والألوهية والأسماء والصفات، فلا معبود بحق سواه، ولا مستغاث إلا به.\n\nثم الإيمان بالملائكة والكتب والرسل واليوم الآخر والقدر خيره وشره.\n\nاللهم اجعل عملنا خالصاً لوجهك الكريم، واغفر لنا ولمن علّمنا، والحمد لله رب العالمين.'}
+let y=0,raf=null,run=false,fs=32;
+function startP(){
+ const t=$('#ta').value.trim();if(!t)return;
+ // سطر-بسطر: كل سطر قابل للتعتيم عند مروره
+ const lines=t.split(/\n/);
+ $('#scr').innerHTML=lines.map((l,i)=>`<div class="sl" id="l${i}">${esc(l)||'&nbsp;'}</div>`).join('');
+ $('#scr').style.fontSize=fs+'px';
+ $('#setup').style.display='none';$('#stage').style.display='block';
+ y=0;run=true;loop()}
+function loop(){
+ if(!run)return;
+ const spd=+$('#spd').value;
+ y+=spd/60; // px per frame ~ 60fps
+ const scr=$('#scr');
+ scr.style.transform=`translateY(${-y+innerHeight*0.5}px)`;
+ // السطر الحالي يُضيء والماضي يُخفت
+ const els=document.querySelectorAll('.sl');
+ let cur=0;
+ els.forEach((el,i)=>{
+  const top=el.offsetTop-y+innerHeight*0.5;
+  if(top<innerHeight*0.5)cur=i});
+ els.forEach((el,i)=>el.className='sl'+(i<cur?' dim':''));
+ const total=scr.scrollHeight;
+ const remain=total-y;
+ $('#eta').textContent='متبقٍ ~'+Math.max(0,Math.ceil(remain/(spd)))+' ث';
+ if(y>total+innerHeight*0.4){stop();return}
+ raf=requestAnimationFrame(loop)}
+function toggle(){run=!run;$('#pp').textContent=run?'❚❚':'▶';if(run)loop();else cancelAnimationFrame(raf)}
+function stop(){run=false;cancelAnimationFrame(raf);$('#pp').textContent='▶'}
+function back(){stop();$('#stage').style.display='none';$('#setup').style.display='block'}
+function fsz(d){fs=Math.max(18,Math.min(64,fs+4));$('#scr').style.fontSize=fs+'px'}
+$('#stage').onclick=e=>{if(e.target.closest('.tbar'))return;toggle()};
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape')back();
+ if(e.code==='Space'&&$('#stage').style.display==='block'){e.preventDefault();toggle()}
+ if(e.key==='ArrowDown'&&$('#stage').style.display==='block')y+=60;
+ if(e.key==='ArrowUp'&&$('#stage').style.display==='block')y=Math.max(0,y-60)});
+</script>
+</body>
+</html>

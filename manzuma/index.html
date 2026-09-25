@@ -211,8 +211,12 @@ function renderToday(){
 function setName(){const v=$('#nm').value.trim();if(v){me.name=v;LS('mz_name',v);renderToday();toast('أهلاً بك يا '+v)}}
 function suggest(what){const s=LS('portal_suggestions')||{};(s['manzuma']=s['manzuma']||[]).push({n:me.name||'?',t:what,st:'pending'});LS('portal_suggestions',s);toast('سُجّل طلبك — يُنفَّذ بإذن الله')}
 /* ---------- TUTOR ---------- */
-let CX=null;
+let CX=null,GID=null;
 async function loadIdx(){if(CX)return CX;$('#tStatus').textContent='أحمّل فهرس 60 ألف مقطع...';await new Promise(r=>{const sc=document.createElement('script');sc.src='../durus/clipindex.js';sc.onload=r;document.head.appendChild(sc)});CX={clips:CLIPIDX};return CX}
+async function loadGid(){if(GID)return GID;await new Promise(r=>{const sc=document.createElement('script');sc.src='../hadith/analysis.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});GID=window.GIDNET||null;
+  if(GID&&GID.cov&&!GID._gidcov){GID._gidcov={};const order=[['sa','في الصحيحين'],['mx','في الصحيحين والسنن'],['zu','في السنن']];
+    for(const tid in GID.cov){const c=GID.cov[tid];for(const[lay,label]of order){for(const gid of(c[lay]||[])){if(!GID._gidcov[gid]||order.findIndex(o=>o[0]===lay)<order.findIndex(o=>o[0]===GID._gidcov[gid][0]))GID._gidcov[gid]=[lay,label]}}}}
+  return GID}
 function askTutor(){
   const q=$('#tq').value.trim();if(!q)return;
   const words=tok(q);if(!words.length)return;
@@ -234,7 +238,57 @@ function askTutor(){
       return `<div class="res"><b style="font-size:14px">${esc(ttl)}</b>${body}<div class="meta"><span class="chip">${esc(sr.n)}</span><span class="chip g">${esc(shName)}</span>${r.l?`<span class="chip">درس ${r.l}</span>`:''}</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="${link}">▶ شغّل</a><button class="btn sm ghost" onclick='saveNote(${JSON.stringify({s:r.s,l:r.l||null,t:ttl,u:link})})'>🔖 احفظ</a></div></div>`
     }).join(''):'<div class="empty">لا نتيجة — جرّب كلمات أبسط (مثال: «الصلاة» بدل «حكم صلاة الجمعة»)</div>';
   });
+  // شبكة المعنى — أجوبة الحديث بأحكامها الموحدة (منهجية صالح الشامي)
+  $('#tStatus').textContent='…وأبحث في شبكة المعنى (5,889 معنى محكوماً)';
+  loadGid().then(g=>{
+    $('#tStatus').textContent='';
+    if(!g||!g.g)return;
+    const hits=[];
+    for(const gid in g.g){const e=g.g[gid];const t=norm(e.t);let hit=0;for(const w of words)if(t.includes(w))hit++;if(hit>=Math.min(words.length,2))hits.push({gid,t:e.t,h:e.h,s:e.s,r:e.r,sc:hit+e.s/100})}
+    hits.sort((a,b)=>b.sc-a.sc);
+    const top=hits.slice(0,8);if(!top.length)return;
+    const hc=h=>h==='صحيح'?'var(--ok)':h==='حسن'?'var(--acc2)':'var(--dim)';
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من شبكة المعنى — أحاديث محكومة</h2>'+top.map(x=>{
+      const layer=(g._gidcov&&g._gidcov[x.gid])?g._gidcov[x.gid][1]:'';
+      const saveO=JSON.stringify({s:0,l:null,t:x.t.slice(0,90),u:'../hadith/net.html#gid='+x.gid}).replace(/'/g,'&#39;');
+      return '<div class="res"><div style="display:flex;gap:8px;align-items:flex-start"><b style="font-size:14px;flex:1">'+esc(x.t)+'</b><span class="chip" style="border-color:'+hc(x.h)+';color:'+hc(x.h)+'">'+esc(x.h)+'</span></div><div class="meta"><span class="chip">صحابة '+(+x.s).toLocaleString('ar-EG')+'</span><span class="chip">تكرار '+(+x.r).toLocaleString('ar-EG')+'</span>'+(layer?'<span class="chip g">'+layer+'</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../hadith/net.html#gid='+x.gid+'">افتح في الشبكة</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
+  // ذرات العقيدة — مصطلحات ونصوصها من المكتبة العقدية
+  $('#tStatus').textContent='…وأبحث في ذرات العقيدة (9,363 ذرة)';
+  loadAtoms().then(a=>{
+    $('#tStatus').textContent='';
+    if(!a)return;
+    const hits=[];
+    for(const code in a){const b=a[code];for(const k in b.atoms){const at=b.atoms[k];
+      const nt=norm(at.t)+' '+norm(at.q);let hit=0;
+      for(const w of words)if(nt.includes(w))hit++;
+      if(hit>=Math.min(words.length,2))hits.push({code,k,t:at.t,q:at.q,bab:at.b,name:b.name,sc:hit+(at.t&&nt.startsWith(norm(words[0]))?0.5:0)})}}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,6);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من ذرات العقيدة والمتون</h2>'+top.map(x=>{
+      const saveO=JSON.stringify({s:0,l:null,t:x.t.slice(0,90),u:'../akida/masadir.html#'+x.code}).replace(/'/g,'&#39;');
+      return '<div class="res"><b style="font-size:14px">'+esc(x.t)+'</b><div class="snip" style="margin-top:6px">'+esc((x.q||'').slice(0,220))+(x.q&&x.q.length>220?'…':'')+'</div><div class="meta"><span class="chip">'+esc(x.name)+'</span>'+(x.bab?'<span class="chip g">'+esc(x.bab)+'</span>':'')+'<span class="chip">'+x.code+' '+x.k+'</span></div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../akida/masadir.html#'+x.code+'">افتح في المصادر</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
+  // نظائر القرآن — آيات مشابهة لسؤالك
+  loadMuta().then(m=>{
+    if(!m)return;
+    const hits=[];
+    for(const k in m.sim){const v=m.sim[k];const t=norm(v[2]);
+      let hit=0;for(const w of words)if(t.includes(w))hit++;
+      if(hit>=Math.min(words.length,2))hits.push({k,s:v[0],a:v[1],t:v[2],sc:hit})}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,4);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من نظائر القرآن</h2>'+top.map(x=>{
+      const nm=(m.names&&m.names[x.s])||'سورة '+x.s;
+      return '<div class="res"><div class="snip" style="font-size:14px">'+esc(x.t)+'</div><div class="meta"><span class="chip">'+esc(nm)+' '+x.s+':'+x.a+'</span></div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../wahy/mutashabih.html#'+x.k+'">نظائرها</a><a class="btn sm ghost" target="_blank" href="../wahy/#s='+x.s+'&v='+x.a+'">تفسيرها</a></div></div>'
+    }).join(''));
+  });
 }
+let ATM=null,MUT=null;
+async function loadAtoms(){if(ATM)return ATM;await new Promise(r=>{const sc=document.createElement('script');sc.src='../madrasati/atoms.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});ATM=window.ATOMS||null;return ATM}
+async function loadMuta(){if(MUT)return MUT;await new Promise(r=>{const sc=document.createElement('script');sc.src='../wahy/mutashabih.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});MUT=window.MUTA||null;return MUT}
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}
 function saveNote(o){o.ts=Date.now();me.note.push(o);LS('mz_note',me.note);
   const k='n'+(me.note.length-1);if(!me.cards[k])me.cards[k]={repetitions:0,ease:2.5,interval:0,lastReview:null};LS('mz_cards',me.cards);
@@ -290,6 +344,18 @@ const SRCS=[
  {ic:'📜',n:'فهرس العقيدة',d:'نصوص العقيدة والتصوف كاملة بفهرسة موضوعية',u:'../akida/real.html',t:'الشريعة'},
  {ic:'🎬',n:'الدروس الحية',d:'دروس كاراوكي كلمة-بكلمة متزامنة مع الصوت',u:'../live/',t:'الشريعة'},
  {ic:'🧪',n:'مختبر الحديث',d:'أسانيد، رجال، مقارنة شواهد، مواضيع، إحصاء — 27 ألف حديث × 6 كتب',u:'../hadith/',t:'الشريعة'},
+ {ic:'ب',n:'بحث المتون',d:'بحث نصي كامل في 27,045 حديثاً بأسانيدها وأحكامها',u:'../hadith/matn.html',t:'الشريعة'},
+ {ic:'ر',n:'معجم الرواة',d:'6,384 سلسلة أسناد باستعمالاتها في الكتب الستة',u:'../hadith/rawi.html',t:'الشريعة'},
+ {ic:'٤٠',n:'الأربعون النووية',d:'42 حديثاً جامعاً مربوطة بشبكة المعنى',u:'../hadith/nawawi.html',t:'الشريعة'},
+ {ic:'ع',n:'مُعِدّ — إعداد درس',d:'آية+تفسير+حديث+عقيدة=مسودة',u:'../mu3edd/',t:'الشريعة'},
+ {ic:'خ',n:'مخططي — خطة التعلم',d:'مسار عبر كل المنظومة',u:'../mukhatat/',t:'مهارة'},
+ {ic:'ل',n:'لوحة المنظومة',d:'أرقام حية لكل المكتبة والأدوات',u:'../lohah/',t:'مهارة'},
+ {ic:'خ',n:'خريطة المنهج',d:'شجرة الإتقان لكل السلاسل',u:'../kharita/',t:'مهارة'},
+ {ic:'س',n:'مسرود',d:'منصة إلقاء للتسجيل الصوتي',u:'../masrood/',t:'إنتاج'},
+ {ic:'س',n:'اختبرني',d:'أسئلة MCQ مولدة من المكتبة',u:'../ikhtibirni/',t:'مهارة'},
+ {ic:'📚',n:'مدرستي — المراجعة',d:'بطاقات تباعد: نظائر+أربعون+عقيدة',u:'../madrasati/',t:'مهارة'},
+ {ic:'ك',n:'كلمات السورة',d:'أبرز ألفاظ كل سورة وآياتها',u:'../wahy/kalimat.html',t:'الشريعة'},
+ {ic:'م',n:'المتشابهات القرآنية',d:'1,505 آية بنظائرها اللفظية جنباً إلى جنب',u:'../wahy/mutashabih.html',t:'الشريعة'},
  {ic:'📚',n:'قارئ الفقه',d:'56 متناً فقهياً بفهرسة موضوعية موحّدة — المذاهب الأربعة',u:'../fiqh_reader/',t:'الشريعة'},
  {ic:'⚖️',n:'أبواب الفقه',d:'فهرس المتون الفقهية على المذاهب الأربعة',u:'../fiqh/',t:'الشريعة'},
  {ic:'🇬🇧',n:'تعلم الإنجليزية',d:'مقاطع قصيرة بترجمة كلمة-بكلمة — على طريقتك',u:'../english/',t:'لغة'},

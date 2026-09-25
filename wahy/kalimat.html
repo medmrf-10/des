@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>كلمات السورة — وحي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:920px;margin:0 auto;padding:14px}
+select,input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 11px;font-family:inherit;font-size:14px}
+.cloud{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.w{border:1px solid var(--border);background:var(--card);border-radius:9px;padding:4px 11px;cursor:pointer;font-size:14px}
+.w:hover{border-color:var(--acc)}
+.w.on{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.w small{color:var(--dim);font-size:10px;margin-right:4px}
+.w.on small{color:#14140f}
+.vs{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-bottom:7px;font-size:15px;line-height:2}
+.vs b{color:var(--acc2)}
+mark{background:rgba(61,214,140,.28);color:var(--ok);border-radius:3px;padding:0 2px}
+.muted{color:var(--dim);font-size:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">كلمات السورة</h1>
+<div class="muted">تحليل معجمي لكل سورة: أكثر كلماتها نبوغاً ← اضغط كلمة ترى آياتها</div>
+<div class="row" style="margin-top:10px"><select id="surah" style="min-width:200px"></select><input id="f" placeholder="رشّح الكلمات…" style="flex:1;min-width:140px"><span class="muted" id="st"></span></div>
+<div class="cloud" id="cloud"></div>
+<div id="verses"></div>
+<script>
+const STOP=new Set('الله من على في إلى ما لا أن إن هو هى هم الذين الذي التي ذا ذلك هذه هذا أو ثم و كان كانت قد لن لم له لها لهم لكن عن مع كل غير بين عند بعد قبل إذ إذا كما لما يا أيها أولئك أولءك عما مما لدى حتى حيث إنه إنها إنهم أنه أنتم أنت نحن فمن فمن فلا فهو ولا وما بلا بلى كلا نعم بل كيف متى أين نعم هل ولو لولا أم أى إيه'.split(' '));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[؟!.,;:،؛()""'']/g,'').replace(/\s+/g,' ').trim();
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S=null,NAMES={},FREQ={},VMAP={},cur='';
+fetch('data/index.json').then(r=>r.json()).then(ix=>{ix.forEach(s=>NAMES[s.n]=s.ar);
+ const sel=document.getElementById('surah');
+ sel.innerHTML=ix.map(s=>`<option value="${s.n}">${(+s.n).toLocaleString('ar-EG')} — ${s.ar}</option>`).join('');
+ sel.value='2';loadS();sel.onchange=loadS});
+async function loadS(){
+ const n=document.getElementById('surah').value;
+ const j=await (await fetch(`data/surah/${n}.json`)).json();
+ S=j;FREQ={};VMAP={};
+ j.verses.forEach((v,i)=>{
+  norm(v.a).split(' ').forEach(w=>{
+   if(w.length<3||STOP.has(w))return;
+   FREQ[w]=(FREQ[w]||0)+1;
+   (VMAP[w]=VMAP[w]||[]).push(i)})});
+ document.getElementById('st').textContent=`${j.verses.length.toLocaleString('ar-EG')} آية · ${Object.keys(FREQ).length.toLocaleString('ar-EG')} لفظة`;
+ cur='';cloud();document.getElementById('verses').innerHTML=''}
+function cloud(){
+ const f=norm(document.getElementById('f').value);
+ const ws=Object.entries(FREQ).filter(([w,c])=>(!f||w.includes(f))&&c>=2)
+  .sort((a,b)=>b[1]-a[1]).slice(0,60);
+ const mx=ws[0]?ws[0][1]:1;
+ document.getElementById('cloud').innerHTML=ws.map(([w,c])=>{const sz=(13+Math.round(c/mx*12));
+  return `<span class="w ${w===cur?'on':''}" style="font-size:${sz}px" data-w="${w}">${w}<small>${c.toLocaleString('ar-EG')}</small></span>`}).join('')||'<span class="muted">لا كلمات</span>'}
+document.getElementById('f').oninput=cloud;
+document.getElementById('cloud').onclick=e=>{
+ const el=e.target.closest('.w');if(!el)return;cur=el.dataset.w;
+ document.querySelectorAll('.w').forEach(x=>x.classList.toggle('on',x===el));
+ const ix=VMAP[cur]||[];const V={'ا':'[اأإآٱ]','ي':'[يى]','ه':'[هة]','و':'[وؤ]'};
+ const flex=norm(cur).split('').map(c=>V[c]||c).join('[ً-ْٰـ]*');
+ const rx=new RegExp('('+flex+')','g');
+ document.getElementById('verses').innerHTML=`<div class="muted" style="margin:6px 0">${ix.length.toLocaleString('ar-EG')} آية فيها «${cur}»</div>`+
+  ix.map(i=>{const v=S.verses[i];return `<div class="vs"><b>${S.n}:${i+1}</b> ${esc(v.a).replace(rx,'<mark>$1</mark>')}</div>`}).join('')};
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

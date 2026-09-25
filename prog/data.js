@@ -463,6 +463,181 @@ for (let i = 0; i < nums.length; i++) {
         { q: 'لمعرفة عدد عناصر المصفوفة:', o: ['.length', '.count', '.size()'], a: 0 },
       ]
     },
+    /* ====== فصل: الدوال والمصفوفات (تعمّق) ====== */
+    {
+      id: 'j9', t: 'معاملات الدالة و return',
+      d: `الدالة تستقبل قيماً بين قوسيها — تسمى معاملات:
+<code>function add(a, b) { return a + b; }</code>
+<code>return</code> تُعيد الناتج وتنهي الدالة — ما بعدها لا يُنفّذ.
+الناتج يُحفظ في متغير: <code>let r = add(3, 4);</code> فيصبح r = 7.`,
+      tip: 'بدون return تُعيد الدالة undefined — جرّب حذفها ولاحظ الناتج.',
+      ex: { html: `<h1>الدوال والمعاملات</h1>`, css: '',
+        js: `function add(a, b) {
+  return a + b;
+}
+function greet(name) {
+  return "أهلاً " + name;
+}
+console.log(add(3, 4));
+console.log(greet("سارة"));` },
+      task: {
+        p: 'عرّف دالة <code>mul(a, b)</code> تعيد حاصل ضرب معامليها، ثم اطبع <code>mul(6, 7)</code> (الناتج 42).',
+        start: { html: `<h1>حاسبة الضرب</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'الدالة mul معرّفة', kind: 'js', expr: 'typeof mul==="function"' },
+          { desc: 'mul(6,7) تعيد 42', kind: 'js', expr: 'typeof mul==="function" && mul(6,7)===42' },
+          { desc: 'المخرجات فيها 42', kind: 'log', contains: '42' },
+        ]
+      },
+      quiz: [
+        { q: 'المعاملات تُكتب:', o: ['بين قوسي الدالة عند تعريفها', 'بعد return', 'داخل { }'], a: 0 },
+        { q: 'return تفعل:', o: ['تُعيد قيمة وتنهي الدالة', 'تطبع قيمة', 'تعيد تعريف الدالة'], a: 0 },
+        { q: 'دالة بلا return تُعيد:', o: ['undefined', '0', 'null'], a: 0 },
+      ]
+    },
+    {
+      id: 'j10', t: 'الدوال السهمية',
+      d: `صيغة مختصرة للدوال: <code>const f = (x) => x * 2;</code>
+هي نفس: <code>function f(x) { return x * 2; }</code>
+إن كان الجسم سطراً واحداً تُحذف { } و return ضمنياً.
+بأكثر من سطر: <code>const f = (x) => { let y = x + 1; return y; }</code>`,
+      tip: 'السهمية مثالية لتمرير دوال صغيرة كمعاملات — كما سيأتي مع forEach.',
+      ex: { html: `<h1>دوال سهمية</h1>`, css: '',
+        js: `const double = x => x * 2;
+const sum = (a, b) => a + b;
+const hi = () => "مرحباً";
+console.log(double(5));
+console.log(sum(3, 4));
+console.log(hi());` },
+      task: {
+        p: 'عرّف دالة سهمية <code>square</code> تعيد مربع عدد، واطبع <code>square(9)</code> (الناتج 81).',
+        start: { html: `<h1>المربعات</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'استعملت الصيغة السهمية =>', kind: 'src', lang: 'js', contains: '=>' },
+          { desc: 'square معرّفة', kind: 'js', expr: 'typeof square==="function"' },
+          { desc: 'المخرجات فيها 81', kind: 'log', contains: '81' },
+        ]
+      },
+      quiz: [
+        { q: 'علامة الدالة السهمية:', o: ['=>', '->', '::'], a: 0 },
+        { q: 'x => x * 2 فيها return صريح؟', o: ['لا — الإعادة ضمنية', 'نعم', 'يحتاج { } دائماً'], a: 0 },
+        { q: 'دالة سهمية بلا معاملات تُكتب:', o: ['() => ...', '=> ...', '(x) => ...'], a: 0 },
+      ]
+    },
+    {
+      id: 'j11', t: 'نطاق المتغيرات',
+      d: `المتغير المُعرّف داخل دالة محلي — لا يُرى خارجها:
+<code>function f() { let x = 5; }</code> ثم <code>x</code> غير معرّف خارج f.
+المتغير خارج الدوال عام — تصله كل الدوال.
+هذا العزل يحمي الكود: كل دالة مساحتها الخاصة.`,
+      tip: 'let داخل { } — أي قوسين — مقيدة بهما، ليس فقط دوال.',
+      ex: { html: `<h1>النطاق</h1>`, css: '',
+        js: `let g = "عام";
+function test() {
+  let local = "محلي";
+  console.log(g);
+  console.log(local);
+}
+test();
+console.log(typeof local);` },
+      task: {
+        p: 'عرّف متغيراً عاماً <code>title</code> بأي نص، ودالة <code>show</code> تعرّف متغيراً محلياً وتطبع الاثنين. المخرجات يجب أن تحوي قيمة title.',
+        start: { html: `<h1>جرب النطاق</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'title معرّف عاماً', kind: 'js', expr: 'typeof title==="string"' },
+          { desc: 'show معرّفة', kind: 'js', expr: 'typeof show==="function"' },
+          { desc: 'استعملت let أو const', kind: 'src', lang: 'js', re: '(let|const)\\s+\\w+' },
+        ]
+      },
+      quiz: [
+        { q: 'متغير let داخل دالة يُرى:', o: ['داخلها فقط', 'في كل الملف', 'في الدوال الأخرى'], a: 0 },
+        { q: 'المتغير العام يُعرّف:', o: ['خارج كل الدوال', 'داخل أول دالة', 'بكلمة global'], a: 0 },
+        { q: 'قراءة متغير محلي خارج دالته تعطي:', o: ['خطأ: غير معرّف', 'undefined بلا خطأ', '0'], a: 0 },
+      ]
+    },
+    {
+      id: 'j12', t: 'مناهج المصفوفات: إضافة وحذف',
+      d: `بعد push التي تضيف للنهاية، المصفوفات تملك أشقاءها:
+<code>pop()</code> يحذف ويعيد الأخير، <code>shift()</code> يحذف الأول،
+<code>unshift(x)</code> يضيف للبداية، <code>slice(a, b)</code> ينسخ جزءاً دون تغيير الأصل.`,
+      tip: 'push/pop من النهاية، shift/unshift من البداية — سهلة التذكر كطابور.',
+      ex: { html: `<h1>طابور الأسماء</h1>`, css: '',
+        js: `let names = ["سارة", "خالد", "منى"];
+names.pop();
+names.shift();
+names.unshift("عمر");
+console.log(names.join("، "));
+console.log("العدد: " + names.length);` },
+      task: {
+        p: 'أنشئ <code>nums = [1, 2, 3, 4]</code>، احذف الأخير بـ <code>pop</code> والأول بـ <code>shift</code>، واطبع المصفوفة (تصبح [2, 3] — اطبع join أو العنصرين).',
+        start: { html: `<h1>قصّ الطرفين</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'استعملت pop', kind: 'src', lang: 'js', contains: 'pop' },
+          { desc: 'استعملت shift', kind: 'src', lang: 'js', contains: 'shift' },
+          { desc: 'nums النهائية [2,3]', kind: 'js', expr: 'typeof nums!=="undefined" && nums.length===2 && nums[0]===2 && nums[1]===3' },
+        ]
+      },
+      quiz: [
+        { q: 'pop() تحذف:', o: ['آخر عنصر وتعيده', 'أول عنصر', 'عنصراً عشوائياً'], a: 0 },
+        { q: 'unshift(x) تضيف:', o: ['للبداية', 'للنهاية', 'في المنتصف'], a: 0 },
+        { q: 'slice(0, 2) على [5,6,7] تعيد:', o: ['[5,6]', '[6,7]', '[5,6,7]'], a: 0 },
+      ]
+    },
+    {
+      id: 'j13', t: 'البحث في المصفوفات ودمجها',
+      d: `البحث: <code>arr.indexOf(x)</code> يعيد فهرس العنصر أو -1.
+<code>arr.includes(x)</code> تعيد true/false للوجود.
+الدمج للنص: <code>arr.join(" - ")</code> تُعيد نصاً واحداً بفاصل.`,
+      tip: 'includes أوضح من indexOf عندما تحتاج فقط معرفة «هل موجود؟».',
+      ex: { html: `<h1>بحث ودمج</h1>`, css: '',
+        js: `let langs = ["عربية", "إنجليزية", "فرنسية"];
+console.log(langs.indexOf("إنجليزية"));
+console.log(langs.includes("صينية"));
+console.log(langs.join(" | "));` },
+      task: {
+        p: 'أنشئ مصفوفة <code>tags</code> بثلاثة وسوم، واطبع نتيجة <code>includes</code> لوسم موجود (true) ثم <code>join</code> لها بفاصل «,».',
+        start: { html: `<h1>الوسوم</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'استعملت includes أو indexOf', kind: 'src', lang: 'js', re: '(includes|indexOf)' },
+          { desc: 'استعملت join', kind: 'src', lang: 'js', contains: 'join' },
+          { desc: 'المخرجات فيها true', kind: 'log', contains: 'true' },
+        ]
+      },
+      quiz: [
+        { q: 'indexOf لعنصر غير موجود تعيد:', o: ['-1', '0', 'false'], a: 0 },
+        { q: 'includes تعيد:', o: ['قيمة منطقية true/false', 'الفهرس', 'العنصر نفسه'], a: 0 },
+        { q: '["أ","ب"].join("-") تعيد:', o: ['"أ-ب"', '["أ-ب"]', '"أب"'], a: 0 },
+      ]
+    },
+    {
+      id: 'j14', t: 'forEach — المرور بدوال الردّ',
+      d: `بدل حلقة for التقليدية: <code>arr.forEach(x => { ... })</code>
+تمرّر لها دالة تُستدعى لكل عنصر — العنصر يأتي معاملاً.
+مع فهرس: <code>arr.forEach((x, i) => console.log(i, x))</code>.`,
+      tip: 'الدالة الممررة تسمى «دالة ردّ» callback — نمط أساسي في JavaScript.',
+      ex: { html: `<h1>لأي منتج</h1><ul id="prods"></ul>`, css: '',
+        js: `let prods = ["قلم", "دفتر", "حقيبة"];
+prods.forEach((p, i) => {
+  console.log((i + 1) + ". " + p);
+  let li = document.createElement("li");
+  li.textContent = p;
+  document.querySelector("#prods").appendChild(li);
+});` },
+      task: {
+        p: 'أنشئ مصفوفة <code>scores</code> بثلاثة أعداد، واستعمل <code>forEach</code> لطباعة كل درجة مضاعفة (score * 2).',
+        start: { html: `<h1>الدرجات</h1>`, css: '', js: '' },
+        checks: [
+          { desc: 'استعملت forEach', kind: 'src', lang: 'js', contains: 'forEach' },
+          { desc: 'المصفوفة scores معرّفة', kind: 'js', expr: 'typeof scores!=="undefined" && Array.isArray(scores) && scores.length===3' },
+          { desc: 'المخرجات فيها قيمة مضاعفة', kind: 'js', expr: 'typeof scores!=="undefined" && Array.isArray(scores) && scores.length>0 && __logs.some(l => l.indexOf(String(scores[0]*2)) >= 0)' },
+        ]
+      },
+      quiz: [
+        { q: 'forEach تستقبل:', o: ['دالة تُستدعى لكل عنصر', 'عدد التكرارات', 'شرطاً منطقياً'], a: 0 },
+        { q: 'المعامل الثاني لدالة forEach هو:', o: ['الفهرس', 'المصفوفة', 'القيمة التالية'], a: 0 },
+        { q: 'الدالة الممررة داخل دالة أخرى تسمى:', o: ['callback — دالة ردّ', 'return', 'async'], a: 0 },
+      ]
+    },
   ]
 },
 {
@@ -1073,4 +1248,10 @@ const CARDS = {
   m11: [['class', 'قالب لإنشاء كائنات بخواص وأساليب مشتركة'], ['extends و super', 'الوراثة من صنف آخر، وsuper يستدعي أسلوب الأب']],
   m12: [['الإغلاقة closure', 'دالة داخلية تتذكر متغيرات خارجيتها بعد انتهائها'], ['فائدتها', 'حالة خاصة محفوظة بين الاستدعاءات بلا متغيرات عامة']],
   m13: [['setTimeout', 'تنفيذ مؤجل مرة واحدة بعد مهلة بالميلي ثانية'], ['setInterval و clearInterval', 'تنفيذ متكرر يُوقف بـ clearInterval(id)']],
+  j9: [['المعاملات', 'قيم تستقبلها الدالة بين قوسي تعريفها'], ['return', 'تُعيد الناتج وتنهي الدالة — بلاها تُعاد undefined']],
+  j10: [['الدالة السهمية', 'صيغة مختصرة: (x) => تعبير — الإعادة ضمنية بلا { }'], ['() =>', 'أقواس فارغة لدالة سهمية بلا معاملات']],
+  j11: [['النطاق المحلي', 'متغير داخل دالة لا يُرى خارجها'], ['النطاق العام', 'متغير خارج الدوال تصله كل الدوال']],
+  j12: [['pop و shift', 'pop تحذف الأخير، shift تحذف الأول — وكلاهما يعيده'], ['unshift و slice', 'unshift تضيف للبداية، slice تنسخ جزءاً بلا تغيير']],
+  j13: [['includes / indexOf', 'includes تعيد وجود العنصر، indexOf فهرسه أو -1'], ['join', 'تدمج عناصر المصفوفة في نص واحد بفاصل']],
+  j14: [['forEach', 'تمرّ على كل عنصر وتستدعي دالة الردّ به'], ['callback', 'دالة تُمرّر معاملاً لدالة أخرى — نمط أساسي في JS']],
 };

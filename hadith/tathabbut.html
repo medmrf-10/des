@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>تثبّت — التحقق من الأحاديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:820px;margin:0 auto;padding:14px}
+.ta{width:100%;min-height:150px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:13px;padding:14px;font-family:var(--font-ar);font-size:16px;line-height:2;resize:vertical}
+.res{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px;margin:12px 0}
+.res .t{font-family:var(--font-ar);font-size:15px;line-height:2}
+.verdict{display:inline-block;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:700}
+.v-ok{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}.v-wk{background:#3a1d1d;color:#e08a8a}.v-df{background:#22303f;color:#9db8d4}
+.muted{color:var(--dim);font-size:12px}
+.scorebar{height:8px;background:var(--card2);border-radius:4px;overflow:hidden;margin:8px 0}
+.scorebar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.books{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bk{border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:12px}
+.conf{font-size:12px}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">تثبّت</h1>
+<div class="muted">الصق متن حديث (من درسك أو منشور أو مرجع) — يطابقه على 27 ألف حديث ويعيد: المعنى المحكوم + الحكم الموحّد + مواضعه في الكتب الستة</div>
+<textarea class="ta" id="inp" placeholder="الصق متن الحديث هنا… (ينفع جزء من المتن)"></textarea>
+<div style="display:flex;gap:8px;margin:10px 0;align-items:center">
+ <button class="btn" onclick="verify()">تحقّق</button>
+ <span class="muted" id="st"></span>
+</div>
+<div id="out"></div>
+<script src="pako.min.js"></script>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BAR={bukhari:'البخاري',muslim:'مسلم',tirmidhi:'الترمذي','abi-dawud':'أبو داود',nasai:'النسائي','ibn-majah':'ابن ماجه'};
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[^\u0621-\u064A0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+function grams(s){const w=norm(s).split(' ').filter(Boolean);const g=new Set();
+ for(let i=0;i<w.length-2;i++)g.add(w[i]+' '+w[i+1]+' '+w[i+2]);return[...g]}
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const cache={};let idx=null;
+async function loadBook(b){
+ if(cache[b])return cache[b];
+ const r=await fetch(`../wahy/data/hadith/${b}-det.json.gz`);
+ if(!r.ok)return cache[b]=null;
+ const buf=await r.arrayBuffer();
+ const txt=pako.ungzip(new Uint8Array(buf),{to:'string'});
+ return cache[b]=JSON.parse(txt)}
+async function buildIndex(){
+ if(idx)return;
+ $('#st').innerHTML='<span class="spin"></span> أبني فهرس المطابقة (أول مرة ~48MB)…';
+ idx={gram:{},meta:{},gid:{},hadith:{}};
+ for(const b of BOOKS){
+  $('#st').innerHTML=`<span class="spin"></span> ${BAR[b]}…`;
+  const d=await loadBook(b);if(!d)continue;
+  idx.gid[b]=d.g||{};
+  for(const num in d.d){const rec=d.d[num];
+   const gr=grams(rec.m);
+   for(const g of gr){(idx.gram[g]=idx.gram[g]||[]).push(b+':'+num)}
+   idx.hadith[b+':'+num]={m:rec.m,g:rec.g}}}
+ $('#st').textContent=''}
+async function verify(){
+ const q=$('#inp').value.trim();if(!q)return;
+ await buildIndex();
+ const qg=grams(q);
+ $('#st').textContent='أطابق…';
+ // score candidate hadiths by shared grams
+ const score={};
+ for(const g of qg)for(const ref of (idx.gram[g]||[]))score[ref]=(score[ref]||0)+1;
+ const hits=Object.entries(score).sort((a,b)=>b[1]-a[1]).slice(0,8).filter(([,sc])=>sc>=Math.min(4,qg.length));
+ $('#st').textContent='';
+ if(!hits.length){$('#out').innerHTML='<div class="res"><div class="muted">لا مطابقة كافية في الكتب الستة — النص إما ضعيف التوثيق أو بصياغة مختلفة جذرياً أو ليس حديثاً</div></div>';return}
+ const verdictOf=b=>{const g=idx.gid[b]||{};return g};
+ $('#out').innerHTML='<h2 style="font-size:15px;margin:14px 0 8px">المطابقات</h2>'+hits.map(([ref,sc])=>{
+  const[b,num]=ref.split(':');const h=idx.hadith[ref];
+  const grec=(idx.gid[b]||{})[h.g]||{};
+  const v=grec.h||'—';
+  const vc=v==='صحيح'?'v-ok':v==='حسن'?'v-hs':v==='ضعيف'?'v-wk':'v-df';
+  const conf=Math.min(99,Math.round(sc/Math.max(1,qg.length)*100));
+  const pos=Object.entries(grec.x||{}).map(([bb])=>BAR[bb]).join(' · ');
+  return `<div class="res">
+   <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+    <span class="conf">مطابقة ${conf.toLocaleString('ar-EG')}٪ (${sc.toLocaleString('ar-EG')} تركيبة)</span>
+    <span class="verdict ${vc}">${esc(v)}</span>
+   </div>
+   <div class="scorebar"><i style="width:${conf}%"></i></div>
+   <div class="t">${esc(h.m.slice(0,300))}${h.m.length>300?'…':''}</div>
+   ${grec.t?`<div class="muted" style="margin-top:6px">المعنى المحكوم: <b style="color:var(--acc2)">${esc(grec.t)}</b> — صحابة ${(+(grec.s||0)).toLocaleString('ar-EG')} · تكرار ${(+(grec.r||0)).toLocaleString('ar-EG')}</div>`:''}
+   <div class="books"><span class="bk"><b>${BAR[b]}</b> رقم ${(+num).toLocaleString('ar-EG')}</span>${pos?`<span class="bk muted">مواضع المعنى: ${pos}</span>`:''}</div>
+   <div style="display:flex;gap:8px;margin-top:8px">
+    <a class="btn sm ghost" target="_blank" href="net.html#gid=${h.g}">المعنى في الشبكة</a>
+    <a class="btn sm ghost" target="_blank" href="matn.html">ابحث في المتون</a>
+   </div></div>`}).join('')}
+</script>
+<script src="../shared/feedback.js" data-pid="hadith" data-title="تثبّت — التحقق من الأحاديث"></script>
+</body>
+</html>

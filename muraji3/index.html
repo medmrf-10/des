@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مُراجِع — ما كتبته يعود إليك</title><link rel="stylesheet" href="../shared/theme.css"><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>🔁 مُراجِع</h1><p class="tagline">ملاحظاتك ومقاطعك وكلماتك لا تضيع — تعود إليك في وقتها</p></header>
+<div class="wrap">
+ <div class="card intro">كل ما دوّنته في منظومتك (ملاحظات الحديث، مقاطع المنتقى، كلمات الإنجليزية، خطوات منهجك) يُستدعى هنا للمراجعة. راجع، أو اختر «أجّل» فيعود لاحقاً.</div>
+ <div class="card stat" id="stat"></div>
+ <div id="queue"></div>
+ <div class="card tip">المقاطع تعود بعد ٣ أيام، الملاحظات بعد يوم، الكلمات حسب نظام المراجعة المتباعدة.</div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const RLS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const DAY=86400000;
+let seen=RLS('muraji3_seen',{});
+const SLS=()=>localStorage.setItem('muraji3_seen',JSON.stringify(seen));
+function due(id,days){const t=seen[id];if(!t)return true;return Date.now()-t>days*DAY}
+function mark(id,days){seen[id]=Date.now()+(days? (days-1)*DAY:0);SLS()}
+function items(){
+ const out=[];
+ // hadith notes — resurface after 1 day
+ const hn=RLS('hadith_notes',{});
+ for(const k in hn){const id='hn:'+k;if(due(id,1))out.push({id,ic:'📝',t:'ملاحظتك على حديث '+k,x:hn[k],go:'../hadith/matn.html'})}
+ // muntaga clips — after 3 days
+ const mn=RLS('muntaga',[]);
+ mn.forEach((m,i)=>{const id='mn:'+i;if(due(id,3))out.push({id,ic:'🎞',t:'مقطعك المنتقى: '+(m.t||''),x:m.x||'',go:'../live/?l='+encodeURIComponent(m.l||'')+'&t='+(m.s||0)})});
+ // en_srs due — count
+ const srs=RLS('en_srs',{});let nd=0;const now=Date.now();
+ for(const w in srs){const s=srs[w];if(s&&s.next&&s.next<now)nd++}
+ if(nd)out.push({id:'srs',ic:'🃏',t:nd.toLocaleString('ar-EG')+' كلمة إنجليزية تستحق المراجعة',x:'افتح قاموسك أو بطاقات المراجعة',go:'../english/qamusi.html',nore:true});
+ // manhaj next step
+ const cur=RLS('wird_curriculum',[]);const nx=cur.find(s=>!s.done);
+ if(nx&&due('mh',2))out.push({id:'mh',ic:'🎯',t:'خطوتك التالية في منهجك',x:nx.t,go:'../manhaj/'});
+ // wird undone today
+ const wd=RLS('wird_done',{});const today=new Date().toISOString().slice(0,10);
+ const dn=(wd[today]||[]).length;
+ return out;
+}
+function render(){
+ const its=items();
+ $('#stat').innerHTML=its.length?`<b>${its.length.toLocaleString('ar-EG')}</b> أشياء تعود إليك للمراجعة`:`لا شيء ينتظر — <b>نظيف</b>. أي ملاحظة أو مقطع تضيفه سيعود هنا في وقته.`;
+ $('#queue').innerHTML=its.map((r,i)=>`<div class="qrow"><span class="ic">${r.ic}</span><div class="qx"><div class="qt">${esc(r.t)}</div>${r.x?`<div class="qd">${esc(String(r.x).slice(0,180))}</div>`:''}</div><div class="qa"><a class="btn sm" href="${r.go}">فتح</a>${r.nore?'':`<button class="btn sm ghost" data-i="${i}">أجّل</button>`}<button class="btn sm ghost" data-x="${i}">✓</button></div></div>`).join('');
+ window._its=its;
+}
+$('#queue').addEventListener('click',e=>{
+ const done=e.target.closest('[data-x]'),snz=e.target.closest('[data-i]');
+ if(done){const r=window._its[+done.dataset.x];mark(r.id);render()}
+ if(snz){const r=window._its[+snz.dataset.i];seen[r.id]=Date.now();SLS();render()}
+});
+render();
+</script>
+<script src="../shared/palette.js"></script><script src="../shared/feedback.js"></script>
+</body></html>

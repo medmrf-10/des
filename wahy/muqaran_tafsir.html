@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مقارنة التفاسير — وحي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1200px;margin:0 auto;padding:14px}
+.pick{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:12px 0}
+.pick label{display:block;font-size:11px;color:var(--dim);margin-bottom:5px}
+select,input[type=number]{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14px}
+.cols{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.tcol{background:var(--card);border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.tcol h3{margin:0;padding:10px 14px;font-size:14px;background:var(--card2);border-bottom:1px solid var(--border);color:var(--acc2);display:flex;justify-content:space-between;align-items:center}
+.tcol h3 .x{cursor:pointer;color:var(--dim);font-weight:400}
+.tcol .b{padding:14px;font-family:var(--font-ar);font-size:14.5px;line-height:2;max-height:70vh;overflow-y:auto}
+.tcol .b p{margin:0 0 10px}
+.ayah{background:linear-gradient(135deg,rgba(201,162,75,.08),transparent);border:1px solid var(--border);border-radius:12px;padding:16px;margin:14px 0;font-family:var(--font-ar);font-size:17px;line-height:2.1;text-align:center}
+.addbox{margin-top:12px}
+.muted{color:var(--dim);font-size:12px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">مقارنة التفاسير</h1>
+<div class="muted">نفس الآية عند مفسرين مختلفين — حتى 4 تفاسير جنباً إلى جنب · من مكتبة وحي (105 تفاسير)</div>
+<div class="pick">
+ <div><label>السورة</label><select id="sur"></select></div>
+ <div><label>الآية</label><input type="number" id="ay" min="1" value="1" style="width:80px"></div>
+ <div><label>أضف تفسيراً</label><select id="tadd"></select></div>
+ <button class="btn" onclick="addTaf()">+ عمود</button>
+ <span class="muted" id="msg"></span>
+</div>
+<div class="ayah" id="ayTxt"></div>
+<div class="cols" id="cols"></div>
+<script>
+const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let IDX=null,TAF=null,SURAHS=null,openCols=[];
+async function jget(u,gz){const r=await fetch(u);if(!r.ok)throw 0;
+ if(gz){const b=await r.arrayBuffer();
+  const t=await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+  return JSON.parse(t)}return r.json()}
+async function boot(){
+ IDX=await jget('data/index.json');
+ TAF=await jget('data/tafsirs.json');
+ $('#sur').innerHTML=IDX.map((s,i)=>`<option value="${i+1}">${i+1}. ${s.ar}</option>`).join('');
+ $('#tadd').innerHTML=TAF.map(t=>`<option value="${t.s}">${t.n}${t.c?'':' (جزئي)'}</option>`).join('');
+ const h=location.hash.match(/s=(\d+)&v=(\d+)/);
+ if(h){$('#sur').value=h[1];$('#ay').value=h[2]}
+ $('#sur').onchange=renderAyah;$('#ay').onchange=renderAyah;
+ renderAyah();
+ ['ibn-kathir','al-saadi','al-tabari'].forEach(s=>{if(TAF.find(t=>t.s===s))addTaf(s)});
+}
+async function renderAyah(){
+ const sn=+$('#sur').value,an=+$('#ay').value;
+ $('#msg').textContent='';
+ const d=await jget(`data/surah/${sn}.json`);
+ const v=d.verses.find(x=>x.a===an);
+ $('#ay').max=d.verses.length;
+ $('#ayTxt').innerHTML=v?((d.bismillah&&an!==1?'<span style="color:var(--acc2)">'+esc(d.bismillah)+' </span>':'')+esc(v.t)+' <span style="color:var(--acc);font-size:14px">﴿'+an.toLocaleString('ar-EG')+'﴾</span> <span class="muted">'+esc(d.ar)+'</span>'):'لا آية بهذا الرقم';
+ renderCols()}
+async function addTaf(slug){
+ slug=slug||$('#tadd').value;
+ if(openCols.includes(slug))return;
+ if(openCols.length>=4){$('#msg').textContent='حتى 4 تفاسير';return}
+ openCols.push(slug);renderCols()}
+function rmTaf(slug){openCols=openCols.filter(s=>s!==slug);renderCols()}
+const caches={};
+async function renderCols(){
+ const sn=+$('#sur').value,an=+$('#ay').value;
+ $('#cols').innerHTML=openCols.map(sl=>{
+  const t=TAF.find(x=>x.s===sl);
+  return `<div class="tcol" id="col-${sl}"><h3>${esc(t?t.n:sl)}<span class="x" onclick="rmTaf('${sl}')">✕</span></h3><div class="b"><span class="spin"></span> يُحمَّل…</div></div>`}).join('');
+ for(const sl of openCols){
+  const el=document.querySelector(`#col-${sl} .b`);
+  try{
+   if(!caches[sl])caches[sl]=jget(`data/tafsir/${sl}.json.gz`,true);
+   const d=await caches[sl];
+   const g=d.groups||{};let key=null;
+   for(const k in g){const[f,t]=k.split(':');if(+f<=an&&an<=+t){key=k;break}}
+   const tx=key?(g[key].x||g[key].t||''):'';
+   if(tx){
+    // strip leading range marker
+    const clean=tx.replace(/^\[?[\d:\-,\s]+\]?\s*/,'');
+    el.innerHTML=`<p>${clean.replace(/\n+/g,'</p><p>')}</p>`;
+    if(key){const[f,t]=key.split(':');if(+f!==+t)el.insertAdjacentHTML('afterbegin',`<div class="muted">المقطع ${f}–${t}</div>`)}
+   }else el.innerHTML='<div class="muted">لا نص لهذه الآية في هذا التفسير</div>';
+  }catch(e){el.innerHTML='<div class="muted">تعذّر التحميل — جرّب تفسيراً آخر</div>'}
+ }}
+boot().catch(e=>{$('#msg').textContent='خطأ تحميل — '+(location.protocol==='file:'?'افتح عبر الموقع المنشور':e)});
+</script>
+<script src="../shared/feedback.js" data-pid="wahy" data-title="وحي — مقارنة التفاسير"></script>
+</body>
+</html>

@@ -4,9 +4,9 @@
 const D = window.FIQH_DATA;
 const $ = s => document.querySelector(s);
 
-const norm = s => (s||'').replace(/[ً-ْ]/g,'')
-  .replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')
-  .replace(/[«»()\[\]•*]/g,' ').replace(/\s+/g,' ').trim();
+const norm = s => (s||'').replace(/[ً-ْٰـ]/g,'')
+  .replace(/[أإآٱ]/g,'ا').replace(/[ؤئء]/g,'').replace(/ى/g,'ي').replace(/ة/g,'ه')
+  .replace(/[«»()\[\]•*ـ]/g,' ').replace(/\s+/g,' ').trim();
 
 const tagInfo = {};            // tag -> {slug, madhhab, title}
 D.sources.forEach(s => tagInfo[s.tag] = s);
@@ -65,11 +65,11 @@ function hl(text,q){
   const e=esc(text); if(!q) return e;
   const pat=[...q].map(c=>{
     if(c===' ') return '\\s+';
-    if('اأإآ'.includes(c)) return '[اأإآ]';
+    if('اأإآٱ'.includes(c)) return '[اأإآٱ]';
     if('يى'.includes(c)) return '[يى]';
     if('هة'.includes(c)) return '[هة]';
     return c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  }).join('');
+  }).join('[ؤئءـ]?')+'[ؤئءـ]?';
   return e.replace(new RegExp('('+pat+')','g'),'<span class="mark">$1</span>');
 }
 

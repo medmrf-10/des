@@ -152,11 +152,26 @@ function showUnit(i){
       <span>ص ${u.p0}${u.p1>u.p0?'–'+u.p1:''}</span>
       <span>${u.m?('علامة: '+esc(u.m)):KLBL[u.k]||''}</span>
       <span>مستوى ${u.l}</span>
+      <button id="aiEx" style="border:1px solid var(--acc);background:none;color:var(--acc);border-radius:8px;padding:3px 12px;font-size:11px;cursor:pointer;font-family:inherit;display:none">✦ لخّص واشرح</button>
     </div>
+    <div id="aiBx" style="display:none"></div>
     ${u.x ? `<div class="utext">${esc(u.x)}</div>` : (nofx ? '' : '<div class="utext"><i>(عنوان بلا متن منفصل — انظر الوحدات الفرعية)</i></div>')}
     ${note}
     ${atoms}`;
   location.hash = curBook.slug+'/'+i;
+  const ab=document.getElementById('aiEx');
+  if(ab&&u.x&&window.llmReady&&window.llmReady()){
+    ab.style.display='inline-block';
+    ab.onclick=async()=>{
+      ab.disabled=true;const bx=document.getElementById('aiBx');bx.style.display='block';
+      bx.innerHTML='<div style="color:var(--acc);font-size:12px;padding:10px">يفكّر…</div>';
+      try{
+        const out=await window.gemAsk('أنت فقيه متقن '+ (curBook.madh||'') +'. هذه وحدة من كتاب '+curBook.title+' للمؤلف '+curBook.author+' — العنوان: «'+u.t+'». \nلخّص مضمونها في سطرين، ثم استخرج أهم الأحكام/القواعد فيها بنقاط قصيرة، ثم جملة واحدة: لماذا يحتاجها الطالب.\n\nالنص:\n'+u.x.slice(0,2200),{maxTokens:800});
+        bx.innerHTML='<div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 15px;font-size:13px;line-height:2;margin:4px 0 10px">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+      }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:12px">'+esc(err.message)+'</div>'}
+      ab.disabled=false;
+    };
+  }
 }
 
 /* ---------- بحث ---------- */

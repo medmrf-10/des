@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِرقَب — مراقبتي</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:560px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+input,select{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:12.5px;margin-top:6px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.mn{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 14px;margin-top:8px}
+.mn .n{font-family:var(--font-ar);font-size:13.5px}
+.mn .k{font-size:10px;color:var(--acc);background:var(--card2);padding:2px 8px;border-radius:6px}
+.mn .ls{font-size:12px;margin-top:6px;line-height:1.8}
+.mn .ls li{margin-top:3px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِرقَب <span class="muted">— من أراقبهم وأتعلم منهم</span></h2>
+<div class="muted">من تراقبهم لتتعلم؟ شيخ، كاتب، مبرمج، صديق، شخصية تاريخية — سجّلهم وما تعلمته من كل واحد.</div>
+<div class="card"><div class="t">أراقب</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<input id="nm" placeholder="الاسم" style="flex:1;min-width:120px">
+<select id="kd"><option value="قريب">قريب مني</option><option value="بعيد">بعيد (محتوى)</option><option value="تاريخي">تاريخي</option><option value="متخيل">متخيل/رمزي</option></select>
+<input id="ls" placeholder="تعلمت منه…" style="flex:1;min-width:130px">
+<button class="btn" id="ad">أضِف</button></div></div>
+<div id="stats"></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let M=LS('mirqab',[]);
+$('#ad').onclick=()=>{
+ const n=$('#nm').value.trim();if(!n)return;
+ let m=M.find(x=>x.n===n);
+ const l=$('#ls').value.trim();
+ if(m){if(l)m.ls.push(l)}
+ else M.unshift({n,k:$('#kd').value,ls:l?[l]:[],at:Date.now()});
+ SV('mirqab',M);$('#nm').value=$('#ls').value='';render();
+};
+function render(){
+ const tot=M.reduce((s,x)=>s+x.ls.length,0);
+ $('#stats').innerHTML='<span class="stat">أراقب: <b>'+arN(M.length)+'</b></span>'+
+ '<span class="stat">دروس تعلمتها: <b style="color:var(--ok)">'+arN(tot)+'</b></span>';
+ $('#list').innerHTML=M.map((x,i)=>{
+  const gi=M.indexOf(x);
+  return '<div class="mn"><div style="display:flex;gap:7px;align-items:center"><span class="k">'+x.k+'</span>'+
+  '<span class="n">'+esc(x.n)+'</span></div>'+
+  (x.ls.length?'<ul class="ls">'+x.ls.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>':'')+
+  '<div style="display:flex;gap:6px;margin-top:7px">'+
+  '<button class="btn ghost" data-a="'+gi+'" style="color:var(--ok);font-size:10px">+ تعلمت</button>'+
+  '<button class="btn ghost" data-d="'+gi+'" style="color:var(--dim);font-size:10px;padding:4px 8px">✕</button></div></div>';
+ }).join('')||'<div class="muted" style="margin-top:12px">لا أحد — من تراقب؟</div>';
+}
+$('#list').onclick=e=>{
+ const a=e.target.closest('[data-a]'),d=e.target.closest('[data-d]');
+ if(a){const l=prompt('تعلمت من '+M[+a.dataset.a].n+':');if(l){M[+a.dataset.a].ls.push(l);SV('mirqab',M);render()}return}
+ if(d&&confirm('احذف '+M[+d.dataset.d].n+'؟')){M.splice(+d.dataset.d,1);SV('mirqab',M);render()}
+};
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="mirqab" data-title="مِرقَب"></script>
+</body>
+</html>

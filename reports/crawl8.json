@@ -1,0 +1,251 @@
+{
+ "generated": "2026-09-25T04:36:56.522Z",
+ "sites": {
+  "mi3tad": {
+   "url": "https://medmrf-10.github.io/des/mi3tad/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/mi3tad/",
+    "https://medmrf-10.github.io/des/mi3tad/"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": [
+     "404 https://medmrf-10.github.io/"
+    ]
+   },
+   "http": 200,
+   "scrollWidth": 980,
+   "clientWidth": 980,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 118,
+    "dcl": 118,
+    "rsp": 106
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 383
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "kutub": {
+   "url": "https://medmrf-10.github.io/des/kutub/",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##cats' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/kutub/:33:21)\n    at https://medmrf-10.github.io/des/"
+   ],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 137,
+    "dcl": 135,
+    "rsp": 111
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 35
+   },
+   "search": {
+    "input": "ابحث باسم الكتاب أو المؤلف أو النوع…",
+    "query": "الله",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-index": {
+   "url": "https://medmrf-10.github.io/des/hadith/index.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 10,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 115,
+    "dcl": 114,
+    "rsp": 98
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 1223
+   },
+   "search": {
+    "input": "بحث في المتن…",
+    "query": "الأعمال",
+    "results": 4,
+    "before": 4
+   }
+  },
+  "hadith-misbar": {
+   "url": "https://medmrf-10.github.io/des/hadith/misbar.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 217,
+    "dcl": 216,
+    "rsp": 105
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 224
+   },
+   "search": {
+    "input": "نص الحديث…",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 750,
+    "dcl": 750,
+    "rsp": 91
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 103
+   },
+   "search": {
+    "input": "ابحث في المعاني: نية، صبر، صلاة…",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 300,
+    "dcl": 299,
+    "rsp": 99
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 163
+   },
+   "search": {
+    "input": "مثال: شعبة بن الحجاج / مالك بن أنس / هشام بن عروة",
+    "query": "مالك",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-ahkam": {
+   "url": "https://medmrf-10.github.io/des/hadith/ahkam.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 195,
+    "dcl": 195,
+    "rsp": 79
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 10769
+   },
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-tabaqat": {
+   "url": "https://medmrf-10.github.io/des/hadith/tabaqat.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': '##gs' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/hadith/tabaqat.html:35:21)\n    at https://medmrf-10.git"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "perf": {
+    "dur": 176,
+    "dcl": 176,
+    "rsp": 95
+   },
+   "frozen": {
+    "skeletons": 0,
+    "loading_texts": [],
+    "empty_containers": 0,
+    "body_len": 167
+   },
+   "search": {
+    "input": "اسم راوٍ… (مالك، حماد، الزهري، شعبة)",
+    "query": "مالك",
+    "results": 0,
+    "before": 0
+   }
+  }
+ }
+}

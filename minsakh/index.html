@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِنسَخ — النَّسخ باليد</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:620px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+textarea{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:12px;font-family:var(--font-ar);font-size:15px;width:100%;min-height:100px;resize:vertical}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.src{background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:14px 16px;margin-top:11px;font-family:var(--font-ar);font-size:15px;line-height:2}
+.diff{font-family:var(--font-ar);font-size:14px;line-height:2.1}
+.diff .ok{color:var(--txt)}
+.diff .bad{color:var(--acc2);text-decoration:underline;text-decoration-style:wavy}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِنسَخ <span class="muted">— النَّسخ باليد</span></h2>
+<div class="muted">اكتب النص بنفسك كلمةً كلمة — النسخ يعلّم ما لا تعلّمه القراءة.</div>
+<div class="card"><div class="t">١. النص المراد نسخه</div>
+<textarea id="src" placeholder="الصق المتن أو الآية أو الحديث…"></textarea>
+<button class="btn" id="set" style="margin-top:9px">ثبّت النص</button></div>
+<div id="work"></div>
+<div id="stats"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let st=LS('minsakh',{sess:0,words:0,acc:0});
+let orig='';
+$('#set').onclick=()=>{
+ orig=$('#src').value.trim();if(!orig)return;
+ st.sess++;SV('minsakh',st);
+ $('#work').innerHTML='<div class="src">'+esc(orig)+'</div>'+
+ '<div class="card"><div class="t">٢. انسخه بنفسك</div>'+
+ '<textarea id="cp" placeholder="اكتب النص كاملاً…"></textarea>'+
+ '<button class="btn" id="chk" style="margin-top:9px">قارن</button></div>'+
+ '<div id="res"></div>';
+ $('#chk').onclick=check;
+};
+function check(){
+ const cp=$('#cp').value;const ow=orig.split(/\s+/),cw=cp.split(/\s+/);
+ let ok=0;const html=ow.map((w,i)=>{
+  const g=cw[i];const match=g&&w.replace(/[^\p{L}\p{N}]/gu,'')===g.replace(/[^\p{L}\p{N}]/gu,'');
+  if(match)ok++;
+  return '<span class="'+(match?'ok':'bad')+'">'+esc(w)+'</span>';
+ }).join(' ');
+ const acc=Math.round(ok/ow.length*100);
+ st.words+=ow.length;st.acc=st.acc*0.8+acc*0.2;SV('minsakh',st);
+ $('#res').innerHTML='<div class="card"><div class="t">المقارنة</div>'+
+ '<div class="diff">'+html+'</div>'+
+ '<div class="muted" style="margin-top:9px">الدقة: <b style="color:var(--acc);font-size:15px">'+arN(acc)+'٪</b> — المتموّج خطأ/ناقص</div></div>';
+ renderStats();
+}
+function renderStats(){
+ $('#stats').innerHTML='<span class="stat">جلسات نسخ: <b>'+arN(st.sess)+'</b></span>'+
+ '<span class="stat">كلمات منسوخة: <b>'+arN(st.words)+'</b></span>'+
+ '<span class="stat">متوسط الدقة: <b>'+arN(Math.round(st.acc))+'٪</b></span>';
+}
+renderStats();
+</script>
+<script src="../shared/feedback.js" data-pid="minsakh" data-title="مِنسَخ"></script>
+</body>
+</html>

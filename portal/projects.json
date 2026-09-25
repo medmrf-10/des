@@ -2050,5 +2050,887 @@
   "desc": "عهودك — وفاءً بالتزام",
   "url": "../mi3taq/",
   "icon": "م"
+ },
+ {
+  "id": "mirtas",
+  "title": "مِرتَس",
+  "maker": "محمد",
+  "field": "تراث",
+  "desc": "عن المنظومة — القصة والمقاييس",
+  "url": "../mirtas/",
+  "icon": "م"
+ },
+ {
+  "id": "mijbar",
+  "title": "مِجبَر",
+  "maker": "محمد",
+  "field": "ذِكر",
+  "desc": "جابر القلوب — مواساة من الكتاب والسنة",
+  "url": "../mijbar/",
+  "icon": "م"
+ },
+ {
+  "id": "graded",
+  "title": "مِجزَأ",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "المصنَّف — تصفّح الستين ألفاً بالكتاب والحكم",
+  "url": "../hadith/graded.html",
+  "icon": "م"
+ },
+ {
+  "id": "pairs",
+  "title": "Minimal Pairs",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "مختبر الأزواج الصغرى — تمييز الأصوات",
+  "url": "../english/minimal_pairs.html",
+  "icon": "P"
+ },
+ {
+  "id": "roadmap",
+  "title": "الخارطة",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "شجرة خارطة الطريق — ٨ مسارات كاملة",
+  "url": "../prog/roadmap.html",
+  "icon": "خ"
+ },
+ {
+  "id": "misfad",
+  "title": "مِصفَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "القفل — اقفل يومك بوعد",
+  "url": "../misfad/",
+  "icon": "م"
+ },
+ {
+  "id": "mishrat",
+  "title": "مِشرَط",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "إذا… فـ — نوايا التنفيذ",
+  "url": "../mishrat/",
+  "icon": "م"
+ },
+ {
+  "id": "mihiyi",
+  "title": "مِحيِّي",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "إحياء المتوقف — أصغر خطوة تُحييه",
+  "url": "../mihiyi/",
+  "icon": "م"
+ },
+ {
+  "id": "misra3",
+  "title": "مِسرَع",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سرعة الإنجاز — الوتيرة اليومية المطلوبة",
+  "url": "../misra3/",
+  "icon": "م"
+ },
+ {
+  "id": "mirdad",
+  "title": "مِردَد",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "الصدى — تدريب النطق بالظل",
+  "url": "../mirdad/",
+  "icon": "م"
+ },
+ {
+  "id": "miqdah",
+  "title": "مِقدَح",
+  "maker": "محمد",
+  "field": "ذِكر",
+  "desc": "الشرارة — آية وحديث وطرفة يومياً",
+  "url": "../miqdah/",
+  "icon": "م"
+ },
+ {
+  "id": "mikhlas",
+  "title": "مِخلَص",
+  "maker": "محمد",
+  "field": "ذِكر",
+  "desc": "ميزان النية — صدق مع نفسك",
+  "url": "../mikhlas/",
+  "icon": "م"
+ },
+ {
+  "id": "mihzam",
+  "title": "مِحزَم",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سلسلة العادات — كل عادة تسحب أختها",
+  "url": "../mihzam/",
+  "icon": "م"
+ },
+ {
+  "id": "mislak",
+  "title": "مِسلَك",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "يوميات القرار — قرارك ودقته بعد ٣٠ يوماً",
+  "url": "../mislak/",
+  "icon": "م"
+ },
+ {
+  "id": "minsaa",
+  "title": "مِنسَأ",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "التأجيل — اركن الاندفاع ٤٨ ساعة",
+  "url": "../minsaa/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3yad",
+  "title": "مِعيَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "المراجعة الأسبوعية — نجح/فشل/التغيير",
+  "url": "../mi3yad/",
+  "icon": "م"
+ },
+ {
+  "id": "mitwaq",
+  "title": "مِطوَق",
+  "maker": "محمد",
+  "field": "ذِكر",
+  "desc": "عقد الذاكرة — لآلئك بالتباعد",
+  "url": "../mitwaq/",
+  "icon": "م"
+ },
+ {
+  "id": "mihkam2",
+  "title": "مِحكَم",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "كفتا الميزان — حكّم قرارك",
+  "url": "../mihkam2/",
+  "icon": "م"
+ },
+ {
+  "id": "mishrad",
+  "title": "مِشرَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "ركنة الخواطر — اركن التشويش",
+  "url": "../mishrad/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3raf",
+  "title": "مِعرَف",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "اختبر نفسك — كلمات مخفية",
+  "url": "../mi3raf/",
+  "icon": "م"
+ },
+ {
+  "id": "minshad",
+  "title": "مِنشَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "المذكرة الصوتية — سجّل خواطرك",
+  "url": "../minshad/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3raz",
+  "title": "مِعرَز",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "تقسيم اليوم — كتل يومك المثالي",
+  "url": "../mi3raz/",
+  "icon": "م"
+ },
+ {
+  "id": "story",
+  "title": "Story Builder",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "بناء القصة — كلماتك في إطار",
+  "url": "../english/story_builder.html",
+  "icon": "S"
+ },
+ {
+  "id": "patterns",
+  "title": "أنماط",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "مدرب الأنماط — توقع العنصر الخامس",
+  "url": "../prog/patterns.html",
+  "icon": "أ"
+ },
+ {
+  "id": "miqras",
+  "title": "مِقرَس",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "القراءة المتأنية — قطعة قطعة",
+  "url": "../miqras/",
+  "icon": "م"
+ },
+ {
+  "id": "mijlas",
+  "title": "مِجلَس",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "مجلس المساء — 3 أسطر قبل النوم",
+  "url": "../mijlas/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3tab",
+  "title": "مِعتَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "العتبة الدنيا — لا يوم صفري",
+  "url": "../mi3tab/",
+  "icon": "م"
+ },
+ {
+  "id": "ruhawi",
+  "title": "رِحلَة الراوي",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "رحلة الراوي — أثره عبر الكتب",
+  "url": "../hadith/ruhawi.html",
+  "icon": "ر"
+ },
+ {
+  "id": "verbs",
+  "title": "Verb Drills",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "مدرب الأفعال الشاذة",
+  "url": "../english/verb_drills.html",
+  "icon": "V"
+ },
+ {
+  "id": "refactor",
+  "title": "المُعيد",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "إعادة التهيكلة — شمّ الرائحة وأصلح",
+  "url": "../prog/refactor.html",
+  "icon": "م"
+ },
+ {
+  "id": "mi3taq2",
+  "title": "مِعتَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "تحرير الذمة — ما عليك وما لك",
+  "url": "../mi3taq2/",
+  "icon": "م"
+ },
+ {
+  "id": "minqab",
+  "title": "مِنقَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "منجم العمق — جلسات مركزة بإخراج",
+  "url": "../minqab/",
+  "icon": "م"
+ },
+ {
+  "id": "mith3an",
+  "title": "مِذعَن",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "التسليم — اترك ما لا تملكه",
+  "url": "../mith3an/",
+  "icon": "م"
+ },
+ {
+  "id": "miqsab",
+  "title": "مِقصَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "دستورك الشخصي — مبادئ وخروقات",
+  "url": "../miqsab/",
+  "icon": "م"
+ },
+ {
+  "id": "mir3ad",
+  "title": "مِرعَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "خطط العواصف — أيامك الصعبة",
+  "url": "../mir3ad/",
+  "icon": "م"
+ },
+ {
+  "id": "tarjih",
+  "title": "التَّرجيح",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "رجّح بين القولين بالأدلة",
+  "url": "../hadith/tarjih.html",
+  "icon": "ت"
+ },
+ {
+  "id": "chunks",
+  "title": "Chunking",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "عبارات جاهزة لا كلمات",
+  "url": "../english/chunking.html",
+  "icon": "C"
+ },
+ {
+  "id": "minsat",
+  "title": "مِنصَت",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سجل الإنصات — كم أنصتّ",
+  "url": "../minsat/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3atr",
+  "title": "مِعطَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "عطر المعروف — لطائف اليوم",
+  "url": "../mi3atr/",
+  "icon": "م"
+ },
+ {
+  "id": "mis3ab",
+  "title": "مِصعَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سلّم الصعوبات — كيف واجهت",
+  "url": "../mis3ab/",
+  "icon": "م"
+ },
+ {
+  "id": "min3as",
+  "title": "مِنعَس",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سجل النوم — ليلتك تصنع يومك",
+  "url": "../min3as/",
+  "icon": "م"
+ },
+ {
+  "id": "minsakh",
+  "title": "مِنسَخ",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "النَّسخ باليد — اكتب النص بنفسك",
+  "url": "../minsakh/",
+  "icon": "م"
+ },
+ {
+  "id": "mijras",
+  "title": "مِجرَس",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "أجراس التنبيه — تدقّ داخل الموقع",
+  "url": "../mijras/",
+  "icon": "م"
+ },
+ {
+  "id": "mirqab",
+  "title": "مِرقَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "ميزانية الانتباه — بنّاء/مستنزِف",
+  "url": "../mirqab/",
+  "icon": "م"
+ },
+ {
+  "id": "mithrab",
+  "title": "مِذرَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "الضربة الأولى — أول ما تفعله غداً",
+  "url": "../mithrab/",
+  "icon": "م"
+ },
+ {
+  "id": "miksab",
+  "title": "مِكسَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "دفتر الكسب — من أين يأتي رزقك",
+  "url": "../miksab/",
+  "icon": "م"
+ },
+ {
+  "id": "mishraf2",
+  "title": "مِشرَف",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "دفتر النفقات — أين يذهب مالك",
+  "url": "../mishraf2/",
+  "icon": "م"
+ },
+ {
+  "id": "mikhsab",
+  "title": "مِخصَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "حديقة المشاريع — سقِ نباتاتك",
+  "url": "../mikhsab/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3yan",
+  "title": "مِعيَن",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "دفتر الجميل — من أحسن إليك",
+  "url": "../mi3yan/",
+  "icon": "م"
+ },
+ {
+  "id": "min3ar",
+  "title": "مِنعَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "الدقيقة الأولى — صمّم صباحك",
+  "url": "../min3ar/",
+  "icon": "م"
+ },
+ {
+  "id": "mikhlaq",
+  "title": "مِخلَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "خُلُق الشهر — مارسه يومياً",
+  "url": "../mikhlaq/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3sab",
+  "title": "مِعصَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "حزمة اليوم — مراجعة ليلية",
+  "url": "../mi3sab/",
+  "icon": "م"
+ },
+ {
+  "id": "hadith_shajara",
+  "title": "شجرة الإسناد",
+  "maker": "محمد",
+  "field": "تراث",
+  "desc": "تتبع سلسلة السند بصرياً — من الراوي إلى المصدر",
+  "url": "../hadith/shajara.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en_collocations",
+  "title": "التراكيب الإنجليزية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "50 تركيباً طبيعياً — أي كلمة تليق؟",
+  "url": "../english/collocations.html",
+  "icon": "ع"
+ },
+ {
+  "id": "prog_bigo",
+  "title": "حاسبة التعقيد",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "خمّن Big-O قبل الكشف — 12 مقطعاً",
+  "url": "../prog/big_o.html",
+  "icon": "ب"
+ },
+ {
+  "id": "prog_debughunt",
+  "title": "صائد الأخطاء",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "اعثر على البقّ — 12 مقطعاً معلولاً",
+  "url": "../prog/debug_hunt.html",
+  "icon": "ب"
+ },
+ {
+  "id": "miqrad",
+  "title": "مِقرَض",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "قائمة القطع — صِد كل يوم",
+  "url": "../miqrad/",
+  "icon": "م"
+ },
+ {
+  "id": "midhkar",
+  "title": "مِذخَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "جرد المخزن — لا يفسد شيء",
+  "url": "../midhkar/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3kas",
+  "title": "مِعكَس",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "مرآة الأسبوع — ٥ أسئلة",
+  "url": "../mi3kas/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3sar",
+  "title": "مِعصَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "جيوب الوقت — مهام للوقت الميت",
+  "url": "../mi3sar/",
+  "icon": "م"
+ },
+ {
+  "id": "miksal",
+  "title": "مِكسَل",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "دفتر التسويف — النمط يُكسر",
+  "url": "../miksal/",
+  "icon": "م"
+ },
+ {
+  "id": "mizlaq",
+  "title": "مِزلَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "عدّاد النقاء — زلّات بمُثيرها",
+  "url": "../mizlaq/",
+  "icon": "م"
+ },
+ {
+  "id": "miqna3",
+  "title": "مِقنَع",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سجل الأقنعة — صدق المواقف",
+  "url": "../miqna3/",
+  "icon": "م"
+ },
+ {
+  "id": "mihmaz",
+  "title": "مِهمَز",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "وخزة المستقبل — رسائل بتاريخ",
+  "url": "../mihmaz/",
+  "icon": "م"
+ },
+ {
+  "id": "misbah2",
+  "title": "مِصبَح",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "شكر الفجر — ثلاث نِعم",
+  "url": "../misbah2/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3bar2",
+  "title": "مِعبَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "جسر الحوار — محادثات صعبة",
+  "url": "../mi3bar2/",
+  "icon": "م"
+ },
+ {
+  "id": "mijhaz",
+  "title": "مِجهَز",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "قوائم التجهيز — لا تنسى شيئاً",
+  "url": "../mijhaz/",
+  "icon": "م"
+ },
+ {
+  "id": "mizmar",
+  "title": "مِزمَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "إيقاع الأسبوع — شبكة الثوابت",
+  "url": "../mizmar/",
+  "icon": "م"
+ },
+ {
+  "id": "minhat",
+  "title": "مِنحَت",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "اليوم المثالي — انحته وقِس عليه",
+  "url": "../minhat/",
+  "icon": "م"
+ },
+ {
+  "id": "miksah",
+  "title": "مِكسَح",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "المسح اليومي — ٥ دقائق",
+  "url": "../miksah/",
+  "icon": "م"
+ },
+ {
+  "id": "mikhda3",
+  "title": "مِخدَع",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "كشّاف الخداع — أكاذيب النفس",
+  "url": "../mikhda3/",
+  "icon": "م"
+ },
+ {
+  "id": "mishdhab",
+  "title": "مِشذَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "تقليم الالتزامات المتكررة",
+  "url": "../mishdhab/",
+  "icon": "م"
+ },
+ {
+  "id": "gharib",
+  "title": "غريب الحديث",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "قاموس غريب الحديث الحي",
+  "url": "../hadith/gharib.html",
+  "icon": "غ"
+ },
+ {
+  "id": "word_families",
+  "title": "العائلات اللفظية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "٤٠ عائلة كلمات من الكوربوس",
+  "url": "../english/word_families.html",
+  "icon": "ع"
+ },
+ {
+  "id": "regexlab",
+  "title": "مختبر الريجيكس",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "١٢ تحدي ريجيكس متدرجاً",
+  "url": "../prog/regex.html",
+  "icon": "م"
+ },
+ {
+  "id": "minsat2",
+  "title": "مِنصَت",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "رسائل لا تُرسَل — من يُنصِت",
+  "url": "../minsat2/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3had",
+  "title": "مِعهَد",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "عهود بمدة — وفيّ أم ناقض؟",
+  "url": "../mi3had/",
+  "icon": "م"
+ },
+ {
+  "id": "mirjam",
+  "title": "مِرجَم",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "معجمي الخاص — مصطلحاتك",
+  "url": "../mirjam/",
+  "icon": "م"
+ },
+ {
+  "id": "minshar",
+  "title": "مِنشَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "مدونتي الصغيرة — لنفسي",
+  "url": "../minshar/",
+  "icon": "م"
+ },
+ {
+  "id": "milhaf",
+  "title": "مِلهَف",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "ما ألهف إليه — لهفات وشدتها",
+  "url": "../milhaf/",
+  "icon": "م"
+ },
+ {
+  "id": "misbar2",
+  "title": "مِسبَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "تشريح عادة — محفّز/حاجة/كلفة",
+  "url": "../misbar2/",
+  "icon": "م"
+ },
+ {
+  "id": "i3tilaf",
+  "title": "اختلاف الروايات",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "مقارن روايات الحديث لفظاً وحكماً",
+  "url": "../hadith/i3tilaf.html",
+  "icon": "ر"
+ },
+ {
+  "id": "shadow_chain",
+  "title": "سلسلة الظل",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "استمع—اكتب—قارن SRS",
+  "url": "../english/shadow_chain.html",
+  "icon": "س"
+ },
+ {
+  "id": "code_reading",
+  "title": "اقرأ الكود",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "خمّن الناتج ثم شغّل",
+  "url": "../prog/code_reading.html",
+  "icon": "ق"
+ },
+ {
+  "id": "mi3shaq",
+  "title": "مِعشَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "لذائذي الصغيرة",
+  "url": "../mi3shaq/",
+  "icon": "م"
+ },
+ {
+  "id": "misjil",
+  "title": "مِسجِل",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سجل الأيام — ١-١٠ وسطر",
+  "url": "../misjil/",
+  "icon": "م"
+ },
+ {
+  "id": "mirzaq",
+  "title": "مِرزَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "لحظات الرزق غير المحتسبة",
+  "url": "../mirzaq/",
+  "icon": "م"
+ },
+ {
+  "id": "minshaq",
+  "title": "مِنشَق",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "شقّق الهدف لخطوات",
+  "url": "../minshaq/",
+  "icon": "م"
+ },
+ {
+  "id": "mis3af",
+  "title": "مِسعَف",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "قائمة الإسعاف — من يحتاجك",
+  "url": "../mis3af/",
+  "icon": "م"
+ },
+ {
+  "id": "tadlis",
+  "title": "التدليس",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "مدرّب اكتشاف تدليس الإسناد",
+  "url": "../hadith/tadlis.html",
+  "icon": "ت"
+ },
+ {
+  "id": "dictation",
+  "title": "الإملاء",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "استمع واكتب — word-diff",
+  "url": "../english/dictation.html",
+  "icon": "إ"
+ },
+ {
+  "id": "mirja3",
+  "title": "مِرجَع",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "أسئلة تعود إليها",
+  "url": "../mirja3/",
+  "icon": "م"
+ },
+ {
+  "id": "mirhaf",
+  "title": "مِرهَف",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "ميزان الحساسية — مستحق أم مبالغة",
+  "url": "../mirhaf/",
+  "icon": "م"
+ },
+ {
+  "id": "mirkab",
+  "title": "مِركَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "أثر المركّب — عادة×سنة",
+  "url": "../mirkab/",
+  "icon": "م"
+ },
+ {
+  "id": "midhnab",
+  "title": "مِذنَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "سجل التوبة — محلي تماماً",
+  "url": "../midhnab/",
+  "icon": "م"
+ },
+ {
+  "id": "mi3jab",
+  "title": "مِعجَب",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "الإعجاب والاقتداء",
+  "url": "../mi3jab/",
+  "icon": "م"
+ },
+ {
+  "id": "mishar",
+  "title": "مِسهَر",
+  "maker": "محمد",
+  "field": "إدارة",
+  "desc": "ساهر لماذا؟ — أنماط السهر",
+  "url": "../mishar/",
+  "icon": "م"
+ },
+ {
+  "id": "sql_lab",
+  "title": "مختبر SQL",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "قاعدة مصغرة + مفسّر SQL",
+  "url": "../prog/sql_lab.html",
+  "icon": "م"
  }
 ]

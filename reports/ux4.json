@@ -1,0 +1,89 @@
+{
+ "generated": "2026-09-25T04:39:37.582Z",
+ "sites": {
+  "hadith-index": {
+   "url": "https://medmrf-10.github.io/des/hadith/index.html",
+   "js_errors": [],
+   "http": 200,
+   "vw": 360,
+   "docSW": 360,
+   "docH": 1060,
+   "outVp": [
+    "A."
+   ],
+   "wide": [],
+   "taps": 26,
+   "smallTaps": 16,
+   "smallFont": 0,
+   "longLines": 0,
+   "bodyLen": 1223,
+   "els": 97
+  },
+  "hadith-misbar": {
+   "url": "https://medmrf-10.github.io/des/hadith/misbar.html",
+   "js_errors": [],
+   "http": 200,
+   "vw": 360,
+   "docSW": 360,
+   "docH": 900,
+   "outVp": [],
+   "wide": [],
+   "taps": 6,
+   "smallTaps": 0,
+   "smallFont": 0,
+   "longLines": 0,
+   "bodyLen": 224,
+   "els": 29
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "js_errors": [],
+   "http": 200,
+   "vw": 360,
+   "docSW": 360,
+   "docH": 900,
+   "outVp": [],
+   "wide": [],
+   "taps": 3,
+   "smallTaps": 0,
+   "smallFont": 0,
+   "longLines": 0,
+   "bodyLen": 103,
+   "els": 21
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "js_errors": [],
+   "http": 200,
+   "vw": 360,
+   "docSW": 360,
+   "docH": 900,
+   "outVp": [],
+   "wide": [],
+   "taps": 3,
+   "smallTaps": 0,
+   "smallFont": 0,
+   "longLines": 0,
+   "bodyLen": 163,
+   "els": 27
+  },
+  "hadith-kutub": {
+   "url": "https://medmrf-10.github.io/des/kutub/",
+   "js_errors": [
+    "SyntaxError: Failed to execute 'querySelector' on 'Document': '##cats' is not a valid selector.\n    at $ (https://medmrf-10.github.io/des/ku"
+   ],
+   "http": 200,
+   "vw": 360,
+   "docSW": 360,
+   "docH": 900,
+   "outVp": [],
+   "wide": [],
+   "taps": 3,
+   "smallTaps": 0,
+   "smallFont": 0,
+   "longLines": 0,
+   "bodyLen": 35,
+   "els": 19
+  }
+ }
+}

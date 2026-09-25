@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختلاف الروايات | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:980px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.cols{display:grid;grid-template-columns:280px 1fr;gap:12px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.lst{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;max-height:70vh;overflow:auto}
+.lst .it{padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12px;border:1px solid transparent}
+.lst .it:hover{border-color:var(--acc2)}
+.lst .it.on{background:var(--card2);border-color:var(--acc)}
+.lst .it .gid{color:var(--acc2);font-weight:700}
+.lst .it .tt{color:var(--txt);font-family:var(--font-ar);line-height:1.7}
+.lst .seen{color:var(--ok);font-size:10px}
+.ref,.alt{background:var(--card);border-radius:12px;padding:12px 16px;margin-bottom:10px;font-family:var(--font-ar);font-size:14.5px;line-height:2}
+.ref{border:2px solid var(--acc2)}
+.alt .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--dim);margin-bottom:6px;font-family:var(--font-ui)}
+.alt .tt{font-family:var(--font-ar)}
+.alt mark{background:transparent;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.alt[data-c="0"]{border-right:4px solid #e0b25a}.alt[data-c="0"] mark{color:#e0b25a}
+.alt[data-c="1"]{border-right:4px solid #6fb36f}.alt[data-c="1"] mark{color:#8fd08f}
+.alt[data-c="2"]{border-right:4px solid #7c9fd4}.alt[data-c="2"] mark{color:#9db8e8}
+.alt[data-c="3"]{border-right:4px solid #b07cc0}.alt[data-c="3"] mark{color:#cc9ed8}
+.alt[data-c="4"]{border-right:4px solid #d97b6c}.alt[data-c="4"] mark{color:#ef9c8c}
+.alt[data-c="5"]{border-right:4px solid #5fb3ad}.alt[data-c="5"] mark{color:#7fd0ca}
+.bdg{border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;font-family:var(--font-ui)}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
+.v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0}
+.stats b{color:var(--acc2)}
+.mut{color:var(--dim);font-size:12px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>📜 اختلاف الروايات</h1>
+  <span class="sub">نص مرجعي وروايات بديلة بإطارات ملونة — الكلمات المخالفة مظللة</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="naskh.html">اختلاف اللفظ ←</a>
+  <a href="mutadarib.html">مُتدافِر ←</a>
+</header>
+<div class="stats" id="stats"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="status" id="stat"></div>
+<div class="cols">
+  <div class="lst" id="lst"></div>
+  <div id="main"><div class="mut" style="padding:30px;text-align:center">اختر معنى من القائمة لعرض رواياته</div></div>
+</div>
+<script src="pako.min.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/[^\p{L}\s]/gu,' ').replace(/\s+/g,' ').trim();
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BOOKS=Object.keys(BAR);
+const bucket=v=>{if(!v)return 'ns';const s=String(v);
+  if(/شديد الضعف/.test(s))return 'sd';if(/متهم بالوضع|موضوع/.test(s))return 'mw';
+  if(/متصل|صحيح/.test(s))return 'sa';if(/حسن/.test(s))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه|منكر|مجهول/.test(s))return 'df';return 'ot'};
+const HBL={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'موضوع/متهم',ot:'أخرى',ns:'بلا حكم'};
+const D={};let GN=null,POOL=[];
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+const SKEY='miq_i3tilaf';
+const getL=()=>{try{return JSON.parse(localStorage.getItem(SKEY)||'{}')}catch(e){return{}}};
+const markSeen=g=>{const l=getL();l[g]={seen:1};try{localStorage.setItem(SKEY,JSON.stringify(l))}catch(e){}};
+async function loadGN(){
+  if(GN)return;
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s);pf.style.width='40%'});
+  GN=window.GIDNET;
+}
+async function loadBook(b){
+  if(D[b])return D[b];
+  stat.textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  stat.textContent='';return D[b];
+}
+/* ~30 مرشّحاً: كتب متعددة + تباين طبقي بين الأحكام، يفضّل كثرة المواضع */
+function buildPool(){
+  for(const gid in GN.g){
+    const g=GN.g[gid];const wb=Object.keys(g.w||{});
+    if(wb.length<2)continue;
+    const bkts=new Set();
+    if(g.j)for(const b in g.j)for(const n in g.j[b])for(const v of g.j[b][n])bkts.add(bucket(v));
+    const total=wb.reduce((a,b)=>a+g.w[b].length,0);
+    const score=bkts.size*3+total;
+    POOL.push({gid,score,nb:wb.length,nt:total,spread:bkts.size});
+  }
+  POOL.sort((a,b)=>b.score-a.score);
+  POOL=POOL.slice(0,30);
+}
+function paintList(){
+  const l=getL();
+  document.getElementById('lst').innerHTML=POOL.map(p=>{
+    const g=GN.g[p.gid];
+    return `<div class="it" id="it-${p.gid}" onclick="show(${p.gid})">
+      <span class="gid">معنى #${arNum(p.gid)}</span> ${l[p.gid]?'<span class="seen">شوهد ✓</span>':''}
+      <div class="mut" style="font-size:10px">${arNum(p.nb)} كتب · ${arNum(p.nt)} موضعاً · ${arNum(p.spread)} طبقات حكم</div>
+      <div class="tt">${esc(g.t.slice(0,60))}${g.t.length>60?'…':''}</div></div>`;
+  }).join('');
+}
+window.show=async function(gid){
+  const g=GN.g[gid];if(!g)return;
+  document.querySelectorAll('.lst .it.on').forEach(x=>x.classList.remove('on'));
+  const it=document.getElementById('it-'+gid);if(it)it.classList.add('on');
+  markSeen(gid);
+  stat.textContent='يجمع المتون…';
+  const vers=[];
+  for(const b of BOOKS){
+    if(!g.w||!g.w[b])continue;
+    const j=await loadBook(b);
+    for(const n of g.w[b])vers.push({b,n,m:j.d[n]?j.d[n].m:'',v:(j.s[n]&&j.s[n][0]&&(Array.isArray(j.s[n][0])?j.s[n][0][0]:j.s[n][0]))||''});
+  }
+  /* المرجع = أطول متن */
+  vers.sort((a,b)=>b.m.length-a.m.length);
+  const ref=vers[0];const alts=vers.slice(1);
+  const refWords=new Set(norm(ref.m).split(' ').filter(Boolean));
+  const jOp=g.j||{};
+  stat.textContent='';pf.style.width='100%';
+  const altHtml=alts.map((v,i)=>{
+    const ws=norm(v.m).split(' ');
+    const raw=v.m.split(/\s+/);
+    const marked=raw.map(w=>refWords.has(norm(w))?esc(w):`<mark>${esc(w)}</mark>`).join(' ');
+    const jvs=(jOp[v.b]&&jOp[v.b][v.n])||[];
+    return `<div class="alt" data-c="${i%6}">
+      <div class="hd"><span>${BAR[v.b]} <b style="color:var(--acc2)">#${arNum(v.n)}</b></span>
+      <span class="bdg v-${bucket(v.v)}">${esc(v.v||'—')}</span></div>
+      <div class="tt">${marked}</div>
+      ${jvs.length?`<div class="hd" style="margin-top:6px">${jvs.map(vv=>`<span class="bdg v-${bucket(vv)}">${esc(vv)}</span>`).join(' ')}</div>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('main').innerHTML=`
+    <div class="mut" style="margin-bottom:6px">معنى #${arNum(gid)} · الحكم الموحد <b class="bdg v-${bucket(g.h)}">${esc(g.h)}</b> · ${arNum(vers.length)} رواية
+    · <a class="chip" href="net.html#g${gid}">الشبكة ←</a></div>
+    <div class="ref"><div class="mut" style="font-family:var(--font-ui);font-size:11px;margin-bottom:6px">النص المرجعي — ${BAR[ref.b]} #${arNum(ref.n)}</div>
+    <div class="tt">${esc(ref.m)}</div>
+    <div class="hd" style="margin-top:6px"><span class="bdg v-${bucket(ref.v)}">${esc(ref.v||'—')}</span></div></div>
+    ${altHtml||'<div class="mut">لا روايات بديلة</div>'}`;
+  paintList();
+};
+(async()=>{
+  await loadGN();
+  pf.style.width='70%';stat.textContent='ينتقي المرشّحين…';
+  buildPool();
+  const l=getL();const seen=Object.keys(l).length;
+  document.getElementById('stats').innerHTML=
+    `قائمة التصفح: <b>${arNum(POOL.length)}</b> معنى متعدد الروايات · شاهدت: <b>${arNum(seen)}</b>`;
+  pf.style.width='100%';stat.textContent='';
+  paintList();
+  const h=location.hash.match(/g=(\d+)/);
+  if(h&&GN.g[h[1]])show(+h[1]);else if(POOL.length)show(+POOL[0].gid);
+})();
+</script>
+<script src="../shared/feedback.js" data-pid="miq_i3tilaf"></script>
+</body>
+</html>

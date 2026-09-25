@@ -1,75 +1,74 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f1a">
-<title>مِعيار — تقييمك الذاتي</title>
+<title>مِعيَر — عجلة التوازن</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
-body{max-width:760px;margin:0 auto;padding:14px}
-canvas{width:100%;max-width:420px;display:block;margin:12px auto;background:var(--card);border:1px solid var(--border);border-radius:14px}
-.sub{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin:6px 0}
-.sub .n{flex:1;font-family:var(--font-ar);font-size:14px}
-.sub input[type=range]{flex:1.4;accent-color:var(--acc)}
-.sub .v{width:30px;text-align:center;color:var(--acc);font-weight:700;font-size:13px}
-.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+body{max-width:560px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
 .muted{color:var(--dim);font-size:12px}
-.hist{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 13px;margin:5px 0;font-size:12px;display:flex;justify-content:space-between}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.dom{display:flex;gap:10px;align-items:center;margin-top:9px}
+.dom .nm{min-width:80px;font-family:var(--font-ar);font-size:13px}
+.dom input{flex:1;accent-color:var(--acc)}
+.dom .v{min-width:26px;text-align:center;font-size:12px;color:var(--acc);font-weight:700}
+.bar{height:8px;border-radius:99px;background:var(--card2);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%}
+.gap{background:var(--card);border:1px solid var(--acc2);border-radius:11px;padding:10px 14px;margin-top:7px;font-size:12.5px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
 </style>
 </head>
 <body>
-<h2 style="font-family:var(--font-ar);margin:6px 0">مِعيار <span class="muted">— أين أنت اليوم؟</span></h2>
-<div class="muted">قيّم نفسك من ١٠ في كل باب — الرادار يرسم صورتك، والتاريخ يُظهر تقدّمك بين التقييمات.</div>
-<div id="subs"></div>
-<div style="display:flex;gap:10px;margin:12px 0">
-<button class="btn" id="save">احفظ تقييم اليوم</button>
-<button class="btn" id="cmp" style="background:var(--card2);color:var(--txt)">قارن بالسابق</button>
-</div>
-<canvas id="cv" width="840" height="640"></canvas>
-<h4 style="font-family:var(--font-ar);margin:14px 0 6px">التقييمات السابقة</h4>
-<div id="hist"></div>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعيَر <span class="muted">— عجلة التوازن</span></h2>
+<div class="muted">قيّم مجالات حياتك شهرياً من ١-١٠ — العجلة تكشف ما أهملته.</div>
+<div class="card"><div class="t">قيّم الآن</div>
+<div id="doms"></div>
+<button class="btn" id="sv" style="margin-top:11px">احفظ التقييم</button></div>
+<div id="gaps"></div>
+<div id="stats"></div>
 <script>
 const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
-const SUBS=['قرآن','حديث','عقيدة','فقه','عربية','إنجليزية','برمجة','تصوف'];
-let cur=JSON.parse(localStorage.mi3yar_cur||'{}');
-let hist=JSON.parse(localStorage.mi3yar_hist||'[]');
-let showPrev=null;
-$('#subs').innerHTML=SUBS.map(s=>`<div class="sub"><span class="n">${s}</span>
-<input type="range" min="0" max="10" value="${cur[s]||0}" data-s="${s}"><span class="v">${cur[s]||0}</span></div>`).join('');
-function draw(){
- const cv=$('cv'),c=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2+20,R=Math.min(W,H)/2-70;
- c.clearRect(0,0,W,H);
- const n=SUBS.length;
- for(let ring=2;ring<=10;ring+=2){c.beginPath();
-  for(let i=0;i<=n;i++){const a=-Math.PI/2+i*2*Math.PI/n,r=R*ring/10;
-   i?c.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):c.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}
-  c.strokeStyle='rgba(140,150,180,.14)';c.stroke()}
- SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;
-  c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));c.strokeStyle='rgba(140,150,180,.14)';c.stroke();
-  c.fillStyle='#98a2b8';c.font='24px system-ui';c.textAlign='center';c.fillText(s,cx+(R+36)*Math.cos(a),cy+(R+32)*Math.sin(a)+8)});
- function poly(vals,color,fill){
-  c.beginPath();SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=R*(vals[s]||0)/10;
-   i?c.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):c.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a))});
-  c.closePath();c.fillStyle=fill;c.fill();c.strokeStyle=color;c.lineWidth=2.5;c.stroke();
-  SUBS.forEach((s,i)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=R*(vals[s]||0)/10;
-   c.beginPath();c.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),5,0,7);c.fillStyle=color;c.fill()})}
- if(showPrev)poly(showPrev,'rgba(152,162,184,.7)','rgba(152,162,184,.12)');
- poly(cur,'#c9a24b','rgba(201,162,75,.22)');
- c.fillStyle='#e8e9ee';c.font='bold 22px system-ui';c.textAlign='center';
- const avg=SUBS.reduce((a,s)=>a+(cur[s]||0),0)/n;
- c.fillText('مستواك: '+avg.toFixed(1)+'/10',cx,40)}
-$('#subs').oninput=e=>{const r=e.target.closest('input[type=range]');if(!r)return;
- cur[r.dataset.s]=+r.value;r.nextElementSibling.textContent=r.value;
- localStorage.mi3yar_cur=JSON.stringify(cur);draw()};
-$('#save').onclick=()=>{hist.push({d:Date.now(),v:{...cur}});if(hist.length>24)hist=hist.slice(-24);
- localStorage.mi3yar_hist=JSON.stringify(hist);render();draw()};
-$('#cmp').onclick=()=>{if(showPrev){showPrev=null;$('#cmp').textContent='قارن بالسابق'}else{showPrev=hist.length?hist[hist.length-1].v:null;$('#cmp').textContent='إخفاء السابق'}draw()};
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const DOMS=['دين','علم','صحة','أهل','مال','نفس','عمل','راحة'];
+const COLS=['#c9a959','#5a8aca','#5aca8a','#ca8a5a','#8a5aca','#ca5a8a','#5acaca','#baba5a'];
+let H=LS('mi3yar',[]);
+let cur=H.length?{...H[0].v}:Object.fromEntries(DOMS.map(d=>[d,5]));
+$('#doms').innerHTML=DOMS.map((d,i)=>'<div class="dom"><span class="nm">'+d+'</span>'+
+'<input type="range" min="1" max="10" value="'+cur[d]+'" data-i="'+i+'"><span class="v" id="v'+i+'">'+arN(cur[d])+'</span></div>'+
+'<div class="bar"><i style="width:'+cur[d]*10+'%;background:'+COLS[i]+'" id="b'+i+'"></i></div>').join('');
+$('#doms').oninput=e=>{
+ const i=e.target.dataset.i;if(i==null)return;
+ cur[DOMS[i]]=+e.target.value;
+ $('#v'+i).textContent=arN(e.target.value);
+ $('#b'+i).style.width=e.target.value*10+'%';
+};
+$('#sv').onclick=()=>{
+ H.unshift({at:Date.now(),v:{...cur}});SV('mi3yar',H);render();
+};
 function render(){
- $('#hist').innerHTML=hist.length?hist.slice().reverse().map(h=>{const avg=SUBS.reduce((a,s)=>a+(h.v[s]||0),0)/SUBS.length;
-  return `<div class="hist"><span>${new Date(h.d).toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'short'})}</span><span style="color:var(--acc)">${avg.toFixed(1)}/10</span></div>`}).join(''):'<div class="muted">لا تقييمات محفوظة — حدّد مستوياتك واضغط احفظ.</div>'}
-render();draw();
+ const g=DOMS.map(d=>cur[d]);
+ const mn=Math.min(...g),mx=Math.max(...g);
+ const gaps=[];
+ DOMS.forEach((d,i)=>{if(g[i]<=4)gaps.push({t:d,x:'منخفض ('+arN(g[i])+') — يحتاج خطة إنقاذ'})});
+ if(mx-mn>=4)gaps.push({t:'الفجوة',x:'بين أعلى ('+arN(mx)+') وأدنى ('+arN(mn)+') = '+arN(mx-mn)+' — توازنك مائل'});
+ $('#gaps').innerHTML=gaps.map(g=>'<div class="gap"><b style="color:var(--acc2)">'+g.t+'</b> — '+g.x+'</div>').join('')||
+ '<div class="muted" style="margin-top:9px">توازن معقول — حافظ.</div>';
+ const avg=(g.reduce((s,x)=>s+x,0)/g.length).toFixed(1);
+ $('#stats').innerHTML='<span class="stat">متوسط: <b>'+arN(avg)+'</b></span>'+
+ '<span class="stat">أعلى: <b>'+DOMS[g.indexOf(mx)]+'</b></span>'+
+ '<span class="stat">أدنى: <b>'+DOMS[g.indexOf(mn)]+'</b></span>'+
+ '<span class="stat">تقييمات سابقة: <b>'+arN(H.length)+'</b></span>';
+}
+render();
 </script>
-<script src="../shared/feedback.js" data-pid="mi3yar" data-title="مِعيار"></script>
+<script src="../shared/feedback.js" data-pid="mi3yar" data-title="مِعيَر"></script>
 </body>
 </html>

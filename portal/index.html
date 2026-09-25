@@ -39,7 +39,7 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
 .fgroup{margin-bottom:10px}
 .fgroup .fl{font-size:.64rem; color:var(--dim); letter-spacing:.06em; margin:0 4px 6px; display:block}
 .chips{display:flex; flex-wrap:wrap; gap:6px}
-.chip{background:var(--card); border:1px solid var(--border); border-radius:99px; color:var(--dim); font-family:inherit; font-size:.7rem; padding:6px 14px; cursor:pointer}
+.chip{background:var(--card); border:1px solid var(--border); border-radius:99px; color:var(--dim); font-family:inherit; font-size:.7rem; padding:9px 16px; min-height:34px; cursor:pointer}
 .chip.on{background:linear-gradient(135deg,rgba(201,162,75,.22),rgba(232,201,122,.12)); border-color:var(--acc); color:var(--txt)}
 .count{font-size:.68rem; color:var(--dim); margin:14px 4px 10px}
 .proj{background:rgba(19,26,34,.72); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:18px; padding:16px; margin-bottom:12px; animation:enter .4s cubic-bezier(.22,1,.36,1) both; box-shadow:0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06)}
@@ -52,11 +52,11 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
 .badge{font-size:.6rem; font-weight:700; padding:3px 10px; border-radius:99px; border:1px solid var(--border); color:var(--acc2); flex:0 0 auto}
 .pd{font-size:.78rem; color:var(--dim); margin-top:9px; line-height:1.65; overflow-wrap:break-word}
 .prow{display:flex; align-items:center; gap:8px; margin-top:11px; flex-wrap:wrap}
-.pu{color:var(--acc2); font-size:.75rem; text-decoration:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px}
+.pu{color:var(--acc2); font-size:.75rem; text-decoration:none; border:1px solid var(--border); border-radius:8px; padding:9px 13px; min-height:34px; display:inline-flex; align-items:center}
 .pu:hover{background:var(--card2)}
 .pu.dis{color:var(--dim); border-style:dashed; pointer-events:none}
 .spc{flex:1}
-.ptool{background:none; border:1px solid var(--border); border-radius:8px; color:var(--dim); font-family:inherit; font-size:.68rem; padding:5px 10px; cursor:pointer}
+.ptool{background:none; border:1px solid var(--border); border-radius:8px; color:var(--dim); font-family:inherit; font-size:.68rem; padding:9px 12px; min-height:34px; cursor:pointer}
 .ptool:hover,.ptool.open{color:var(--gold); border-color:rgba(232,201,122,.5)}
 .csec{border-top:1px dashed var(--border); margin-top:10px; padding-top:10px; display:none}
 .csec.open{display:block}
@@ -103,6 +103,7 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
   <div class="fgroup"><span class="fl">المجال</span><div class="chips" id="fchips"></div></div>
   <div class="count" id="cnt"></div>
   <div id="projs"></div>
+  <button class="privbtn" id="more" style="display:none;border-style:solid">عرض المزيد</button>
   <button class="privbtn" id="showPriv">🔒 إظهار الخاص</button>
   <div class="foot"><span class="pulse"></span>Port · بوابة الفريق الموحّدة</div>
 </div>
@@ -118,7 +119,7 @@ h1{font-size:1.6rem; font-weight:700; letter-spacing:.02em; background:linear-gr
 </div>
 <script>
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-const PJ={all:[],fm:'الكل',ff:'الكل',q:''};
+const PJ={all:[],fm:'الكل',ff:'الكل',q:'',shown:30};
 const cmts=JSON.parse(localStorage.getItem('portal_comments')||'{}');
 const sgts=JSON.parse(localStorage.getItem('portal_suggestions')||'{}');
 const saveC=()=>localStorage.setItem('portal_comments',JSON.stringify(cmts));
@@ -163,12 +164,16 @@ function renderPJ(){
     (PJ.ff==='الكل'||p.field===PJ.ff)&&
     (!PJ.q||p.title.includes(PJ.q)||p.desc.includes(PJ.q)||p.maker.includes(PJ.q)));
   document.getElementById('cnt').textContent=list.length===PJ.all.length?`${list.length} مشروعاً`:`${list.length} من ${PJ.all.length} مشروعاً`;
-  document.getElementById('projs').innerHTML=list.map(projCard).join('')||'<div class="empty">لا مشاريع تطابق الفلتر</div>';
+  const vis=list.slice(0,PJ.shown);
+  document.getElementById('projs').innerHTML=vis.map(projCard).join('')||'<div class="empty">لا مشاريع تطابق الفلتر</div>';
+  document.getElementById('more').style.display=list.length>PJ.shown?'block':'none';
+  document.getElementById('more').textContent=`عرض ${Math.min(30,list.length-PJ.shown)} إضافية (${list.length-PJ.shown} متبقية)`;
 }
-document.getElementById('q').addEventListener('input',e=>{PJ.q=e.target.value.trim();renderPJ()});
+document.getElementById('q').addEventListener('input',e=>{PJ.q=e.target.value.trim();PJ.shown=30;renderPJ()});
+document.getElementById('more').onclick=()=>{PJ.shown+=30;renderPJ()};
 document.addEventListener('click',e=>{
   const ch=e.target.closest('.chip');
-  if(ch){if(ch.dataset.m)PJ.fm=ch.dataset.m;if(ch.dataset.f)PJ.ff=ch.dataset.f;renderPJ();return}
+  if(ch){if(ch.dataset.m)PJ.fm=ch.dataset.m;if(ch.dataset.f)PJ.ff=ch.dataset.f;PJ.shown=30;renderPJ();return}
   const tb=e.target.closest('.ptool');
   if(tb){const sec=document.getElementById(tb.dataset.act+'-'+tb.dataset.p);sec.classList.toggle('open');tb.classList.toggle('open',sec.classList.contains('open'));return}
   const ad=e.target.closest('[data-add]');

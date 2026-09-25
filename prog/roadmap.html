@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>خريطة الطريق — برمج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../shared/theme.css">
+</head>
+<body>
+<header>
+  <div class="wrap head-row">
+    <div>
+      <h1>برمج</h1>
+      <div class="tagline">خريطة الطريق — مساراتك ووحداتك على شجرة واحدة</div>
+    </div>
+    <div class="prog"><a class="btn ghost sm" href="index.html" style="text-decoration:none;color:var(--acc2)">← المنصة</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="rdStats" class="rd-stats"></div>
+  <div class="rd-legend">
+    <span><i class="rd-dot" style="background:#555"></i>أقل من 40%</span>
+    <span><i class="rd-dot" style="background:var(--acc)"></i>40–80%</span>
+    <span><i class="rd-dot" style="background:#6fc76f"></i>80%+</span>
+    <span class="rd-hint">اضغط مساراً لعرض وحداته، ووحدةً لوصفها وروابطها</span>
+  </div>
+  <div class="rd-stage">
+    <svg id="rdSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <aside id="rdDetail" class="rd-detail rd-hidden"></aside>
+  </div>
+</main>
+
+<footer><div class="wrap">برمج — تقدمك محفوظ على جهازك</div></footer>
+<script src="courses.js"></script>
+<script src="roadmap.js"></script>
+<script src="../shared/feedback.js" data-pid="prog_roadmap" data-title="برمج — خريطة الطريق"></script>
+</body>
+</html>
+

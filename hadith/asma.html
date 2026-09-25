@@ -134,6 +134,7 @@ document.getElementById('bchips').innerHTML=BOOKS.map(b=>
   `<button class="chip" data-b="${b}">${BAR[b]}</button>`).join('');
 (async()=>{stat.textContent='يُحمّل صحيح البخاري…';await loadBook('bukhari',1);stat.textContent='';render()})();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="hadith_asma"></script>
 </body>
 </html>

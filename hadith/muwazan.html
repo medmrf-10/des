@@ -16,8 +16,8 @@ body{max-width:980px;margin:0 auto;padding:0 14px 40px}
 .pchip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:inherit}
 .pchip.on{outline:2px solid var(--acc2)}
 .pchip .seen{color:var(--ok)}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+@media(max-width:640px){.cols{grid-template-columns:minmax(0,1fr)}}
 .scol{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px}
 .scol.win{border-color:var(--ok);box-shadow:0 0 10px #6fb36f33}
 .scol h3{font-size:13px;margin:0 0 8px;color:var(--acc2);font-weight:700}
@@ -209,6 +209,7 @@ window.pick=function(ans){
   if(POOL.length)show(0);else document.getElementById('main').innerHTML='<div class="mut">لا أزواج</div>';
 })();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="miq_muwazan"></script>
 </body>
 </html>

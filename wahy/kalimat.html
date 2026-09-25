@@ -62,9 +62,20 @@ document.getElementById('cloud').onclick=e=>{
  const ix=VMAP[cur]||[];const V={'ا':'[اأإآٱ]','ي':'[يى]','ه':'[هة]','و':'[وؤ]'};
  const flex=norm(cur).split('').map(c=>V[c]||c).join('[ً-ْٰـ]*');
  const rx=new RegExp('('+flex+')','g');
- document.getElementById('verses').innerHTML=`<div class="muted" style="margin:6px 0">${ix.length.toLocaleString('ar-EG')} آية فيها «${cur}»</div>`+
-  ix.map(i=>{const v=S.verses[i];return `<div class="vs"><b>${S.n}:${i+1}</b> ${esc(v.a).replace(rx,'<mark>$1</mark>')}</div>`}).join('')};
+ document.getElementById('verses').innerHTML=`<div class="muted" style="margin:6px 0">${ix.length.toLocaleString('ar-EG')} آية فيها «${cur}» ${window.llmReady&&window.llmReady()?'<button id="aiKl" style="border:1px solid var(--acc);background:none;color:var(--acc);border-radius:8px;padding:3px 13px;font-size:11px;cursor:pointer;font-family:inherit">✦ دلالات الكلمة</button>':''}</div><div id="aiKlBx"></div>`+
+    ix.map(i=>{const v=S.verses[i];return `<div class="vs"><b>${S.n}:${i+1}</b> ${esc(v.a).replace(rx,'<mark>$1</mark>')}</div>`}).join('');
+ const ab=document.getElementById('aiKl');
+ if(ab)ab.onclick=async()=>{ab.disabled=true;const bx=document.getElementById('aiKlBx');
+  bx.innerHTML='<div style="color:var(--acc);font-size:12px;padding:8px">يفكّر…</div>';
+  try{const sm=ix.slice(0,8).map(i=>S.n+':'+(i+1)+' '+S.verses[i].a).join(' | ');
+   const out=await window.gemAsk('كلمة «'+cur+'» وردت في هذه الآيات. حلّل دلالاتها القرآنية باختصار: معناها اللغوي، ميادين استعمالها في هذه النصوص، والفرق الدقيق بينها وبين أقرب مترادف لها إن وُجد.\n\nالآيات: '+sm,{maxTokens:700});
+   bx.innerHTML='<div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;line-height:2;margin:4px 0 8px">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+  }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:12px">'+esc(err.message)+'</div>'}
+  ab.disabled=false};
+}
 </script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

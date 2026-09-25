@@ -66,6 +66,7 @@ $('#go').onclick=()=>{
  (hd.length?'<div class="card"><div class="t">أحاديث تلاقيها ('+arN(hd.length)+')</div>'+hd.map(h=>'<div class="vx"><div class="src">'+esc(h.h)+' · كلمات مشتركة: '+h.kw.join('، ')+'</div><div class="txt">'+esc(h.t.slice(0,180))+'…</div></div>').join('')+'</div>':'');
 };
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mishrah" data-title="مِشرَح"></script>
 </body>
 </html>

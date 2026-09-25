@@ -108,6 +108,9 @@ async function unlock(pin){
     const full=new Uint8Array([...ct,...tag]);
     const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},kh,full);
     CAT=JSON.parse(new TextDecoder().decode(pt));
+    const cfg=(CAT||[]).find(x=>x.id==='_cfg');
+    if(cfg&&cfg.key)localStorage.setItem('jadid_llm',cfg.key);
+    CAT=(CAT||[]).filter(x=>x.id!=='_cfg');
     return true;
   }catch(e){return false}
 }
@@ -147,11 +150,12 @@ function renderStats(){
   $('stSent').textContent=Object.values(E).reduce((a,r)=>a+((r.rounds||[]).filter(x=>x.sent).length),0);
   $('stUpd').textContent=CAT.filter(p=>p.upd).length;
 }
+function norm(s){return (s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')}
 function renderGrid(){
-  const q=($('q').value||'').trim();
+  const q=norm(($('q').value||'').trim());
   const ff=$('ff').value,fr=$('fr').value,fs=$('fs').value;
   const list=CAT.filter(p=>{
-    if(q&&!(p.t+p.d+p.f).includes(q))return false;
+    if(q&&!norm(p.t+p.d+p.f).includes(q))return false;
     if(ff&&p.f!==ff)return false;
     if(fr==='n'&&isRated(p.id))return false;
     if(fr==='y'&&!isRated(p.id))return false;

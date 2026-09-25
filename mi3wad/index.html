@@ -117,6 +117,7 @@ const items=gather();const bySrc={};items.forEach(i=>bySrc[i.src]=(bySrc[i.src]|
 $('#src').innerHTML=Object.entries(bySrc).sort((a,b)=>b[1]-a[1]).map(([s,c])=>'<div style="font-size:12px;margin-top:4px">'+esc(s)+' — '+arN(c)+' عنصر</div>').join('');
 render();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mi3wad" data-title="مِعوَد"></script>
 </body>
 </html>

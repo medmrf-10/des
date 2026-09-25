@@ -23,8 +23,8 @@ table.tb td{padding:7px 8px;border-bottom:1px solid var(--border);font-family:va
 .bdg{border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;font-family:var(--font-ui)}
 .v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#332a17;color:var(--acc2)}
 .v-df{background:#3a1d1d;color:#e08a8a}.v-sd{background:#4a1d1d;color:#ff7070}.v-mw{background:#7d2a2a;color:#ffb0b0}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:10px}
+@media(max-width:640px){.cols{grid-template-columns:minmax(0,1fr)}}
 .vcol{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:14px;line-height:2}
 .vcol h4{font-size:12px;margin:0 0 6px;color:var(--acc2);font-family:var(--font-ui)}
 .vcol[data-c="0"] mark{background:transparent;color:#ef9c8c;font-weight:700;text-decoration:underline;text-underline-offset:4px}
@@ -159,6 +159,7 @@ window.cmp=async function(ix){
   else if(POOL.length)show(0);
 })();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="miq_mushtarak"></script>
 </body>
 </html>

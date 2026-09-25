@@ -53,6 +53,7 @@ const darr=Array.isArray(drafts)?drafts:Object.values(drafts);
 document.getElementById('drafts').innerHTML=darr.length?darr.slice(-10).reverse().map(d=>`<div class="it"><b>${esc(d.title||'مسودة')}</b><div class="w">${esc((d.text||'').slice(0,140))}…</div></div>`).join(''):'<span class="muted">لا مسودات</span>';
 document.getElementById('big').innerHTML=`<div>🔖 <b>${arN(notes.length)}</b> ملاحظة</div><div>📚 <b>${arN(scIds.length)}</b> بطاقة</div><div>خ <b>${arN(mkDone)}</b>/٢٧ خطوة</div><div>ع <b>${arN(darr.length)}</b> مسودة</div>`;
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

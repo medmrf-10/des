@@ -7,6 +7,7 @@
 <title>بحث المتون — مختبر الحديث</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
+*{box-sizing:border-box}
 body{max-width:960px;margin:0 auto;padding:14px}
 .qbar{position:sticky;top:0;z-index:20;background:rgba(11,15,26,.95);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:8px}
 .qbar input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:11px 14px;font:inherit;font-size:16px}
@@ -27,6 +28,14 @@ body{max-width:960px;margin:0 auto;padding:14px}
 .prog{height:3px;background:var(--card2);border-radius:2px;overflow:hidden;margin:6px 0}
 .prog i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
 .chip{border:1px solid var(--border);background:var(--card2);border-radius:999px;padding:2px 10px;font-size:11px;color:var(--dim)}
+.nwrap{margin-top:8px}
+.nbtn{border:1px dashed var(--border);background:transparent;color:var(--dim);border-radius:8px;padding:3px 12px;font-size:11px;cursor:pointer;font-family:inherit}
+.nbtn:hover{border-color:var(--acc2);color:var(--acc2)}
+.note{font-size:12.5px;line-height:1.9;color:var(--txt);background:var(--card2);border-inline-start:3px solid var(--acc);border-radius:6px;padding:7px 12px;margin-top:6px;white-space:pre-wrap}
+.noteBox{width:100%;min-height:56px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;margin-top:6px;resize:vertical}
+.nrow{display:flex;gap:8px;margin-top:6px}
+.nrow .ok{border:1px solid var(--ok);color:var(--ok)}
+.nrow .del{border:1px solid #6a3a3a;color:#d08080}
 </style>
 </head>
 <body>
@@ -75,13 +84,46 @@ chipsBox.addEventListener('click',e=>{const c=e.target.closest('.bchip');if(!c)r
 function vcls(v){if(!v)return 'wk';if(/صحيح/.test(v))return 'ok';if(/حسن/.test(v))return 'hs';return 'wk'}
 function render(hits,words){
  const box=document.getElementById('hits');
- box.innerHTML=hits.slice(0,60).map(h=>{
+ LASTHITS=hits;box.innerHTML=hits.slice(0,60).map(h=>{
+   const nKey=h.b+':'+h.n;
    const V={'ا':'[اأإآٱ]','ي':'[يى]','ه':'[هة]','و':'[وؤ]'};
    let m=esc(h.m);for(const w of words){const flex=w.split('').map(c=>V[c]||c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('[ً-ْٰـ]*');const rx=new RegExp('('+flex+')','gi');m=m.replace(rx,'<mark>$1</mark>')}
    const gidLink=h.g?`<a href="net.html#gid=${h.g}" style="color:var(--acc2);text-decoration:none">شبكة المعنى #${h.g}</a><a href="naskh.html?g=${h.g}" style="color:var(--acc2);text-decoration:none">اختلاف اللفظ</a>`:'';
-   return `<div class="hit" onclick="this.toggleAttribute('data-open')"><div class="m">${m}</div><div class="meta"><span class="chip">${esc(h.bk)}</span><span class="chip">#${h.n.toLocaleString('ar-EG')}</span>${h.v?`<span class="v ${vcls(h.v)}">${esc(h.v)}</span>`:''}${h.g?`<span class="chip">معنى ${h.g}</span>`:''}${h.sc?h.sc.map(g=>`<span class="chip" style="border-color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'};color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'}" title="${esc(g[0])}">${esc(g[0].split(' ').slice(-1)[0])}: ${esc(g[1])}</span>`).join(''):''}</div>${h.rs&&h.rs.length?`<div class="raws">▼ السند (${h.rs.length}) — اضغط للطي</div><div class="rawlist">${h.rs.map(esc).join(' ← ')}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px">${gidLink}</div></div>`
+   return `<div class="hit" onclick="this.toggleAttribute('data-open')"><div class="m">${m}</div><div class="meta"><span class="chip">${esc(h.bk)}</span><span class="chip">#${h.n.toLocaleString('ar-EG')}</span>${h.v?`<span class="v ${vcls(h.v)}">${esc(h.v)}</span>`:''}${h.g?`<span class="chip">معنى ${h.g}</span>`:''}${h.sc?h.sc.map(g=>`<span class="chip" style="border-color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'};color:${/Sahih/i.test(g[1])?'var(--ok)':/Hasan/i.test(g[1])?'var(--acc2)':'#e07'}" title="${esc(g[0])}">${esc(g[0].split(' ').slice(-1)[0])}: ${esc(g[1])}</span>`).join(''):''}</div>${h.rs&&h.rs.length?`<div class="raws">▼ السند (${h.rs.length}) — اضغط للطي</div><div class="rawlist">${h.rs.map(esc).join(' ← ')}</div>`:''}<div style="margin-top:8px;display:flex;gap:8px;align-items:center">${gidLink}${window.llmReady&&window.llmReady()?'<button class="aiExp" style="border:1px solid var(--acc);background:none;color:var(--acc);border-radius:8px;padding:4px 12px;font-size:11px;cursor:pointer;font-family:inherit">✦ شرح موجز</button>':''}</div><div class="aiBx"></div><div class="nwrap" onclick="event.stopPropagation()">${noteHtml(nKey)}</div></div>`
  }).join('');
 }
+let LASTHITS=[];
+document.getElementById('hits').addEventListener('click',async e=>{
+ const b=e.target.closest('.aiExp');if(!b)return;e.stopPropagation();
+ const card=b.closest('.hit');const bx=card.querySelector('.aiBx');
+ b.disabled=true;bx.innerHTML='<div style="color:var(--acc);font-size:12px;padding:8px 0">يفكّر…</div>';
+ const m=card.querySelector('.m').textContent,meta=card.querySelector('.meta').textContent,sn=(card.querySelector('.rawlist')||{}).textContent||'';
+ try{
+  const out=await window.gemAsk('اشرح هذا الحديث شرحاً موجزاً مفيداً للطالب: المعنى في سطرين، أهم فائدتين، وتنبيه على أي معنى دقيق في المتن أو الإسناد.\n\nالمتن: '+m.slice(0,1500)+'\nالبيانات: '+meta.slice(0,300)+(sn?'\nالسند: '+sn.slice(0,600):''),{maxTokens:700});
+  bx.innerHTML='<div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin-top:8px;font-size:13px;line-height:2">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+ }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:12px;padding:6px 0">'+esc(err.message)+'</div>'}
+ b.disabled=false;
+});
+/* الملاحظات الشخصية — hadith_notes {book:num→note} */
+const getNotes=()=>{try{return JSON.parse(localStorage.getItem('hadith_notes')||'{}')}catch(e){return{}}};
+const putNotes=o=>localStorage.setItem('hadith_notes',JSON.stringify(o));
+function noteHtml(k){
+ const n=getNotes()[k];
+ if(n)return `<div class="note">${esc(n)}</div><button class="nbtn" onclick="noteEdit(this,'${k}')">✎ عدّل</button>`;
+ return `<button class="nbtn" onclick="noteEdit(this,'${k}')">📝 علّق</button>`;
+}
+window.noteEdit=(btn,k)=>{
+ const w=btn.parentElement,n=getNotes()[k]||'';
+ w.innerHTML=`<textarea class="noteBox" placeholder="ملاحظتك على هذا الحديث…">${esc(n)}</textarea><div class="nrow"><button class="nbtn ok" onclick="noteSave(this,'${k}')">احفظ</button><button class="nbtn" onclick="noteCancel(this,'${k}')">إلغاء</button>${n?`<button class="nbtn del" onclick="noteDel(this,'${k}')">احذف</button>`:''}</div>`;
+ w.querySelector('textarea').focus();
+};
+window.noteSave=(btn,k)=>{
+ const v=btn.parentElement.parentElement.querySelector('textarea').value.trim();
+ const o=getNotes();if(v)o[k]=v;else delete o[k];putNotes(o);
+ btn.parentElement.parentElement.innerHTML=noteHtml(k);
+};
+window.noteDel=(btn,k)=>{const o=getNotes();delete o[k];putNotes(o);btn.parentElement.parentElement.innerHTML=noteHtml(k)};
+window.noteCancel=(btn,k)=>{btn.parentElement.parentElement.innerHTML=noteHtml(k)};
 let to=null;
 document.getElementById('q').addEventListener('input',e=>{
  clearTimeout(to);const q=e.target.value.trim();
@@ -121,6 +163,8 @@ ensure(BOOKS.slice(0,2)).then(()=>{document.getElementById('stat').textContent='
   render(hits,[]);}
 })();
 </script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

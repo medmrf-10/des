@@ -2,6 +2,7 @@
    الاستخدام: <script src="/des/shared/feedback.js" data-pid="turath" data-title="مكتبة Turath"></script>
    التعليقات والاقتراحات تُحفظ في نفس مخزن البوابة الموحدة فتظهر في المكانين. */
 (function(){
+document.documentElement.style.scrollPaddingBottom='60px';var sp=document.createElement('div');sp.style.cssText='height:56px;pointer-events:none';document.body.appendChild(sp);
   const tag=document.currentScript;
   const pid=tag?.dataset.pid||location.pathname;
   const title=tag?.dataset.title||document.title;

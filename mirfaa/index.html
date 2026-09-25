@@ -44,7 +44,13 @@ function render(){
       <div class="acts"><button data-p="${esc(n)}" data-i="${i}" data-a="d">${x.done?'أعد':'أنجز'}</button><button data-p="${esc(n)}" data-i="${i}" data-a="x">✕</button></div></div>`).join('')}
     <div class="addp" style="margin:10px 0 0"><input placeholder="إضافة…" data-in="${esc(n)}"><select data-k="${esc(n)}" style="background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;font-size:.7rem;padding:0 8px">${Object.keys(KN).map(k=>`<option value="${k}">${KN[k].n}</option>`).join('')}</select><button class="mini" data-add="${esc(n)}">+</button></div>
    </div></div>`;
- }).join(''):'<div class="sub">أضف أول شخص — من تدين له؟ ومن يدين لك؟</div>';
+ }).join(''):`<div class="sub">أضف أول شخص — من تدين له؟ ومن يدين لك؟</div>
+ <div class="person" style="opacity:.55;border-style:dashed"><div class="ph"><b>مثال: أحمد</b><span class="cnt">2 معلّق · 1 له</span></div>
+  <div class="items" style="display:block">
+   <div class="item"><span class="knd" style="background:#4a2a2a">له عليّ</span><span class="t">سداد دفعة الكتاب</span><div class="acts"><button disabled>أنجز</button></div></div>
+   <div class="item done"><span class="knd" style="background:#2a4a2a">لي عنده</span><span class="t">أعارني مبلغاً — أُبرئت</span><div class="acts"><button disabled>أعد</button></div></div>
+   <div class="sub" style="padding:6px 0 0;font-size:.68rem">↑ نموذج توضيحي — سجّل شخصاً حقيقياً بالحقل أعلاه فيختفي</div>
+  </div></div>`;
 }
 document.addEventListener('click',e=>{
  const ph=e.target.closest('.ph');if(ph){const it=document.getElementById('it-'+ph.dataset.p);if(it)it.style.display=it.style.display==='none'?'block':'none';return}

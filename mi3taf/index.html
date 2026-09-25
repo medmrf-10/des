@@ -60,6 +60,7 @@ if(dueToday)R.unshift({name:'مِعوّد — مراجعات مستحقة',ic:'�
 $('#stats').innerHTML='<span class="stat">مواضع مفتوحة: <b>'+arN(R.length)+'</b></span>';
 $('#list').innerHTML=R.length?R.map(r=>'<div class="res"><div class="ic">'+r.ic+'</div><div class="bd"><div class="nm">'+esc(r.name)+'</div><div class="pos">'+esc(r.pos)+'</div></div><a class="go" href="'+r.u+'">أكمل ←</a></div>').join(''):'<div class="muted" style="margin-top:12px">لا مواضع محفوظة بعد — ابدأ بأي أداة وستلتقطها هنا.</div>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mi3taf" data-title="مِعتَف"></script>
 </body>
 </html>

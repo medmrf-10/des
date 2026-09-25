@@ -35,6 +35,10 @@ select,input[type=number]{background:var(--card2);border:1px solid var(--border)
  <span class="muted" id="msg"></span>
 </div>
 <div class="ayah" id="ayTxt"></div>
+<div id="aiRow" style="display:none;text-align:center;margin:8px 0">
+ <button id="aiCmp" style="border:1px solid var(--acc);background:none;color:var(--acc);border-radius:10px;padding:7px 18px;font-size:12px;cursor:pointer;font-family:inherit">✦ قارن المفسِّرين — أين اتفقوا وأين اختلفوا</button>
+</div>
+<div id="aiCmpBx"></div>
 <div class="cols" id="cols"></div>
 <script>
 const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
@@ -90,9 +94,26 @@ async function renderCols(){
     if(key){const[f,t]=key.split(':');if(+f!==+t)el.insertAdjacentHTML('afterbegin',`<div class="muted">المقطع ${f}–${t}</div>`)}
    }else el.innerHTML='<div class="muted">لا نص لهذه الآية في هذا التفسير</div>';
   }catch(e){el.innerHTML='<div class="muted">تعذّر التحميل — جرّب تفسيراً آخر</div>'}
- }}
+ }
+ const ready=window.llmReady&&window.llmReady();
+ document.getElementById('aiRow').style.display=(ready&&openCols.length>=2)?'block':'none';
+}
+document.getElementById('aiCmp').onclick=async()=>{
+ const b=document.getElementById('aiCmp'),bx=document.getElementById('aiCmpBx');
+ b.disabled=true;bx.innerHTML='<div style="color:var(--acc);font-size:13px;text-align:center;padding:10px">يقرأ التفاسير ويقارن…</div>';
+ const sn=+$('#sur').value,an=+$('#ay').value,snm=(IDX[sn-1]||{}).ar||'';
+ const parts=openCols.map(sl=>{const t=TAF.find(x=>x.s===sl);const el=document.querySelector('#col-'+sl+' .b');
+  return 'مفسِّر: '+(t?t.n:sl)+'\n'+el.textContent.trim().slice(0,1800)}).join('\n\n---\n\n');
+ try{
+  const out=await window.gemAsk('هذه تفاسير لسورة '+snm+' الآية '+an+' من مفسِّرين مختلفين. \nقارنها للطالب بذكاء: في سطرين مواضع الاتفاق، ثم بالنقاط مواضع الاختلاف الحقيقي (لا اللفظي)، ثم جملة: أين أبدأ أنا لو أردت فهماً أعمق.\n\n'+parts,{maxTokens:900});
+  bx.innerHTML='<div style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:12px;padding:14px 17px;font-size:13.5px;line-height:2.05;margin:6px 0 12px">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+ }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:12px;text-align:center">'+esc(err.message)+'</div>'}
+ b.disabled=false;
+};
 boot().catch(e=>{$('#msg').textContent='خطأ تحميل — '+(location.protocol==='file:'?'افتح عبر الموقع المنشور':e)});
 </script>
+<script src="../shared/llm.js"></script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="wahy" data-title="وحي — مقارنة التفاسير"></script>
 </body>
 </html>

@@ -83,6 +83,7 @@ $('#feat').innerHTML=FEATS.map(f=>`<div class="feat"><div class="k">${f.k}</div>
   $('#tools').innerHTML=last.map(x=>`<div class="mini"><div class="t">${esc(x.title)}</div><div class="d">${esc(x.desc||'').slice(0,60)}</div><a href="${x.url}" style="color:var(--acc);font-size:11px">افتح ←</a></div>`).join('')}
  catch(e){}})();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="diwan" data-title="ديوان"></script>
 </body>
 </html>

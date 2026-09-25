@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>فِحصة — إحصاء الكتب الستة | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:1100px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.prog{height:4px;background:var(--card2);border-radius:2px;margin:6px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc2);transition:width .2s}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 16px;min-width:110px;flex:1}
+.kpi .n{font-size:22px;font-weight:700;color:var(--acc2)}
+.kpi .l{font-size:11px;color:var(--dim);margin-top:2px}
+.sec{font-size:15px;font-weight:700;color:var(--acc2);margin:18px 0 8px;border-inline-start:3px solid var(--acc);padding-inline-start:9px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.brow{display:flex;align-items:center;gap:10px;font-size:12.5px;margin:7px 0}
+.brow .lb{width:130px;color:var(--txt);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .tr{flex:1;height:16px;border-radius:4px;background:var(--card2);overflow:hidden;min-width:0}
+.brow .fl{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--acc2));min-width:2px}
+.brow .vl{width:86px;text-align:left;color:var(--acc2);font-weight:700;font-size:12px;flex-shrink:0}
+.stk{display:flex;height:22px;border-radius:5px;overflow:hidden;flex:1;min-width:0}
+.stk i{display:block;height:100%}
+.matx{display:grid;gap:2px;font-size:10.5px;overflow-x:auto}
+.matx .c{background:var(--card2);border-radius:5px;padding:5px 4px;text-align:center;font-family:var(--font-ui);min-width:52px}
+.matx .c.h{background:transparent;color:var(--dim);font-weight:700}
+.matx .c.diag{background:transparent;color:var(--dim)}
+.mut{color:var(--dim);font-size:12px}
+.lgnd{display:flex;gap:12px;font-size:11px;color:var(--dim);margin:8px 0;flex-wrap:wrap}
+.lgnd i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+.tip{font-size:11px;color:var(--dim);margin-top:4px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>📊 فِحصة</h1>
+  <span class="sub">إحصاء الكتب الستة — تغطية المعاني، كثافة الرواة، توزيع الأحكام</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+  <a href="kutub_index.html">📚 الفهرس ←</a>
+</header>
+<div class="status" id="stat"></div>
+<div class="prog"><i id="pfill"></i></div>
+<div id="main"></div>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const bucket=v=>{
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه/.test(v))return 'df';
+  if(/بلا سند|موقوف|مقطوع/.test(v))return 'ns';
+  return 'ot';
+};
+const BCOL={sa:'#4f9d6f',hs:'#c9a24a',df:'#c96a5a',sd:'#ff7070',mw:'#8b3030',ot:'#5b7a99',ns:'#3a4a5f'};
+const BLBL={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا حكم'};
+const stat=document.getElementById('stat'),pf=document.getElementById('pfill');
+(async()=>{
+  stat.textContent='يُحمّل شبكة المعنى…';
+  await new Promise((ok,fail)=>{const s=document.createElement('script');s.src='analysis.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+  pf.style.width='45%';
+  const GN=window.GIDNET,g=GN.g;
+  /* لكل كتاب: معانٍ، مواضع، رواة، توزيع الحكم الموحد، توزيع أحكام المواضع */
+  const mean={},pos={},rawi={},uDist={},pDist={},share={};
+  for(const b of BOOKS){mean[b]=0;pos[b]=0;rawi[b]=new Set();uDist[b]={};pDist[b]={};share[b]={}}
+  let i=0,total=Object.keys(g).length,totPos=0,multi=0;
+  const gids=Object.keys(g);
+  for(const gid of gids){
+    const it=g[gid];
+    const wb=BOOKS.filter(b=>it.w&&it.w[b]&&it.w[b].length);
+    if(!wb.length)continue;
+    if(wb.length>1)multi++;
+    for(const b of wb){
+      mean[b]++;pos[b]+=it.w[b].length;totPos+=it.w[b].length;
+      const bk=bucket(it.h||'');
+      uDist[b][bk]=(uDist[b][bk]||0)+1;
+      if(it.n&&it.n[b])for(const r of it.n[b])rawi[b].add(r);
+      if(it.j&&it.j[b])for(const n in it.j[b])for(const v of it.j[b][n]){
+        const p=bucket(v);pDist[b][p]=(pDist[b][p]||0)+1;
+      }
+      for(const b2 of wb)if(b2!==b)share[b][b2]=(share[b][b2]||0)+1;
+    }
+    if(++i%600===0){pf.style.width=45+Math.round(i/total*50)+'%';await new Promise(r=>setTimeout(r))}
+  }
+  pf.style.width='100%';stat.textContent='';
+  const meta=GN.meta||{};
+  const totRawi=(GN.rawi&&GN.rawi.length)||(meta.rawi||0);
+  const maxMean=Math.max(...BOOKS.map(b=>mean[b]));
+  const maxPos=Math.max(...BOOKS.map(b=>pos[b]));
+  const maxRawi=Math.max(...BOOKS.map(b=>rawi[b].size));
+  /* كثافة الرواة = رواة لكل ١٠٠ موضع */
+  const density=b=>pos[b]?Math.round(rawi[b].size/pos[b]*1000)/10:0;
+  const maxDens=Math.max(...BOOKS.map(density));
+  const bar=(val,mx,cls)=>`<div class="brow"><span class="lb">${cls}</span><span class="tr"><i class="fl" style="width:${Math.max(val/mx*100,.8)}%"></i></span><span class="vl">${arNum(val)}</span></div>`;
+  const stkBar=(dist,total)=>{
+    const keys=Object.keys(BLBL).filter(k=>dist[k]);
+    return `<div class="stk">${keys.map(k=>`<i style="width:${dist[k]/total*100}%;background:${BCOL[k]}" title="${BLBL[k]}: ${arNum(dist[k])}"></i>`).join('')}</div>`;
+  };
+  /* مصفوفة المشاركة */
+  const mxShare=Math.max(...BOOKS.flatMap(b=>BOOKS.map(b2=>share[b][b2]||0)));
+  const matx=`<div class="matx" style="grid-template-columns:110px repeat(6,1fr)">
+    <span class="c h"></span>${BOOKS.map(b=>`<span class="c h">${BAR[b].split(' ').pop()}</span>`).join('')}
+    ${BOOKS.map(b=>`<span class="c h" style="text-align:right">${BAR[b]}</span>`+BOOKS.map(b2=>{
+      if(b===b2)return `<span class="c diag">—</span>`;
+      const v=share[b][b2]||0;
+      const t=v/mxShare;
+      return `<span class="c" style="background:rgba(201,162,74,${.08+t*.75});color:${t>.45?'#14140f':'var(--txt)'}">${arNum(v)}</span>`;
+    }).join('')).join('')}
+  </div>`;
+  document.getElementById('main').innerHTML=`
+  <div class="kpis">
+    <div class="kpi"><div class="n">${arNum(total)}</div><div class="l">معنى موحّداً</div></div>
+    <div class="kpi"><div class="n">${arNum(totPos)}</div><div class="l">موضعاً في الستة</div></div>
+    <div class="kpi"><div class="n">${arNum(totRawi)}</div><div class="l">راوياً</div></div>
+    <div class="kpi"><div class="n">${arNum(multi)}</div><div class="l">معنى في أكثر من كتاب</div></div>
+  </div>
+  <div class="sec">تغطية المعاني — كم معنى موحّداً في كل كتاب</div>
+  <div class="card">${BOOKS.map(b=>bar(mean[b],maxMean,BAR[b])).join('')}
+    <div class="tip">المعنى الواحد قد يظهر في عدة كتب — القضيب يقيس عدد المعاني المميزة لا المواضع.</div></div>
+  <div class="sec">المواضع — إجمالي مواضع الورود</div>
+  <div class="card">${BOOKS.map(b=>bar(pos[b],maxPos,BAR[b])).join('')}</div>
+  <div class="sec">كثافة الرواة — رواة مميزون لكل كتاب، ولكل ١٠٠ موضع</div>
+  <div class="card">${BOOKS.map(b=>`<div class="brow"><span class="lb">${BAR[b]}</span><span class="tr"><i class="fl" style="width:${rawi[b].size/maxRawi*100}%"></i></span><span class="vl">${arNum(rawi[b].size)} · ${arNum(density(b))}٪</span></div>`).join('')}
+    <div class="tip">٪ = متوسط عدد الرواة المميزين لكل ١٠٠ موضع — كلما ارتفع تنوّعت رجال الكتاب.</div></div>
+  <div class="sec">توزيع الأحكام الموحّدة على المعاني</div>
+  <div class="card">
+    <div class="lgnd">${Object.keys(BLBL).map(k=>`<span><i style="background:${BCOL[k]}"></i>${BLBL[k]}</span>`).join('')}</div>
+    ${BOOKS.map(b=>`<div class="brow"><span class="lb">${BAR[b]}</span>${stkBar(uDist[b],mean[b])}<span class="vl">${arNum(mean[b])}</span></div>`).join('')}
+    <div class="tip">الحكم الموحد للمعنى (h) لا أحكام كل سند — انظر الأسفل لأحكام المواضع.</div></div>
+  <div class="sec">توزيع أحكام المواضع (آراء الجرح والتعديل j)</div>
+  <div class="card">
+    ${BOOKS.map(b=>{
+      const t=Object.values(pDist[b]).reduce((a,c)=>a+c,0);
+      return `<div class="brow"><span class="lb">${BAR[b]}</span>${t?stkBar(pDist[b],t):'<span class="mut">لا بيانات آراء</span>'}<span class="vl">${arNum(t)}</span></div>`;
+    }).join('')}
+    <div class="tip">مجموع تقييمات الطرق المسجلة في j لكل كتاب — يركّز على الكتب المخرَّجة (الترمذي وغيره).</div></div>
+  <div class="sec">خريطة المشاركة — معانٍ مشتركة بين كل كتابين</div>
+  <div class="card">${matx}
+    <div class="tip">الخلية = عدد المعاني الموحدة الظاهرة في الكتابين معاً — كلما اشتدّ الذهبي ازداد التقاطع.</div></div>`;
+})();
+</script>
+<script src="../shared/palette.js"></script>
+<script src="../shared/feedback.js" data-pid="fihsah"></script>
+</body>
+</html>

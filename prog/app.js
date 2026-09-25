@@ -76,9 +76,19 @@ function renderTracks() {
         </div>
         <div class="track-meta"><span class="t-count">افتح ←</span></div>
       </div>
+    </div>
+    <div class="track free-card" id="labCard">
+      <div class="track-head">
+        <div class="t-info">
+          <h3>المختبر</h3>
+          <div class="t-desc">تحدّيات JavaScript باختبارات مخفية — اكتب وشغّل وتجاوز.</div>
+        </div>
+        <div class="track-meta"><span class="t-count">افتح ←</span></div>
+      </div>
     </div>`;
   $('#freeCard').onclick = openFree;
   $('#coursesCard').onclick = openCourses;
+  $('#labCard').onclick = () => location.href = 'lab.html';
 
   $$('.track').forEach(el => {
     el.querySelector('.track-head').onclick = () => el.classList.toggle('open');

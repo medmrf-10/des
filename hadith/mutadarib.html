@@ -185,7 +185,7 @@ document.getElementById('go').addEventListener('click',()=>{const g=+document.ge
 document.getElementById('gid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value!=='')show(+e.target.value)});
 (async()=>{
   const m=location.hash.match(/g=(\d+)/);
-  if(m){document.getElementById('gid').value=m[1];await show(+m[1])}
+  if(m){document.getElementById('gid').value=m[1];await show(+m[1]);stat.textContent='';pf.style.width='100%'}
   else{stat.textContent='يُحمّل أمثلة متدافرة…';await pairs();stat.textContent='';pf.style.width='100%'}
 })();
 </script>

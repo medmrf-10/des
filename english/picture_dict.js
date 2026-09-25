@@ -126,7 +126,7 @@ function markPic(i){
   /* الكلمة تدخل بنك الكلمات أيضاً */
   const it = scene.items[i];
   const b = loadBank(); const t = normTok(it[1]);
-  if(t && !b[t]) b[t] = {en:it[1], ar:it[2], clip:'pic:'+scene.id, box:1, due:todayISO(), seen:1, ok:0};
+  if(t && !b[t]) b[t] = {en:it[1], ar:it[2], clip:'pic:'+scene.id, box:1, due:Date.now(), seen:1, ok:0};
   saveD(d); localStorage.setItem(BANK_LS, JSON.stringify(b));
   drawScene();
   pickItem(i);

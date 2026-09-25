@@ -481,7 +481,8 @@ const SRCS=[
  {ic:'🗣',n:'مفرداتي',d:'كلماتك الشخصية — بطاقات وكويز',u:'../english/vocab.html',t:'الإنجليزية'},
  {ic:'🛠',n:'مشاريعي',d:'متتبع مشاريعك وأعمالك',u:'../prog/project.html',t:'البرمجة'},
  {ic:'⚔',n:'مِصقَل',d:'أين يحتاجك اليوم — اصقل صدأ مواضعك',u:'../misqal/',t:'إدارة'},
- {ic:'🥤',n:'مِشرب',d:'ميلك المذهبي — تقبل وترّد فينكشف مشربك',u:'../mishrab/',t:'الفقه'}
+ {ic:'🥤',n:'مِشرب',d:'ميلك المذهبي — تقبل وترّد فينكشف مشربك',u:'../mishrab/',t:'الفقه'},
+ {ic:'🎙',n:'مُلحّن',d:'اكتب نصّك وسجّل صوتك — درس كاراوكي جاهز',u:'../mula7hin/',t:'إنتاج'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

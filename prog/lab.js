@@ -67,11 +67,11 @@ let sel = 0, lastCtx = null;
 
 function list() {
   const cats = [...new Set(CHALLENGES.map(c => c.cat))];
-  $('#lbList').innerHTML = `<div class="lb-list-h">التحديات — ${Object.keys(labState).filter(k => labState[k]).length}/${CHALLENGES.length}</div>` +
+  $('#lbList').innerHTML = `<div class="lb-list-h">التحديات — ${CHALLENGES.filter(c => labState[c.id]).length}/${CHALLENGES.length}</div>` +
     cats.map(cat => `<div class="lb-cat">${escH(cat)}</div>` +
       CHALLENGES.map((c, i) => c.cat === cat ? `<button class="lb-item ${i === sel ? 'on' : ''} ${labState[c.id] ? 'done' : ''}" data-i="${i}">${labState[c.id] ? '✓ ' : ''}${escH(c.t)}</button>` : '').join('')).join('');
-  $('#labCount').textContent = `${Object.keys(labState).filter(k => labState[k]).length}/${CHALLENGES.length} تحدياً`;
-  $('#labBar').style.width = Math.round(Object.keys(labState).filter(k => labState[k]).length / CHALLENGES.length * 100) + '%';
+  $('#labCount').textContent = `${CHALLENGES.filter(c => labState[c.id]).length}/${CHALLENGES.length} تحدياً`;
+  $('#labBar').style.width = Math.round(CHALLENGES.filter(c => labState[c.id]).length / CHALLENGES.length * 100) + '%';
 }
 
 function lkOf(lk) { const [tid, li] = lk.split(':'); const t = TRACKS.find(x => x.id === tid); return t ? `${t.name} ← ${t.lessons[+li].t}` : ''; }

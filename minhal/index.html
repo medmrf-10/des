@@ -21,7 +21,7 @@ body{max-width:640px;margin:0 auto;padding:0}
 <div id="feed"></div>
 <div class="muted">مِنهال — مرّر بلا نهاية: آية · حديث · مسألة · ذِكر</div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let G=null,M=null,A=null,seen=0;
 async function laz(src,win){if(window[win])return window[win];

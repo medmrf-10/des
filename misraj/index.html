@@ -31,7 +31,7 @@ body{background:#05070d;color:#e8b93f;font-family:'IBM Plex Sans Arabic',system-
 <div id="hint">لمس قصير = الكلمة/الجملة التالية · لمس طويل = انظر · ضغط مزدوج = السابقة</div>
 </div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const POOL=[
  {n:'الفاتحة',t:'بسم الله الرحمن الرحيم · الحمد لله رب العالمين · الرحمن الرحيم · مالك يوم الدين · إياك نعبد وإياك نستعين · اهدنا الصراط المستقيم · صراط الذين أنعمت عليهم غير المغضوب عليهم ولا الضالين'},

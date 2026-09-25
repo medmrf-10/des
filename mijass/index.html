@@ -29,7 +29,7 @@ h4{font-family:var(--font-ar);margin:12px 0 5px;font-size:13px}
 <div class="opts" id="o"></div>
 <div id="out"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const GR=['صحيح','حسن','ضعيف','موضوع'];
 let D=null,cur=null,st=JSON.parse(localStorage.getItem('mijass')||'{"n":0,"ok":0}');

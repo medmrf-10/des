@@ -29,7 +29,7 @@ body{max-width:680px;margin:0 auto;padding:14px}
 <button class="btn" id="go">شخّصني</button>
 <div id="out"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const QS=[
  {t:'متى ذهنك أنصع؟',o:[{v:'fajr',n:'بعد الفجر'},{v:'am',n:'الضحى'},{v:'pm',n:'المساء'},{v:'night',n:'الليل'}]},

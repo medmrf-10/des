@@ -38,7 +38,7 @@ h4{font-family:var(--font-ar);margin:14px 0 6px}
 <h4>التفاسير المعروضة</h4>
 <div class="chips" id="tfs"></div>
 <script>
-const $=q=>document.querySelector('#'+q);
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const TFS=[{s:'22-ibn-kathir',n:'ابن كثير',on:1},{s:'24-tafseer-al-saadi-arabic',n:'السعدي',on:1},{s:'23-tafseer-al-qurtubi',n:'القرطبي',on:0},{s:'25-al-tahrir-wa-al-tanwir',n:'التحرير والتنوير',on:0},{s:'507-abu-bakr-jabir-al-jazairi',n:'أيسر التفاسير',on:0},{s:'497-abi-al-suaood',n:'أبو السعود',on:0}];
 const cache={};

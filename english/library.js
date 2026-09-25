@@ -5,6 +5,16 @@ function learnedSet(){
   const s = new Set();
   Object.values(loadCards()).forEach(c=>{ if(c.repetitions>0) c.en.split(' ').forEach(t=>{ const w = normTok(t); if(w) s.add(w); }); });
   Object.values(loadBank()).forEach(w=>{ if(w.box>=3){ const t = normTok(w.en); if(t) s.add(t); } });
+  /* جمل «قلّد» المقيّمة ممتاز تُحسب متقنة */
+  try{
+    const mm = JSON.parse(localStorage.getItem('en_mimic')||'{}');
+    for(const [k,v] of Object.entries(mm)) if(v.g==='x'){
+      const [cid,ix] = k.split(':');
+      const c = CLIPS.find(c=>c.id===cid);
+      const sent = c && c.sentences[+ix];
+      if(sent) (sent.words||[]).forEach(w=>{ const t = normTok(w[0]); if(t.length>1) s.add(t); });
+    }
+  }catch(e){}
   return s;
 }
 function clipWords(c){

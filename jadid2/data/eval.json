@@ -1,0 +1,54 @@
+{
+ "tafsir": {
+  "ayahs_total": 6236,
+  "per_book": {
+   "التفسير الميسر": 6236,
+   "تفسير السعدي": 6236,
+   "تفسير ابن كثير": 6236,
+   "تفسير الوسيط لطنطاوي": 6236,
+   "تفسير البغوي": 6236,
+   "تفسير القرطبي": 6236,
+   "تفسير الطبري": 6236,
+   "تفسير الجلالين": 6236
+  },
+  "books": 8
+ },
+ "hadith": {
+  "bidaya": {
+   "matches": 63,
+   "boundary_ok": 63
+  },
+  "dhakhira": {
+   "matches": 76,
+   "boundary_ok": 76
+  },
+  "fath_muin": {
+   "matches": 12,
+   "boundary_ok": 12
+  },
+  "fath_qarib": {
+   "matches": 1,
+   "boundary_ok": 1
+  },
+  "iqna": {
+   "matches": 43,
+   "boundary_ok": 43
+  },
+  "majmu": {
+   "matches": 180,
+   "boundary_ok": 180
+  },
+  "mughni": {
+   "matches": 83,
+   "boundary_ok": 83
+  },
+  "muhadhdhab": {
+   "matches": 61,
+   "boundary_ok": 61
+  }
+ },
+ "matn": {
+  "matn_phrases_matched": 315,
+  "cov>=0.5": 315
+ }
+}

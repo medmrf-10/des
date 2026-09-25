@@ -1,0 +1,155 @@
+[
+{
+"id": 4,
+"slug": "abudawud",
+"group": "the_9_books",
+"title": "سنن أبي داود",
+"author": "الإمام سليمان بن الأشعث أبو داود السجستاني",
+"hadiths": 5276,
+"chapters": 43
+},
+{
+"id": 8,
+"slug": "ahmed",
+"group": "the_9_books",
+"title": "مسند الإمام أحمد بن حنبل",
+"author": "الإمام أحمد بن حنبل",
+"hadiths": 1374,
+"chapters": 8
+},
+{
+"id": 1,
+"slug": "bukhari",
+"group": "the_9_books",
+"title": "صحيح البخاري",
+"author": "الإمام محمد بن إسماعيل البخاري",
+"hadiths": 7277,
+"chapters": 97
+},
+{
+"id": 9,
+"slug": "darimi",
+"group": "the_9_books",
+"title": "سنن الدارمي",
+"author": "الإمام أبو محمد عبد الرحمن بن عبد الله بن الدارمي",
+"hadiths": 3406,
+"chapters": 24
+},
+{
+"id": 6,
+"slug": "ibnmajah",
+"group": "the_9_books",
+"title": "سنن ابن ماجه",
+"author": "الإمام محمد بن يزيد بن ماجه القزويني",
+"hadiths": 4345,
+"chapters": 38
+},
+{
+"id": 7,
+"slug": "malik",
+"group": "the_9_books",
+"title": "موطأ مالك",
+"author": "الإمام مالك بن أنس",
+"hadiths": 1985,
+"chapters": 61
+},
+{
+"id": 2,
+"slug": "muslim",
+"group": "the_9_books",
+"title": "صحيح مسلم",
+"author": "الإمام مسلم بن الحجاج القشيري النيسابوري",
+"hadiths": 7459,
+"chapters": 57
+},
+{
+"id": 3,
+"slug": "nasai",
+"group": "the_9_books",
+"title": "سنن النسائي",
+"author": "الإمام أبو عبد الرحمن أحمد بن شعيب النسائي",
+"hadiths": 5768,
+"chapters": 52
+},
+{
+"id": 5,
+"slug": "tirmidhi",
+"group": "the_9_books",
+"title": "جامع الترمذي",
+"author": "الإمام أبو عيسى محمد بن عيسى الترمذي",
+"hadiths": 4053,
+"chapters": 49
+},
+{
+"id": 15,
+"slug": "aladab_almufrad",
+"group": "other_books",
+"title": "الأدب المفرد",
+"author": "الإمام محمد بن إسماعيل البخاري",
+"hadiths": 1326,
+"chapters": 57
+},
+{
+"id": 17,
+"slug": "bulugh_almaram",
+"group": "other_books",
+"title": "بلوغ المرام",
+"author": "الإمام ابن حجر العسقلاني",
+"hadiths": 1767,
+"chapters": 16
+},
+{
+"id": 14,
+"slug": "mishkat_almasabih",
+"group": "other_books",
+"title": "مشكاة المصابيح",
+"author": "الإمام الكاتب التبريزي",
+"hadiths": 4428,
+"chapters": 25
+},
+{
+"id": 13,
+"slug": "riyad_assalihin",
+"group": "other_books",
+"title": "رياض الصالحين",
+"author": "الإمام يحيى بن شرف النووي",
+"hadiths": 1896,
+"chapters": 20
+},
+{
+"id": 16,
+"slug": "shamail_muhammadiyah",
+"group": "other_books",
+"title": "الشمائل المحمدية",
+"author": "الإمام الترمذي",
+"hadiths": 402,
+"chapters": 57
+},
+{
+"id": 10,
+"slug": "nawawi40",
+"group": "forties",
+"title": "الأربعون النووية",
+"author": "الإمام يحيى بن شرف النووي",
+"hadiths": 42,
+"chapters": 1
+},
+{
+"id": 11,
+"slug": "qudsi40",
+"group": "forties",
+"title": "الأربعون القدسية",
+"author": "",
+"hadiths": 40,
+"chapters": 1
+},
+{
+"id": 12,
+"slug": "shahwaliullah40",
+"group": "forties",
+"title": "أربعون ولي الله الدهلوي",
+"author": "الشاه ولي الدين الدهلوي",
+"hadiths": 40,
+"chapters": 1
+}
+]

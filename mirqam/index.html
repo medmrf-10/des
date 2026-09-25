@@ -31,12 +31,12 @@ const tools=[
  ['مِنحَت','🗿','../minhat/',()=>{const d=g('minhat_today');const c=d&&d[today];if(!c)return{done:false,label:'اليوم المثالي غير مُفعّل'};const ok=c.filter(x=>x.done).length;return{done:ok/c.length,label:ok+'/'+c.length+' مقاسات اليوم'}}],
  ['مِجهَز','🎒','../mijhaz/',()=>{const d=g('mijhaz_cur');const items=d&&d.items||[];const ok=items.filter(x=>x.done).length;return items.length?{done:ok/items.length,label:ok+'/'+items.length+' مهيّأ'}:{done:false,label:'لا قائمة تجهيز نشطة'}}],
  ['مِعصَب','🌙','../mi3sab/',()=>{const d=g('mi3sab');const t=d&&d[today];return{done:!!t,label:t?'راجعت يومك':'مراجعة ليلية لم تُجرَ'}}],
- ['مِنهَج','📈','../minhaj/',()=>{const d=g('minhaj');const tot=d?Object.keys(d).length:0;return{done:tot>0,label:tot?tot+' مساراً في منهجك':'لا منهج بعد'}}}],
+ ['مِنهَج','📈','../minhaj/',()=>{const d=g('minhaj');const tot=d?Object.keys(d).length:0;return{done:tot>0,label:tot?tot+' مساراً في منهجك':'لا منهج بعد'}}],
  ['مِعهَد','🤝','../mi3had/',()=>{const d=g('mi3had')||[];const act=d.filter(x=>!x.result);const t=act.filter(x=>x.ticks&&x.ticks[today]).length;return{done:act.length?t/act.length:null,label:act.length?t+'/'+act.length+' عهود مُوفَّاة اليوم':'لا عهود نشطة'}}],
- ['مِكسَح','🧹','../miksah/',()=>{const d=g('miksah');const t=d&&d[today];return{done:!!t,label:t?'مسحت اليوم':'المسح اليومي لم يتم'}}}],
- ['مِرفأ','⚓','../mirfaa/',()=>{const d=g('mirfaa_v1')||{};let p=0;Object.values(d).forEach(x=>p+=x.filter(y=>!y.done).length);return{done:p===0&&Object.keys(d).length>0,label:p?p+' ذمّة معلّقة':'الذمّة بريئة'}}}],
- ['مِنقَب','⛏️','../minqab/',()=>{const d=g('minqab')||[];const t=d.filter(x=>x.d===today).length;return{done:t>0,label:t?t+' جلسة مركزة اليوم':'لا جلسة عمق اليوم'}}}],
- ['مِصبَح','🌅','../misbah2/',()=>{const d=g('misbah2');const t=d&&d[today];return{done:!!t,label:t?'شكرت فجرك':'شكر الفجر لم يُسجَّل'}}}],
+ ['مِكسَح','🧹','../miksah/',()=>{const d=g('miksah');const t=d&&d[today];return{done:!!t,label:t?'مسحت اليوم':'المسح اليومي لم يتم'}}],
+ ['مِرفأ','⚓','../mirfaa/',()=>{const d=g('mirfaa_v1')||{};let p=0;Object.values(d).forEach(x=>p+=x.filter(y=>!y.done).length);return{done:p===0&&Object.keys(d).length>0,label:p?p+' ذمّة معلّقة':'الذمّة بريئة'}}],
+ ['مِنقَب','⛏️','../minqab/',()=>{const d=g('minqab')||[];const t=d.filter(x=>x.d===today).length;return{done:t>0,label:t?t+' جلسة مركزة اليوم':'لا جلسة عمق اليوم'}}],
+ ['مِصبَح','🌅','../misbah2/',()=>{const d=g('misbah2');const t=d&&d[today];return{done:!!t,label:t?'شكرت فجرك':'شكر الفجر لم يُسجَّل'}}],
 ];
 function render(){
  let done=0,tracked=0;

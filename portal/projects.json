@@ -1339,5 +1339,14 @@
   "desc": "مكتبة cheat-sheets لكل مسار",
   "url": "../prog/reference.html",
   "icon": "<>"
+ },
+ {
+  "id": "mi3lam",
+  "title": "مِعلم",
+  "maker": "محمد",
+  "field": "معرفة",
+  "desc": "معالم مكتبتك — إحصاءات حية من البيانات",
+  "url": "../mi3lam/",
+  "icon": "م"
  }
 ]

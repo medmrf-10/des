@@ -475,7 +475,8 @@ const SRCS=[
  {ic:'🪑',n:'مِحفل',d:'أجب أولاً ثم انظر موائد المذاهب',u:'../mihfil/',t:'الفقه'},
  {ic:'⛺',n:'مِعسكر',d:'معسكر الثلاثين يوماً — مهام تُعلَّم تلقائياً',u:'../mi3skar/',t:'إدارة'},
  {ic:'🌅',n:'فَجر',d:'افتتاح يومك — آية اليوم وحالك',u:'../fajr/',t:'إدارة'},
- {ic:'🍇',n:'مِقطف',d:'نخب المشروع — الأكثر والأظرف إحصاءً',u:'../miqtaf/',t:'الحديث'}
+ {ic:'🍇',n:'مِقطف',d:'نخب المشروع — الأكثر والأظرف إحصاءً',u:'../miqtaf/',t:'الحديث'},
+ {ic:'🤲',n:'مِشاور',d:'استشر النصوص — سؤالك يستقي آية وحديثاً ومسألة',u:'../mishawar/',t:'الشريعة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

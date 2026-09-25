@@ -202,6 +202,8 @@ function renderToday(){
   let next=null,best=-1;
   for(const sj in CURR){const list=CURR[sj];let dn=0;for(const e of list)if(me.prog[e.i])dn++;const r=dn/list.length;if(r>best&&dn<list.length){best=r;next=list.find(e=>!me.prog[e.i])}}
   if(next)html+=`<div class="cont"><div class="ic">📍</div><div style="flex:1"><b style="font-size:14px">التالي لك: ${esc(next.n)}</b><div class="muted">${SH[next.sh]||''} · ${next.v||'?'} درساً</div></div><a class="btn sm ghost" href="../durus/index.html#s=${next.i}">ابدأ</a></div>`;
+  const due=dueCards?dueCards().length:0;
+  if(due)html+=`<div class="cont"><div class="ic">🃏</div><div style="flex:1"><b style="font-size:14px">${due} بطاقة مراجعة مستحقة</b><div class="muted">جدولة FSRS — راجع قبل ما تنسى</div></div><button class="btn sm" onclick="go('note')">راجع</button></div>`;
   $('#todayBody').innerHTML=html||'<div class="card"><div class="muted">ابدأ رحلتك: تصفّح <a href="#curr" style="color:var(--acc)">المنهج</a> واختر أول سلسلة.</div></div>';
   const dn=Object.keys(me.prog).length,nb=me.note.length;
   $('#statsGrid').innerHTML=[['سلسلة منجزة',dn],['محفوظات',nb],['موضوع',Object.keys(CURR).length],['مقطع متاح','60k+']].map(x=>`<div class="stat"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');

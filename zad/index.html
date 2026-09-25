@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>زاد اليوم — جرعتك اليومية</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.date{text-align:center;margin:14px 0 6px}
+.date .g{font-size:22px;font-weight:700;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.date .h{font-size:12.5px;color:var(--dim);margin-top:4px}
+.dose{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin:12px 0}
+.dose .lbl{font-size:11px;color:var(--acc2);margin-bottom:8px;letter-spacing:1px}
+.dose .tx{font-family:var(--font-ar);font-size:16px;line-height:2.1}
+.dose .ref{font-size:11.5px;color:var(--dim);margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.dose .ref a{color:var(--acc2)}
+.verdict{border-radius:999px;padding:1px 10px;font-size:10.5px;font-weight:700}
+.v-ok{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}
+.task{display:flex;gap:10px;align-items:center}
+.task .chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);cursor:pointer;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.task.done .chk{background:var(--ok);border-color:var(--ok);color:#08130c;font-weight:900}
+.task.done .tx{color:var(--dim);text-decoration:line-through}
+.nav{display:flex;gap:8px;justify-content:center;margin:8px 0}
+.nav a{border:1px solid var(--border);border-radius:9px;padding:5px 14px;font-size:12px;color:var(--acc2)}
+.muted{color:var(--dim);font-size:12px}
+.streak{display:flex;gap:5px;justify-content:center;margin:8px 0}
+.streak i{width:9px;height:9px;border-radius:50%;background:var(--card2)}
+.streak i.on{background:var(--acc)}
+</style>
+</head>
+<body>
+<div class="date"><div class="g" id="dname"></div><div class="h" id="dhij"></div></div>
+<div class="streak" id="streak"></div>
+<div class="nav"><a onclick="go(-1)">← أمس</a><a href="../manzuma/">المنظومة</a><a onclick="go(1)">غداً →</a></div>
+<div id="out"></div>
+<script src="../hadith/adhkar.js"></script>
+<script src="../akida/terms.js"></script>
+<script src="../wahy/mutashabih.js"></script>
+<script>
+const $=q=>document.querySelector(q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let day=0; // 0=today offset
+function dkey(off){const d=new Date(Date.now()+off*864e5);return d.toISOString().slice(0,10)}
+function seed(s){let h=2166136261;for(const c of s)h=(h^c.charCodeAt(0))*16777619>>>0;return h}
+const DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+function hiday(off){const d=new Date(Date.now()+off*864e5);
+ try{const h=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(d);
+  return DAYS[d.getDay()]+'، '+h}catch(e){return DAYS[d.getDay()]+' '+d.toLocaleDateString('ar')}}
+const LS='zad_done';let doneSet={};try{doneSet=JSON.parse(localStorage.getItem(LS)||'{}')}catch(e){}
+const save=()=>localStorage.setItem(LS,JSON.stringify(doneSet));
+async function jget(u){const r=await fetch(u);return r.json()}
+async function render(off){
+ day=off;const k=dkey(off);const sd=seed(k);
+ $('#dname').textContent=DAYS[new Date(Date.now()+off*864e5).getDay()]+' '+k;
+ $('#dhij').textContent=hiday(off);
+ let html='';
+ // آية اليوم — من النظائر (نصوص حقيقية)
+ if(window.MUTA){
+  const ks=Object.keys(MUTA.sim);const k2=ks[sd%ks.length];const v=MUTA.sim[k2];
+  html+=`<div class="dose"><div class="lbl">آيـة الـيـوم</div><div class="tx">${esc(v[2])}</div><div class="ref"><span>${MUTA.names[v[0]]||''} ${v[0]}:${v[1]}</span><a href="../wahy/#s=${v[0]}&v=${v[1]}" target="_blank">تفسيرها ↗</a><a href="../wahy/mutashabih.html#${k2}" target="_blank">نظائرها ↗</a></div></div>`}
+ // حديث اليوم — من الأذكار المحكومة
+ if(window.ADHKAR){
+  const h=ADHKAR[sd%ADHKAR.length];
+  const vc=h.h==='صحيح'?'v-ok':'v-hs';
+  html+=`<div class="dose"><div class="lbl">حـديـث الـيـوم</div><div class="tx">«${esc(h.t)}»</div><div class="ref"><span class="verdict ${vc}">${esc(h.h)}</span><span>رواه ${h.s.toLocaleString('ar-EG')} من الصحابة · ${h.r.toLocaleString('ar-EG')} موضعاً</span><a href="../hadith/net.html#gid=${h.g}" target="_blank">في الشبكة ↗</a></div></div>`}
+ // مصطلح اليوم — من ذرات العقيدة
+ if(window.TERMS){
+  const ks=Object.keys(TERMS.terms);const t=ks[sd%ks.length];const x=TERMS.terms[t][0];
+  html+=`<div class="dose"><div class="lbl">مـصـطـلـح الـيـوم</div><div class="tx" style="font-size:15px"><b style="color:var(--acc)">${esc(t)}</b> — ${esc((x.q||'').slice(0,180))}${x.q&&x.q.length>180?'…':''}</div><div class="ref"><span>${TERMS.books[x.b]||x.b}${x.bab?' — '+x.bab:''}</span><a href="../mu3jam/" target="_blank">في المعجم ↗</a></div></div>`}
+ // مهمة اليوم — إجرائية
+ const TASKS=[
+  'راجع 10 بطاقات مستحقة في مدرستي','احفظ آية جديدة في مقرأة','اقرأ معنى محكوماً واحداً في شبكة المعنى',
+  'افتح فائدة في الفهرس واقرأها','اكتب خاطرة من 3 أسطر في دفترك بالمنظومة','أكمل درساً واحداً في الكورسات',
+  'اختبر نفسك في «اختبرني» حتى تخطئ مرة واحدة فقط','اقرأ تفسير آية اليوم عند مفسرين اثنين وقارن'];
+ const task=TASKS[sd%TASKS.length];
+ const tkey=k+':t';const done=!!doneSet[tkey];
+ html+=`<div class="dose"><div class="lbl">مـهـمـة الـيـوم</div><div class="task ${done?'done':''}" onclick="tglTask('${tkey}',this)"><div class="chk">${done?'✓':''}</div><div class="tx" style="font-size:14.5px">${task}</div></div></div>`;
+ $('#out').innerHTML=html;
+ // سلسلة 7 أيام
+ const sk=[];for(let i=-6;i<=0;i++)sk.push(!!doneSet[dkey(i)+':t']);
+ $('#streak').innerHTML=sk.map(on=>`<i class="${on?'on':''}"></i>`).join('')+`<span class="muted" style="margin-inline-start:8px">${sk.filter(Boolean).length}/7 أيام</span>`}
+function tglTask(k,el){
+ if(doneSet[k])delete doneSet[k];else doneSet[k]=1;save();
+ el.classList.toggle('done',!!doneSet[k]);el.querySelector('.chk').textContent=doneSet[k]?'✓':'';
+ render(day)}
+function go(d){render(day+d)}
+render(0);
+</script>
+<script src="../shared/feedback.js" data-pid="zad" data-title="زاد اليوم"></script>
+</body>
+</html>

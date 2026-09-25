@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مستكشف الأحكام — مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1280px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.dist{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+.drow{display:flex;align-items:center;gap:10px;margin:4px 0;font-size:12px}
+.drow b{width:110px;font-weight:400;color:var(--txt)}
+.dbar{flex:1;height:14px;border-radius:4px;background:var(--card2);display:flex;overflow:hidden}
+.dbar i{display:block;height:100%}
+.dcnt{width:150px;color:var(--dim);font-size:11px}
+.frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.frow .lbl{color:var(--dim);font-size:12px;min-width:44px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.chip.h-sa[aria-pressed=true]{background:var(--ok)}
+.chip.h-hs[aria-pressed=true]{background:var(--acc2)}
+.chip.h-df[aria-pressed=true],.chip.h-sd[aria-pressed=true],.chip.h-mw[aria-pressed=true]{background:#a04b4b}
+.card{border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:10px;background:var(--card)}
+.card .mh{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:12px;margin-bottom:4px}
+.card .matn{font-family:var(--font-ar);font-size:14px;line-height:1.9;margin:2px 0 6px;color:var(--txt)}
+.card .acts{display:flex;gap:8px;font-size:11px;margin-top:4px;flex-wrap:wrap}
+.card .acts a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 8px}
+.card .acts a:hover{border-color:var(--acc)}
+.bdg{display:inline-block;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.schip{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:1px 8px;font-size:10px;margin-inline-start:4px}
+.schip.ok{border-color:var(--ok);color:var(--ok)}.schip.hs{border-color:var(--acc2);color:var(--acc2)}.schip.wk{border-color:#e07;color:#e07}
+.bk{font-size:11px;color:var(--dim);border:1px solid var(--border);border-radius:6px;padding:1px 7px}
+.mut{color:var(--dim);font-size:12px}
+.status{color:var(--dim);font-size:12px;padding:6px 2px}
+.more{display:block;width:100%;margin:8px 0;padding:8px;background:var(--card2);border:1px dashed var(--border);color:var(--acc2);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+.prog{height:3px;background:var(--card2);border-radius:2px;overflow:hidden;margin:4px 0 8px}
+.prog i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚖ مستكشف الأحكام</h1>
+  <span class="sub" id="sub">أحكام الأسانيد في الكتب الستة — حكم الشامي للمعنى وأحكام المحققين</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+  <a href="topic.html">🌳 الموضوعات ←</a>
+</header>
+<div class="dist" id="dist"><p class="mut">حمّل كتاباً لعرض توزيع الأحكام فيه.</p></div>
+<div class="prog"><i id="pfill"></i></div>
+<div class="frow">
+  <span class="lbl">الكتاب</span>
+  <span id="bchips"></span>
+</div>
+<div class="frow">
+  <span class="lbl">الحكم</span>
+  <span id="hchips"></span>
+</div>
+<div class="status" id="stat"></div>
+<div id="res"></div>
+<script src="pako.min.js"></script>
+<script src="scholar.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+/* تصنيف نص حكم السند s[num][0] إلى طبقة */
+const bucket=v=>{
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه/.test(v))return 'df';
+  return 'ot';
+};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا سند'};
+const HCOL={sa:'var(--ok)',hs:'var(--acc2)',df:'#c96a6a',sd:'#a04b4b',mw:'#8a3a3a',ot:'#9db8d4',ns:'#6b7a8d'};
+const HORD=['sa','hs','df','sd','mw','ot','ns'];
+const S={books:new Set(['bukhari']),hukm:new Set()};
+const D={},DIST={};let loading=false;
+async function loadBook(b){
+  if(D[b])return;
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  const j=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  /* nums → مجموعة طبقات أسانيده */
+  const recs=[];
+  for(const num in j.d){
+    const e=j.d[num];const raw=j.s&&j.s[num]?j.s[num]:[];
+    const chains=Array.isArray(raw[0])?raw:(raw.length?[raw]:[]);
+    const bs=new Set(chains.length?chains.map(c=>bucket(c[0]||'')):['ns']);
+    recs.push({n:+num,m:e.m,g:e.g,bs,chains});
+  }
+  D[b]={recs};
+  const cnt={};for(const h of HORD)cnt[h]=0;
+  for(const r of recs)for(const h of r.bs)cnt[h]++;
+  DIST[b]=cnt;
+}
+async function ensure(books){
+  const todo=books.filter(b=>!D[b]);let i=0;
+  for(const b of todo){
+    document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';
+    try{await loadBook(b)}catch(e){console.warn(b,e);document.getElementById('stat').textContent='تعذّر تحميل '+BAR[b]}
+    document.getElementById('pfill').style.width=Math.round(++i/todo.length*100)+'%';
+  }
+  if(!todo.length)document.getElementById('pfill').style.width='100%';
+  document.getElementById('stat').textContent='';
+  paintDist();
+}
+function paintDist(){
+  const el=document.getElementById('dist');
+  const books=BOOKS.filter(b=>DIST[b]);
+  if(!books.length){el.innerHTML='<p class="mut">حمّل كتاباً لعرض توزيع الأحكام فيه.</p>';return}
+  el.innerHTML=books.map(b=>{
+    const cnt=DIST[b],tot=Object.values(cnt).reduce((a,c)=>a+c,0);
+    const segs=HORD.filter(h=>cnt[h]).map(h=>`<i style="width:${(cnt[h]/tot*100).toFixed(1)}%;background:${HCOL[h]}" title="${HB[h]}: ${arNum(cnt[h])}"></i>`).join('');
+    const summ=HORD.filter(h=>cnt[h]).map(h=>`${HB[h]} ${arNum(cnt[h])}`).join(' · ');
+    return `<div class="drow"><b>${BAR[b]}</b><div class="dbar">${segs}</div><span class="dcnt">${arNum(tot)} حكم-سند</span></div><div class="drow"><b></b><span class="dcnt" style="width:auto">${summ}</span></div>`;
+  }).join('');
+}
+function paintChips(){
+  document.getElementById('bchips').innerHTML=
+    `<button class="chip" data-b="__all" aria-pressed="${S.books.size===BOOKS.length}">الكل</button>`+
+    BOOKS.map(b=>`<button class="chip" data-b="${b}" aria-pressed="${S.books.has(b)}">${BAR[b]}</button>`).join('');
+  document.getElementById('hchips').innerHTML=
+    `<button class="chip" data-h="__all" aria-pressed="${S.hukm.size===0}">الكل</button>`+
+    HORD.map(h=>`<button class="chip h-${h}" data-h="${h}" aria-pressed="${S.hukm.has(h)}">${HB[h]}</button>`).join('');
+}
+document.getElementById('bchips').parentElement.addEventListener('click',async e=>{
+  const c=e.target.closest('.chip');if(!c||!c.dataset.b)return;
+  const b=c.dataset.b;
+  if(b==='__all'){S.books=new Set(BOOKS)}
+  else if(S.books.has(b)){S.books.delete(b);if(!S.books.size)S.books.add(b)}
+  else S.books.add(b);
+  paintChips();await ensure([...S.books]);run();
+});
+document.getElementById('hchips').parentElement.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c||!c.dataset.h)return;
+  const h=c.dataset.h;
+  if(h==='__all')S.hukm.clear();
+  else if(S.hukm.has(h))S.hukm.delete(h);
+  else S.hukm.add(h);
+  paintChips();run();
+});
+const PER=60;let shown=PER,LIST=[];
+const shortM=m=>{const s=String(m||'');return s.length>140?s.slice(0,140)+'…':s};
+const sname=n=>n.split(' ').slice(-1)[0];
+const scls=g=>/sahih|saheeh|صحيح/i.test(g)?'ok':/hasan|حسن/i.test(g)?'hs':'wk';
+function card(b,r){
+  const sch=(window.SCHOLAR&&window.SCHOLAR[b])?window.SCHOLAR[b][r.n]:null;
+  const bc={};for(const c of r.chains){const k=bucket(c[0]||'');bc[k]=(bc[k]||0)+1}
+  const vs=r.chains.length?Object.entries(bc).map(([k,n])=>`<span class="bdg v-${k}">${HB[k]}${n>1?' ×'+arNum(n):''}</span>`).join(' ')
+    :'<span class="bdg v-ns">بلا سند</span>';
+  return `<div class="card">
+    <div class="mh"><span class="bk">${BAR[b]}</span><b>#${arNum(r.n)}</b> ${vs}
+      ${sch?sch.map(g=>`<span class="schip ${scls(g[1])}" title="${esc(g[0])} — ${esc(g[1])}">${esc(sname(g[0]))}: ${esc(g[1])}</span>`).join(''):''}</div>
+    <p class="matn">${esc(shortM(r.m))}</p>
+    <div class="acts">
+      <a href="index.html#sanad.${b}.${r.n}">السند ←</a>
+      ${r.g?`<a href="net.html#g${r.g}">المعنى #${arNum(r.g)} ←</a>`:''}
+    </div>
+  </div>`;
+}
+function run(){
+  const sel=[...S.books].filter(b=>D[b]);
+  LIST=[];
+  for(const b of sel)for(const r of D[b].recs){
+    if(S.hukm.size&&![...r.bs].some(h=>S.hukm.has(h)))continue;
+    LIST.push([b,r]);
+  }
+  LIST.sort((x,y)=>BOOKS.indexOf(x[0])-BOOKS.indexOf(y[0])||x[1].n-y[1].n);
+  shown=PER;
+  document.getElementById('stat').textContent=`${arNum(LIST.length)} حديثاً${S.hukm.size?' تحت '+[...S.hukm].map(h=>HB[h]).join('/'):''} — ${sel.length} كتاباً محمّلاً`;
+  paint();
+}
+function paint(){
+  const res=document.getElementById('res');
+  res.innerHTML=LIST.slice(0,shown).map(([b,r])=>card(b,r)).join('')
+    +(LIST.length>shown?`<button class="more" onclick="shown+=PER;paint()">عرض المزيد (${arNum(LIST.length-shown)} متبقٍ)</button>`:'');
+}
+function decHash(){
+  const h=location.hash.slice(1);
+  const bm=h.match(/b=([a-z\-,]+)/);if(bm){const bs=bm[1].split(',').filter(x=>BOOKS.includes(x));if(bs.length)S.books=new Set(bs)}
+  const km=h.match(/k=([a-z,]+)/);if(km)S.hukm=new Set(km[1].split(',').filter(x=>HORD.includes(x)));
+}
+addEventListener('hashchange',async()=>{
+  decHash();paintChips();await ensure([...S.books]);run();
+});
+(async()=>{
+  decHash();paintChips();
+  await ensure([...S.books]);
+  run();
+})();
+</script>
+</body>
+</html>

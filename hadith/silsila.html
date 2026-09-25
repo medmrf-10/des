@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سلسلة الذهب — مُصوِّر الأسانيد | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px 12px;font-size:14px;font-family:inherit}
+.pick input#num{width:110px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.btn{display:inline-block;border:1px solid var(--acc);color:var(--acc2);background:transparent;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.wrap{display:flex;gap:12px;align-items:flex-start}
+.viz{flex:1;overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px}
+svg{min-width:100%;font-family:var(--font-ui)}
+svg text{fill:var(--txt);font-size:10.5px;text-anchor:middle}
+svg .nd{cursor:pointer}
+svg .nd:hover circle{stroke:var(--acc2);stroke-width:2.5}
+svg .lbl{font-size:10px;fill:var(--txt)}
+svg .gnd{font-size:9px;fill:var(--dim)}
+svg path.ln{stroke:var(--border);fill:none;stroke-width:1.4}
+svg path.ln.hot{stroke:var(--acc2);stroke-width:2}
+.card{min-width:260px;max-width:300px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:sticky;top:8px}
+.card h3{margin:0 0 4px;font-size:15px;color:var(--acc2);font-family:var(--font-ar);line-height:1.8}
+.card .row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed var(--border)}
+.card .row b{color:var(--acc)}
+.bdg{display:inline-block;border-radius:999px;padding:2px 11px;font-size:11px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.lgnd{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:8px 0;flex-wrap:wrap}
+.lgnd i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:5px;vertical-align:-1px}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⛓ سلسلة الذهب</h1>
+  <span class="sub">مُصوِّر الأسانيد — كل طرق الحديث في شجرة واحدة</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="tartil.html">🎼 الترتيل ←</a>
+  <a href="naskh.html">◐ اللفظ ←</a>
+</header>
+<div class="pick">
+  <span class="mut">الكتاب</span>
+  <span id="bchips"></span>
+  <input type="text" id="num" placeholder="رقم الحديث" inputmode="numeric">
+  <button class="btn" onclick="go()">ارسم</button>
+</div>
+<div class="status" id="stat"></div>
+<div class="lgnd">
+  <span><i style="background:var(--acc2)"></i>صحابي</span>
+  <span><i style="background:var(--ok)"></i>تابعي</span>
+  <span><i style="background:#9db8d4"></i>تابع التابعين</span>
+  <span><i style="background:#b08968"></i>متأخرون</span>
+  <span><i style="background:var(--acc)"></i>المؤلف</span>
+  <span><i style="background:#777"></i>موضع صوري</span>
+</div>
+<div class="wrap"><div class="viz" id="viz"></div><div class="card" id="card"><p class="mut">اضغط راوياً لعرض بطاقته.</p></div></div>
+<script src="pako.min.js"></script>
+<script src="rawi.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/[.,،؛:!؟?«»\-—()«»ﷺ]/g,'').replace(/\s+/g,' ').trim();
+const clean=s=>String(s||'').replace(/^(حدثنا|أخبرنا|أنبأنا|حدثني|أخبرني|أنبأني|ثنا|سمعت|عن|و|قال)\s+/,'').trim();
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const AUTH={'bukhari':'محمد بن إسماعيل البخاري','muslim':'مسلم بن الحجاج النيسابوري','tirmidhi':'محمد بن عيسى الترمذي','abi-dawud':'سليمان بن الأشعث أبو داود','nasai':'أحمد بن شعيب النسائي','ibn-majah':'محمد بن يزيد ابن ماجه'};
+const PSEUDO=/موضع (تعليق|إرسال|انقطاع)/;
+const bucket=v=>{
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه/.test(v))return 'df';
+  return 'ot';
+};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا سند'};
+/* RAWI: فهرس اسم→rid */
+const RID={};
+if(window.RAWI&&RAWI.rawi){for(const rid in RAWI.rawi){const t=RAWI.rawi[rid].t;if(!(norm(t)in RID))RID[norm(t)]=rid}}
+let S={book:'bukhari'};
+const D={};
+async function loadBook(b){
+  if(D[b])return D[b];
+  document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  D[b]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  document.getElementById('stat').textContent='';
+  return D[b];
+}
+function paintChips(){
+  document.getElementById('bchips').innerHTML=BOOKS.map(b=>`<button class="chip" data-b="${b}" aria-pressed="${S.book===b}">${BAR[b]}</button>`).join('');
+}
+document.getElementById('bchips').parentElement.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c||!c.dataset.b)return;
+  S.book=c.dataset.b;paintChips();
+});
+async function go(){
+  const n=document.getElementById('num').value.trim();
+  if(!n)return;
+  await loadBook(S.book);show(S.book,n);
+}
+document.getElementById('num').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+/* بناء DAG */
+let NODES=null,SN=null;
+async function show(b,n){
+  n=String(n);const j=await loadBook(b);
+  const e=j.d[n];
+  const viz=document.getElementById('viz');
+  if(!e){viz.innerHTML=`<p class="mut" style="padding:16px">لا يوجد حديث رقم ${arNum(n)} في ${BAR[b]}.</p>`;return}
+  const raw=j.s&&j.s[n]?j.s[n]:[];
+  const chains=(Array.isArray(raw[0])?raw:(raw.length?[raw]:[])).filter(c=>c&&c[1]&&c[1].length);
+  if(!chains.length){viz.innerHTML='<p class="mut" style="padding:16px">هذا الحديث بلا سند مسند في البيانات.</p>';return}
+  /* العقد: مفتاح = الاسم المطبع؛ النبي = '__n' ، المؤلف = '__a' */
+  const nodes={__n:{id:'__n',name:'ﷺ رسول الله',depth:0,kids:new Set(),pos:-1}};
+  const kidsOf={};
+  for(const[vi,ch]of chains.entries()){
+    const seq=ch[1].map(clean).map((nm,i)=>({nm,key:norm(nm),pos:ch[1].length-1-i}))
+      .filter(x=>x.nm);
+    /* seq[0]=شيخ المؤلف … الأخير=الصحابي — رتب من الصحابي للأسفل */
+    const rev=[...seq].reverse();
+    let parent='__n';
+    for(const x of rev){
+      const id=x.key;
+      if(!nodes[id])nodes[id]={id,name:x.nm,depth:0,kids:new Set(),pos:x.pos,pseudo:PSEUDO.test(x.nm)};
+      nodes[parent].kids.add(id);parent=id;
+    }
+    const aid='__a';
+    if(!nodes[aid])nodes[aid]={id:'__a',name:AUTH[b]||b,depth:0,kids:new Set(),pos:-2,auth:1};
+    nodes[parent].kids.add(aid);
+  }
+  /* العمق = أطول مسار من النبي */
+  const memo={__n:0};
+  const depth=id=>{
+    if(memo[id]!=null)return memo[id];
+    let d=0;for(const k in nodes)if(nodes[k].kids.has(id)&&depth(k)+1>d)d=depth(k)+1;
+    return memo[id]=d;
+  };
+  for(const id in nodes)nodes[id].depth=depth(id);
+  const maxD=Math.max(...Object.values(nodes).map(x=>x.depth));
+  /* x: الأوراق (المؤلف/نهايات) بالترتيب، ثم متوسط الأبناء صعوداً */
+  const byDepth={};for(const id in nodes)(byDepth[nodes[id].depth]=byDepth[nodes[id].depth]||[]).push(id);
+  const order=[...Object.keys(nodes)].sort((a,bb)=>nodes[bb].depth-nodes[a].depth);
+  let leaf=0;
+  for(const id of order){
+    const nd=nodes[id];
+    if(!nd.kids.size)nd.x=leaf++;
+    else nd.x=[...nd.kids].reduce((s,k)=>s+nodes[k].x,0)/nd.kids.size;
+  }
+  /* رتب كل عمق حسب x المقترح → خانات متساوية */
+  const CW=104,RH=64,PADX=20,PADY=26;
+  for(const d in byDepth){
+    byDepth[d].sort((a,bb)=>nodes[a].x-nodes[bb].x);
+    byDepth[d].forEach((id,i)=>nodes[id].fx=PADX+i*CW+CW/2);
+  }
+  const W=Math.max(...Object.values(byDepth).map(l=>l.length))*CW+PADX*2;
+  const H=(maxD+1)*RH+PADY*2+30;
+  const Y=d=>PADY+d*RH;
+  /* الحواف */
+  let paths='';
+  for(const id in nodes){
+    for(const k of nodes[id].kids){
+      const a=nodes[id],c=nodes[k];
+      const x1=a.fx,y1=Y(a.depth)+16,x2=c.fx,y2=Y(c.depth)-16;
+      paths+=`<path class="ln" data-p="${id}" data-c="${k}" d="M${x1} ${y1} C ${x1} ${y1+28}, ${x2} ${y2-28}, ${x2} ${y2}"/>`;
+    }
+  }
+  /* العقد */
+  const colFor=nd=>{
+    if(nd.id==='__n')return 'var(--acc2)';
+    if(nd.auth)return 'var(--acc)';
+    if(nd.pseudo)return '#777';
+    const p=nd.pos;
+    return p===0?'var(--acc2)':p===1?'var(--ok)':p<=3?'#9db8d4':'#b08968';
+  };
+  const gnd=nd=>nd.id==='__n'?'':nd.auth?'المؤلف':nd.pseudo?'موضع صوري':['صحابي','تابعي','تابع التابعين','الطبقة ٤','متأخر','متأخر'][Math.min(nd.pos,5)]||'';
+  let ns='';
+  for(const id in nodes){
+    const nd=nodes[id];const fx=nd.fx,fy=Y(nd.depth);
+    const short=nd.name.length>24?nd.name.slice(0,24)+'…':nd.name;
+    const rid=RID[norm(nd.name)];
+    ns+=`<g class="nd" data-id="${esc(id)}" transform="translate(${fx},${fy})">
+      <circle r="14" fill="var(--card2)" stroke="${colFor(nd)}" stroke-width="2.4"/>
+      <text class="lbl" y="30">${esc(short)}</text>
+      <text class="gnd" y="42">${gnd(nd)}</text>
+      <title>${esc(nd.name)}${rid?` — RAWI #${rid}`:''}</title>
+    </g>`;
+  }
+  const verdicts=chains.map((c,i)=>`<span class="bdg v-${bucket(c[0]||'')}" title="${esc(c[0])}">${arNum(i+1)}: ${HB[bucket(c[0]||'')]}</span>`).join(' ');
+  viz.innerHTML=`<div class="mut" style="padding:4px 8px">${BAR[b]} #${arNum(n)} — ${arNum(chains.length)} سنداً · ${verdicts}</div><svg viewBox="0 0 ${W} ${H}" style="min-width:${Math.min(W,980)}px" width="${W}">${paths}${ns}</svg>`;
+  NODES=nodes;
+  viz.querySelectorAll('.nd').forEach(g=>g.addEventListener('click',()=>pickNode(g.dataset.id)));
+  location.hash=`b=${b}&n=${n}`;
+}
+const GNAME={'1':'صحابة','2':'تابعون','3':'تابعو التابعين','4':'الطبقة الرابعة','5':'متأخرون','6':'الأخيرون'};
+function pickNode(id){
+  const nd=NODES[id];const card=document.getElementById('card');
+  if(!nd)return;
+  if(nd.id==='__n'){card.innerHTML='<h3>ﷺ رسول الله</h3><p class="mut">قمة السند.</p>';return}
+  const rid=nd.id==='__a'?null:RID[norm(nd.name)];
+  const r=rid&&window.RAWI?RAWI.rawi[rid]:null;
+  card.innerHTML=`
+    <h3>${esc(nd.name)}</h3>
+    ${r?`
+      <div class="row"><span>المرجع</span><b>RAWI #${arNum(rid)}</b></div>
+      <div class="row"><span>عدد أحاديثه</span><b>${arNum(r.c)}</b></div>
+      <div class="row"><span>الكتب</span><b>${Object.entries(r.b||{}).map(([bk,c])=>`${BAR[bk]||bk}: ${arNum(c)}`).join(' · ')}</b></div>
+      <div class="row"><span>المعاني</span><b>${arNum((r.gs||[]).length)} معنى</b></div>
+      <div class="row"><span>الطبقات (gs)</span><b>${(r.gs||[]).map(g=>GNAME[g]||g).join(' · ')||'—'}</b></div>`
+    :`<div class="row"><span>الطبقة في هذا السند</span><b>${nd.auth?'المؤلف':nd.pseudo?'موضع صوري':['صحابي','تابعي','تابع التابعين','الطبقة ٤','متأخرون','متأخرون'][Math.min(nd.pos,5)]}</b></div>
+      <p class="mut">${rid===null&&nd.id!=='__a'?'لم يطابقه فهرس RAWI بالاسم الكامل.':''}</p>`}
+    ${rid?`<p style="margin-top:8px"><a class="btn" href="rawi.html#${rid}">صفحة الراوي ←</a></p>`:''}`;
+}
+function decHash(){
+  const h=location.hash.slice(1);
+  const bm=h.match(/b=([a-z\-]+)/),nm=h.match(/n=(\d+)/);
+  if(bm&&BOOKS.includes(bm[1])){S.book=bm[1];paintChips()}
+  return nm?nm[1]:null;
+}
+(async()=>{
+  paintChips();
+  const n=decHash();
+  if(n){document.getElementById('num').value=n;show(S.book,n)}
+})();
+addEventListener('hashchange',()=>{const n=decHash();if(n)show(S.book,n)});
+</script>
+</body>
+</html>

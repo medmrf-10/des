@@ -1,0 +1,350 @@
+{
+ "generated": "2026-09-25T02:26:05.812Z",
+ "sites": {
+  "madrasati": {
+   "url": "https://medmrf-10.github.io/des/madrasati/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "mu3edd": {
+   "url": "https://medmrf-10.github.io/des/mu3edd/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "كلمة البحث في المعاني (مثال: نية، صبر، علم)",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "mukhatat": {
+   "url": "https://medmrf-10.github.io/des/mukhatat/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 19,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "maktabati": {
+   "url": "https://medmrf-10.github.io/des/maktabati/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 4,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "lohah": {
+   "url": "https://medmrf-10.github.io/des/lohah/",
+   "console_errors": [
+    "EXCEPTION: Uncaught ReferenceError: ADHKAR is not defined\n    at https://medmrf-10.github.io/des/lohah/:54:4"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 5,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "ikhtibirni": {
+   "url": "https://medmrf-10.github.io/des/ikhtibirni/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "akida-masadir": {
+   "url": "https://medmrf-10.github.io/des/akida/masadir.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 376,
+   "clientWidth": 360,
+   "overflow_px": 16,
+   "search": {
+    "input": "ابحث: قدرة، إيمان، كشف، وحدة الوجود…",
+    "query": "قدرة",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "wahy-kalimat": {
+   "url": "https://medmrf-10.github.io/des/wahy/kalimat.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught (in promise) TypeError: (s || \"\").replace is not a function\n    at norm (https://medmrf-10.github.io/des/wahy/kalimat.html:33:23)\n    at https://medmrf-10.github.io/des/wahy/kalimat.html:45:3"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "رشّح الكلمات…",
+    "query": "الله",
+    "results": 1,
+    "before": 1
+   }
+  },
+  "wahy-mutashabih": {
+   "url": "https://medmrf-10.github.io/des/wahy/mutashabih.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "أو ابحث بلفظ من الآية…",
+    "query": "الصلاة",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-net": {
+   "url": "https://medmrf-10.github.io/des/hadith/net.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في أطراف المعاني أو برقم المجموعة (gid)…",
+    "query": "صبر",
+    "results": 33,
+    "before": 0
+   }
+  },
+  "hadith-matn": {
+   "url": "https://medmrf-10.github.io/des/hadith/matn.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught (in promise) TypeError: h.sc.map is not a function\n    at https://medmrf-10.github.io/des/hadith/matn.html:82:331\n    at Array.map (<anonymous>)\n    at render (https://medmrf-10.github.io/des"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "مثال: إنما الأعمال بالنيات / من كذب علي / خيركم من تعلم القر",
+    "query": "إنما الأعمال",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 40,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 376,
+   "clientWidth": 360,
+   "overflow_px": 16,
+   "search": {
+    "input": "مثال: شعبة بن الحجاج / مالك بن أنس / هشام بن عروة",
+    "query": "مالك",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-nawawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/nawawi.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 36,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-adhkar": {
+   "url": "https://medmrf-10.github.io/des/hadith/adhkar.html",
+   "console_errors": [
+    "EXCEPTION: Uncaught ReferenceError: ADHKAR is not defined\n    at render (https://medmrf-10.github.io/des/hadith/adhkar.html:43:13)\n    at https://medmrf-10.github.io/des/hadith/adhkar.html:45:1"
+   ],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا حقل بحث مرئي"
+   }
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 373,
+   "clientWidth": 360,
+   "overflow_px": 13,
+   "search": {
+    "input": "ابحث في المعاني: نية، صبر، صلاة…",
+    "query": "نية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "hadith-muqaran": {
+   "url": "https://medmrf-10.github.io/des/hadith/muqaran.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 373,
+   "clientWidth": 360,
+   "overflow_px": 13,
+   "search": {
+    "input": "ابحث في المعاني: النية، العلم، الصبر…",
+    "query": "النية",
+    "results": 0,
+    "before": 0
+   }
+  },
+  "live": {
+   "url": "https://medmrf-10.github.io/des/live/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "durus": {
+   "url": "https://medmrf-10.github.io/des/durus/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في 952 سلسلة و60 ألف مقطع…",
+    "query": "الله",
+    "results": 65,
+    "before": 40
+   }
+  },
+  "team-fikra": {
+   "url": "https://medmrf-10.github.io/des/team/amjad/fikra/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  }
+ }
+}

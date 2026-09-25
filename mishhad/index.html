@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشهد — الآية بالعمق</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px 13px;font-family:var(--font-ar);font-size:14px;width:90px;text-align:center}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px}
+.verse{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:20px 24px;font-family:var(--font-ar);font-size:22px;line-height:2.3;text-align:center;margin:12px 0}
+.ctx{font-family:var(--font-ar);font-size:15px;color:var(--dim);text-align:center;padding:4px 0}
+.tf{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 17px;margin:8px 0}
+.tf .h{font-size:12px;color:var(--acc);font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between}
+.tf .x{font-family:var(--font-ar);font-size:14px;line-height:2.1;white-space:pre-wrap}
+.sim{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin:6px 0;font-family:var(--font-ar);font-size:13.5px;line-height:1.9}
+.sim .k{font-size:10px;color:var(--acc3);display:block;margin-bottom:4px}
+.muted{color:var(--dim);font-size:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{border:1px solid var(--border);border-radius:99px;padding:4px 12px;cursor:pointer;font-size:11px;color:var(--dim)}
+.chip.on{border-color:var(--acc);color:var(--acc)}
+h4{font-family:var(--font-ar);margin:14px 0 6px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشهد <span class="muted">— الآية في كل زواياها</span></h2>
+<div class="muted">اختر سورة وآية: النص وسياقه، تفسيرها من تفاسيرك المختارة، نظائرها اللفظية، وأبرز كلماتها.</div>
+<div class="row">
+<input class="inp" id="s" type="number" min="1" max="114" value="2" placeholder="سورة">
+<input class="inp" id="a" type="number" min="1" value="255" placeholder="آية">
+<button class="btn" id="go">أظهر</button>
+<span class="chip" id="rand">⚂ آية عشوائية</span>
+</div>
+<div id="out"></div>
+<h4>التفاسير المعروضة</h4>
+<div class="chips" id="tfs"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TFS=[{s:'22-ibn-kathir',n:'ابن كثير',on:1},{s:'24-tafseer-al-saadi-arabic',n:'السعدي',on:1},{s:'23-tafseer-al-qurtubi',n:'القرطبي',on:0},{s:'25-al-tahrir-wa-al-tanwir',n:'التحرير والتنوير',on:0},{s:'507-abu-bakr-jabir-al-jazairi',n:'أيسر التفاسير',on:0},{s:'497-abi-al-suaood',n:'أبو السعود',on:0}];
+const cache={};
+async function surah(n){if(!cache['s'+n])cache['s'+n]=await(await fetch('../wahy/data/surah/'+n+'.json')).json();return cache['s'+n]}
+async function tafsir(s){if(!cache['t'+s]){
+ const buf=await(await fetch('../wahy/data/tafsir/'+s+'.json.gz')).arrayBuffer();
+ cache['t'+s]=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}))}return cache['t'+s]}
+function findGroup(tfs,s,a){
+ for(const k in tfs.groups){const g=tfs.groups[k];
+  const[fs,fa]=g.f.split(':').map(Number),[ts,ta]=g.t.split(':').map(Number);
+  if(fs===+s&&+a>=fa&&+a<=ta)return g}
+ return null}
+async function show(){
+ const s=+$('s').value,a=+$('a').value;if(!s||!a)return;
+ $('#out').innerHTML='<div class="muted">…</div>';
+ const S=await surah(s);
+ const vs=S.verses.filter(v=>v.a>=a-1&&v.a<=a+1);
+ const v=S.verses.find(x=>x.a===a);
+ let h=`<div class="ctx">${esc(S.verses[a-2]?.t||'')}</div>
+ <div class="verse">${esc(v?v.t:'?')} <span style="font-size:12px;color:var(--acc)">﴿${a.toLocaleString('ar-EG')}﴾</span></div>
+ <div class="ctx">${esc(S.verses[a]?.t||'')}</div>
+ <div class="muted" style="text-align:center;margin:4px 0 10px">${esc(S.ar)} · ${S.place==='Makkiyah'?'مكية':'مدنية'}</div>`;
+ // نظائر
+ try{
+  const M=window.MUTA||(await new Promise((ok,bad)=>{const sc=document.createElement('script');sc.src='../wahy/mutashabih.js';sc.onload=ok;sc.onerror=bad;document.head.appendChild(sc)}),window.MUTA);
+  const me=M.sim&&M.sim[s+':'+a];
+  if(me&&me[3]&&me[3].length){
+   h+='<h4>نظائر لفظية</h4>'+me[3].slice(0,6).map(p=>{const[ps,pa]=p[0].split(':');
+    return `<div class="sim"><span class="k">${esc(M.names[ps]||ps)} ${pa}</span>${esc(M.sim[p[0]]?M.sim[p[0]][2]:'')}</div>`}).join('')}
+ }catch(e){}
+ // تفاسير
+ const on=TFS.filter(t=>t.on);
+ for(const t of on){
+  try{
+   const T=await tafsir(t.s);
+   const g=findGroup(T,s,a);
+   h+=`<div class="tf"><div class="h"><span>${t.n}</span><span class="muted">${g?g.f+' — '+g.t:''}</span></div>
+   <div class="x">${g?g.x.replace(/<[^>]+>/g,'').slice(0,3000):'<span class="muted">لا تفسير لهذه الآية في هذا الكتاب</span>'}</div></div>`;
+   $('#out').innerHTML=h}
+  catch(e){h+=`<div class="tf"><div class="h">${t.n}</div><div class="x muted">تعذّر التحميل</div></div>`;$('#out').innerHTML=h}}
+ $('#out').innerHTML=h}
+$('#tfs').innerHTML=TFS.map((t,i)=>`<span class="chip ${t.on?'on':''}" data-i="${i}">${t.n}</span>`).join('');
+$('#tfs').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;
+ const t=TFS[+c.dataset.i];t.on=!t.on;c.classList.toggle('on',t.on)};
+$('#go').onclick=show;
+$('#rand').onclick=()=>{$('s').value=1+Math.floor(Math.random()*114);$('a').value=1+Math.floor(Math.random()*50);show()};
+const hp=location.hash.match(/(\d+)[:.](\d+)/);
+if(hp){$('s').value=hp[1];$('a').value=hp[2]}
+show();
+</script>
+<script src="../hadith/pako.min.js"></script>
+<script src="../shared/feedback.js" data-pid="mishhad" data-title="مِشهد"></script>
+</body>
+</html>

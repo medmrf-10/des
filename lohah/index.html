@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>لوحة المنظومة — أرقام حية</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:880px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0}
+.st{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px;position:relative;overflow:hidden}
+.st b{display:block;font-size:24px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.st span{font-size:12px;color:var(--dim)}
+.st a{position:absolute;inset:0}
+.sec{margin:18px 0 6px;color:var(--acc);font-size:14px;font-weight:700}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h1 style="font-size:19px;margin:4px 0;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent">لوحة المنظومة</h1>
+<div class="muted">أرقام المكتبة والأدوات — محسوبة حية من ملفات الموقع نفسه</div>
+<div id="grid"></div>
+<script src="../hadith/analysis.js"></script>
+<script src="../hadith/adhkar.js"></script>
+<script src="../hadith/rawi.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script src="../hadith/scholar.js"></script>
+<script src="../wahy/mutashabih.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script src="../akida/terms.js"></script>
+<script src="../prog/courses.js"></script>
+<script src="../fihris/catalog.js"></script>
+<script>
+const arN=n=>(+n).toLocaleString('ar-EG');
+const S=[];
+const sec=t=>S.push({sec:t});
+const st=(n,t,u)=>S.push({n,t,u});
+// قرآن
+sec('القرآن');
+fetch('../wahy/data/index.json').then(r=>r.json()).then(ix=>{
+ st(ix.length,'سورة كاملة بنصها','../wahy/');
+ st(ix.reduce((a,s)=>a+s.ayahs,0),'آية محفوظة','../wahy/');
+ render()});
+st(Object.keys(MUTA.sim).length,'آية بنظائر لفظية','../wahy/mutashabih.html');
+// حديث
+sec('الحديث');
+const G=GIDNET.g;let totS=0,totR=0;
+for(const g in G){totS+=+G[g].s||0;totR+=+G[g].r||0}
+st(Object.keys(G).length,'مجموعة معنى','../hadith/net.html');
+st(GIDNET.rawi.length,'سلسلة أسانيد','../hadith/rawi.html');
+st(27045,'حديثاً في المتون الستة','../hadith/matn.html');
+st(Object.keys(SCHOLAR.tirmidhi||{}).length,'حكماً إضافياً لعلماء الحديث على الترمذي','../hadith/matn.html');
+st(ADHKAR.length,'معنى ذكر ودعاء محكوم','../hadith/adhkar.html');
+st(NAWAWI.length,'حديثاً نووياً مربوطاً بالمعاني','../hadith/nawawi.html');
+st(6,'أشجار أسانيد لكل كتاب','../hadith/sanad.html');
+st(Object.values(G).reduce((a,x)=>a+Object.values(x.w||{}).reduce((s,w)=>s+w.length,0),0),'موضع متن في الشبكة','../hadith/muqaran.html');
+// عقيدة
+sec('العقيدة والتصوف');
+let na=0;for(const c in ATOMS)na+=Object.keys(ATOMS[c].atoms).length;
+st(na,'ذرة عقيدة مركّزة للمراجعة','../madrasati/');
+st(Object.keys(TERMS.terms).length,'مصطلحاً في المعجم','../akida/masadir.html');
+st(75,'كتاب عقيدة وتصوف مفهرساً','../akida/real.html');
+// تعلم
+sec('التعلم');
+st(COURSES.tracks.length,'مسار برمجة','../prog/');
+st(COURSES.tracks.reduce((a,t)=>a+t.courses.length,0),'كورساً','../prog/');
+st(COURSES.tracks.reduce((a,t)=>a+t.courses.reduce((s,c)=>s+c.chapters.reduce((x,ch)=>x+ch.lessons.length,0),0),0),'درس برمجة مفهرساً','../prog/');
+st(1727,'بطاقة مراجعة متباعدة','../madrasati/');
+st(27,'خطوة خطة تعلم','../mukhatat/');
+st(952,'سلسلة تراث مرقمة','../durus/');
+// فهرسة
+sec('الفهرسة');
+st(CATALOG.length,'مدخلاً في الفهرس العام — قابل للتعديل','../fihris/');
+st(24,'موقعاً في البوابة','../portal/');
+function render(){
+ const grid=document.getElementById('grid');
+ grid.innerHTML=S.map(x=>x.sec?`<div class="sec" style="grid-column:1/-1">${x.sec}</div>`:
+  `<div class="st"><b>${arN(x.n)}</b><span>${x.t}</span>${x.u?`<a href="${x.u}"></a>`:''}</div>`).join('')}
+document.getElementById('grid').innerHTML='<div class="grid" style="grid-template-columns:1fr">…يحسب</div>';
+render();
+</script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

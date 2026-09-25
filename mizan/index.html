@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِيزان — ميزان أوقاتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:32px repeat(24,1fr);gap:2px;direction:ltr;align-items:end}
+.cell{border-radius:3px;min-height:26px}
+.hrow{font-size:8px;color:var(--dim);text-align:center;direction:ltr;grid-column:1/-1}
+.dow{font-size:9px;color:var(--dim);text-align:left;direction:rtl;padding-right:4px}
+.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:10px}
+.stat{background:var(--card);border-radius:10px;padding:9px 12px;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--acc)}
+.stat span{font-size:10.5px;color:var(--dim)}
+.muted{color:var(--dim);font-size:12px}
+.note{margin-top:10px;font-size:11.5px;color:var(--dim);font-style:italic}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِيزان <span class="muted">— متى تتعلّم فعلاً؟</span></h2>
+<div class="muted">يجمع ختمَ الزمن من كلّ أدوات المنظومة ويُظهر ساعاتك وأيّامك الحقيقية للتعلّم.</div>
+<div class="top" id="stats"></div>
+<div class="card"><div class="t">خريطة أسبوعك (ساعة × يوم)</div>
+<div class="grid" id="grid"></div>
+<div class="note" id="peak"></div></div>
+<div class="card"><div class="t">توزيعك على أقسام اليوم</div><div id="blocks"></div></div>
+<div class="card"><div class="t">نشاطك حسب الأداة</div><div id="tools"></div></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+// جامع طوابع الوقت من localStorage المعروفة
+const SRC={
+ 'daftar':v=>v.map(x=>x.at),
+ 'muqtatif':v=>v.map(x=>x.at),
+ 'ma3raj':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+ 'sawanih':v=>v.map(x=>x.at),
+ 'muamma':v=>v.map(x=>x.at),
+ 'midad':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+ 'mijtaz':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+ 'mihrab_times':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+ 'minar_<':v=>null,
+ 'mutabi3':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+ 'mi3skar':v=>[v.start],
+ 'mu3edd_drafts':v=>v.map(x=>x.at),
+ 'minsha_draft':v=>v.map(x=>x.at),
+ 'hibr':v=>Object.values(v).flatMap(x=>x.map(y=>y.at)),
+};
+const events=[];
+for(const k of Object.keys(localStorage)){
+ for(const [name,fn] of Object.entries(SRC)){
+  let hit=false;
+  if(name.endsWith('<')){if(k.startsWith(name.slice(0,-1)))hit=true}
+  else if(k===name)hit=true;
+  if(!hit)continue;
+  try{
+   const v=JSON.parse(localStorage.getItem(k));
+   if(fn==null){
+    // مِصباح فاطمة: {day:act}
+    Object.entries(v||{}).forEach(([d,c])=>{if(/^\d{4}-\d{2}-\d{2}$/.test(d)&&Array.isArray(c))c.forEach(x=>{if(x.at)events.push({t:new Date(x.at),s:'misbah'})})});
+   }else{
+    const ats=fn(v)||[];
+    ats.forEach(a=>{const t=new Date(a);if(!isNaN(t))events.push({t,s:name.replace(/</g,'')})});
+   }
+  }catch(e){}
+ }
+}
+const now=Date.now();const week=events.filter(e=>now-e.t<7*864e5);
+const hrs=Array(7).fill(0).map(()=>Array(24).fill(0));
+week.forEach(e=>hrs[e.t.getDay()][e.t.getHours()]++);
+const max=Math.max(1,...hrs.flat());
+// رسم الشبكة: صفوف الأيام (0=أحد)
+const DOW=['أحد','اثن','ثلا','أرب','خمي','جمع','سبت'];
+let g='';
+for(let d=0;d<7;d++){
+ g+='<div class="dow">'+DOW[d]+'</div>';
+ for(let h=0;h<24;h++){
+  const v=hrs[d][h];
+  const a=v?Math.max(0.12,v/max):0;
+  g+='<div class="cell" style="background:rgba(212,175,55,'+a.toFixed(2)+')" title="'+DOW[d]+' '+h+':00 — '+v+'"></div>';
+ }
+}
+$('#grid').innerHTML=g;
+// الإحصائيات
+const totW=week.length,totAll=events.length;
+const byHour=Array(24).fill(0);week.forEach(e=>byHour[e.t.getHours()]++);
+const peakH=byHour.indexOf(Math.max(...byHour));
+const byDow=Array(7).fill(0);week.forEach(e=>byDow[e.t.getDay()]++);
+const peakD=DOW[byDow.indexOf(Math.max(...byDow))];
+$('#stats').innerHTML=[
+ ['هذا الأسبوع',arN(totW)],['كل الأوقات',arN(totAll)],
+ ['ساعة الذروة',totW?peakH+':00':'—'],['يوم الذروة',totW?peakD:'—']
+].map(([n,v])=>'<div class="stat"><b>'+v+'</b><span>'+n+'</span></div>').join('');
+$('#peak').textContent=totW?'ذروتك الحقيقية: يوم '+peakD+' حوالي '+peakH+':00 — اجعل دروسك الثقيلة هناك.':'لا بيانات بعد — استعمل الأدوات ليبدأ الميزان.';
+// أقسام اليوم
+const blocks=[['الفجر',5,7],['الضحى',7,11],['الظهر',11,14],['العصر',14,17],['المغرب',17,20],['العشاء',20,24],['السحر',0,5]];
+$('#blocks').innerHTML=blocks.map(([n,a,b])=>{
+ const c=week.filter(e=>e.t.getHours()>=a&&e.t.getHours()<b).length;
+ const p=totW?Math.round(c/totW*100):0;
+ return '<div style="margin-top:7px;font-size:12px">'+n+' — '+c+' <span class="muted">('+p+'٪)</span>'+
+  '<div style="height:5px;background:var(--border);border-radius:3px;margin-top:3px;overflow:hidden"><div style="height:100%;width:'+p+'%;background:var(--acc)"></div></div></div>';
+}).join('');
+// حسب الأداة
+const byTool={};week.forEach(e=>byTool[e.s]=(byTool[e.s]||0)+1);
+const tl=Object.entries(byTool).sort((a,b)=>b[1]-a[1]);
+const NAMES={'daftar':'دفتر اليوميات','muqtatif':'مُقتطف','ma3raj':'مِعراج','sawanih':'سوانح','muamma':'مُعمّى','midad':'مِداد','mijtaz':'مِجتاز','mihrab_times':'مِحراب','mutabi3':'مُتتبع','mi3skar':'مِعسكر','mu3edd_drafts':'مُعدّ','minsha_draft':'مِنشأ','hibr':'حِبر','misbah':'مِصباح'};
+$('#tools').innerHTML=tl.length?tl.map(([s,c])=>'<div style="font-size:12px;margin-top:5px">'+(NAMES[s]||s)+' — '+c+'</div>').join(''):'<span class="muted">لا بيانات</span>';
+</script>
+<script src="../shared/feedback.js" data-pid="mizan" data-title="مِيزان"></script>
+</body>
+</html>

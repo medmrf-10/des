@@ -1,0 +1,245 @@
+{
+ "generated": "2026-09-25T02:10:02.296Z",
+ "sites": {
+  "portal": {
+   "url": "https://medmrf-10.github.io/des/portal/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 2,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث عن مشروع…",
+    "query": "دروس",
+    "results": 2,
+    "before": 13
+   }
+  },
+  "durus": {
+   "url": "https://medmrf-10.github.io/des/durus/",
+   "console_errors": [],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/favicon.ico",
+    "https://medmrf-10.github.io/favicon.ico"
+   ],
+   "links": {
+    "tested": 1,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 388,
+   "clientWidth": 360,
+   "overflow_px": 28,
+   "search": {
+    "input": "ابحث في 952 سلسلة و60 ألف مقطع…",
+    "query": "الله",
+    "results": 65,
+    "before": 40
+   }
+  },
+  "live": {
+   "url": "https://medmrf-10.github.io/des/live/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "team": {
+   "url": "https://medmrf-10.github.io/des/team/",
+   "console_errors": [
+    "log.error: Manifest fetch from https://medmrf-10.github.io/des/team/manifest.json failed, code 404"
+   ],
+   "resource_404s": [
+    "404 https://medmrf-10.github.io/des/team/manifest.json",
+    "https://medmrf-10.github.io/des/team/manifest.json"
+   ],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "wahy": {
+   "url": "https://medmrf-10.github.io/des/wahy/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 3,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث عن سورة…",
+    "query": "الفاتحة",
+    "results": 4,
+    "before": 117
+   }
+  },
+  "manzuma": {
+   "url": "https://medmrf-10.github.io/des/manzuma/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 7,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "fihris": {
+   "url": "https://medmrf-10.github.io/des/fihris/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 25,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في الفهرس...",
+    "query": "فقه",
+    "results": 82,
+    "before": 383
+   }
+  },
+  "fiqh": {
+   "url": "https://medmrf-10.github.io/des/fiqh/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في الكتب والأبواب… (مثال: الصلاة، الرهن، الاستبراء)",
+    "query": "الصلاة",
+    "results": 5,
+    "before": 55
+   }
+  },
+  "fiqh_reader": {
+   "url": "https://medmrf-10.github.io/des/fiqh_reader/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في العناوين والنصوص… (تجاهل الهمزات والتشكيل)",
+    "query": "الله",
+    "results": 55,
+    "before": 55
+   }
+  },
+  "hadith": {
+   "url": "https://medmrf-10.github.io/des/hadith/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 9,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "بحث في المتن…",
+    "query": "الأعمال",
+    "results": 2,
+    "before": 2
+   }
+  },
+  "english": {
+   "url": "https://medmrf-10.github.io/des/english/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 7,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "prog": {
+   "url": "https://medmrf-10.github.io/des/prog/",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 0,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "note": "لا بحث أساسي بالموقع"
+   }
+  },
+  "akida": {
+   "url": "https://medmrf-10.github.io/des/akida/real.html",
+   "console_errors": [],
+   "resource_404s": [],
+   "links": {
+    "tested": 14,
+    "broken": []
+   },
+   "http": 200,
+   "scrollWidth": 360,
+   "clientWidth": 360,
+   "overflow_px": 0,
+   "search": {
+    "input": "ابحث في الموضوعات والذرات…",
+    "query": "الله",
+    "results": 53,
+    "before": 14
+   }
+  }
+ }
+}

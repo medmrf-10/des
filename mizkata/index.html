@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِزكاة — حاسبة الزكاة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.fld{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin:7px 0;display:flex;align-items:center;gap:10px}
+.fld label{flex:1;font-size:13px}
+.fld input{width:130px;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px 10px;font-family:var(--font-ar);font-size:14px;text-align:center}
+.fld input:focus{outline:none;border-color:var(--acc)}
+.fld .u{color:var(--dim);font-size:10.5px}
+.res{background:var(--card);border:2px solid var(--acc);border-radius:15px;padding:18px;text-align:center;margin-top:12px}
+.res .big{font-size:30px;font-weight:700;color:var(--acc)}
+.res .sub{color:var(--dim);font-size:12px;margin-top:5px}
+.muted{color:var(--dim);font-size:12px;line-height:1.9}
+.h4{font-family:var(--font-ar);color:var(--acc);font-size:13px;margin:14px 0 4px}
+.chip{border:1px solid var(--border);border-radius:99px;padding:4px 12px;cursor:pointer;font-size:11.5px;color:var(--dim);margin-inline-end:5px}
+.chip.on{border-color:var(--acc);color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِزكاة <span class="muted">— حاسبة الزكاة</span></h2>
+<div class="muted">أدخل أموالك الزكوية — النصاب محسوب على سعر الذهب، والزكاة ربع العشر (٢٫٥٪) على ما بلغ النصاب وحال عليه الحول.</div>
+<div class="h4">١. سعر الذهب اليوم (غ)</div>
+<div class="fld"><label>سعر غرام الذهب عيار ٢٤</label><input id="gold" type="number" value="70" step="0.1"><span class="u">بالعملة المحلية</span></div>
+<div class="h4">٢. أموالك</div>
+<div class="fld"><label>نقداً (أوراق وودائع جارية)</label><input id="cash" type="number" value="0"></div>
+<div class="fld"><label>ذهبٌ غير مُستخدم للحلي (غرام)</label><input id="au" type="number" value="0"></div>
+<div class="fld"><label>فضة (غرام)</label><input id="ag" type="number" value="0"></div>
+<div class="fld"><label>أموال تجارة (قيمة سلع وبيع)</label><input id="tr" type="number" value="0"></div>
+<div class="fld"><label>مدخرات أخرى تزكى</label><input id="oth" type="number" value="0"></div>
+<div class="h4">٣. ديون تحسم</div>
+<div class="fld"><label>ديون عليك حالة</label><input id="debt" type="number" value="0"></div>
+<div class="res" id="r"></div>
+<div class="muted" style="margin-top:10px">النصاب = ٨٥ غ من الذهب الخالص. المذهب الجمهوري: الزكاة ٢٫٥٪ فوق النصاب إن حال الحول. لدقائق التفاصيل راجع <a href="../masail/" style="color:var(--acc)">المسائل</a>.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const arN=n=>Number(n||0).toLocaleString('ar-EG',{maximumFractionDigits:2});
+const K='mizkata';
+const st=JSON.parse(localStorage.getItem(K)||'{}');
+['gold','cash','au','ag','tr','oth','debt'].forEach(k=>{if(st[k]!=null)$(k).value=st[k]});
+function calc(){
+ ['gold','cash','au','ag','tr','oth','debt'].forEach(k=>st[k]=+$(k).value||0);
+ localStorage.setItem(K,JSON.stringify(st));
+ const nisab=85*(+$('#gold').value||0);
+ const tot=(+$('#cash').value||0)+(+$('#au').value||0)*(+$('#gold').value||0)+(+$('#ag').value||0)*(+$('#gold').value||0)*0.0125+ +$('#tr').value+ +$('#oth').value - (+$('#debt').value||0);
+ // فضة: سعر الفضة ≈ ذهب/80 — 0.0125 مبسطة
+ const z=tot>nisab?tot*0.025:0;
+ $('#r').innerHTML=tot>nisab?
+  `<div class="big">${arN(z)}</div><div class="sub">زكاة مستحقة — المال الصافي ${arN(tot)} فوق النصاب ${arN(nisab)}</div>`
+  :`<div class="big" style="color:var(--dim)">٠</div><div class="sub">${tot>nisab?'':'المال '+arN(Math.max(0,tot))+' دون النصاب '+arN(nisab)+' — لا زكاة'}</div>`}
+document.addEventListener('input',calc);calc();
+</script>
+<script src="../shared/feedback.js" data-pid="mizkata" data-title="مِزكاة"></script>
+</body>
+</html>

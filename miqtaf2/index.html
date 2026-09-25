@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِقطَف — قطوف مكتبتك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:700px;margin:0 auto;padding:14px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-top:12px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:13.5px;color:var(--acc);margin-bottom:8px}
+.muted{color:var(--dim);font-size:12px}
+.it{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 15px;margin-top:8px}
+.it .rank{font-family:var(--font-ar);font-size:11px;color:var(--acc);margin-bottom:3px}
+.it .txt{font-family:var(--font-ar);font-size:13.5px;line-height:2}
+.it .why{font-size:10.5px;color:var(--dim);margin-top:5px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِقطَف <span class="muted">— قطوف مكتبتك</span></h2>
+<div class="muted">قطفنا لك الأثمار — أقوى الأحاديث وأشهر الآيات وأوسع الكتب، كلها من مكتبتك الحقيقية.</div>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+Promise.all([laz('../hadith/analysis.js','GIDNET'),laz('../wahy/mutashabih.js','MUTA'),laz('../fiqh_reader/masail.js','MASAIL'),laz('../durus/data.js','SERIES')]).then(([G,U,M,S])=>{
+ let html='';
+ // أقوى ٥ أحاديث بصحابة أكثر
+ if(G){
+  const hs=Object.values(G.g).sort((a,b)=>(b.s||0)-(a.s||0)).slice(0,5);
+  html+='<div class="card"><div class="t">أقوى ٥ أحاديث (أكثر رواة)</div>'+hs.map((h,i)=>
+   '<div class="it"><div class="rank">#'+arN(i+1)+' — '+esc(h.h)+'</div><div class="txt">'+esc(h.t)+'</div><div class="why">رواه '+arN(h.s)+' صحابيًا · '+arN(h.r)+' مرة</div></div>').join('')+'</div>';
+ }
+ // أشهر ٥ آيات بمتشابهات
+ if(U){
+  const vs=Object.keys(U.sim).map(k=>({k,s:U.sim[k]})).sort((a,b)=>(b.s[3]||[]).length-(a.s[3]||[]).length).slice(0,5);
+  html+='<div class="card"><div class="t">أشهر ٥ آيات (أكثر متشابهات)</div>'+vs.map((v,i)=>
+   '<div class="it"><div class="rank">#'+arN(i+1)+' — '+esc(U.names[v.k.split(':')[0]])+'</div><div class="txt">'+esc(v.s[2])+'</div><div class="why">'+arN((v.s[3]||[]).length)+' متشابهة</div></div>').join('')+'</div>';
+ }
+ // أوسع ٥ كتب بمسائل
+ if(M){
+  const bs=Object.entries(M).map(([s,b])=>({b,s})).sort((a,b)=>b.b.u.length-a.b.u.length).slice(0,5);
+  html+='<div class="card"><div class="t">أوسع ٥ كتب (أكثر مسائل)</div>'+bs.map((x,i)=>
+   '<div class="it"><div class="rank">#'+arN(i+1)+'</div><div class="txt">'+esc(x.b.n)+'</div><div class="why">'+(x.b.a?esc(x.b.a)+' · ':'')+arN(x.b.u.length)+' مسألة</div></div>').join('')+'</div>';
+ }
+ // أطول ٥ سلاسل
+ if(S){
+  const ss=S.slice().sort((a,b)=>(b.videos||0)-(a.videos||0)).slice(0,5);
+  html+='<div class="card"><div class="t">أكبر ٥ سلاسل (أكثر مقاطع)</div>'+ss.map((s,i)=>
+   '<div class="it"><div class="rank">#'+arN(i+1)+' — '+esc(s.sheikh||'')+'</div><div class="txt">'+esc(s.name)+'</div><div class="why">'+arN(s.videos||0)+' مقطعًا · '+arN(s.hours||0)+' ساعة</div></div>').join('')+'</div>';
+ }
+ $('#out').innerHTML=html;
+});
+</script>
+<script src="../shared/feedback.js" data-pid="miqtaf2" data-title="مِقطَف"></script>
+</body>
+</html>

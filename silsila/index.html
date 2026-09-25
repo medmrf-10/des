@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>سِلسِلة — قوائم تشغيلك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<script src="../durus/data.js"></script>
+<style>
+body{max-width:800px;margin:0 auto;padding:14px}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:10px 14px;font-family:var(--font-ar);font-size:14px}
+.sr{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin:6px 0;display:flex;gap:10px;align-items:center}
+.sr .n{flex:1;font-family:var(--font-ar);font-size:13.5px}
+.sr .d{font-size:10.5px;color:var(--dim)}
+.pl{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin:8px 0}
+.pl .h{display:flex;gap:8px;align-items:center}
+.pl .t{flex:1;font-family:var(--font-ar);font-size:14.5px;font-weight:700}
+.pl .items{margin-top:8px}
+.it{display:flex;gap:8px;align-items:center;padding:6px 0;border-top:1px dashed var(--border);font-size:12.5px}
+.it .x{color:var(--dim);cursor:pointer}
+.it .mv{color:var(--acc);cursor:pointer;font-size:11px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:7px 16px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+.mini{border:1px solid var(--border);background:none;color:var(--dim);border-radius:7px;padding:3px 10px;font-size:11px;cursor:pointer;font-family:var(--font-ar)}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">سِلسِلة <span class="muted">— قوائم تشغيل مخصوصة</span></h2>
+<div class="muted">اجمع سلاسل من مختلف المشايخ في قائمة واحدة مرتّبة — «طريقي للفقه»، «عقيدة الشهر» — وشغّلها بالترتيب. قوائمك محفوظة وتُشارك بالرابط.</div>
+<div style="display:flex;gap:8px;margin:12px 0">
+<input class="inp" id="nm" placeholder="اسم قائمة جديدة…" style="flex:1">
+<button class="btn" id="mk">＋ أنشئ</button>
+</div>
+<div id="pls"></div>
+<h4 style="font-family:var(--font-ar);margin:16px 0 6px">أضف سلاسل للقائمة المفتوحة</h4>
+<input class="inp" id="q" placeholder="ابحث في 952 سلسلة — اسم أو شيخ أو نوع…">
+<div id="res" style="margin-top:8px"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+let PLS=JSON.parse(localStorage.silsila||'[]');
+let open=-1;
+// مشاركة بالرابط: #import=<json b64>
+function save(){localStorage.silsila=JSON.stringify(PLS)}
+function byId(id){return (window.SERIES||[]).find(s=>s.id===id)}
+function mk(){const n=$('nm').value.trim();if(!n)return;
+ PLS.push({n,items:[],ts:Date.now()});$('nm').value='';open=PLS.length-1;save();render()}
+function render(){
+ $('#pls').innerHTML=PLS.length?PLS.map((p,i)=>`
+ <div class="pl"><div class="h"><span class="t">${i===open?'▾':'▸'} ${esc(p.n)}</span>
+  <span class="muted">${p.items.length} سلسلة</span>
+  <button class="mini" data-a="share" data-i="${i}">شارك</button>
+  <button class="mini" data-a="open" data-i="${i}">${i===open?'أغلق':'افتح'}</button>
+  <button class="mini" data-a="del" data-i="${i}">✕</button></div>
+ ${i===open?`<div class="items">${p.items.length?p.items.map((id,j)=>{const s=byId(id);
+   return `<div class="it"><span class="mv" data-a="up" data-i="${i}" data-j="${j}">↑</span><span class="mv" data-a="dn" data-i="${i}" data-j="${j}">↓</span>
+   <span style="flex:1">${esc(s?s.name:'#'+id)} <span class="d" style="color:var(--dim);font-size:10px">· ${s?s.sheikh:''} · ${s?s.videos:''} درساً</span></span>
+   <a class="mini" href="../durus/index.html#s=${id}" target="_blank">شغّل</a>
+   <span class="x" data-a="rm" data-i="${i}" data-j="${j}">×</span></div>`}).join(''):'<div class="muted" style="padding:8px 0">فارغة — ابحث وأضف أسفله</div>'}</div>`:''}
+ </div>`).join(''):'<div class="muted" style="text-align:center;padding:26px">لا قوائم — أنشئ أول قائمة باسمها أعلاه.</div>'}
+function search(){
+ const q=norm($('q').value.trim());if(!q||open<0){$('#res').innerHTML='';return}
+ const hits=(window.SERIES||[]).filter(s=>norm(s.name).includes(q)||norm(s.sheikh).includes(q)||norm(s.kind||'').includes(q)).slice(0,10);
+ $('#res').innerHTML=hits.map(s=>`<div class="sr"><span class="n">${esc(s.name)}<div class="d">${esc(s.sheikh)} · ${s.videos} درساً · ${esc(s.kind||'')}</div></span>
+ <button class="btn gh" data-a="add" data-id="${s.id}">＋ أضف</button></div>`).join('')||'<div class="muted">لا نتائج</div>'}
+document.body.onclick=e=>{
+ const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=+b.dataset.i;
+ if(a==='add'){PLS[open].items.push(+b.dataset.id);save();render();return}
+ if(a==='open'){open=(open===i)?-1:i;render();return}
+ if(a==='del'){PLS.splice(i,1);open=-1;save();render();return}
+ if(a==='share'){const j=encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(PLS[i])))));
+  const u=location.origin+location.pathname+'#import='+j;
+  navigator.clipboard?navigator.clipboard.writeText(u).then(()=>b.textContent='✓ نُسخ'):prompt('انسخ الرابط:',u);return}
+ const j=+b.dataset.j;
+ if(a==='rm')PLS[i].items.splice(j,1);
+ if(a==='up'&&j>0)[PLS[i].items[j-1],PLS[i].items[j]]=[PLS[i].items[j],PLS[i].items[j-1]];
+ if(a==='dn'&&j<PLS[i].items.length-1)[PLS[i].items[j+1],PLS[i].items[j]]=[PLS[i].items[j],PLS[i].items[j+1]];
+ save();render()};
+$('#mk').onclick=mk;
+$('#q').addEventListener('input',search);
+if(location.hash.startsWith('#import=')){try{
+ const p=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(location.hash.slice(8))))));
+ PLS.push(p);save();location.hash=''}catch(e){}}
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="silsila" data-title="سِلسِلة"></script>
+</body>
+</html>

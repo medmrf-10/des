@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>إجازة — سماعُك موثَّقاً حتى الإتمام</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+html,body{overflow-x:hidden}
+body{max-width:840px;margin:0 auto;padding:14px}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:11px 15px;font-family:var(--font-ar);font-size:15px;margin:10px 0}
+.sr{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin:7px 0}
+.sr .t{font-family:var(--font-ar);font-size:15px}
+.sr .sh{font-size:11px;color:var(--acc2)}
+.bar{height:5px;background:var(--card2);border-radius:9px;margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .4s}
+.sr .pg{font-size:10px;color:var(--dim);margin-top:4px}
+.sr .ops{display:flex;gap:7px;margin-top:9px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:8px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+.cert{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:90;align-items:center;justify-content:center;padding:18px}
+.cert .paper{background:#f5efd9;color:#2a2413;border:3px double #8a6d2f;border-radius:6px;max-width:560px;width:100%;padding:38px 30px;text-align:center;font-family:var(--font-ar);position:relative}
+.cert .paper h3{margin:0 0 14px;font-size:22px;color:#6b4f1a}
+.cert .paper p{line-height:2.2;font-size:15px;margin:8px 0}
+.cert .paper .nm{font-size:19px;color:#6b4f1a}
+.cert .paper .dt{position:absolute;bottom:12px;left:20px;font-size:11px}
+.cert .x{position:absolute;top:10px;left:12px;cursor:pointer;color:#6b4f1a;font-size:18px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">إجازة <span class="muted" style="font-weight:400;font-size:12px">— سماعُك موثَّقاً حتى الإتمام</span></h2>
+<div class="muted">سجّل حضورك في سلاسل مشايخك — جلسة بعد جلسة تكتمل النسبة، وعند الإتمام يُطبع لك مخطوط إتمام باسمك.</div>
+<input class="inp" id="q" placeholder="ابحث عن سلسلة أو شيخ…" autocomplete="off">
+<div id="list"></div>
+<div class="cert" id="cert"><div class="paper"><span class="x" onclick="$('cert').style.display='none'">✕</span>
+ <h3>﴾ مخطوط إتمام سماع ﴿</h3>
+ <p>يشهد هذا السجل بأن</p><p class="nm" id="cn"></p>
+ <p>قد أتمَّ بعون الله سماع ومتابعة سلسلة</p><p class="nm" id="cs"></p>
+ <p>لشيخنا <span class="nm" id="ch"></span></p>
+ <p>وذلك بعدد <span class="nm" id="cv"></span> مجلساً مسموعاً موثّقاً.</p>
+ <p style="font-size:12px;margin-top:16px">﴿ وما توفيقي إلا بالله ﴾</p>
+ <div class="dt" id="cd"></div>
+ <button class="btn" style="margin-top:14px" onclick="print()">⎙ اطبع</button>
+</div></div>
+<script src="../durus/data.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ST;try{ST=JSON.parse(localStorage.getItem('ijaza')||'{}')}catch(e){ST={}}
+const save=()=>localStorage.setItem('ijaza',JSON.stringify(ST));
+const SH={};SHEIKHS.forEach(s=>SH[s.id]=s.name);
+function render(){
+ const q=($('q').value||'').trim().toLowerCase();
+ const list=SERIES.filter(s=>s.videos>2)
+  .map(s=>({s,done:ST[s.id]||0}))
+  .filter(x=>!q||(x.s.name+x.s.sheikh&&SH[x.s.sheikh]||'').toLowerCase().includes(q))
+  .sort((a,b)=>(b.done/Math.max(b.s.videos,1))-(a.done/Math.max(a.s.videos,1))||b.s.videos-a.s.videos);
+ $('#list').innerHTML=list.slice(0,60).map(({s,done})=>{
+  const p=Math.min(100,Math.round(done/s.videos*100));
+  return `<div class="sr"><div class="t">${esc(s.name)}</div><div class="sh">${esc(SH[s.sheikh]||'')}</div>
+  <div class="bar"><i style="width:${p}%"></i></div><div class="pg">${done.toLocaleString('ar-EG')} / ${s.videos.toLocaleString('ar-EG')} مجلساً — ${p}%</div>
+  <div class="ops"><button class="btn" data-id="${s.id}" data-v="${s.videos}">+ جلسة</button>
+  ${p>=100?`<button class="btn gh" data-cert="${s.id}">🎓 المخطوط</button>`:''}
+  <button class="btn gh" data-dec="${s.id}">−</button></div></div>`}).join('')}
+$('#list').onclick=e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.id){ST[b.dataset.id]=(ST[b.dataset.id]||0)+1;save();render();return}
+ if(b.dataset.dec){ST[b.dataset.dec]=Math.max(0,(ST[b.dataset.dec]||0)-1);save();render();return}
+ if(b.dataset.cert){const s=SERIES.find(x=>x.id===b.dataset.cert);
+  $('cn').textContent='محمد بومعراف';
+  $('cs').textContent=s.name;$('ch').textContent=SH[s.sheikh]||'';
+  $('cv').textContent=s.videos.toLocaleString('ar-EG');
+  $('cd').textContent='وُثّق في '+new Date().toLocaleDateString('ar');
+  $('cert').style.display='flex'}};
+$('q').addEventListener('input',render);
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="ijaza" data-title="إجازة"></script>
+</body>
+</html>

@@ -188,6 +188,8 @@
   function openReader(code, atomId) {
     const bk = bookByCode[code];
     if (!bk) return;
+    const target = 'r=' + code + (atomId ? '/' + atomId : '');
+    if (location.hash.slice(1) !== target) { suppressHash = true; location.hash = target; suppressHash = false; }
     readBook = code;
     setMode('read');
     main.innerHTML = '<div class="empty">جارٍ تحميل نص الكتاب…</div>';
@@ -273,10 +275,24 @@
     const [code, id] = el.dataset.read.split('/');
     openReader(code, id);
   });
+
+  // ---- deep linking: #r=book[/atom] | #m=mode ----
+  let suppressHash = false;
+  function applyHash() {
+    if (suppressHash) return;
+    const h = location.hash.slice(1);
+    if (h.startsWith('r=')) {
+      const [code, id] = h.slice(2).split('/').map(decodeURIComponent);
+      if (bookByCode[code]) { openReader(code, id); return; }
+    }
+    if (h.startsWith('m=')) { switchMode(decodeURIComponent(h.slice(2))); }
+  }
+  window.addEventListener('hashchange', applyHash);
   $('#expand-all').addEventListener('click', () => main.querySelectorAll('.bab').forEach((s) => toggleSec(s, true)));
   $('#collapse-all').addEventListener('click', () => main.querySelectorAll('.bab').forEach((s) => toggleSec(s, false)));
   search.addEventListener('input', applySearch);
 
   buildUnified();
   openSec(0, true);
+  applyHash();
 })();

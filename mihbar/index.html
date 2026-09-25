@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>محبر — مكتب الكتابة بالمصادر</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:820px;margin:0 auto;padding:14px}
+.bar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.bar input{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:9px 13px;font-family:var(--font-ar);font-size:13px;flex:1;min-width:150px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.btn.gh{background:var(--card2);color:var(--txt)}
+.ta{width:100%;min-height:280px;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:15px 17px;font-family:var(--font-ar);font-size:15px;line-height:2;resize:vertical;box-sizing:border-box}
+.hlp{font-size:10.5px;color:var(--dim);line-height:1.8}
+.prev{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px 17px;font-family:var(--font-ar);font-size:14.5px;line-height:2.1;white-space:pre-wrap;margin-top:10px;display:none}
+.stat{font-size:11px;color:var(--dim);margin-top:8px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">محبر <span class="muted" style="font-weight:400;font-size:12px">— تكتب فيسحب لك النص من المصدر</span></h2>
+<div class="hlp">أوامر الإدراج: «بخاري:506» أو «مسلم:11» أو «ق2:286» أو «البقرة:285» — اكتب المرجع واضغط أدرج، فيحلّ محلّه النص الحقيقي مصدَّراً.</div>
+<div class="bar">
+ <input id="ttl" placeholder="عنوان المقال/الدرس…">
+ <button class="btn gh" id="pv">عاين</button>
+ <button class="btn gh" id="dl">⬇ صدّر</button>
+</div>
+<textarea class="ta" id="tx" placeholder="ابدأ الكتابة…&#10;&#10;قال النبي ﷺ: «بخاري:506»&#10;وقال تعالى: «البقرة:285»" ></textarea>
+<div class="bar"><input id="ins" placeholder="مرجع للإدراج عند المؤشر… (مسلم:11)"><button class="btn" id="go">أدرج</button></div>
+<div class="stat" id="st"></div>
+<div class="prev" id="pvx"></div>
+<script src="../hadith/pako.min.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BK={bukhari:'صحيح البخاري',muslim:'صحيح مسلم',tirmidhi:'سنن الترمذي','abi-dawud':'سنن أبي داود',nasai:'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BKA={بخاري:'bukhari',مسلم:'muslim',ترمذي:'tirmidhi','ابو داود':'abi-dawud','أبي داود':'abi-dawud',نسائي:'nasai','ابن ماجه':'ibn-majah','ابن ماجه':'ibn-majah'};
+const SN={};let SI=null;
+async function surahIndex(){if(SI)return SI;SI=await(await fetch('../wahy/data/index.json')).json().catch(()=>[]);SI.forEach(s=>SN[s.ar]=s.n);return SI}
+const DETS={};
+async function det(b){if(DETS[b])return DETS[b];
+ const r=await fetch(`../wahy/data/hadith/${b}-det.json.gz`);
+ DETS[b]=JSON.parse(pako.ungzip(new Uint8Array(await r.arrayBuffer()),{to:'string'}));return DETS[b]}
+async function hadith(b,n){const d=await det(b);const h=d.d&&d.d[String(n)];
+ return h?('«'+h.m+'» [رواه '+BK[b]+' '+n+']'):'⚠ لم يُوجد '+b+' '+n}
+async function ayah(sRef,n){
+ await surahIndex();
+ const sN=SN[sRef]||parseInt(sRef,10);if(!sN)return '⚠ سورة غير معروفة: '+sRef;
+ const j=await(await fetch(`../wahy/data/surah/${sN}.json`)).json();
+ const v=j.verses.find(v=>v.a===+n);
+ return v?('﴿'+v.t+'﴾ ['+j.ar+' '+n+']'):'⚠ لم توجد الآية '+sRef+':'+n}
+async function resolve(ref){
+ ref=ref.trim();
+ let m=ref.match(/^ق[:：]?(\d+)[:：](\d+)$/);if(m)return ayah(m[1],m[2]);
+ m=ref.match(/^(.+?)[:：](\d+)$/);if(!m)return '⚠ صيغة غير مفهومة';
+ const[,src,n]=m;
+ const bk=BKA[src.trim()]||src.trim();
+ if(BK[bk])return hadith(bk,n);
+ return ayah(src.trim(),n)}
+$('#go').onclick=async()=>{
+ const ref=$('ins').value.trim();if(!ref)return;
+ $('#go').textContent='…';
+ try{const txt=await resolve(ref);
+  const tx=$('tx');const p=tx.selectionStart||tx.value.length;
+  tx.value=tx.value.slice(0,p)+txt+tx.value.slice(p);
+  $('ins').value='';stat()}catch(e){$('ins').value='⚠ خطأ'}
+ $('#go').textContent='أدرج'};
+$('#tx').addEventListener('input',async e=>{
+ const v=e.target.value;
+ const m=v.match(/[«\(]([^«»\(\)]{2,25}[:：]\d+)[»\)]/);
+ if(m){
+  const full=m[0],ref=m[1];
+  try{const r=await resolve(ref);
+   e.target.value=v.replace(full,r);stat()}catch(err){}}});
+function stat(){const v=$('tx').value;
+ $('st').textContent=v.split(/\s+/).filter(Boolean).length.toLocaleString('ar-EG')+' كلمة · '+v.length.toLocaleString('ar-EG')+' حرفاً'}
+$('#pv').onclick=()=>{const p=$('pvx');p.style.display=p.style.display==='block'?'none':'block';p.textContent=($('ttl').value?$('ttl').value+'\n\n':'')+$('tx').value};
+$('#dl').onclick=()=>{const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([($('ttl').value?'# '+$('ttl').value+'\n\n':'')+$('tx').value],{type:'text/plain'}));
+ a.download=($('ttl').value||'نص').replace(/\s+/g,'_')+'.md';a.click()};
+stat();
+</script>
+<script src="../shared/feedback.js" data-pid="mihbar" data-title="محبر"></script>
+</body>
+</html>

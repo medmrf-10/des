@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِشمِل — شمول يومك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin-top:12px}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:13px 16px}
+.card .t{font-family:var(--font-ar);font-weight:700;font-size:12.5px;color:var(--acc);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.card .t a{color:var(--dim);font-size:10.5px;text-decoration:none}
+.card .t a:hover{color:var(--acc)}
+.body{font-family:var(--font-ar);font-size:13px;line-height:2}
+.muted{color:var(--dim);font-size:11.5px}
+.prog{height:5px;background:var(--border);border-radius:3px;margin-top:7px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--acc)}
+.big{font-family:var(--font-ar);font-size:22px;color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِشمِل <span class="muted">— شمول يومك في صفحة</span></h2>
+<div class="muted">كل ما تحتاجه اليوم: آية، حديث، ذِكر، هدف، وقفة — في نظرة واحدة.</div>
+<div class="grid">
+<div class="card"><div class="t">آية اليوم <a href="../mutashabih/">↗</a></div><div class="body" id="ayah">…</div></div>
+<div class="card"><div class="t">حديثك <a href="../mitla3/">↗</a></div><div class="body" id="hadith">…</div></div>
+<div class="card"><div class="t">ذِكرك <a href="../mishwar/">↗</a></div><div class="body" id="dhikr">…</div></div>
+<div class="card"><div class="t">أهدافك «مِرمى» <a href="../mirmah/">↗</a></div><div id="goals" class="body">…</div></div>
+<div class="card"><div class="t">مهمتك «مِعسكر» <a href="../mi3skar/">↗</a></div><div id="task" class="body">…</div></div>
+<div class="card"><div class="t">تقدّمك اليوم</div><div id="today" class="body"><span class="big" id="cnt">٠</span> <span class="muted">نشاطًا</span><div class="prog"><i id="tp" style="width:0%"></i></div></div></div>
+</div>
+<div class="muted" style="text-align:center;margin-top:14px">افتح «مِشمِل» كل صباح — نظرة واحدة تكفي.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const today=()=>new Date().toISOString().slice(0,10);
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+const seed=(s,n)=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)%n};
+Promise.all([laz('../wahy/mutashabih.js','MUTA'),laz('../hadith/analysis.js','GIDNET'),laz('../hadith/adhkar.js','ADHKAR')]).then(([U,G,A])=>{
+ if(U){const ks=Object.keys(U.sim);const k=ks[seed(today(),ks.length)];
+  $('#ayah').innerHTML='«'+esc(U.sim[k][2].slice(0,90))+'…»<div class="muted">'+esc(U.names[k.split(':')[0]])+' '+k.split(':')[1]+'</div>'}
+ else $('#ayah').textContent='—';
+ if(G){const ks=Object.keys(G.g);const k=ks[seed(today()+'h',ks.length)];const h=G.g[k];
+  $('#hadith').innerHTML=esc(h.t.slice(0,90))+'…<div class="muted">'+esc(h.h)+' — '+esc(G.meta.books[k.split(':')[0]])+'</div>'}
+ else $('#hadith').textContent='—';
+ if(A){const a=A[seed(today()+'a',A.length)];
+  $('#dhikr').innerHTML=esc(a.t.slice(0,90))+'<div class="muted">×'+a.r+' — '+esc(a.g)+'</div>'}
+ else $('#dhikr').textContent='—';
+ // أهداف مِرمى
+ const goals=LS('mirmah',[]).filter(g=>!g.done);
+ $('#goals').innerHTML=goals.length?goals.slice(0,3).map(g=>'• '+esc(g.n)+' — <b style="color:var(--acc)">'+arN(g.t)+'</b>').join('<br>'):'لا أهداف — <a href="../mirmah/" style="color:var(--acc)">ارمِ الآن</a>';
+ // مهمة معسكر
+ const W=['مراجعة ما حفظته','حديث مِطلع + تعليل','مسألتان مِحفل','قراءة صفحة','درس سلسلة مِشغل','تحليل مِكشاف','تفريغ مُلاَحِن'];
+ const dayIdx=Math.floor((new Date(today())-new Date(LS('mi3skar',{start:today()}).start))/864e5);
+ $('#task').innerHTML='يوم '+arN(dayIdx+1)+' — '+esc(W[dayIdx%7])+'<div class="muted">افتح المعسكر لكل المهام</div>';
+ // نشاط اليوم
+ let act=0;
+ const mm=LS('midad',{});if(mm[today()])act+=mm[today()].length;
+ const mu=LS('mutabi3',{});if(mu[today()])act+=mu[today()].length;
+ const mb=LS('misbah_'+today(),null);if(mb)act+=1;
+ const mj=LS('mijtaz',{});if(mj[today()])act+=mj[today()].length;
+ $('#cnt').textContent=arN(act);
+ $('#tp').style.width=Math.min(100,act*12)+'%';
+});
+</script>
+<script src="../shared/feedback.js" data-pid="mishmil" data-title="مِشمِل"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِستملي — إملاء الآيات</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.aya{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:16px 20px;font-family:var(--font-ar);font-size:20px;line-height:2.2;text-align:center;margin:10px 0;transition:filter .3s}
+.aya.blur{filter:blur(13px);opacity:.35;user-select:none}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px;font-family:var(--font-ar);font-size:16px;min-height:90px;resize:vertical;box-sizing:border-box;line-height:2}
+textarea:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:8px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.cmp{font-family:var(--font-ar);font-size:16px;line-height:2.2;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:10px;white-space:pre-wrap}
+.good{color:var(--ok)}
+.miss{color:#e07777;text-decoration:line-through}
+.add{color:var(--acc3)}
+.muted{color:var(--dim);font-size:12px}
+.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:14px;width:80px;text-align:center}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِستملي <span class="muted">— إملاء الآيات</span></h2>
+<div class="muted">اقرأ الآية حتى تحفظها ← أخفِها ← اكتبها من ذاكرتك ← قِس الفرق كلمةً كلمة.</div>
+<div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap">
+<input class="inp" id="s" type="number" min="1" max="114" value="1" placeholder="سورة">
+<input class="inp" id="a" type="number" min="1" value="1" placeholder="آية">
+<button class="btn ghost" id="ld">هات</button>
+<button class="btn ghost" id="nx">التالية ←</button>
+</div>
+<div class="aya" id="v">…</div>
+<textarea id="me" placeholder="اكتب الآية من ذاكرتك…"></textarea>
+<button class="btn" id="chk">قِس</button>
+<button class="btn ghost" id="hd">أخفِ/أظهر</button>
+<div id="res"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+let cur=null;
+async function load(){
+ const s=+$('#s').value,a=+$('#a').value;
+ const S=await(await fetch('../wahy/data/surah/'+s+'.json')).json();
+ const v=S.verses.find(x=>x.a===a);if(!v){alert('لا آية بهذا الرقم');return}
+ cur=v.t;
+ $('#v').textContent=cur+' ﴿'+a.toLocaleString('ar-EG')+'﴾';
+ $('#v').classList.remove('blur');$('#me').value='';$('#res').innerHTML=''}
+$('#ld').onclick=load;
+$('#nx').onclick=()=>{$('#a').value=+$('#a').value+1;load()};
+$('#hd').onclick=()=>$('#v').classList.toggle('blur');
+$('#v').onclick=()=>$('#v').classList.toggle('blur');
+$('#chk').onclick=()=>{
+ if(!cur)return;
+ const ref=norm(cur).split(/\s+/).filter(Boolean);
+ const mine=norm($('#me').value).split(/\s+/).filter(Boolean);
+ // محاذاة بسيطة LCS-كلمات
+ const n=ref.length,m=mine.length;
+ const dp=Array.from({length:n+1},()=>new Uint16Array(m+1));
+ for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
+  dp[i][j]=ref[i]===mine[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+ let i=0,j=0,ok=0,miss=0;
+ const out=[];const missed=[];
+ while(i<n&&j<m){
+  if(ref[i]===mine[j]){out.push(`<span class="good">${esc(ref[i])}</span>`);i++;j++;ok++}
+  else if(dp[i+1][j]>=dp[i][j+1]){out.push(`<span class="miss">${esc(ref[i])}</span>`);missed.push(ref[i]);i++;miss++}
+  else{out.push(`<span class="add">+${esc(mine[j])}</span>`);j++;miss++}}
+ while(i<n){out.push(`<span class="miss">${esc(ref[i])}</span>`);missed.push(ref[i]);i++;miss++}
+ while(j<m){out.push(`<span class="add">+${esc(mine[j++])}</span>`)}
+ const pc=n?Math.round(ok/n*100):0;
+ const st=JSON.parse(localStorage.getItem('mustamli')||'{"n":0,"sum":0,"best":0}');
+ st.n++;st.sum+=pc;if(pc>st.best)st.best=pc;
+ localStorage.setItem('mustamli',JSON.stringify(st));
+ if(missed.length){const mh=JSON.parse(localStorage.getItem('moseh')||'{}');
+  missed.forEach(w=>{const k=w.replace(/[ً-ْٰ]/g,'');mh[k]=(mh[k]||0)+1});
+  localStorage.setItem('moseh',JSON.stringify(mh))}
+ $('#res').innerHTML=`<div class="cmp">${out.join(' ')}</div>
+ <div class="muted" style="margin-top:8px">إصابتك: <b style="color:var(--acc)">${pc}%</b> · أفضل نتيجتك ${st.best}% · متوسطك ${Math.round(st.sum/st.n)}% في ${st.n} محاولة — <span class="good">صحيح</span> <span class="miss">فائت/خطأ</span> <span class="add">زائد</span></div>`};
+load();
+</script>
+<script src="../shared/feedback.js" data-pid="mustamli" data-title="مِستملي"></script>
+</body>
+</html>

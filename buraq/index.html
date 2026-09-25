@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>بُراق — مدرب القراءة السريعة</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.ctl select,.ctl input{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:14px}
+.ctl label{font-size:12px;color:var(--dim)}
+#stage{background:#000;border:1px solid var(--border);border-radius:16px;min-height:220px;display:flex;align-items:center;justify-content:center;margin:14px 0;cursor:pointer;position:relative;overflow:hidden}
+#word{font-family:var(--font-ar);font-size:44px;color:#fff;text-align:center;padding:20px;line-height:1.6}
+#word .pivot{color:var(--acc2)}
+#ctx{position:absolute;bottom:8px;right:0;left:0;text-align:center;color:#555;font-size:11px;padding:0 20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rail{position:absolute;top:0;right:0;left:0;height:2px;background:var(--card2)}
+#rail i{display:block;height:100%;background:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:10px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:14px}
+.btn.ghost{background:var(--card2);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+#res{display:none;text-align:center;padding:16px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">بُراق <span class="muted" style="font-weight:400;font-size:12px">— تدريب القراءة السريعة</span></h2>
+<div class="muted">كلمة واحدة في كل لحظة بسرعة تضبطها — درّب عينك على القراءة العربية السريعة بلا حركة سطرية. اختر نصاً، اضبط السرعة، وابدأ.</div>
+<div class="ctl">
+ <select id="src">
+  <option value="adhkar">أذكار</option>
+  <option value="atoms">قواعد العقيدة</option>
+  <option value="nawawi">الأربعون</option>
+  <option value="free">نصي</option>
+ </select>
+ <label>السرعة <input type="range" id="wpm" min="120" max="600" value="240" style="width:110px;vertical-align:middle"> <b id="wpmv">240</b> ك/د</label>
+ <button class="btn" id="go">ابدأ</button>
+</div>
+<textarea id="free" style="display:none;width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);min-height:80px" placeholder="الصق نصك هنا"></textarea>
+<div id="stage"><div id="rail"><i></i></div><div id="word">اضغط «ابدأ»</div><div id="ctx"></div></div>
+<div class="ctl" style="justify-content:center">
+ <button class="btn ghost" id="slower">− أبطأ</button>
+ <button class="btn ghost" id="pause">⏸</button>
+ <button class="btn ghost" id="faster">+ أسرع</button>
+ <button class="btn ghost" id="restart">↺</button>
+</div>
+<div id="res"></div>
+<script src="../hadith/adhkar.js"></script>
+<script src="../hadith/nawawi.js"></script>
+<script src="../madrasati/atoms.js"></script>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+let words=[],i=0,timer=null,run=false;
+function pivot(w){
+ if(w.length<3)return w;
+ const c=Math.max(1,Math.floor(w.length*0.35));
+ return w.slice(0,c)+'<span class="pivot">'+w[c]+'</span>'+w.slice(c+1)}
+function load(){
+ const s=$('src').value;let txt='';
+ if(s==='adhkar')txt=ADHKAR.slice(0,60).map(g=>(g.t||'')+' '+(g.h||'')).join(' ');
+ else if(s==='nawawi')txt=NAWAWI.map(n=>n.an||'').join(' ');
+ else if(s==='atoms'){const a=[];for(const c in ATOMS)for(const k in ATOMS[c].atoms)a.push(ATOMS[c].atoms[k].q||'');txt=a.join(' ')}
+ else txt=$('free').value;
+ words=txt.split(/\s+/).filter(w=>w.length>1).slice(0,400)}
+function tick(){
+ if(i>=words.length){stop();$('res').style.display='';
+  $('res').innerHTML='انتهى — '+words.length.toLocaleString('ar-EG')+' كلمة في '+Math.round(words.length/(+$('wpm').value)*60)+' ثانية';return}
+ $('word').innerHTML=pivot(words[i]);
+ $('ctx').textContent=words.slice(Math.max(0,i-6),i).join(' ');
+ $('stage #rail i').style.width=(i/words.length*100)+'%';
+ i++}
+function iv(){return 60000/(+$('wpm').value)}
+function start(){if(!words.length)return;run=true;clearInterval(timer);timer=setInterval(tick,iv());$('pause').textContent='⏸'}
+function stop(){run=false;clearInterval(timer);$('pause').textContent='▶'}
+$('src').onchange=e=>{$('free').style.display=e.target.value==='free'?'':'none'};
+$('wpm').oninput=e=>{$('wpmv').textContent=e.target.value;if(run){clearInterval(timer);timer=setInterval(tick,iv())}};
+$('go').onclick=()=>{i=0;$('res').style.display='none';load();start()};
+$('pause').onclick=()=>run?stop():start();
+$('faster').onclick=()=>{$('wpm').value=Math.min(600,+$('wpm').value+40);$('wpm').dispatchEvent(new Event('input'))};
+$('slower').onclick=()=>{$('wpm').value=Math.max(120,+$('wpm').value-40);$('wpm').dispatchEvent(new Event('input'))};
+$('restart').onclick=()=>{i=0;$('res').style.display='none';if(!run)start()};
+$('stage').onclick=()=>run?stop():start();
+document.addEventListener('keydown',e=>{if(e.key===' '&&e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='SELECT'){e.preventDefault();run?stop():start()}});
+</script>
+<script src="../shared/feedback.js" data-pid="buraq" data-title="بُراق"></script>
+</body>
+</html>

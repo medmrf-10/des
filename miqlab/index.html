@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِقلَب — بطاقات القلب</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.muted{color:var(--dim);font-size:12px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.fc{perspective:1200px;height:300px;margin-top:14px;cursor:pointer}
+.fc .inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.fc.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.front{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc)}
+.back{background:var(--card2);border:1px solid var(--acc2);transform:rotateY(180deg);font-family:var(--font-ar);font-size:16px;line-height:2.1;overflow-y:auto}
+.front .term{font-family:var(--font-ar);font-size:21px;color:var(--acc)}
+.front .sub{font-size:11.5px;color:var(--dim);margin-top:8px}
+.ctl{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
+.stat b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِقلَب <span class="muted">— بطاقات تقلبها</span></h2>
+<div class="muted">مسألة في وجه، تفصيلها في ظهر — قلّب، وقّع، وتعلّم.</div>
+<div style="margin-top:9px"><span class="stat">قلبتَ: <b id="fl">٠</b></span><span class="stat">عرفتَ: <b id="kn">٠</b></span></div>
+<div class="fc" id="fc"><div class="inner">
+<div class="face front"><div class="term" id="term">…</div><div class="sub" id="sub"></div><div class="muted" style="margin-top:14px">انقر للقلب</div></div>
+<div class="face back"><div id="back"></div></div>
+</div></div>
+<div class="ctl">
+<button class="btn ghost" id="dk">أعرفه ✓</button>
+<button class="btn ghost" id="dn">ما أعرفه</button>
+<button class="btn" id="next">التالي ←</button>
+</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arN=n=>(+n).toLocaleString('ar-EG');
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let M,cur,deck=[];
+const laz=(src,gl)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=()=>ok(window[gl]);s.onerror=()=>ok(null);document.head.appendChild(s)});
+laz('../fiqh_reader/masail.js','MASAIL').then(m=>{M=m;mk()});
+const MN={h:'الحنفية',m:'المالكية',s:'الشافعية',b:'الحنابلة',o:'أخرى'};
+function mk(){
+ const bs=Object.values(M).filter(b=>b.u.length>=4);
+ deck=bs.slice(0,50).flatMap(b=>b.u.map(u=>({b:b.n,m:MN[b.m],a:b.a,t:u.t,l:u.l||''})));
+ deck.sort(()=>Math.random()-0.5);
+ pick();
+}
+function pick(){
+ cur=deck[Math.floor(Math.random()*deck.length)];
+ $('#fc').classList.remove('flip');
+ setTimeout(()=>{
+  $('#term').textContent=cur.t.split(/\s+/).slice(0,5).join(' ');
+  $('#sub').textContent='من «'+cur.b+'» — '+cur.m;
+  $('#back').innerHTML='<div style="font-size:14px">'+esc(cur.t)+'</div><div class="muted" style="margin-top:9px">'+esc(cur.b)+' · '+esc(cur.a||'')+' · '+esc(cur.m)+'</div>';
+ },200);
+}
+$('#fc').onclick=()=>{
+ $('#fc').classList.toggle('flip');
+ const h=LS('miqlab',{f:0,k:0});h.f++;SV('miqlab',h);render();
+};
+$('#dk').onclick=()=>{
+ const h=LS('miqlab',{f:0,k:0});h.k++;SV('miqlab',h);render();pick();
+};
+$('#dn').onclick=pick;
+$('#next').onclick=pick;
+function render(){
+ const h=LS('miqlab',{f:0,k:0});
+ $('#fl').textContent=arN(h.f);$('#kn').textContent=arN(h.k);
+}
+render();
+</script>
+<script src="../shared/feedback.js" data-pid="miqlab" data-title="مِقلَب"></script>
+</body>
+</html>

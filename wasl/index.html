@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>وصل — البحث الشامل</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<script src="../hadith/pako.min.js"></script>
+<style>
+body{max-width:860px;margin:0 auto;padding:14px}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:13px;padding:13px 17px;font-family:var(--font-ar);font-size:17px}
+.dom{font-family:var(--font-ar);font-size:15px;color:var(--acc2);margin:16px 0 6px;border-bottom:1px solid var(--border);padding-bottom:5px}
+.hit{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;margin:5px 0;font-family:var(--font-ar);font-size:14px;line-height:1.9}
+.hit .s{font-size:10.5px;color:var(--dim)}
+.hit a{color:var(--acc2);font-size:11px}
+.prog{height:3px;background:var(--card2);border-radius:9px;overflow:hidden;margin:8px 0}
+.prog i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.muted{color:var(--dim);font-size:12px}
+mark{background:rgba(201,162,75,.4);color:#fff;border-radius:2px;padding:0 2px}
+@media print{.inp,#pr,.prog{display:none}.dom{color:#000}.hit{border-color:#999;color:#000}a{color:#000}}
+#pr{position:fixed;top:14px;left:14px;z-index:9;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:7px 13px;cursor:pointer;font-size:12px}
+.src{display:inline-block;font-size:10px;border:1px solid var(--border);border-radius:99px;padding:1px 8px;color:var(--acc2);margin-left:5px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">وصل <span class="muted" style="font-weight:400;font-size:12px">— نص واحد في كل المصادر</span></h2>
+<div class="muted">يبحث في: قرآن (متشابه) · حديث (معاني+متون الكتب الستة) · عقيدة (مفاهيم) · فقه (28.6k باب) · أذكار · أربعون · قواعد. النتيجة تصِلّك بالأداة العميقة لكل مصدر.</div>
+<input class="inp" id="q" placeholder="نص أو مفهوم… (الصلاة، البر، الإيمان بالقضاء، حسن الخلق)" autocomplete="off" style="margin-top:10px">
+<div class="prog"><i id="pg" style="width:0"></i></div>
+<button id="pr" onclick="print()">⎙ ملف</button>
+<div id="out"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const L={};
+async function ld(k,url,cb){if(L[k])return L[k];
+ return L[k]=await new Promise(res=>{const s=document.createElement('script');s.src=url;s.onload=()=>res(cb());s.onerror=()=>res(null);document.head.appendChild(s)})}
+function hl(t,ws){let x=esc(t);for(const w of ws){try{x=x.replace(new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')}catch(e){}}return x}
+function match(t,ws,nw){const n=norm(t);if(n.includes(nw))return 3;let h=0;for(const w of ws)if(n.includes(w))h++;return h>=Math.min(ws.length,2)?h:0}
+const DOMAINS=[
+ {n:'القرآن — المتشابهات',async go(ws,nw,R){await ld('muta','../wahy/mutashabih.js',()=>MUTA);
+  for(const k in MUTA.sim){const v=MUTA.sim[k];
+   if(match(v[2],ws,nw))R.push({x:v[2],s:MUTA.names[v[0]]+' '+v[1],u:'../wahy/mutashabih.html'})}}},
+ {n:'الحديث — شبكة المعاني',async go(ws,nw,R){await ld('gid','../hadith/analysis.js',()=>GIDNET);
+  for(const g in GIDNET.g){const v=GIDNET.g[g];
+   if(v.t&&match(v.t,ws,nw))R.push({x:v.t,s:'معنى '+g+' · '+(v.s||0)+' صحابة · حكم: '+(v.h||'—'),u:'../hadith/net.html',sc:2})}}},
+ {n:'الحديث — المتون (الكتب الستة)',async go(ws,nw,R){const pgs=[];
+  for(const b of ['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah']){
+   try{const r=await fetch(`../hadith/${b}-det.json.gz`);
+    const j=JSON.parse(pako.ungzip(new Uint8Array(await r.arrayBuffer()),{to:'string'}));
+    for(const n in j.d){if(match(j.d[n].m,ws,nw))R.push({x:(j.d[n].m||'').slice(0,220),s:b+' '+n,u:`../hadith/misbar.html?b=${b}&n=${n}`,sc:3})}
+   }catch(e){}
+   pgs.push(0);$('pg').style.width=(60+pgs.length*6)+'%'}}},
+ {n:'العقيدة — المفاهيم',async go(ws,nw,R){await ld('terms','../akida/terms.js',()=>TERMS);
+  for(const t in TERMS.terms){if(match(t,ws,nw))R.push({x:t,s:TERMS.terms[t].length+' سياقاً',u:'../shabaka/#q='+encodeURIComponent(t)})}}},
+ {n:'العقيدة — القواعد',async go(ws,nw,R){await ld('atoms','../madrasati/atoms.js',()=>ATOMS);
+  for(const c in ATOMS)for(const k in ATOMS[c].atoms){const a=ATOMS[c].atoms[k];
+   if(match(a.t+' '+a.q,ws,nw))R.push({x:(a.t?a.t+' — ':'')+a.q,s:ATOMS[c].name,u:'../madrasati/'})}}},
+ {n:'الفقه — الأبواب',async go(ws,nw,R){await ld('masail','../fiqh_reader/masail.js',()=>MASAIL);
+  for(const b in MASAIL)for(const u of MASAIL[b].u){
+   if(match(u.t,ws,nw))R.push({x:u.t,s:MASAIL[b].n,u:`../fiqh_reader/index.html#${b}/${u.i}`})}}},
+ {n:'الأذكار',async go(ws,nw,R){await ld('adhkar','../hadith/adhkar.js',()=>ADHKAR);
+  for(const g of ADHKAR){if(match((g.t||'')+' '+(g.h||''),ws,nw))R.push({x:g.t+' '+(g.h||''),s:'حديث '+g.g,u:'../hadith/adhkar.html'})}}},
+ {n:'الأربعون النووية',async go(ws,nw,R){await ld('nawawi','../hadith/nawawi.js',()=>NAWAWI);
+  for(const n of NAWAWI){if(match(n.an||n.n||'',ws,nw))R.push({x:n.an||n.n,s:'حديث '+n.n,u:'../hadith/nawawi.html'})}}}];
+let tok=0;
+async function search(){
+ const t=$('q').value.trim();if(t.length<2){$('out').innerHTML='';return}
+ const my=++tok;$('out').innerHTML='';$('pg').style.width='5%';
+ const ws=t.split(/\s+/).map(norm).filter(Boolean),nw=norm(t);
+ let done=0;
+ await Promise.all(DOMAINS.map(async D=>{
+  const R=[];
+  try{await D.go(ws,nw,R)}catch(e){}
+  if(tok!==my)return;
+  done++;$('pg').style.width=(10+done*11)+'%';
+  if(R.length){
+   R.sort((a,b)=>(b.sc||1)-(a.sc||1));
+   $('out').innerHTML+=`<div class="dom">${D.n} <span class="muted">(${R.length.toLocaleString('ar-EG')})</span></div>`+
+   R.slice(0,12).map(r=>`<div class="hit">${r.u?`<a href="${r.u}" target="_blank">افتح ↗</a> `:''}${hl(r.x,ws).slice(0,420)}<div class="s">${esc(r.s||'')}</div></div>`).join('')}
+ }));
+ $('pg').style.width='100%'}
+let deb=null;
+$('q').addEventListener('input',()=>{clearTimeout(deb);deb=setTimeout(search,500)});
+$('q').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+const m=new URLSearchParams(location.search).get('q');if(m){$('q').value=m;search()}
+</script>
+<script src="../shared/feedback.js" data-pid="wasl" data-title="وصل"></script>
+</body>
+</html>

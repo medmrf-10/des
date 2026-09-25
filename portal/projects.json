@@ -2518,5 +2518,41 @@
   "desc": "حزمة اليوم — مراجعة ليلية",
   "url": "../mi3sab/",
   "icon": "م"
+ },
+ {
+  "id": "hadith_shajara",
+  "title": "شجرة الإسناد",
+  "maker": "محمد",
+  "field": "تراث",
+  "desc": "تتبع سلسلة السند بصرياً — من الراوي إلى المصدر",
+  "url": "../hadith/shajara.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en_collocations",
+  "title": "التراكيب الإنجليزية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "50 تركيباً طبيعياً — أي كلمة تليق؟",
+  "url": "../english/collocations.html",
+  "icon": "ع"
+ },
+ {
+  "id": "prog_bigo",
+  "title": "حاسبة التعقيد",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "خمّن Big-O قبل الكشف — 12 مقطعاً",
+  "url": "../prog/big_o.html",
+  "icon": "ب"
+ },
+ {
+  "id": "prog_debughunt",
+  "title": "صائد الأخطاء",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "اعثر على البقّ — 12 مقطعاً معلولاً",
+  "url": "../prog/debug_hunt.html",
+  "icon": "ب"
  }
 ]

@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مُدرِّس — دفتر طلابك</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:660px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:16px}
+.add{display:flex;gap:8px;margin-bottom:16px}
+.add input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;padding:10px}
+.add button{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-weight:700;padding:10px 18px;cursor:pointer}
+.st{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.sh{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer}
+.sh .nm{flex:1;font-weight:700;font-size:.92rem}
+.lvl{display:flex;gap:3px}
+.lvl i{width:14px;height:5px;border-radius:2px;background:var(--card2)}
+.lvl i.f{background:var(--acc)}
+.sh .mt{font-size:.64rem;color:var(--dim)}
+.body{display:none;padding:0 14px 14px}
+.body.open{display:block}
+.ssn{background:var(--card2);border-radius:8px;padding:9px 11px;margin-bottom:7px;font-size:.8rem}
+.ssn .d{font-size:.6rem;color:var(--dim);display:block;margin-bottom:3px}
+.ssn .nx{color:var(--acc);font-size:.72rem;margin-top:4px}
+.inrow{display:flex;gap:6px;margin-top:8px}
+.inrow input{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;padding:8px;font-size:.76rem}
+.inrow button{background:var(--acc);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-weight:700;padding:8px 12px;cursor:pointer;font-size:.7rem}
+.lvledit{display:flex;gap:4px;margin-top:8px;align-items:center}
+.lvledit span{font-size:.62rem;color:var(--dim)}
+.lvledit button{width:26px;height:22px;border:1px solid var(--border);border-radius:5px;background:var(--card2);color:var(--dim);cursor:pointer;font-size:.7rem}
+.lvledit button.f{background:var(--acc);color:#0b0f1a;border-color:var(--acc)}
+</style></head><body>
+<h1>مُدرِّس</h1><div class="sub">دفتر طلابك: من يتعلم عندك، مستواه، آخر جلسة، والتالي</div>
+<div class="add"><input id="ns" placeholder="اسم طالب جديد…"><button id="badd">+</button></div>
+<div id="list"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='mudarris_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'{}');const S=o=>localStorage.setItem(K,JSON.stringify(o));
+const LV=['مبتدئ','يمشي','متوسط','متقدم','متمكّن'];
+function render(){
+ const d=D(),names=Object.keys(d);
+ $('list').innerHTML=names.length?names.map(n=>{
+  const s=d[n];const last=s.sessions&&s.sessions[0];
+  return `<div class="st"><div class="sh" data-s="${esc(n)}"><span class="nm">${esc(n)}</span>
+   <div class="lvl">${LV.map((_,i)=>`<i class="${i<s.lvl?'f':''}"></i>`).join('')}</div>
+   <span class="mt">${s.sessions?s.sessions.length+' جلسة':'لا جلسات'}${last?' · آخرها '+new Date(last.t).toLocaleDateString('ar',{month:'short',day:'numeric'}):''}</span></div>
+   <div class="body" id="b-${esc(n)}">
+    <div class="lvledit"><span>المستوى:</span>${LV.map((l,i)=>`<button class="${i<s.lvl?'f':''}" data-lv="${i+1}" data-s="${esc(n)}" title="${l}">${i+1}</button>`).join('')}</div>
+    ${(s.sessions||[]).map(x=>`<div class="ssn"><span class="d">${new Date(x.t).toLocaleDateString('ar')}</span>${esc(x.w)}${x.nx?`<div class="nx">التالي: ${esc(x.nx)}</div>`:''}</div>`).join('')}
+    <div class="inrow"><input placeholder="جلسة اليوم: ما الذي درسته؟" data-w="${esc(n)}"><input placeholder="التالي…" data-x="${esc(n)}" style="max-width:38%"><button data-add="${esc(n)}">سجّل</button></div>
+   </div></div>`;
+ }).join(''):'<div class="sub">أضف أول طالب — من يتعلم عندك؟</div>';
+}
+document.addEventListener('click',e=>{
+ const sh=e.target.closest('.sh');if(sh){document.getElementById('b-'+sh.dataset.s).classList.toggle('open');return}
+ const lv=e.target.closest('button[data-lv]');if(lv){const d=D();d[lv.dataset.s].lvl=+lv.dataset.lv;S(d);render();return}
+ const add=e.target.closest('button[data-add]');if(add){const n=add.dataset.add;const w=document.querySelector(`input[data-w="${n}"]`);const x=document.querySelector(`input[data-x="${n}"]`);if(w.value.trim()||x.value.trim()){const d=D();d[n].sessions=d[n].sessions||[];d[n].sessions.unshift({w:w.value.trim(),nx:x?x.value.trim():'',t:Date.now()});S(d);render()}return}
+ if(e.target.id==='badd'){const v=$('ns').value.trim();if(v){const d=D();d[v]=d[v]||{lvl:1,sessions:[]};S(d);$('ns').value='';render();document.getElementById('b-'+v)?.classList.add('open')}}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ns')$('badd').click()});
+render();
+</script></body></html>

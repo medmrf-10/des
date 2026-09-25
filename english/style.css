@@ -194,6 +194,23 @@ body.shortmode{overflow:hidden}
   .fc-line{font-size:15px}
   .fc-words .w{font-size:12px; padding:2px 8px}
 }
+/* ----- روتين اليوم ----- */
+.rstreak{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:4px 14px;font-size:13px}
+.rphase{color:var(--muted);font-size:13px}
+.rsteps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:right}
+.rstep{background:var(--navy-2);border:1px solid var(--gold-dim);border-radius:12px;padding:12px 14px}
+.rstep b{display:block;color:var(--gold-soft);margin-bottom:4px}
+.rstep span{color:var(--muted);font-size:12px}
+.rstep.rdone{border-color:var(--ok)}
+.rstep.rdone b{color:var(--ok)}
+.rlnks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.rlnks a{background:var(--navy-3);border:1px solid var(--gold-dim);color:var(--gold-soft);border-radius:999px;padding:6px 14px;font-size:12px;text-decoration:none}
+.rlnks a:hover{background:var(--gold-dim);color:#0a1128}
+.rstats{display:flex;gap:14px;justify-content:center;margin:14px 0}
+.rstat{background:var(--navy-2);border:1px solid var(--gold-dim);border-radius:14px;padding:16px 26px;min-width:90px}
+.rstat b{display:block;color:var(--gold);font-size:28px}
+.rstat span{color:var(--muted);font-size:12px}
+@media (max-width:480px){ .rsteps{grid-template-columns:1fr} }
 .spk{
   cursor:pointer; background:var(--navy-3); border:1px solid var(--gold-dim); color:var(--gold-soft);
   border-radius:8px; padding:3px 8px; font-size:14px; flex-shrink:0;

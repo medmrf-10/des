@@ -94,8 +94,20 @@ async function verify(){
    <div style="display:flex;gap:8px;margin-top:8px">
     <a class="btn sm ghost" target="_blank" href="net.html#gid=${h.g}">المعنى في الشبكة</a>
     <a class="btn sm ghost" target="_blank" href="matn.html">ابحث في المتون</a>
-   </div></div>`}).join('')}
+   </div></div>`}).join('')+
+   (window.llmReady&&window.llmReady()?'<div style="text-align:center;margin-top:14px"><button id="aiVer" style="border:1px solid var(--acc);background:none;color:var(--acc);border-radius:10px;padding:7px 18px;font-size:12px;cursor:pointer;font-family:inherit">✦ فسّر لي الحكم</button></div><div id="aiVerBx"></div>':'')}
+ const av=document.getElementById('aiVer');
+ if(av)av.onclick=async()=>{av.disabled=true;const bx=document.getElementById('aiVerBx');
+  bx.innerHTML='<div style="color:var(--acc);font-size:13px;text-align:center;padding:10px">يفكّر…</div>';
+  try{
+   const sm=hits.slice(0,4).map(([ref,sc])=>{const[b,num]=ref.split(':');const h=idx.hadith[ref];const g=(idx.gid[b]||{})[h.g]||{};
+    return 'المصدر '+BAR[b]+' #'+num+' — حكم: '+(g.h||'—')+' — المعنى: '+(g.t||'—')+'\nالمتن: '+h.m.slice(0,400)}).join('\n---\n');
+   const out=await window.gemAsk('الطالب تحقّق من نص فكانت أعلى المطابقات هذه الأحاديث بأحكامها في الكتب الستة.\nاشرح له بلغة بسيطة: ماذا يعني الحكم عملياً (هل النص ثابت؟)، لماذا قد يختلف الحكم بين كتاب وآخر على نفس المعنى، وتنبيه واحد على أهم فائدة من المتن.\n\n'+sm,{maxTokens:750});
+   bx.innerHTML='<div style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:12px;padding:13px 16px;font-size:13.5px;line-height:2.05;margin-top:10px">'+esc(out).replace(/\n/g,'<br>')+'</div>';
+  }catch(err){bx.innerHTML='<div style="color:var(--dim);font-size:12px;text-align:center">'+esc(err.message)+'</div>'}
+  av.disabled=false};
 </script>
+<script src="../shared/llm.js"></script>
 <script src="../shared/feedback.js" data-pid="hadith" data-title="تثبّت — التحقق من الأحاديث"></script>
 </body>
 </html>

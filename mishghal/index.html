@@ -68,7 +68,8 @@ function search(){
 $('#q').oninput=search;
 $('#res').onclick=e=>{const r=e.target.closest('.sr');if(r)pick(+r.dataset.i)};
 // آخر سلسلة مفتوحة
-const last=LS('mishghal_last');
+const hh=location.hash.match(/s=(\d+)/);
+const last=hh?+hh[1]:LS('mishghal_last');
 if(last)pick(last);
 document.addEventListener('click',e=>{const r=e.target.closest('.sr');if(r)localStorage.setItem('mishghal_last',r.dataset.i)});
 </script>

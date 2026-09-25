@@ -169,7 +169,7 @@ async function toggleCard(id,card){
    const pl=state.playing&&state.playing.sid===id&&state.playing.idx===i;
    return '<button class="clip'+(pl?' playing':'')+'" data-sid="'+id+'" data-idx="'+i+'"><span class="n">'+(pl?'▶':ar(i+1))+'</span><span class="t">'+esc(c.title)+'</span><span class="d">'+secs2min(c.secs)+'</span></button>';
  }).join('')+
- '<div class="srcs"><a href="'+esc(s => '')+'"></a><a target="_blank" rel="noopener" href="'+esc(SERIES.find(x=>x.id===id).plist_url)+'">قائمة يوتيوب ↗</a><button class="ratebtn'+(valMap[id]?' on':'')+'" data-id="'+id+'">★ قيّمها</button><a href="../live/" style="color:var(--dim)">كاراوكي ↗</a></div>';
+ '<div class="srcs"><a target="_blank" rel="noopener" href="'+esc(SERIES.find(x=>x.id===id).plist_url)+'">قائمة يوتيوب ↗</a><button class="ratebtn'+(valMap[id]?' on':'')+'" data-id="'+id+'">★ قيّمها</button><a href="../live/" style="color:var(--dim)">كاراوكي ↗</a><a href="../mishghal/#s='+id+'" style="color:var(--dim)">مِشغل ↗</a></div>';
 }
 function renderList(){
  const slice=filtered.slice(0,state.shown);

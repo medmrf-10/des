@@ -55,10 +55,30 @@ function viewBank(){
 }
 function fmtDue(t){ const d=t-Date.now(), m=Math.round(d/60000); if(m<60) return `بعد ${m} د`; const h=Math.round(m/60); if(h<48) return `بعد ${h} س`; return `بعد ${Math.round(h/24)} يوم`; }
 function addWordPrompt(){
-  const en = prompt('الكلمة بالإنجليزية:'); if(!en) return;
-  const ar = prompt('المعنى بالعربية:'); if(!ar) return;
-  bank[en.trim().toLowerCase()] = {en:en.trim(), ar:ar.trim(), clip:'manual', box:1, due:Date.now(), seen:0, ok:0};
-  save(); toast('أُضيفت إلى البنك'); viewBank(); refreshPills();
+  app.insertAdjacentHTML('beforeend', `<div class="mov open" id="mword" onclick="if(event.target===this)closeModal('mword')">
+  <div class="mbox">
+    <h3 style="color:var(--gold-soft);margin-bottom:14px">إضافة كلمة يدوياً</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <input id="mw_en" class="tin" placeholder="English word — e.g. journey" autocomplete="off">
+      <input id="mw_ar" class="tin" style="direction:rtl;text-align:right" placeholder="المعنى بالعربية — مثال: رحلة" autocomplete="off">
+      <div id="mw_err" style="color:var(--bad);font-size:12px;min-height:14px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" style="background:var(--navy-3);color:var(--gold-soft)" onclick="closeModal('mword')">إلغاء</button>
+        <button class="btn" onclick="saveWordModal()">حفظ</button>
+      </div>
+      <div style="color:var(--muted);font-size:11px;margin-top:4px">أمثلة: journey — رحلة · weather — طقس · appointment — موعد</div>
+    </div>
+  </div></div>`);
+  $('#mw_en').focus();
+  $('#mw_ar').addEventListener('keydown', e=>{ if(e.key==='Enter') saveWordModal(); });
+}
+function closeModal(id){ const m = $('#'+id); if(m) m.remove(); }
+function saveWordModal(){
+  const en = $('#mw_en').value.trim(), ar = $('#mw_ar').value.trim(), err = $('#mw_err');
+  if(!/^[a-zA-Z' -]+$/.test(en)){ err.textContent = 'أدخل كلمة إنجليزية صحيحة.'; return; }
+  if(!ar){ err.textContent = 'أدخل المعنى العربي.'; return; }
+  bank[en.toLowerCase()] = {en, ar, clip:'manual', box:1, due:Date.now(), seen:0, ok:0};
+  save(); closeModal('mword'); toast('أُضيفت إلى البنك'); viewBank(); refreshPills();
 }
 function delWord(en){ delete bank[en.toLowerCase()]; save(); viewBank(); refreshPills(); }
 
@@ -117,14 +137,77 @@ function viewContent(){
 }
 
 /* ---------- النطق (SpeechSynthesis) ---------- */
-let ttsRate = 1;
+let ttsRate = 1, ttsAvail = null;
+function ttsCheck(){
+  if(!('speechSynthesis' in window)) return false;
+  const v = speechSynthesis.getVoices();
+  if(!v.length) return null;                     // القائمة لم تُحمَّل بعد — وضع غير معروف
+  return v.some(x => /^en/i.test(x.lang));
+}
+function ttsRefresh(){
+  const a = ttsCheck();
+  if(a !== null) ttsAvail = a;
+  const b = document.getElementById('ttsbanner');
+  if(b) b.classList.toggle('hidden', ttsAvail !== false);
+}
+function ttsInit(){
+  ttsRefresh();
+  if('speechSynthesis' in window) speechSynthesis.onvoiceschanged = ttsRefresh;
+  setTimeout(ttsRefresh, 1500);
+}
 function speak(text, rate){
   try{
+    if(!('speechSynthesis' in window) || ttsAvail === false){ toast('النطق غير متاح بجهازك — فعّل أصوات النظام'); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US'; u.rate = rate || ttsRate;
     speechSynthesis.speak(u);
   }catch(e){ toast('النطق غير مدعوم في متصفحك'); }
+}
+
+/* ---------- محرك تدقيق الإملاء المتسامح ---------- */
+const HOMO = {to:'too two',too:'to two',two:'to too',there:"their they're",their:"there they're","they're":'there their',your:"you're","you're":'your',its:"it's","it's":'its',here:'hear',hear:'here',right:'write',write:'right',know:'no',no:'know',where:'wear',wear:'where',for:'four',four:'for',by:'buy bye',buy:'by bye',bye:'by buy',one:'won',won:'one',hour:'our',our:'hour',week:'weak',weak:'week',see:'sea',sea:'see',son:'sun',sun:'son',peace:'piece',piece:'peace',ate:'eight',eight:'ate',i:'eye',eye:'i'};
+function normTok(w){ return w.toLowerCase().replace(/[^a-z'0-9]/g,''); }
+function editDist1(a,b){ // هل تبعدان بتحرير واحد على الأكثر؟
+  let i=0,j=0,d=0;
+  while(i<a.length && j<b.length){
+    if(a[i]===b[j]){ i++; j++; }
+    else{ d++; if(d>1) return false;
+      if(a.length>b.length) i++; else if(a.length<b.length) j++; else { i++; j++; } }
+  }
+  return d+(a.length-i)+(b.length-j) <= 1;
+}
+function wmatch(tw, u){
+  if(tw === u) return 1;
+  if((HOMO[tw]||'').split(' ').includes(u)) return 1;
+  if(tw.length>3 && editDist1(tw,u)) return 0.5;
+  return 0;
+}
+function dictDiff(target, typed){
+  const Traw = target.trim().split(/\s+/).filter(Boolean);
+  const T = Traw.map(normTok);
+  const U = typed.trim().split(/\s+/).filter(Boolean).map(normTok);
+  const m = T.length, n = U.length;
+  const dp = Array.from({length:m+1},()=>Array(n+1).fill(0));
+  for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--)
+    dp[i][j] = Math.max(dp[i+1][j+1] + wmatch(T[i],U[j]), dp[i+1][j], dp[i][j+1]);
+  let i=0, j=0, ok=0, extra=0; const cells=[];
+  while(i<m && j<n){
+    const w = wmatch(T[i],U[j]);
+    if(w>0 && dp[i][j] === dp[i+1][j+1] + w){
+      ok += w;
+      cells.push(w===1
+        ? `<span class="rw">${esc(Traw[i])}</span>`
+        : `<span class="rn">${esc(Traw[i])}</span>`);
+      i++; j++;
+    } else if(dp[i+1][j] >= dp[i][j+1]){
+      cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++;
+    } else { extra++; j++; }
+  }
+  while(i<m){ cells.push(`<span class="rb">${esc(Traw[i])}</span>`); i++; }
+  extra += n - j;
+  const pct = m ? Math.round(ok/m*100) : 0;
+  return {html:cells.join(' '), pct, extra};
 }
 
 /* ---------- اختبار الاستماع ---------- */
@@ -168,15 +251,11 @@ function drawQ(){
 }
 function checkDict(){
   const q = quiz[qi], inp = $('#ans_in').value.trim();
-  const norm = s => s.toLowerCase().replace(/[^a-z' ]/g,'').replace(/\s+/g,' ').trim();
-  const a = norm(q.en).split(' '), b = norm(inp).split(' ');
-  let ok = 0;
-  const html = a.map(w=>{ const good = b.includes(w); if(good) ok++; return `<span class="${good?'rw':'rb'}">${esc(w)}</span>`; }).join(' ');
-  const pct = a.length? Math.round(ok/a.length*100):0;
-  if(pct===100) score++;
-  else if(pct>=70) score+=0.5;
-  $('#res').innerHTML = `<div style="margin-top:10px"><div class="en" style="font-size:16px">${html}</div>
-    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${pct}% — ${esc(q.ar)}</div>
+  const d = dictDiff(q.en, inp);
+  if(d.pct===100) score++;
+  else if(d.pct>=70) score+=0.5;
+  $('#res').innerHTML = `<div style="margin-top:10px"><div class="en" style="font-size:16px">${d.html}</div>
+    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${d.pct}%${d.extra?` · ${d.extra} كلمة زائدة`:''} — ${esc(q.ar)}</div>
     <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(inp)}»</div></div>`;
   $('#nextBtn').style.display='inline-block';
 }
@@ -193,9 +272,12 @@ function pickTTS(btn, i){
   $('#nextBtn').style.display='inline-block';
 }
 function viewListenMenu(){
+  const noTts = (ttsAvail === false);
+  if(noTts && (lMode==='dictate' || lMode==='choice')) lMode = 'dicclip';
   app.innerHTML = `<div class="quiz"><div class="head"><h2>اختبار الاستماع</h2></div>
+  ${noTts?'<div style="color:var(--gold-soft);font-size:13px;margin-bottom:12px;border:1px dashed var(--gold-dim);border-radius:10px;padding:8px 14px">النطق الاصطناعي غير متاح بجهازك — تمارين TTS معطّلة؛ استعمل «إملاء مقطع» أو «مقاطع يوتيوب».</div>':''}
   <div class="filters">
-    <select onchange="lMode=this.value"><option value="dictate" ${lMode==='dictate'?'selected':''}>إملاء TTS: استمع واكتب</option><option value="choice" ${lMode==='choice'?'selected':''}>اختيار: استمع واختر</option><option value="dicclip" ${lMode==='dicclip'?'selected':''}>إملاء مقطع: صوت حقيقي</option><option value="clips" ${lMode==='clips'?'selected':''}>مقاطع يوتيوب</option></select>
+    <select onchange="lMode=this.value"><option value="dictate" ${noTts?'disabled':''} ${lMode==='dictate'?'selected':''}>إملاء TTS: استمع واكتب${noTts?' (غير متاح)':''}</option><option value="choice" ${noTts?'disabled':''} ${lMode==='choice'?'selected':''}>اختيار: استمع واختر${noTts?' (غير متاح)':''}</option><option value="dicclip" ${lMode==='dicclip'?'selected':''}>إملاء مقطع: صوت حقيقي</option><option value="clips" ${lMode==='clips'?'selected':''}>مقاطع يوتيوب</option></select>
     <select onchange="lLevel=this.value"><option value="all" ${lLevel==='all'?'selected':''}>كل المستويات</option>${LEVELS.map(l=>`<option value="${l}" ${l===lLevel?'selected':''}>${LEVEL_AR[l]}</option>`).join('')}</select>
     <button class="btn" onclick="viewListen()">ابدأ ←</button>
   </div>
@@ -323,18 +405,10 @@ function viewDicclip(){
   $('#dc_in').focus();
 }
 function checkDicclip(){
-  const target = dcItem.text, typed = $('#dc_in').value;
-  const t = [...target], u = [...typed];
-  let ok = 0;
-  const html = t.map((ch, i)=>{
-    const good = u[i] !== undefined && u[i].toLowerCase() === ch.toLowerCase();
-    if(good) ok++;
-    return `<span class="${good?'rw':'rb'}">${esc(ch)}</span>`;
-  }).join('');
-  const extra = Math.max(0, u.length - t.length);
-  const pct = t.length ? Math.round(ok/t.length*100) : 0;
-  $('#dc_res').innerHTML = `<div class="en" style="font-size:18px;margin-top:10px;letter-spacing:.5px">${html}</div>
-    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${pct}%${extra?` · ${extra} حرف زائد`:''}</div>
+  const typed = $('#dc_in').value;
+  const d = dictDiff(dcItem.text, typed);
+  $('#dc_res').innerHTML = `<div class="en" style="font-size:18px;margin-top:10px;letter-spacing:.3px">${d.html}</div>
+    <div style="color:var(--gold-soft);margin-top:8px">الدقة: ${d.pct}%${d.extra?` · ${d.extra} كلمة زائدة`:''}</div>
     <div style="color:var(--muted);font-size:12px;margin-top:4px">أدخلك: «${esc(typed)}»</div>
     <div style="margin-top:10px"><button class="btn" onclick="viewDicclip()">التالي ←</button></div>`;
 }
@@ -444,6 +518,8 @@ function route(){
   refreshPills();
 }
 window.addEventListener('hashchange', route);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.querySelectorAll('.mov.open').forEach(m=>m.remove()); });
+ttsInit();
 route();
 
 /* ---------- تفويض النقرات ---------- */

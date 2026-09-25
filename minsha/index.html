@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِنشأ — ابنِ درسك</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:900px;margin:0 auto;padding:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.split{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
+.inp{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:8px 12px;font-family:var(--font-ar);font-size:13px;box-sizing:border-box;margin-bottom:8px}
+.inp:focus{outline:none;border-color:var(--acc)}
+.hit{padding:6px 9px;border-radius:8px;cursor:pointer;font-size:12.5px;line-height:1.8;border-bottom:1px solid var(--card2)}
+.hit:hover{background:var(--card2)}
+.hit .s{color:var(--dim);font-size:10px}
+.out .it{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:13px;line-height:1.9;position:relative}
+.out .it .x{position:absolute;top:5px;left:8px;cursor:pointer;color:var(--dim);font-size:14px}
+.out .it .t{color:var(--acc);font-size:10px;display:block}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px;margin-top:8px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:11.5px}
+h4{font-family:var(--font-ar);margin:10px 0 4px;font-size:13px}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:10px;font-family:var(--font-ar);font-size:13px;min-height:70px;box-sizing:border-box}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِنشأ <span class="muted">— ابنِ نص درسك ثم سجّله</span></h2>
+<div class="muted">اسحب من مصادرك: آية، حديث، مسألة، ذِكر — رتّبها في نص الدرس، اكتب شرحك بينها، ثم سجّل صوتك بمسجّل — يتحول لدرس منشور.</div>
+<div class="split" style="margin-top:12px">
+<div class="panel">
+<input class="inp" id="q" placeholder="ابحث: موضوع أو لفظ…">
+<div id="res" style="max-height:420px;overflow:auto"></div>
+</div>
+<div class="panel">
+<input class="inp" id="ttl" placeholder="عنوان درسك…">
+<div class="out" id="bld"><div class="muted" style="padding:8px">المسودة فارغة — ابحث واضغط ➕ على أي نتيجة</div></div>
+<textarea id="note" placeholder="📝 شرحك الخاص — يُلحق بالمسودة"></textarea>
+<button class="btn ghost" id="addn">➕ ألحق شرحك</button>
+<button class="btn" id="copy">⧉ انسخ النص</button>
+<button class="btn ghost" id="rec">🎙 سجّله</button>
+<button class="btn ghost" id="clr">مسح</button>
+</div>
+</div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+async function laz(src,win){if(window[win])return window[win];
+ const s=document.createElement('script');s.src=src;
+ await new Promise((ok,bad)=>{s.onload=ok;s.onerror=bad;document.head.appendChild(s)});return window[win]}
+let OUT=JSON.parse(localStorage.getItem('minsha_draft')||'[]');
+let D=null;
+async function db(){if(D)return D;D={};
+ D.G=await laz('../hadith/analysis.js','GIDNET').catch(()=>null);
+ D.M=await laz('../fiqh_reader/masail.js','MASAIL').catch(()=>null);
+ D.A=await laz('../hadith/adhkar.js','ADHKAR').catch(()=>null);
+ return D}
+function draw(){
+ $('#bld').innerHTML=OUT.length?OUT.map((it,i)=>`<div class="it"><span class="x" data-i="${i}">✕</span><span class="t">${it.k}</span>${esc(it.t.slice(0,200))}</div>`).join(''):'<div class="muted" style="padding:8px">المسودة فارغة</div>';
+ localStorage.setItem('minsha_draft',JSON.stringify(OUT));
+ $('#bld').querySelectorAll('.x').forEach(x=>x.onclick=()=>{OUT.splice(+x.dataset.i,1);draw()})}
+let dt=null;
+$('#q').oninput=()=>{clearTimeout(dt);dt=setTimeout(search,350)};
+async function search(){
+ const q=norm($('#q').value.trim());if(q.length<2){$('#res').innerHTML='';return}
+ await db();
+ let h='';
+ // آيات — بحث في السور المحملة فقط مكلف؛ بدل: اقتراح أشهر الأبواب
+ h+='<div class="muted" style="padding:4px 2px">آيات: أدخل رقمها في مِشهد ثم انسخ منه (مثلاً البقرة ٢٥٥)</div>';
+ // أحاديث
+ if(D.G){const hits=[];
+  for(const g of Object.keys(D.G.g)){
+   if(norm(D.G.g[g].t).includes(q))hits.push({t:'«'+D.G.g[g].t+'»',s:D.G.g[g].h,k:'حديث'});
+   if(hits.length>=8)break}
+  h+=hits.map((x,i)=>`<div class="hit" data-k="حديث" data-t="${esc(x.t)}">➕ ${esc(x.t.slice(0,90))}<span class="s">${esc(x.s)}</span></div>`).join('')}
+ // مسائل
+ if(D.M){const hits=[];
+  for(const sl of Object.keys(D.M))for(const u of D.M[sl].u){
+   if(norm(u.t||'').includes(q)){hits.push({t:u.t||u.i,s:D.M[sl].n});if(hits.length>=6)break}
+   if(hits.length>=6)break}
+  h+=hits.map(x=>`<div class="hit" data-k="مسألة" data-t="${esc(x.t)}">➕ ${esc(x.t.slice(0,90))}<span class="s">${esc(x.s)}</span></div>`).join('')}
+ // أذكار
+ if(D.A){
+  const hits=D.A.filter(a=>norm(a.t).includes(q)).slice(0,4);
+  h+=hits.map(x=>`<div class="hit" data-k="ذِكر" data-t="${esc(x.t)}">➕ ${esc(x.t.slice(0,90))}</div>`).join('')}
+ $('#res').innerHTML=h||'<div class="muted" style="padding:8px">لا نتائج</div>';
+ $('#res').querySelectorAll('.hit').forEach(el=>el.onclick=()=>{
+  OUT.push({k:el.dataset.k,t:el.dataset.t});draw()})}
+$('#addn').onclick=()=>{const t=$('#note').value.trim();if(!t)return;
+ OUT.push({k:'شرحك',t});$('#note').value='';draw()};
+$('#copy').onclick=async()=>{
+ const ttl=$('#ttl').value.trim()||'درس';
+ const txt=ttl+'\n'+'═'.repeat(20)+'\n\n'+OUT.map(i=>i.t).join('\n\n')+'\n';
+ await navigator.clipboard.writeText(txt);
+ $('#copy').textContent='✓ نُسخ — الآن سجّله';setTimeout(()=>$('#copy').textContent='⧉ انسخ النص',2000)};
+$('#rec').onclick=()=>location.href='../musajjil/';
+$('#clr').onclick=()=>{if(confirm('امسح المسودة؟')){OUT=[];draw()}};
+draw();
+</script>
+<script src="../shared/feedback.js" data-pid="minsha" data-title="مِنشأ"></script>
+</body>
+</html>

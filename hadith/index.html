@@ -87,7 +87,7 @@ function go(t){S.tab=t;render();location.hash=encHash()}
 function encHash(){return S.tab+'.'+S.book+'.'+S.h+(S.nr?'.'+S.nr:'')}
 function decHash(){const p=(location.hash||'').replace('#','').split('.');if(TABS.some(x=>x[0]==p[0]))S.tab=p[0];if(BOOKS.includes(p[1]))S.book=p[1];if(p[2]&&!isNaN(p[2]))S.h=+p[2];if(p[3])S.nr=decodeURIComponent(p[3])}
 addEventListener('hashchange',()=>{decHash();render()});
-const load=async n=>{const b=await booksIdx();b.forEach((x,i)=>BN[x.s]=x.n);return b.filter(x=>BOOKS.includes(x.s))};
+const loadBooks=async n=>{const b=await booksIdx();b.forEach((x,i)=>BN[x.s]=x.n);return b.filter(x=>BOOKS.includes(x.s))};
 
 /* ===== book picker ===== */
 const bookSel=()=>`<select onchange="S.book=this.value;S.h=1;S.nr='';render()">${BOOKS.map(s=>`<option ${s==S.book?'selected':''} value="${s}">${BN[s]||s}</option>`).join('')}</select>`;
@@ -233,7 +233,7 @@ async function render(){
   tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
   main.innerHTML='<p class="mut">يُحمّل…</p>';
   try{
-    if(!BIDX)BIDX=await load();
+    if(!BIDX)BIDX=await loadBooks();
     let h='';
     if(S.tab=='sanad')h=await vSanad();
     else if(S.tab=='rijal')h=await vRijal();

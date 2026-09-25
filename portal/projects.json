@@ -259,5 +259,14 @@
   "desc": "أسئلة اختيارية لا تنتهي من مكتبتك",
   "url": "../ikhtibirni/",
   "icon": "س"
+ },
+ {
+  "id": "muqaran_tafsir",
+  "title": "مقارنة التفاسير",
+  "maker": "محمد",
+  "field": "شريعة",
+  "desc": "نفس الآية عند 4 مفسرين جنباً إلى جنب",
+  "url": "../wahy/muqaran_tafsir.html",
+  "icon": "ت"
  }
 ]

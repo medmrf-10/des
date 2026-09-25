@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>حِبر — محاكاة النسخ</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:760px;margin:0 auto;padding:14px}
+#src{background:var(--card);border:1px solid var(--acc);border-radius:13px;padding:16px 19px;font-family:var(--font-ar);font-size:17px;line-height:2.2;margin:12px 0}
+#in{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:13px;padding:14px 16px;font-family:var(--font-ar);font-size:16px;min-height:110px;resize:vertical;line-height:2}
+#in:focus{outline:none;border-color:var(--acc)}
+#cmp{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 17px;font-family:var(--font-ar);font-size:15.5px;line-height:2.1;margin-top:12px;white-space:pre-wrap}
+.ok{color:#3dd68c}
+.bad{color:#e07777;text-decoration:underline wavy #e07777}
+.miss{color:var(--acc3);border-bottom:2px dotted var(--acc3)}
+.stat{display:inline-block;background:var(--card2);border-radius:8px;padding:4px 12px;font-size:12px;margin-inline-end:8px}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
+.muted{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">حِبر <span class="muted">— انسخ كما يملى عليك</span></h2>
+<div class="muted">النص أمامك — انسخه حرفاً بحرف في الحقل. المقارنة فورية: الأخضر صحيح، الأحمر خطأ، المنقّط ساقط. يقيس دقّتك لا سرعتك.</div>
+<div style="display:flex;gap:8px;margin:10px 0">
+<button class="btn" id="nw">نص آخر</button>
+<span id="kind" class="stat"></span>
+</div>
+<div id="src"></div>
+<textarea id="in" placeholder="انسخ النص هنا…" autocomplete="off" spellcheck="false"></textarea>
+<div id="stats" style="margin-top:10px"></div>
+<div id="cmp"></div>
+<script>
+const $=q=>document.querySelector('#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـٱ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const POOL=[
+ {k:'حديث',t:'إنما الأعمال بالنيات وإنما لكل امرئ ما نوى فمن كانت هجرته إلى الله ورسوله فهجرته إلى الله ورسوله ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها فهجرته إلى ما هاجر إليه'},
+ {k:'حديث',t:'من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت ومن كان يؤمن بالله واليوم الآخر فليكرم جاره ومن كان يؤمن بالله واليوم الآخر فليحسن إلى ضيفه'},
+ {k:'حديث',t:'لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه'},
+ {k:'حديث',t:'المسلم من سلم المسلمون من لسانه ويده والمهاجر من هجر ما نهى الله عنه'},
+ {k:'آية',t:'الله لا إله إلا هو الحي القيوم لا تأخذه سنة ولا نوم له ما في السماوات وما في الأرض من ذا الذي يشفع عنده إلا بإذنه يعلم ما بين أيديهم وما خلفهم ولا يحيطون بشيء من علمه إلا بما شاء وسع كرسيه السماوات والأرض ولا يؤوده حفظهما وهو العلي العظيم'},
+ {k:'آية',t:'قل هو الله أحد الله الصمد لم يلد ولم يولد ولم يكن له كفوا أحد'},
+ {k:'عقيدة',t:'الإيمان قول باللسان واعتقاد بالقلب وعمل بالأركان يزيد بالطاعة وينقص بالمعصية'},
+ {k:'قاعدة',t:'الأصل في الأشياء الإباحة حتى يرد الدليل بالتحريم والأصل في العبادات المنع حتى يرد الدليل بالوجوب'}];
+let cur=null;
+function nw(){cur=POOL[Math.floor(Math.random()*POOL.length)];
+ $('#src').textContent=cur.t;$('#kind').textContent=cur.k;
+ $('#in').value='';$('#cmp').innerHTML='';$('#stats').innerHTML=''}
+function cmp(){
+ const a=norm(cur.t).split(/\s+/).filter(Boolean);
+ const b=norm($('in').value).split(/\s+/).filter(Boolean);
+ let ok=0,bad=0,i=0,j=0,out=[];
+ // word-level alignment: advance both when equal, else mark
+ while(i<a.length||j<b.length){
+  if(i<a.length&&j<b.length&&a[i]===b[j]){out.push('<span class="ok">'+esc(b[j])+'</span>');i++;j++;ok++}
+  else if(i<a.length&&(j>=b.length||a[i]!==b[j])){
+   // try resync: is b[j] a later word of a?
+   const ahead=a.slice(i+1,i+4).indexOf(b[j]);
+   if(ahead>=0){out.push('<span class="miss">['+esc(a[i])+']</span>');i++;bad++}
+   else if(j<b.length){out.push('<span class="bad">'+esc(b[j])+'</span>');j++;bad++}
+   else{i++}}
+  else{i++}}
+ const acc=a.length?Math.round(ok/a.length*100):0;
+ $('#cmp').innerHTML=out.join(' ');
+ $('#stats').innerHTML=`<span class="stat">الدقة: ${acc}%</span><span class="stat">صحيحة: ${ok}</span><span class="stat">أخطاء/ساقط: ${bad}</span>`;
+ const s=JSON.parse(localStorage.hibr||'{"n":0,"best":0}');
+ s.n++;s.best=Math.max(s.best,acc);localStorage.hibr=JSON.stringify(s);
+ $('#stats').innerHTML+=`<span class="stat">أفضل دقة: ${s.best}% (${s.n.toLocaleString('ar-EG')} محاولة)</span>`}
+$('#in').addEventListener('input',()=>{if($('in').value.trim().split(/\s+/).length>2)cmp()});
+$('#nw').onclick=nw;nw();
+</script>
+<script src="../shared/feedback.js" data-pid="hibr" data-title="حِبر"></script>
+</body>
+</html>

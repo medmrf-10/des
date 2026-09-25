@@ -285,8 +285,25 @@ function askTutor(){
       return '<div class="res"><div class="snip" style="font-size:14px">'+esc(x.t)+'</div><div class="meta"><span class="chip">'+esc(nm)+' '+x.s+':'+x.a+'</span></div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../wahy/mutashabih.html#'+x.k+'">نظائرها</a><a class="btn sm ghost" target="_blank" href="../wahy/#s='+x.s+'&v='+x.a+'">تفسيرها</a></div></div>'
     }).join(''));
   });
+  // معجم المصطلحات العقدية
+  loadTerms().then(T=>{
+    if(!T)return;
+    const hits=[];
+    for(const term in T.terms){const nt=norm(term);
+      let hit=0;for(const w of words)if(nt.includes(w))hit++;
+      if(hit>=Math.min(words.length,2)){
+        const v=T.terms[term][0];
+        hits.push({term,q:v.q,bab:v.bab,b:v.b,sc:hit+(nt.startsWith(norm(words[0]))?1:0)})}}
+    hits.sort((x,y)=>y.sc-x.sc);
+    const top=hits.slice(0,5);if(!top.length)return;
+    $('#tResults').insertAdjacentHTML('beforeend','<h2 style="margin-top:18px">من معجم المصطلحات</h2>'+top.map(x=>{
+      const saveO=JSON.stringify({s:0,l:null,t:x.term.slice(0,90),u:'../akida/masadir.html#'+x.b}).replace(/'/g,'&#39;');
+      return '<div class="res"><b style="font-size:14px">'+esc(x.term)+'</b><div class="snip" style="margin-top:6px">'+esc((x.q||'').slice(0,200))+(x.q&&x.q.length>200?'…':'')+'</div><div class="meta"><span class="chip">'+(T.books&&T.books[x.b]?esc(T.books[x.b]):x.b)+'</span>'+(x.bab?'<span class="chip g">'+esc(x.bab)+'</span>':'')+'</div><div style="display:flex;gap:8px;margin-top:10px"><a class="btn sm" target="_blank" href="../shabaka/#q='+encodeURIComponent(x.term)+'">شبكتها</a><button class="btn sm ghost" onclick=\'saveNote('+saveO+')\'>🔖</button></div></div>'
+    }).join(''));
+  });
 }
-let ATM=null,MUT=null;
+let ATM=null,MUT=null,TRM=null;
+async function loadTerms(){if(TRM)return TRM;await new Promise(r=>{const sc=document.createElement('script');sc.src='../akida/terms.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});TRM=window.TERMS||null;return TRM}
 async function loadAtoms(){if(ATM)return ATM;await new Promise(r=>{const sc=document.createElement('script');sc.src='../madrasati/atoms.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});ATM=window.ATOMS||null;return ATM}
 async function loadMuta(){if(MUT)return MUT;await new Promise(r=>{const sc=document.createElement('script');sc.src='../wahy/mutashabih.js';sc.onload=r;sc.onerror=r;document.head.appendChild(sc)});MUT=window.MUTA||null;return MUT}
 function hl(txt,words){let t=esc(txt);for(const w of words){const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');t=t.replace(rx,'<mark>$1</mark>')}return t}

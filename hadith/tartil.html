@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ترتيل الشيوخ — مقارنة الطرق | مختبر الحديث</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:1400px;margin:0 auto;padding:0 14px 40px}
+.top{display:flex;align-items:baseline;gap:14px;padding:16px 0 8px;flex-wrap:wrap}
+.top h1{font-size:22px;margin:0;color:var(--acc2);font-weight:700}
+.top .sub{color:var(--dim);font-size:13px}
+.top a{color:var(--acc);font-size:13px;text-decoration:none;border:1px solid var(--border);padding:3px 10px;border-radius:8px}
+.pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+.pick input{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px 12px;font-size:14px;font-family:inherit}
+.pick input#num{width:110px}
+.pick input#q{flex:1;min-width:200px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--acc);color:#14140f;font-weight:700;border-color:transparent}
+.btn{display:inline-block;border:1px solid var(--acc);color:var(--acc2);background:transparent;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none}
+.status{color:var(--dim);font-size:12px;padding:4px 2px}
+.cand{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+.cand .chip{font-size:11px;padding:3px 10px}
+.hdr{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.hdr .matn{font-family:var(--font-ar);font-size:15.5px;line-height:2;margin:6px 0}
+.hdr .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px}
+.hdr .meta a{color:var(--acc);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:1px 8px;font-size:11px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin:8px 0 12px}
+.stats b{color:var(--txt)}
+.msa{overflow-x:auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px}
+.msa table{border-collapse:collapse;min-width:100%}
+.msa th,.msa td{border:1px solid var(--border);padding:5px 9px;font-size:12px;vertical-align:top;max-width:190px}
+.msa th{background:var(--card2);font-size:11px;white-space:nowrap}
+.msa th.h-v{color:var(--dim);font-weight:400}
+.msa th.h-r{color:var(--acc2)}
+.msa td.c-name{font-weight:400;line-height:1.7}
+.msa td.gap{background:var(--card2);color:var(--dim);text-align:center}
+.msa td.ins{outline:2px solid var(--acc3);outline-offset:-2px;background:#241a33}
+.msa td.soft{background:#1d2a22}
+.msa td .pos{display:block;font-size:9px;color:var(--dim)}
+.lgnd{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:6px 0}
+.lgnd i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:5px;vertical-align:-2px}
+.bdg{display:inline-block;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700}
+.v-sa{background:#14291c;color:var(--ok)}.v-hs{background:#2e2513;color:var(--acc2)}
+.v-df,.v-sd,.v-mw{background:#3a1d1d;color:#e08a8a}.v-ot,.v-ns{background:#22303f;color:#9db8d4}
+.schip{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:1px 8px;font-size:10px;margin-inline-start:4px}
+.schip.ok{border-color:var(--ok);color:var(--ok)}.schip.hs{border-color:var(--acc2);color:var(--acc2)}.schip.wk{border-color:#e07;color:#e07}
+.mut{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🎼 ترتيل الشيوخ</h1>
+  <span class="sub">رواية واحدة بكل طرقها — مقارنة الأسناد</span>
+  <a href="index.html">المختبر ←</a>
+  <a href="net.html">⛓ الشبكة ←</a>
+  <a href="ahkam.html">⚖ الأحكام ←</a>
+</header>
+<div class="pick">
+  <span class="lbl mut">الكتاب</span>
+  <span id="bchips"></span>
+  <input type="text" id="num" placeholder="رقم الحديث" inputmode="numeric">
+  <input type="text" id="q" placeholder="أو لفظ من المتن — مثال: إنما الأعمال بالنيات">
+  <button class="btn" onclick="goNum()">عرض</button>
+</div>
+<div class="status" id="stat"></div>
+<div class="cand" id="cand"></div>
+<div id="main"></div>
+<script src="pako.min.js"></script>
+<script src="scholar.js"></script>
+<script>
+const arNum=n=>Number(n).toLocaleString('ar-EG');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و');
+const BOOKS=['bukhari','muslim','tirmidhi','abi-dawud','nasai','ibn-majah'];
+const BAR={'bukhari':'صحيح البخاري','muslim':'صحيح مسلم','tirmidhi':'سنن الترمذي','abi-dawud':'سنن أبي داود','nasai':'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const bucket=v=>{
+  if(/شديد الضعف/.test(v))return 'sd';
+  if(/متهم بالوضع|موضوع/.test(v))return 'mw';
+  if(/متصل|صحيح/.test(v))return 'sa';
+  if(/حسن/.test(v))return 'hs';
+  if(/ضعيف|تعليق|إرسال|انقطاع|فيه/.test(v))return 'df';
+  return 'ot';
+};
+const HB={sa:'صحيح/متصل',hs:'حسن',df:'ضعيف',sd:'شديد الضعف',mw:'متهم بالوضع',ot:'أخرى',ns:'بلا سند'};
+const sname=n=>n.split(' ').slice(-1)[0];
+const scls=g=>/sahih|saheeh|صحيح/i.test(g)?'ok':/hasan|حسن/i.test(g)?'hs':'wk';
+let S={book:'bukhari'};
+const D={};
+async function loadBook(b){
+  if(D[b])return D[b];
+  document.getElementById('stat').textContent='يُحمّل '+BAR[b]+'…';
+  const buf=await(await fetch(b+'-det.json.gz')).arrayBuffer();
+  const j=JSON.parse(pako.ungzip(new Uint8Array(buf),{to:'string'}));
+  D[b]=j;document.getElementById('stat').textContent='';
+  return j;
+}
+/* LCS على مصفوفتي أسماء → أزواج [i,j] */
+function lcs(a,b){
+  const n=a.length,m=b.length;
+  const dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
+    dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const out=[];let i=0,j=0;
+  while(i<n&&j<m){
+    if(a[i]===b[j]){out.push([i,j]);i++;j++}
+    else if(dp[i+1][j]>=dp[i][j+1])i++;else j++;
+  }
+  return out;
+}
+/* محاذاة متعددة تقدمية: عمود لكل موضع متوافق، أعمدة إدراج للرواة الزائدين */
+function msa(chains){
+  let cols=(chains[0]||[]).map(n=>({label:n,cells:{0:n}}));
+  for(let r=1;r<chains.length;r++){
+    const seq=chains[r];const labels=cols.map(c=>c.label);
+    const pairs=lcs(seq,labels);
+    const matched=new Set(pairs.map(p=>p[1]));
+    const ins={};let ci=0;
+    for(const[i,j]of pairs){
+      while(ci<i){(ins[j]=ins[j]||[]).push(seq[ci]);ci++}
+      cols[j].cells[r]=seq[i];ci=i+1;
+    }
+    const trailing=seq.slice(ci);
+    const out=[];
+    for(let j=0;j<cols.length;j++){
+      for(const nm of ins[j]||[])out.push({label:null,cells:{[r]:nm}});
+      out.push(cols[j]);
+    }
+    cols=out;
+    for(const nm of trailing)cols.push({label:null,cells:{[r]:nm}});
+    for(const c of cols){const cnt={};let best=null,bn=0;
+      for(const k in c.cells){const nm=c.cells[k];cnt[nm]=(cnt[nm]||0)+1;if(cnt[nm]>bn){bn=cnt[nm];best=nm}}
+      c.label=best;c.fill=Object.keys(c.cells).length;}
+  }
+  return cols;
+}
+function paintChips(){
+  document.getElementById('bchips').innerHTML=BOOKS.map(b=>`<button class="chip" data-b="${b}" aria-pressed="${S.book===b}">${BAR[b]}</button>`).join('');
+}
+document.getElementById('bchips').parentElement.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c||!c.dataset.b)return;
+  S.book=c.dataset.b;paintChips();
+});
+async function goNum(){
+  const b=S.book,n=document.getElementById('num').value.trim();
+  if(!n)return;
+  await loadBook(b);show(b,n);
+}
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+document.getElementById('q').addEventListener('input',deb(async()=>{
+  const b=S.book;await loadBook(b);const j=D[b];
+  const w=norm(document.getElementById('q').value.trim());
+  const box=document.getElementById('cand');
+  if(w.length<4){box.innerHTML='';return}
+  const hits=[];
+  for(const num in j.d){if(norm(j.d[num].m).includes(w)){hits.push(num);if(hits.length>=8)break}}
+  box.innerHTML=hits.map(n=>`<button class="chip" onclick="show('${b}',${n})">#${arNum(n)} — ${esc(j.d[n].m.slice(0,42))}…</button>`).join('')||'<span class="mut">لا نتيجة</span>';
+},250));
+document.getElementById('num').addEventListener('keydown',e=>{if(e.key==='Enter')goNum()});
+async function show(b,n){
+  n=String(n);
+  const j=await loadBook(b);
+  const e=j.d[n];
+  const main=document.getElementById('main');
+  if(!e){main.innerHTML=`<p class="mut">لا يوجد حديث رقم ${arNum(n)} في ${BAR[b]}.</p>`;return}
+  const raw=j.s&&j.s[n]?j.s[n]:[];
+  const chains=(Array.isArray(raw[0])?raw:(raw.length?[raw]:[])).filter(c=>c&&c[1]&&c[1].length);
+  const sch=(window.SCHOLAR&&window.SCHOLAR[b])?window.SCHOLAR[b][n]:null;
+  const lens=chains.map(c=>c[1].length);
+  const cols=msa(chains.map(c=>c[1]));
+  const rows=cols.length;
+  let cells=0,shared=0;
+  for(const c of cols){cells+=chains.length;shared+=c.fill}
+  const agree=cells?Math.round(shared/cells*100):0;
+  const sparse=cols.filter(c=>c.fill<chains.length).length;
+  /* الجدول */
+  const heads=cols.map((c,i)=>`<th class="${c.fill>=chains.length?'h-r':'h-v'}" title="${c.fill>=chains.length?'متوافق عند الجميع':'موضع متفاوت ('+arNum(c.fill)+'/'+arNum(chains.length)+')'}">${arNum(i+1)}</th>`).join('');
+  const body=chains.map((c,ri)=>{
+    const v=c[0]||'';
+    const k=bucket(v);
+    const schb=sch?sch.map(g=>`<span class="schip ${scls(g[1])}" title="${esc(g[0])}">${esc(sname(g[0]))}: ${esc(g[1])}</span>`).join(''):'';
+    const tds=cols.map(col=>{
+      const nm=col.cells[ri];
+      if(nm==null)return `<td class="gap">—</td>`;
+      const cls=col.fill<chains.length?'ins':(col.fill===chains.length?'soft':'');
+      return `<td class="c-name ${cls}"><span class="pos">${col.fill<chains.length?'زيادة/مختلف':''}</span>${esc(nm)}</td>`;
+    }).join('');
+    return `<tr><th class="h-v">سند ${arNum(ri+1)}<br><span class="bdg v-${k}" title="${esc(v)}">${HB[k]}</span><br><span class="mut">${arNum(lens[ri])} راوياً</span>${schb?'<br>'+schb:''}</th>${tds}</tr>`;
+  }).join('');
+  main.innerHTML=`
+    <div class="hdr">
+      <div class="meta"><b>${BAR[b]} #${arNum(n)}</b>
+        ${e.g?`<a href="net.html#g${e.g}">المعنى #${arNum(e.g)} ←</a>`:''}
+        <a href="index.html#sanad.${b}.${n}">السند في المختبر ←</a>
+        <span class="mut">${arNum(chains.length)} طريقاً · أطول ${arNum(lens.length?Math.max(...lens):0)} · أقصر ${arNum(lens.length?Math.min(...lens):0)}</span>
+      </div>
+      <p class="matn">${esc(e.m)}</p>
+    </div>
+    <div class="stats">
+      <span>التوافق بين الطرق: <b>${arNum(agree)}٪</b></span>
+      <span>مواضع متفاوتة: <b>${arNum(sparse)}</b> من ${arNum(rows)} عموداً</span>
+      <span>الأحكام: ${chains.map((c,i)=>`<span class="bdg v-${bucket(c[0]||'')}" title="${esc(c[0])}">${arNum(i+1)}: ${esc((c[0]||'').slice(0,34))}</span>`).join(' ')}</span>
+    </div>
+    <div class="lgnd"><span><i style="background:#1d2a22"></i>متوافق</span><span><i style="outline:2px solid var(--acc3);outline-offset:-1px;background:#241a33"></i>زيادة/مختلف</span><span>— غائب</span></div>
+    <div class="msa"><table><thead><tr><th class="h-v">السند \\ الموضع</th>${heads}</tr></thead><tbody>${body}</tbody></table></div>`;
+  location.hash=`b=${b}&n=${n}`;
+}
+function decHash(){
+  const h=location.hash.slice(1);
+  const bm=h.match(/b=([a-z\-]+)/),nm=h.match(/n=(\d+)/);
+  if(bm&&BOOKS.includes(bm[1])){S.book=bm[1];paintChips()}
+  if(nm)return nm[1];
+  return null;
+}
+(async()=>{
+  paintChips();
+  const n=decHash();
+  if(n)show(S.book,n);
+})();
+addEventListener('hashchange',()=>{const n=decHash();if(n)show(S.book,n)});
+</script>
+</body>
+</html>

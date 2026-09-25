@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مِصحَف — ميثاقك الشخصي</title>
+<link rel="stylesheet" href="../shared/theme.css"><style>
+body{max-width:640px;margin:0 auto;padding:22px 14px 60px}
+h1{color:var(--acc);font-size:1.3rem;text-align:center}
+.sub{color:var(--dim);font-size:.8rem;text-align:center;margin-bottom:16px}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.sec h2{font-size:.9rem;margin:0 0 4px}
+.sec .h{font-size:.66rem;color:var(--dim);margin-bottom:10px}
+.sec.aq h2{color:var(--acc)}.sec.rf h2{color:#e07070}.sec.wk h2{color:var(--ok)}
+.line{display:flex;gap:8px;padding:7px 0;border-bottom:1px dashed var(--border);align-items:flex-start}
+.line .t{flex:1;font-size:.86rem;line-height:1.8}
+.line button{background:none;border:none;color:var(--dim);cursor:pointer;font-size:.8rem}
+.inp{display:flex;gap:6px;margin-top:8px}
+.inp input{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:inherit;padding:9px;font-size:.8rem}
+.inp button{background:linear-gradient(135deg,#c9a24b,#8a6a2f);border:none;border-radius:8px;color:#0b0f1a;font-family:inherit;font-weight:700;padding:0 16px;cursor:pointer}
+.readme{font-size:.74rem;color:var(--dim);text-align:center;margin-top:16px;line-height:1.9}
+.ed{color:var(--acc)}
+</style></head><body>
+<h1>مِصحَف</h1><div class="sub">ميثاقك الشخصي — من أنت في سطور. اكتبه بلا استعجال، وراجعه كل فجر</div>
+<div class="sec aq"><h2>أنا أؤمن</h2><div class="h">ثوابتك التي لا تُساوم عليها</div><div id="laq"></div><div class="inp"><input id="iaq" placeholder="أؤمن بأن…"><button data-a="aq">+</button></div></div>
+<div class="sec rf"><h2>أنا أرفض</h2><div class="h">خطوطك الحمر — ما لا تقبله مهما كان</div><div id="lrf"></div><div class="inp"><input id="irf" placeholder="أرفض أن…"><button data-a="rf">+</button></div></div>
+<div class="sec wk"><h2>أنا أسعى</h2><div class="h">إلى أين تمضي — غاياتك الكبرى</div><div id="lwk"></div><div class="inp"><input id="iwk" placeholder="أسعى إلى…"><button data-a="wk">+</button></div></div>
+<div class="readme">هذا ليس ملف أهداف — إنه دستورك. اقرأه حين تضعف، وأضف إليه حين تنضج.</div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='mishaf_v1';const D=()=>JSON.parse(localStorage.getItem(K)||'{"aq":[],"rf":[],"wk":[]}');const S=o=>localStorage.setItem(K,JSON.stringify(o));
+const NM={aq:'laq',rf:'lrf',wk:'lwk'};
+function render(){
+ const d=D();
+ for(const k of ['aq','rf','wk']){
+  $(NM[k]).innerHTML=d[k].map((x,i)=>`<div class="line"><span class="t">${esc(x)}</span><button data-k="${k}" data-i="${i}">✕</button></div>`).join('')||'<div class="h" style="font-style:italic">فارغ — ابدأ بسطر واحد صادق</div>';
+ }
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.a){const k=b.dataset.a;const inp=$('i'+k);if(inp.value.trim()){const d=D();d[k].push(inp.value.trim());S(d);inp.value='';render()}}
+ else if(b.dataset.k){const d=D();d[b.dataset.k].splice(+b.dataset.i,1);S(d);render()}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id&&e.target.id[0]==='i'){const k=e.target.id.slice(1);if(e.target.value.trim()){const d=D();d[k].push(e.target.value.trim());S(d);e.target.value='';render()}}});
+render();
+</script></body></html>

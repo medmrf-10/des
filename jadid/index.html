@@ -108,6 +108,9 @@ async function unlock(pin){
     const full=new Uint8Array([...ct,...tag]);
     const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},kh,full);
     CAT=JSON.parse(new TextDecoder().decode(pt));
+    const cfg=(CAT||[]).find(x=>x.id==='_cfg');
+    if(cfg&&cfg.key)localStorage.setItem('jadid_llm',cfg.key);
+    CAT=(CAT||[]).filter(x=>x.id!=='_cfg');
     return true;
   }catch(e){return false}
 }

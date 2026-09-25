@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f1a">
-<title>مِقرَس — القراءة المتأنية</title>
+<title>مِقرَس — القراءة المتأنية بالذكاء</title>
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
 body{max-width:620px;margin:0 auto;padding:14px}
@@ -14,52 +14,106 @@ body{max-width:620px;margin:0 auto;padding:14px}
 textarea{background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:12px;font-family:var(--font-ar);font-size:14px;width:100%;min-height:130px;resize:vertical}
 .btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12.5px}
 .btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:11px;padding:5px 11px}
+.btn.ai{background:linear-gradient(135deg,var(--acc2),var(--acc));font-size:11.5px;padding:7px 14px}
+.btn:disabled{opacity:.4;cursor:default}
 .chunk{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:22px;margin-top:12px;font-family:var(--font-ar);font-size:17px;line-height:2.1}
-.nav{display:flex;gap:9px;margin-top:11px;align-items:center;justify-content:space-between}
+.nav{display:flex;gap:9px;margin-top:11px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .prog{background:var(--card2);border-radius:99px;height:6px;overflow:hidden;margin-top:10px}
 .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .4s}
 .stat{display:inline-block;background:var(--card);border-radius:9px;padding:6px 13px;margin:3px;font-size:12px}
 .stat b{color:var(--acc)}
+.aiout{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;margin-top:10px;font-size:13px;line-height:1.95;white-space:pre-wrap}
+.aiout .h{color:var(--acc);font-weight:700;font-size:12px}
+.aiout .h:not(:first-child){margin-top:11px;display:block}
+.shade{position:fixed;inset:0;background:rgba(4,6,12,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:18px}
+.shade .box{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:22px;max-width:540px;width:100%;font-size:14px;line-height:2;max-height:80vh;overflow:auto}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.thinking{animation:pulse 1.2s infinite;color:var(--acc);font-size:13px;padding:10px 0}
 </style>
 </head>
 <body>
-<h2 style="font-family:var(--font-ar);margin:6px 0">مِقرَس <span class="muted">— القراءة المتأنية</span></h2>
-<div class="muted">الصق نصاً طويلاً — يُقدَّم لك قِطعة قِطعة بلا استعجال: تدبُّر لا تصفُّح.</div>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِقرَس <span class="muted">— القراءة المتأنية بالذكاء</span></h2>
+<div class="muted">الصق نصاً طويلاً — يُقدَّم لك قِطعة قِطعة بلا استعجال، وزر ✦ يشرح لك كل قطعة بالذكاء.</div>
 <div class="card"><div class="t">الصق النص</div>
 <textarea id="src" placeholder="فصل، مقال، متن علمي…"></textarea>
-<div style="display:flex;gap:8px;margin-top:9px;align-items:center">
+<div style="display:flex;gap:8px;margin-top:9px;align-items:center;flex-wrap:wrap">
 <span class="muted">حجم القطعة:</span>
 <select id="sz" style="background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:7px"><option value="18">صغيرة (18 كلمة)</option><option value="30" selected>متوسطة (30 كلمة)</option><option value="50">كبيرة (50 كلمة)</option></select>
-<button class="btn" id="go">ابدأ</button></div></div>
+<button class="btn" id="go">ابدأ</button>
+<button class="btn ai" id="sumAll">✦ لخّص النص كاملاً</button></div>
+<div class="muted" id="llmHint" style="margin-top:7px"></div></div>
 <div id="rd"></div>
 <div id="stats"></div>
+<div class="shade" id="shade"><div class="box" id="shadeBox"></div></div>
 <script>
-const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const $=q=>document.querySelector(q);
 const arN=n=>(+n).toLocaleString('ar-EG');
 const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
 const SV=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 let ch=[],idx=0;
 let st=LS('miqras',{sess:0,chunks:0});
+const KEY=()=>localStorage.getItem('jadid_llm')||'';
+$('#llmHint').textContent=KEY()?'':'✦ الذكاء يُفعَّل بفتح صفحة «جديد» برقمك مرة — المفتاح يحفظ على جهازك فقط.';
+
+async function gem(prompt){
+ if(!KEY())throw new Error('no key');
+ const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key='+KEY(),{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:.4,maxOutputTokens:900}})});
+ const d=await r.json();
+ if(d.error)throw new Error(d.error.message||'خطأ من الواجهة');
+ return (d.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim()||'—';
+}
+function showAI(title,html){
+ $('#shadeBox').innerHTML='<b style="color:var(--acc);font-size:15px">'+title+'</b><div style="margin-top:10px">'+html+'</div><div style="text-align:left;margin-top:14px"><button class="btn ghost" onclick="document.getElementById(\'shade\').style.display=\'none\'">إغلاق</button></div>';
+ $('#shade').style.display='flex';
+}
+$('#shade').onclick=e=>{if(e.target.id==='shade')$('#shade').style.display='none'};
+
 $('#go').onclick=()=>{
  const t=$('#src').value.trim();if(!t)return;
  const words=t.split(/\s+/),sz=+$('#sz').value;
  ch=[];for(let i=0;i<words.length;i+=sz)ch.push(words.slice(i,i+sz).join(' '));
  idx=0;st.sess++;SV('miqras',st);render();
 };
+function aiSection(txt){
+ return '<button class="btn ai" id="aiBtn"'+(KEY()?'':' disabled')+'>✦ افهم هذه القطعة</button><div id="aiBox"></div>';
+}
 function render(){
  if(!ch.length)return;
  $('#rd').innerHTML='<div class="chunk">'+ch[idx].replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</div>'+
  '<div class="prog"><i style="width:'+((idx+1)/ch.length*100)+'%"></i></div>'+
  '<div class="nav"><button class="btn ghost" id="prev"'+(idx===0?' disabled':'')+'>‹ السابق</button>'+
- '<span class="muted">'+arN(idx+1)+' / '+arN(ch.length)+'</span>'+
+ '<span class="muted">'+arN(idx+1)+' / '+arN(ch.length)+'</span>'+aiSection(ch[idx])+
  '<button class="btn" id="nxt">'+(idx===ch.length-1?'أنهيت ✓':'التالي ›')+'</button></div>';
  $('#prev').onclick=()=>{if(idx>0){idx--;render()}};
+ const ab=$('#aiBtn');if(ab)ab.onclick=async()=>{
+  ab.disabled=true;$('#aiBox').innerHTML='<div class="thinking">يفكّر…</div>';
+  try{
+   const out=await gem('أنت معلّم يشرح للطالب قطعة من نص يقرأه بتأنٍّ. اشرح هذه القطعة بأسلوب ميسّر موجز:\n- المعنى العام في سطر أو سطرين\n- غريب الألفاظ إن وُجد (لفظة: معناها)\n- فائدة واحدة للقلب\n- سؤال تثبيت واحد للقارئ\n\nالنص:\n'+ch[idx]);
+   $('#aiBox').innerHTML='<div class="aiout">'+out.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\*\*([^*]+)\*\*/g,'<b class="h">$1</b>').replace(/\n/g,'<br>')+'</div>';
+  }catch(e){$('#aiBox').innerHTML='<div class="muted" style="padding:8px 0">تعذّر الذكاء: '+(e.message==='no key'?'افتح «جديد» برقمك أولاً لتفعيل المفتاح':e.message)+'</div>'}
+  ab.disabled=false;
+ };
  $('#nxt').onclick=()=>{
   if(idx===ch.length-1){st.chunks+=ch.length;SV('miqras',st);
-   $('#rd').innerHTML='<div class="chunk" style="text-align:center;color:var(--ok)">أتممت النص — '+arN(ch.length)+' قطعة بتأنٍّ. 🌿</div>';
-   renderStats();return}
+   $('#rd').innerHTML='<div class="chunk" style="text-align:center;color:var(--ok)">أتممت النص — '+arN(ch.length)+' قطعة بتأنٍّ. 🌿</div>'+(KEY()?'<div class="nav"><button class="btn ai" id="finSum">✦ خلاصة ما قرأت</button></div><div id="aiBox"></div>':'');
+   renderStats();
+   const fs=$('#finSum');if(fs)fs.onclick=async()=>{fs.disabled=true;$('#aiBox').innerHTML='<div class="thinking">يلخّص…</div>';
+    try{const out=await gem('لخّص هذا النص الذي قرأه الطالب كاملاً في نقاط قصيرة مرقّمة — أهم الفوائد والأحكام والمعاني:\n\n'+ch.join(' '));
+     $('#aiBox').innerHTML='<div class="aiout">'+out.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\*\*([^*]+)\*\*/g,'<b class="h">$1</b>').replace(/\n/g,'<br>')+'</div>';
+    }catch(e){$('#aiBox').innerHTML='<div class="muted" style="padding:8px 0">'+e.message+'</div>'}fs.disabled=false};
+   return}
   idx++;render()};
 }
+$('#sumAll').onclick=async()=>{
+ const t=$('#src').value.trim();if(!t)return;
+ if(!KEY()){showAI('مفتاح الذكاء','<div class="muted">افتح صفحة «جديد» برقمك أولاً — يُحفَظ المفتاح على جهازك وتعمل كل أدوات ✦ بعدها.</div>');return}
+ showAI('خلاصة النص','<div class="thinking">يلخّص…</div>');
+ try{const out=await gem('لخّص هذا النص في نقاط قصيرة مرقّمة:\n\n'+t);
+  $('#shadeBox').innerHTML='<b style="color:var(--acc);font-size:15px">خلاصة النص</b><div style="margin-top:10px;line-height:2">'+out.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\*\*([^*]+)\*\*/g,'<b class="h">$1</b>').replace(/\n/g,'<br>')+'</div><div style="text-align:left;margin-top:14px"><button class="btn ghost" onclick="document.getElementById(\'shade\').style.display=\'none\'">إغلاق</button></div>';
+ }catch(e){$('#shadeBox').innerHTML='<div class="muted">'+e.message+'</div>'}
+};
 function renderStats(){
  $('#stats').innerHTML='<span class="stat">جلسات: <b>'+arN(st.sess)+'</b></span>'+
  '<span class="stat">قطع مُتدبَّرة: <b>'+arN(st.chunks)+'</b></span>';

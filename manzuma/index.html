@@ -467,7 +467,8 @@ const SRCS=[
  {ic:'🧬',n:'التخريج',d:'من خرّج الحديث وبأي حكم — الشامي والمحققون',u:'../hadith/takhrij.html',t:'الحديث'},
  {ic:'🏋',n:'ممارسة يومية',d:'قمرة الإنجليزية اليومية — ٣ مهام',u:'../english/practice.html',t:'الإنجليزية'},
  {ic:'📋',n:'روتين إنجليزي',d:'خطة الإنجليزية اليومية',u:'../english/routine.html',t:'الإنجليزية'},
- {ic:'🎓',n:'امتحان البرمجة',d:'امتحان شهادة — ٢٠ سؤالاً بوقت',u:'../prog/exam.html',t:'البرمجة'}
+ {ic:'🎓',n:'امتحان البرمجة',d:'امتحان شهادة — ٢٠ سؤالاً بوقت',u:'../prog/exam.html',t:'البرمجة'},
+ {ic:'🌾',n:'مِحراث',d:'أعمالك غير المنتهية — حَثُّ ما بُذر',u:'../mihrath/',t:'إدارة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

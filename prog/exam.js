@@ -1,134 +1,135 @@
-/* برمج — امتحان المسار التراكمي: أسئلة عشوائية من quiz[] كل درس، نتيجة ومراجعة */
+/* برمج — امتحان شهادة: 20 سؤالاً من كل المسارات، مؤقّت 25د، تفصيل بكل مجال، prog_exam */
 (function () {
 'use strict';
 const $ = s => document.querySelector(s);
-const BEST_KEY = 'prog_exam_best';
-const NQ = () => 10 + Math.floor(Math.random() * 6); // 10-15 سؤالاً
-
+const LS_BEST = 'prog_exam_best', LS_ATT = 'prog_exam';
 const escH = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const best = () => { try { return JSON.parse(localStorage.getItem(BEST_KEY) || '{}'); } catch (e) { return {}; } };
-const saveBest = b => localStorage.setItem(BEST_KEY, JSON.stringify(b));
+const shuffle = a => a.slice().sort(() => Math.random() - .5);
 
-let exam = null; // {track, qs:[{q,o,a,lesson}], i, answers:[idx|null], t0}
+let attempts = [];
+try { attempts = JSON.parse(localStorage.getItem(LS_ATT) || '[]') || []; } catch (e) { attempts = []; }
+let best = {};
+try { best = JSON.parse(localStorage.getItem(LS_BEST) || '{}') || {}; } catch (e) { best = {}; }
+const saveAtt = () => localStorage.setItem(LS_ATT, JSON.stringify(attempts.slice(-20)));
 
-/* تجميع أسئلة المسار */
-function pool(t) {
-  const out = [];
-  t.lessons.forEach(l => (l.quiz || []).forEach(q => out.push({ q: q.q, o: q.o, a: q.a, lesson: l.t })));
-  return out;
-}
-function shuf(a) {
-  const r = a.slice();
-  for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = r[i]; r[i] = r[j]; r[j] = t; }
-  return r;
-}
+/* تجميع بنك الأسئلة مع مجاله (الدرس) */
+const BANK = [];
+TRACKS.forEach(t => t.lessons.forEach((l, li) => {
+  (l.quiz || []).forEach(q => BANK.push({
+    q: q.q, o: q.o, a: q.a, domain: l.t, tid: t.id, li, tn: t.name,
+    code: /&lt;|&gt;|<\w|[=;(){}\[\]]|console\.log|=>/.test(q.q + q.o.join('')),
+  }));
+}));
 
-function setBar(p) { $('#examBar').style.width = Math.round(p) + '%'; }
+const N_Q = 20, TIME = 25 * 60;
+let cur = null; // {qs, i, ans:[], t0, timer}
 
-/* ---------- شاشة اختيار المسار ---------- */
+/* ---------- بدء ---------- */
 function renderPick() {
-  setBar(0);
-  const B = best();
+  const last = attempts[attempts.length - 1];
   $('#examBody').innerHTML = `
-    <h3 class="sec-h">اختر المسار</h3>
-    <div class="c-grid">
-      ${TRACKS.map(t => {
-        const n = pool(t).length;
-        const b = B[t.id];
-        return `<div class="track free-card ex-track" data-t="${t.id}" ${n < 10 ? 'style="opacity:.45;pointer-events:none"' : ''}>
-          <div class="track-head"><div class="t-info">
-            <h3>${escH(t.name)}</h3>
-            <div class="t-desc">${n} سؤالاً متاحاً · ${t.lessons.length} درساً${n < 10 ? ' — (يحتاج 10+ للامتحان)' : ''}</div>
-            ${b ? `<div class="ex-best">أفضل نتيجة: <b>${b.best}%</b> (${b.n}/${b.tot}) — آخر محاولة ${escH(b.date)}</div>` : ''}
-          </div></div>
-        </div>`;
-      }).join('')}
+    <div class="ex-pick">
+      <h2>امتحان الشهادة — ${N_Q} سؤالاً</h2>
+      <p class="ex-intro">مزيج متوازن من أسئلة المفاهيم وقراءة الكود عبر كل المسارات — مؤقّت ${TIME / 60} دقيقة، وتفصيل درجاتك بكل مجال في النهاية.</p>
+      ${last ? `<div class="ex-last">آخر محاولة: <b>${last.score}/${last.n}</b> (${Math.round(last.score / last.n * 100)}%) — ${new Date(last.at).toLocaleDateString('ar')}</div>` : ''}
+      <button class="btn" id="exGo">ابدأ الامتحان</button>
     </div>`;
-  document.querySelectorAll('.ex-track').forEach(el => el.onclick = () => startExam(el.dataset.t));
+  $('#exGo').onclick = startExam;
 }
 
-/* ---------- توليد الامتحان ---------- */
-function startExam(tid) {
-  const t = TRACKS.find(x => x.id === tid);
-  const qs = shuf(pool(t)).slice(0, NQ());
-  exam = { track: t, qs, i: 0, answers: new Array(qs.length).fill(null), t0: Date.now() };
+function startExam() {
+  /* توازن المسارات: حصة لكل مسار حسب حجم بنكه */
+  const perT = TRACKS.map(t => BANK.filter(b => b.tid === t.id)).filter(x => x.length);
+  let qs = [];
+  const share = Math.floor(N_Q / perT.length);
+  perT.forEach(pool => qs = qs.concat(shuffle(pool).slice(0, share)));
+  qs = shuffle(qs).concat(shuffle(BANK.filter(b => !qs.includes(b)))).slice(0, N_Q);
+  cur = { qs, i: 0, ans: [], t0: Date.now(), left: TIME };
+  tick();
   renderQ();
 }
 
-/* ---------- سؤال بسؤال ---------- */
-function renderQ() {
-  const ex = exam, q = ex.qs[ex.i], n = ex.qs.length;
-  setBar(ex.i / n * 100);
-  $('#examBody').innerHTML = `
-    <div class="ex-head">
-      <span class="ex-count">السؤال ${ex.i + 1} / ${n}</span>
-      <span class="ex-src">${escH(q.lesson)}</span>
-    </div>
-    <div class="ex-q">${q.q}</div>
-    <div class="ex-opts">
-      ${q.o.map((o, oi) => `<button class="ex-opt" data-i="${oi}">${o}</button>`).join('')}
-    </div>`;
-  document.querySelectorAll('.ex-opt').forEach(b => b.onclick = () => answer(+b.dataset.i, b));
+/* ---------- مؤقّت ---------- */
+let timerId = null;
+function tick() {
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    cur.left--;
+    const m = Math.floor(cur.left / 60), s = cur.left % 60;
+    const t = $('#exTimer'); if (t) t.textContent = `${m}:${String(s).padStart(2, '0')}`;
+    if (cur.left <= 0) { clearInterval(timerId); finishExam(true); }
+  }, 1000);
 }
 
-function answer(oi, btn) {
-  const ex = exam, q = ex.qs[ex.i];
-  if (ex.answers[ex.i] !== null) return;
-  ex.answers[ex.i] = oi;
-  document.querySelectorAll('.ex-opt').forEach(b => {
-    const i = +b.dataset.i;
-    if (i === q.a) b.classList.add('ok');
-    else if (i === oi) b.classList.add('bad');
+/* ---------- سؤال ---------- */
+function renderQ() {
+  const q = cur.qs[cur.i];
+  const m = Math.floor(cur.left / 60), s = cur.left % 60;
+  $('#examBody').innerHTML = `
+    <div class="ex-top">
+      <span class="ex-count">${cur.i + 1}/${cur.qs.length}</span>
+      <span class="ex-dom">${escH(q.domain)}</span>
+      <span class="ex-timer ${cur.left < 300 ? 'low' : ''}" id="exTimer">${m}:${String(s).padStart(2, '0')}</span>
+    </div>
+    <div class="track-bar"><i style="width:${Math.round(cur.i / cur.qs.length * 100)}%"></i></div>
+    <div class="ex-q ${q.code ? 'code' : ''}">${q.q}</div>
+    <div class="ex-opts">${q.o.map((o, i) => `<button class="ex-opt" data-i="${i}">${o}</button>`).join('')}</div>`;
+  $('#examBody').querySelectorAll('.ex-opt').forEach(b => b.onclick = () => answer(+b.dataset.i, b));
+}
+
+function answer(i, btn) {
+  const q = cur.qs[cur.i];
+  cur.ans[cur.i] = i;
+  $('#examBody').querySelectorAll('.ex-opt').forEach((b, bi) => {
     b.disabled = true;
+    if (bi === q.a) b.classList.add('ok');
+    else if (bi === i) b.classList.add('bad');
   });
-  setTimeout(() => {
-    if (ex.i + 1 < ex.qs.length) { ex.i++; renderQ(); } else finishExam();
-  }, 950);
+  setTimeout(() => { cur.i++; cur.i >= cur.qs.length ? finishExam(false) : renderQ(); }, 850);
 }
 
 /* ---------- النتيجة ---------- */
-function finishExam() {
-  const ex = exam, n = ex.qs.length;
-  setBar(100);
-  let ok = 0;
-  const wrong = {};
-  ex.qs.forEach((q, qi) => {
-    if (ex.answers[qi] === q.a) ok++;
-    else (wrong[q.lesson] = wrong[q.lesson] || []).push(q);
+function finishExam(timeout) {
+  clearInterval(timerId);
+  const qs = cur.qs, n = qs.length;
+  const ok = qs.filter((q, i) => cur.ans[i] === q.a).length;
+  const doms = {};
+  qs.forEach((q, i) => {
+    if (!doms[q.domain]) doms[q.domain] = { ok: 0, tot: 0, tid: q.tid, li: q.li, tn: q.tn };
+    doms[q.domain].tot++;
+    if (cur.ans[i] === q.a) doms[q.domain].ok++;
   });
+  attempts.push({ at: new Date().toISOString(), score: ok, n, domains: Object.keys(doms).reduce((o, k) => { o[k] = doms[k].ok + '/' + doms[k].tot; return o; }, {}) });
+  saveAtt();
   const pct = Math.round(ok / n * 100);
-
-  /* حفظ أفضل نتيجة + تاريخ المحاولة */
-  const B = best(), tid = ex.track.id;
-  const date = new Date().toISOString().slice(0, 10);
-  const prev = B[tid];
-  B[tid] = { best: prev && prev.best > pct ? prev.best : pct, n: ok, tot: n, date, last: pct };
-  saveBest(B);
-  const isBest = !prev || pct >= prev.best;
-
+  /* أضعف مجال */
+  const weak = Object.entries(doms).sort((a, b) => a[1].ok / a[1].tot - b[1].ok / b[1].tot)[0];
+  const wrong = qs.map((q, i) => ({ q, i })).filter(x => cur.ans[x.i] !== x.q.a);
+  const wrongByDom = {};
+  wrong.forEach(x => { (wrongByDom[x.q.domain] = wrongByDom[x.q.domain] || []).push(x.q); });
   $('#examBody').innerHTML = `
-    <div class="ex-result">
-      <div class="ex-score ${pct >= 70 ? 'pass' : 'fail'}">${pct}%</div>
-      <div class="ex-sub">${ok} / ${n} إجابة صحيحة${isBest ? ' — <b>أفضل نتيجة لك!</b>' : ` (أفضل نتيجة: ${B[tid].best}%)`}</div>
-      ${Object.keys(wrong).length ? `
-        <h3 class="sec-h">راجع هذه الدروس</h3>
-        ${Object.keys(wrong).map(ls => `
-          <div class="ex-wrong">
-            <div class="ex-w-lesson">${escH(ls)} <span class="c-cnt">${wrong[ls].length} خطأ</span></div>
-            ${wrong[ls].map(q => `
-              <div class="ex-w-item">
-                <div class="ex-w-q">${q.q}</div>
-                <div class="ex-w-a">الصحيحة: ${q.o[q.a]}</div>
-              </div>`).join('')}
-          </div>`).join('')}
-      ` : '<div class="ex-perfect">امتحان مثالي — لا شيء للمراجعة 🎓</div>'}
-      <div class="ex-actions">
-        <button class="btn" id="exAgain">ابدأ امتحان آخر ⟳</button>
-        <button class="btn ghost" id="exPick">غيّر المسار</button>
-      </div>
+    <div class="ex-pick">
+      ${timeout ? '<div class="ex-timeout">⏱ انتهى الوقت!</div>' : ''}
+      <h2>النتيجة: ${ok}/${n} — ${pct}%</h2>
+      <div class="track-bar" style="margin:14px 0"><i style="width:${pct}%"></i></div>
+      <h3 class="sec-h">الدرجة بكل مجال</h3>
+      <div class="ex-doms">${Object.entries(doms).sort((a, b) => a[1].ok / a[1].tot - b[1].ok / b[1].tot).map(([d, v]) => {
+        const p = Math.round(v.ok / v.tot * 100);
+        return `<div class="ex-dom-row"><span class="ex-dom-n">${escH(d)}</span><div class="track-bar sm"><i style="width:${p}%"></i></div><b>${v.ok}/${v.tot}</b></div>`;
+      }).join('')}</div>
+      ${weak && weak[1].ok < weak[1].tot ? `<div class="ex-weak">
+        <div class="ex-weak-t">أضعف مجال: «${escH(weak[0])}» — ${weak[1].ok}/${weak[1].tot}</div>
+        <div class="ex-weak-a">راجع الدرس ثم أعد المحاولة.</div>
+        <a class="btn sm" href="index.html#l=${weak[1].tid}:${weak[1].li}">افتح درس «${escH(weak[0])}» ←</a>
+        <a class="btn ghost sm" href="map.html">خريطة الإتقان</a>
+      </div>` : ''}
+      ${wrong.length ? `<h3 class="sec-h" style="margin-top:20px">الأخطاء (${wrong.length})</h3>
+        ${Object.entries(wrongByDom).map(([d, list]) => `<div class="ex-wrong"><div class="ex-w-q"><b>${escH(d)}</b></div>${list.map(q => `<div class="ex-w-item">${q.q} <span class="ex-w-a">الصحيحة: ${q.o[q.a]}</span></div>`).join('')}</div>`).join('')}` : '<div class="ex-win">🎓 امتحان كامل بلا خطأ!</div>'}
+      <div class="ex-act"><button class="btn" id="exAgain">ابدأ امتحاناً آخر</button></div>
     </div>`;
-  $('#exAgain').onclick = () => startExam(tid);
-  $('#exPick').onclick = renderPick;
+  $('#exAgain').onclick = startExam;
+  const hist = attempts.slice(-5).map(a => `${a.score}/${a.n} · ${new Date(a.at).toLocaleDateString('ar')}`).join(' — ');
+  if (hist) $('#examBody').insertAdjacentHTML('beforeend', `<div class="ex-last">المحاولات الأخيرة: ${hist}</div>`);
 }
 
 renderPick();

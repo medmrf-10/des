@@ -463,7 +463,11 @@ const SRCS=[
  {ic:'🏗',n:'مِنشأ',d:'هيكل الدروس — ابنِ مسودتك',u:'../minsha/',t:'إدارة'},
  {ic:'🏰',n:'ديوان',d:'عرض المنظومة الكامل',u:'../diwan/',t:'إدارة'},
  {ic:'🔮',n:'مُعلّم',d:'دليل الموضوع — خطتك الدراسية',u:'../muallim/',t:'إدارة'},
- {ic:'🌄',n:'مِطلع',d:'حديثك اليومي + مراجعات الأمس المعلّقة',u:'../mitla3/',t:'الحديث'}
+ {ic:'🌄',n:'مِطلع',d:'حديثك اليومي + مراجعات الأمس المعلّقة',u:'../mitla3/',t:'الحديث'},
+ {ic:'🧬',n:'التخريج',d:'من خرّج الحديث وبأي حكم — الشامي والمحققون',u:'../hadith/takhrij.html',t:'الحديث'},
+ {ic:'🏋',n:'ممارسة يومية',d:'قمرة الإنجليزية اليومية — ٣ مهام',u:'../english/practice.html',t:'الإنجليزية'},
+ {ic:'📋',n:'روتين إنجليزي',d:'خطة الإنجليزية اليومية',u:'../english/routine.html',t:'الإنجليزية'},
+ {ic:'🎓',n:'امتحان البرمجة',d:'امتحان شهادة — ٢٠ سؤالاً بوقت',u:'../prog/exam.html',t:'البرمجة'}
 ];
 function renderSrc(){$('#srcList').innerHTML=SRCS.map(s=>`<a class="src" href="${s.u}"><div class="ic" style="background:rgba(201,162,75,.12)">${s.ic}</div><div style="flex:1"><b style="font-size:14.5px">${s.n}</b><div class="muted" style="margin-top:3px">${s.d}</div></div><span class="chip">${s.t}</span></a>`).join('')}
 /* ---------- STUDIO ---------- */

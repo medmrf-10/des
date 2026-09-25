@@ -1123,5 +1123,41 @@
   "desc": "حديثك اليومي — جديد كل يوم + مراجعة الأمس",
   "url": "../mitla3/",
   "icon": "م"
+ },
+ {
+  "id": "takhrij",
+  "title": "التخريج",
+  "maker": "محمد",
+  "field": "حديث",
+  "desc": "من خرّج الحديث وبأي حكم — الشامي والمحققون",
+  "url": "../hadith/takhrij.html",
+  "icon": "ح"
+ },
+ {
+  "id": "en-practice",
+  "title": "ممارسة يومية",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "قمرة الإنجليزية اليومية — ٣ مهام",
+  "url": "../english/practice.html",
+  "icon": "En"
+ },
+ {
+  "id": "en-routine",
+  "title": "روتين إنجليزي",
+  "maker": "محمد",
+  "field": "إنجليزية",
+  "desc": "خطة الإنجليزية اليومية",
+  "url": "../english/routine.html",
+  "icon": "En"
+ },
+ {
+  "id": "prog-exam",
+  "title": "امتحان البرمجة",
+  "maker": "محمد",
+  "field": "برمجة",
+  "desc": "امتحان شهادة — ٢٠ سؤالاً بوقت",
+  "url": "../prog/exam.html",
+  "icon": "<>"
  }
 ]

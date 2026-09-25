@@ -65,6 +65,7 @@ const tops=A.slice(0,3);
 $('#stats').innerHTML='<span class="stat">مرشحة: <b>'+arN(A.length)+'</b> خطوة</span>';
 $('#acts').innerHTML=tops.length?tops.map((a,i)=>'<div class="act"><div class="n">'+arN(i+1)+'</div><div class="bd"><div class="nm">'+esc(a.n)+'</div><div class="ds">'+esc(a.ds)+'</div></div><a href="'+a.u+'">افتح ←</a></div>').join(''):'<div class="empty">يومك نظيف — لا خطوات معلّقة. اختر مرعاك في مِرتَع.</div>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="mirfa3" data-title="مِسعَد"></script>
 </body>
 </html>

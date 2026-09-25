@@ -82,6 +82,7 @@ $('restart').onclick=()=>{i=0;$('res').style.display='none';if(!run)start()};
 $('stage').onclick=()=>run?stop():start();
 document.addEventListener('keydown',e=>{if(e.key===' '&&e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='SELECT'){e.preventDefault();run?stop():start()}});
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="buraq" data-title="بُراق"></script>
 </body>
 </html>

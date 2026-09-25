@@ -59,6 +59,7 @@ R.sort((a,b)=>b.v-a.v);
 $('#list').innerHTML='<div class="card"><div class="t">سقوفك — '+arN(R.length)+' رقمًا قياسيًا</div>'+
  R.map((r,i)=>'<div class="rec'+(i<3?' gold':'')+'"><div><div class="nm">'+(i===0?'🥇 ':i===1?'🥈 ':i===2?'🥉 ':'')+r.n+'</div><div class="when">'+r.w+'</div></div><span class="val">'+arN(r.v)+'</span></div>').join('')+'</div>';
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js" data-pid="misqaf" data-title="مِسقَف"></script>
 </body>
 </html>

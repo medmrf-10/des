@@ -45,6 +45,7 @@ function render(){
  document.getElementById('list').innerHTML=list.map(x=>`<div class="card"><div class="t">${esc(x.t)}<div class="meta">رواه ${(+x.s).toLocaleString('ar-EG')} من الصحابة · تكرار ${(+x.r).toLocaleString('ar-EG')}<a href="net.html#gid=${x.g}">شبكة المعنى #${x.g}</a><a href="matn.html">المتون الكاملة ←</a></div></div><span class="v ${vcls(x.h)}">${esc(x.h||'—')}</span></div>`).join('')||'<div style="color:var(--dim);text-align:center;padding:20px">لا نتائج</div>'}
 render();
 </script>
+<script src="../shared/palette.js"></script>
 <script src="../shared/feedback.js"></script>
 </body>
 </html>

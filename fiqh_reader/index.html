@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قارئ الفهرس الحقيقي — فقه المذاهب الأربعة</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <button id="treeToggle" aria-label="فتح الفهرس">☰</button>
+  <h1>قارئ الفهرس الحقيقي</h1>
+  <p class="sub">نصوص مقصوصة حرفياً من نسخة الشاملة — كل وحدة بموضعها ونصها الكامل</p>
+  <input id="q" type="search" placeholder="ابحث في العناوين والنصوص… (تجاهل الهمزات والتشكيل)">
+  <button id="homeBtn" title="الفهرس الموحّد">★ الفهرس الموحّد</button>
+</header>
+<nav id="booksBar"></nav>
+<main>
+  <div id="treeBackdrop"></div>
+  <aside id="tree"></aside>
+  <section id="content">
+    <div class="empty">اختر كتاباً ثم وحدة من الفهرس لقراءة نصها الكامل.</div>
+  </section>
+</main>
+<footer>مشروع «الفهرس الحقيقي بالقراءة» — مستودع rlg | النص حرفي مقصوص لا مكتوب</footer>
+<script src="data/topics.js"></script>
+<script src="data/index.js"></script>
+<script src="app.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

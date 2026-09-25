@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إنجليزي بلا قواعد — تعلم بالتعرض المكثف</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◈</span>
+    <div>
+      <h1>إنجليزي بالمحتوى القصير</h1>
+      <p class="tagline">تعرّض مكثف — لا قواعد جافة</p>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#/feed" data-nav="feed">المقاطع</a>
+    <a href="#/bank" data-nav="bank">بنك الكلمات <span id="bankCount" class="pill">0</span></a>
+    <a href="#/review" data-nav="review">المراجعة <span id="dueCount" class="pill warn">0</span></a>
+    <a href="#/listen" data-nav="listen">اختبار الاستماع</a>
+  </nav>
+</header>
+
+<main id="app"></main>
+
+<footer class="foot">منصة ثابتة بلا خوادم — تقدّمك محفوظ في متصفحك فقط (localStorage)</footer>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../shared/feedback.js"></script>
+</body>
+</html>

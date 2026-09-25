@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a">
+<title>مِعبّر — اشرحها لتفهمها</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{max-width:640px;margin:0 auto;padding:14px}
+.term{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--acc);border-radius:16px;padding:20px;text-align:center;margin:12px 0}
+.term .t{font-family:var(--font-ar);font-size:24px;font-weight:700}
+.term .m{color:var(--dim);font-size:12px;margin-top:6px}
+textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:12px;padding:12px;font-family:var(--font-ar);font-size:15px;min-height:110px;resize:vertical;box-sizing:border-box;line-height:2}
+textarea:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:9px 20px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:8px}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--border)}
+.muted{color:var(--dim);font-size:12px}
+.att{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-top:7px;font-size:13px}
+.att .t{color:var(--acc);font-size:11px;margin-bottom:4px}
+.tag{display:inline-block;background:var(--card2);border-radius:8px;padding:2px 9px;font-size:10.5px;margin:2px}
+</style>
+</head>
+<body>
+<h2 style="font-family:var(--font-ar);margin:6px 0">مِعبّر <span class="muted">— اشرحها لتفهمها</span></h2>
+<div class="muted">طريقة فاينمان: لا يُحسب أنك فهمت حتى تشرحها بأسلوبك. يعطيك مصطلحاً ← تشرحه ← يُحفظ في دفترك.</div>
+<div class="term" id="tm">…</div>
+<textarea id="exp" placeholder="اشرحه كأنك تعلّمه لطفل — بأسلوبك أنت…"></textarea>
+<div>
+<button class="btn" id="sv">حفظ في الدفتر ✓</button>
+<button class="btn ghost" id="nx">مصطلح آخر ←</button>
+</div>
+<h3 style="font-size:12px;color:var(--acc2);margin:14px 0 4px">شروحك</h3>
+<div id="hist"></div>
+<script>
+const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let T=null,cur=null;
+async function laz(){if(window.TERMS)return;
+ const s=document.createElement('script');s.src='../fiqh_reader/terms.js';
+ await new Promise((ok,bad)=>{s.onload=ok;s.onerror=bad;document.head.appendChild(s)})}
+function pick(){
+ const ks=Object.keys(T.terms);cur=ks[Math.floor(Math.random()*ks.length)];
+ const arr=T.terms[cur];
+ const occ=arr.slice(0,3).map(o=>`<span class="tag">${esc(T.books[o.b]||o.b)}</span>`).join('');
+ $('#tm').innerHTML=`<div class="t">${esc(cur)}</div><div class="m">${arr.length.toLocaleString('ar-EG')} موضعاً في المتون</div><div style="margin-top:8px">${occ}</div>`;
+ $('#exp').value=''}
+$('#sv').onclick=()=>{
+ const t=$('#exp').value.trim();if(!t||!cur)return;
+ const d=JSON.parse(localStorage.getItem('daftar')||'[]');
+ d.unshift({s:'mi3bar',r:cur,t:`**${cur}** — شرحي:\n${t}`,at:new Date().toISOString().slice(0,10)});
+ localStorage.setItem('daftar',JSON.stringify(d.slice(0,500)));
+ hist();$('#exp').value='';
+ $('#sv').textContent='✓ حُفظ في الدفتر';setTimeout(()=>$('#sv').textContent='حفظ في الدفتر ✓',1500)};
+$('#nx').onclick=pick;
+function hist(){
+ const d=(JSON.parse(localStorage.getItem('daftar')||'[]')).filter(x=>x.s==='mi3bar').slice(0,10);
+ $('#hist').innerHTML=d.map(x=>`<div class="att"><div class="t">${esc(x.r)} · ${esc(x.at)}</div>${esc(x.t.replace(/^.*— شرحي:\n/,''))}</div>`).join('')||'<div class="muted">لا شروح بعد</div>'}
+(async()=>{await laz();T=window.TERMS;pick();hist()})();
+</script>
+<script src="../shared/feedback.js" data-pid="mi3bar" data-title="مِعبّر"></script>
+</body>
+</html>

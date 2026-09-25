@@ -21,3 +21,8 @@ button.rq:disabled{opacity:.45;cursor:default}
 .tray .send{background:var(--ac);border:0;border-radius:999px;color:#0d0f14;font-weight:800;padding:8px 18px;font-family:inherit;cursor:pointer}
 .toast{position:fixed;top:14px;inset-inline-start:50%;transform:translateX(50%);background:#17351f;color:#7fdf9c;border:1px solid #2c5c3a;border-radius:12px;padding:10px 20px;z-index:30}
 @media(max-width:560px){main{grid-template-columns:1fr}.ctl{grid-template-columns:1fr 1fr}}
+.mkbtn{background:none;border:1px dashed var(--ac);color:var(--ac2);border-radius:99px;padding:5px 14px;font-family:inherit;font-size:.72rem;cursor:pointer;min-height:30px;vertical-align:middle}
+.mkbtn.on{border-style:solid;font-weight:700}
+.mkpanel{margin:8px 16px 0;background:var(--bg2);border:1px solid var(--ac);border-radius:12px;padding:10px 14px;font-size:.85rem;line-height:2.2}
+.mreq{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--ln);border-radius:999px;padding:2px 11px;margin-inline-end:6px;font-size:.78rem}
+.mreq i{cursor:pointer;font-style:normal;color:#e88;opacity:.8}.mreq i:hover{opacity:1}

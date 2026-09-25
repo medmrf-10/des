@@ -48,6 +48,25 @@ svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .chip{flex:0 0 auto;background:var(--card);border:1px solid var(--border);border-radius:99px;color:var(--dim);font-family:inherit;font-size:.72rem;padding:8px 14px;cursor:pointer;min-height:36px}
 .chip.on{background:var(--acc);border-color:var(--acc2);color:#0b0f1a;font-weight:800}
 .deepbtn{flex:0 0 auto;background:none;border:1px dashed var(--acc);border-radius:99px;color:var(--acc2);font-family:inherit;font-size:.72rem;padding:8px 14px;cursor:pointer;min-height:36px;white-space:nowrap}
+.nrow{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.crumb{background:none;border:1px solid var(--border);border-radius:99px;color:var(--acc2);font-family:inherit;font-size:.76rem;font-weight:700;padding:8px 16px;cursor:pointer;min-height:36px;white-space:nowrap}
+.crumb:hover{border-color:var(--acc)}
+.fbtn{background:var(--card);border:1px solid var(--border);border-radius:99px;color:var(--txt);font-family:inherit;font-size:.76rem;padding:8px 16px;cursor:pointer;min-height:36px;white-space:nowrap}
+.fbtn span{color:var(--acc2);font-weight:700}
+.fpanel{display:none;margin-top:8px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.fpanel.open{display:grid}
+.fg label{display:block;font-size:.62rem;color:var(--dim);margin-bottom:5px}
+.fg select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:9px;font-family:inherit;font-size:.8rem;min-height:38px}
+.fg.chk{display:flex;align-items:end}.fg.chk label{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--txt);margin:0}
+.fclr{background:none;border:1px dashed var(--border);color:var(--dim);border-radius:10px;padding:8px;font-family:inherit;font-size:.76rem;cursor:pointer;min-height:38px}
+.shcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;padding:4px 0}
+.shcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:border-color .15s,transform .15s;animation:cin .4s both}
+.shcard:hover{border-color:var(--acc);transform:translateY(-2px)}
+.shcard .shn{font-size:.98rem;font-weight:800;margin-bottom:6px}
+.shcard .shm{color:var(--dim);font-size:.74rem;line-height:1.7}
+.shcard .shgo{color:var(--acc2);font-size:.7rem;margin-top:8px}
+.allb{display:block;margin:12px 0 0;width:100%;background:none;border:1px dashed var(--border);color:var(--dim);border-radius:12px;padding:11px;font-family:inherit;font-size:.78rem;cursor:pointer;min-height:44px}
+.allb:hover{border-color:var(--acc);color:var(--acc2)}
 select.sortsel{background:var(--card);border:1px solid var(--border);border-radius:99px;color:var(--dim);font-family:inherit;font-size:.72rem;padding:8px 10px;flex:0 0 auto;min-height:36px}
 
 /* grid */
@@ -148,15 +167,22 @@ select.sortsel{background:var(--card);border:1px solid var(--border);border-radi
     <div class="srch"><svg class="i" width="17" height="17"><use href="#i-search"/></svg><input id="q" placeholder="ابحث في 952 سلسلة — كلمة فكلمة…" autocomplete="off"></div>
     <button class="tbtn" id="themeB" title="الثيم"><svg class="i" width="17" height="17"><use href="#i-moon"/></svg></button>
   </div>
-  <div class="frow" id="shrow"><span class="flab">الشيخ</span></div>
-  <div class="frow" id="sbrow"><span class="flab">الموضوع</span></div>
-  <div class="frow">
-    <span class="flab">النوع</span><span id="krow" style="display:contents"></span>
-    <select class="sortsel" id="sort">
-      <option value="def">ترتيب: الأصلي</option><option value="v">الأكثر مقاطع</option>
-      <option value="h">الأطول ساعات</option><option value="n">أبجدي</option>
-    </select>
+  <div class="nrow">
+    <button class="crumb" id="crumb">🕌 المشايخ</button>
+    <button class="fbtn" id="fbtn">⚙️ الفلاتر <span id="fn"></span></button>
     <button class="deepbtn" id="deepB" style="display:none">بحث عميق في الـ60 ألف درس</button>
+  </div>
+  <div class="fpanel" id="fpanel">
+    <div class="fg"><label>الموضوع</label><select id="fsubj"></select></div>
+    <div class="fg"><label>النوع</label><select id="fkind"></select></div>
+    <div class="fg"><label>القناة</label><select id="fchan"></select></div>
+    <div class="fg"><label>الترتيب</label><select id="sort">
+      <option value="def">الأصلي</option><option value="v">الأكثر مقاطع</option>
+      <option value="h">الأطول ساعات</option><option value="n">أبجدي</option>
+      <option value="cc">الأكثر تفريغاً</option></select></div>
+    <div class="fg chk"><label><input type="checkbox" id="fcc"> مفرّغة فقط</label></div>
+    <div class="fg chk"><label><input type="checkbox" id="fpl"> لها قائمة تشغيل</label></div>
+    <button class="fclr" id="fclr">مسح الفلاتر</button>
   </div>
 </div></div>
 
@@ -192,7 +218,7 @@ const fmtS=s=>{const m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart
 function safeLS(k,d){try{const v=JSON.parse(localStorage.getItem(k)||'null');return (v&&typeof v==='object')?v:d}catch(e){localStorage.removeItem(k);return d}}
 
 /* ============ الحالة + الرابط العميق ============ */
-const ST={q:'',sh:'الكل',subj:'الكل',kind:'الكل',sort:'def',page:0,open:null};
+const ST={q:'',sh:'الكل',subj:'الكل',kind:'الكل',ch:'الكل',sort:'def',page:0,open:null,view:'sh',cc:false,pl:false};
 const PAGE=48;
 function readHash(){
   const h=new URLSearchParams(location.hash.slice(1));
@@ -228,27 +254,42 @@ $('themeB').title='الثيم: '+TN[theme];
 const shNames=[...new Set(SERIES.map(s=>s.sheikh))];
 const subjSet=[...new Set(SERIES.map(s=>SUBJ[s.id]||'عام'))];
 const kindSet=[...new Set(SERIES.map(s=>s.kind).filter(Boolean))];
-function chip(txt,cur,key,box){
-  const b=document.createElement('button');
-  b.className='chip'+(cur===txt?' on':'');b.textContent=txt;
-  b.onclick=()=>{ST[key]=txt;ST.page=0;pushHash();render()};
-  box.appendChild(b);return b;
+const chanSet=[...new Set(SERIES.map(s=>s.channel).filter(Boolean))];
+if(ST.sh!=='الكل')ST.view='series';
+function fillsel(el,opts,cur){
+  el.innerHTML='';
+  ['الكل',...opts].forEach(o=>{const op=document.createElement('option');op.value=op.textContent=o;if(o===cur)op.selected=true;el.appendChild(op)});
 }
-function buildChips(){
-  $('shrow').querySelectorAll('.chip').forEach(e=>e.remove());
-  chip('الكل',ST.sh,'sh',$('shrow'));shNames.forEach(n=>chip(n,ST.sh,'sh',$('shrow')));
-  $('sbrow').querySelectorAll('.chip').forEach(e=>e.remove());
-  chip('الكل',ST.subj,'subj',$('sbrow'));subjSet.forEach(n=>chip(n,ST.subj,'subj',$('sbrow')));
-  $('krow').innerHTML='';
-  chip('الكل',ST.kind,'kind',$('krow'));kindSet.forEach(n=>chip(n,ST.kind,'kind',$('krow')));
+function buildFilters(){
+  fillsel($('fsubj'),subjSet,ST.subj);
+  fillsel($('fkind'),kindSet,ST.kind);
+  fillsel($('fchan'),chanSet,ST.ch);
+  $('sort').value=ST.sort;
+  $('fcc').checked=!!ST.cc;$('fpl').checked=!!ST.pl;
 }
-$('sort').value=ST.sort;
+function updFn(){let n=0;if(ST.subj!=='الكل')n++;if(ST.kind!=='الكل')n++;if(ST.ch!=='الكل')n++;if(ST.cc)n++;if(ST.pl)n++;
+  $('fn').textContent=n?'('+n+')':'';}
+$('fsubj').onchange=e=>{ST.subj=e.target.value;ST.page=0;pushHash();render()};
+$('fkind').onchange=e=>{ST.kind=e.target.value;ST.page=0;pushHash();render()};
+$('fchan').onchange=e=>{ST.ch=e.target.value;ST.page=0;pushHash();render()};
 $('sort').onchange=e=>{ST.sort=e.target.value;ST.page=0;pushHash();render()};
+$('fcc').onchange=e=>{ST.cc=e.target.checked;ST.page=0;render()};
+$('fpl').onchange=e=>{ST.pl=e.target.checked;ST.page=0;render()};
+$('fclr').onclick=()=>{ST.subj='الكل';ST.kind='الكل';ST.ch='الكل';ST.cc=false;ST.pl=false;ST.sort='def';ST.page=0;buildFilters();pushHash();render()};
+$('fbtn').onclick=e=>{e.stopPropagation();$('fpanel').classList.toggle('open')};
+$('fpanel').onclick=e=>e.stopPropagation();
+document.addEventListener('click',()=>$('fpanel').classList.remove('open'));
+$('crumb').onclick=()=>{ST.sh='الكل';ST.view='sh';ST.page=0;pushHash();render()};
+function openSheikh(sh){ST.sh=sh;ST.view='series';ST.page=0;pushHash();render();window.scrollTo(0,0)}
+function updCrumb(){
+  if(ST.view==='sh'){$('crumb').textContent='🕌 المشايخ';$('crumb').style.pointerEvents='none';$('crumb').style.opacity='.5'}
+  else{$('crumb').textContent=(ST.sh==='الكل'?'← كل السلاسل':'← المشايخ · '+ST.sh);$('crumb').style.pointerEvents='';$('crumb').style.opacity=''}
+}
 $('q').value=ST.q;
 let qt;
 $('q').addEventListener('input',e=>{
   clearTimeout(qt);
-  qt=setTimeout(()=>{ST.q=e.target.value.trim();ST.page=0;pushHash();render();$('deepB').style.display=ST.q?'':'none'},180);
+  qt=setTimeout(()=>{ST.q=e.target.value.trim();ST.page=0;if(ST.q)ST.view='series';pushHash();render();$('deepB').style.display=ST.q?'':'none'},180);
 });
 
 /* ============ تطابق كلمات (AND) ============ */
@@ -263,10 +304,14 @@ function filtered(){
     (ST.sh==='الكل'||s.sheikh===ST.sh)&&
     (ST.subj==='الكل'||(SUBJ[s.id]||'عام')===ST.subj)&&
     (ST.kind==='الكل'||s.kind===ST.kind)&&
+    (ST.ch==='الكل'||s.channel===ST.ch)&&
+    (!ST.cc||(s.cc||0)>0)&&
+    (!ST.pl||s.plist_url)&&
     (!qs.length||matchS(s,qs)));
   if(ST.sort==='v')L=[...L].sort((a,b)=>b.videos-a.videos);
   if(ST.sort==='h')L=[...L].sort((a,b)=>b.hours-a.hours);
   if(ST.sort==='n')L=[...L].sort((a,b)=>a.name.localeCompare(b.name,'ar'));
+  if(ST.sort==='cc')L=[...L].sort((a,b)=>(b.cc||0)-(a.cc||0));
   return L;
 }
 
@@ -306,7 +351,30 @@ function cardHTML(s,i){
   </div>`;
 }
 let curList=[];
+function sheikhCards(){
+  const map={};
+  SERIES.forEach(s=>{const m=map[s.sheikh]||(map[s.sheikh]={n:0,v:0,h:0,cc:0});m.n++;m.v+=s.videos||0;m.h+=s.hours||0;m.cc+=s.cc||0});
+  return `<div class="shcards">${shNames.map((sh,i)=>{
+    const m=map[sh];if(!m)return'';
+    return `<div class="shcard" data-sh="${escH(sh)}" style="animation-delay:${Math.min(i,10)*.05}s">
+      <div class="shn">${escH(sh)}</div>
+      <div class="shm">${m.n} سلسلة · ${m.v.toLocaleString('ar-EG')} مقطعاً · ${fmtH(m.h)}${m.cc?` · ${m.cc} مُفرَّغ`:''}</div>
+      <div class="shgo">دخول لسلاسله ←</div></div>`;
+  }).join('')}</div>
+  <button class="allb" id="allB">📚 تصفح كل السلاسل (${SERIES.length}) مباشرة</button>`;
+}
 function render(){
+  updCrumb();updFn();
+  if(ST.view==='sh'&&!ST.q){
+    $('grid').innerHTML=sheikhCards();
+    $('grid').className='';
+    $('cnt').textContent=`${shNames.length} مشايخ · ${SERIES.length} سلسلة`;
+    $('morebox').innerHTML='';
+    $('grid').querySelectorAll('.shcard').forEach(c=>c.onclick=()=>openSheikh(c.dataset.sh));
+    const ab=$('allB');if(ab)ab.onclick=()=>{ST.view='series';render()};
+    return;
+  }
+  $('grid').className='grid';
   curList=filtered();
   const n=Math.min(curList.length,(ST.page+1)*PAGE);
   $('grid').innerHTML=curList.slice(0,n).map(cardHTML).join('')||'<div class="empty">لا سلاسل تطابق البحث — جرّب «بحث عميق»</div>';
@@ -416,7 +484,7 @@ document.addEventListener('click',e=>{
 });
 
 /* init */
-buildChips();
+buildFilters();
 if(ST.q){$('deepB').style.display=''}
 render();
 if(ST.open){const sid=ST.open;ST.open=null;openSheet(sid)}

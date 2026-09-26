@@ -48,6 +48,16 @@ BOOKS = {
         'sheikh': 'عبد الرحمن بن ناصر السعدي',
         'book_title': 'تيسير الكريم الرحمن في تفسير كلام المنان',
     },
+    'jalalayn': {
+        'dir': 'tafsir_jalalayn',
+        'sheikh': 'جلال الدين المحلي وجلال الدين السيوطي',
+        'book_title': 'تفسير الجلالين',
+    },
+    'tabari': {
+        'dir': 'tafsir_tabari',
+        'sheikh': 'محمد بن جرير الطبري',
+        'book_title': 'تفسير الطبري (جامع البيان عن تأويل آي القرآن)',
+    },
 }
 
 
@@ -102,6 +112,17 @@ def build(book):
         'surahs': set(), 'low_by_surah': {}, 'collapsed_unresolved': [],
         'thin': 0, 'hdr_leak': [],
     }
+
+    # بنية المصدر: عدد المجموعات وكم منها يغطي >1 آية وكم فارغ بلا نص
+    src = json.load(gzip.open(os.path.join(_REPO, idx['source']), 'rt',
+                              encoding='utf-8'))
+    from collections import Counter
+    refc = Counter(src.get('vg', {}).values())
+    stats['n_groups'] = len(src['groups'])
+    stats['multi_groups'] = sum(1 for c in refc.values() if c > 1)
+    stats['empty_ayahs'] = sum(
+        1 for ak, gk in src.get('vg', {}).items()
+        if not src['groups'].get(gk, {}).get('x', '').strip())
     hdr_re = re.compile(r'^(تفسير\s+)?سور[ةه]\s')
     prev_span = None
     for e in idx['entries']:
@@ -175,6 +196,9 @@ def write_summary(book, index, stats, out_dir):
         f'({100.0 * n / n_idx:.1f}%) عبر {len(stats["surahs"])} سورة',
         f'- الثقة من مُرجِع: عالية {conf["high"]} · وسطى {conf["medium"]} · '
         f'منخفضة {conf["low"]} · معدومة {conf["none"]}',
+        f'- بنية المصدر: {stats["n_groups"]} مجموعة، منها '
+        f'{stats["multi_groups"]} تغطي آياتٍ مجتمعة؛ وآيات بلا نص '
+        f'في المصدر أصلاً (مجموعة فارغة): {stats["empty_ayahs"]}',
         f'- مقاطع مشتركة (آية تتشارك نطاق جارتها، conf=low): '
         f'{stats["shared"]}',
         f'- نطاقات منهارة وسّعناها إلى كتلتها المشتركة: '
@@ -220,6 +244,9 @@ def write_summary(book, index, stats, out_dir):
             len(stats['hdr_leak'])),
         '- الآيات المفقودة (conf=none): ' +
         (', '.join(stats['missing']) if stats['missing'] else 'لا شيء'),
+        '- آيات مجموعتها في المصدر فارغة (`x=""`): {0} — لا تفسير '
+        'لها أصلاً، فيرجع لها مقطع الكتلة الجارة.'.format(
+            stats['empty_ayahs']),
     ]
     if low_sorted:
         lines += ['', 'أكثر السور بمواضع منخفضة الثقة:'] + [

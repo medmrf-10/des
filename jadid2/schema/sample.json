@@ -1,0 +1,163 @@
+{
+  "atoms": [
+    {
+      "atom_id": "atom-984-003-1",
+      "kind": "معلومة",
+      "title": "ويجمع معاني هذه العقائد كلها قول لا إله إلا الله محمد رسول الله",
+      "inferred": false,
+      "source": {
+        "source_type": "سلسلة",
+        "source_id": "984_أم_البراهين",
+        "author": "محمد البردوني الحسيمي",
+        "locator": "jadid2/src/transcripts/984_أم_البراهين"
+      },
+      "position": {
+        "kind": "file_span",
+        "file": "003_شرح أم البراهين ｜ الدرس 33 ( معاني لا إله إلا الله ) ｜ الشيخ محمد البردوني.txt",
+        "char_start": 131,
+        "char_end": 195
+      },
+      "quote": "ويجمع معاني هذه العقائد\nكلها قول لا إله إلا الله\nمحمد رسول الله",
+      "main_tag": "عقيدة",
+      "sub_tags": ["توحيد", "متن_أم_البراهين", "كلمة_التوحيد"],
+      "difficulty": 1,
+      "prerequisites": []
+    },
+    {
+      "atom_id": "atom-984-003-2",
+      "kind": "معلومة",
+      "title": "ولهذا ينبغي أن يكون كلامنا فيها على سبيل الاختصار في سبعة فصول",
+      "inferred": false,
+      "source": {
+        "source_type": "سلسلة",
+        "source_id": "984_أم_البراهين",
+        "author": "محمد البردوني الحسيمي",
+        "locator": "jadid2/src/transcripts/984_أم_البراهين"
+      },
+      "position": {
+        "kind": "file_span",
+        "file": "003_شرح أم البراهين ｜ الدرس 33 ( معاني لا إله إلا الله ) ｜ الشيخ محمد البردوني.txt",
+        "char_start": 195,
+        "char_end": 3078
+      },
+      "quote": "قال الشارح لما فرغ من ذكر ما يجيب على المكلف معرفته من عقائد الإيمان",
+      "main_tag": "عقيدة",
+      "sub_tags": ["توحيد", "شرح_أم_البراهين", "خطة_الفصول_السبعة"],
+      "difficulty": 2,
+      "prerequisites": [
+        { "atom_id": "atom-984-003-1", "rule": "matn_sharh", "confidence": 1.0 }
+      ]
+    },
+    {
+      "atom_id": "atom-984-003-3",
+      "kind": "مهارة",
+      "title": "فصل الإعراب",
+      "inferred": false,
+      "source": {
+        "source_type": "سلسلة",
+        "source_id": "984_أم_البراهين",
+        "author": "محمد البردوني الحسيمي",
+        "locator": "jadid2/src/transcripts/984_أم_البراهين"
+      },
+      "position": {
+        "kind": "file_span",
+        "file": "003_شرح أم البراهين ｜ الدرس 33 ( معاني لا إله إلا الله ) ｜ الشيخ محمد البردوني.txt",
+        "char_start": 3078,
+        "char_end": 9542
+      },
+      "quote": "فصل الإعراب\nوينبغي أن ينون الذاكر اسم سيدنا محمد صلى الله عليه وسلم",
+      "main_tag": "نحو",
+      "sub_tags": ["إعراب_كلمة_التوحيد", "إعراب_الأسماء"],
+      "difficulty": 3,
+      "prerequisites": [
+        { "atom_id": "atom-984-003-1", "rule": "sequence", "confidence": 1.0 },
+        { "atom_id": "atom-984-003-2", "rule": "sequence", "confidence": 0.9 }
+      ]
+    }
+  ],
+  "learner_states": [
+    {
+      "learner_id": "mohamed",
+      "atom_id": "atom-984-003-1",
+      "fsrs": {
+        "state": "review",
+        "difficulty": 4.2,
+        "stability": 6.5,
+        "retrievability": 0.87,
+        "due": "2026-09-27T08:00:00Z",
+        "reps": 4,
+        "lapses": 0,
+        "last_review": "2026-09-24T21:30:00Z"
+      },
+      "attempts": [
+        { "ts": "2026-09-20T20:05:00Z", "perf_type": "قراءة", "grade": "good" },
+        { "ts": "2026-09-21T19:40:00Z", "exercise_id": "ex-984-003-1-tasmee", "perf_type": "تسميع", "grade": "good", "score": 1.0, "duration_sec": 40 },
+        { "ts": "2026-09-24T21:30:00Z", "exercise_id": "ex-984-003-1-ikmal", "perf_type": "تمرين", "grade": "hard", "score": 0.8, "duration_sec": 95 }
+      ],
+      "last_perf_type": "تمرين",
+      "mastered": false
+    },
+    {
+      "learner_id": "mohamed",
+      "atom_id": "atom-984-003-3",
+      "fsrs": {
+        "state": "learning",
+        "difficulty": 6.1,
+        "stability": 0.8,
+        "retrievability": 0.55,
+        "due": "2026-09-26T08:00:00Z",
+        "reps": 1,
+        "lapses": 1,
+        "last_review": "2026-09-25T20:10:00Z"
+      },
+      "attempts": [
+        { "ts": "2026-09-25T20:10:00Z", "exercise_id": "ex-984-003-3-tahleel", "perf_type": "تمرين", "grade": "again", "score": 0.4, "duration_sec": 240 }
+      ],
+      "last_perf_type": "تمرين",
+      "mastered": false
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "ex-984-003-1-tasmee",
+      "atom_id": "atom-984-003-1",
+      "pattern": "تسميع",
+      "level": 1,
+      "prompt": "سمّع المتن: «ويجمع معاني هذه العقائد … محمد رسول الله» — من الذاكرة دون النظر إلى النص.",
+      "solution": "ويجمع معاني هذه العقائد\nكلها قول لا إله إلا الله\nمحمد رسول الله",
+      "effort_gate": { "must_attempt_first": true, "min_seconds": 15 },
+      "grading": { "mode": "exact" },
+      "ladder": { "promote_after": 2, "demote_after": 1, "max_level": 2 },
+      "generated_by": "template"
+    },
+    {
+      "exercise_id": "ex-984-003-1-ikmal",
+      "atom_id": "atom-984-003-1",
+      "pattern": "إكمال",
+      "level": 2,
+      "prompt": "أكمل قول المصنف: «ويجمع معاني هذه العقائد كلها قول ــــ»",
+      "solution": "لا إله إلا الله محمد رسول الله",
+      "effort_gate": { "must_attempt_first": true, "min_seconds": 10, "min_chars": 10 },
+      "grading": { "mode": "exact" },
+      "ladder": { "promote_after": 2, "demote_after": 1, "max_level": 3 },
+      "generated_by": "template"
+    },
+    {
+      "exercise_id": "ex-984-003-3-tahleel",
+      "atom_id": "atom-984-003-3",
+      "pattern": "تحليل",
+      "level": 3,
+      "prompt": "أعرب «لا إله إلا الله» على طريقة الشارح في فصل الإعراب: بيّن مذهب الجمهور في «لا» وعملها في الاسم والخبر، وقول الزجاج المخالف.",
+      "context_quote": "فصل الإعراب\nوينبغي أن ينون الذاكر اسم سيدنا محمد صلى الله عليه وسلم",
+      "solution": "الجمهور: «لا» للنفي للجنس عملها عمل ليس — الاسم مبني عند الجمهور معرب عند الزجاج، وعلى بنائه لا عمل لها في الخبر.",
+      "effort_gate": { "must_attempt_first": true, "min_seconds": 60, "min_chars": 30 },
+      "grading": {
+        "mode": "rubric",
+        "rubric": ["بيان مذهب الجمهور في لا", "بيان بناء الاسم", "بيان عملها في الخبر", "ذكر قول الزجاج"],
+        "pass_threshold": 0.7
+      },
+      "ladder": { "promote_after": 2, "demote_after": 1, "max_level": 5 },
+      "generated_by": "manual"
+    }
+  ]
+}

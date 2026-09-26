@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://medmrf-10.github.io/des/jadid2/schema/exercise.schema.json",
+  "title": "التمرين المتدرج",
+  "description": "تمرين مرتبط بذرة واحدة على سلم صعوبة — محرك «معلومة صغيرة + تمارين متدرجة بلا حل قبل الجهد» لعلاج النسيان. الحل أو النموذج محجوب حتى تُسجَّل محاولة فعلية في learner_state.attempts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["exercise_id", "atom_id", "pattern", "level", "prompt", "effort_gate", "grading"],
+  "properties": {
+    "exercise_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "معرّف فريد للتمرين — تشير إليه محاولات learner_state."
+    },
+    "atom_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "الذرة التي يقيسها التمرين — مرجع إلى atom.schema.json#atom_id."
+    },
+    "pattern": {
+      "type": "string",
+      "enum": ["تسميع", "إكمال", "تطبيق", "تحليل"],
+      "description": "نمط التمرين: تسميع=استرجاع حرفي من الذاكرة، إكمال=إتمام موضع محذوف، تطبيق=تطبيق القاعدة على مثال جديد، تحليل=تفكيك/تعليل المقطع."
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "الدرجة على سلم الصعوبة الداخلي للتمرين (1=مباشر يقيس السطح، 5=تركيبي يقيس النقل). يختلف عن atom.difficulty: تلك صعوبة الذرة الثابتة، وهذه درجة التمرين المتدرج عليها."
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "نص المطالبة المعروض للمتعلم — دون الحل. قد يقتبس من المقطع بعلامات حذف (مثل «أكمل: ويجمع معاني هذه العقائد كلها قول ــــ»)."
+    },
+    "context_quote": {
+      "type": "string",
+      "description": "مقطع مرجعي من الذرة يُعرض مع المطالبة إن لزم (لتمرين التطبيق/التحليل) — من النص لا محتوى مخترع."
+    },
+    "solution": {
+      "type": "string",
+      "description": "الحل/النموذج الكامل — محجوب بقاعدة effort_gate حتى تسجيل محاولة. لا يُعرض للمتعلم قبل الجهد أبداً."
+    },
+    "effort_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["must_attempt_first"],
+      "description": "قاعدة «لا حل قبل الجهد»: شروط إظهار الحل أو تجاوز التمرين.",
+      "properties": {
+        "must_attempt_first": {
+          "type": "boolean",
+          "const": true,
+          "description": "دائماً true — لا يظهر الحل ولا يُحسب التمرين إلا بعد محاولة مسجلة في attempts."
+        },
+        "min_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "أدنى ثوانٍ قبل قبول المحاولة — يمنع التمرير السريع بلا جهد."
+        },
+        "min_chars": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "أدنى أحرف في جواب المتعلم — يمنع المحاولة الفارغة."
+        }
+      }
+    },
+    "grading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "description": "كيف تُقيَّم المحاولة وتتحول إلى grade في attempts.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["self", "exact", "rubric", "script"],
+          "description": "self=المتعلم يقارن بالحل ويقدّر (again/hard/good/easy)، exact=مطابقة حرفية للتسميع، rubric=قائمة تحقق، script=تصحيح آلي."
+        },
+        "rubric": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "بنود قائمة التحقق عند mode=rubric (مثل: ذكر المعنى الإجمالي، ذكر الإعراب، ذكر الحكم)."
+        },
+        "pass_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "عتبة النجاح لتحويل score إلى grade — الافتراضي 0.7."
+        }
+      }
+    },
+    "ladder": {
+      "type": "object",
+      "description": "قاعدة التدرج على السلم: متى يُرفع مستوى التمرين أو يُخفض.",
+      "properties": {
+        "promote_after": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 2,
+          "description": "عدد النجاحات المتتالية للصعود درجة."
+        },
+        "demote_after": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "عدد الإخفاقات (again) للنزول درجة."
+        },
+        "max_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "أعلى درجة متاحة لهذه الذرة — بلوغها مع mastered يقفل السلم."
+        }
+      }
+    },
+    "generated_by": {
+      "type": "string",
+      "enum": ["manual", "template", "llm"],
+      "description": "مصدر التمرين — template يعني توليداً آلياً من المقطع بقالب ثابت (حذف/إكمال)، ويجب مراجعة llm."
+    }
+  }
+}

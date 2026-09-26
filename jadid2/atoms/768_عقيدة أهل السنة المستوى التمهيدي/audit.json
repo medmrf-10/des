@@ -1,0 +1,8 @@
+{
+  "checked": 45,
+  "fabricated_titles": 0,
+  "bad_ranges": 0,
+  "broken_refs": 0,
+  "verdict": "ok",
+  "notes": "entries=179 (sampled 45, 25%). Zero broken refs. 5/45 non-verbatim titles marked inferred=false, all grounded. Minor: 005.05 is a 35-char segment whose title promises examples (تعريف المستحيل وأمثلته) that fall in the next segment — title overpromise, boundary itself correct."
+}

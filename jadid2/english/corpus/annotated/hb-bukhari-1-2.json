@@ -1,0 +1,2710 @@
+{
+ "text_id": "hb-bukhari-1-2",
+ "title": "Sahih al-Bukhari 1–2 — Actions are by intentions / beginning of revelation",
+ "source": {
+  "corpus": "AhmedBaset/hadith-json",
+  "book": "Sahih al-Bukhari",
+  "hadiths": [
+   1,
+   2
+  ],
+  "url": "https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_book/the_9_books/bukhari.json"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 206,
+   "text": "Narrated 'Umar bin Al-Khattab:\nI heard Allah's Messenger (صلى الله عليه وسلم) saying, \"The reward of deeds depends upon the\nintentions and every person will get the reward according to what he\nhas intended.",
+   "tokens": [
+    {
+     "raw": "Narrated",
+     "norm": "narrated",
+     "start": 0,
+     "end": 8,
+     "numeric": false,
+     "lemma": "narrated",
+     "rank": 19912,
+     "zipf": 3.29,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Umar",
+     "norm": "umar",
+     "start": 10,
+     "end": 14,
+     "numeric": false,
+     "lemma": "umar",
+     "rank": 26642,
+     "zipf": 3.07,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "bin",
+     "norm": "bin",
+     "start": 15,
+     "end": 18,
+     "numeric": false,
+     "lemma": "bin",
+     "rank": 4920,
+     "zipf": 4.22,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Al-Khattab",
+     "norm": "al-khattab",
+     "start": 19,
+     "end": 29,
+     "numeric": false,
+     "compound_parts": [
+      "al",
+      "khattab"
+     ],
+     "lemma": "al-khattab",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": true,
+     "known": true
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 31,
+     "end": 32,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "heard",
+     "norm": "heard",
+     "start": 33,
+     "end": 38,
+     "numeric": false,
+     "lemma": "hear",
+     "rank": 588,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Allah's",
+     "norm": "allah",
+     "start": 39,
+     "end": 46,
+     "poss": true,
+     "lemma_override": "allah",
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Messenger",
+     "norm": "messenger",
+     "start": 47,
+     "end": 56,
+     "numeric": false,
+     "lemma": "messenger",
+     "rank": 7715,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "saying",
+     "norm": "saying",
+     "start": 78,
+     "end": 84,
+     "numeric": false,
+     "lemma": "say",
+     "rank": 135,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 87,
+     "end": 90,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reward",
+     "norm": "reward",
+     "start": 91,
+     "end": 97,
+     "numeric": false,
+     "lemma": "reward",
+     "rank": 4116,
+     "zipf": 4.33,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 98,
+     "end": 100,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "deeds",
+     "norm": "deeds",
+     "start": 101,
+     "end": 106,
+     "numeric": false,
+     "lemma": "deeds",
+     "rank": 9731,
+     "zipf": 3.79,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "depends",
+     "norm": "depends",
+     "start": 107,
+     "end": 114,
+     "numeric": false,
+     "lemma": "depends",
+     "rank": 2828,
+     "zipf": 4.53,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "upon",
+     "norm": "upon",
+     "start": 115,
+     "end": 119,
+     "numeric": false,
+     "lemma": "upon",
+     "rank": 798,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 120,
+     "end": 123,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "intentions",
+     "norm": "intentions",
+     "start": 124,
+     "end": 134,
+     "numeric": false,
+     "lemma": "intention",
+     "rank": 4095,
+     "zipf": 4.33,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 135,
+     "end": 138,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "every",
+     "norm": "every",
+     "start": 139,
+     "end": 144,
+     "numeric": false,
+     "lemma": "every",
+     "rank": 158,
+     "zipf": 5.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "person",
+     "norm": "person",
+     "start": 145,
+     "end": 151,
+     "numeric": false,
+     "lemma": "person",
+     "rank": 257,
+     "zipf": 5.55,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "will",
+     "norm": "will",
+     "start": 152,
+     "end": 156,
+     "numeric": false,
+     "lemma": "will",
+     "rank": 40,
+     "zipf": 6.45,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "get",
+     "norm": "get",
+     "start": 157,
+     "end": 160,
+     "numeric": false,
+     "lemma": "get",
+     "rank": 61,
+     "zipf": 6.28,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 161,
+     "end": 164,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reward",
+     "norm": "reward",
+     "start": 165,
+     "end": 171,
+     "numeric": false,
+     "lemma": "reward",
+     "rank": 4116,
+     "zipf": 4.33,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "according",
+     "norm": "according",
+     "start": 172,
+     "end": 181,
+     "numeric": false,
+     "lemma": "according",
+     "rank": 523,
+     "zipf": 5.28,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 182,
+     "end": 184,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 185,
+     "end": 189,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "he",
+     "norm": "he",
+     "start": 190,
+     "end": 192,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "has",
+     "norm": "has",
+     "start": 193,
+     "end": 196,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "intended",
+     "norm": "intended",
+     "start": 197,
+     "end": 205,
+     "numeric": false,
+     "lemma": "intended",
+     "rank": 2045,
+     "zipf": 4.7,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 207,
+   "end": 320,
+   "text": "So whoever emigrated for worldly benefits or for a woman\nto marry, his emigration was for what he emigrated for.\"",
+   "tokens": [
+    {
+     "raw": "So",
+     "norm": "so",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "so",
+     "rank": 33,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "whoever",
+     "norm": "whoever",
+     "start": 3,
+     "end": 10,
+     "numeric": false,
+     "lemma": "whoever",
+     "rank": 3539,
+     "zipf": 4.42,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "emigrated",
+     "norm": "emigrated",
+     "start": 11,
+     "end": 20,
+     "numeric": false,
+     "lemma": "emigrated",
+     "rank": 24736,
+     "zipf": 3.12,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 21,
+     "end": 24,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "worldly",
+     "norm": "worldly",
+     "start": 25,
+     "end": 32,
+     "numeric": false,
+     "lemma": "worldly",
+     "rank": 18738,
+     "zipf": 3.34,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "benefits",
+     "norm": "benefits",
+     "start": 33,
+     "end": 41,
+     "numeric": false,
+     "lemma": "benefits",
+     "rank": 1520,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 42,
+     "end": 44,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 49,
+     "end": 50,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "woman",
+     "norm": "woman",
+     "start": 51,
+     "end": 56,
+     "numeric": false,
+     "lemma": "woman",
+     "rank": 452,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 57,
+     "end": 59,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "marry",
+     "norm": "marry",
+     "start": 60,
+     "end": 65,
+     "numeric": false,
+     "lemma": "marry",
+     "rank": 3637,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 67,
+     "end": 70,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "emigration",
+     "norm": "emigration",
+     "start": 71,
+     "end": 81,
+     "numeric": false,
+     "lemma": "emigration",
+     "rank": 20913,
+     "zipf": 3.25,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 82,
+     "end": 85,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 86,
+     "end": 89,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 90,
+     "end": 94,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "he",
+     "norm": "he",
+     "start": 95,
+     "end": 97,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "emigrated",
+     "norm": "emigrated",
+     "start": 98,
+     "end": 107,
+     "numeric": false,
+     "lemma": "emigrated",
+     "rank": 24736,
+     "zipf": 3.12,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 108,
+     "end": 111,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 322,
+   "end": 486,
+   "text": "Narrated 'Aisha:\n(the mother of the faithful believers) Al-Harith bin Hisham asked Allah's Messenger (صلى الله عليه وسلم) \"O Allah's Messenger (صلى الله عليه وسلم)!",
+   "tokens": [
+    {
+     "raw": "Narrated",
+     "norm": "narrated",
+     "start": 0,
+     "end": 8,
+     "numeric": false,
+     "lemma": "narrated",
+     "rank": 19912,
+     "zipf": 3.29,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Aisha",
+     "norm": "aisha",
+     "start": 10,
+     "end": 15,
+     "numeric": false,
+     "lemma": "aisha",
+     "rank": 28106,
+     "zipf": 3.02,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 18,
+     "end": 21,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mother",
+     "norm": "mother",
+     "start": 22,
+     "end": 28,
+     "numeric": false,
+     "lemma": "mother",
+     "rank": 576,
+     "zipf": 5.24,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 29,
+     "end": 31,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 32,
+     "end": 35,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "faithful",
+     "norm": "faithful",
+     "start": 36,
+     "end": 44,
+     "numeric": false,
+     "lemma": "faithful",
+     "rank": 6050,
+     "zipf": 4.1,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "believers",
+     "norm": "believers",
+     "start": 45,
+     "end": 54,
+     "numeric": false,
+     "lemma": "believer",
+     "rank": 11655,
+     "zipf": 3.67,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Al-Harith",
+     "norm": "al-harith",
+     "start": 56,
+     "end": 65,
+     "numeric": false,
+     "compound_parts": [
+      "al",
+      "harith"
+     ],
+     "lemma": "al-harith",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": true,
+     "known": true
+    },
+    {
+     "raw": "bin",
+     "norm": "bin",
+     "start": 66,
+     "end": 69,
+     "numeric": false,
+     "lemma": "bin",
+     "rank": 4920,
+     "zipf": 4.22,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Hisham",
+     "norm": "hisham",
+     "start": 70,
+     "end": 76,
+     "numeric": false,
+     "lemma": "hisham",
+     "rank": 56175,
+     "zipf": 2.45,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "asked",
+     "norm": "asked",
+     "start": 77,
+     "end": 82,
+     "numeric": false,
+     "lemma": "ask",
+     "rank": 453,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Allah's",
+     "norm": "allah",
+     "start": 83,
+     "end": 90,
+     "poss": true,
+     "lemma_override": "allah",
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Messenger",
+     "norm": "messenger",
+     "start": 91,
+     "end": 100,
+     "numeric": false,
+     "lemma": "messenger",
+     "rank": 7715,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "O",
+     "norm": "o",
+     "start": 123,
+     "end": 124,
+     "numeric": false,
+     "lemma": "o",
+     "rank": 790,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Allah's",
+     "norm": "allah",
+     "start": 125,
+     "end": 132,
+     "poss": true,
+     "lemma_override": "allah",
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Messenger",
+     "norm": "messenger",
+     "start": 133,
+     "end": 142,
+     "numeric": false,
+     "lemma": "messenger",
+     "rank": 7715,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 487,
+   "end": 534,
+   "text": "How is the Divine Inspiration revealed to you?\"",
+   "tokens": [
+    {
+     "raw": "How",
+     "norm": "how",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "how",
+     "rank": 67,
+     "zipf": 6.24,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 4,
+     "end": 6,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Divine",
+     "norm": "divine",
+     "start": 11,
+     "end": 17,
+     "numeric": false,
+     "lemma": "divine",
+     "rank": 4754,
+     "zipf": 4.24,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Inspiration",
+     "norm": "inspiration",
+     "start": 18,
+     "end": 29,
+     "numeric": false,
+     "lemma": "inspiration",
+     "rank": 3564,
+     "zipf": 4.41,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "revealed",
+     "norm": "revealed",
+     "start": 30,
+     "end": 38,
+     "numeric": false,
+     "lemma": "revealed",
+     "rank": 2268,
+     "zipf": 4.65,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 42,
+     "end": 45,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 535,
+   "end": 755,
+   "text": "Allah's Messenger (صلى الله عليه وسلم) replied, \"Sometimes it is (revealed) like the ringing of a bell, this form of Inspiration is the hardest of all and then this state passes off after I have grasped what is inspired.",
+   "tokens": [
+    {
+     "raw": "Allah's",
+     "norm": "allah",
+     "start": 0,
+     "end": 7,
+     "poss": true,
+     "lemma_override": "allah",
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Messenger",
+     "norm": "messenger",
+     "start": 8,
+     "end": 17,
+     "numeric": false,
+     "lemma": "messenger",
+     "rank": 7715,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "replied",
+     "norm": "replied",
+     "start": 39,
+     "end": 46,
+     "numeric": false,
+     "lemma": "replied",
+     "rank": 4482,
+     "zipf": 4.28,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Sometimes",
+     "norm": "sometimes",
+     "start": 49,
+     "end": 58,
+     "numeric": false,
+     "lemma": "sometimes",
+     "rank": 533,
+     "zipf": 5.28,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 59,
+     "end": 61,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 62,
+     "end": 64,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "revealed",
+     "norm": "revealed",
+     "start": 66,
+     "end": 74,
+     "numeric": false,
+     "lemma": "revealed",
+     "rank": 2268,
+     "zipf": 4.65,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "like",
+     "norm": "like",
+     "start": 76,
+     "end": 80,
+     "numeric": false,
+     "lemma": "like",
+     "rank": 42,
+     "zipf": 6.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 81,
+     "end": 84,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "ringing",
+     "norm": "ringing",
+     "start": 85,
+     "end": 92,
+     "numeric": false,
+     "lemma": "ring",
+     "rank": 1644,
+     "zipf": 4.81,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 93,
+     "end": 95,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 96,
+     "end": 97,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bell",
+     "norm": "bell",
+     "start": 98,
+     "end": 102,
+     "numeric": false,
+     "lemma": "bell",
+     "rank": 2515,
+     "zipf": 4.59,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "this",
+     "norm": "this",
+     "start": 104,
+     "end": 108,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "form",
+     "norm": "form",
+     "start": 109,
+     "end": 113,
+     "numeric": false,
+     "lemma": "form",
+     "rank": 489,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 114,
+     "end": 116,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Inspiration",
+     "norm": "inspiration",
+     "start": 117,
+     "end": 128,
+     "numeric": false,
+     "lemma": "inspiration",
+     "rank": 3564,
+     "zipf": 4.41,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 129,
+     "end": 131,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 132,
+     "end": 135,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hardest",
+     "norm": "hardest",
+     "start": 136,
+     "end": 143,
+     "numeric": false,
+     "lemma": "hard",
+     "rank": 273,
+     "zipf": 5.53,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 144,
+     "end": 146,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 147,
+     "end": 150,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 151,
+     "end": 154,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "then",
+     "norm": "then",
+     "start": 155,
+     "end": 159,
+     "numeric": false,
+     "lemma": "then",
+     "rank": 91,
+     "zipf": 6.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "this",
+     "norm": "this",
+     "start": 160,
+     "end": 164,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "state",
+     "norm": "state",
+     "start": 165,
+     "end": 170,
+     "numeric": false,
+     "lemma": "state",
+     "rank": 163,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "passes",
+     "norm": "passes",
+     "start": 171,
+     "end": 177,
+     "numeric": false,
+     "lemma": "pass",
+     "rank": 952,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "off",
+     "norm": "off",
+     "start": 178,
+     "end": 181,
+     "numeric": false,
+     "lemma": "off",
+     "rank": 124,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "after",
+     "norm": "after",
+     "start": 182,
+     "end": 187,
+     "numeric": false,
+     "lemma": "after",
+     "rank": 80,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 188,
+     "end": 189,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 190,
+     "end": 194,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "grasped",
+     "norm": "grasped",
+     "start": 195,
+     "end": 202,
+     "numeric": false,
+     "lemma": "grasp",
+     "rank": 7455,
+     "zipf": 3.97,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 203,
+     "end": 207,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 208,
+     "end": 210,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "inspired",
+     "norm": "inspired",
+     "start": 211,
+     "end": 219,
+     "numeric": false,
+     "lemma": "inspired",
+     "rank": 2352,
+     "zipf": 4.63,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 756,
+   "end": 849,
+   "text": "Sometimes the Angel comes in the form of a man and talks to me and I grasp whatever he says.\"",
+   "tokens": [
+    {
+     "raw": "Sometimes",
+     "norm": "sometimes",
+     "start": 0,
+     "end": 9,
+     "numeric": false,
+     "lemma": "sometimes",
+     "rank": 533,
+     "zipf": 5.28,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 10,
+     "end": 13,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Angel",
+     "norm": "angel",
+     "start": 14,
+     "end": 19,
+     "numeric": false,
+     "lemma": "angel",
+     "rank": 3277,
+     "zipf": 4.45,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "comes",
+     "norm": "comes",
+     "start": 20,
+     "end": 25,
+     "numeric": false,
+     "lemma": "come",
+     "rank": 161,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 26,
+     "end": 28,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 29,
+     "end": 32,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "form",
+     "norm": "form",
+     "start": 33,
+     "end": 37,
+     "numeric": false,
+     "lemma": "form",
+     "rank": 489,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 38,
+     "end": 40,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 41,
+     "end": 42,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "man",
+     "norm": "man",
+     "start": 43,
+     "end": 46,
+     "numeric": false,
+     "lemma": "man",
+     "rank": 148,
+     "zipf": 5.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "talks",
+     "norm": "talks",
+     "start": 51,
+     "end": 56,
+     "numeric": false,
+     "lemma": "talk",
+     "rank": 368,
+     "zipf": 5.42,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 57,
+     "end": 59,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "me",
+     "norm": "me",
+     "start": 60,
+     "end": 62,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 63,
+     "end": 66,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 67,
+     "end": 68,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "grasp",
+     "norm": "grasp",
+     "start": 69,
+     "end": 74,
+     "numeric": false,
+     "lemma": "grasp",
+     "rank": 7455,
+     "zipf": 3.97,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "whatever",
+     "norm": "whatever",
+     "start": 75,
+     "end": 83,
+     "numeric": false,
+     "lemma": "whatever",
+     "rank": 759,
+     "zipf": 5.14,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "he",
+     "norm": "he",
+     "start": 84,
+     "end": 86,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "says",
+     "norm": "says",
+     "start": 87,
+     "end": 91,
+     "numeric": false,
+     "lemma": "say",
+     "rank": 135,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 850,
+   "end": 1032,
+   "text": "'Aisha added: Verily I saw the Prophet (صلى الله عليه وسلم) being inspired divinely on a very cold day and noticed the sweat dropping from his forehead (as the Inspiration was over).",
+   "tokens": [
+    {
+     "raw": "Aisha",
+     "norm": "aisha",
+     "start": 1,
+     "end": 6,
+     "numeric": false,
+     "lemma": "aisha",
+     "rank": 28106,
+     "zipf": 3.02,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "added",
+     "norm": "added",
+     "start": 7,
+     "end": 12,
+     "numeric": false,
+     "lemma": "added",
+     "rank": 701,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Verily",
+     "norm": "verily",
+     "start": 14,
+     "end": 20,
+     "numeric": false,
+     "lemma": "verily",
+     "rank": 37272,
+     "zipf": 2.8,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 21,
+     "end": 22,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "saw",
+     "norm": "saw",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "see",
+     "rank": 85,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 27,
+     "end": 30,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Prophet",
+     "norm": "prophet",
+     "start": 31,
+     "end": 38,
+     "numeric": false,
+     "lemma": "prophet",
+     "rank": 7378,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "being",
+     "norm": "being",
+     "start": 60,
+     "end": 65,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "inspired",
+     "norm": "inspired",
+     "start": 66,
+     "end": 74,
+     "numeric": false,
+     "lemma": "inspired",
+     "rank": 2352,
+     "zipf": 4.63,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "divinely",
+     "norm": "divinely",
+     "start": 75,
+     "end": 83,
+     "numeric": false,
+     "lemma": "divinely",
+     "rank": 40664,
+     "zipf": 2.72,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 84,
+     "end": 86,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 87,
+     "end": 88,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "very",
+     "norm": "very",
+     "start": 89,
+     "end": 93,
+     "numeric": false,
+     "lemma": "very",
+     "rank": 106,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cold",
+     "norm": "cold",
+     "start": 94,
+     "end": 98,
+     "numeric": false,
+     "lemma": "cold",
+     "rank": 1013,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "day",
+     "norm": "day",
+     "start": 99,
+     "end": 102,
+     "numeric": false,
+     "lemma": "day",
+     "rank": 120,
+     "zipf": 5.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 103,
+     "end": 106,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "noticed",
+     "norm": "noticed",
+     "start": 107,
+     "end": 114,
+     "numeric": false,
+     "lemma": "notice",
+     "rank": 1347,
+     "zipf": 4.9,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 115,
+     "end": 118,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sweat",
+     "norm": "sweat",
+     "start": 119,
+     "end": 124,
+     "numeric": false,
+     "lemma": "sweat",
+     "rank": 5739,
+     "zipf": 4.14,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "dropping",
+     "norm": "dropping",
+     "start": 125,
+     "end": 133,
+     "numeric": false,
+     "lemma": "drop",
+     "rank": 1103,
+     "zipf": 4.99,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 134,
+     "end": 138,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 139,
+     "end": 142,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "forehead",
+     "norm": "forehead",
+     "start": 143,
+     "end": 151,
+     "numeric": false,
+     "lemma": "forehead",
+     "rank": 8667,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 153,
+     "end": 155,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 156,
+     "end": 159,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Inspiration",
+     "norm": "inspiration",
+     "start": 160,
+     "end": 171,
+     "numeric": false,
+     "lemma": "inspiration",
+     "rank": 3564,
+     "zipf": 4.41,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 172,
+     "end": 175,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "over",
+     "norm": "over",
+     "start": 176,
+     "end": 180,
+     "numeric": false,
+     "lemma": "over",
+     "rank": 88,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 158,
+  "scored_tokens": 156,
+  "sentences": 7,
+  "msl": 22.29,
+  "S_long": 0.429,
+  "syn": 0.143,
+  "U_rare": 0.263,
+  "D": 0.333,
+  "C_token": 0.5962,
+  "C_lemma": 0.4831,
+  "max_unk_sent": 14,
+  "residual_per_sent_raw": {
+   "s001": 14,
+   "s002": 7,
+   "s003": 12,
+   "s004": 3,
+   "s005": 11,
+   "s006": 4,
+   "s007": 12
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "narrated": {
+   "count": 2,
+   "zipf": 3.29,
+   "band": "B6",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "umar": {
+   "count": 1,
+   "zipf": 3.07,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bin": {
+   "count": 2,
+   "zipf": 4.22,
+   "band": "B4",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "hear": {
+   "count": 1,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "allah": {
+   "count": 4,
+   "zipf": 3.89,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s003",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "messenger": {
+   "count": 4,
+   "zipf": 3.95,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s003",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "reward": {
+   "count": 2,
+   "zipf": 4.33,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "deeds": {
+   "count": 1,
+   "zipf": 3.79,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "depends": {
+   "count": 1,
+   "zipf": 4.53,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "upon": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "intention": {
+   "count": 1,
+   "zipf": 4.33,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "according": {
+   "count": 1,
+   "zipf": 5.28,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "intended": {
+   "count": 1,
+   "zipf": 4.7,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "whoever": {
+   "count": 1,
+   "zipf": 4.42,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "emigrated": {
+   "count": 2,
+   "zipf": 3.12,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "worldly": {
+   "count": 1,
+   "zipf": 3.34,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "benefits": {
+   "count": 1,
+   "zipf": 4.84,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "marry": {
+   "count": 1,
+   "zipf": 4.4,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "emigration": {
+   "count": 1,
+   "zipf": 3.25,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "aisha": {
+   "count": 2,
+   "zipf": 3.02,
+   "band": "B6",
+   "sents": [
+    "s003",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "mother": {
+   "count": 1,
+   "zipf": 5.24,
+   "band": "B1",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "faithful": {
+   "count": 1,
+   "zipf": 4.1,
+   "band": "B5",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "believer": {
+   "count": 1,
+   "zipf": 3.67,
+   "band": "B6",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hisham": {
+   "count": 1,
+   "zipf": 2.45,
+   "band": "R",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "o": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "divine": {
+   "count": 1,
+   "zipf": 4.24,
+   "band": "B4",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "inspiration": {
+   "count": 3,
+   "zipf": 4.41,
+   "band": "B4",
+   "sents": [
+    "s004",
+    "s005",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "revealed": {
+   "count": 2,
+   "zipf": 4.65,
+   "band": "B3",
+   "sents": [
+    "s004",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "replied": {
+   "count": 1,
+   "zipf": 4.28,
+   "band": "B4",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sometimes": {
+   "count": 2,
+   "zipf": 5.28,
+   "band": "B1",
+   "sents": [
+    "s005",
+    "s006"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "ring": {
+   "count": 1,
+   "zipf": 4.81,
+   "band": "B2",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bell": {
+   "count": 1,
+   "zipf": 4.59,
+   "band": "B3",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "pass": {
+   "count": 1,
+   "zipf": 5.05,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "grasp": {
+   "count": 2,
+   "zipf": 3.97,
+   "band": "B5",
+   "sents": [
+    "s005",
+    "s006"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "inspired": {
+   "count": 2,
+   "zipf": 4.63,
+   "band": "B3",
+   "sents": [
+    "s005",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "angel": {
+   "count": 1,
+   "zipf": 4.45,
+   "band": "B4",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "whatever": {
+   "count": 1,
+   "zipf": 5.14,
+   "band": "B1",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "added": {
+   "count": 1,
+   "zipf": 5.16,
+   "band": "B1",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "verily": {
+   "count": 1,
+   "zipf": 2.8,
+   "band": "R",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "prophet": {
+   "count": 1,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "divinely": {
+   "count": 1,
+   "zipf": 2.72,
+   "band": "R",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cold": {
+   "count": 1,
+   "zipf": 5.02,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "notice": {
+   "count": 1,
+   "zipf": 4.9,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sweat": {
+   "count": 1,
+   "zipf": 4.14,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "drop": {
+   "count": 1,
+   "zipf": 4.99,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "forehead": {
+   "count": 1,
+   "zipf": 3.87,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "according",
+   "mother",
+   "hear",
+   "added",
+   "whatever",
+   "upon",
+   "o",
+   "pass"
+  ],
+  "inference_targets": [
+   "sometimes",
+   "revealed",
+   "inspired",
+   "inspiration",
+   "reward",
+   "bin",
+   "grasp",
+   "messenger",
+   "allah",
+   "narrated",
+   "emigrated",
+   "aisha"
+  ],
+  "gloss": [
+   "cold",
+   "drop",
+   "notice",
+   "benefits",
+   "ring",
+   "intended",
+   "bell",
+   "depends",
+   "angel",
+   "whoever",
+   "marry",
+   "intention",
+   "replied",
+   "divine",
+   "sweat",
+   "faithful",
+   "prophet",
+   "forehead",
+   "deeds",
+   "believer",
+   "worldly",
+   "emigration",
+   "umar",
+   "verily",
+   "divinely",
+   "hisham"
+  ],
+  "controls": {
+   "C_eff": 0.6474,
+   "gloss_n": 26,
+   "gloss_cap": 5,
+   "resid_max": 11,
+   "n_infer": 12
+  },
+  "residual_per_sent": {
+   "s001": 11,
+   "s002": 7,
+   "s003": 10,
+   "s004": 3,
+   "s005": 10,
+   "s006": 3,
+   "s007": 11
+  }
+ }
+}

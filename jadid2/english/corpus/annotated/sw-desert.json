@@ -1,0 +1,2973 @@
+{
+ "text_id": "sw-desert",
+ "title": "Simple English Wikipedia — Desert (lead)",
+ "source": {
+  "corpus": "Simple English Wikipedia",
+  "article": "Desert",
+  "url": "https://simple.wikipedia.org/wiki/Desert",
+  "license": "CC BY-SA 4.0"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 32,
+   "text": "A desert is an arid (dry) biome.",
+   "tokens": [
+    {
+     "raw": "A",
+     "norm": "a",
+     "start": 0,
+     "end": 1,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "desert",
+     "norm": "desert",
+     "start": 2,
+     "end": 8,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 9,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "an",
+     "norm": "an",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "an",
+     "rank": 30,
+     "zipf": 6.53,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "arid",
+     "norm": "arid",
+     "start": 15,
+     "end": 19,
+     "numeric": false,
+     "lemma": "arid",
+     "rank": 17762,
+     "zipf": 3.37,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "dry",
+     "norm": "dry",
+     "start": 21,
+     "end": 24,
+     "numeric": false,
+     "lemma": "dry",
+     "rank": 1857,
+     "zipf": 4.74,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "biome",
+     "norm": "biome",
+     "start": 26,
+     "end": 31,
+     "numeric": false,
+     "lemma": "biome",
+     "rank": 40150,
+     "zipf": 2.73,
+     "band": "R",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 33,
+   "end": 90,
+   "text": "They get less than 25 cm (9.8 inches) of rainfall a year.",
+   "tokens": [
+    {
+     "raw": "They",
+     "norm": "they",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "get",
+     "norm": "get",
+     "start": 5,
+     "end": 8,
+     "numeric": false,
+     "lemma": "get",
+     "rank": 61,
+     "zipf": 6.28,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "less",
+     "norm": "less",
+     "start": 9,
+     "end": 13,
+     "numeric": false,
+     "lemma": "little",
+     "rank": 173,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "25",
+     "norm": "25",
+     "start": 19,
+     "end": 21,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "cm",
+     "norm": "cm",
+     "start": 22,
+     "end": 24,
+     "numeric": false,
+     "lemma": "cm",
+     "rank": 4512,
+     "zipf": 4.27,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "9.8",
+     "norm": "9.8",
+     "start": 26,
+     "end": 29,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "inches",
+     "norm": "inches",
+     "start": 30,
+     "end": 36,
+     "numeric": false,
+     "lemma": "inch",
+     "rank": 3067,
+     "zipf": 4.49,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 38,
+     "end": 40,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "rainfall",
+     "norm": "rainfall",
+     "start": 41,
+     "end": 49,
+     "numeric": false,
+     "lemma": "rainfall",
+     "rank": 9386,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 50,
+     "end": 51,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "year",
+     "norm": "year",
+     "start": 52,
+     "end": 56,
+     "numeric": false,
+     "lemma": "year",
+     "rank": 117,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 92,
+   "end": 170,
+   "text": "It is \"any region that can have a moisture deficit over the course of a year\".",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 3,
+     "end": 5,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "any",
+     "norm": "any",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "any",
+     "rank": 90,
+     "zipf": 6.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "region",
+     "norm": "region",
+     "start": 11,
+     "end": 17,
+     "numeric": false,
+     "lemma": "region",
+     "rank": 1095,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 27,
+     "end": 31,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 32,
+     "end": 33,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "moisture",
+     "norm": "moisture",
+     "start": 34,
+     "end": 42,
+     "numeric": false,
+     "lemma": "moisture",
+     "rank": 8319,
+     "zipf": 3.9,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "deficit",
+     "norm": "deficit",
+     "start": 43,
+     "end": 50,
+     "numeric": false,
+     "lemma": "deficit",
+     "rank": 6456,
+     "zipf": 4.06,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "over",
+     "norm": "over",
+     "start": 51,
+     "end": 55,
+     "numeric": false,
+     "lemma": "over",
+     "rank": 88,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 56,
+     "end": 59,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "course",
+     "norm": "course",
+     "start": 60,
+     "end": 66,
+     "numeric": false,
+     "lemma": "course",
+     "rank": 343,
+     "zipf": 5.44,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 67,
+     "end": 69,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 70,
+     "end": 71,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "year",
+     "norm": "year",
+     "start": 72,
+     "end": 76,
+     "numeric": false,
+     "lemma": "year",
+     "rank": 117,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 171,
+   "end": 264,
+   "text": "In other words, they can have less rainfall in a year than they give up through evaporation\".",
+   "tokens": [
+    {
+     "raw": "In",
+     "norm": "in",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "other",
+     "norm": "other",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "other",
+     "rank": 73,
+     "zipf": 6.16,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "words",
+     "norm": "words",
+     "start": 9,
+     "end": 14,
+     "numeric": false,
+     "lemma": "word",
+     "rank": 555,
+     "zipf": 5.26,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 16,
+     "end": 20,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 21,
+     "end": 24,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 25,
+     "end": 29,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "less",
+     "norm": "less",
+     "start": 30,
+     "end": 34,
+     "numeric": false,
+     "lemma": "little",
+     "rank": 173,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "rainfall",
+     "norm": "rainfall",
+     "start": 35,
+     "end": 43,
+     "numeric": false,
+     "lemma": "rainfall",
+     "rank": 9386,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 44,
+     "end": 46,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 47,
+     "end": 48,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "year",
+     "norm": "year",
+     "start": 49,
+     "end": 53,
+     "numeric": false,
+     "lemma": "year",
+     "rank": 117,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 54,
+     "end": 58,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 59,
+     "end": 63,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "give",
+     "norm": "give",
+     "start": 64,
+     "end": 68,
+     "numeric": false,
+     "lemma": "give",
+     "rank": 185,
+     "zipf": 5.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 69,
+     "end": 71,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "through",
+     "norm": "through",
+     "start": 72,
+     "end": 79,
+     "numeric": false,
+     "lemma": "through",
+     "rank": 139,
+     "zipf": 5.87,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "evaporation",
+     "norm": "evaporation",
+     "start": 80,
+     "end": 91,
+     "numeric": false,
+     "lemma": "evaporation",
+     "rank": 26083,
+     "zipf": 3.08,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 266,
+   "end": 344,
+   "text": "Including the semi-arid regions, deserts cover about 33% of the land on Earth.",
+   "tokens": [
+    {
+     "raw": "Including",
+     "norm": "including",
+     "start": 0,
+     "end": 9,
+     "numeric": false,
+     "lemma": "including",
+     "rank": 278,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 10,
+     "end": 13,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "semi-arid",
+     "norm": "semi-arid",
+     "start": 14,
+     "end": 23,
+     "numeric": false,
+     "compound_parts": [
+      "semi",
+      "arid"
+     ],
+     "lemma": "semi-arid",
+     "rank": 2965,
+     "zipf": 4.51,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "regions",
+     "norm": "regions",
+     "start": 24,
+     "end": 31,
+     "numeric": false,
+     "lemma": "region",
+     "rank": 1095,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "deserts",
+     "norm": "deserts",
+     "start": 33,
+     "end": 40,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "cover",
+     "norm": "cover",
+     "start": 41,
+     "end": 46,
+     "numeric": false,
+     "lemma": "cover",
+     "rank": 867,
+     "zipf": 5.08,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 47,
+     "end": 52,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "33",
+     "norm": "33",
+     "start": 53,
+     "end": 55,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 57,
+     "end": 59,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 60,
+     "end": 63,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "land",
+     "norm": "land",
+     "start": 64,
+     "end": 68,
+     "numeric": false,
+     "lemma": "land",
+     "rank": 608,
+     "zipf": 5.22,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 69,
+     "end": 71,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 72,
+     "end": 77,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 345,
+   "end": 416,
+   "text": "That includes much of Antarctica, where large areas get no snow at all.",
+   "tokens": [
+    {
+     "raw": "That",
+     "norm": "that",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "includes",
+     "norm": "includes",
+     "start": 5,
+     "end": 13,
+     "numeric": false,
+     "lemma": "include",
+     "rank": 620,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "much",
+     "norm": "much",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "much",
+     "rank": 105,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 19,
+     "end": 21,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Antarctica",
+     "norm": "antarctica",
+     "start": 22,
+     "end": 32,
+     "numeric": false,
+     "lemma": "antarctica",
+     "rank": 14268,
+     "zipf": 3.53,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "where",
+     "norm": "where",
+     "start": 34,
+     "end": 39,
+     "numeric": false,
+     "lemma": "where",
+     "rank": 107,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "large",
+     "norm": "large",
+     "start": 40,
+     "end": 45,
+     "numeric": false,
+     "lemma": "large",
+     "rank": 399,
+     "zipf": 5.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "areas",
+     "norm": "areas",
+     "start": 46,
+     "end": 51,
+     "numeric": false,
+     "lemma": "area",
+     "rank": 325,
+     "zipf": 5.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "get",
+     "norm": "get",
+     "start": 52,
+     "end": 55,
+     "numeric": false,
+     "lemma": "get",
+     "rank": 61,
+     "zipf": 6.28,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "no",
+     "norm": "no",
+     "start": 56,
+     "end": 58,
+     "numeric": false,
+     "lemma": "no",
+     "rank": 51,
+     "zipf": 6.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "snow",
+     "norm": "snow",
+     "start": 59,
+     "end": 63,
+     "numeric": false,
+     "lemma": "snow",
+     "rank": 2231,
+     "zipf": 4.66,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 64,
+     "end": 66,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 67,
+     "end": 70,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 417,
+   "end": 522,
+   "text": "The largest hot desert is the Sahara desert, in northern Africa, covering nine million square kilometres.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "largest",
+     "norm": "largest",
+     "start": 4,
+     "end": 11,
+     "numeric": false,
+     "lemma": "large",
+     "rank": 399,
+     "zipf": 5.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hot",
+     "norm": "hot",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "hot",
+     "rank": 711,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "desert",
+     "norm": "desert",
+     "start": 16,
+     "end": 22,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 26,
+     "end": 29,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sahara",
+     "norm": "sahara",
+     "start": 30,
+     "end": 36,
+     "numeric": false,
+     "lemma": "sahara",
+     "rank": 17234,
+     "zipf": 3.4,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "desert",
+     "norm": "desert",
+     "start": 37,
+     "end": 43,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 45,
+     "end": 47,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "northern",
+     "norm": "northern",
+     "start": 48,
+     "end": 56,
+     "numeric": false,
+     "lemma": "northern",
+     "rank": 1489,
+     "zipf": 4.85,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Africa",
+     "norm": "africa",
+     "start": 57,
+     "end": 63,
+     "numeric": false,
+     "lemma": "africa",
+     "rank": 1260,
+     "zipf": 4.92,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "covering",
+     "norm": "covering",
+     "start": 65,
+     "end": 73,
+     "numeric": false,
+     "lemma": "cover",
+     "rank": 867,
+     "zipf": 5.08,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "nine",
+     "norm": "nine",
+     "start": 74,
+     "end": 78,
+     "numeric": false,
+     "lemma": "nine",
+     "rank": 1431,
+     "zipf": 4.87,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "million",
+     "norm": "million",
+     "start": 79,
+     "end": 86,
+     "numeric": false,
+     "lemma": "million",
+     "rank": 469,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "square",
+     "norm": "square",
+     "start": 87,
+     "end": 93,
+     "numeric": false,
+     "lemma": "square",
+     "rank": 1541,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "kilometres",
+     "norm": "kilometres",
+     "start": 94,
+     "end": 104,
+     "numeric": false,
+     "lemma": "kilometres",
+     "rank": 10073,
+     "zipf": 3.77,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 524,
+   "end": 557,
+   "text": "Deserts land surfaces are varied.",
+   "tokens": [
+    {
+     "raw": "Deserts",
+     "norm": "deserts",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "land",
+     "norm": "land",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "land",
+     "rank": 608,
+     "zipf": 5.22,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "surfaces",
+     "norm": "surfaces",
+     "start": 13,
+     "end": 21,
+     "numeric": false,
+     "lemma": "surface",
+     "rank": 1580,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 22,
+     "end": 25,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "varied",
+     "norm": "varied",
+     "start": 26,
+     "end": 32,
+     "numeric": false,
+     "lemma": "varied",
+     "rank": 6854,
+     "zipf": 4.03,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 558,
+   "end": 599,
+   "text": "Examples are stones, sand dunes and snow.",
+   "tokens": [
+    {
+     "raw": "Examples",
+     "norm": "examples",
+     "start": 0,
+     "end": 8,
+     "numeric": false,
+     "lemma": "example",
+     "rank": 540,
+     "zipf": 5.27,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 9,
+     "end": 12,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "stones",
+     "norm": "stones",
+     "start": 13,
+     "end": 19,
+     "numeric": false,
+     "lemma": "stone",
+     "rank": 1676,
+     "zipf": 4.8,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sand",
+     "norm": "sand",
+     "start": 21,
+     "end": 25,
+     "numeric": false,
+     "lemma": "sand",
+     "rank": 3392,
+     "zipf": 4.44,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "dunes",
+     "norm": "dunes",
+     "start": 26,
+     "end": 31,
+     "numeric": false,
+     "lemma": "dunes",
+     "rank": 17826,
+     "zipf": 3.37,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 32,
+     "end": 35,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "snow",
+     "norm": "snow",
+     "start": 36,
+     "end": 40,
+     "numeric": false,
+     "lemma": "snow",
+     "rank": 2231,
+     "zipf": 4.66,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "start": 600,
+   "end": 638,
+   "text": "They may have some animals and plants.",
+   "tokens": [
+    {
+     "raw": "They",
+     "norm": "they",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "may",
+     "norm": "may",
+     "start": 5,
+     "end": 8,
+     "numeric": false,
+     "lemma": "may",
+     "rank": 110,
+     "zipf": 5.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 9,
+     "end": 13,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "some",
+     "norm": "some",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "some",
+     "rank": 69,
+     "zipf": 6.2,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 27,
+     "end": 30,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "plants",
+     "norm": "plants",
+     "start": 31,
+     "end": 37,
+     "numeric": false,
+     "lemma": "plant",
+     "rank": 1374,
+     "zipf": 4.89,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "start": 639,
+   "end": 706,
+   "text": "Deserts sometimes expand (desertification), and sometimes contract.",
+   "tokens": [
+    {
+     "raw": "Deserts",
+     "norm": "deserts",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sometimes",
+     "norm": "sometimes",
+     "start": 8,
+     "end": 17,
+     "numeric": false,
+     "lemma": "sometimes",
+     "rank": 533,
+     "zipf": 5.28,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "expand",
+     "norm": "expand",
+     "start": 18,
+     "end": 24,
+     "numeric": false,
+     "lemma": "expand",
+     "rank": 3944,
+     "zipf": 4.35,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "desertification",
+     "norm": "desertification",
+     "start": 26,
+     "end": 41,
+     "numeric": false,
+     "lemma": "desertification",
+     "rank": 56061,
+     "zipf": 2.45,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 44,
+     "end": 47,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sometimes",
+     "norm": "sometimes",
+     "start": 48,
+     "end": 57,
+     "numeric": false,
+     "lemma": "sometimes",
+     "rank": 533,
+     "zipf": 5.28,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "contract",
+     "norm": "contract",
+     "start": 58,
+     "end": 66,
+     "numeric": false,
+     "lemma": "contract",
+     "rank": 1216,
+     "zipf": 4.94,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s012",
+   "start": 708,
+   "end": 834,
+   "text": "Deserts are mostly in the western part of the Americas, Western Asia, Central and western Australia, Namibia and North Africa.",
+   "tokens": [
+    {
+     "raw": "Deserts",
+     "norm": "deserts",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mostly",
+     "norm": "mostly",
+     "start": 12,
+     "end": 18,
+     "numeric": false,
+     "lemma": "mostly",
+     "rank": 1568,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 19,
+     "end": 21,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 22,
+     "end": 25,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "western",
+     "norm": "western",
+     "start": 26,
+     "end": 33,
+     "numeric": false,
+     "lemma": "western",
+     "rank": 1064,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "part",
+     "norm": "part",
+     "start": 34,
+     "end": 38,
+     "numeric": false,
+     "lemma": "part",
+     "rank": 162,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 42,
+     "end": 45,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Americas",
+     "norm": "americas",
+     "start": 46,
+     "end": 54,
+     "numeric": false,
+     "lemma": "america",
+     "rank": 603,
+     "zipf": 5.22,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Western",
+     "norm": "western",
+     "start": 56,
+     "end": 63,
+     "numeric": false,
+     "lemma": "western",
+     "rank": 1064,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Asia",
+     "norm": "asia",
+     "start": 64,
+     "end": 68,
+     "numeric": false,
+     "lemma": "asia",
+     "rank": 2243,
+     "zipf": 4.65,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Central",
+     "norm": "central",
+     "start": 70,
+     "end": 77,
+     "numeric": false,
+     "lemma": "central",
+     "rank": 782,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 78,
+     "end": 81,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "western",
+     "norm": "western",
+     "start": 82,
+     "end": 89,
+     "numeric": false,
+     "lemma": "western",
+     "rank": 1064,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Australia",
+     "norm": "australia",
+     "start": 90,
+     "end": 99,
+     "numeric": false,
+     "lemma": "australia",
+     "rank": 922,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Namibia",
+     "norm": "namibia",
+     "start": 101,
+     "end": 108,
+     "numeric": false,
+     "lemma": "namibia",
+     "rank": 21008,
+     "zipf": 3.25,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 109,
+     "end": 112,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "North",
+     "norm": "north",
+     "start": 113,
+     "end": 118,
+     "numeric": false,
+     "lemma": "north",
+     "rank": 458,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Africa",
+     "norm": "africa",
+     "start": 119,
+     "end": 125,
+     "numeric": false,
+     "lemma": "africa",
+     "rank": 1260,
+     "zipf": 4.92,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s013",
+   "start": 835,
+   "end": 1011,
+   "text": "Some, such as the Sahara, are very hot during the day and have cold nights, but there are also cold deserts such as the Atacama in South America which are frozen day and night.",
+   "tokens": [
+    {
+     "raw": "Some",
+     "norm": "some",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "some",
+     "rank": 69,
+     "zipf": 6.2,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "such",
+     "norm": "such",
+     "start": 6,
+     "end": 10,
+     "numeric": false,
+     "lemma": "such",
+     "rank": 146,
+     "zipf": 5.84,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 11,
+     "end": 13,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 14,
+     "end": 17,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sahara",
+     "norm": "sahara",
+     "start": 18,
+     "end": 24,
+     "numeric": false,
+     "lemma": "sahara",
+     "rank": 17234,
+     "zipf": 3.4,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 26,
+     "end": 29,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "very",
+     "norm": "very",
+     "start": 30,
+     "end": 34,
+     "numeric": false,
+     "lemma": "very",
+     "rank": 106,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hot",
+     "norm": "hot",
+     "start": 35,
+     "end": 38,
+     "numeric": false,
+     "lemma": "hot",
+     "rank": 711,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "during",
+     "norm": "during",
+     "start": 39,
+     "end": 45,
+     "numeric": false,
+     "lemma": "during",
+     "rank": 181,
+     "zipf": 5.72,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 46,
+     "end": 49,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "day",
+     "norm": "day",
+     "start": 50,
+     "end": 53,
+     "numeric": false,
+     "lemma": "day",
+     "rank": 120,
+     "zipf": 5.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 54,
+     "end": 57,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 58,
+     "end": 62,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cold",
+     "norm": "cold",
+     "start": 63,
+     "end": 67,
+     "numeric": false,
+     "lemma": "cold",
+     "rank": 1013,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "nights",
+     "norm": "nights",
+     "start": 68,
+     "end": 74,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "but",
+     "norm": "but",
+     "start": 76,
+     "end": 79,
+     "numeric": false,
+     "lemma": "but",
+     "rank": 25,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "there",
+     "norm": "there",
+     "start": 80,
+     "end": 85,
+     "numeric": false,
+     "lemma": "there",
+     "rank": 57,
+     "zipf": 6.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 86,
+     "end": 89,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 90,
+     "end": 94,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cold",
+     "norm": "cold",
+     "start": 95,
+     "end": 99,
+     "numeric": false,
+     "lemma": "cold",
+     "rank": 1013,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "deserts",
+     "norm": "deserts",
+     "start": 100,
+     "end": 107,
+     "numeric": false,
+     "lemma": "desert",
+     "rank": 3620,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "such",
+     "norm": "such",
+     "start": 108,
+     "end": 112,
+     "numeric": false,
+     "lemma": "such",
+     "rank": 146,
+     "zipf": 5.84,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 113,
+     "end": 115,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 116,
+     "end": 119,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Atacama",
+     "norm": "atacama",
+     "start": 120,
+     "end": 127,
+     "numeric": false,
+     "lemma": "atacama",
+     "rank": 59205,
+     "zipf": 2.4,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 128,
+     "end": 130,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "South",
+     "norm": "south",
+     "start": 131,
+     "end": 136,
+     "numeric": false,
+     "lemma": "south",
+     "rank": 392,
+     "zipf": 5.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "America",
+     "norm": "america",
+     "start": 137,
+     "end": 144,
+     "numeric": false,
+     "lemma": "america",
+     "rank": 603,
+     "zipf": 5.22,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "which",
+     "norm": "which",
+     "start": 145,
+     "end": 150,
+     "numeric": false,
+     "lemma": "which",
+     "rank": 59,
+     "zipf": 6.3,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 151,
+     "end": 154,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "frozen",
+     "norm": "frozen",
+     "start": 155,
+     "end": 161,
+     "numeric": false,
+     "lemma": "freeze",
+     "rank": 5965,
+     "zipf": 4.11,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "day",
+     "norm": "day",
+     "start": 162,
+     "end": 165,
+     "numeric": false,
+     "lemma": "day",
+     "rank": 120,
+     "zipf": 5.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 166,
+     "end": 169,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "night",
+     "norm": "night",
+     "start": 170,
+     "end": 175,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 174,
+  "scored_tokens": 171,
+  "sentences": 13,
+  "msl": 13.15,
+  "S_long": 0.077,
+  "syn": 0.385,
+  "U_rare": 0.17,
+  "D": 0.28,
+  "C_token": 0.6082,
+  "C_lemma": 0.5155,
+  "max_unk_sent": 11,
+  "residual_per_sent_raw": {
+   "s001": 4,
+   "s002": 3,
+   "s003": 3,
+   "s004": 3,
+   "s005": 6,
+   "s006": 3,
+   "s007": 9,
+   "s008": 4,
+   "s009": 5,
+   "s010": 2,
+   "s011": 6,
+   "s012": 11,
+   "s013": 8
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "desert": {
+   "count": 8,
+   "zipf": 4.4,
+   "band": "B4",
+   "sents": [
+    "s001",
+    "s005",
+    "s007",
+    "s008",
+    "s011",
+    "s012",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "arid": {
+   "count": 1,
+   "zipf": 3.37,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "dry": {
+   "count": 1,
+   "zipf": 4.74,
+   "band": "B2",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "biome": {
+   "count": 1,
+   "zipf": 2.73,
+   "band": "R",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cm": {
+   "count": 1,
+   "zipf": 4.27,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "inch": {
+   "count": 1,
+   "zipf": 4.49,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "rainfall": {
+   "count": 2,
+   "zipf": 3.82,
+   "band": "B5",
+   "sents": [
+    "s002",
+    "s004"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "region": {
+   "count": 2,
+   "zipf": 5.0,
+   "band": "B2",
+   "sents": [
+    "s003",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "moisture": {
+   "count": 1,
+   "zipf": 3.9,
+   "band": "B5",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "deficit": {
+   "count": 1,
+   "zipf": 4.06,
+   "band": "B5",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "word": {
+   "count": 1,
+   "zipf": 5.26,
+   "band": "B1",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "evaporation": {
+   "count": 1,
+   "zipf": 3.08,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "semi-arid": {
+   "count": 1,
+   "zipf": 4.51,
+   "band": "B3",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cover": {
+   "count": 2,
+   "zipf": 5.08,
+   "band": "B1",
+   "sents": [
+    "s005",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "land": {
+   "count": 2,
+   "zipf": 5.22,
+   "band": "B1",
+   "sents": [
+    "s005",
+    "s008"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "earth": {
+   "count": 1,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "include": {
+   "count": 1,
+   "zipf": 5.21,
+   "band": "B1",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "antarctica": {
+   "count": 1,
+   "zipf": 3.53,
+   "band": "B6",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "snow": {
+   "count": 2,
+   "zipf": 4.66,
+   "band": "B3",
+   "sents": [
+    "s006",
+    "s009"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "hot": {
+   "count": 2,
+   "zipf": 5.16,
+   "band": "B1",
+   "sents": [
+    "s007",
+    "s013"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "sahara": {
+   "count": 2,
+   "zipf": 3.4,
+   "band": "B6",
+   "sents": [
+    "s007",
+    "s013"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "northern": {
+   "count": 1,
+   "zipf": 4.85,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "africa": {
+   "count": 2,
+   "zipf": 4.92,
+   "band": "B2",
+   "sents": [
+    "s007",
+    "s012"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "nine": {
+   "count": 1,
+   "zipf": 4.87,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "kilometres": {
+   "count": 1,
+   "zipf": 3.77,
+   "band": "B6",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "surface": {
+   "count": 1,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "varied": {
+   "count": 1,
+   "zipf": 4.03,
+   "band": "B5",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "example": {
+   "count": 1,
+   "zipf": 5.27,
+   "band": "B1",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "stone": {
+   "count": 1,
+   "zipf": 4.8,
+   "band": "B2",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sand": {
+   "count": 1,
+   "zipf": 4.44,
+   "band": "B4",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "dunes": {
+   "count": 1,
+   "zipf": 3.37,
+   "band": "B6",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "animals": {
+   "count": 1,
+   "zipf": 4.84,
+   "band": "B2",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "plant": {
+   "count": 1,
+   "zipf": 4.89,
+   "band": "B2",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sometimes": {
+   "count": 2,
+   "zipf": 5.28,
+   "band": "B1",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "expand": {
+   "count": 1,
+   "zipf": 4.35,
+   "band": "B4",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "desertification": {
+   "count": 1,
+   "zipf": 2.45,
+   "band": "R",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "contract": {
+   "count": 1,
+   "zipf": 4.94,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mostly": {
+   "count": 1,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "western": {
+   "count": 3,
+   "zipf": 5.01,
+   "band": "B2",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "america": {
+   "count": 2,
+   "zipf": 5.22,
+   "band": "B1",
+   "sents": [
+    "s012",
+    "s013"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "asia": {
+   "count": 1,
+   "zipf": 4.65,
+   "band": "B3",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "central": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "australia": {
+   "count": 1,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "namibia": {
+   "count": 1,
+   "zipf": 3.25,
+   "band": "B6",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cold": {
+   "count": 2,
+   "zipf": 5.02,
+   "band": "B2",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "atacama": {
+   "count": 1,
+   "zipf": 2.4,
+   "band": "R",
+   "sents": [
+    "s013"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "freeze": {
+   "count": 1,
+   "zipf": 4.11,
+   "band": "B5",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "example",
+   "word",
+   "include",
+   "central",
+   "earth",
+   "australia",
+   "contract",
+   "plant"
+  ],
+  "inference_targets": [
+   "sometimes",
+   "land",
+   "america",
+   "hot",
+   "cover",
+   "cold",
+   "western",
+   "region",
+   "africa",
+   "snow",
+   "desert",
+   "rainfall",
+   "sahara",
+   "atacama"
+  ],
+  "gloss": [
+   "nine",
+   "northern",
+   "animals",
+   "surface",
+   "mostly",
+   "stone",
+   "dry",
+   "asia",
+   "semi-arid",
+   "inch",
+   "sand",
+   "expand",
+   "cm",
+   "freeze",
+   "deficit",
+   "varied",
+   "moisture",
+   "kilometres",
+   "antarctica",
+   "arid",
+   "dunes",
+   "namibia",
+   "evaporation",
+   "biome",
+   "desertification"
+  ],
+  "controls": {
+   "C_eff": 0.655,
+   "gloss_n": 25,
+   "gloss_cap": 5,
+   "resid_max": 9,
+   "n_infer": 14
+  },
+  "residual_per_sent": {
+   "s001": 4,
+   "s002": 3,
+   "s003": 3,
+   "s004": 2,
+   "s005": 5,
+   "s006": 2,
+   "s007": 9,
+   "s008": 4,
+   "s009": 4,
+   "s010": 1,
+   "s011": 5,
+   "s012": 9,
+   "s013": 8
+  }
+ }
+}

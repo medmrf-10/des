@@ -1,0 +1,17 @@
+although
+because
+while
+when
+if
+which
+who
+whom
+that
+after
+before
+since
+until
+unless
+during
+where
+whereas

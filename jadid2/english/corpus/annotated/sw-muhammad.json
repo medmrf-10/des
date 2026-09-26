@@ -1,0 +1,3215 @@
+{
+ "text_id": "sw-muhammad",
+ "title": "Simple English Wikipedia — Muhammad (lead)",
+ "source": {
+  "corpus": "Simple English Wikipedia",
+  "article": "Muhammad",
+  "url": "https://simple.wikipedia.org/wiki/Muhammad",
+  "license": "CC BY-SA 4.0"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 135,
+   "text": "Muhammad (Arabic: مُحَمَّدٌ; 570 - 8 June 632) was an Arab religious, social, and political leader, best known as the founder of Islam.",
+   "tokens": [
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 0,
+     "end": 8,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Arabic",
+     "norm": "arabic",
+     "start": 10,
+     "end": 16,
+     "numeric": false,
+     "lemma": "arabic",
+     "rank": 6760,
+     "zipf": 4.03,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "570",
+     "norm": "570",
+     "start": 29,
+     "end": 32,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "8",
+     "norm": "8",
+     "start": 35,
+     "end": 36,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "June",
+     "norm": "june",
+     "start": 37,
+     "end": 41,
+     "numeric": false,
+     "lemma": "june",
+     "rank": 621,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "632",
+     "norm": "632",
+     "start": 42,
+     "end": 45,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "an",
+     "norm": "an",
+     "start": 51,
+     "end": 53,
+     "numeric": false,
+     "lemma": "an",
+     "rank": 30,
+     "zipf": 6.53,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Arab",
+     "norm": "arab",
+     "start": 54,
+     "end": 58,
+     "numeric": false,
+     "lemma": "arab",
+     "rank": 3666,
+     "zipf": 4.39,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "religious",
+     "norm": "religious",
+     "start": 59,
+     "end": 68,
+     "numeric": false,
+     "lemma": "religious",
+     "rank": 1497,
+     "zipf": 4.85,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "social",
+     "norm": "social",
+     "start": 70,
+     "end": 76,
+     "numeric": false,
+     "lemma": "social",
+     "rank": 367,
+     "zipf": 5.42,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 78,
+     "end": 81,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "political",
+     "norm": "political",
+     "start": 82,
+     "end": 91,
+     "numeric": false,
+     "lemma": "political",
+     "rank": 517,
+     "zipf": 5.29,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "leader",
+     "norm": "leader",
+     "start": 92,
+     "end": 98,
+     "numeric": false,
+     "lemma": "lead",
+     "rank": 636,
+     "zipf": 5.2,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "best",
+     "norm": "best",
+     "start": 100,
+     "end": 104,
+     "numeric": false,
+     "lemma": "good",
+     "rank": 78,
+     "zipf": 6.12,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "known",
+     "norm": "known",
+     "start": 105,
+     "end": 110,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 111,
+     "end": 113,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 114,
+     "end": 117,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "founder",
+     "norm": "founder",
+     "start": 118,
+     "end": 125,
+     "numeric": false,
+     "lemma": "found",
+     "rank": 197,
+     "zipf": 5.68,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 126,
+     "end": 128,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Islam",
+     "norm": "islam",
+     "start": 129,
+     "end": 134,
+     "numeric": false,
+     "lemma": "islam",
+     "rank": 3502,
+     "zipf": 4.42,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 136,
+   "end": 298,
+   "text": "Islamic teachings say Muhammad was a prophet who God inspired to preach and confirm the monotheistic teachings of Adam, Abraham, Moses, Jesus, and other prophets.",
+   "tokens": [
+    {
+     "raw": "Islamic",
+     "norm": "islamic",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "islamic",
+     "rank": 3372,
+     "zipf": 4.44,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "teachings",
+     "norm": "teachings",
+     "start": 8,
+     "end": 17,
+     "numeric": false,
+     "lemma": "teaching",
+     "rank": 1969,
+     "zipf": 4.72,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "say",
+     "norm": "say",
+     "start": 18,
+     "end": 21,
+     "numeric": false,
+     "lemma": "say",
+     "rank": 135,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 22,
+     "end": 30,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 31,
+     "end": 34,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 35,
+     "end": 36,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "prophet",
+     "norm": "prophet",
+     "start": 37,
+     "end": 44,
+     "numeric": false,
+     "lemma": "prophet",
+     "rank": 7378,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "who",
+     "norm": "who",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "God",
+     "norm": "god",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "god",
+     "rank": 239,
+     "zipf": 5.57,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "inspired",
+     "norm": "inspired",
+     "start": 53,
+     "end": 61,
+     "numeric": false,
+     "lemma": "inspired",
+     "rank": 2352,
+     "zipf": 4.63,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 62,
+     "end": 64,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "preach",
+     "norm": "preach",
+     "start": 65,
+     "end": 71,
+     "numeric": false,
+     "lemma": "preach",
+     "rank": 11441,
+     "zipf": 3.69,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 72,
+     "end": 75,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "confirm",
+     "norm": "confirm",
+     "start": 76,
+     "end": 83,
+     "numeric": false,
+     "lemma": "confirm",
+     "rank": 3609,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 84,
+     "end": 87,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "monotheistic",
+     "norm": "monotheistic",
+     "start": 88,
+     "end": 100,
+     "numeric": false,
+     "lemma": "monotheistic",
+     "rank": 52504,
+     "zipf": 2.51,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "teachings",
+     "norm": "teachings",
+     "start": 101,
+     "end": 110,
+     "numeric": false,
+     "lemma": "teaching",
+     "rank": 1969,
+     "zipf": 4.72,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 111,
+     "end": 113,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Adam",
+     "norm": "adam",
+     "start": 114,
+     "end": 118,
+     "numeric": false,
+     "lemma": "adam",
+     "rank": 2608,
+     "zipf": 4.57,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Abraham",
+     "norm": "abraham",
+     "start": 120,
+     "end": 127,
+     "numeric": false,
+     "lemma": "abraham",
+     "rank": 7306,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Moses",
+     "norm": "moses",
+     "start": 129,
+     "end": 134,
+     "numeric": false,
+     "lemma": "moses",
+     "rank": 7364,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Jesus",
+     "norm": "jesus",
+     "start": 136,
+     "end": 141,
+     "numeric": false,
+     "lemma": "jesus",
+     "rank": 1106,
+     "zipf": 4.99,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 143,
+     "end": 146,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "other",
+     "norm": "other",
+     "start": 147,
+     "end": 152,
+     "numeric": false,
+     "lemma": "other",
+     "rank": 73,
+     "zipf": 6.16,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "prophets",
+     "norm": "prophets",
+     "start": 153,
+     "end": 161,
+     "numeric": false,
+     "lemma": "prophet",
+     "rank": 7378,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 299,
+   "end": 392,
+   "text": "He is believed to be the Seal of the Prophets within Islam, meaning the last of the prophets.",
+   "tokens": [
+    {
+     "raw": "He",
+     "norm": "he",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 3,
+     "end": 5,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "believed",
+     "norm": "believed",
+     "start": 6,
+     "end": 14,
+     "numeric": false,
+     "lemma": "believe",
+     "rank": 286,
+     "zipf": 5.51,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "be",
+     "norm": "be",
+     "start": 18,
+     "end": 20,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 21,
+     "end": 24,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Seal",
+     "norm": "seal",
+     "start": 25,
+     "end": 29,
+     "numeric": false,
+     "lemma": "seal",
+     "rank": 4331,
+     "zipf": 4.3,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 30,
+     "end": 32,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 33,
+     "end": 36,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Prophets",
+     "norm": "prophets",
+     "start": 37,
+     "end": 45,
+     "numeric": false,
+     "lemma": "prophet",
+     "rank": 7378,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "within",
+     "norm": "within",
+     "start": 46,
+     "end": 52,
+     "numeric": false,
+     "lemma": "within",
+     "rank": 351,
+     "zipf": 5.44,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Islam",
+     "norm": "islam",
+     "start": 53,
+     "end": 58,
+     "numeric": false,
+     "lemma": "islam",
+     "rank": 3502,
+     "zipf": 4.42,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "meaning",
+     "norm": "meaning",
+     "start": 60,
+     "end": 67,
+     "numeric": false,
+     "lemma": "mean",
+     "rank": 274,
+     "zipf": 5.53,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 68,
+     "end": 71,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "last",
+     "norm": "last",
+     "start": 72,
+     "end": 76,
+     "numeric": false,
+     "lemma": "last",
+     "rank": 141,
+     "zipf": 5.86,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 77,
+     "end": 79,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 80,
+     "end": 83,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "prophets",
+     "norm": "prophets",
+     "start": 84,
+     "end": 92,
+     "numeric": false,
+     "lemma": "prophet",
+     "rank": 7378,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 393,
+   "end": 497,
+   "text": "There is unanimous agreement among all Muslims that the Qur'an was revealed to and preached by Muhammad.",
+   "tokens": [
+    {
+     "raw": "There",
+     "norm": "there",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "there",
+     "rank": 57,
+     "zipf": 6.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 6,
+     "end": 8,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "unanimous",
+     "norm": "unanimous",
+     "start": 9,
+     "end": 18,
+     "numeric": false,
+     "lemma": "unanimous",
+     "rank": 11630,
+     "zipf": 3.68,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "agreement",
+     "norm": "agreement",
+     "start": 19,
+     "end": 28,
+     "numeric": false,
+     "lemma": "agreement",
+     "rank": 1383,
+     "zipf": 4.88,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "among",
+     "norm": "among",
+     "start": 29,
+     "end": 34,
+     "numeric": false,
+     "lemma": "among",
+     "rank": 486,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 35,
+     "end": 38,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muslims",
+     "norm": "muslims",
+     "start": 39,
+     "end": 46,
+     "numeric": false,
+     "lemma": "muslim",
+     "rank": 2168,
+     "zipf": 4.67,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 47,
+     "end": 51,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 52,
+     "end": 55,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Qur'an",
+     "norm": "qur'an",
+     "start": 56,
+     "end": 62,
+     "numeric": false,
+     "lemma": "qur'an",
+     "rank": 21037,
+     "zipf": 3.25,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 63,
+     "end": 66,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "revealed",
+     "norm": "revealed",
+     "start": 67,
+     "end": 75,
+     "numeric": false,
+     "lemma": "revealed",
+     "rank": 2268,
+     "zipf": 4.65,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 76,
+     "end": 78,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 79,
+     "end": 82,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "preached",
+     "norm": "preached",
+     "start": 83,
+     "end": 91,
+     "numeric": false,
+     "lemma": "preach",
+     "rank": 11441,
+     "zipf": 3.69,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "by",
+     "norm": "by",
+     "start": 92,
+     "end": 94,
+     "numeric": false,
+     "lemma": "by",
+     "rank": 24,
+     "zipf": 6.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 95,
+     "end": 103,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 498,
+   "end": 670,
+   "text": "Hadiths are also believed by many Muslims to contain the teachings of Muhammad, though some Muslims known as Hadith rejectors do not believe they are the words of Muhammad.",
+   "tokens": [
+    {
+     "raw": "Hadiths",
+     "norm": "hadiths",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "hadith",
+     "rank": 29303,
+     "zipf": 2.99,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 12,
+     "end": 16,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "believed",
+     "norm": "believed",
+     "start": 17,
+     "end": 25,
+     "numeric": false,
+     "lemma": "believe",
+     "rank": 286,
+     "zipf": 5.51,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "by",
+     "norm": "by",
+     "start": 26,
+     "end": 28,
+     "numeric": false,
+     "lemma": "by",
+     "rank": 24,
+     "zipf": 6.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "many",
+     "norm": "many",
+     "start": 29,
+     "end": 33,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muslims",
+     "norm": "muslims",
+     "start": 34,
+     "end": 41,
+     "numeric": false,
+     "lemma": "muslim",
+     "rank": 2168,
+     "zipf": 4.67,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 42,
+     "end": 44,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "contain",
+     "norm": "contain",
+     "start": 45,
+     "end": 52,
+     "numeric": false,
+     "lemma": "contain",
+     "rank": 2984,
+     "zipf": 4.5,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 53,
+     "end": 56,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "teachings",
+     "norm": "teachings",
+     "start": 57,
+     "end": 66,
+     "numeric": false,
+     "lemma": "teaching",
+     "rank": 1969,
+     "zipf": 4.72,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 67,
+     "end": 69,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 70,
+     "end": 78,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "though",
+     "norm": "though",
+     "start": 80,
+     "end": 86,
+     "numeric": false,
+     "lemma": "though",
+     "rank": 298,
+     "zipf": 5.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "some",
+     "norm": "some",
+     "start": 87,
+     "end": 91,
+     "numeric": false,
+     "lemma": "some",
+     "rank": 69,
+     "zipf": 6.2,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muslims",
+     "norm": "muslims",
+     "start": 92,
+     "end": 99,
+     "numeric": false,
+     "lemma": "muslim",
+     "rank": 2168,
+     "zipf": 4.67,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "known",
+     "norm": "known",
+     "start": 100,
+     "end": 105,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 106,
+     "end": 108,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Hadith",
+     "norm": "hadith",
+     "start": 109,
+     "end": 115,
+     "numeric": false,
+     "lemma": "hadith",
+     "rank": 29303,
+     "zipf": 2.99,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "rejectors",
+     "norm": "rejectors",
+     "start": 116,
+     "end": 125,
+     "numeric": false,
+     "lemma": "rejectors",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "do",
+     "norm": "do",
+     "start": 126,
+     "end": 128,
+     "numeric": false,
+     "lemma": "do",
+     "rank": 50,
+     "zipf": 6.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 129,
+     "end": 132,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "believe",
+     "norm": "believe",
+     "start": 133,
+     "end": 140,
+     "numeric": false,
+     "lemma": "believe",
+     "rank": 286,
+     "zipf": 5.51,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 141,
+     "end": 145,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 146,
+     "end": 149,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 150,
+     "end": 153,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "words",
+     "norm": "words",
+     "start": 154,
+     "end": 159,
+     "numeric": false,
+     "lemma": "word",
+     "rank": 555,
+     "zipf": 5.26,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 160,
+     "end": 162,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 163,
+     "end": 171,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 672,
+   "end": 706,
+   "text": "Muhammad was born in Mecca, Hejaz.",
+   "tokens": [
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 0,
+     "end": 8,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 9,
+     "end": 12,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "born",
+     "norm": "born",
+     "start": 13,
+     "end": 17,
+     "numeric": false,
+     "lemma": "bear",
+     "rank": 1985,
+     "zipf": 4.71,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 18,
+     "end": 20,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Mecca",
+     "norm": "mecca",
+     "start": 21,
+     "end": 26,
+     "numeric": false,
+     "lemma": "mecca",
+     "rank": 17672,
+     "zipf": 3.38,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Hejaz",
+     "norm": "hejaz",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "hejaz",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": true,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 707,
+   "end": 841,
+   "text": "In 610 AD, at the age of forty, while Muhammad was praying, he reportedly met Gabriel and received the first revelation of the Qur'an.",
+   "tokens": [
+    {
+     "raw": "In",
+     "norm": "in",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "610",
+     "norm": "610",
+     "start": 3,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "AD",
+     "norm": "ad",
+     "start": 7,
+     "end": 9,
+     "numeric": false,
+     "lemma": "ad",
+     "rank": 1779,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 11,
+     "end": 13,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 14,
+     "end": 17,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "age",
+     "norm": "age",
+     "start": 18,
+     "end": 21,
+     "numeric": false,
+     "lemma": "age",
+     "rank": 475,
+     "zipf": 5.32,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 22,
+     "end": 24,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "forty",
+     "norm": "forty",
+     "start": 25,
+     "end": 30,
+     "numeric": false,
+     "lemma": "forty",
+     "rank": 5130,
+     "zipf": 4.2,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "while",
+     "norm": "while",
+     "start": 32,
+     "end": 37,
+     "numeric": false,
+     "lemma": "while",
+     "rank": 144,
+     "zipf": 5.86,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 38,
+     "end": 46,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "praying",
+     "norm": "praying",
+     "start": 51,
+     "end": 58,
+     "numeric": false,
+     "lemma": "pray",
+     "rank": 3648,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "he",
+     "norm": "he",
+     "start": 60,
+     "end": 62,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reportedly",
+     "norm": "reportedly",
+     "start": 63,
+     "end": 73,
+     "numeric": false,
+     "lemma": "reportedly",
+     "rank": 5832,
+     "zipf": 4.13,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "met",
+     "norm": "met",
+     "start": 74,
+     "end": 77,
+     "numeric": false,
+     "lemma": "meet",
+     "rank": 544,
+     "zipf": 5.27,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Gabriel",
+     "norm": "gabriel",
+     "start": 78,
+     "end": 85,
+     "numeric": false,
+     "lemma": "gabriel",
+     "rank": 8038,
+     "zipf": 3.92,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 86,
+     "end": 89,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "received",
+     "norm": "received",
+     "start": 90,
+     "end": 98,
+     "numeric": false,
+     "lemma": "received",
+     "rank": 720,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 99,
+     "end": 102,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "first",
+     "norm": "first",
+     "start": 103,
+     "end": 108,
+     "numeric": false,
+     "lemma": "first",
+     "rank": 81,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "revelation",
+     "norm": "revelation",
+     "start": 109,
+     "end": 119,
+     "numeric": false,
+     "lemma": "revelation",
+     "rank": 7604,
+     "zipf": 3.96,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 120,
+     "end": 122,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 123,
+     "end": 126,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Qur'an",
+     "norm": "qur'an",
+     "start": 127,
+     "end": 133,
+     "numeric": false,
+     "lemma": "qur'an",
+     "rank": 21037,
+     "zipf": 3.25,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 843,
+   "end": 921,
+   "text": "At first, Muhammad preached these revelations to his close friends and family.",
+   "tokens": [
+    {
+     "raw": "At",
+     "norm": "at",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "first",
+     "norm": "first",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "first",
+     "rank": 81,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 10,
+     "end": 18,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "preached",
+     "norm": "preached",
+     "start": 19,
+     "end": 27,
+     "numeric": false,
+     "lemma": "preach",
+     "rank": 11441,
+     "zipf": 3.69,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "these",
+     "norm": "these",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "these",
+     "rank": 94,
+     "zipf": 6.04,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "revelations",
+     "norm": "revelations",
+     "start": 34,
+     "end": 45,
+     "numeric": false,
+     "lemma": "revelation",
+     "rank": 7604,
+     "zipf": 3.96,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 46,
+     "end": 48,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "close",
+     "norm": "close",
+     "start": 53,
+     "end": 58,
+     "numeric": false,
+     "lemma": "close",
+     "rank": 431,
+     "zipf": 5.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "friends",
+     "norm": "friends",
+     "start": 59,
+     "end": 66,
+     "numeric": false,
+     "lemma": "friends",
+     "rank": 355,
+     "zipf": 5.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 67,
+     "end": 70,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "family",
+     "norm": "family",
+     "start": 71,
+     "end": 77,
+     "numeric": false,
+     "lemma": "family",
+     "rank": 205,
+     "zipf": 5.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 922,
+   "end": 1017,
+   "text": "Then he started preaching monotheism publicly, and received opposition from Meccan polytheists.",
+   "tokens": [
+    {
+     "raw": "Then",
+     "norm": "then",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "then",
+     "rank": 91,
+     "zipf": 6.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "he",
+     "norm": "he",
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "started",
+     "norm": "started",
+     "start": 8,
+     "end": 15,
+     "numeric": false,
+     "lemma": "start",
+     "rank": 248,
+     "zipf": 5.56,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "preaching",
+     "norm": "preaching",
+     "start": 16,
+     "end": 25,
+     "numeric": false,
+     "lemma": "preach",
+     "rank": 11441,
+     "zipf": 3.69,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "monotheism",
+     "norm": "monotheism",
+     "start": 26,
+     "end": 36,
+     "numeric": false,
+     "lemma": "monotheism",
+     "rank": 53111,
+     "zipf": 2.5,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "publicly",
+     "norm": "publicly",
+     "start": 37,
+     "end": 45,
+     "numeric": false,
+     "lemma": "publicly",
+     "rank": 4479,
+     "zipf": 4.28,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "received",
+     "norm": "received",
+     "start": 51,
+     "end": 59,
+     "numeric": false,
+     "lemma": "received",
+     "rank": 720,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "opposition",
+     "norm": "opposition",
+     "start": 60,
+     "end": 70,
+     "numeric": false,
+     "lemma": "opposition",
+     "rank": 2635,
+     "zipf": 4.57,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 71,
+     "end": 75,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Meccan",
+     "norm": "meccan",
+     "start": 76,
+     "end": 82,
+     "numeric": false,
+     "lemma": "meccan",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": true,
+     "known": true
+    },
+    {
+     "raw": "polytheists",
+     "norm": "polytheists",
+     "start": 83,
+     "end": 94,
+     "numeric": false,
+     "lemma": "polytheists",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "start": 1018,
+   "end": 1074,
+   "text": "He was eventually forced to leave his hometown of Mecca.",
+   "tokens": [
+    {
+     "raw": "He",
+     "norm": "he",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 3,
+     "end": 6,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "eventually",
+     "norm": "eventually",
+     "start": 7,
+     "end": 17,
+     "numeric": false,
+     "lemma": "eventually",
+     "rank": 1394,
+     "zipf": 4.88,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "forced",
+     "norm": "forced",
+     "start": 18,
+     "end": 24,
+     "numeric": false,
+     "lemma": "force",
+     "rank": 587,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 25,
+     "end": 27,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "leave",
+     "norm": "leave",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "leave",
+     "rank": 457,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 34,
+     "end": 37,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hometown",
+     "norm": "hometown",
+     "start": 38,
+     "end": 46,
+     "numeric": false,
+     "lemma": "hometown",
+     "rank": 8155,
+     "zipf": 3.91,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 47,
+     "end": 49,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Mecca",
+     "norm": "mecca",
+     "start": 50,
+     "end": 55,
+     "numeric": false,
+     "lemma": "mecca",
+     "rank": 17672,
+     "zipf": 3.38,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "start": 1075,
+   "end": 1173,
+   "text": "After reaching Medina with Abu Bakr, the Medinan Muslims helped Muhammad and built a mosque there.",
+   "tokens": [
+    {
+     "raw": "After",
+     "norm": "after",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "after",
+     "rank": 80,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reaching",
+     "norm": "reaching",
+     "start": 6,
+     "end": 14,
+     "numeric": false,
+     "lemma": "reach",
+     "rank": 1233,
+     "zipf": 4.94,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Medina",
+     "norm": "medina",
+     "start": 15,
+     "end": 21,
+     "numeric": false,
+     "lemma": "medina",
+     "rank": 19135,
+     "zipf": 3.32,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "with",
+     "norm": "with",
+     "start": 22,
+     "end": 26,
+     "numeric": false,
+     "lemma": "with",
+     "rank": 14,
+     "zipf": 6.85,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Abu",
+     "norm": "abu",
+     "start": 27,
+     "end": 30,
+     "numeric": false,
+     "lemma": "abu",
+     "rank": 6980,
+     "zipf": 4.01,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Bakr",
+     "norm": "bakr",
+     "start": 31,
+     "end": 35,
+     "numeric": false,
+     "lemma": "bakr",
+     "rank": 32690,
+     "zipf": 2.9,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 37,
+     "end": 40,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Medinan",
+     "norm": "medinan",
+     "start": 41,
+     "end": 48,
+     "numeric": false,
+     "lemma": "medinan",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": true,
+     "known": true
+    },
+    {
+     "raw": "Muslims",
+     "norm": "muslims",
+     "start": 49,
+     "end": 56,
+     "numeric": false,
+     "lemma": "muslim",
+     "rank": 2168,
+     "zipf": 4.67,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "helped",
+     "norm": "helped",
+     "start": 57,
+     "end": 63,
+     "numeric": false,
+     "lemma": "help",
+     "rank": 171,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 64,
+     "end": 72,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 73,
+     "end": 76,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "built",
+     "norm": "built",
+     "start": 77,
+     "end": 82,
+     "numeric": false,
+     "lemma": "build",
+     "rank": 963,
+     "zipf": 5.04,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 83,
+     "end": 84,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mosque",
+     "norm": "mosque",
+     "start": 85,
+     "end": 91,
+     "numeric": false,
+     "lemma": "mosque",
+     "rank": 8458,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "there",
+     "norm": "there",
+     "start": 92,
+     "end": 97,
+     "numeric": false,
+     "lemma": "there",
+     "rank": 57,
+     "zipf": 6.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 190,
+  "scored_tokens": 183,
+  "sentences": 11,
+  "msl": 16.64,
+  "S_long": 0.091,
+  "syn": 0.364,
+  "U_rare": 0.268,
+  "D": 0.314,
+  "C_token": 0.5792,
+  "C_lemma": 0.4851,
+  "max_unk_sent": 14,
+  "residual_per_sent_raw": {
+   "s001": 8,
+   "s002": 14,
+   "s003": 4,
+   "s004": 7,
+   "s005": 10,
+   "s006": 3,
+   "s007": 10,
+   "s008": 3,
+   "s009": 6,
+   "s010": 4,
+   "s011": 8
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "muhammad": {
+   "count": 9,
+   "zipf": 3.87,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002",
+    "s004",
+    "s005",
+    "s006",
+    "s007",
+    "s008",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "arabic": {
+   "count": 1,
+   "zipf": 4.03,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "june": {
+   "count": 1,
+   "zipf": 5.21,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "arab": {
+   "count": 1,
+   "zipf": 4.39,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "religious": {
+   "count": 1,
+   "zipf": 4.85,
+   "band": "B2",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "political": {
+   "count": 1,
+   "zipf": 5.29,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lead": {
+   "count": 1,
+   "zipf": 5.2,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "islam": {
+   "count": 2,
+   "zipf": 4.42,
+   "band": "B4",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "islamic": {
+   "count": 1,
+   "zipf": 4.44,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "teaching": {
+   "count": 3,
+   "zipf": 4.72,
+   "band": "B2",
+   "sents": [
+    "s002",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "prophet": {
+   "count": 4,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s002",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "inspired": {
+   "count": 1,
+   "zipf": 4.63,
+   "band": "B3",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "preach": {
+   "count": 4,
+   "zipf": 3.69,
+   "band": "B6",
+   "sents": [
+    "s002",
+    "s004",
+    "s008",
+    "s009"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "confirm": {
+   "count": 1,
+   "zipf": 4.4,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "monotheistic": {
+   "count": 1,
+   "zipf": 2.51,
+   "band": "R",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "adam": {
+   "count": 1,
+   "zipf": 4.57,
+   "band": "B3",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "abraham": {
+   "count": 1,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "moses": {
+   "count": 1,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "jesus": {
+   "count": 1,
+   "zipf": 4.99,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "seal": {
+   "count": 1,
+   "zipf": 4.3,
+   "band": "B4",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "unanimous": {
+   "count": 1,
+   "zipf": 3.68,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "agreement": {
+   "count": 1,
+   "zipf": 4.88,
+   "band": "B2",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "muslim": {
+   "count": 4,
+   "zipf": 4.67,
+   "band": "B3",
+   "sents": [
+    "s004",
+    "s005",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "qur'an": {
+   "count": 2,
+   "zipf": 3.25,
+   "band": "B6",
+   "sents": [
+    "s004",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "revealed": {
+   "count": 1,
+   "zipf": 4.65,
+   "band": "B3",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hadith": {
+   "count": 2,
+   "zipf": 2.99,
+   "band": "B6",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "contain": {
+   "count": 1,
+   "zipf": 4.5,
+   "band": "B3",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "rejectors": {
+   "count": 1,
+   "zipf": null,
+   "band": "R",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "word": {
+   "count": 1,
+   "zipf": 5.26,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bear": {
+   "count": 1,
+   "zipf": 4.71,
+   "band": "B2",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mecca": {
+   "count": 2,
+   "zipf": 3.38,
+   "band": "B6",
+   "sents": [
+    "s006",
+    "s010"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "ad": {
+   "count": 1,
+   "zipf": 4.76,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "forty": {
+   "count": 1,
+   "zipf": 4.2,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "pray": {
+   "count": 1,
+   "zipf": 4.4,
+   "band": "B4",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "reportedly": {
+   "count": 1,
+   "zipf": 4.13,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "meet": {
+   "count": 1,
+   "zipf": 5.27,
+   "band": "B1",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "gabriel": {
+   "count": 1,
+   "zipf": 3.92,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "received": {
+   "count": 2,
+   "zipf": 5.16,
+   "band": "B1",
+   "sents": [
+    "s007",
+    "s009"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "revelation": {
+   "count": 2,
+   "zipf": 3.96,
+   "band": "B5",
+   "sents": [
+    "s007",
+    "s008"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "monotheism": {
+   "count": 1,
+   "zipf": 2.5,
+   "band": "R",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "publicly": {
+   "count": 1,
+   "zipf": 4.28,
+   "band": "B4",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "opposition": {
+   "count": 1,
+   "zipf": 4.57,
+   "band": "B3",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "polytheists": {
+   "count": 1,
+   "zipf": null,
+   "band": "R",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "eventually": {
+   "count": 1,
+   "zipf": 4.88,
+   "band": "B2",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "force": {
+   "count": 1,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hometown": {
+   "count": 1,
+   "zipf": 3.91,
+   "band": "B5",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "reach": {
+   "count": 1,
+   "zipf": 4.94,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "medina": {
+   "count": 1,
+   "zipf": 3.32,
+   "band": "B6",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "abu": {
+   "count": 1,
+   "zipf": 4.01,
+   "band": "B5",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bakr": {
+   "count": 1,
+   "zipf": 2.9,
+   "band": "R",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "build": {
+   "count": 1,
+   "zipf": 5.04,
+   "band": "B1",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mosque": {
+   "count": 1,
+   "zipf": 3.89,
+   "band": "B5",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "political",
+   "meet",
+   "word",
+   "force",
+   "june",
+   "lead",
+   "build",
+   "jesus"
+  ],
+  "inference_targets": [
+   "received",
+   "teaching",
+   "muslim",
+   "islam",
+   "prophet",
+   "revelation",
+   "muhammad",
+   "preach",
+   "mecca",
+   "qur'an",
+   "hadith"
+  ],
+  "gloss": [
+   "reach",
+   "agreement",
+   "eventually",
+   "religious",
+   "ad",
+   "bear",
+   "revealed",
+   "inspired",
+   "adam",
+   "opposition",
+   "contain",
+   "islamic",
+   "confirm",
+   "pray",
+   "arab",
+   "seal",
+   "publicly",
+   "forty",
+   "reportedly",
+   "arabic",
+   "abu",
+   "abraham",
+   "moses",
+   "gabriel",
+   "hometown",
+   "mosque",
+   "unanimous",
+   "medina",
+   "bakr",
+   "monotheistic",
+   "monotheism",
+   "rejectors",
+   "polytheists"
+  ],
+  "controls": {
+   "C_eff": 0.623,
+   "gloss_n": 33,
+   "gloss_cap": 5,
+   "resid_max": 13,
+   "n_infer": 11
+  },
+  "residual_per_sent": {
+   "s001": 5,
+   "s002": 13,
+   "s003": 4,
+   "s004": 7,
+   "s005": 9,
+   "s006": 3,
+   "s007": 9,
+   "s008": 3,
+   "s009": 6,
+   "s010": 3,
+   "s011": 7
+  }
+ }
+}

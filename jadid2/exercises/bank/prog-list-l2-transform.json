@@ -1,0 +1,53 @@
+{
+  "exercise_id": "prog-list-l2-transform",
+  "ladder_id": "prog-list",
+  "title": "حوّل: من الرؤوس إلى الأذيال",
+  "atom": {
+    "atom_id": "prog-list-02",
+    "title": "الفهرس السالب يقرأ من النهاية",
+    "info": "r[0] أول عنصر وr[-1] آخره — تحويل «خذ الأول» إلى «خذ الأخير» تغيير في الفهرس وحده؛ البنية (حلقة، تجميع قائمة، إعادة) لا تتغير.",
+    "source": "prog/data.js#py/p6"
+  },
+  "pattern": "حوّل المتطلب",
+  "level": 2,
+  "prompt": "الدالة `heads` تجمع **أول** عنصر من كل قائمة داخلية:\n\n```python\ndef heads(rows):\n    result = []\n    for r in rows:\n        result.append(r[0])\n    return result\n```\n\nالمتطلب تغيّر: المطلوب دالة `tails(rows)` تجمع **آخر** عنصر من كل قائمة داخلية — فمثلاً `tails([[1, 2], [3, 4, 5]])` تعيد `[2, 5]`.\n\nحرّر الكود المعروض بدل البدء من صفحة بيضاء.",
+  "starter_code": "def heads(rows):\n    result = []\n    for r in rows:\n        result.append(r[0])\n    return result",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "الفرق الوحيد بين «أول عنصر» و«آخر عنصر» هو الفهرس المستعمل — ما فهرس العنصر الأخير في قائمة لا تعرف طولها؟"
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "الفهرس السالب يعدّ من النهاية: r[-1] هو الأخير مهما كان طول r. البنية كلها تبقى."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "تغييران فقط: اسم الدالة إلى tails، والفهرس r[0] إلى r[-1]."
+    }
+  ],
+  "solution": {
+    "code": "def tails(rows):\n    result = []\n    for r in rows:\n        result.append(r[-1])\n    return result",
+    "explanation": "المسافة التحريرية صغيرة: الفهرس -1 يشير للأخير دائماً. الحلقة والتجميع والإعادة لم تتغير — وهذا مقياس النقل: من فهم الحل القائم يحوّله بأقل تعديل."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert tails([[1, 2], [3, 4, 5]]) == [2, 5]",
+      "assert tails([[9]]) == [9]",
+      "assert tails([]) == []",
+      "assert tails([[\"أ\", \"ب\"], [\"ج\"]]) == [\"ب\", \"ج\"]"
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "قوائم",
+      "فهرسة",
+      "نقل"
+    ]
+  }
+}

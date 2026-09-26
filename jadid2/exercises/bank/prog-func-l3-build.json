@@ -1,0 +1,67 @@
+{
+  "exercise_id": "prog-func-l3-build",
+  "ladder_id": "prog-func",
+  "title": "أعد البناء: قصّ بين حدين",
+  "atom": {
+    "atom_id": "prog-func-03",
+    "title": "clamp: قصر القيمة على مدى",
+    "info": "قصّ القيمة بين حدين نمط شائع: إن تجاوزت الأدنى تُرجَع الأدنى، وإن تجاوزت الأعلى تُرجَع الأعلى، وإلا تُرجَع كما هي — ثلاث حالات متنافية، شرطان يكفيان لأن الثالثة هي الباقي.",
+    "source": "prog/data.js#py/p7"
+  },
+  "pattern": "أعد البناء",
+  "level": 3,
+  "prompt": "اكتب دالة `clamp(v, lo, hi)` تقصّ القيمة على المدى `[lo, hi]`:\n\n- إن كانت `v` **أصغر من** `lo` → تعيد `lo`\n- إن كانت **أكبر من** `hi` → تعيد `hi`\n- وإلا → تعيد `v` نفسها\n\nأمثلة: `clamp(15, 0, 10)` ← `10` و`clamp(-3, 0, 10)` ← `0` و`clamp(5, 0, 10)` ← `5`.",
+  "starter_code": "def clamp(v, lo, hi):\n    ____",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "ثلاث حالات متنافية: تحت الحد، فوقه، بينهما. شرطان يكفيان لأن الحالة الثالثة هي «الباقي»."
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "افحص الخروج أولاً: if v < lo تعيد lo، ثم if v > hi تعيد hi، وما نجا من الشرطين فهو داخل المدى — أعده."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "لا تحتاج elif بالضرورة: return داخل if ينهي الدالة فوراً، فالشرط الثاني يصله فقط من لم يُقصَص للأدنى."
+    }
+  ],
+  "solution": {
+    "code": "def clamp(v, lo, hi):\n    if v < lo:\n        return lo\n    if v > hi:\n        return hi\n    return v",
+    "explanation": "الشرطان يصطادان الخارجين عن المدى ويعيدان الحد الأقرب؛ ومن نجا منهما فهو داخل المدى فيعاد كما هو. الحدود نفسها (v تساوي lo أو hi) تدخل في «البين» وتعاد صحيحة."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert clamp(5, 0, 10) == 5",
+      "assert clamp(-3, 0, 10) == 0",
+      "assert clamp(15, 0, 10) == 10",
+      "assert clamp(0, 0, 10) == 0",
+      "assert clamp(10, 0, 10) == 10",
+      "assert clamp(-5, -10, -1) == -5"
+    ],
+    "source_checks": [
+      {
+        "kind": "contains",
+        "pattern": "if",
+        "desc": "القصّ يحتاج فحص الحدود بشرطين"
+      },
+      {
+        "kind": "contains",
+        "pattern": "return",
+        "desc": "الدالة تعيد القيمة المقصوصة بـ return"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "دوال",
+      "بناء",
+      "شروط-مركبة"
+    ]
+  }
+}

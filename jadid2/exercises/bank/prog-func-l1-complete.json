@@ -1,0 +1,59 @@
+{
+  "exercise_id": "prog-func-l1-complete",
+  "ladder_id": "prog-func",
+  "title": "أكمل: إعادة قيمة",
+  "atom": {
+    "atom_id": "prog-func-01",
+    "title": "return تعيد القيمة للمستدعي",
+    "info": "الدالة تُعرَّف بـ def وتنفَّذ عند الاستدعاء. return تسلّم قيمةً لمن استدعاها — square(4) في تعبير تُستبدل بما أعادته الدالة. بلا return تعيد الدالة None.",
+    "source": "prog/data.js#py/p7"
+  },
+  "pattern": "أكمل الكود",
+  "level": 1,
+  "prompt": "أكمل جسم الدالة `square(x)` بحيث تعيد مربّع الوسيط (العدد مضروباً في نفسه).\n\nمثال: `square(4)` يجب أن تعيد `16`.",
+  "starter_code": "def square(x):\n    ____",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "الدالة يجب أن «تعيد» قيمة — والكلمة المفتاحية المسؤولة عن الإعادة هي return."
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "المربع = العدد × نفسه. الوسيط x متاح داخل الجسم كمتغير عادي — اكتب العملية بعد return."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "السطر: return x ___ x — علامة واحدة بين الوسيط ونفسه."
+    }
+  ],
+  "solution": {
+    "code": "def square(x):\n    return x * x",
+    "explanation": "return x * x تحسب مربع الوسيط وتسلّمه للمستدعي، فيصبح square(4) حيثما كتب مساوياً لـ16."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert square(4) == 16",
+      "assert square(-3) == 9",
+      "assert square(0) == 0"
+    ],
+    "source_checks": [
+      {
+        "kind": "contains",
+        "pattern": "return",
+        "desc": "المطلوب إعادة القيمة بـ return — الطباعة لا تكفي"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "دوال",
+      "return",
+      "إكمال"
+    ]
+  }
+}

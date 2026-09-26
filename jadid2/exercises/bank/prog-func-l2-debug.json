@@ -1,0 +1,53 @@
+{
+  "exercise_id": "prog-func-l2-debug",
+  "ladder_id": "prog-func",
+  "title": "اكتشف الخطأ: الفرع الضائع",
+  "atom": {
+    "atom_id": "prog-func-02",
+    "title": "كل مدخل يحتاج مساراً يعيد قيمة",
+    "info": "إن وُضع return داخل if وحدها بلا else، فالمداخل التي يفشل فيها الشرط تصل نهاية الدالة بلا إعادة — فتعيد None. دالة التحقق تحتاج فرعين أو إعادة نتيجة الشرط مباشرة.",
+    "source": "prog/data.js#py/p7"
+  },
+  "pattern": "اكتشف الخطأ",
+  "level": 2,
+  "prompt": "الدالة `is_even(n)` يفترض أن تعيد `True` إن كان العدد زوجياً و`False` إن كان فردياً.\n\nاختبارها يكشف: `is_even(4)` تعيد `True` صحيحاً، لكن `is_even(3)` تعيد `None` بدل `False`. **اكتشف لماذا وصلّح الدالة.**",
+  "starter_code": "def is_even(n):\n    if n % 2 == 0:\n        return True",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "تتبّع is_even(3): الشرط 3 % 2 == 0 يفشل — فأين يذهب التنفيذ بعد ذلك؟ ما القيمة التي تعيدها الدالة إن انتهى جسمها بلا return؟"
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "كل مدخل زوجي أو فردي — مساران. الكود يغطي مساراً واحداً فقط؛ الفاشل شرطُه يسقط إلى نهاية الدالة فيعيد None."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "حلّان يصلحان: else تعيد False، أو أعد نتيجة الشرط مباشرة — return n % 2 == 0 (الشرط نفسه قيمة منطقية)."
+    }
+  ],
+  "solution": {
+    "code": "def is_even(n):\n    return n % 2 == 0",
+    "explanation": "العلة أن فرع الفردي لم يوجد أصلاً: الشرط الفاشل كان يقود إلى نهاية الجسم فتعيد الدالة None. إعادة نتيجة الشرط مباشرة أوجز وأصح — فالمقارنة نفسها True أو False."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert is_even(4) is True",
+      "assert is_even(3) is False",
+      "assert is_even(0) is True",
+      "assert is_even(-7) is False"
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "دوال",
+      "تصحيح",
+      "مسارات"
+    ]
+  }
+}

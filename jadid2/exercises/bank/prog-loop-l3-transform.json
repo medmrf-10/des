@@ -1,0 +1,65 @@
+{
+  "exercise_id": "prog-loop-l3-transform",
+  "ladder_id": "prog-loop",
+  "title": "حوّل: من الجمع إلى العدّ",
+  "atom": {
+    "atom_id": "prog-loop-03",
+    "title": "نمط «عدّ بشرط»",
+    "info": "كثير من الحلقات تتبع قالب: مجمّع يبدأ بقيمة ابتدائية، وفي كل دورة يُحدَّث (ربما بشرط). تحويل «اجمع الكل» إلى «عدّ المطابق» يغيّر ما يُضاف (القيمة ← 1) ويضيف شرطاً.",
+    "source": "prog/data.js#py/p5"
+  },
+  "pattern": "حوّل المتطلب",
+  "level": 3,
+  "prompt": "الدالة التالية تعمل وتحسب مجموع قائمة أعداد:\n\n```python\ndef sum_all(nums):\n    total = 0\n    for x in nums:\n        total += x\n    return total\n```\n\nالمتطلب تغيّر: المطلوب الآن دالة `count_positives(nums)` تعيد **كم عنصراً موجباً** (أكبر من صفر تماماً) في القائمة — فمثلاً `count_positives([1, -2, 3, 0])` تعيد `2`.\n\nحرّر الكود المعروض بدل البدء من صفحة بيضاء.",
+  "starter_code": "def sum_all(nums):\n    total = 0\n    for x in nums:\n        total += x\n    return total",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "المطلوب ليس جمع القيم بل عدّها. أول تغييران: اسم الدالة، وما يُضاف إلى المجمّع في كل دورة."
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "لا تضف x نفسه — أضف 1 فقط، وليس كل دورة بل حين يكون x موجباً. هذا يعني شرطاً داخل الحلقة."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "الهيكل: for x في nums / if x > 0 / total += 1 — ولا تنسَ إعادة التسمية إلى count_positives."
+    }
+  ],
+  "solution": {
+    "code": "def count_positives(nums):\n    total = 0\n    for x in nums:\n        if x > 0:\n            total += 1\n    return total",
+    "explanation": "التحويل ثلاثي: الاسم count_positives، والإضافة أصبحت مشروطة if x > 0، وما يُضاف 1 لا x — فالمجمّع يعدّ العناصر المطابقة لا يجمع قيمها. الصفر لا يُعدّ لأن الشرط > صارم."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert count_positives([1, -2, 3, 0, 7]) == 3",
+      "assert count_positives([]) == 0",
+      "assert count_positives([-5, -1]) == 0",
+      "assert count_positives([4]) == 1"
+    ],
+    "source_checks": [
+      {
+        "kind": "contains",
+        "pattern": "for",
+        "desc": "حوّل الحلقة القائمة — لا تستغنِ عنها"
+      },
+      {
+        "kind": "contains",
+        "pattern": "if",
+        "desc": "العدّ المشروط يحتاج if داخل الحلقة"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "حلقات",
+      "نقل",
+      "عد-بشرط"
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "exercise_id": "prog-loop-l1-complete",
+  "ladder_id": "prog-loop",
+  "title": "أكمل: جمع تراكمي",
+  "atom": {
+    "atom_id": "prog-loop-01",
+    "title": "التراكم داخل الحلقة",
+    "info": "for i in range(1, 6) تكرر الجسم والمتغير i يأخذ 1 ثم 2 ... حتى 5. نمط الجمع التراكمي: متغير يبدأ 0 قبل الحلقة، وداخلها يُضاف إليه عنصر الدورة: total += i.",
+    "source": "prog/data.js#py/p5"
+  },
+  "pattern": "أكمل الكود",
+  "level": 1,
+  "prompt": "البرنامج التالي يفترض أن يحسب مجموع الأعداد من 1 إلى 5 (الناتج 15).\n\nأكمل جسم الحلقة بالسطر الذي يضيف قيمة `i` الحالية إلى المُجمّع `total`.",
+  "starter_code": "total = 0\nfor i in range(1, 6):\n    ____\nprint(\"المجموع:\", total)",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "في كل دورة يتغير i: 1 ثم 2 ثم ... 5. المطلوب أن يجمع total كل قيمة منها."
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "التراكم يعني: القيمة الجديدة للمجمّع = قيمته القديمة + عنصر الدورة. اكتبها بصيغة الإسناد total = total + i أو مختصرها."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "الصيغة المختصرة للإضافة إلى متغير: total ___= i — علامتان لا ثلاث."
+    }
+  ],
+  "solution": {
+    "code": "total = 0\nfor i in range(1, 6):\n    total += i\nprint(\"المجموع:\", total)",
+    "explanation": "total يبدأ 0، وكل دورة تضيف i إليه: 0+1+2+3+4+5 = 15. العبارة total += i اختصار لـ total = total + i — تقرأ القديم وتجمع الجديد وتخزّن."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert total == 15"
+    ],
+    "source_checks": [
+      {
+        "kind": "not_regex",
+        "pattern": "total\\s*=\\s*15\\b",
+        "desc": "لا تكتب الناتج حرفياً — اجمعه بالحلقة"
+      },
+      {
+        "kind": "contains",
+        "pattern": "i",
+        "desc": "جسم الحلقة يجب أن يستعمل متغير الدورة i"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "حلقات",
+      "تراكم",
+      "for"
+    ]
+  }
+}

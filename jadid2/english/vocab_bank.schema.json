@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://medmrf-10.github.io/des/jadid2/english/vocab_bank.schema.json",
+  "title": "بنك المفردات الشخصي",
+  "description": "سجل لمّة إنجليزية واحدة في بنك متعلم واحد — سطر JSONL لكل لمّة قابلها. منفصل تماماً عن النصوص: السياقات عقود verbatim (text_id+sent_id+إزاحات توكن) لا نص منسوخ. يجمع التردد العالمي المرجعي وحالة المعرفة وسياقات الرؤية وتاريخ FSRS — يتوافق مع حقول py-fsrs: difficulty على 1–10، stability بالأيام، retrievability بـ0–1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["lemma", "freq", "state", "first_seen", "contexts", "fsrs", "attempts"],
+  "properties": {
+    "lemma": {
+      "type": "string",
+      "pattern": "^[a-z][a-z'-]*$",
+      "description": "اللمّة بصورتها الدنيا — ناتج pipeline.md §3. مفتاح السجل المنطقي."
+    },
+    "pos": {
+      "type": "string",
+      "enum": ["n", "v", "adj", "adv", "other"],
+      "description": "الوظيفة النحوية الغالبة — تُستنتج من أول سياق أو تُترك other؛ لا يبنى عليها حكم آلي في نسخة 0."
+    },
+    "forms": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "الصور السطحية المشاهدة فعلاً (slept, sleeping…) — تُجمع من سياقات الرؤية ولا تُولَّد.",
+      "default": []
+    },
+    "freq": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["band"],
+      "description": "التردد العالمي المرجعي من freq_table وقت أول رؤية — لا يُحدَّث لاحقاً (سجل تاريخي صادق).",
+      "properties": {
+        "rank": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "الترتيب في الجدول المرجعي؛ null خارج الجدول."
+        },
+        "zipf": {
+          "type": ["number", "null"],
+          "description": "log10 التكرار لكل بليون كلمة — الترتيب الدقيق داخل النص وخطة pre-teach."
+        },
+        "band": {
+          "type": "string",
+          "enum": ["B1", "B2", "B3", "B4", "B5", "B6", "R"],
+          "description": "نطاق التردد كما في pipeline.md §4: B1=أوائل 1000 … B6=≤30000، R=خارج الجدول."
+        }
+      }
+    },
+    "state": {
+      "type": "string",
+      "enum": ["seen", "inferring", "known", "learned", "ignored"],
+      "description": "حالة المعرفة بآلة الحالات في exercises.md §5: seen=شوهد بلا استنتاج ناجح؛ inferring=محاولة استنتاج واحدة على الأقل بلا إتقان؛ known=استنتج صحيحاً أو أكد مراجعة (يحسب معروفاً في C)؛ learned=مستقر في FSRS (state=review وstability ≥ 21 يوماً)؛ ignored=استُبعد يدوياً (نادر لا قيمة له / اسم علم)."
+    },
+    "first_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "طابع أول رؤية لهذه اللمّة في أي نص (ISO 8601)."
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "طابع آخر رؤية — يُحدَّث عند كل ظهور ولو بلا تمرين."
+    },
+    "exposures": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "عدد مرات الظهور الكلي في النصوص المقروءة — وقود قاعدة «التكرار يكشف المعنى» (count≥2 في pipeline.md §7 ينطبق داخل نص واحد؛ هنا عبر النصوص)."
+    },
+    "contexts": {
+      "type": "array",
+      "description": "سياقات رؤية اللمّة — عقود verbatim صرفة: لا نص منسوخ، الإزاحات تشير إلى التوكن داخل النص الأصلي.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text_id", "sent_id", "token_start", "token_end", "ts", "role"],
+        "properties": {
+          "text_id": {
+            "type": "string",
+            "pattern": "^src:[a-z0-9-]+:.+",
+            "description": "معرف النص (مثال src:simple-wiki:Sleep#p0-3) — يحل إلى ملف النص verbatim."
+          },
+          "sent_id": {
+            "type": "string",
+            "pattern": "^s\\d{3}$",
+            "description": "الجملة داخل النص — ناتج pipeline.md §1."
+          },
+          "token_start": {"type": "integer", "minimum": 0},
+          "token_end": {"type": "integer", "minimum": 0},
+          "form": {
+            "type": "string",
+            "description": "الصورة السطحية كما ظهرت (slept) — للعرض دون إعادة تلميذ."
+          },
+          "ts": {"type": "string", "format": "date-time"},
+          "role": {
+            "type": "string",
+            "enum": ["exposure", "preteach", "inference_target", "gloss", "production_target"],
+            "description": "دور الموضع وقت الرؤية: exposure=مجرد ظهور أثناء القراءة؛ preteach=دُرِّست قبل النص؛ inference_target=كانت هدف استنتاج؛ gloss=احتاجت نقرة معنى؛ production_target=هدف تمرين إنتاج."
+          }
+        }
+      }
+    },
+    "fsrs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "due"],
+      "description": "جدولة المراجعة بمعايير FSRS-5/6 — تتغذى من attempts ولا تُكتب يدوياً. تدخل الجدولة عند أول استنتاج ناجح أو تمرين إنتاج (وليس عند مجرد الرؤية).",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["new", "learning", "review", "relearning"],
+          "description": "مرحلة البطاقة في دورة FSRS."
+        },
+        "difficulty": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "صعوبة الكلمة لهذا المتعلم (1–10 كما في py-fsrs)."
+        },
+        "stability": {
+          "type": "number",
+          "minimum": 0,
+          "description": "ثبات الذاكرة بالأيام."
+        },
+        "retrievability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "احتمال الاسترجاع اللحظي — يدخل شرط known في pipeline.md §5."
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "description": "موعد المراجعة القادم (ISO 8601)."
+        },
+        "reps": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "إجمالي المراجعات."
+        },
+        "lapses": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "مرات النسيان (grade=again في حالة review)."
+        },
+        "last_review": {
+          "type": "string",
+          "format": "date-time",
+          "description": "طابع آخر مراجعة مكتملة."
+        }
+      }
+    },
+    "attempts": {
+      "type": "array",
+      "default": [],
+      "description": "تاريخ المحاولات مرتباً زمنياً — نفس شكل learner_state.attempts في نواة jadid2.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ts", "perf_type", "grade"],
+        "properties": {
+          "ts": {"type": "string", "format": "date-time"},
+          "exercise_id": {
+            "type": "string",
+            "description": "معرف التمرين إن كانت المحاولة على تمرين من exercises.md — غائب للقراءة الحرة."
+          },
+          "perf_type": {
+            "type": "string",
+            "enum": ["قراءة", "استنتاج", "إنتاج", "تسميع"],
+            "description": "قراءة=ظهور أثناء مطالعة؛ استنتاج=تخمين معنى من سياق؛ إنتاج=تمرين توليد؛ تسميع=استرجاع ذاتي بلا نص."
+          },
+          "grade": {
+            "type": "string",
+            "enum": ["again", "hard", "good", "easy"],
+            "description": "تقدير FSRS الرباعي — الخريطة في exercises.md §6."
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "درجة دقيقة اختيارية."
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "مدة المحاولة بالثواني — تفصل التخمين العشوائي عن الجهد."
+          }
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "عدّادات مشتقة تُحدَّث مع كل محاولة — تغذي ترقية الحالة ونجاح الاستنتاج في SPEC §5.5.",
+      "properties": {
+        "inferred_attempts": {"type": "integer", "minimum": 0},
+        "inferred_ok": {"type": "integer", "minimum": 0},
+        "produced_attempts": {"type": "integer", "minimum": 0},
+        "produced_ok": {"type": "integer", "minimum": 0}
+      }
+    },
+    "added_by": {
+      "type": "string",
+      "enum": ["pipeline", "preteach", "manual"],
+      "description": "منشئ السطر: pipeline=رُصدت أثناء قراءة؛ preteach=أُدرجت قبل نص؛ manual=أضافها محمد يدوياً."
+    },
+    "note": {
+      "type": "string",
+      "description": "ملاحظة حرة (مثلاً المعنى العربي المفضل أو خلط مع كلمة مشابهة)."
+    }
+  }
+}

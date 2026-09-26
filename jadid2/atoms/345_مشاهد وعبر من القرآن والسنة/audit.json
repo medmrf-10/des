@@ -1,0 +1,68 @@
+{
+  "verdict": "needs-repair",
+  "checks": {
+    "files_on_disk": 30,
+    "entries": 352,
+    "missing_files": 0,
+    "unreferenced_files": 0,
+    "invalid_spans": 0,
+    "dup_ids": 0,
+    "id_file_mismatch": 0,
+    "coverage": {
+      "files_fully_tiled": 30,
+      "gap_count": 0,
+      "gap_chars": 0,
+      "overlap_count": 0,
+      "overlap_chars": 0
+    },
+    "boundary": {
+      "mid_word_starts": 0,
+      "mid_word_ends": 0
+    },
+    "position_accuracy_sample": {
+      "n": 40,
+      "topical_match": 40,
+      "mismatch": 0,
+      "seed": 7
+    },
+    "titles": {
+      "verbatim_claimed": 7,
+      "verbatim_confirmed_strict": 3,
+      "verbatim_punct_only_diff": 1,
+      "verbatim_composite_mislabel": 3,
+      "inferred_but_actually_literal": 0
+    },
+    "tags": {
+      "invalid_main_tag": 0,
+      "empty_or_dup_sub_tags": 0,
+      "tag_sample_checked": 40,
+      "tag_sample_wrong": 0,
+      "note": "026.07 موسومة أدب وهي تحليل حضاري عند ابن خلدون — أخرى أولى؛ حدّ خطأ لا عيب قاطع"
+    },
+    "leakage": {
+      "filename_or_header_remnants_in_titles": 0
+    }
+  },
+  "defects": [
+    {
+      "type": "false_verbatim_flag",
+      "atom_id": "001.02",
+      "detail": "العنوان مركّب: «المشهد الأول» + نقطتين + الآية — ليس مقطوعاً حرفياً. يجب inferred=true."
+    },
+    {
+      "type": "false_verbatim_flag",
+      "atom_id": "006.10",
+      "detail": "الشطر الأول «واصبر وما صبرك إلا بالله» حرفي، لكن «ففروا إلى الله وأمثلة الطرق على الباب» غير موجودة في الملف إطلاقاً — عنوان مركّب يجب inferred=true."
+    },
+    {
+      "type": "false_verbatim_flag",
+      "atom_id": "007.10",
+      "detail": "«جبلت النفوس على حب من أحسن إليها» حرفي، لكن «— دوافع الحب الثلاثة» لصق استنتاجي (النص: «هذه الدوافع الثلاثة») — يجب inferred=true."
+    },
+    {
+      "type": "verbatim_punct_drift",
+      "atom_id": "006.04",
+      "detail": "العنوان أسقط فواصل النص: النص «ضعف قوتي، وقلة حيلتي، وهواني» والعنوان «ضعف قوتي وقلة حيلتي وهواني» — حرفي modulo الترقيم؛ مقبول لكنه ليس قصّاً حرفياً صِرفاً."
+    }
+  ]
+}

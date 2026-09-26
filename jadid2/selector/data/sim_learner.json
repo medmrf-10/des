@@ -1,0 +1,296 @@
+[
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.01",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 4.0,
+      "stability": 18.0,
+      "reps": 4,
+      "lapses": 0,
+      "due": "2026-09-27T08:00:00Z",
+      "last_review": "2026-09-09T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.02",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 5.0,
+      "stability": 14.0,
+      "reps": 3,
+      "lapses": 0,
+      "due": "2026-09-30T08:00:00Z",
+      "last_review": "2026-09-16T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.03",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 3.5,
+      "stability": 20.0,
+      "reps": 5,
+      "lapses": 1,
+      "due": "2026-09-25T08:00:00Z",
+      "last_review": "2026-09-05T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.04",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 6.0,
+      "stability": 12.0,
+      "reps": 3,
+      "lapses": 0,
+      "due": "2026-10-04T08:00:00Z",
+      "last_review": "2026-09-22T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.05",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 4.5,
+      "stability": 6.5,
+      "reps": 2,
+      "lapses": 0,
+      "due": "2026-09-30T08:00:00Z",
+      "last_review": "2026-09-23T20:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.06",
+    "fsrs": {
+      "state": "learning",
+      "difficulty": 6.5,
+      "stability": 6.5,
+      "reps": 1,
+      "lapses": 0,
+      "due": "2026-09-30T20:00:00Z",
+      "last_review": "2026-09-24T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "984_أم البراهين|001.07",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 5.5,
+      "stability": 6.8,
+      "reps": 2,
+      "lapses": 0,
+      "due": "2026-10-01T03:12:00Z",
+      "last_review": "2026-09-24T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.01",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 4.0,
+      "stability": 14.4,
+      "reps": 4,
+      "lapses": 0,
+      "due": "2026-09-28T03:12:00Z",
+      "last_review": "2026-09-13T17:36:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.02",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 5.0,
+      "stability": 11.2,
+      "reps": 3,
+      "lapses": 0,
+      "due": "2026-09-30T12:48:00Z",
+      "last_review": "2026-09-19T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.03",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 3.5,
+      "stability": 16.0,
+      "reps": 5,
+      "lapses": 1,
+      "due": "2026-09-26T12:48:00Z",
+      "last_review": "2026-09-10T12:48:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.04",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 6.0,
+      "stability": 9.6,
+      "reps": 3,
+      "lapses": 0,
+      "due": "2026-10-03T17:36:00Z",
+      "last_review": "2026-09-24T03:12:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.05",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 4.5,
+      "stability": 5.2,
+      "reps": 2,
+      "lapses": 0,
+      "due": "2026-09-30T12:48:00Z",
+      "last_review": "2026-09-25T08:00:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.06",
+    "fsrs": {
+      "state": "learning",
+      "difficulty": 6.5,
+      "stability": 5.2,
+      "reps": 1,
+      "lapses": 0,
+      "due": "2026-09-30T22:24:00Z",
+      "last_review": "2026-09-25T17:36:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  },
+  {
+    "learner_id": "sim-learner",
+    "atom_id": "767_دورة النحو المستوى الأول|001.07",
+    "fsrs": {
+      "state": "review",
+      "difficulty": 5.5,
+      "stability": 5.44,
+      "reps": 2,
+      "lapses": 0,
+      "due": "2026-10-01T04:09:36Z",
+      "last_review": "2026-09-25T17:36:00Z"
+    },
+    "attempts": [
+      {
+        "ts": "2026-09-29T08:00:00Z",
+        "perf_type": "تمرين",
+        "grade": "good"
+      }
+    ],
+    "last_perf_type": "تمرين"
+  }
+]

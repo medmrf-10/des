@@ -1,0 +1,373 @@
+[
+  {
+    "step": 0,
+    "now": "2026-10-01T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.03",
+    "group": "due",
+    "due_score": 0.3,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 48.0,
+      "due": "2026-11-18T08:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 1,
+    "now": "2026-10-02T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.03",
+    "group": "due",
+    "due_score": 0.35,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 60.0,
+      "due": "2026-12-01T08:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 2,
+    "now": "2026-10-03T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.05",
+    "group": "due",
+    "due_score": 0.5385,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "again",
+    "state_after": {
+      "state": "relearning",
+      "stability": 2.08,
+      "due": "2026-10-03T20:00:00Z",
+      "mastered": false
+    }
+  },
+  {
+    "step": 3,
+    "now": "2026-10-04T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.06",
+    "group": "due",
+    "due_score": 0.6538,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 0,
+      "missing": [
+        "767_دورة النحو المستوى الأول|001.05"
+      ]
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 15.6,
+      "due": "2026-10-19T22:24:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 4,
+    "now": "2026-10-05T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.05",
+    "group": "due",
+    "due_score": 0.7692,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 19.5,
+      "due": "2026-10-24T20:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 5,
+    "now": "2026-10-06T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.05",
+    "group": "due",
+    "due_score": 1.2019,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 6.24,
+      "due": "2026-10-12T13:45:36Z",
+      "mastered": false
+    }
+  },
+  {
+    "step": 6,
+    "now": "2026-10-07T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.07",
+    "group": "due",
+    "due_score": 1.1324,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 16.32,
+      "due": "2026-10-23T15:40:48Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 7,
+    "now": "2026-10-08T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.06",
+    "group": "due",
+    "due_score": 1.1538,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 19.5,
+      "due": "2026-10-27T20:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 8,
+    "now": "2026-10-09T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.07",
+    "group": "due",
+    "due_score": 1.2059,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 20.4,
+      "due": "2026-10-29T17:36:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 9,
+    "now": "2026-10-10T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.02",
+    "group": "due",
+    "due_score": 0.875,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 33.6,
+      "due": "2026-11-12T22:24:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 10,
+    "now": "2026-10-11T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.01",
+    "group": "due",
+    "due_score": 0.9167,
+    "prereqs_met": {
+      "total": 0,
+      "mastered": 0,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 43.2,
+      "due": "2026-11-23T12:48:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 11,
+    "now": "2026-10-12T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.04",
+    "group": "due",
+    "due_score": 0.8958,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 28.8,
+      "due": "2026-11-10T03:12:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 12,
+    "now": "2026-10-13T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.02",
+    "group": "due",
+    "due_score": 0.9286,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 42.0,
+      "due": "2026-11-24T08:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 13,
+    "now": "2026-10-14T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.01",
+    "group": "due",
+    "due_score": 0.9444,
+    "prereqs_met": {
+      "total": 0,
+      "mastered": 0,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 54.0,
+      "due": "2026-12-07T08:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 14,
+    "now": "2026-10-15T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.04",
+    "group": "due",
+    "due_score": 0.9167,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 36.0,
+      "due": "2026-11-20T08:00:00Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 15,
+    "now": "2026-10-16T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|001.05",
+    "group": "due",
+    "due_score": 0.6026,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 18.72,
+      "due": "2026-11-04T01:16:48Z",
+      "mastered": true
+    }
+  },
+  {
+    "step": 16,
+    "now": "2026-10-17T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|002.01",
+    "group": "new",
+    "due_score": 0.0,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 2.5,
+      "due": "2026-10-19T20:00:00Z",
+      "mastered": false
+    }
+  },
+  {
+    "step": 17,
+    "now": "2026-10-18T08:00:00Z",
+    "atom_id": "984_أم البراهين|001.08",
+    "group": "new",
+    "due_score": 0.0,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 2.5,
+      "due": "2026-10-20T20:00:00Z",
+      "mastered": false
+    }
+  },
+  {
+    "step": 18,
+    "now": "2026-10-19T08:00:00Z",
+    "atom_id": null,
+    "group": "wait",
+    "due_score": 0.0,
+    "note": "لا مستحق ولا i+1 مفتوح — ينتظر أقرب استحقاق"
+  },
+  {
+    "step": 19,
+    "now": "2026-10-20T08:00:00Z",
+    "atom_id": "767_دورة النحو المستوى الأول|002.01",
+    "group": "due",
+    "due_score": 0.2,
+    "prereqs_met": {
+      "total": 1,
+      "mastered": 1,
+      "missing": []
+    },
+    "grade": "good",
+    "state_after": {
+      "state": "review",
+      "stability": 7.5,
+      "due": "2026-10-27T20:00:00Z",
+      "mastered": true
+    }
+  }
+]

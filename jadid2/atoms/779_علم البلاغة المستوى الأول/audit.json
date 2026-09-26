@@ -1,0 +1,8 @@
+{
+  "checked": 22,
+  "fabricated_titles": 0,
+  "bad_ranges": 0,
+  "broken_refs": 0,
+  "verdict": "ok",
+  "notes": "88 entries; العناوين تبدأ حرفياً عند char_start (مثل: رابعا الطباق، وجوه شبه الاسم)."
+}

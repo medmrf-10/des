@@ -1,0 +1,8 @@
+{
+  "checked": 17,
+  "fabricated_titles": 0,
+  "bad_ranges": 0,
+  "broken_refs": 0,
+  "verdict": "ok",
+  "notes": "entries=68 (sampled 17, 25%). Clean: all ranges valid, all sampled titles verified against segment heads (مطابقة/تضمن/التزام etc.). 007.06 non-inferred title is a paraphrase of the متن verse — grounded."
+}

@@ -1,0 +1,8 @@
+{
+  "checked": 43,
+  "fabricated_titles": 0,
+  "bad_ranges": 0,
+  "broken_refs": 0,
+  "verdict": "ok",
+  "notes": "entries=171 (sampled 43, 25%). Zero broken refs, zero invented titles. Nit: 7/43 sampled titles marked inferred=false are non-verbatim paraphrases (e.g. 003.03, 012.05, 019.04) — all manually verified grounded in segment text; flag accuracy only."
+}

@@ -1,0 +1,8 @@
+{
+  "checked": 5,
+  "fabricated_titles": 0,
+  "bad_ranges": 0,
+  "broken_refs": 0,
+  "verdict": "ok",
+  "notes": "entries=18 (sampled 5, 28%). All ranges valid, contiguous tiling. Structural titles (افتتاحية/خاتمة) correctly placed. No verbatim-title violations in sample."
+}

@@ -1,0 +1,8 @@
+{
+  "checked": 45,
+  "fabricated_titles": 0,
+  "bad_ranges": 1,
+  "broken_refs": 0,
+  "verdict": "repair",
+  "notes": "entries=177 (sampled 45, 25%). BAD RANGE 012.03 (مسألة زيادة الثقة, file 012): char_start=487 but titled topic begins ~6584 chars in; segment swallows ~6.5K chars of الحسن عند الترمذي content that belongs to 012.02 — boundary should move to ~7071. 12/45 sampled titles marked inferred=false are grounded paraphrases. Zero broken refs."
+}

@@ -1,0 +1,15 @@
+{
+  "comment": "pipeline.md §2: خريطة الاختصارات + قائمة أوائل 's (AUX_S)",
+  "map": {
+    "n't": "not",
+    "'re": "are",
+    "'ll": "will",
+    "'ve": "have",
+    "'m": "am",
+    "'d": "would",
+    "'s": "is"
+  },
+  "s_aux": ["he", "she", "it", "who", "what", "that", "there", "here", "how",
+            "when", "where", "which", "why", "somebody", "everyone",
+            "everybody", "anyone", "nobody", "let"]
+}

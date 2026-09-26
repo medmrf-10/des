@@ -111,13 +111,15 @@ def build_edges(atoms, extra_edges_file=None):
             by_file.setdefault(a["file"], []).append(a)
         files = sorted(by_file, key=file_order_key)
         for fi, fname in enumerate(files):
-            seq = sorted(by_file[fname], key=lambda x: x["char_start"])
+            seq = sorted(by_file[fname],
+                         key=lambda x: (x["char_start"], x["char_end"], x["id"]))
             for i in range(1, len(seq)):                    # R1
                 prereqs[seq[i]["atom_id"]].append(
                     {"atom_id": seq[i - 1]["atom_id"], "rule": "sequence", "confidence": 1.0})
             if fi > 0 and seq:                              # R3
                 prev_file = by_file[files[fi - 1]]
-                last_prev = max(prev_file, key=lambda x: x["char_start"])
+                last_prev = max(prev_file,
+                                key=lambda x: (x["char_start"], x["char_end"], x["id"]))
                 prereqs[seq[0]["atom_id"]].append(
                     {"atom_id": last_prev["atom_id"], "rule": "sequence", "confidence": 0.9})
 
@@ -517,7 +519,7 @@ def main():
     prereqs, dropped = build_edges(atoms, args.edges)
     if dropped:
         print(f"[selector] أسقطت {len(dropped)} حافات تكوّن دورات: "
-              f"{[(d['from'], d['to']) for d in dropped][:5]}", file=sys.stderr)
+              f"{[(d['atom_id'], d['to']) for d in dropped][:5]}", file=sys.stderr)
 
     if args.sim:
         links = load_links(args.links)

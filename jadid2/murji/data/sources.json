@@ -1,0 +1,12 @@
+{
+  "jamic_ulum_ibn_rajab.jk000071.txt.gz": {
+    "title": "جامع العلوم والحكم في شرح خمسين حديثا من جوامع الكلم",
+    "author": "ابن رجب الحنبلي (ت 795هـ)",
+    "openiti_uri": "0795IbnRajabHanbali.JamicCulumWaHikam.JK000071-ara1",
+    "corpus": "OpenITI 0800AH",
+    "commit": "7b745ec7b83d6d4971f937364dbdec2fe0ba2a40",
+    "url": "https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.JamicCulumWaHikam/0795IbnRajabHanbali.JamicCulumWaHikam.JK000071-ara1",
+    "raw_sha256": "836663b2890c7b2feb23e7641e8fcf23e6e15bc163680a955155d5a8b34d3c66",
+    "note": "نسخة JK المنقّحة (بلا هوامش محرر/فهارس). 50 حديثاً: الأربعون النووية (1-42) بترتيبها + زوائد ابن رجب (43-50). ترويسات «الحديث N» كلها موجودة ومتزايدة — تُستعمل حدودَ مقاطعٍ وأرضيةً ذهبية للتقييم."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "verdict": "needs-repair",
+  "checks": {
+    "files_on_disk": 23,
+    "entries": 232,
+    "missing_files": 0,
+    "unreferenced_files": 0,
+    "invalid_spans": 0,
+    "dup_ids": 0,
+    "id_file_mismatch": 0,
+    "coverage": {
+      "files_fully_tiled": 23,
+      "gap_count": 0,
+      "gap_chars": 0,
+      "overlap_count": 0,
+      "overlap_chars": 0
+    },
+    "boundary": {
+      "mid_word_starts": 0,
+      "mid_word_ends": 0
+    },
+    "position_accuracy_sample": {
+      "n": 40,
+      "topical_match": 40,
+      "mismatch": 0,
+      "seed": 7
+    },
+    "titles": {
+      "verbatim_claimed": 0,
+      "verbatim_confirmed_strict": 0,
+      "inferred_but_actually_literal": 1
+    },
+    "tags": {
+      "invalid_main_tag": 0,
+      "empty_or_dup_sub_tags": 0,
+      "tag_sample_checked": 40,
+      "tag_sample_wrong": 0
+    },
+    "leakage": {
+      "filename_or_header_remnants_in_titles": 0,
+      "note": "001.01 يذكر «رحلة الخلود» داخل عنوان وصفي مستنتج — وصف مشروع لا بقية اسم ملف"
+    }
+  },
+  "defects": [
+    {
+      "type": "false_inferred_flag",
+      "atom_id": "008.07",
+      "detail": "معلّمة inferred=true لكن العنوان «تصدق بصدقة فأخفاها حتى لا تعلم شماله ما تنفق يمينه» موجود حرفياً في الملف — يجب inferred=false."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "exercise_id": "prog-var-l3-debug",
+  "ladder_id": "prog-var",
+  "title": "اكتشف الخطأ: نص أم عدد؟",
+  "atom": {
+    "atom_id": "prog-var-03",
+    "title": "النص \"18\" ليس العدد 18",
+    "info": "القيمة بين تنصيص نص str مهما بدت رقماً؛ جمع نص وعدد يوقف البرنامج بخطأ TypeError. دوال التحويل int() وstr() وfloat() تنقل القيمة بين الأنواع.",
+    "source": "prog/data.js#py/p3"
+  },
+  "pattern": "اكتشف الخطأ",
+  "level": 3,
+  "prompt": "البرنامج التالي يفترض أن يحسب عمر المستخدم في العام القادم (قيمة `age` هنا تحاكي ما تعيده `input()` — نصاً دائماً).\n\nشغّله ذهنياً: سيتعطل بخطأ `TypeError`. **اكتشف العلة وصلّحها** بحيث يبقى الإدخال نصاً لكن الحساب يصح.",
+  "starter_code": "age = \"18\"\nnext_year = age + 1\nprint(\"في العام القادم سيبلغ:\", next_year)",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "انظر إلى نوع age: القيمة \"18\" بين تنصيص — نص وليست عدداً. جمع نص مع عدد غير ممكن.",
+      "reveal": {
+        "on_error": "type"
+      }
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "input() تعيد دائماً str، وهذا ما تحاكيه السلسلة \"18\". لاستعمالها حسابياً تحتاج تحويلها أولاً بدالة التحويل المناسبة."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "الإصلاح سطر واحد: غلّف النص بدالة التحويل — next_year = int(___) + 1"
+    }
+  ],
+  "solution": {
+    "code": "age = \"18\"\nnext_year = int(age) + 1\nprint(\"في العام القادم سيبلغ:\", next_year)",
+    "explanation": "العلة أن age نص (تحاكي ما تعيده input)، وجمع str + int يوقف البرنامج. int(age) يحوّل النص \"18\" إلى العدد 18 فيصبح الجمع حساباً صحيحاً ناتجه 19."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert next_year == 19",
+      "assert isinstance(next_year, int)"
+    ],
+    "source_checks": [
+      {
+        "kind": "not_regex",
+        "pattern": "next_year\\s*=\\s*19\\b",
+        "desc": "لا تكتب الناتج حرفياً — حوّل النص إلى عدد"
+      },
+      {
+        "kind": "contains",
+        "pattern": "int(",
+        "desc": "الإصلاح الصحيح يستعمل تحويل int() — فائدته أنه يعمل على أي إدخال نصي"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "أساسيات",
+      "أنواع",
+      "تصحيح",
+      "حالات-حدية"
+    ]
+  }
+}

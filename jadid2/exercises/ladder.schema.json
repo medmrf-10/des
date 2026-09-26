@@ -1,0 +1,263 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://medmrf-10.github.io/des/jadid2/exercises/ladder.schema.json",
+  "title": "تمرين السلم — برمجة",
+  "description": "تمرين برمجة واحد على «السلم»: ذرة مربوطة (معلومة صغيرة مقصوصة من درس) + نمط + مستوى + تلميحات تُكشف تباعاً + حل محجوب + معيار نجاح آلي. امتداد متخصص لـ jadid2/schema/exercise.schema.json لمسار البرمجة: التصحيح آلي (assert/predict/rubric) لا ذاتي، والتلميحات والحل محكومة بسياسة no-solution-policy.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["exercise_id", "ladder_id", "title", "atom", "pattern", "level", "prompt", "hints", "solution", "success_criterion"],
+  "properties": {
+    "exercise_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "معرّف فريد للتمرين — صيغة البنك: <مفهوم>-l<مستوى>-<نمط> (مثل prog-var-l1-complete)."
+    },
+    "ladder_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "معرّف السلم الذي ينتمي إليه التمرين — مجموعة درجات المفهوم الواحد (مثل prog-var). التمارين الثلاثة للمفهوم الواحد تشترك في ladder_id وتتدرج بـ level."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "عنوان عربي قصير للتمرين يظهر في الواجهة وقوائم المراجعة."
+    },
+    "atom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["atom_id", "title", "info"],
+      "description": "الذرة المربوطة: المعلومة الصغيرة التي يقيسها التمرين. حين تُنقل ذرات البرمجة إلى بنك الذرات العام يصبح atom_id مرجعاً إلى atom.schema.json#atom_id.",
+      "properties": {
+        "atom_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$",
+          "description": "معرّف الذرة (slug ثابت) — تشير إليه learner_state.attempts للجدولة."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "عنوان المعلومة الصغيرة كما تُعرض للمتعلم قبل التمرين."
+        },
+        "info": {
+          "type": "string",
+          "minLength": 1,
+          "description": "نص المعلومة الصغيرة المقصوصة — ما يجب أن يعرفه المتعلم قبل المحاولة."
+        },
+        "source": {
+          "type": "string",
+          "description": "مرجع قصّ الذرة (مثل prog/data.js#py/p2) — للتدقيق وإعادة الربط."
+        }
+      }
+    },
+    "pattern": {
+      "type": "string",
+      "enum": ["أكمل الكود", "اكتشف الخطأ", "توقع الناتج", "أعد البناء", "حوّل المتطلب", "اشرح لماذا"],
+      "description": "نمط التمرين من TAXONOMY.md — يحدد ماذا يقيس التمرين وكيف يُقدَّم starter_code."
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3,
+      "description": "درجة التمرين على سلم المفهوم: 1=تأسيس، 2=توسيع، 3=تركيب. تقابل lv 0/1/2 في نواة المنصة (core/SPEC.md §2.3)."
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "نص المهمة المعروض للمتعلم بالعربية (markdown؛ الكود داخل ```python). لا يحوي الحل ولا التلميحات."
+    },
+    "starter_code": {
+      "type": "string",
+      "description": "الكود المعروض في محرر المتعلم: قالب بفراغ ____ لنمط «أكمل الكود»، كود معلول لـ«اكتشف الخطأ»، الحل القائم لـ«حوّل المتطلب»، البرنامج المقروء لـ«توقع الناتج» و«اشرح لماذا» (مع editable_code=false)، وهيكل توقيع فارغ أو غياب الحقل لـ«أعد البناء»."
+    },
+    "editable_code": {
+      "type": "boolean",
+      "default": true,
+      "description": "هل يحرر المتعلم starter_code؟ false لنمطي «توقع الناتج» و«اشرح لماذا» — الإجابة نص/قيمة لا تعديل كود."
+    },
+    "hints": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "description": "التلميحات المتدرجة — تُكشف بالترتيب ولا يُكشف اللاحق قبل السابق. كل تلميح يقترب خطوة من الحل دون بلوغه: توجيه ← خطة ← شبه-حل.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["order", "title", "body"],
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "رتبة الكشف — التلميحات مرتبة تصاعدياً ولا تُقفز."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "عنوان قصير يظهر على زر التلميح (مثل «وجّه نظرك»، «الخطة»، «شبه الحل»)."
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "description": "نص التلميح بالعربية — لا يتضمن سطر الحل حرفياً إلا التلميح الأخير الجزئي."
+          },
+          "reveal": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "عتبات كشف هذا التلميح — تضييق على افتراضات no-solution-policy.md (القيم الأقل تُرفض).",
+            "properties": {
+              "after_attempts": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "أدنى محاولات فاشلة مسجلة قبل الإتاحة. الافتراضي: order السياسة."
+              },
+              "after_seconds": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "أدنى ثوانٍ منذ فتح التمرين. الافتراضي: السياسة."
+              },
+              "on_error": {
+                "type": "string",
+                "enum": ["syntax", "name", "type", "assertion", "timeout", "any"],
+                "description": "تسريع مرتبط بنوع الخطأ: خطأ نحوي/اسم يكشف هذا التلميح فور أول محاولة حتى قبل العتبات (انظر §3 في السياسة)."
+              }
+            }
+          }
+        }
+      }
+    },
+    "solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["explanation"],
+      "description": "الحل النموذجي — محجوب تماماً قبل اجتياز البوابة في no-solution-policy.md. يُعرض بعد النجاح للمقارنة، ولا يُكشف قبل الجهد أبداً.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "كود الحل النموذجي الكامل القابل للتشغيل — يجب أن يجتاز success_criterion.asserts نفسها (يُفحص آلياً بأداة check_bank.py)."
+        },
+        "answer": {
+          "type": "string",
+          "description": "الجواب النموذجي لغير الكودية: الناتج المتوقع لنمط «توقع الناتج» أو الشرح النموذجي لـ«اشرح لماذا»."
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "شرح الحل بالعربية — لماذا يعمل، لا ماذا يفعل فقط."
+        }
+      }
+    },
+    "success_criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "description": "معيار النجاح الآلي — يحوّل تسليم المتعلم إلى نجاح/إخفاق دون تدخل بشري.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["assert", "predict", "rubric"],
+          "description": "assert: ينفَّذ كود المتعلم ثم أسطر asserts؛ predict: تُطابَق إجابة المتعلم النصية مع expected_stdout بعد تطبيع المسافات؛ rubric: يُفحص الشرح بمعايير rubric ثم يقيّم ذاتياً أمام الجواب النموذجي."
+        },
+        "asserts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "أسطر assert بايثون تُنفَّذ في نطاق كود المتعلم بعد تشغيله (مطلوب عند mode=assert). تستدعي دواله وتفحص متغيراته — مثال: assert classify(95) == \"ممتاز\"."
+        },
+        "expected_stdout": {
+          "type": "string",
+          "description": "الناتج المتوقع حرفياً لنمط «توقع الناتج» (مطلوب عند mode=predict) — يُطابَق بعد strip وتوحيد الأسطر."
+        },
+        "rubric": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "معايير الشرح الحر لنمط «اشرح لماذا» (مطلوب عند mode=rubric).",
+          "properties": {
+            "min_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "أدنى أحرف في الشرح — يمنع الجواب الفارغ أو الاختصار المهرب."
+            },
+            "all_terms": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": [],
+              "description": "مصطلحات يجب أن تظهر كلها في الشرح (جذور التعليل)."
+            },
+            "any_terms": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": [],
+              "description": "مصطلحات بديلة — يكفي ظهور min_any منها."
+            },
+            "min_any": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "description": "كم مصطلحاً من any_terms يكفي."
+            }
+          }
+        },
+        "source_checks": {
+          "type": "array",
+          "description": "فحوص على نص التسليم نفسه — تمنع الحلول المهربة (كتابة الناتج حرفياً بدل حسابه).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "pattern"],
+            "properties": {
+              "kind": { "type": "string", "enum": ["contains", "not_contains", "regex", "not_regex"] },
+              "pattern": { "type": "string", "minLength": 1 },
+              "desc": { "type": "string", "description": "وصف الفحص بالعربية يظهر عند الإخفاق." }
+            }
+          }
+        },
+        "timeout_sec": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 10,
+          "description": "سقف تنفيذ كود المتعلم — تجاوزه = إخفاق بنوع timeout (يُغذّي عتبة on_error)."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "assert" } } },
+          "then": { "required": ["asserts"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "predict" } } },
+          "then": { "required": ["expected_stdout"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "rubric" } } },
+          "then": { "required": ["rubric"] }
+        }
+      ]
+    },
+    "effort_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "تضييقات خاصة بالتمرين فوق سياسة no-solution-policy.md — لا يجوز إرخاؤها دون الافتراضات.",
+      "properties": {
+        "min_seconds_per_attempt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "أدنى ثوانٍ لقبول المحاولة — يمنع التمرير السريع بلا جهد (افتراضي السياسة: 20)."
+        },
+        "min_chars_per_attempt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "أدنى أحرف في التسليم لقبوله محاولة (افتراضي السياسة: 3)."
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "بيانات إدارة البنك.",
+      "properties": {
+        "generated_by": { "type": "string", "enum": ["manual", "template", "llm"], "description": "مصدر التمرين — manual للبنك المنتقى." },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "وسوم حرة للفرز (مثل: أساسيات، منطق، حالات-حدية)." }
+      }
+    }
+  }
+}

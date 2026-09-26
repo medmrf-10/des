@@ -1,0 +1,57 @@
+{
+  "exercise_id": "prog-loop-l2-debug",
+  "ladder_id": "prog-loop",
+  "title": "اكتشف الخطأ: حلقة لا تنتهي",
+  "atom": {
+    "atom_id": "prog-loop-02",
+    "title": "شرط while يجب أن يقترب من الكذب",
+    "info": "while تكرر جسمها ما دام الشرط صادقاً؛ إن لم يغيّر الجسم شيئاً يُكذّب الشرطَ يوماً، دارت بلا نهاية. كل حلقة while تحتاج في جسدها ما يقرّب الشرط من الفشل (عدّاد يتناقص، مؤشر يتقدم).",
+    "source": "prog/data.js#py/p5"
+  },
+  "pattern": "اكتشف الخطأ",
+  "level": 2,
+  "prompt": "الدالة التالية يفترض أن تعيد قائمة العد التنازلي: `count_down(3)` ← `[3, 2, 1]`.\n\nلكن تشغيلها **لا ينتهي أبداً**. اكتشف العلة وصلّحها بحيث تتوقف الحلقة بعد أن تصل إلى 1.",
+  "starter_code": "def count_down(n):\n    out = []\n    while n > 0:\n        out.append(n)\n    return out",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "الحلقة دارت بلا نهاية. اسأل: هل قيمة n تتغير داخل الجسم؟ الشرط n > 0 سيبقى صادقاً إلى الأبد.",
+      "reveal": {
+        "on_error": "timeout"
+      }
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "while تتوقف فقط حين يكذب شرطها. يجب أن ينقص n بمقدار 1 في نهاية كل دورة حتى يصل إلى 0."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "أضف في نهاية جسم الحلقة (بنفس مستوى append): n = n - 1 أو مختصرها بعلامتي -=."
+    }
+  ],
+  "solution": {
+    "code": "def count_down(n):\n    out = []\n    while n > 0:\n        out.append(n)\n        n -= 1\n    return out",
+    "explanation": "العلة أن n لم تتغير قط داخل الحلقة فبقي الشرط n > 0 صادقاً دائماً. إضافة n -= 1 تجعل كل دورة تقرّب العدّاد من 0، فيكذب الشرط بعد n دورة وتنتهي الحلقة."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert count_down(3) == [3, 2, 1]",
+      "assert count_down(1) == [1]",
+      "assert count_down(5) == [5, 4, 3, 2, 1]"
+    ],
+    "timeout_sec": 3
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "حلقات",
+      "while",
+      "تصحيح",
+      "إنهاء"
+    ]
+  }
+}

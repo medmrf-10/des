@@ -1,0 +1,63 @@
+{
+  "exercise_id": "prog-var-l1-complete",
+  "ladder_id": "prog-var",
+  "title": "أكمل: حساب الإجمالي",
+  "atom": {
+    "atom_id": "prog-var-01",
+    "title": "الإسناد: اسم يشير إلى قيمة",
+    "info": "العبارة x = 10 تجعل الاسم x يشير إلى القيمة 10. بعدها تستعمل الاسم في أي عملية فيُحسب بقيمته: total = price * quantity يقرأ القيمتين المخزّنتين ويخزّن ناتج ضربهما في اسم جديد.",
+    "source": "prog/data.js#py/p2"
+  },
+  "pattern": "أكمل الكود",
+  "level": 1,
+  "prompt": "أمامك برنامج يحسب إجمالي مشتريات (سعر القطعة × عددها).\n\nأكمل السطر الناقص بحيث يُعرَّف المتغير `total` ويحمل ناتج ضرب `price` في `quantity`، ثم شغّل ذهنياً: ماذا سيطبع البرنامج؟",
+  "starter_code": "price = 15\nquantity = 3\n# أكمل السطر التالي ليحسب الإجمالي\n____\nprint(\"الإجمالي:\", total)",
+  "hints": [
+    {
+      "order": 1,
+      "title": "وجّه نظرك",
+      "body": "المطلوب تعريف متغير اسمه total يحمل ناتج عملية بين المتغيرين المعرَّفين فوقه. علامة الضرب في بايثون هي * لا ×."
+    },
+    {
+      "order": 2,
+      "title": "الخطة",
+      "body": "شكل الإسناد: اسم = قيمة. الاسم المطلوب هو total، والقيمة هي ضرب price في quantity."
+    },
+    {
+      "order": 3,
+      "title": "شبه الحل",
+      "body": "السطر الناقص يبدأ: total = price ___ quantity — ما العلامة الناقصة؟"
+    }
+  ],
+  "solution": {
+    "code": "price = 15\nquantity = 3\ntotal = price * quantity\nprint(\"الإجمالي:\", total)",
+    "explanation": "الإسناد total = price * quantity يقرأ قيمة price (15) وقيمة quantity (3) ويخزّن ناتج ضربهما (45) في الاسم الجديد total، فيطبع البرنامج «الإجمالي: 45»."
+  },
+  "success_criterion": {
+    "mode": "assert",
+    "asserts": [
+      "assert total == 45",
+      "assert isinstance(total, int)"
+    ],
+    "source_checks": [
+      {
+        "kind": "not_regex",
+        "pattern": "total\\s*=\\s*45\\b",
+        "desc": "لا تكتب الناتج حرفياً — احسبه من المتغيرين price وquantity"
+      },
+      {
+        "kind": "regex",
+        "pattern": "price\\s*\\*\\s*quantity|quantity\\s*\\*\\s*price",
+        "desc": "يجب أن يكون total ناتج ضرب price في quantity"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "manual",
+    "tags": [
+      "أساسيات",
+      "إسناد",
+      "عمليات"
+    ]
+  }
+}

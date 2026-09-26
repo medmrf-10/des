@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://medmrf-10.github.io/des/jadid2/schema/learner_state.schema.json",
+  "title": "حالة المتعلم على ذرة",
+  "description": "سجل حالة متعلم واحد على ذرة واحدة — منفصل تماماً عن المحتوى (atom.schema.json يحظر أي حقول أداء). يجمع حالة FSRS (الجدولة) وتاريخ المحاولات ونوع آخر أداء. يتوافق مع حقول py-fsrs: difficulty على سلم 1–10، stability بالأيام، retrievability بـ0–1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["learner_id", "atom_id", "fsrs", "attempts"],
+  "properties": {
+    "learner_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "معرّف المتعلم — مجهول/محلي، لا يحمل بيانات شخصية."
+    },
+    "atom_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "الذرة المقصودة — مرجع أجنبي إلى atom.schema.json#atom_id."
+    },
+    "fsrs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "due"],
+      "description": "حالة الجدولة بمعايير FSRS-5/6 — تتغذى من نتائج المحاولات ولا تُكتب يدوياً.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["new", "learning", "review", "relearning"],
+          "description": "مرحلة البطاقة في دورة FSRS: new لم تُراجع، learning قيد التثبيت، review مستقرة، relearning أعيدت بعد نسيان."
+        },
+        "difficulty": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "صعوبة البطاقة لهذا المتعلم (1–10 كما في py-fsrs) — تُحدَّث بعد كل مراجعة."
+        },
+        "stability": {
+          "type": "number",
+          "minimum": 0,
+          "description": "ثبات الذاكرة بالأيام — عدد الأيام التي يُتوقع أن تبقى فيها الذرة بقابلية استرجاع ≥ الهدف."
+        },
+        "retrievability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "احتمال الاسترجاع اللحظي (0–1) — يُحسب من stability والزمن المنقضي؛ للعرض والترتيب فقط."
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "description": "موعد المراجعة التالية (ISO 8601). جدولة التمارين تنتقي الذرات المستحقة."
+        },
+        "reps": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "عدد المراجعات المكتملة على هذه الذرة."
+        },
+        "lapses": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "عدد مرات النسيان (انتقال إلى relearning)."
+        },
+        "last_review": {
+          "type": "string",
+          "format": "date-time",
+          "description": "طابع آخر مراجعة مكتملة (ISO 8601)."
+        }
+      }
+    },
+    "attempts": {
+      "type": "array",
+      "default": [],
+      "description": "تاريخ المحاولات مرتباً زمنياً — كل محاولة تمرين أو تسميع أو قراءة.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ts", "perf_type", "grade"],
+        "properties": {
+          "ts": {
+            "type": "string",
+            "format": "date-time",
+            "description": "طابع المحاولة (ISO 8601)."
+          },
+          "exercise_id": {
+            "type": "string",
+            "description": "معرّف التمرين إن كانت المحاولة على تمرين من exercise.schema.json — غائب لمحاولات القراءة الحرة."
+          },
+          "perf_type": {
+            "type": "string",
+            "enum": ["تسميع", "تمرين", "قراءة"],
+            "description": "نوع الأداء: تسميع=استرجاع من الذاكرة، تمرين=حل سؤال متدرج، قراءة=مطالعة بلا اختبار."
+          },
+          "grade": {
+            "type": "string",
+            "enum": ["again", "hard", "good", "easy"],
+            "description": "تقدير الأداء بسلم FSRS الرباعي: again=فشل/نسيان، hard=صعب، good=صحيح، easy=سهل."
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "درجة دقيقة اختيارية للتمارين المفصّلة (نسبة الصواب)."
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "مدة المحاولة بالثواني — تشخيص التردد مقابل الجهد."
+          }
+        }
+      }
+    },
+    "last_perf_type": {
+      "type": "string",
+      "enum": ["تسميع", "تمرين", "قراءة"],
+      "description": "نوع آخر أداء مسجل — يحدد كيمياء الذرة القادمة (معلومة تحفظ بالتسميع/قراءة، مهارة تتقدم بالتمرين فقط)."
+    },
+    "mastered": {
+      "type": "boolean",
+      "default": false,
+      "description": "true عند بلوغ معيار الإتقان (استقرار ≥ عتبة السلسلة + آخر أداء تمرين ناجح للمهارات)."
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://medmrf-10.github.io/des/jadid2/schema/atom.schema.json",
+  "title": "الذرة",
+  "description": "الوحدة الدنيا الموثّقة في نظام التعلم: مقطع نصي من مصدر حقيقي (كتاب أو سلسلة دروس) مربوط بموضعه الدقيق، له نوع (معلومة أو مهارة) ووسوم وصعوبة ومتطلبات سابقة. لا يحمل أي حالة متعلم — الحالة في learner_state منفصلة تماماً عن المحتوى.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["atom_id", "kind", "title", "inferred", "source", "position", "main_tag", "difficulty", "prerequisites"],
+  "properties": {
+    "atom_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "معرّف ثابت فريد للذرة (صيغة مقترحة: <مصدر>-<ملف>-<تسلسل> مثل atom-984-003-1). لا يتغير أبداً — كل المراجعات من حالة المتعلم والتمارين تشير إليه."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["معلومة", "مهارة"],
+      "description": "معلومة: محتوى يُحفظ ويُفهم (نص متن، شرح، حكم). مهارة: قدرة تُكتسب بالتدريب المتدرج (إعراب، استنباط، تسميع منظّم) — جدولتها بالتمرين لا بالقراءة."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 250,
+      "description": "عنوان المقطع كما ورد في النص حرفياً (لفظ الشيخ أو المتن). إن لم يوجد عنوان نصي واستُنتج واحد، يُملأ هنا ويُعلَّم inferred=true."
+    },
+    "inferred": {
+      "type": "boolean",
+      "description": "false = العنوان مقطوع من النص حرفياً؛ true = مستنتج (موضوعي) — تُراجع مواضعها يدوياً لأن الاسترجاع يعتمد على دقة العنونة."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["سلسلة", "كتاب", "قرآن", "حديث"],
+          "description": "سلسلة: مجلد دروس مفرّغة (jadid2/src/transcripts/<id>_<name>). كتاب: متن مطبوع. قرآن: مصحف. حديث: مجموعة حديثية."
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "معرّف المصدر: اسم مجلد السلسلة حرفياً (مثل 984_أم_البراهين) أو slug الكتاب/المجموعة."
+        },
+        "author": {
+          "type": "string",
+          "description": "المؤلف أو الشيخ (مثلاً: محمد البردوني الحسيمي، محمد سعيد رمضان البوطي)."
+        },
+        "locator": {
+          "type": "string",
+          "description": "مسار داخلي اختياري يحدد موضع المصدر في الريبو أو المرجع الخارجي (مثل durus/370 أو OpenITI:xxx)."
+        }
+      }
+    },
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "description": "موضع المقطع الدقيق داخل مصدره. نطاقات المحارف هي إزاحات Unicode بالأحرف (مثل قراءة بايثون للنص utf-8)، لا بالبايتات.",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["file_span", "ayah", "hadith"],
+          "description": "file_span: ملف + char_start/char_end. ayah: سورة+آية داخل كتاب تفسير. hadith: رقم حديث داخل مجموعة."
+        },
+        "file": {
+          "type": "string",
+          "description": "اسم ملف التفريغ داخل مجلد السلسلة (مطلوب عند kind=file_span)."
+        },
+        "char_start": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "إزاحة الحرف الذي يبدأ عنده المقطع، ضمن الملف (مطلوب عند kind=file_span)."
+        },
+        "char_end": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "إزاحة الحرف الذي ينتهي عنده المقطع ضمناً أو استثناءً — يوثَّق الاصطلاح في العينة (مطلوب عند kind=file_span)."
+        },
+        "surah": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 114,
+          "description": "رقم السورة (مطلوب عند kind=ayah)."
+        },
+        "ayah": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "رقم الآية داخل السورة (مطلوب عند kind=ayah)."
+        },
+        "book": {
+          "type": "string",
+          "description": "كتاب التفسير المقصود بالآية (مطلوب عند kind=ayah) — مثل تفسير السعدي."
+        },
+        "collection": {
+          "type": "string",
+          "description": "المجموعة الحديثية (مطلوب عند kind=hadith) — مثل صحيح البخاري أو رياض الصالحين."
+        },
+        "hadith_number": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "رقم الحديث داخل المجموعة (مطلوب عند kind=hadith)."
+        },
+        "chapter": {
+          "type": "string",
+          "description": "الباب/الكتاب الداخلي للحديث إن وُجد (اختياري عند kind=hadith)."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "file_span" } } },
+          "then": { "required": ["file", "char_start", "char_end"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "ayah" } } },
+          "then": { "required": ["surah", "ayah", "book"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "hadith" } } },
+          "then": { "required": ["collection", "hadith_number"] }
+        }
+      ]
+    },
+    "quote": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "أول أسطر المقطع حرفياً (بصمة نصية) — للتحقق الآلي أن char_range ما زال يطابق النص بعد أي تعديل على ملف المصدر."
+    },
+    "main_tag": {
+      "type": "string",
+      "enum": ["عقيدة", "فقه", "أصول", "نحو", "صرف", "تفسير", "حديث", "تزكية", "سيرة", "أدب", "أخرى"],
+      "description": "الوسم الموضوعي الرئيسي — القائمة الثابتة المعتمدة في فهارس jadid2/atoms."
+    },
+    "sub_tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "description": "وسوم فرعية أدق (مثل: توحيد، أسماء_الله، برهان_الصدق، إعراب_كلمة_التوحيد). تُستعمل في بناء سلاسل المتطلبات عبر السلاسل."
+    },
+    "difficulty": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "صعوبة الذرة على سلم 1–5 (1=حفظ مباشر لنص قصير، 5=تركيب/استنباط يتطلب مقدمات). تُقاس من نوع المحتوى وطوله وتجريداته — لا من أداء المتعلم."
+    },
+    "prerequisites": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["atom_id"],
+        "properties": {
+          "atom_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*$",
+            "description": "معرّف ذرة يجب إتقانها قبل هذه الذرة."
+          },
+          "rule": {
+            "type": "string",
+            "enum": ["sequence", "matn_sharh", "tag_chain", "manual"],
+            "description": "القاعدة الخوارزمية التي ولّدت الحافة (انظر SKILL_GRAPH.md): sequence=الذرة السابقة في نفس الملف، matn_sharh=شرح يعتمد متنه، tag_chain=حلقة موضوعية عبر المصادر، manual=يدوية."
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "ثقة توليد الحافة (1 للقواعد البنيوية، أدنى للسلاسل الموضوعية المستنتجة)."
+          }
+        }
+      },
+      "description": "حواف المتطلبات السابقة — الرسم الموجّه غير الدوري الذي تُبنى عليه خطة التعلم (انظر SKILL_GRAPH.md)."
+    },
+    "notes": {
+      "type": "string",
+      "description": "ملاحظات حرة عن جودة الموضع أو سبب الاستنتاج."
+    }
+  }
+}

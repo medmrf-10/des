@@ -1,0 +1,3477 @@
+{
+ "text_id": "sw-water",
+ "title": "Simple English Wikipedia — Water (lead)",
+ "source": {
+  "corpus": "Simple English Wikipedia",
+  "article": "Water",
+  "url": "https://simple.wikipedia.org/wiki/Water",
+  "license": "CC BY-SA 4.0"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 89,
+   "text": "Water (H2O) is a simple chemical compound made of two hydrogen atoms and one oxygen atom.",
+   "tokens": [
+    {
+     "raw": "Water",
+     "norm": "water",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "H",
+     "norm": "h",
+     "start": 7,
+     "end": 8,
+     "numeric": false,
+     "lemma": "h",
+     "rank": 926,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 8,
+     "end": 9,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "O",
+     "norm": "o",
+     "start": 9,
+     "end": 10,
+     "numeric": false,
+     "lemma": "o",
+     "rank": 790,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 15,
+     "end": 16,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "simple",
+     "norm": "simple",
+     "start": 17,
+     "end": 23,
+     "numeric": false,
+     "lemma": "simple",
+     "rank": 886,
+     "zipf": 5.08,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "chemical",
+     "norm": "chemical",
+     "start": 24,
+     "end": 32,
+     "numeric": false,
+     "lemma": "chemical",
+     "rank": 2618,
+     "zipf": 4.57,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "compound",
+     "norm": "compound",
+     "start": 33,
+     "end": 41,
+     "numeric": false,
+     "lemma": "compound",
+     "rank": 5311,
+     "zipf": 4.18,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "made",
+     "norm": "made",
+     "start": 42,
+     "end": 46,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 47,
+     "end": 49,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "two",
+     "norm": "two",
+     "start": 50,
+     "end": 53,
+     "numeric": false,
+     "lemma": "two",
+     "rank": 86,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hydrogen",
+     "norm": "hydrogen",
+     "start": 54,
+     "end": 62,
+     "numeric": false,
+     "lemma": "hydrogen",
+     "rank": 7349,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "atoms",
+     "norm": "atoms",
+     "start": 63,
+     "end": 68,
+     "numeric": false,
+     "lemma": "atoms",
+     "rank": 10327,
+     "zipf": 3.75,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 69,
+     "end": 72,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "one",
+     "norm": "one",
+     "start": 73,
+     "end": 76,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "oxygen",
+     "norm": "oxygen",
+     "start": 77,
+     "end": 83,
+     "numeric": false,
+     "lemma": "oxygen",
+     "rank": 4695,
+     "zipf": 4.25,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "atom",
+     "norm": "atom",
+     "start": 84,
+     "end": 88,
+     "numeric": false,
+     "lemma": "atom",
+     "rank": 10813,
+     "zipf": 3.72,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 90,
+   "end": 150,
+   "text": "It is clear, has no taste or smell, and is almost colorless.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 3,
+     "end": 5,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "clear",
+     "norm": "clear",
+     "start": 6,
+     "end": 11,
+     "numeric": false,
+     "lemma": "clear",
+     "rank": 558,
+     "zipf": 5.25,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "has",
+     "norm": "has",
+     "start": 13,
+     "end": 16,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "no",
+     "norm": "no",
+     "start": 17,
+     "end": 19,
+     "numeric": false,
+     "lemma": "no",
+     "rank": 51,
+     "zipf": 6.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "taste",
+     "norm": "taste",
+     "start": 20,
+     "end": 25,
+     "numeric": false,
+     "lemma": "taste",
+     "rank": 1924,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 26,
+     "end": 28,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "smell",
+     "norm": "smell",
+     "start": 29,
+     "end": 34,
+     "numeric": false,
+     "lemma": "smell",
+     "rank": 3086,
+     "zipf": 4.49,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 36,
+     "end": 39,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 40,
+     "end": 42,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "almost",
+     "norm": "almost",
+     "start": 43,
+     "end": 49,
+     "numeric": false,
+     "lemma": "almost",
+     "rank": 395,
+     "zipf": 5.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "colorless",
+     "norm": "colorless",
+     "start": 50,
+     "end": 59,
+     "numeric": false,
+     "lemma": "colorless",
+     "rank": 28154,
+     "zipf": 3.02,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 151,
+   "end": 191,
+   "text": "All living things need water to survive.",
+   "tokens": [
+    {
+     "raw": "All",
+     "norm": "all",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "living",
+     "norm": "living",
+     "start": 4,
+     "end": 10,
+     "numeric": false,
+     "lemma": "live",
+     "rank": 263,
+     "zipf": 5.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "things",
+     "norm": "things",
+     "start": 11,
+     "end": 17,
+     "numeric": false,
+     "lemma": "things",
+     "rank": 179,
+     "zipf": 5.74,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "need",
+     "norm": "need",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "need",
+     "rank": 112,
+     "zipf": 5.97,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 23,
+     "end": 28,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 29,
+     "end": 31,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "survive",
+     "norm": "survive",
+     "start": 32,
+     "end": 39,
+     "numeric": false,
+     "lemma": "survive",
+     "rank": 2920,
+     "zipf": 4.52,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 192,
+   "end": 249,
+   "text": "Water molecules stick together because of hydrogen bonds.",
+   "tokens": [
+    {
+     "raw": "Water",
+     "norm": "water",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "molecules",
+     "norm": "molecules",
+     "start": 6,
+     "end": 15,
+     "numeric": false,
+     "lemma": "molecules",
+     "rank": 8066,
+     "zipf": 3.92,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "stick",
+     "norm": "stick",
+     "start": 16,
+     "end": 21,
+     "numeric": false,
+     "lemma": "stick",
+     "rank": 1802,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "together",
+     "norm": "together",
+     "start": 22,
+     "end": 30,
+     "numeric": false,
+     "lemma": "together",
+     "rank": 331,
+     "zipf": 5.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "because",
+     "norm": "because",
+     "start": 31,
+     "end": 38,
+     "numeric": false,
+     "lemma": "because",
+     "rank": 97,
+     "zipf": 6.03,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hydrogen",
+     "norm": "hydrogen",
+     "start": 42,
+     "end": 50,
+     "numeric": false,
+     "lemma": "hydrogen",
+     "rank": 7349,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "bonds",
+     "norm": "bonds",
+     "start": 51,
+     "end": 56,
+     "numeric": false,
+     "lemma": "bond",
+     "rank": 2517,
+     "zipf": 4.59,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 250,
+   "end": 292,
+   "text": "These bonds give water special properties.",
+   "tokens": [
+    {
+     "raw": "These",
+     "norm": "these",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "these",
+     "rank": 94,
+     "zipf": 6.04,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bonds",
+     "norm": "bonds",
+     "start": 6,
+     "end": 11,
+     "numeric": false,
+     "lemma": "bond",
+     "rank": 2517,
+     "zipf": 4.59,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "give",
+     "norm": "give",
+     "start": 12,
+     "end": 16,
+     "numeric": false,
+     "lemma": "give",
+     "rank": 185,
+     "zipf": 5.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "special",
+     "norm": "special",
+     "start": 23,
+     "end": 30,
+     "numeric": false,
+     "lemma": "special",
+     "rank": 460,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "properties",
+     "norm": "properties",
+     "start": 31,
+     "end": 41,
+     "numeric": false,
+     "lemma": "property",
+     "rank": 815,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 293,
+   "end": 371,
+   "text": "For example, water has high surface tension, and can dissolve many substances.",
+   "tokens": [
+    {
+     "raw": "For",
+     "norm": "for",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "example",
+     "norm": "example",
+     "start": 4,
+     "end": 11,
+     "numeric": false,
+     "lemma": "example",
+     "rank": 540,
+     "zipf": 5.27,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 13,
+     "end": 18,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "has",
+     "norm": "has",
+     "start": 19,
+     "end": 22,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "high",
+     "norm": "high",
+     "start": 23,
+     "end": 27,
+     "numeric": false,
+     "lemma": "high",
+     "rank": 172,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "surface",
+     "norm": "surface",
+     "start": 28,
+     "end": 35,
+     "numeric": false,
+     "lemma": "surface",
+     "rank": 1580,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "tension",
+     "norm": "tension",
+     "start": 36,
+     "end": 43,
+     "numeric": false,
+     "lemma": "tension",
+     "rank": 4987,
+     "zipf": 4.22,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "dissolve",
+     "norm": "dissolve",
+     "start": 53,
+     "end": 61,
+     "numeric": false,
+     "lemma": "dissolve",
+     "rank": 15148,
+     "zipf": 3.49,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "many",
+     "norm": "many",
+     "start": 62,
+     "end": 66,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "substances",
+     "norm": "substances",
+     "start": 67,
+     "end": 77,
+     "numeric": false,
+     "lemma": "substance",
+     "rank": 4900,
+     "zipf": 4.23,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 372,
+   "end": 461,
+   "text": "Water exists in three forms on Earth: solid (ice), liquid (water), and gas (water vapor).",
+   "tokens": [
+    {
+     "raw": "Water",
+     "norm": "water",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "exists",
+     "norm": "exists",
+     "start": 6,
+     "end": 12,
+     "numeric": false,
+     "lemma": "exist",
+     "rank": 1897,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 13,
+     "end": 15,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "three",
+     "norm": "three",
+     "start": 16,
+     "end": 21,
+     "numeric": false,
+     "lemma": "three",
+     "rank": 164,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "forms",
+     "norm": "forms",
+     "start": 22,
+     "end": 27,
+     "numeric": false,
+     "lemma": "form",
+     "rank": 489,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 31,
+     "end": 36,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "solid",
+     "norm": "solid",
+     "start": 38,
+     "end": 43,
+     "numeric": false,
+     "lemma": "solid",
+     "rank": 1919,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "ice",
+     "norm": "ice",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "ice",
+     "rank": 1081,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "liquid",
+     "norm": "liquid",
+     "start": 51,
+     "end": 57,
+     "numeric": false,
+     "lemma": "liquid",
+     "rank": 3702,
+     "zipf": 4.39,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 59,
+     "end": 64,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 67,
+     "end": 70,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "gas",
+     "norm": "gas",
+     "start": 71,
+     "end": 74,
+     "numeric": false,
+     "lemma": "gas",
+     "rank": 1051,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 76,
+     "end": 81,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "vapor",
+     "norm": "vapor",
+     "start": 82,
+     "end": 87,
+     "numeric": false,
+     "lemma": "vapor",
+     "rank": 13834,
+     "zipf": 3.56,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 462,
+   "end": 517,
+   "text": "The word \"water\" comes from the Old English word wæter.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "word",
+     "norm": "word",
+     "start": 4,
+     "end": 8,
+     "numeric": false,
+     "lemma": "word",
+     "rank": 555,
+     "zipf": 5.26,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 10,
+     "end": 15,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "comes",
+     "norm": "comes",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "come",
+     "rank": 161,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 23,
+     "end": 27,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 28,
+     "end": 31,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Old",
+     "norm": "old",
+     "start": 32,
+     "end": 35,
+     "numeric": false,
+     "lemma": "old",
+     "rank": 174,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "English",
+     "norm": "english",
+     "start": 36,
+     "end": 43,
+     "numeric": false,
+     "lemma": "english",
+     "rank": 653,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "word",
+     "norm": "word",
+     "start": 44,
+     "end": 48,
+     "numeric": false,
+     "lemma": "word",
+     "rank": 555,
+     "zipf": 5.26,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "w",
+     "norm": "w",
+     "start": 49,
+     "end": 50,
+     "numeric": false,
+     "lemma": "w",
+     "rank": 628,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "ter",
+     "norm": "ter",
+     "start": 51,
+     "end": 54,
+     "numeric": false,
+     "lemma": "ter",
+     "rank": 20796,
+     "zipf": 3.26,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 519,
+   "end": 568,
+   "text": "About 71% of Earth's surface is covered by water.",
+   "tokens": [
+    {
+     "raw": "About",
+     "norm": "about",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "71",
+     "norm": "71",
+     "start": 6,
+     "end": 8,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 10,
+     "end": 12,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth's",
+     "norm": "earth",
+     "start": 13,
+     "end": 20,
+     "poss": true,
+     "lemma_override": "earth",
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "surface",
+     "norm": "surface",
+     "start": 21,
+     "end": 28,
+     "numeric": false,
+     "lemma": "surface",
+     "rank": 1580,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 29,
+     "end": 31,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "covered",
+     "norm": "covered",
+     "start": 32,
+     "end": 39,
+     "numeric": false,
+     "lemma": "cover",
+     "rank": 867,
+     "zipf": 5.08,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "by",
+     "norm": "by",
+     "start": 40,
+     "end": 42,
+     "numeric": false,
+     "lemma": "by",
+     "rank": 24,
+     "zipf": 6.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 43,
+     "end": 48,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "start": 569,
+   "end": 617,
+   "text": "Most of this water (about 97%) is in the oceans.",
+   "tokens": [
+    {
+     "raw": "Most",
+     "norm": "most",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "this",
+     "norm": "this",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 13,
+     "end": 18,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 20,
+     "end": 25,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 26,
+     "end": 28,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 31,
+     "end": 33,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 34,
+     "end": 36,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 37,
+     "end": 40,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "oceans",
+     "norm": "oceans",
+     "start": 41,
+     "end": 47,
+     "numeric": false,
+     "lemma": "ocean",
+     "rank": 2049,
+     "zipf": 4.7,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "start": 618,
+   "end": 685,
+   "text": "This water is salt water, which we cannot drink or use for farming.",
+   "tokens": [
+    {
+     "raw": "This",
+     "norm": "this",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 5,
+     "end": 10,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 11,
+     "end": 13,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "salt",
+     "norm": "salt",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "salt",
+     "rank": 2499,
+     "zipf": 4.6,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "which",
+     "norm": "which",
+     "start": 26,
+     "end": 31,
+     "numeric": false,
+     "lemma": "which",
+     "rank": 59,
+     "zipf": 6.3,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "we",
+     "norm": "we",
+     "start": 32,
+     "end": 34,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cannot",
+     "norm": "cannot",
+     "start": 35,
+     "end": 41,
+     "numeric": false,
+     "lemma": "cannot",
+     "rank": 802,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "drink",
+     "norm": "drink",
+     "start": 42,
+     "end": 47,
+     "numeric": false,
+     "lemma": "drink",
+     "rank": 1334,
+     "zipf": 4.9,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 48,
+     "end": 50,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "use",
+     "norm": "use",
+     "start": 51,
+     "end": 54,
+     "numeric": false,
+     "lemma": "use",
+     "rank": 153,
+     "zipf": 5.81,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 55,
+     "end": 58,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "farming",
+     "norm": "farming",
+     "start": 59,
+     "end": 66,
+     "numeric": false,
+     "lemma": "farm",
+     "rank": 1824,
+     "zipf": 4.75,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s012",
+   "start": 686,
+   "end": 760,
+   "text": "Only 3% of Earth's water is fresh water, and even that is not easy to get.",
+   "tokens": [
+    {
+     "raw": "Only",
+     "norm": "only",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "only",
+     "rank": 79,
+     "zipf": 6.12,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth's",
+     "norm": "earth",
+     "start": 11,
+     "end": 18,
+     "poss": true,
+     "lemma_override": "earth",
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 25,
+     "end": 27,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "fresh",
+     "norm": "fresh",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "fresh",
+     "rank": 1563,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 34,
+     "end": 39,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 41,
+     "end": 44,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "even",
+     "norm": "even",
+     "start": 45,
+     "end": 49,
+     "numeric": false,
+     "lemma": "even",
+     "rank": 108,
+     "zipf": 5.99,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 50,
+     "end": 54,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 55,
+     "end": 57,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 58,
+     "end": 61,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "easy",
+     "norm": "easy",
+     "start": 62,
+     "end": 66,
+     "numeric": false,
+     "lemma": "easy",
+     "rank": 511,
+     "zipf": 5.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 67,
+     "end": 69,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "get",
+     "norm": "get",
+     "start": 70,
+     "end": 73,
+     "numeric": false,
+     "lemma": "get",
+     "rank": 61,
+     "zipf": 6.28,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s013",
+   "start": 761,
+   "end": 819,
+   "text": "69% of all fresh water is frozen in glaciers and ice caps.",
+   "tokens": [
+    {
+     "raw": "69",
+     "norm": "69",
+     "start": 0,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 4,
+     "end": 6,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "fresh",
+     "norm": "fresh",
+     "start": 11,
+     "end": 16,
+     "numeric": false,
+     "lemma": "fresh",
+     "rank": 1563,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "frozen",
+     "norm": "frozen",
+     "start": 26,
+     "end": 32,
+     "numeric": false,
+     "lemma": "freeze",
+     "rank": 5965,
+     "zipf": 4.11,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 33,
+     "end": 35,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "glaciers",
+     "norm": "glaciers",
+     "start": 36,
+     "end": 44,
+     "numeric": false,
+     "lemma": "glacier",
+     "rank": 13358,
+     "zipf": 3.58,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "ice",
+     "norm": "ice",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "ice",
+     "rank": 1081,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "caps",
+     "norm": "caps",
+     "start": 53,
+     "end": 57,
+     "numeric": false,
+     "lemma": "cap",
+     "rank": 2929,
+     "zipf": 4.51,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s014",
+   "start": 820,
+   "end": 858,
+   "text": "30% is stored underground in aquifers.",
+   "tokens": [
+    {
+     "raw": "30",
+     "norm": "30",
+     "start": 0,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 4,
+     "end": 6,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "stored",
+     "norm": "stored",
+     "start": 7,
+     "end": 13,
+     "numeric": false,
+     "lemma": "store",
+     "rank": 1030,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "underground",
+     "norm": "underground",
+     "start": 14,
+     "end": 25,
+     "numeric": false,
+     "lemma": "underground",
+     "rank": 4200,
+     "zipf": 4.32,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 26,
+     "end": 28,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "aquifers",
+     "norm": "aquifers",
+     "start": 29,
+     "end": 37,
+     "numeric": false,
+     "lemma": "aquifer",
+     "rank": 32677,
+     "zipf": 2.9,
+     "band": "R",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s015",
+   "start": 859,
+   "end": 904,
+   "text": "Less than 1% is in lakes, rivers, and swamps.",
+   "tokens": [
+    {
+     "raw": "Less",
+     "norm": "less",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "little",
+     "rank": 173,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 5,
+     "end": 9,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 10,
+     "end": 11,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 13,
+     "end": 15,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "lakes",
+     "norm": "lakes",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "lake",
+     "rank": 1564,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "rivers",
+     "norm": "rivers",
+     "start": 26,
+     "end": 32,
+     "numeric": false,
+     "lemma": "river",
+     "rank": 1001,
+     "zipf": 5.03,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 34,
+     "end": 37,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "swamps",
+     "norm": "swamps",
+     "start": 38,
+     "end": 44,
+     "numeric": false,
+     "lemma": "swamp",
+     "rank": 9107,
+     "zipf": 3.84,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s016",
+   "start": 905,
+   "end": 976,
+   "text": "If you look at all the water on Earth, only about 1% can be used by us.",
+   "tokens": [
+    {
+     "raw": "If",
+     "norm": "if",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "if",
+     "rank": 37,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 3,
+     "end": 6,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "look",
+     "norm": "look",
+     "start": 7,
+     "end": 11,
+     "numeric": false,
+     "lemma": "look",
+     "rank": 151,
+     "zipf": 5.81,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 15,
+     "end": 18,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 19,
+     "end": 22,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 23,
+     "end": 28,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 29,
+     "end": 31,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 32,
+     "end": 37,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "only",
+     "norm": "only",
+     "start": 39,
+     "end": 43,
+     "numeric": false,
+     "lemma": "only",
+     "rank": 79,
+     "zipf": 6.12,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 44,
+     "end": 49,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 50,
+     "end": 51,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 53,
+     "end": 56,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "be",
+     "norm": "be",
+     "start": 57,
+     "end": 59,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "used",
+     "norm": "used",
+     "start": 60,
+     "end": 64,
+     "numeric": false,
+     "lemma": "used",
+     "rank": 156,
+     "zipf": 5.8,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "by",
+     "norm": "by",
+     "start": 65,
+     "end": 67,
+     "numeric": false,
+     "lemma": "by",
+     "rank": 24,
+     "zipf": 6.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "us",
+     "norm": "us",
+     "start": 68,
+     "end": 70,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s017",
+   "start": 977,
+   "end": 1021,
+   "text": "And most of that water is found underground.",
+   "tokens": [
+    {
+     "raw": "And",
+     "norm": "and",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "most",
+     "norm": "most",
+     "start": 4,
+     "end": 8,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 9,
+     "end": 11,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 12,
+     "end": 16,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "found",
+     "norm": "found",
+     "start": 26,
+     "end": 31,
+     "numeric": false,
+     "lemma": "find",
+     "rank": 169,
+     "zipf": 5.76,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "underground",
+     "norm": "underground",
+     "start": 32,
+     "end": 43,
+     "numeric": false,
+     "lemma": "underground",
+     "rank": 4200,
+     "zipf": 4.32,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s018",
+   "start": 1022,
+   "end": 1056,
+   "text": "Water is always moving in a cycle.",
+   "tokens": [
+    {
+     "raw": "Water",
+     "norm": "water",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 6,
+     "end": 8,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "always",
+     "norm": "always",
+     "start": 9,
+     "end": 15,
+     "numeric": false,
+     "lemma": "always",
+     "rank": 167,
+     "zipf": 5.76,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "moving",
+     "norm": "moving",
+     "start": 16,
+     "end": 22,
+     "numeric": false,
+     "lemma": "move",
+     "rank": 447,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 26,
+     "end": 27,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cycle",
+     "norm": "cycle",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "cycle",
+     "rank": 2477,
+     "zipf": 4.6,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s019",
+   "start": 1057,
+   "end": 1088,
+   "text": "This is called the water cycle.",
+   "tokens": [
+    {
+     "raw": "This",
+     "norm": "this",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "called",
+     "norm": "called",
+     "start": 8,
+     "end": 14,
+     "numeric": false,
+     "lemma": "called",
+     "rank": 231,
+     "zipf": 5.59,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 15,
+     "end": 18,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "water",
+     "norm": "water",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "water",
+     "rank": 284,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cycle",
+     "norm": "cycle",
+     "start": 25,
+     "end": 30,
+     "numeric": false,
+     "lemma": "cycle",
+     "rank": 2477,
+     "zipf": 4.6,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s020",
+   "start": 1089,
+   "end": 1101,
+   "text": "It includes:",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "includes",
+     "norm": "includes",
+     "start": 3,
+     "end": 11,
+     "numeric": false,
+     "lemma": "include",
+     "rank": 620,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 204,
+  "scored_tokens": 196,
+  "sentences": 20,
+  "msl": 9.8,
+  "S_long": 0.0,
+  "syn": 0.25,
+  "U_rare": 0.107,
+  "D": 0.207,
+  "C_token": 0.6786,
+  "C_lemma": 0.5273,
+  "max_unk_sent": 9,
+  "residual_per_sent_raw": {
+   "s001": 9,
+   "s002": 4,
+   "s003": 1,
+   "s004": 4,
+   "s005": 2,
+   "s006": 5,
+   "s007": 7,
+   "s008": 5,
+   "s009": 3,
+   "s010": 1,
+   "s011": 4,
+   "s012": 2,
+   "s013": 5,
+   "s014": 3,
+   "s015": 3,
+   "s016": 1,
+   "s017": 1,
+   "s018": 1,
+   "s019": 1,
+   "s020": 1
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "h": {
+   "count": 1,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "o": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "simple": {
+   "count": 1,
+   "zipf": 5.08,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "chemical": {
+   "count": 1,
+   "zipf": 4.57,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "compound": {
+   "count": 1,
+   "zipf": 4.18,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hydrogen": {
+   "count": 2,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s004"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "atoms": {
+   "count": 1,
+   "zipf": 3.75,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "oxygen": {
+   "count": 1,
+   "zipf": 4.25,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "atom": {
+   "count": 1,
+   "zipf": 3.72,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "clear": {
+   "count": 1,
+   "zipf": 5.25,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "taste": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "smell": {
+   "count": 1,
+   "zipf": 4.49,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "colorless": {
+   "count": 1,
+   "zipf": 3.02,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "survive": {
+   "count": 1,
+   "zipf": 4.52,
+   "band": "B3",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "molecules": {
+   "count": 1,
+   "zipf": 3.92,
+   "band": "B5",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "stick": {
+   "count": 1,
+   "zipf": 4.76,
+   "band": "B2",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bond": {
+   "count": 2,
+   "zipf": 4.59,
+   "band": "B3",
+   "sents": [
+    "s004",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "property": {
+   "count": 1,
+   "zipf": 5.11,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "example": {
+   "count": 1,
+   "zipf": 5.27,
+   "band": "B1",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "surface": {
+   "count": 2,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s006",
+    "s009"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "tension": {
+   "count": 1,
+   "zipf": 4.22,
+   "band": "B4",
+   "sents": [
+    "s006"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "dissolve": {
+   "count": 1,
+   "zipf": 3.49,
+   "band": "B6",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "substance": {
+   "count": 1,
+   "zipf": 4.23,
+   "band": "B4",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "exist": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "earth": {
+   "count": 4,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s007",
+    "s009",
+    "s012",
+    "s016"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "solid": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "ice": {
+   "count": 2,
+   "zipf": 5.0,
+   "band": "B2",
+   "sents": [
+    "s007",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "liquid": {
+   "count": 1,
+   "zipf": 4.39,
+   "band": "B4",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "gas": {
+   "count": 1,
+   "zipf": 5.01,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "vapor": {
+   "count": 1,
+   "zipf": 3.56,
+   "band": "B6",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "word": {
+   "count": 2,
+   "zipf": 5.26,
+   "band": "B1",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "english": {
+   "count": 1,
+   "zipf": 5.19,
+   "band": "B1",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "w": {
+   "count": 1,
+   "zipf": 5.21,
+   "band": "B1",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "ter": {
+   "count": 1,
+   "zipf": 3.26,
+   "band": "B6",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cover": {
+   "count": 1,
+   "zipf": 5.08,
+   "band": "B1",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "ocean": {
+   "count": 1,
+   "zipf": 4.7,
+   "band": "B3",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "salt": {
+   "count": 1,
+   "zipf": 4.6,
+   "band": "B3",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cannot": {
+   "count": 1,
+   "zipf": 5.11,
+   "band": "B1",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "drink": {
+   "count": 1,
+   "zipf": 4.9,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "farm": {
+   "count": 1,
+   "zipf": 4.75,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "fresh": {
+   "count": 2,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s012",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "freeze": {
+   "count": 1,
+   "zipf": 4.11,
+   "band": "B5",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "glacier": {
+   "count": 1,
+   "zipf": 3.58,
+   "band": "B6",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cap": {
+   "count": 1,
+   "zipf": 4.51,
+   "band": "B3",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "store": {
+   "count": 1,
+   "zipf": 5.02,
+   "band": "B2",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "underground": {
+   "count": 2,
+   "zipf": 4.32,
+   "band": "B4",
+   "sents": [
+    "s014",
+    "s017"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "aquifer": {
+   "count": 1,
+   "zipf": 2.9,
+   "band": "R",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lake": {
+   "count": 1,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s015"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "river": {
+   "count": 1,
+   "zipf": 5.03,
+   "band": "B2",
+   "sents": [
+    "s015"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "swamp": {
+   "count": 1,
+   "zipf": 3.84,
+   "band": "B5",
+   "sents": [
+    "s015"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cycle": {
+   "count": 2,
+   "zipf": 4.6,
+   "band": "B3",
+   "sents": [
+    "s018",
+    "s019"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "include": {
+   "count": 1,
+   "zipf": 5.21,
+   "band": "B1",
+   "sents": [
+    "s020"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "example",
+   "clear",
+   "w",
+   "include",
+   "english",
+   "o",
+   "property",
+   "cannot"
+  ],
+  "inference_targets": [
+   "word",
+   "earth",
+   "ice",
+   "surface",
+   "fresh",
+   "cycle",
+   "bond",
+   "underground",
+   "tension",
+   "hydrogen"
+  ],
+  "gloss": [
+   "simple",
+   "cover",
+   "h",
+   "river",
+   "store",
+   "gas",
+   "drink",
+   "lake",
+   "stick",
+   "farm",
+   "taste",
+   "exist",
+   "solid",
+   "ocean",
+   "salt",
+   "chemical",
+   "survive",
+   "cap",
+   "smell",
+   "liquid",
+   "oxygen",
+   "substance",
+   "compound",
+   "freeze",
+   "molecules",
+   "swamp",
+   "atoms",
+   "atom",
+   "glacier",
+   "vapor",
+   "dissolve",
+   "ter",
+   "colorless",
+   "aquifer"
+  ],
+  "controls": {
+   "C_eff": 0.7194,
+   "gloss_n": 34,
+   "gloss_cap": 5,
+   "resid_max": 8,
+   "n_infer": 10
+  },
+  "residual_per_sent": {
+   "s001": 8,
+   "s002": 3,
+   "s003": 1,
+   "s004": 4,
+   "s005": 1,
+   "s006": 4,
+   "s007": 7,
+   "s008": 3,
+   "s009": 3,
+   "s010": 1,
+   "s011": 3,
+   "s012": 2,
+   "s013": 5,
+   "s014": 3,
+   "s015": 3,
+   "s016": 1,
+   "s017": 1,
+   "s018": 1,
+   "s019": 1
+  }
+ }
+}

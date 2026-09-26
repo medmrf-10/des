@@ -55,10 +55,11 @@ function buildStats(){
 
 function renderNode(n, depth, host){
   const box = document.createElement('div');
+  box.className = 'tnode';
   const kids = n.ch || [];
   const row = document.createElement('div');
   row.className = 'trow'; row.dataset.id = n.id;
-  row.innerHTML = `<span class="tgl">${kids.length ? '▾' : ''}</span><span class="tt">${esc(n.t)}</span>` + badge(n,'s775') + badge(n,'s776');
+  row.innerHTML = `<span class="tgl">${kids.length ? (depth === 0 ? '▾' : '▸') : ''}</span><span class="tt">${esc(n.t)}</span>` + badge(n,'s775') + badge(n,'s776');
   row.onclick = () => select(n.id);
   box.appendChild(row);
   const chBox = document.createElement('div');
@@ -93,7 +94,7 @@ function select(id){
   if(!n) return;
   document.querySelectorAll('.trow.on').forEach(e => e.classList.remove('on'));
   const row = document.querySelector(`.trow[data-id="${CSS.escape(id)}"]`);
-  if(row){ row.classList.add('on'); let b=row.closest('.tnode'); while(b && b.parentElement && b.parentElement.classList.contains('ch')){ b.parentElement.classList.add('open'); b=b.parentElement.closest('.tnode'); } }
+  if(row){ row.classList.add('on'); openAncestors(row); }
   history.replaceState(null, '', '#' + id);
   const R = $('#reader');
   R.innerHTML = `<div class="nt">${esc(n.t)}</div><div class="nid">${esc(n.id)}</div>`;
@@ -108,15 +109,24 @@ function select(id){
   }
 }
 
+function openAncestors(row){
+  let b = row.closest('.tnode');
+  while(b && b.parentElement && b.parentElement.classList.contains('ch')){
+    b.parentElement.classList.add('open');
+    b = b.parentElement.closest('.tnode');
+  }
+}
+
 $('#q').addEventListener('input', ev => {
   const q = norm(ev.target.value.trim());
-  document.querySelectorAll('#tree > div').forEach(el => {
+  document.querySelectorAll('.tnode').forEach(el => {
     const row = el.querySelector(':scope > .trow');
     const n = ALL.find(x => x.id === row.dataset.id);
+    const isHit = !q || norm(n.t).includes(q);
     const desc = !q || hasHit(n, q);
     el.style.display = desc ? '' : 'none';
-    if(q && desc) el.querySelectorAll(':scope > .ch, .ch').forEach(c=>c.classList.add('open'));
-    row.querySelector('.tt').innerHTML = hit(n,q);
+    if(q && desc) el.querySelectorAll(':scope > .ch').forEach(c=>c.classList.add('open'));
+    row.querySelector('.tt').innerHTML = isHit ? hit(n,q) : esc(n.t);
   });
 });
 function hasHit(n,q){ return norm(n.t).includes(q) || (n.ch||[]).some(c=>hasHit(c,q)); }

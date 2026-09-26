@@ -8,5 +8,23 @@
     "url": "https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.JamicCulumWaHikam/0795IbnRajabHanbali.JamicCulumWaHikam.JK000071-ara1",
     "raw_sha256": "836663b2890c7b2feb23e7641e8fcf23e6e15bc163680a955155d5a8b34d3c66",
     "note": "نسخة JK المنقّحة (بلا هوامش محرر/فهارس). 50 حديثاً: الأربعون النووية (1-42) بترتيبها + زوائد ابن رجب (43-50). ترويسات «الحديث N» كلها موجودة ومتزايدة — تُستعمل حدودَ مقاطعٍ وأرضيةً ذهبية للتقييم."
+  },
+  "riyad_salihin_nawawi.jk000073.txt.gz": {
+    "title": "رياض الصالحين من كلام سيد المرسلين (المتن)",
+    "author": "النووي (ت 676هـ)",
+    "openiti_uri": "0676Nawawi.RiyadSalihin.JK000073-ara2",
+    "corpus": "OpenITI 0700AH",
+    "url": "https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.RiyadSalihin/0676Nawawi.RiyadSalihin.JK000073-ara2",
+    "raw_sha256": "ebd584e9253d93b500bcab333cc7bbc7d956c589214027fa5d4b6a2bcc7558ec",
+    "note": "نسخة دار الفكر. ترقيم «# N» صريح يغطي 1882 حديثاً (الأرقام 549، 630، 691، 695، 806، 834، 865، 1120، 1333، 1468-1470، 1545، 1851 غائبة في النسخة). ترويسات الأبواب «# | N - باب X»."
+  },
+  "dalil_falihin_ibn_allan.shamela0000140.txt.gz": {
+    "title": "دليل الفالحين لطرق رياض الصالحين (الشرح)",
+    "author": "ابن علان الصديقي (ت 1057هـ)",
+    "openiti_uri": "1057IbnCallan.DalilFalihin.Shamela0000140-ara1",
+    "corpus": "OpenITI 1075AH",
+    "url": "https://raw.githubusercontent.com/OpenITI/1075AH/master/data/1057IbnCallan/1057IbnCallan.DalilFalihin/1057IbnCallan.DalilFalihin.Shamela0000140-ara1",
+    "raw_sha256": "3273dab3dfcf980e004f27611b30bd36681daaec82d645a1931903a537a3d999",
+    "note": "12 مجلداً ~6.7MB. لا توجد نسخة لشرح الشنقيطي/العثيمين على OpenITI وقت الجلب، فاختير أكبر شرح كلاسيكي متاح — وهو أصعب اختبار: الحديث يُقتبس مقطعاً مقطعاً بين ظهراني شروح متداخلة. ترويسات الأبواب «### $ N - باب X»؛ علامات «### | digits» مبهمة الترميز ولم تُعتمد."
   }
 }

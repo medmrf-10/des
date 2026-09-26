@@ -34,7 +34,7 @@ STAB_EPS = 0.5           # قاع الثبات في مقام due_score
 GRADE_OK = {"good", "easy"}
 REVIEW_STATES = {"learning", "review", "relearning"}
 
-# —— جدولة المحاكاة المبسطة (--sim فقط؛ ليست جدولة الإنتاج — انظر SPEC.md §5) ——
+# —— جدولة المحاكاة المبسطة (--sim فقط؛ ليست جدولة الإنتاج — انظر SPEC.md §6) ——
 SIM_S0 = {"again": 0.5, "hard": 1.0, "good": 2.5, "easy": 5.0}   # ثبات أول مراجعة (يوم)
 SIM_GROWTH = {"again": 0.4, "hard": 1.2, "good": 3.0, "easy": 3.5}
 SIM_LAPSE_DUE_DAYS = 0.5
@@ -420,7 +420,7 @@ def sim_grade(step, atom_key):
 
 
 def sim_update(rec, grade, now):
-    """تحديث مبسط بأسلوب FSRS — للمحاكاة فقط (SPEC §5)."""
+    """تحديث مبسط بأسلوب FSRS — للمحاكاة فقط (SPEC §6)."""
     f = rec["fsrs"]
     s = f.get("stability") or 0
     if f["state"] == "new" or f.get("reps", 0) == 0:

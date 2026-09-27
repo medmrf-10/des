@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شبكة معاني الحديث — تجربة</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+select,input{width:100%;background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:12px;font-size:15px;margin-bottom:10px;box-sizing:border-box}
+.grp{border-bottom:1px solid #2a3442;padding:12px 0;cursor:pointer}
+.grp .t{font-size:16px;color:#e8e2d0;line-height:1.8}
+.grp .m{color:#9aa4b0;font-size:12px;margin-top:4px}
+.grp .m b{color:#d4a94f}
+.had{background:#141a24;border-right:3px solid #d4a94f;border-radius:8px;padding:12px;margin:8px 0;font-size:15px;line-height:1.9}
+.had .src{color:#9aa4b0;font-size:12px}
+.grade{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;margin-left:6px}
+.sahih{background:#14532d;color:#a7f3d0}.hasan{background:#713f12;color:#fde68a}.other{background:#2a3442;color:#9aa4b0}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #2a3442;border-top-color:#d4a94f;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>شبكة معاني الحديث</h1>
+<p class="sub">تجربة عميقة: مجموعات المعنى الحقيقية — كل مجموعة تجمع روايات الحديث نفسه عبر الكتب الستة بدرجتها وإحالاتها. اختر كتاباً فتصفّح معاني أحاديثه مترابطة.</p>
+<div class="card">
+<select id="book"></select>
+<input id="q" placeholder="ابحث في عناوين المعاني…">
+<div id="out"></div>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const BOOKS={bukhari:'صحيح البخاري',muslim:'صحيح مسلم',tirmidhi:'جامع الترمذي','abi-dawud':'سنن أبي داود',nasai:'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+const BN={bukhari:'البخاري',muslim:'مسلم',tirmidhi:'الترمذي','abi-dawud':'أبو داود',nasai:'النسائي','ibn-majah':'ابن ماجه'};
+let cur=null,D=null;
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function jgz(u){const r=await fetch(u);if(!r.ok)throw 0;
+ return JSON.parse(await new Response(new Blob([await r.arrayBuffer()]).stream().pipeThrough(new DecompressionStream('gzip'))).text())}
+const sel=$('book');
+for(const k in BOOKS){const o=document.createElement('option');o.value=k;o.textContent=BOOKS[k];sel.appendChild(o)}
+sel.onchange=()=>load(sel.value);$('q').oninput=render;
+load('bukhari');
+async function load(b){
+ $('out').innerHTML='<span class="spin"></span> جارٍ تحميل '+BOOKS[b]+'…';
+ cur=b;D=await jgz('../wahy/data/hadith/'+b+'-det.json.gz');render();
+}
+function render(){
+ const box=$('out');box.innerHTML='';if(!D)return;
+ const f=$('q').value.trim();let n=0;
+ const grps=Object.entries(D.g||{});
+ for(const [gid,g] of grps){
+  if(f&&!(g.t||'').includes(f))continue;
+  const el=document.createElement('div');el.className='grp';
+  const grade=g.h==='صحيح'?'sahih':g.h==='حسن'?'hasan':'other';
+  const xref=Object.keys(g.x||{}).map(b=>BN[b]||b).join('،');
+  el.innerHTML='<div class="t">'+esc(g.t)+'</div><div class="m"><span class="grade '+grade+'">'+esc(g.h||'—')+'</span> روايات: '+(g.hs?g.hs.length:0)+(xref?' · يقابله في: '+xref:'')+'</div>';
+  el.onclick=()=>showGroup(el,g);
+  box.appendChild(el);
+  if(++n>=80){const m=document.createElement('div');m.className='m';m.textContent='… +'+(grps.length-n)+' مجموعة — ضيّق البحث';box.appendChild(m);break}
+ }
+}
+function showGroup(el,g){
+ if(el.dataset.open){el.querySelectorAll('.had').forEach(x=>x.remove());el.dataset.open='';return}
+ el.dataset.open='1';
+ (g.hs||[]).slice(0,10).forEach(hid=>{
+  const h=D.d[hid];
+  const div=document.createElement('div');div.className='had';
+  div.innerHTML=(h?esc(h.m):'(متن #'+hid+')')+'<div class="src">'+BOOKS[cur]+' — حديث '+hid+'</div>';
+  el.appendChild(div);
+ });
+ if((g.hs||[]).length>10){const m=document.createElement('div');m.className='src';m.textContent='… +'+(g.hs.length-10)+' رواية أخرى';el.appendChild(m)}
+}
+</script>
+</body>
+</html>

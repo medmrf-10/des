@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بحث القرآن — كل آيات اللفظ</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+input{width:100%;background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:14px;font-size:18px;box-sizing:border-box}
+.ay{border-bottom:1px solid #2a3442;padding:12px 0;display:block;text-decoration:none;color:inherit}
+.ay:hover{background:#212a38}
+.ref{color:#d4a94f;font-size:13px;margin-bottom:4px}
+.tx{font-size:17px;line-height:1.9}
+.tx b{color:#f6c453}
+.count{color:#9aa4b0;font-size:13px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>بحث القرآن الكريم</h1>
+<p class="sub">اكتب أي لفظ (بلا تشكيل) فتظهر كل آياته في القرآن كاملاً — وكل آية تفتح مقارنة كل مفسريها في وحي.</p>
+<div class="card">
+<input id="q" placeholder="مثال: الرحمن، الصبر، تقوى…" autofocus>
+<div class="count" id="cnt"></div>
+<div id="res"></div>
+</div>
+</div>
+<script>
+let Q=null;const $=id=>document.getElementById(id);
+const norm=s=>s.replace(/[\u064b-\u065f\u0670\u06d6-\u06ed]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const SN={};fetch('quran-data/quran.json').then(r=>r.json()).then(d=>{
+ Q=d;d.forEach(v=>SN[v.s]=1);
+ fetch('../wahy/data/index.json').then(r=>r.json()).then(ix=>{window.IX=ix});
+ $('q').oninput=search;
+});
+function search(){
+ const f=norm($('q').value.trim());const box=$('res');box.innerHTML='';
+ if(f.length<2||!Q){$('cnt').textContent='';return}
+ const hits=Q.filter(v=>v.n.includes(f));
+ $('cnt').textContent=hits.length+' آية';
+ const nm=v=>window.IX&&IX[v.s-1]?IX[v.s-1].ar:v.s;
+ hits.slice(0,100).forEach(v=>{
+  const a=document.createElement('a');a.className='ay';
+  a.href='../wahy/muqaran_tafsir.html#s='+v.s+'&v='+v.a;
+  a.innerHTML='<div class="ref">سورة '+nm(v)+' — آية '+v.a+' ← قارن مفسريها</div><div class="tx">'+v.t+'</div>';
+  box.appendChild(a);
+ });
+ if(hits.length>100){const m=document.createElement('div');m.className='count';m.textContent='… +'+(hits.length-100)+' — ضيّق اللفظ';box.appendChild(m)}
+}
+</script>
+</body>
+</html>

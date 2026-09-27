@@ -72,12 +72,12 @@ async function toggle(el,slug,s,a){
  el.classList.toggle('open');
  const b=el.querySelector('.b'),st=el.querySelector('.st');
  if(b.dataset.done)return;
- st.innerHTML='<span class="spin"></span>';
+ st.innerHTML='<span class="spin"></span> يُحمَّل (ملف كبير قد يتأخر)…';
  try{
   if(!cache[slug])cache[slug]=await jget('../wahy/data/tafsir/'+slug+'.json.gz',1);
   const key=cache[slug].vg[s+':'+a];
   const g=key&&cache[slug].groups[key];
-  b.textContent=g?g.x:'لا تفسير لهذه الآية في هذا المصدر';
+  b.textContent=(g&&g.x&&g.x.trim())?g.x:'لا تفسير لهذه الآية في هذا المصدر';
   st.textContent='—';b.dataset.done='1';
  }catch(e){b.textContent='تعذّر التحميل';st.textContent=''}
 }

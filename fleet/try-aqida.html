@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ذرات العقيدة — تجربة</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+select,input{width:100%;background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:12px;font-size:15px;margin-bottom:10px}
+.atom{border-bottom:1px solid #2a3442;padding:12px 0}
+.atom:last-child{border:0}
+.at{color:#d4a94f;font-size:15px;margin-bottom:6px}
+.aq{font-size:16px;line-height:1.9;color:#e8e2d0}
+.ak{color:#9aa4b0;font-size:12px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>ذرات العقيدة</h1>
+<p class="sub">تجربة: ذرات عقائدية بنصها الحرفي المقصوص — اختر كتاباً فتقرأ ذراته مفهرسة بعناوينها، أو ابحث في النص.</p>
+<div class="card">
+<select id="book"></select>
+<input id="q" placeholder="ابحث في النص أو العنوان…">
+<div id="atoms"></div>
+</div>
+</div>
+<script>
+let D=null,cur=null;
+const $=id=>document.getElementById(id);
+fetch('aq-data/atoms.json').then(r=>r.json()).then(d=>{
+ D=d;
+ const sel=$('book');
+ for(const c of Object.keys(d.books)){
+  const b=d.books[c],o=document.createElement('option');
+  o.value=c;o.textContent=b.title+' — '+b.author+' ('+b.nAtoms+' ذرة)';
+  sel.appendChild(o);
+ }
+ sel.onchange=()=>{cur=sel.value;render()};
+ cur=sel.value;render();
+ $('q').oninput=render;
+});
+function render(){
+ const sel=$('book');cur=sel.value;
+ const atoms=D.atoms[cur],order=D.order[cur],f=$('q').value.trim();
+ const box=$('atoms');box.innerHTML='';
+ let shown=0;
+ for(const k of order){
+  const a=atoms[k];if(!a)continue;
+  if(f && !(a.t.includes(f)||a.q.includes(f)))continue;
+  if(shown>=60){const m=document.createElement('div');m.className='ak';m.textContent='… +'+(order.length-shown)+' ذرة أخرى — ضيّق البحث';box.appendChild(m);break}
+  const el=document.createElement('div');el.className='atom';
+  el.innerHTML='<div class="at">'+k+' — '+a.t+'</div><div class="aq">'+a.q+'</div>'+(a.b?'<div class="ak">'+a.b+'</div>':'');
+  box.appendChild(el);shown++;
+ }
+ if(!shown)box.innerHTML='<div class="ak">لا نتائج</div>';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مشاريع محمد</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a}
+html,body{max-width:100vw; overflow-x:hidden}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh; padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:560px; margin:0 auto; padding:18px 14px}
+.proj{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px}
+.pt{font-weight:700; font-size:1rem}
+.pd{font-size:.8rem; color:var(--dim); margin-top:6px; line-height:1.7}
+.pu{display:block; text-align:center; background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#0b0f14; font-weight:700; font-size:.85rem; text-decoration:none; border-radius:10px; padding:13px; margin-top:12px}
+.pu.dis{background:var(--card2); color:var(--dim); pointer-events:none}
+.rate{border-top:1px dashed var(--border); margin-top:12px; padding-top:10px}
+.rate .rl{font-size:.7rem; color:var(--dim); margin-bottom:6px}
+.rate .row{display:flex; gap:8px}
+.rate select,.rate input{background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--txt); font-family:inherit; font-size:.82rem; padding:10px}
+.rate select{width:84px}
+.rate input{flex:1; min-width:0}
+.rate button{width:100%; margin-top:8px; background:none; border:1px solid var(--acc); border-radius:8px; color:var(--acc2); font-family:inherit; font-size:.8rem; font-weight:700; padding:11px; cursor:pointer}
+.rate .note{font-size:.62rem; color:var(--dim); margin-top:6px; line-height:1.6}
+.foot{margin-top:22px; text-align:center; color:var(--dim); font-size:.66rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="projs"></div>
+  <div class="foot">مشاريعك</div>
+</div>
+<script>
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const CH='https://crsr-workspace.slack.com/archives/C0C4JHHCSQM';
+const escH=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function card(p){
+  return `<div class="proj">
+    <div class="pt">${escH(p.title)}</div>
+    <div class="pd">${escH(p.desc)}</div>
+    ${p.url?`<a class="pu" href="${escH(p.url)}">فتح المشروع</a>`:'<span class="pu dis">قيد البناء</span>'}
+    <div class="rate">
+      <div class="rl">قيّم هذا المشروع:</div>
+      <div class="row">
+        <select data-r="${escH(p.id)}">
+          <option value="">الرقم</option>
+          ${[...Array(10)].map((_,i)=>`<option>${i+1}/10</option>`).join('')}
+        </select>
+        <input placeholder="تعليقك" data-c="${escH(p.id)}">
+      </div>
+      <button data-send="${escH(p.id)}">أرسل التقييم للفريق</button>
+      <div class="note">يفتح قناة الفريق في سلاك — يُنسخ تقييمك تلقائياً، الصقه هناك فيصلنا فوراً</div>
+    </div>
+  </div>`;
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-send]');if(!b)return;
+  const id=b.dataset.send;
+  const r=document.querySelector(`[data-r="${id}"]`).value;
+  const c=document.querySelector(`[data-c="${id}"]`).value.trim();
+  if(!r&&!c){b.textContent='اكتب رقماً أو تعليقاً أولاً';return}
+  const t=`تقييم «${id}»: ${r||'—'} — ${c||'بلا تعليق'}`;
+  try{await navigator.clipboard.writeText(t)}catch(_){}
+  window.open(CH,'_blank');
+});
+fetch('projects.json?v='+Date.now()).then(r=>r.json()).then(P=>{
+  document.getElementById('projs').innerHTML=P.map(card).join('');
+});
+</script>
+</body>
+</html>

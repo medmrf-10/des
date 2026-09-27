@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>جرّب: تفسير بالطلب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a}
+*{box-sizing:border-box; margin:0; padding:0}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(900px 400px at 85% -5%, rgba(201,162,75,.10), transparent 60%), var(--bg); color:var(--txt); min-height:100vh}
+.wrap{max-width:640px; margin:0 auto; padding:24px 16px 60px}
+a.back{color:var(--acc2); font-size:.8rem; text-decoration:none}
+h1{font-size:1.35rem; font-weight:700; background:linear-gradient(135deg,var(--acc2),var(--acc)); -webkit-background-clip:text; background-clip:text; color:transparent; margin:12px 0 4px}
+.sub{color:var(--dim); font-size:.82rem; margin-bottom:20px; line-height:1.6}
+.panel{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px}
+.row{display:flex; gap:8px; flex-wrap:wrap}
+select,input{flex:1; min-width:90px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--txt); font-family:inherit; font-size:.9rem; padding:11px 12px}
+select:focus,input:focus{outline:none; border-color:var(--acc)}
+button.go{background:linear-gradient(135deg,var(--acc),var(--acc2)); border:none; border-radius:10px; color:#0b0f14; font-family:inherit; font-size:.9rem; font-weight:700; padding:11px 22px; cursor:pointer}
+.status{font-size:.75rem; color:var(--dim); min-height:1.2em; margin:8px 2px}
+.status.err{color:#ff7d7d}
+.res{background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:16px; display:none}
+.res.show{display:block; animation:en .3s ease}
+@keyframes en{from{opacity:0; transform:translateY(8px)}}
+.res .meta{font-size:.7rem; color:var(--acc2); margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap}
+.res .grp{background:rgba(70,201,109,.12); border:1px solid rgba(70,201,109,.35); color:#46c96d; font-size:.62rem; border-radius:99px; padding:3px 10px}
+.res .txt{font-size:.95rem; line-height:2; white-space:pre-wrap; overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">→ رجوع للبوابة</a>
+  <h1>تفسير بالطلب</h1>
+  <div class="sub">اختر كتاب التفسير والسورة والآية — يأتيك النص مقصوصاً حرفياً من المصدر. عيّنة تجريبية: ٧ تفاسير × ٤١ سورة (الفاتحة، آية الكرسي، يس، الرحمن، الواقعة، الملك، جزء عمّ كاملاً).</div>
+  <div class="panel">
+    <div class="row">
+      <select id="ed" style="flex:2"><option value="">… يحمّل قائمة التفاسير</option></select>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="surah" style="flex:1.4"><option value="">… السور</option></select>
+      <input id="ayah" inputmode="numeric" placeholder="الآية" type="number" min="1">
+      <button class="go" id="go">اعرض التفسير</button>
+    </div>
+    <div class="status" id="st"></div>
+  </div>
+  <div class="res" id="res">
+    <div class="meta"><span id="meta"></span><span class="grp" id="grp" style="display:none">مقطع مجمّع <span id="grpr"></span></span></div>
+    <div class="txt" id="txt"></div>
+  </div>
+</div>
+<script>
+const st=document.getElementById('st');
+const SURAHS_AR={'1':'الفاتحة','2':'البقرة (آية الكرسي وما بعدها)','36':'يس','55':'الرحمن','56':'الواقعة','67':'الملك','78':'النبأ','79':'النازعات','80':'عبس','81':'التكوير','82':'الانفطار','83':'المطففين','84':'الانشقاق','85':'البروج','86':'الطارق','87':'الأعلى','88':'الغاشية','89':'الفجر','90':'البلد','91':'الشمس','92':'الليل','93':'الضحى','94':'الشرح','95':'التين','96':'العلق','97':'القدر','98':'البينة','99':'الزلزلة','100':'العاديات','101':'القارعة','102':'التكاثر','103':'العصر','104':'الهمزة','105':'الفيل','106':'قريش','107':'الماعون','108':'الكوثر','109':'الكافرون','110':'النصر','111':'المسد','112':'الإخلاص','113':'الفلق','114':'الناس'};
+let INDEX=null;
+fetch('./tafsir-data/index.json').then(r=>r.json()).then(ix=>{
+  INDEX=ix;
+  document.getElementById('ed').innerHTML=ix.editions.map(e=>`<option value="${e.slug}">${e.name}</option>`).join('');
+  document.getElementById('ed').value='ar-tafsir-ibn-kathir';
+  document.getElementById('surah').innerHTML=ix.surahs.map(s=>`<option value="${s}">${s} — ${SURAHS_AR[s]||''}</option>`).join('');
+  document.getElementById('surah').value='112';
+}).catch(()=>{st.textContent='تعذر تحميل فهرس التفاسير';st.classList.add('err')});
+const cache={};
+document.getElementById('go').onclick=()=>{
+  const slug=document.getElementById('ed').value,s=document.getElementById('surah').value,a=parseInt(document.getElementById('ayah').value);
+  if(!slug||!s||!a){st.textContent='اختر التفسير والسورة والآية';st.classList.add('err');return}
+  st.classList.remove('err');st.textContent='…';
+  const key=slug+'/'+s;
+  (cache[key]?Promise.resolve(cache[key]):fetch(`./tafsir-data/${slug}/${s}.json`).then(r=>{if(!r.ok)throw new Error('404');return r.json()}).then(d=>cache[key]=d)).then(d=>{
+    const first=d.index[String(a)];
+    if(first===undefined)throw new Error('لا يغطي هذا التفسير هذه الآية');
+    const e=d.entries[String(first)];
+    st.textContent='';
+    const edName=(INDEX.editions.find(x=>x.slug===slug)||{}).name||slug;
+    document.getElementById('meta').textContent=`${edName} · سورة ${s} · آية ${a}`;
+    const g=document.getElementById('grp');
+    if(e.to>+first){g.style.display='inline';document.getElementById('grpr').textContent=`[${first}–${e.to}]`}else{g.style.display='none'}
+    document.getElementById('txt').textContent=e.text;
+    document.getElementById('res').classList.add('show');
+  }).catch(e=>{st.textContent=e.message||'تعذر الجلب';st.classList.add('err')});
+};
+</script>
+</body>
+</html>

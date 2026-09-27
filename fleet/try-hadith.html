@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>جرّب: شرح الحديث</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a}
+*{box-sizing:border-box; margin:0; padding:0}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:radial-gradient(900px 400px at 85% -5%, rgba(201,162,75,.10), transparent 60%), var(--bg); color:var(--txt); min-height:100vh}
+.wrap{max-width:640px; margin:0 auto; padding:24px 16px 60px}
+a.back{color:var(--acc2); font-size:.8rem; text-decoration:none}
+h1{font-size:1.35rem; font-weight:700; background:linear-gradient(135deg,var(--acc2),var(--acc)); -webkit-background-clip:text; background-clip:text; color:transparent; margin:12px 0 4px}
+.sub{color:var(--dim); font-size:.82rem; margin-bottom:20px; line-height:1.6}
+.panel{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px}
+.row{display:flex; gap:8px; flex-wrap:wrap}
+select,input{flex:1; min-width:90px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--txt); font-family:inherit; font-size:.9rem; padding:11px 12px}
+select:focus,input:focus{outline:none; border-color:var(--acc)}
+button.go{background:linear-gradient(135deg,var(--acc),var(--acc2)); border:none; border-radius:10px; color:#0b0f14; font-family:inherit; font-size:.9rem; font-weight:700; padding:11px 22px; cursor:pointer}
+.status{font-size:.75rem; color:var(--dim); min-height:1.2em; margin:8px 2px}
+.status.err{color:#ff7d7d}
+.res{background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:16px; display:none}
+.res.show{display:block; animation:en .3s ease}
+@keyframes en{from{opacity:0; transform:translateY(8px)}}
+.res .meta{font-size:.7rem; color:var(--acc2); margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap}
+.res .grp{background:rgba(70,201,109,.12); border:1px solid rgba(70,201,109,.35); color:#46c96d; font-size:.62rem; border-radius:99px; padding:3px 10px}
+.res .txt{font-size:.95rem; line-height:2; white-space:pre-wrap; overflow-wrap:break-word}
+.hlist{max-height:300px; overflow-y:auto; margin-top:8px}
+.hitem{padding:9px 12px; border:1px solid var(--border); border-radius:10px; margin-bottom:6px; cursor:pointer; font-size:.8rem; color:var(--dim); transition:.15s}
+.hitem:hover{border-color:var(--acc); color:var(--txt)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">→ رجوع للبوابة</a>
+  <h1>شرح الحديث</h1>
+  <div class="sub">اختر حديثاً من صحيح البخاري فتقرأ متنه وشرحه من «فتح الباري» لابن حجر العسقلاني — نص مقصوص حرفياً من المصدر. عيّنة تجريبية: ٦٠ حديثاً (المخزون الكامل ٢,١٧٨ مقطع شرح).</div>
+  <div class="panel">
+    <div class="row">
+      <select id="hid"><option value="">… يحمّل قائمة الأحاديث</option></select>
+      <button class="go" id="go">اعرض الشرح</button>
+    </div>
+    <div class="status" id="st"></div>
+  </div>
+  <div class="res" id="res">
+    <div class="meta"><span id="meta"></span><span class="grp" id="grp" style="display:inline">فتح الباري</span></div>
+    <div class="txt" id="matn" style="color:var(--acc2); border-right:3px solid var(--acc); padding-right:12px; margin-bottom:14px"></div>
+    <div class="txt" id="txt"></div>
+  </div>
+</div>
+<script>
+const st=document.getElementById('st');
+let IDS=[];
+fetch('./hadith-data/index.json').then(r=>r.json()).then(ix=>{
+  IDS=ix.ids;
+  document.getElementById('hid').innerHTML=IDS.map(i=>`<option value="${i}">حديث رقم ${i}</option>`).join('');
+  document.getElementById('hid').value=IDS[0];
+}).catch(()=>{st.textContent='تعذر تحميل قائمة الأحاديث';st.classList.add('err')});
+document.getElementById('go').onclick=()=>{
+  const id=document.getElementById('hid').value;
+  if(!id){st.textContent='اختر حديثاً';st.classList.add('err');return}
+  st.classList.remove('err');st.textContent='…';
+  fetch(`./hadith-data/${id}.json`).then(r=>{if(!r.ok)throw new Error('غير موجود');return r.json()}).then(d=>{
+    st.textContent='';
+    document.getElementById('meta').textContent=`صحيح البخاري · ${d.book||'حديث'} رقم ${d.id}`;
+    document.getElementById('matn').textContent=d.matn||'';
+    document.getElementById('txt').textContent=(d.sharh||d.text||'').replace(/~~/g,'\n\n');
+    document.getElementById('res').classList.add('show');
+  }).catch(e=>{st.textContent='تعذر الجلب — '+e.message;st.classList.add('err')});
+};
+</script>
+</body>
+</html>

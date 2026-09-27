@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>جرّب: الفهرس الموحد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+html,body{max-width:100vw; overflow-x:hidden}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh}
+.wrap{max-width:640px; margin:0 auto; padding:20px 14px 60px}
+a.back{color:var(--acc2); font-size:.8rem; text-decoration:none}
+h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
+.sub{color:var(--dim); font-size:.8rem; margin-bottom:16px; line-height:1.7}
+.panel{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:12px}
+.row{display:flex; gap:8px; flex-wrap:wrap}
+select,input{width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--txt); font-family:inherit; font-size:.88rem; padding:12px}
+select:focus{outline:none; border-color:var(--acc)}
+.status{font-size:.74rem; color:var(--dim); min-height:1.2em; margin:6px 2px}
+.status.err{color:#ff7d7d}
+.srcs{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+.src{background:var(--card2); border:1px solid var(--border); border-radius:99px; color:var(--dim); font-size:.68rem; padding:7px 12px; cursor:pointer}
+.src:hover{border-color:var(--acc); color:var(--txt)}
+.src .m{color:var(--acc2)}
+.src.off{opacity:.45; cursor:default}
+.babs{margin-top:12px; max-height:300px; overflow-y:auto}
+.bab{font-size:.78rem; color:var(--txt); padding:8px 6px; border-bottom:1px dashed var(--border); line-height:1.7}
+.bab .tags{color:var(--dim); font-size:.62rem; display:block; margin-top:2px}
+.res{background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:14px; display:none}
+.res.show{display:block}
+.res .meta{font-size:.68rem; color:var(--acc2); margin-bottom:8px}
+.res .txt{font-size:.92rem; line-height:2; white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">→ رجوع للبوابة</a>
+  <h1>الفهرس الموحد</h1>
+  <div class="sub">هيكل موحد (كتاب ← باب/فصل) يجمع ٥٥ موضوعاً فقهياً عبر ١٦ متناً من المذاهب الأربعة — اختر موضوعاً فتشاهد من غطّاه ومن أي مذهب، وتقرأ مقطعاً حقيقياً من المتن. تجربة أولى: قراءة فعلية من ٤ متون (واحد لكل مذهب) والباقي فهرسة فقط.</div>
+  <div class="panel">
+    <select id="topic"><option value="">… يحمّل الفهرس</option></select>
+    <div class="status" id="st"></div>
+    <div class="srcs" id="srcs"></div>
+    <div class="babs" id="babs"></div>
+  </div>
+  <div class="res" id="res">
+    <div class="meta" id="meta"></div>
+    <div class="txt" id="txt"></div>
+  </div>
+</div>
+<script>
+const st=document.getElementById('st');
+const READABLE={akhdari:'أخضري',abi_shuja:'أش',nur_idah:'نور',zad:'زاد'};
+const TAG2SLUG={'أخضري':'akhdari','أش':'abi_shuja','نور':'nur_idah','زاد':'zad'};
+let IDX=null,CUR=null;
+fetch('./fihris-data/index.json').then(r=>r.json()).then(d=>{
+  IDX=d;
+  document.getElementById('topic').innerHTML='<option value="">اختر كتاباً/موضوعاً…</option>'+
+    d.items.map((b,i)=>`<option value="${i}">${b.title}</option>`).join('');
+  st.textContent=`${d.topics} موضوعاً · ${d.babs} باباً · ${d.sources.length} مصدراً`;
+}).catch(()=>{st.textContent='تعذر تحميل الفهرس';st.classList.add('err')});
+document.getElementById('topic').onchange=()=>{
+  const i=document.getElementById('topic').value;
+  document.getElementById('res').classList.remove('show');
+  if(i===''){document.getElementById('srcs').innerHTML='';document.getElementById('babs').innerHTML='';return}
+  CUR=IDX.items[i];
+  document.getElementById('srcs').innerHTML=CUR.present.map(s=>{
+    const sl=TAG2SLUG[s.tag];
+    return `<button class="src${sl?'':' off'}" data-slug="${sl||''}">${s.tag} · <span class="m">${s.madhhab}</span></button>`;
+  }).join('');
+  document.getElementById('babs').innerHTML=CUR.babs.map(b=>
+    `<div class="bab">${b.title}<span class="tags">${b.srcs.join(' · ')}</span></div>`).join('');
+  st.textContent=`${CUR.title} — ${CUR.babs.length} باباً · ورد في ${CUR.present.length} مصادر`;
+};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.src');if(!b||!b.dataset.slug)return;
+  st.textContent='…';
+  fetch(`./fihris-data/books/${b.dataset.slug}.json`).then(r=>r.json()).then(d=>{
+    const u=d.units.find(x=>x.k==='head')||d.units[1]||d.units[0];
+    st.textContent='';
+    document.getElementById('meta').textContent=`${d.title} — ${d.author} (${d.madh}) · ${u.t}`;
+    document.getElementById('txt').textContent=u.a.slice(0,30).join(' ');
+    document.getElementById('res').classList.add('show');
+  }).catch(()=>{st.textContent='تعذر جلب نص المصدر';st.classList.add('err')});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شجرة الإسناد — خريطة الرواة ومجموعات المعنى</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+input,select{background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:10px;font-size:15px}
+input[type=text]{flex:1;min-width:180px}
+button{background:#d4a94f;color:#10151c;border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
+button.ghost{background:none;color:#d4a94f;border:1px solid #d4a94f}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1}
+.tabs button.off{background:#1a212b;color:#9aa4b0;border:1px solid #2a3442}
+.gitem{background:#141a24;border:1px solid #2a3442;border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font-size:15px;line-height:1.9}
+.gitem:hover{border-color:#d4a94f}
+.gitem .meta{color:#9aa4b0;font-size:12px}
+.matn{font-size:18px;line-height:2.1;text-align:right;border-right:3px solid #d4a94f;padding:10px 14px;background:#141a24;border-radius:8px;margin-bottom:14px}
+.chain{background:#141a24;border:1px solid #2a3442;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.chain .ch{padding:10px 12px;cursor:pointer;font-size:13px;color:#9aa4b0;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.chain .cb{padding:6px 12px 12px;display:none}
+.chain.open .cb{display:block}
+.huk{color:#d4a94f;font-size:12px}
+.rw{display:inline-flex;flex-direction:column;align-items:center;gap:2px;margin:4px 2px;padding:7px 10px;border-radius:9px;font-size:13px;border:1px solid #2a3442;cursor:pointer;max-width:170px;text-align:center}
+.rw small{font-size:10px;color:#9aa4b0}
+.rw.arr::after{content:"↑";display:block;color:#9aa4b0;font-size:11px}
+.r-sahabi{background:#14302a;border-color:#3f9d74;color:#bfe8cf}
+.r-thiqa{background:#12253a;border-color:#3a7bd5;color:#cfe3ff}
+.r-saduq{background:#14352e;border-color:#4fae91;color:#d2efe2}
+.r-ok{background:#2b2413;border-color:#a88a3a;color:#f0dcae}
+.r-weak{background:#33161a;border-color:#a03a3f;color:#f3c2c2}
+.r-unk{background:#1c222b;border-color:#3a4454;color:#9aa4b0}
+.aq{border-right:2px solid #3a4454;padding:4px 10px;margin:6px 0;font-size:14px;line-height:1.9}
+.aq b{color:#d4a94f;font-weight:600}
+.badge{display:inline-block;background:#243040;border-radius:6px;padding:1px 8px;font-size:11px;color:#9aa4b0;margin:2px}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid #2a3442;border-top-color:#d4a94f;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.stats{display:flex;gap:12px;flex-wrap:wrap;color:#9aa4b0;font-size:13px;margin-bottom:10px}
+.stats b{color:#d4a94f}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>شجرة الإسناد</h1>
+<p class="sub">خريطة الرواة ومجموعات المعنى كاملة — ٤٩,٨٤٤ راوياً بأحكام الجرح والتعديل (١٢٧,٨٦٣ قولاً من ١,٠١٥ ناقداً)، ٥٧٧,٠٢٤ إسناداً و٢٠,٧٤٥ مجموعة معنى تجمع روايات المتن الواحد عبر ٤٢٥ كتاباً. مصدر البيانات: الجامع (hadith-kg) لعماد جمعة.</p>
+
+<div class="tabs">
+<button id="tG" onclick="showTab('g')">مجموعات المعنى</button>
+<button id="tR" class="off" onclick="showTab('r')">الرواة</button>
+</div>
+
+<div class="card" id="pG">
+<div class="row">
+<input type="text" id="gq" placeholder="ابحث في متون المجموعات… (مثال: لا تكذبوا علي)">
+<select id="gmin"><option value="0">كل الروايات</option><option value="2">٢+ طرق</option><option value="5">٥+ طرق</option><option value="20">٢٠+ طرق</option></select>
+</div>
+<div id="glist"></div>
+</div>
+
+<div class="card" id="gdetail" style="display:none"></div>
+
+<div class="card" id="pR" style="display:none">
+<div class="row">
+<input type="text" id="rq" placeholder="ابحث عن راوٍ بالاسم… (مثال: سفيان بن عيينة)">
+<select id="rfl"><option value="">كل الأحكام</option><option value="صحابي">صحابي</option><option value="ثقة">ثقة</option><option value="ضعيف">ضعيف/متروك/متهم</option><option value="مجهول">مجهول</option></select>
+</div>
+<div id="rlist"></div>
+</div>
+<div class="card" id="rdetail" style="display:none"></div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+let RAWIS={},AQ={},GROUPS={},BOOKS={},ALEMS={},GDC={};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function jget(u){const r=await fetch(u);if(!r.ok)throw 0;
+ return JSON.parse(await new Response(new Blob([await r.arrayBuffer()]).stream().pipeThrough(new DecompressionStream('gzip'))).text())}
+Promise.all(['rawis','aqwal','groups','books','alems'].map(f=>jget('isnad/'+f+'.json.gz'))).then(([r,a,g,b,al])=>{
+ RAWIS=r;AQ=a;GROUPS=g;BOOKS=b;ALEMS=al;
+ renderGroups('');
+ const h=location.hash.match(/g=(\d+)/);if(h)openGroup(+h[1]);
+ const hr=location.hash.match(/r=(\d+)/);if(hr){showTab('r');openRawi(+hr[1])}
+});
+function rankClass(rk){rk=rk||'';
+ if(rk.includes('صحابي'))return'r-sahabi';
+ if(rk.includes('ضعيف')||rk.includes('متروك')||rk.includes('متهم')||rk.includes('منكر')||rk.includes('وضاع')||rk.includes('كذاب'))return'r-weak';
+ if(rk.includes('مجهول'))return'r-unk';
+ if(rk.startsWith('ثقة'))return'r-thiqa';
+ if(rk.includes('صدوق'))return'r-saduq';
+ return'r-ok'}
+function showTab(t){
+ $('#tG').classList.toggle('off',t!=='g');$('#tR').classList.toggle('off',t!=='r');
+ $('#pG').style.display=t==='g'?'':'none';$('#pR').style.display=t==='r'?'':'none';
+ if(t==='r'&&!$('#rlist').innerHTML)renderRawis('');
+}
+/* ---- groups ---- */
+function renderGroups(q){
+ q=(q||'').trim();const min=+($('#gmin')?.value||0);
+ const out=[];let n=0;
+ for(const gid in GROUPS){
+  const g=GROUPS[gid];if(g[2]<min)continue;
+  if(q&&!g[0].includes(q))continue;
+  out.push(`<div class="gitem" onclick="openGroup(${gid})">${esc(g[0])} <span class="meta">— ${g[1]} صحابياً · ${g[2]} رواية</span></div>`);
+  if(++n>=80){out.push('<div class="sub">… أول ٨٠ نتيجة — قيّد البحث لتحديد أكثر</div>');break}
+ }
+ $('#glist').innerHTML=out.join('')||'<div class="sub">لا نتائج</div>';
+}
+$('#gq').addEventListener('input',e=>renderGroups(e.target.value));
+$('#gmin').addEventListener('change',()=>renderGroups($('#gq').value));
+async function openGroup(gid){
+ const d=$('#gdetail');d.style.display='';
+ d.innerHTML='<span class="spin"></span> يُحمَّل…';
+ const b=Math.floor(gid/1000);
+ if(!GDC[b])GDC[b]=await jget('isnad/gd/'+b+'.json.gz');
+ const hk=GDC[b].h,g=GDC[b].g[gid];
+ if(!g){d.innerHTML='<div class="sub">لا تفاصيل لهذه المجموعة</div>';return}
+ const gi=GROUPS[gid]||['',0,0];
+ location.hash='g='+gid;
+ let html=`<div class="matn">${esc(g.n||gi[0])}</div>
+ <div class="stats"><span><b>${gi[1]}</b> صحابياً رووه</span><span><b>${gi[2]}</b> رواية إجمالاً</span><span><b>${g.c.length}</b> إسناداً كاملاً</span></div>`;
+ g.c.slice(0,60).forEach((c,i)=>{
+  const[chain,hk_i,book,page]=c;
+  html+=`<div class="chain" id="ch${i}">
+   <div class="ch" onclick="this.parentNode.classList.toggle('open')">
+    <span>${esc(book)} — ص ${page}</span><span class="huk">${esc(hk[hk_i])}</span></div>
+   <div class="cb">`;
+  [...chain].reverse().forEach(rid=>{
+   const r=RAWIS[rid];if(!r)return;
+   html+=`<span class="rw ${rankClass(r[1])} arr" onclick="event.stopPropagation();openRawi(${rid})">${esc(shortName(r[0]))}<small>${esc(r[1])} · ط ${r[2]}</small></span>`;
+  });
+  html+='</div></div>';
+ });
+ if(g.c.length>60)html+=`<div class="sub">+ ${g.c.length-60} إسناداً آخر — أول ٦٠ معروضة</div>`;
+ d.innerHTML=html;
+ d.scrollIntoView({behavior:'smooth'});
+}
+function shortName(n){n=String(n||'');const p=n.split(' بن ');
+ return p.length>2?p[0]+' بن '+p[p.length-1]:n}
+/* ---- narrators ---- */
+function renderRawis(q){
+ q=(q||'').trim();const fl=$('#rfl').value||'';
+ const out=[];let n=0;
+ for(const rid in RAWIS){
+  const r=RAWIS[rid];
+  if(fl==='ضعيف'&&!/ضعيف|متروك|متهم|منكر|وضاع|كذاب/.test(r[1]))continue;
+  else if(fl&&fl!=='ضعيف'&&!(r[1]||'').includes(fl))continue;
+  if(q&&!r[0].includes(q))continue;
+  out.push(`<div class="gitem" onclick="openRawi(${rid})">${esc(r[0])} <span class="meta">— ${esc(r[1])||'—'} · طبقة ${r[2]} · ${r[8]} رواية</span></div>`);
+  if(++n>=80){out.push('<div class="sub">… أول ٨٠ نتيجة — قيّد البحث</div>');break}
+ }
+ $('#rlist').innerHTML=out.join('')||'<div class="sub">لا نتائج</div>';
+}
+$('#rq').addEventListener('input',e=>renderRawis(e.target.value));
+$('#rfl').addEventListener('change',()=>renderRawis($('#rq').value));
+function openRawi(rid){
+ const r=RAWIS[rid];if(!r)return;
+ const d=$('#rdetail');d.style.display='';
+ location.hash='r='+rid;
+ const fl=[];
+ if(r[3])fl.push('رواه البخاري');if(r[4])fl.push('رواه مسلم');
+ if(r[5])fl.push('مدلّس');if(r[6])fl.push('مختلط');
+ let html=`<h2 style="margin:0 0 8px;font-size:19px;color:#d4a94f">${esc(r[0])}</h2>
+ <div class="stats">
+  <span>الحكم: <b>${esc(r[1])||'—'}</b></span><span>الطبقة: <b>${r[2]}</b></span>
+  <span>رواياته: <b>${r[8]}</b></span>
+  ${r[9]?`<span>ولادة: <b>${r[9]}</b>هـ</span>`:''}${r[10]?`<span>وفاة: <b>${r[10]}</b>هـ</span>`:''}
+ </div>
+ <div>${fl.map(f=>`<span class="badge">${f}</span>`).join('')}</div>`;
+ const qs=AQ[rid]||[];
+ html+=`<div style="margin-top:10px;color:#9aa4b0;font-size:13px">أقوال النقاد فيه: <b style="color:#d4a94f">${qs.length}</b></div>`;
+ qs.slice(0,60).forEach(([an,q])=>{html+=`<div class="aq"><b>${esc(an)}:</b> ${esc(q)}</div>`});
+ if(qs.length>60)html+=`<div class="sub">+ ${qs.length-60} قولاً آخر</div>`;
+ d.innerHTML=html;
+ d.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

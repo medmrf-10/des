@@ -49,9 +49,15 @@ button.ghost{background:none;color:#d4a94f;border:1px solid #d4a94f}
 <button class="ghost" onclick="step(1)">→ الآية التالية</button>
 </div>
 <div class="ayah" id="ayTxt"></div>
+<div class="row" style="align-items:center">
+<div class="sub" id="stTxt" style="margin:0;flex:1"></div>
+<button class="ghost" onclick="markAy(2)">أتقنت هذه الآية</button>
+<button class="ghost" onclick="markAy(0)">نسيتها</button>
+</div>
 <div id="body"></div>
 </div>
 </div>
+<script src="learner.js"></script>
 <script>
 const $=q=>document.querySelector(q);
 let QN=null,SIDX={},IRB={},TAF={},WIDX=[];
@@ -71,6 +77,10 @@ Promise.all([jget('quran-data/quran.json'),jget('../wahy/data/index.json')]).the
  const h=location.hash.match(/s=(\d+)&v=(\d+)/);if(h){$('#sur').value=h[1];fillAy();$('#ay').value=h[2]}
  go();
 });
+function markAy(g){const s=+$('#sur').value,a=+$('#ay').value||1,id='ay:'+s+':'+a;
+ if(!window.Learner)return;
+ const st=Learner.mark(id,g);
+ $('#stTxt').textContent='سُجّلت '+id+' ← '+(st.s==='mastered'?'متقنة':'تعلّم')+' · مراجعة بعد '+Math.max(1,Math.round(st.stab||0))+' يوم — افتح «ملف المتعلم» فتجدها'}
 function fillAy(){const s=+$('#sur').value;const n=(SIDX[s]||[]).length||1;
  $('#ay').innerHTML=Array.from({length:n},(_,i)=>`<option>${i+1}</option>`).join('')}
 function step(d){const a=$('#ay');a.value=Math.min(Math.max(1,+a.value+d),a.options.length);go()}
@@ -79,6 +89,10 @@ async function go(){
  location.hash=`s=${s}&v=${a}`;
  const v=(SIDX[s]||[]).find(x=>x.a==a);
  $('#ayTxt').textContent=v?v.t+' ﴿'+a+'﴾':'';
+ const ayId='ay:'+s+':'+a;
+ if(window.Learner){Learner.see(ayId);
+  const st=Learner.get(ayId);
+  $('#stTxt').textContent=st&&st.s?({seen:'شوهدت',learning:'قيد التعلم',mastered:'متقنة'}[st.s]||st.s)+(st.due?' · مراجعة '+new Date(st.due).toLocaleDateString('ar'):''):''}
  const B=$('#body');
  B.innerHTML='<div class="sect">الإعراب — ٤ كتب</div>'+
    IRBOOKS.map(([k,n])=>`<div class="ir" id="ir-${k}"><div class="h" onclick="toggleIrab('${k}',${s},${a})"><span>${n}</span><span class="st">اضغط للعرض</span></div><div class="b"></div></div>`).join('')+

@@ -64,7 +64,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 <div class="wrap">
   <a class="back" href="./index.html">→ رجوع للبوابة</a>
   <h1>قارئ i+1 الإنجليزي</h1>
-  <div class="sub">قارئ إنجليزي مدرّج بنظام i+1: كل نص مقيس تغطيته على مفرداتك المعروفة، والكلمات الجديدة موسومة بنطاق تكرارها (B1 شائعة ← B6 نادرة) — خطة التعليم (pre-teach/استنتاج/شرح) محسوبة لكل نص. العيّنة الحقيقية: <b>٢٠ نصاً موسوماً</b> من مشروع جاديد٢/الإنجليزية (ملخصات shortAr الـ٢٣٠٠ ليست على هذا الجهاز). المس كلمة لترى لمّتها ونطاقها، وعلّم ما تعرفه فيُحفظ على جهازك.</div>
+  <div class="sub">قارئ إنجليزي مدرّج بنظام i+1: كل نص مقيس تغطيته على مفرداتك المعروفة، والكلمات الجديدة موسومة بنطاق تكرارها (B1 شائعة ← B6 نادرة) — خطة التعليم (pre-teach/استنتاج/شرح) محسوبة لكل نص. العيّنة الحقيقية: <b>٢٤ نصاً موسوماً</b> من مشروع جاديد٢/الإنجليزية (منها سور قصارى: الكوثر/الفيل/القدر — أقرب لمستوى مبتدئ) (ملخصات shortAr الـ٢٣٠٠ ليست على هذا الجهاز). المس كلمة لترى لمّتها ونطاقها، وعلّم ما تعرفه فيُحفظ على جهازك.</div>
   <div class="panel">
     <div class="status" id="st">… يحمّل الفهرس</div>
     <div class="texts" id="texts"></div>
@@ -130,7 +130,7 @@ fetch('./en-data/index.json').then(r=>r.json()).then(d=>{
   const h=location.hash.slice(1); if(h) openText(h);
   st.textContent='… يحمّل تغطيتك الشخصية';
   Promise.all(d.texts.map(t=>fetch('./en-data/'+t.id+'.json').then(r=>r.json()).then(j=>{TEXTDATA[t.id]=j}).catch(()=>{}))).then(()=>{
-    st.textContent='٢٠ نصاً — «تغطيتك» خضراء تُحسب من كلماتك المعلَّمة على جهازك';
+    st.textContent=IDX.texts.length+' نصاً — «تغطيتك» خضراء تُحسب من كلماتك المعلَّمة على جهازك';
     renderList();
   });
 }).catch(e=>{st.textContent='فشل التحميل: '+e; st.className='status err'});

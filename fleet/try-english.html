@@ -38,7 +38,8 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .plan h3{font-size:.78rem; color:var(--acc2); margin:10px 0 4px}
 .plan .wl{display:flex; flex-wrap:wrap; gap:5px; direction:ltr; justify-content:flex-start}
 .plan .wl span{background:var(--card2); border:1px solid var(--border); border-radius:8px; font-size:.74rem; padding:3px 9px; color:var(--txt)}
-.plan .wl span.pt{border-color:var(--ok)}
+.plan .wl span.pt{border-color:var(--ok); cursor:pointer}
+.plan .wl span.pt.ptk{background:#1d3a2a; color:var(--ok); font-weight:700}
 .plan .wl span.inf{border-color:var(--warn)}
 .plan .note{font-size:.64rem; color:var(--dim); margin-top:2px}
 .body-en{direction:ltr; text-align:left; font-family:Georgia,'Times New Roman',serif; font-size:1.02rem; line-height:2.05; background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:14px 16px}
@@ -163,11 +164,7 @@ function openText(id){
     CUR=d; TEXTDATA[id]=d;
     const t=(IDX.texts.find(x=>x.id===id))||{};
     $('rbar').innerHTML=`<span>الحكم: <b>${VC[t.verdict]||t.verdict||'؟'}</b></span><span>تغطية <b>${((t.C_token||0)*100).toFixed(1)}٪</b></span><span>طول الجملة <b>${(t.msl||0).toFixed(1)}</b></span><span>صعوبة <b>${(t.D||0).toFixed(2)}</b></span>`;
-    const p=d.plan||{};
-    $('plan').innerHTML=
-      (p.preteach?`<h3>علّمها قبل القراءة (${p.preteach.length})</h3><div class="wl">${p.preteach.map(w=>`<span class="pt">${esc(w)}</span>`).join('')}</div><div class="note">هذه الكلمات تُعلَّم أولاً لأنها تسد الفجوة الكبرى.</div>`:'')+
-      (p.inference_targets?`<h3>خمّنها من السياق (${p.inference_targets.length})</h3><div class="wl">${p.inference_targets.map(w=>`<span class="inf">${esc(w)}</span>`).join('')}</div><div class="note">استنتاجها من السياق هو المهارة — لا تبحث عنها مسبقاً.</div>`:'')+
-      (p.gloss?`<h3>تُشرح عند النقر (${p.gloss.length})</h3><div class="wl">${p.gloss.map(w=>`<span>${esc(w)}</span>`).join('')}</div>`:'');
+    $('plan').innerHTML=planHTML(d); wirePt();
     $('plan').classList.remove('show'); $('planbtn').textContent='خطة هذا النص (قبل القراءة) ▾';
     renderBody();
     $('reader').classList.add('show');
@@ -175,6 +172,23 @@ function openText(id){
     location.hash=id;
     window.scrollTo({top:$('reader').offsetTop-60});
   }).catch(e=>{st.textContent='فشل: '+e; st.className='status err'});
+}
+
+function planHTML(d){
+  const p=d.plan||{};
+  return (p.preteach?`<h3>علّمها قبل القراءة (${p.preteach.length})</h3><div class="wl">${p.preteach.map(w=>`<span class="pt${isKnown(w)?' ptk':''}" data-pt="${esc(w)}">${esc(w)}${isKnown(w)?' ✓':''}</span>`).join('')}</div><div class="note">هذه الكلمات تُعلَّم أولاً لأنها تسد الفجوة الكبرى — انقر ما أتقنته فتُسجَّل معروفة في ملفك وتصعد تغطيتك.</div>`:'')+
+    (p.inference_targets?`<h3>خمّنها من السياق (${p.inference_targets.length})</h3><div class="wl">${p.inference_targets.map(w=>`<span class="inf">${esc(w)}</span>`).join('')}</div><div class="note">استنتاجها من السياق هو المهارة — لا تبحث عنها مسبقاً.</div>`:'')+
+    (p.gloss?`<h3>تُشرح عند النقر (${p.gloss.length})</h3><div class="wl">${p.gloss.map(w=>`<span>${esc(w)}</span>`).join('')}</div>`:'');
+}
+function wirePt(){
+  document.querySelectorAll('#plan .pt').forEach(el=>{
+    el.onclick=()=>{
+      const w=el.dataset.pt, id=lexId(w);
+      if(KNOWN.has(id)){KNOWN.delete(id);learnerMark(w,false)} else {KNOWN.add(id);learnerMark(w,true)}
+      localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
+      $('plan').innerHTML=planHTML(CUR); wirePt(); renderBody(); renderList();
+    };
+  });
 }
 
 function renderBody(){
@@ -216,7 +230,7 @@ $('popKnow').onclick=()=>{
   const id=lexId(CURTOK.lemma);
   if(KNOWN.has(id)){KNOWN.delete(id);learnerMark(CURTOK.lemma,false)} else {KNOWN.add(id);learnerMark(CURTOK.lemma,true)}
   localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
-  $('pop').classList.remove('show'); renderBody(); renderList();
+  $('pop').classList.remove('show'); if(CUR){$('plan').innerHTML=planHTML(CUR);wirePt();} renderBody(); renderList();
 };
 $('popClose').onclick=()=>$('pop').classList.remove('show');
 $('planbtn').onclick=()=>{const p=$('plan');p.classList.toggle('show')};

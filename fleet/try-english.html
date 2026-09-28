@@ -157,17 +157,22 @@ function openText(id){
 function renderBody(){
   const b=$('bodyEn'); b.innerHTML='';
   CUR.sentences.forEach(s=>{
-    const sp=document.createElement('div'); sp.style.marginBottom='10px';
-    s.tokens.forEach(tk=>{
-      if(tk.raw===' '||tk.raw==='\n'){sp.appendChild(document.createTextNode(' '));return}
-      const el=document.createElement('span');
-      const isWord=/[A-Za-z]/.test(tk.raw);
-      const mine=KNOWN.has(tk.lemma);
-      el.className='tok '+(isWord?(mine?'mine':(tk.known?'known':(tk.band||''))):'');
-      el.textContent=tk.raw;
-      if(isWord) el.onclick=(ev)=>{ev.stopPropagation();showTok(tk)}; else el.style.cursor='default';
-      sp.appendChild(el);
+    const sp=document.createElement('div'); sp.style.marginBottom='10px'; sp.style.whiteSpace='pre-wrap';
+    let pos=0;
+    s.tokens.slice().sort((a,b)=>a.start-b.start).forEach(tk=>{
+      if(tk.start>pos) sp.appendChild(document.createTextNode(s.text.slice(pos,tk.start)));
+      const isWord=/[A-Za-z0-9]/.test(tk.raw);
+      if(isWord){
+        const el=document.createElement('span');
+        const mine=KNOWN.has(tk.lemma);
+        el.className='tok '+(mine?'mine':(tk.known?'known':(tk.band||'')));
+        el.textContent=tk.raw;
+        el.onclick=(ev)=>{ev.stopPropagation();showTok(tk)};
+        sp.appendChild(el);
+      } else sp.appendChild(document.createTextNode(tk.raw));
+      pos=Math.max(pos,tk.end);
     });
+    if(pos<s.text.length) sp.appendChild(document.createTextNode(s.text.slice(pos)));
     b.appendChild(sp);
   });
 }

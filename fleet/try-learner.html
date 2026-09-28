@@ -29,7 +29,7 @@ th{color:#8fbbe8;font-weight:600;font-size:12px}
 <div class="card">
  <div style="font-size:14px;color:#e8c877;margin-bottom:8px">إحصاء ملفك الآن</div>
  <div id="stats"></div>
- <div class="row" style="margin-top:8px"><button onclick="render()">تحديث</button><button class="ghost" onclick="demo()">سجّل عقدة تجريبية (fq:tahara:ghasl)</button><a href="./try-hadithkg.html"><button class="ghost">← افتح الجامع وعلّم عقدة ثم عد</button></a></div>
+ <div class="row" style="margin-top:8px"><button onclick="render()">تحديث</button><button class="ghost" onclick="demo()">سجّل عقدة تجريبية (fq:tahara)</button><a href="./try-hadithkg.html"><button class="ghost">← افتح الجامع وعلّم عقدة ثم عد</button></a></div>
 </div>
 <div class="card">
  <div style="font-size:14px;color:#e8c877;margin-bottom:8px">مستحقة للمراجعة الآن (due ≤ الآن)</div>
@@ -52,7 +52,7 @@ function render(){
  const all=Learner.all(),keys=Object.keys(all);
  document.getElementById('nodes').innerHTML=keys.length?'<table><tr><th>المعرّف</th><th>الحالة</th><th>درجة</th><th>مراجعات</th><th>المراجعة القادمة</th></tr>'+keys.map(k=>{const n=all[k];return'<tr><td class="code">'+esc(k)+'</td><td class="s-'+(n.s||'seen')+'">'+(NAMES[n.s]||'شوهدت')+'</td><td>'+(n.g==null?'—':n.g)+'</td><td>'+(n.reps||0)+'</td><td>'+fmtDue(n.due)+'</td></tr>'}).join('')+'</table>':'<div class="mut">ملفك فارغ بعد — أي «أتقنت/نسيت» في بطاقة أخرى يكتب هنا.</div>';
 }
-function demo(){Learner.mark('fq:tahara:ghasl',2);render()}
+function demo(){Learner.mark('fq:tahara',2);render()}
 render();
 </script>
 </body>

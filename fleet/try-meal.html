@@ -55,7 +55,7 @@ const GRADES=[['نسيت',0],['صعب',1],['جيد',2],['سهل',3]];
 const SEEDS=[
  {id:'hd:g319',label:'مجموعة المعنى: «إنما الأعمال بالنيات»',sci:'الحديث',url:'./try-hadithkg.html'},
  {id:'ay:1:1',label:'الفاتحة ١ — ملف الآية',sci:'القرآن',url:'./try-ayat.html'},
- {id:'fq:tahara:ghasl',label:'باب الطهارة: الغسل',sci:'الفقه',url:'./try-fihris.html'},
+ {id:'fq:tahara',label:'كتاب الطهارة — الفهرس الموحد',sci:'الفقه',url:'./try-fihris.html'},
  {id:'en:lex:decree',label:'كلمة Decree — نص «Quran The Power»',sci:'الإنجليزية',url:'./try-english.html'}
 ];
 function fmtDue(d){if(!d)return'—';const t=d-Date.now();if(t<=0)return'مستحقة الآن';const h=Math.round(t/3600000);if(h<24)return'بعد '+h+' ساعة';return'بعد '+Math.round(h/24)+' يوم'}

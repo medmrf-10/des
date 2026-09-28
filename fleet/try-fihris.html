@@ -49,8 +49,10 @@ select:focus{outline:none; border-color:var(--acc)}
   <div class="res" id="res">
     <div class="meta" id="meta"></div>
     <div class="txt" id="txt"></div>
+    <div id="lrn" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
   </div>
 </div>
+<script src="learner.js"></script>
 <script>
 const st=document.getElementById('st');
 const READABLE={akhdari:'أخضري',abi_shuja:'أش',nur_idah:'نور',zad:'زاد'};
@@ -67,6 +69,7 @@ document.getElementById('topic').onchange=()=>{
   document.getElementById('res').classList.remove('show');
   if(i===''){document.getElementById('srcs').innerHTML='';document.getElementById('babs').innerHTML='';return}
   CUR=IDX.items[i];
+  if(window.Learner)Learner.see('fq:'+CUR.key);
   document.getElementById('srcs').innerHTML=CUR.present.map(s=>{
     const sl=TAG2SLUG[s.tag];
     return `<button class="src${sl?'':' off'}" data-slug="${sl||''}">${s.tag} · <span class="m">${s.madhhab}</span></button>`;
@@ -84,8 +87,17 @@ document.addEventListener('click',e=>{
     document.getElementById('meta').textContent=`${d.title} — ${d.author} (${d.madh}) · ${u.t}`;
     document.getElementById('txt').textContent=u.a.slice(0,30).join(' ');
     document.getElementById('res').classList.add('show');
+    if(window.Learner){Learner.see('fq:'+CUR.key);lrnShow()}
   }).catch(()=>{st.textContent='تعذر جلب نص المصدر';st.classList.add('err')});
 });
+function fqMark(g){if(!CUR)return;Learner.mark('fq:'+CUR.key,g);lrnShow()}
+function lrnShow(){const el=document.getElementById('lrn');if(!window.Learner||!CUR){el.innerHTML='';return}
+ const n=Learner.get('fq:'+CUR.key);
+ const NM={seen:'شوهدت',learning:'قيد التعلم',mastered:'متقنة'};
+ const st2=n?('ملفك: '+(NM[n.s]||'شوهدت')+(n.g!=null?' · درجة '+n.g:'')):'غير مسجل في ملفك';
+ el.innerHTML='<span style="font-size:.72rem;color:var(--acc2)">'+st2+'</span>'+
+  '<button class="src" onclick="fqMark(2)" style="border-color:var(--acc)">أتقنت هذا الباب ✓</button>'+
+  '<button class="src" onclick="fqMark(0)">نسيته ↻</button>'}
 </script>
 </body>
 </html>

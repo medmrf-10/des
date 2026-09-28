@@ -87,6 +87,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
     <button id="popClose">إغلاق</button>
   </div>
 </div>
+<script src="learner.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const st=$('st');
@@ -96,9 +97,13 @@ let KNOWN=new Set(JSON.parse(localStorage.getItem('en_known')||'[]'));
 const _mig=[...KNOWN].filter(k=>!k.includes(':'));
 if(_mig.length){_mig.forEach(k=>{KNOWN.delete(k);KNOWN.add('en:lex:'+k)});localStorage.setItem('en_known',JSON.stringify([...KNOWN]));}
 const lexId=l=>'en:lex:'+l;
-const isKnown=l=>KNOWN.has(lexId(l));
+const isKnown=l=>{
+  const rec=(window.Learner&&Learner.get)?Learner.get(lexId(l)):null;
+  if(rec) return rec.g>=2||rec.s==='mastered';
+  return KNOWN.has(lexId(l));
+};
 function learnerMark(lemma,on){
-  try{ if(window.Learner&&Learner.setState) Learner.setState(lexId(lemma),on?'known':'new'); }catch(e){}
+  try{ if(window.Learner&&Learner.mark) Learner.mark(lexId(lemma),on?2:0); }catch(e){}
 }
 let TEXTDATA={};
 function mineCov(t){

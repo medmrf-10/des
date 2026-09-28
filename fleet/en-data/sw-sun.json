@@ -1,0 +1,4223 @@
+{
+ "text_id": "sw-sun",
+ "title": "Simple English Wikipedia — Sun (lead)",
+ "source": {
+  "corpus": "Simple English Wikipedia",
+  "article": "Sun",
+  "url": "https://simple.wikipedia.org/wiki/Sun",
+  "license": "CC BY-SA 4.0"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 72,
+   "text": "The Sun, also known as Sol, is a star at the center of the solar system.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sun",
+     "norm": "sun",
+     "start": 4,
+     "end": 7,
+     "numeric": false,
+     "lemma": "sun",
+     "rank": 1154,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 9,
+     "end": 13,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "known",
+     "norm": "known",
+     "start": 14,
+     "end": 19,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 20,
+     "end": 22,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sol",
+     "norm": "sol",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "sol",
+     "rank": 11466,
+     "zipf": 3.69,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 31,
+     "end": 32,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "star",
+     "norm": "star",
+     "start": 33,
+     "end": 37,
+     "numeric": false,
+     "lemma": "star",
+     "rank": 666,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 38,
+     "end": 40,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 41,
+     "end": 44,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "center",
+     "norm": "center",
+     "start": 45,
+     "end": 51,
+     "numeric": false,
+     "lemma": "center",
+     "rank": 649,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 52,
+     "end": 54,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 55,
+     "end": 58,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "solar",
+     "norm": "solar",
+     "start": 59,
+     "end": 64,
+     "numeric": false,
+     "lemma": "solar",
+     "rank": 2862,
+     "zipf": 4.53,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "system",
+     "norm": "system",
+     "start": 65,
+     "end": 71,
+     "numeric": false,
+     "lemma": "system",
+     "rank": 249,
+     "zipf": 5.56,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 73,
+   "end": 206,
+   "text": "It is a white star that gives off different types of energy such as infrared energy (heat), ultraviolet light, radio waves and light.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 3,
+     "end": 5,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 6,
+     "end": 7,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "white",
+     "norm": "white",
+     "start": 8,
+     "end": 13,
+     "numeric": false,
+     "lemma": "white",
+     "rank": 293,
+     "zipf": 5.51,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "star",
+     "norm": "star",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "star",
+     "rank": 666,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "gives",
+     "norm": "gives",
+     "start": 24,
+     "end": 29,
+     "numeric": false,
+     "lemma": "give",
+     "rank": 185,
+     "zipf": 5.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "off",
+     "norm": "off",
+     "start": 30,
+     "end": 33,
+     "numeric": false,
+     "lemma": "off",
+     "rank": 124,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "different",
+     "norm": "different",
+     "start": 34,
+     "end": 43,
+     "numeric": false,
+     "lemma": "different",
+     "rank": 232,
+     "zipf": 5.59,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "types",
+     "norm": "types",
+     "start": 44,
+     "end": 49,
+     "numeric": false,
+     "lemma": "type",
+     "rank": 546,
+     "zipf": 5.27,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 50,
+     "end": 52,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "energy",
+     "norm": "energy",
+     "start": 53,
+     "end": 59,
+     "numeric": false,
+     "lemma": "energy",
+     "rank": 584,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "such",
+     "norm": "such",
+     "start": 60,
+     "end": 64,
+     "numeric": false,
+     "lemma": "such",
+     "rank": 146,
+     "zipf": 5.84,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 65,
+     "end": 67,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "infrared",
+     "norm": "infrared",
+     "start": 68,
+     "end": 76,
+     "numeric": false,
+     "lemma": "infrared",
+     "rank": 11049,
+     "zipf": 3.71,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "energy",
+     "norm": "energy",
+     "start": 77,
+     "end": 83,
+     "numeric": false,
+     "lemma": "energy",
+     "rank": 584,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "heat",
+     "norm": "heat",
+     "start": 85,
+     "end": 89,
+     "numeric": false,
+     "lemma": "heat",
+     "rank": 1456,
+     "zipf": 4.86,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "ultraviolet",
+     "norm": "ultraviolet",
+     "start": 92,
+     "end": 103,
+     "numeric": false,
+     "lemma": "ultraviolet",
+     "rank": 18978,
+     "zipf": 3.33,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "light",
+     "norm": "light",
+     "start": 104,
+     "end": 109,
+     "numeric": false,
+     "lemma": "light",
+     "rank": 467,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "radio",
+     "norm": "radio",
+     "start": 111,
+     "end": 116,
+     "numeric": false,
+     "lemma": "radio",
+     "rank": 1059,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "waves",
+     "norm": "waves",
+     "start": 117,
+     "end": 122,
+     "numeric": false,
+     "lemma": "wave",
+     "rank": 2423,
+     "zipf": 4.62,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 123,
+     "end": 126,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "light",
+     "norm": "light",
+     "start": 127,
+     "end": 132,
+     "numeric": false,
+     "lemma": "light",
+     "rank": 467,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 207,
+   "end": 272,
+   "text": "It gives off the light and heat that make life on Earth possible.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "gives",
+     "norm": "gives",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "give",
+     "rank": 185,
+     "zipf": 5.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "off",
+     "norm": "off",
+     "start": 9,
+     "end": 12,
+     "numeric": false,
+     "lemma": "off",
+     "rank": 124,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 13,
+     "end": 16,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "light",
+     "norm": "light",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "light",
+     "rank": 467,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "heat",
+     "norm": "heat",
+     "start": 27,
+     "end": 31,
+     "numeric": false,
+     "lemma": "heat",
+     "rank": 1456,
+     "zipf": 4.86,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 32,
+     "end": 36,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "make",
+     "norm": "make",
+     "start": 37,
+     "end": 41,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "life",
+     "norm": "life",
+     "start": 42,
+     "end": 46,
+     "numeric": false,
+     "lemma": "life",
+     "rank": 134,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 47,
+     "end": 49,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 50,
+     "end": 55,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "possible",
+     "norm": "possible",
+     "start": 56,
+     "end": 64,
+     "numeric": false,
+     "lemma": "possible",
+     "rank": 438,
+     "zipf": 5.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 273,
+   "end": 325,
+   "text": "Without it, Earth would be a frozen, lifeless place.",
+   "tokens": [
+    {
+     "raw": "Without",
+     "norm": "without",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "without",
+     "rank": 193,
+     "zipf": 5.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 12,
+     "end": 17,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "would",
+     "norm": "would",
+     "start": 18,
+     "end": 23,
+     "numeric": false,
+     "lemma": "would",
+     "rank": 63,
+     "zipf": 6.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "be",
+     "norm": "be",
+     "start": 24,
+     "end": 26,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 27,
+     "end": 28,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "frozen",
+     "norm": "frozen",
+     "start": 29,
+     "end": 35,
+     "numeric": false,
+     "lemma": "freeze",
+     "rank": 5965,
+     "zipf": 4.11,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "lifeless",
+     "norm": "lifeless",
+     "start": 37,
+     "end": 45,
+     "numeric": false,
+     "lemma": "lifeless",
+     "rank": 21564,
+     "zipf": 3.23,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "place",
+     "norm": "place",
+     "start": 46,
+     "end": 51,
+     "numeric": false,
+     "lemma": "place",
+     "rank": 187,
+     "zipf": 5.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 326,
+   "end": 385,
+   "text": "It is a huge ball of hot gases, mostly hydrogen and helium.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 3,
+     "end": 5,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 6,
+     "end": 7,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "huge",
+     "norm": "huge",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "huge",
+     "rank": 927,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "ball",
+     "norm": "ball",
+     "start": 13,
+     "end": 17,
+     "numeric": false,
+     "lemma": "ball",
+     "rank": 961,
+     "zipf": 5.04,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 18,
+     "end": 20,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hot",
+     "norm": "hot",
+     "start": 21,
+     "end": 24,
+     "numeric": false,
+     "lemma": "hot",
+     "rank": 711,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "gases",
+     "norm": "gases",
+     "start": 25,
+     "end": 30,
+     "numeric": false,
+     "lemma": "gas",
+     "rank": 1051,
+     "zipf": 5.01,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "mostly",
+     "norm": "mostly",
+     "start": 32,
+     "end": 38,
+     "numeric": false,
+     "lemma": "mostly",
+     "rank": 1568,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "hydrogen",
+     "norm": "hydrogen",
+     "start": 39,
+     "end": 47,
+     "numeric": false,
+     "lemma": "hydrogen",
+     "rank": 7349,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 48,
+     "end": 51,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "helium",
+     "norm": "helium",
+     "start": 52,
+     "end": 58,
+     "numeric": false,
+     "lemma": "helium",
+     "rank": 16725,
+     "zipf": 3.42,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 387,
+   "end": 536,
+   "text": "The Sun is nearly a perfect sphere and has a diameter of about 1.39 million kilometers (or 864,000 miles), which is about 109 times wider than Earth.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sun",
+     "norm": "sun",
+     "start": 4,
+     "end": 7,
+     "numeric": false,
+     "lemma": "sun",
+     "rank": 1154,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "nearly",
+     "norm": "nearly",
+     "start": 11,
+     "end": 17,
+     "numeric": false,
+     "lemma": "nearly",
+     "rank": 1091,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 18,
+     "end": 19,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "perfect",
+     "norm": "perfect",
+     "start": 20,
+     "end": 27,
+     "numeric": false,
+     "lemma": "perfect",
+     "rank": 639,
+     "zipf": 5.2,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sphere",
+     "norm": "sphere",
+     "start": 28,
+     "end": 34,
+     "numeric": false,
+     "lemma": "sphere",
+     "rank": 8208,
+     "zipf": 3.91,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 35,
+     "end": 38,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "has",
+     "norm": "has",
+     "start": 39,
+     "end": 42,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 43,
+     "end": 44,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "diameter",
+     "norm": "diameter",
+     "start": 45,
+     "end": 53,
+     "numeric": false,
+     "lemma": "diameter",
+     "rank": 6230,
+     "zipf": 4.08,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 54,
+     "end": 56,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 57,
+     "end": 62,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "1.39",
+     "norm": "1.39",
+     "start": 63,
+     "end": 67,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "million",
+     "norm": "million",
+     "start": 68,
+     "end": 75,
+     "numeric": false,
+     "lemma": "million",
+     "rank": 469,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "kilometers",
+     "norm": "kilometers",
+     "start": 76,
+     "end": 86,
+     "numeric": false,
+     "lemma": "kilometers",
+     "rank": 9353,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 88,
+     "end": 90,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "864,000",
+     "norm": "864,000",
+     "start": 91,
+     "end": 98,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "miles",
+     "norm": "miles",
+     "start": 99,
+     "end": 104,
+     "numeric": false,
+     "lemma": "miles",
+     "rank": 1090,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "which",
+     "norm": "which",
+     "start": 107,
+     "end": 112,
+     "numeric": false,
+     "lemma": "which",
+     "rank": 59,
+     "zipf": 6.3,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 113,
+     "end": 115,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 116,
+     "end": 121,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "109",
+     "norm": "109",
+     "start": 122,
+     "end": 125,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "times",
+     "norm": "times",
+     "start": 126,
+     "end": 131,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "wider",
+     "norm": "wider",
+     "start": 132,
+     "end": 137,
+     "numeric": false,
+     "lemma": "wide",
+     "rank": 1177,
+     "zipf": 4.96,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 138,
+     "end": 142,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 143,
+     "end": 148,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 537,
+   "end": 646,
+   "text": "Its mass is 333,000 times heavier than Earth, and it makes up over 99.8% of all the mass in the Solar System.",
+   "tokens": [
+    {
+     "raw": "Its",
+     "norm": "its",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mass",
+     "norm": "mass",
+     "start": 4,
+     "end": 8,
+     "numeric": false,
+     "lemma": "mass",
+     "rank": 1428,
+     "zipf": 4.87,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 9,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "333,000",
+     "norm": "333,000",
+     "start": 12,
+     "end": 19,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "times",
+     "norm": "times",
+     "start": 20,
+     "end": 25,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "heavier",
+     "norm": "heavier",
+     "start": 26,
+     "end": 33,
+     "numeric": false,
+     "lemma": "heavier",
+     "rank": 8942,
+     "zipf": 3.85,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 34,
+     "end": 38,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 39,
+     "end": 44,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 46,
+     "end": 49,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 50,
+     "end": 52,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "makes",
+     "norm": "makes",
+     "start": 53,
+     "end": 58,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 59,
+     "end": 61,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "over",
+     "norm": "over",
+     "start": 62,
+     "end": 66,
+     "numeric": false,
+     "lemma": "over",
+     "rank": 88,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "99.8",
+     "norm": "99.8",
+     "start": 67,
+     "end": 71,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 73,
+     "end": 75,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 76,
+     "end": 79,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 80,
+     "end": 83,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mass",
+     "norm": "mass",
+     "start": 84,
+     "end": 88,
+     "numeric": false,
+     "lemma": "mass",
+     "rank": 1428,
+     "zipf": 4.87,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 89,
+     "end": 91,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 92,
+     "end": 95,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Solar",
+     "norm": "solar",
+     "start": 96,
+     "end": 101,
+     "numeric": false,
+     "lemma": "solar",
+     "rank": 2862,
+     "zipf": 4.53,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "System",
+     "norm": "system",
+     "start": 102,
+     "end": 108,
+     "numeric": false,
+     "lemma": "system",
+     "rank": 249,
+     "zipf": 5.56,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 647,
+   "end": 742,
+   "text": "That is why its gravity controls the movement of all the planets, moons, asteroids, and comets.",
+   "tokens": [
+    {
+     "raw": "That",
+     "norm": "that",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "why",
+     "norm": "why",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "why",
+     "rank": 125,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "its",
+     "norm": "its",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "gravity",
+     "norm": "gravity",
+     "start": 16,
+     "end": 23,
+     "numeric": false,
+     "lemma": "gravity",
+     "rank": 5046,
+     "zipf": 4.21,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "controls",
+     "norm": "controls",
+     "start": 24,
+     "end": 32,
+     "numeric": false,
+     "lemma": "control",
+     "rank": 384,
+     "zipf": 5.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 33,
+     "end": 36,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "movement",
+     "norm": "movement",
+     "start": 37,
+     "end": 45,
+     "numeric": false,
+     "lemma": "movement",
+     "rank": 1144,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 46,
+     "end": 48,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 53,
+     "end": 56,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "planets",
+     "norm": "planets",
+     "start": 57,
+     "end": 64,
+     "numeric": false,
+     "lemma": "planet",
+     "rank": 2123,
+     "zipf": 4.68,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "moons",
+     "norm": "moons",
+     "start": 66,
+     "end": 71,
+     "numeric": false,
+     "lemma": "moon",
+     "rank": 2048,
+     "zipf": 4.7,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "asteroids",
+     "norm": "asteroids",
+     "start": 73,
+     "end": 82,
+     "numeric": false,
+     "lemma": "asteroid",
+     "rank": 13663,
+     "zipf": 3.56,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 84,
+     "end": 87,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "comets",
+     "norm": "comets",
+     "start": 88,
+     "end": 94,
+     "numeric": false,
+     "lemma": "comet",
+     "rank": 12208,
+     "zipf": 3.64,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 743,
+   "end": 842,
+   "text": "The Sun's energy comes from nuclear reactions deep inside it, where hydrogen is turned into helium.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sun's",
+     "norm": "sun",
+     "start": 4,
+     "end": 9,
+     "poss": true,
+     "lemma_override": "sun",
+     "numeric": false,
+     "lemma": "sun",
+     "rank": 1154,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "energy",
+     "norm": "energy",
+     "start": 10,
+     "end": 16,
+     "numeric": false,
+     "lemma": "energy",
+     "rank": 584,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "comes",
+     "norm": "comes",
+     "start": 17,
+     "end": 22,
+     "numeric": false,
+     "lemma": "come",
+     "rank": 161,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 23,
+     "end": 27,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "nuclear",
+     "norm": "nuclear",
+     "start": 28,
+     "end": 35,
+     "numeric": false,
+     "lemma": "nuclear",
+     "rank": 1911,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "reactions",
+     "norm": "reactions",
+     "start": 36,
+     "end": 45,
+     "numeric": false,
+     "lemma": "reaction",
+     "rank": 1915,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "deep",
+     "norm": "deep",
+     "start": 46,
+     "end": 50,
+     "numeric": false,
+     "lemma": "deep",
+     "rank": 945,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "inside",
+     "norm": "inside",
+     "start": 51,
+     "end": 57,
+     "numeric": false,
+     "lemma": "inside",
+     "rank": 657,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 58,
+     "end": 60,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "where",
+     "norm": "where",
+     "start": 62,
+     "end": 67,
+     "numeric": false,
+     "lemma": "where",
+     "rank": 107,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hydrogen",
+     "norm": "hydrogen",
+     "start": 68,
+     "end": 76,
+     "numeric": false,
+     "lemma": "hydrogen",
+     "rank": 7349,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 77,
+     "end": 79,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "turned",
+     "norm": "turned",
+     "start": 80,
+     "end": 86,
+     "numeric": false,
+     "lemma": "turn",
+     "rank": 484,
+     "zipf": 5.32,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "into",
+     "norm": "into",
+     "start": 87,
+     "end": 91,
+     "numeric": false,
+     "lemma": "into",
+     "rank": 83,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "helium",
+     "norm": "helium",
+     "start": 92,
+     "end": 98,
+     "numeric": false,
+     "lemma": "helium",
+     "rank": 16725,
+     "zipf": 3.42,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "start": 843,
+   "end": 942,
+   "text": "This process releases a lot of energy, which travels as light and heat across space to reach Earth.",
+   "tokens": [
+    {
+     "raw": "This",
+     "norm": "this",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "process",
+     "norm": "process",
+     "start": 5,
+     "end": 12,
+     "numeric": false,
+     "lemma": "process",
+     "rank": 551,
+     "zipf": 5.26,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "releases",
+     "norm": "releases",
+     "start": 13,
+     "end": 21,
+     "numeric": false,
+     "lemma": "release",
+     "rank": 856,
+     "zipf": 5.09,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 22,
+     "end": 23,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "lot",
+     "norm": "lot",
+     "start": 24,
+     "end": 27,
+     "numeric": false,
+     "lemma": "lot",
+     "rank": 219,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "energy",
+     "norm": "energy",
+     "start": 31,
+     "end": 37,
+     "numeric": false,
+     "lemma": "energy",
+     "rank": 584,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "which",
+     "norm": "which",
+     "start": 39,
+     "end": 44,
+     "numeric": false,
+     "lemma": "which",
+     "rank": 59,
+     "zipf": 6.3,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "travels",
+     "norm": "travels",
+     "start": 45,
+     "end": 52,
+     "numeric": false,
+     "lemma": "travel",
+     "rank": 1100,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 53,
+     "end": 55,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "light",
+     "norm": "light",
+     "start": 56,
+     "end": 61,
+     "numeric": false,
+     "lemma": "light",
+     "rank": 467,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 62,
+     "end": 65,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "heat",
+     "norm": "heat",
+     "start": 66,
+     "end": 70,
+     "numeric": false,
+     "lemma": "heat",
+     "rank": 1456,
+     "zipf": 4.86,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "across",
+     "norm": "across",
+     "start": 71,
+     "end": 77,
+     "numeric": false,
+     "lemma": "across",
+     "rank": 556,
+     "zipf": 5.25,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "space",
+     "norm": "space",
+     "start": 78,
+     "end": 83,
+     "numeric": false,
+     "lemma": "space",
+     "rank": 598,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 84,
+     "end": 86,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reach",
+     "norm": "reach",
+     "start": 87,
+     "end": 92,
+     "numeric": false,
+     "lemma": "reach",
+     "rank": 1233,
+     "zipf": 4.94,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 93,
+     "end": 98,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "start": 943,
+   "end": 1059,
+   "text": "It takes about 8 minutes for sunlight to travel the 150 million kilometers (93 million miles) from the Sun to Earth.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "takes",
+     "norm": "takes",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "take",
+     "rank": 128,
+     "zipf": 5.92,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 9,
+     "end": 14,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "8",
+     "norm": "8",
+     "start": 15,
+     "end": 16,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "minutes",
+     "norm": "minutes",
+     "start": 17,
+     "end": 24,
+     "numeric": false,
+     "lemma": "minutes",
+     "rank": 492,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 25,
+     "end": 28,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sunlight",
+     "norm": "sunlight",
+     "start": 29,
+     "end": 37,
+     "numeric": false,
+     "lemma": "sunlight",
+     "rank": 8865,
+     "zipf": 3.86,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 38,
+     "end": 40,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "travel",
+     "norm": "travel",
+     "start": 41,
+     "end": 47,
+     "numeric": false,
+     "lemma": "travel",
+     "rank": 1100,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 48,
+     "end": 51,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "150",
+     "norm": "150",
+     "start": 52,
+     "end": 55,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "million",
+     "norm": "million",
+     "start": 56,
+     "end": 63,
+     "numeric": false,
+     "lemma": "million",
+     "rank": 469,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "kilometers",
+     "norm": "kilometers",
+     "start": 64,
+     "end": 74,
+     "numeric": false,
+     "lemma": "kilometers",
+     "rank": 9353,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "93",
+     "norm": "93",
+     "start": 76,
+     "end": 78,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "million",
+     "norm": "million",
+     "start": 79,
+     "end": 86,
+     "numeric": false,
+     "lemma": "million",
+     "rank": 469,
+     "zipf": 5.33,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "miles",
+     "norm": "miles",
+     "start": 87,
+     "end": 92,
+     "numeric": false,
+     "lemma": "miles",
+     "rank": 1090,
+     "zipf": 5.0,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 94,
+     "end": 98,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 99,
+     "end": 102,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sun",
+     "norm": "sun",
+     "start": 103,
+     "end": 106,
+     "numeric": false,
+     "lemma": "sun",
+     "rank": 1154,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 107,
+     "end": 109,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Earth",
+     "norm": "earth",
+     "start": 110,
+     "end": 115,
+     "numeric": false,
+     "lemma": "earth",
+     "rank": 923,
+     "zipf": 5.06,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s012",
+   "start": 1060,
+   "end": 1109,
+   "text": "This distance is called 1 Astronomical Unit (AU).",
+   "tokens": [
+    {
+     "raw": "This",
+     "norm": "this",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "this",
+     "rank": 15,
+     "zipf": 6.82,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "distance",
+     "norm": "distance",
+     "start": 5,
+     "end": 13,
+     "numeric": false,
+     "lemma": "distance",
+     "rank": 1479,
+     "zipf": 4.85,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 14,
+     "end": 16,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "called",
+     "norm": "called",
+     "start": 17,
+     "end": 23,
+     "numeric": false,
+     "lemma": "called",
+     "rank": 231,
+     "zipf": 5.59,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 24,
+     "end": 25,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Astronomical",
+     "norm": "astronomical",
+     "start": 26,
+     "end": 38,
+     "numeric": false,
+     "lemma": "astronomical",
+     "rank": 15098,
+     "zipf": 3.49,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Unit",
+     "norm": "unit",
+     "start": 39,
+     "end": 43,
+     "numeric": false,
+     "lemma": "unit",
+     "rank": 1209,
+     "zipf": 4.95,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "AU",
+     "norm": "au",
+     "start": 45,
+     "end": 47,
+     "numeric": false,
+     "lemma": "au",
+     "rank": 6867,
+     "zipf": 4.02,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s013",
+   "start": 1110,
+   "end": 1251,
+   "text": "The Sun is also part of the Milky Way galaxy, slowly orbiting around the galaxy's center at a distance of about 24,000 to 28,000 light-years.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sun",
+     "norm": "sun",
+     "start": 4,
+     "end": 7,
+     "numeric": false,
+     "lemma": "sun",
+     "rank": 1154,
+     "zipf": 4.97,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 11,
+     "end": 15,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "part",
+     "norm": "part",
+     "start": 16,
+     "end": 20,
+     "numeric": false,
+     "lemma": "part",
+     "rank": 162,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 21,
+     "end": 23,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 24,
+     "end": 27,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Milky",
+     "norm": "milky",
+     "start": 28,
+     "end": 33,
+     "numeric": false,
+     "lemma": "milky",
+     "rank": 15000,
+     "zipf": 3.5,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Way",
+     "norm": "way",
+     "start": 34,
+     "end": 37,
+     "numeric": false,
+     "lemma": "way",
+     "rank": 101,
+     "zipf": 6.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "galaxy",
+     "norm": "galaxy",
+     "start": 38,
+     "end": 44,
+     "numeric": false,
+     "lemma": "galaxy",
+     "rank": 4450,
+     "zipf": 4.28,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "slowly",
+     "norm": "slowly",
+     "start": 46,
+     "end": 52,
+     "numeric": false,
+     "lemma": "slowly",
+     "rank": 2368,
+     "zipf": 4.63,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "orbiting",
+     "norm": "orbiting",
+     "start": 53,
+     "end": 61,
+     "numeric": false,
+     "lemma": "orbit",
+     "rank": 6816,
+     "zipf": 4.03,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "around",
+     "norm": "around",
+     "start": 62,
+     "end": 68,
+     "numeric": false,
+     "lemma": "around",
+     "rank": 165,
+     "zipf": 5.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 69,
+     "end": 72,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "galaxy's",
+     "norm": "galaxy",
+     "start": 73,
+     "end": 81,
+     "poss": true,
+     "lemma_override": "galaxy",
+     "numeric": false,
+     "lemma": "galaxy",
+     "rank": 4450,
+     "zipf": 4.28,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "center",
+     "norm": "center",
+     "start": 82,
+     "end": 88,
+     "numeric": false,
+     "lemma": "center",
+     "rank": 649,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 89,
+     "end": 91,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 92,
+     "end": 93,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "distance",
+     "norm": "distance",
+     "start": 94,
+     "end": 102,
+     "numeric": false,
+     "lemma": "distance",
+     "rank": 1479,
+     "zipf": 4.85,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 103,
+     "end": 105,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 106,
+     "end": 111,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "24,000",
+     "norm": "24,000",
+     "start": 112,
+     "end": 118,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 119,
+     "end": 121,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "28,000",
+     "norm": "28,000",
+     "start": 122,
+     "end": 128,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "light-years",
+     "norm": "light-years",
+     "start": 129,
+     "end": 140,
+     "numeric": false,
+     "compound_parts": [
+      "light",
+      "year"
+     ],
+     "lemma": "light-year",
+     "rank": 117,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s014",
+   "start": 1252,
+   "end": 1423,
+   "text": "Its outer layer, called the photosphere, is mostly hydrogen (~73%) and helium (~25%), but also contains tiny amounts of other elements like oxygen, carbon, neon, and iron.",
+   "tokens": [
+    {
+     "raw": "Its",
+     "norm": "its",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "outer",
+     "norm": "outer",
+     "start": 4,
+     "end": 9,
+     "numeric": false,
+     "lemma": "out",
+     "rank": 45,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "layer",
+     "norm": "layer",
+     "start": 10,
+     "end": 15,
+     "numeric": false,
+     "lemma": "lay",
+     "rank": 2302,
+     "zipf": 4.64,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "called",
+     "norm": "called",
+     "start": 17,
+     "end": 23,
+     "numeric": false,
+     "lemma": "called",
+     "rank": 231,
+     "zipf": 5.59,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 24,
+     "end": 27,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "photosphere",
+     "norm": "photosphere",
+     "start": 28,
+     "end": 39,
+     "numeric": false,
+     "lemma": "photosphere",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 41,
+     "end": 43,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mostly",
+     "norm": "mostly",
+     "start": 44,
+     "end": 50,
+     "numeric": false,
+     "lemma": "mostly",
+     "rank": 1568,
+     "zipf": 4.83,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "hydrogen",
+     "norm": "hydrogen",
+     "start": 51,
+     "end": 59,
+     "numeric": false,
+     "lemma": "hydrogen",
+     "rank": 7349,
+     "zipf": 3.98,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "73",
+     "norm": "73",
+     "start": 62,
+     "end": 64,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 67,
+     "end": 70,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "helium",
+     "norm": "helium",
+     "start": 71,
+     "end": 77,
+     "numeric": false,
+     "lemma": "helium",
+     "rank": 16725,
+     "zipf": 3.42,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "25",
+     "norm": "25",
+     "start": 80,
+     "end": 82,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "but",
+     "norm": "but",
+     "start": 86,
+     "end": 89,
+     "numeric": false,
+     "lemma": "but",
+     "rank": 25,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 90,
+     "end": 94,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "contains",
+     "norm": "contains",
+     "start": 95,
+     "end": 103,
+     "numeric": false,
+     "lemma": "contains",
+     "rank": 2105,
+     "zipf": 4.68,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "tiny",
+     "norm": "tiny",
+     "start": 104,
+     "end": 108,
+     "numeric": false,
+     "lemma": "tiny",
+     "rank": 2413,
+     "zipf": 4.62,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "amounts",
+     "norm": "amounts",
+     "start": 109,
+     "end": 116,
+     "numeric": false,
+     "lemma": "amount",
+     "rank": 760,
+     "zipf": 5.13,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 117,
+     "end": 119,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "other",
+     "norm": "other",
+     "start": 120,
+     "end": 125,
+     "numeric": false,
+     "lemma": "other",
+     "rank": 73,
+     "zipf": 6.16,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "elements",
+     "norm": "elements",
+     "start": 126,
+     "end": 134,
+     "numeric": false,
+     "lemma": "elements",
+     "rank": 2037,
+     "zipf": 4.7,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "like",
+     "norm": "like",
+     "start": 135,
+     "end": 139,
+     "numeric": false,
+     "lemma": "like",
+     "rank": 42,
+     "zipf": 6.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "oxygen",
+     "norm": "oxygen",
+     "start": 140,
+     "end": 146,
+     "numeric": false,
+     "lemma": "oxygen",
+     "rank": 4695,
+     "zipf": 4.25,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "carbon",
+     "norm": "carbon",
+     "start": 148,
+     "end": 154,
+     "numeric": false,
+     "lemma": "carbon",
+     "rank": 2717,
+     "zipf": 4.55,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "neon",
+     "norm": "neon",
+     "start": 156,
+     "end": 160,
+     "numeric": false,
+     "lemma": "neon",
+     "rank": 12284,
+     "zipf": 3.64,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 162,
+     "end": 165,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "iron",
+     "norm": "iron",
+     "start": 166,
+     "end": 170,
+     "numeric": false,
+     "lemma": "iron",
+     "rank": 1866,
+     "zipf": 4.74,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 253,
+  "scored_tokens": 240,
+  "sentences": 14,
+  "msl": 17.14,
+  "S_long": 0.143,
+  "syn": 0.429,
+  "U_rare": 0.121,
+  "D": 0.284,
+  "C_token": 0.6083,
+  "C_lemma": 0.4677,
+  "max_unk_sent": 13,
+  "residual_per_sent_raw": {
+   "s001": 5,
+   "s002": 9,
+   "s003": 2,
+   "s004": 3,
+   "s005": 7,
+   "s006": 9,
+   "s007": 5,
+   "s008": 6,
+   "s009": 8,
+   "s010": 9,
+   "s011": 6,
+   "s012": 4,
+   "s013": 8,
+   "s014": 13
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "sun": {
+   "count": 5,
+   "zipf": 4.97,
+   "band": "B2",
+   "sents": [
+    "s001",
+    "s006",
+    "s009",
+    "s011",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "sol": {
+   "count": 1,
+   "zipf": 3.69,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "star": {
+   "count": 2,
+   "zipf": 5.19,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s002"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "center": {
+   "count": 2,
+   "zipf": 5.19,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "solar": {
+   "count": 2,
+   "zipf": 4.53,
+   "band": "B3",
+   "sents": [
+    "s001",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "type": {
+   "count": 1,
+   "zipf": 5.27,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "energy": {
+   "count": 4,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s002",
+    "s009",
+    "s010"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "infrared": {
+   "count": 1,
+   "zipf": 3.71,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "heat": {
+   "count": 3,
+   "zipf": 4.86,
+   "band": "B2",
+   "sents": [
+    "s002",
+    "s003",
+    "s010"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "ultraviolet": {
+   "count": 1,
+   "zipf": 3.33,
+   "band": "B6",
+   "sents": [
+    "s002"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "radio": {
+   "count": 1,
+   "zipf": 5.01,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "wave": {
+   "count": 1,
+   "zipf": 4.62,
+   "band": "B3",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "earth": {
+   "count": 6,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s003",
+    "s004",
+    "s006",
+    "s007",
+    "s010",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "freeze": {
+   "count": 1,
+   "zipf": 4.11,
+   "band": "B5",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lifeless": {
+   "count": 1,
+   "zipf": 3.23,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "huge": {
+   "count": 1,
+   "zipf": 5.06,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "ball": {
+   "count": 1,
+   "zipf": 5.04,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hot": {
+   "count": 1,
+   "zipf": 5.16,
+   "band": "B1",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "gas": {
+   "count": 1,
+   "zipf": 5.01,
+   "band": "B2",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mostly": {
+   "count": 2,
+   "zipf": 4.83,
+   "band": "B2",
+   "sents": [
+    "s005",
+    "s014"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "hydrogen": {
+   "count": 3,
+   "zipf": 3.98,
+   "band": "B5",
+   "sents": [
+    "s005",
+    "s009",
+    "s014"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "helium": {
+   "count": 3,
+   "zipf": 3.42,
+   "band": "B6",
+   "sents": [
+    "s005",
+    "s009",
+    "s014"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "nearly": {
+   "count": 1,
+   "zipf": 5.0,
+   "band": "B2",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "perfect": {
+   "count": 1,
+   "zipf": 5.2,
+   "band": "B1",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sphere": {
+   "count": 1,
+   "zipf": 3.91,
+   "band": "B5",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "diameter": {
+   "count": 1,
+   "zipf": 4.08,
+   "band": "B5",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "kilometers": {
+   "count": 2,
+   "zipf": 3.82,
+   "band": "B5",
+   "sents": [
+    "s006",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "miles": {
+   "count": 2,
+   "zipf": 5.0,
+   "band": "B2",
+   "sents": [
+    "s006",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "wide": {
+   "count": 1,
+   "zipf": 4.96,
+   "band": "B2",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mass": {
+   "count": 2,
+   "zipf": 4.87,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "heavier": {
+   "count": 1,
+   "zipf": 3.85,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "gravity": {
+   "count": 1,
+   "zipf": 4.21,
+   "band": "B5",
+   "sents": [
+    "s008"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "movement": {
+   "count": 1,
+   "zipf": 4.97,
+   "band": "B2",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "planet": {
+   "count": 1,
+   "zipf": 4.68,
+   "band": "B3",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "moon": {
+   "count": 1,
+   "zipf": 4.7,
+   "band": "B3",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "asteroid": {
+   "count": 1,
+   "zipf": 3.56,
+   "band": "B6",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "comet": {
+   "count": 1,
+   "zipf": 3.64,
+   "band": "B6",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "nuclear": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "reaction": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "deep": {
+   "count": 1,
+   "zipf": 5.05,
+   "band": "B1",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "inside": {
+   "count": 1,
+   "zipf": 5.19,
+   "band": "B1",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "process": {
+   "count": 1,
+   "zipf": 5.26,
+   "band": "B1",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "release": {
+   "count": 1,
+   "zipf": 5.09,
+   "band": "B1",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "travel": {
+   "count": 2,
+   "zipf": 5.0,
+   "band": "B2",
+   "sents": [
+    "s010",
+    "s011"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "across": {
+   "count": 1,
+   "zipf": 5.25,
+   "band": "B1",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "space": {
+   "count": 1,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "reach": {
+   "count": 1,
+   "zipf": 4.94,
+   "band": "B2",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sunlight": {
+   "count": 1,
+   "zipf": 3.86,
+   "band": "B5",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "distance": {
+   "count": 2,
+   "zipf": 4.85,
+   "band": "B2",
+   "sents": [
+    "s012",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "astronomical": {
+   "count": 1,
+   "zipf": 3.49,
+   "band": "B6",
+   "sents": [
+    "s012"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "unit": {
+   "count": 1,
+   "zipf": 4.95,
+   "band": "B2",
+   "sents": [
+    "s012"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "au": {
+   "count": 1,
+   "zipf": 4.02,
+   "band": "B5",
+   "sents": [
+    "s012"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "milky": {
+   "count": 1,
+   "zipf": 3.5,
+   "band": "B6",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "galaxy": {
+   "count": 2,
+   "zipf": 4.28,
+   "band": "B4",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "slowly": {
+   "count": 1,
+   "zipf": 4.63,
+   "band": "B3",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "orbit": {
+   "count": 1,
+   "zipf": 4.03,
+   "band": "B5",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lay": {
+   "count": 1,
+   "zipf": 4.64,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "photosphere": {
+   "count": 1,
+   "zipf": null,
+   "band": "R",
+   "sents": [
+    "s014"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "contains": {
+   "count": 1,
+   "zipf": 4.68,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "tiny": {
+   "count": 1,
+   "zipf": 4.62,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "amount": {
+   "count": 1,
+   "zipf": 5.13,
+   "band": "B1",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "elements": {
+   "count": 1,
+   "zipf": 4.7,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "oxygen": {
+   "count": 1,
+   "zipf": 4.25,
+   "band": "B4",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "carbon": {
+   "count": 1,
+   "zipf": 4.55,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "neon": {
+   "count": 1,
+   "zipf": 3.64,
+   "band": "B6",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "iron": {
+   "count": 1,
+   "zipf": 4.74,
+   "band": "B2",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "type",
+   "process",
+   "across",
+   "space",
+   "perfect",
+   "inside",
+   "hot",
+   "amount"
+  ],
+  "inference_targets": [
+   "energy",
+   "star",
+   "center",
+   "earth",
+   "miles",
+   "travel",
+   "sun",
+   "unit",
+   "mass",
+   "heat",
+   "distance",
+   "mostly",
+   "solar",
+   "galaxy",
+   "gravity",
+   "au",
+   "hydrogen",
+   "kilometers",
+   "infrared",
+   "astronomical",
+   "helium",
+   "ultraviolet",
+   "photosphere"
+  ],
+  "gloss": [
+   "release",
+   "huge",
+   "deep",
+   "ball",
+   "radio",
+   "gas",
+   "nearly",
+   "movement",
+   "wide",
+   "reach",
+   "iron",
+   "nuclear",
+   "reaction",
+   "moon",
+   "elements",
+   "planet",
+   "contains",
+   "lay",
+   "slowly",
+   "wave",
+   "tiny",
+   "carbon",
+   "oxygen",
+   "freeze",
+   "diameter",
+   "orbit",
+   "sphere",
+   "sunlight",
+   "heavier",
+   "sol",
+   "comet",
+   "neon",
+   "asteroid",
+   "milky",
+   "lifeless"
+  ],
+  "controls": {
+   "C_eff": 0.6417,
+   "gloss_n": 35,
+   "gloss_cap": 10,
+   "resid_max": 12,
+   "n_infer": 23
+  },
+  "residual_per_sent": {
+   "s001": 5,
+   "s002": 8,
+   "s003": 2,
+   "s004": 3,
+   "s005": 6,
+   "s006": 8,
+   "s007": 5,
+   "s008": 6,
+   "s009": 7,
+   "s010": 6,
+   "s011": 6,
+   "s012": 4,
+   "s013": 8,
+   "s014": 12
+  }
+ }
+}

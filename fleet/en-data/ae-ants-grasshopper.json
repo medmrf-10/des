@@ -1,0 +1,2285 @@
+{
+ "text_id": "ae-ants-grasshopper",
+ "title": "The Ants And The Grasshopper — The Æsop for Children",
+ "source": {
+  "corpus": "Project Gutenberg #19994 «The Æsop for Children»",
+  "url": "https://www.gutenberg.org/cache/epub/19994/pg19994.txt",
+  "license": "public domain"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 247,
+   "text": "One bright day in late autumn a family of Ants were bustling\nabout in the warm sunshine, drying out the grain they had stored\nup during the summer, when a starving Grasshopper, his fiddle\nunder his arm, came up and humbly begged for a bite to eat.",
+   "tokens": [
+    {
+     "raw": "One",
+     "norm": "one",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bright",
+     "norm": "bright",
+     "start": 4,
+     "end": 10,
+     "numeric": false,
+     "lemma": "bright",
+     "rank": 2427,
+     "zipf": 4.61,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "day",
+     "norm": "day",
+     "start": 11,
+     "end": 14,
+     "numeric": false,
+     "lemma": "day",
+     "rank": 120,
+     "zipf": 5.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "late",
+     "norm": "late",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "late",
+     "rank": 456,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "autumn",
+     "norm": "autumn",
+     "start": 23,
+     "end": 29,
+     "numeric": false,
+     "lemma": "autumn",
+     "rank": 4576,
+     "zipf": 4.26,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 30,
+     "end": 31,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "family",
+     "norm": "family",
+     "start": 32,
+     "end": 38,
+     "numeric": false,
+     "lemma": "family",
+     "rank": 205,
+     "zipf": 5.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Ants",
+     "norm": "ants",
+     "start": 42,
+     "end": 46,
+     "numeric": false,
+     "lemma": "ant",
+     "rank": 8754,
+     "zipf": 3.86,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "were",
+     "norm": "were",
+     "start": 47,
+     "end": 51,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bustling",
+     "norm": "bustling",
+     "start": 52,
+     "end": 60,
+     "numeric": false,
+     "lemma": "bustling",
+     "rank": 23483,
+     "zipf": 3.16,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "about",
+     "norm": "about",
+     "start": 61,
+     "end": 66,
+     "numeric": false,
+     "lemma": "about",
+     "rank": 43,
+     "zipf": 6.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 67,
+     "end": 69,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 70,
+     "end": 73,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "warm",
+     "norm": "warm",
+     "start": 74,
+     "end": 78,
+     "numeric": false,
+     "lemma": "warm",
+     "rank": 2025,
+     "zipf": 4.71,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sunshine",
+     "norm": "sunshine",
+     "start": 79,
+     "end": 87,
+     "numeric": false,
+     "lemma": "sunshine",
+     "rank": 5556,
+     "zipf": 4.16,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "drying",
+     "norm": "drying",
+     "start": 89,
+     "end": 95,
+     "numeric": false,
+     "lemma": "dry",
+     "rank": 1857,
+     "zipf": 4.74,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "out",
+     "norm": "out",
+     "start": 96,
+     "end": 99,
+     "numeric": false,
+     "lemma": "out",
+     "rank": 45,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 100,
+     "end": 103,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "grain",
+     "norm": "grain",
+     "start": 104,
+     "end": 109,
+     "numeric": false,
+     "lemma": "grain",
+     "rank": 5329,
+     "zipf": 4.18,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 110,
+     "end": 114,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "had",
+     "norm": "had",
+     "start": 115,
+     "end": 118,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "stored",
+     "norm": "stored",
+     "start": 119,
+     "end": 125,
+     "numeric": false,
+     "lemma": "store",
+     "rank": 1030,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 126,
+     "end": 128,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "during",
+     "norm": "during",
+     "start": 129,
+     "end": 135,
+     "numeric": false,
+     "lemma": "during",
+     "rank": 181,
+     "zipf": 5.72,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 136,
+     "end": 139,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "summer",
+     "norm": "summer",
+     "start": 140,
+     "end": 146,
+     "numeric": false,
+     "lemma": "summer",
+     "rank": 599,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "when",
+     "norm": "when",
+     "start": 148,
+     "end": 152,
+     "numeric": false,
+     "lemma": "when",
+     "rank": 48,
+     "zipf": 6.37,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 153,
+     "end": 154,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "starving",
+     "norm": "starving",
+     "start": 155,
+     "end": 163,
+     "numeric": false,
+     "lemma": "starving",
+     "rank": 9824,
+     "zipf": 3.79,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Grasshopper",
+     "norm": "grasshopper",
+     "start": 164,
+     "end": 175,
+     "numeric": false,
+     "lemma": "grasshopper",
+     "rank": 27858,
+     "zipf": 3.03,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 177,
+     "end": 180,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "fiddle",
+     "norm": "fiddle",
+     "start": 181,
+     "end": 187,
+     "numeric": false,
+     "lemma": "fiddle",
+     "rank": 16469,
+     "zipf": 3.43,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "under",
+     "norm": "under",
+     "start": 188,
+     "end": 193,
+     "numeric": false,
+     "lemma": "under",
+     "rank": 180,
+     "zipf": 5.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "his",
+     "norm": "his",
+     "start": 194,
+     "end": 197,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "arm",
+     "norm": "arm",
+     "start": 198,
+     "end": 201,
+     "numeric": false,
+     "lemma": "arm",
+     "rank": 1887,
+     "zipf": 4.73,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "came",
+     "norm": "came",
+     "start": 203,
+     "end": 207,
+     "numeric": false,
+     "lemma": "come",
+     "rank": 161,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 208,
+     "end": 210,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 211,
+     "end": 214,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "humbly",
+     "norm": "humbly",
+     "start": 215,
+     "end": 221,
+     "numeric": false,
+     "lemma": "humbly",
+     "rank": 23306,
+     "zipf": 3.17,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "begged",
+     "norm": "begged",
+     "start": 222,
+     "end": 228,
+     "numeric": false,
+     "lemma": "beg",
+     "rank": 6544,
+     "zipf": 4.05,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 229,
+     "end": 232,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 233,
+     "end": 234,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bite",
+     "norm": "bite",
+     "start": 235,
+     "end": 239,
+     "numeric": false,
+     "lemma": "bite",
+     "rank": 4213,
+     "zipf": 4.31,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 240,
+     "end": 242,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "eat",
+     "norm": "eat",
+     "start": 243,
+     "end": 246,
+     "numeric": false,
+     "lemma": "eat",
+     "rank": 765,
+     "zipf": 5.13,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 249,
+   "end": 334,
+   "text": "\"What!\" cried the Ants in surprise, \"haven't you stored anything\naway for the winter?",
+   "tokens": [
+    {
+     "raw": "What",
+     "norm": "what",
+     "start": 1,
+     "end": 5,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cried",
+     "norm": "cried",
+     "start": 8,
+     "end": 13,
+     "numeric": false,
+     "lemma": "cried",
+     "rank": 5207,
+     "zipf": 4.19,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 14,
+     "end": 17,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Ants",
+     "norm": "ants",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "ant",
+     "rank": 8754,
+     "zipf": 3.86,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "surprise",
+     "norm": "surprise",
+     "start": 26,
+     "end": 34,
+     "numeric": false,
+     "lemma": "surprise",
+     "rank": 1841,
+     "zipf": 4.75,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "haven't",
+     "norm": "haven't",
+     "start": 37,
+     "end": 44,
+     "numeric": false,
+     "lemma": "haven't",
+     "rank": 808,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 45,
+     "end": 48,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "stored",
+     "norm": "stored",
+     "start": 49,
+     "end": 55,
+     "numeric": false,
+     "lemma": "store",
+     "rank": 1030,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "anything",
+     "norm": "anything",
+     "start": 56,
+     "end": 64,
+     "numeric": false,
+     "lemma": "anything",
+     "rank": 254,
+     "zipf": 5.55,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "away",
+     "norm": "away",
+     "start": 65,
+     "end": 69,
+     "numeric": false,
+     "lemma": "away",
+     "rank": 214,
+     "zipf": 5.62,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 70,
+     "end": 73,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 74,
+     "end": 77,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "winter",
+     "norm": "winter",
+     "start": 78,
+     "end": 84,
+     "numeric": false,
+     "lemma": "winter",
+     "rank": 1380,
+     "zipf": 4.89,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 335,
+   "end": 385,
+   "text": "What in the world were you doing all last\nsummer?\"",
+   "tokens": [
+    {
+     "raw": "What",
+     "norm": "what",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "world",
+     "norm": "world",
+     "start": 12,
+     "end": 17,
+     "numeric": false,
+     "lemma": "world",
+     "rank": 136,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "were",
+     "norm": "were",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "doing",
+     "norm": "doing",
+     "start": 27,
+     "end": 32,
+     "numeric": false,
+     "lemma": "doing",
+     "rank": 225,
+     "zipf": 5.6,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 33,
+     "end": 36,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "last",
+     "norm": "last",
+     "start": 37,
+     "end": 41,
+     "numeric": false,
+     "lemma": "last",
+     "rank": 141,
+     "zipf": 5.86,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "summer",
+     "norm": "summer",
+     "start": 42,
+     "end": 48,
+     "numeric": false,
+     "lemma": "summer",
+     "rank": 599,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 387,
+   "end": 525,
+   "text": "\"I didn't have time to store up any food,\" whined the\nGrasshopper; \"I was so busy making music that before I knew it\nthe summer was gone.\"",
+   "tokens": [
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 1,
+     "end": 2,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "didn't",
+     "norm": "didn't",
+     "start": 3,
+     "end": 9,
+     "numeric": false,
+     "lemma": "didn't",
+     "rank": 195,
+     "zipf": 5.68,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 10,
+     "end": 14,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "time",
+     "norm": "time",
+     "start": 15,
+     "end": 19,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 20,
+     "end": 22,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "store",
+     "norm": "store",
+     "start": 23,
+     "end": 28,
+     "numeric": false,
+     "lemma": "store",
+     "rank": 1030,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 29,
+     "end": 31,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "any",
+     "norm": "any",
+     "start": 32,
+     "end": 35,
+     "numeric": false,
+     "lemma": "any",
+     "rank": 90,
+     "zipf": 6.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "food",
+     "norm": "food",
+     "start": 36,
+     "end": 40,
+     "numeric": false,
+     "lemma": "food",
+     "rank": 386,
+     "zipf": 5.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "whined",
+     "norm": "whined",
+     "start": 43,
+     "end": 49,
+     "numeric": false,
+     "lemma": "whine",
+     "rank": 20267,
+     "zipf": 3.28,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 50,
+     "end": 53,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Grasshopper",
+     "norm": "grasshopper",
+     "start": 54,
+     "end": 65,
+     "numeric": false,
+     "lemma": "grasshopper",
+     "rank": 27858,
+     "zipf": 3.03,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 68,
+     "end": 69,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 70,
+     "end": 73,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "so",
+     "norm": "so",
+     "start": 74,
+     "end": 76,
+     "numeric": false,
+     "lemma": "so",
+     "rank": 33,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "busy",
+     "norm": "busy",
+     "start": 77,
+     "end": 81,
+     "numeric": false,
+     "lemma": "busy",
+     "rank": 1812,
+     "zipf": 4.75,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "making",
+     "norm": "making",
+     "start": 82,
+     "end": 88,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "music",
+     "norm": "music",
+     "start": 89,
+     "end": 94,
+     "numeric": false,
+     "lemma": "music",
+     "rank": 279,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 95,
+     "end": 99,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "before",
+     "norm": "before",
+     "start": 100,
+     "end": 106,
+     "numeric": false,
+     "lemma": "before",
+     "rank": 123,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 107,
+     "end": 108,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "knew",
+     "norm": "knew",
+     "start": 109,
+     "end": 113,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 114,
+     "end": 116,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 117,
+     "end": 120,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "summer",
+     "norm": "summer",
+     "start": 121,
+     "end": 127,
+     "numeric": false,
+     "lemma": "summer",
+     "rank": 599,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 128,
+     "end": 131,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "gone",
+     "norm": "gone",
+     "start": 132,
+     "end": 136,
+     "numeric": false,
+     "lemma": "go",
+     "rank": 98,
+     "zipf": 6.03,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 527,
+   "end": 572,
+   "text": "The Ants shrugged their shoulders in disgust.",
+   "tokens": [
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Ants",
+     "norm": "ants",
+     "start": 4,
+     "end": 8,
+     "numeric": false,
+     "lemma": "ant",
+     "rank": 8754,
+     "zipf": 3.86,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "shrugged",
+     "norm": "shrugged",
+     "start": 9,
+     "end": 17,
+     "numeric": false,
+     "lemma": "shrugged",
+     "rank": 18953,
+     "zipf": 3.33,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "their",
+     "norm": "their",
+     "start": 18,
+     "end": 23,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "shoulders",
+     "norm": "shoulders",
+     "start": 24,
+     "end": 33,
+     "numeric": false,
+     "lemma": "shoulder",
+     "rank": 3025,
+     "zipf": 4.5,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 34,
+     "end": 36,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "disgust",
+     "norm": "disgust",
+     "start": 37,
+     "end": 44,
+     "numeric": false,
+     "lemma": "disgust",
+     "rank": 12755,
+     "zipf": 3.61,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 574,
+   "end": 611,
+   "text": "\"Making music, were you?\" they cried.",
+   "tokens": [
+    {
+     "raw": "Making",
+     "norm": "making",
+     "start": 1,
+     "end": 7,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "music",
+     "norm": "music",
+     "start": 8,
+     "end": 13,
+     "numeric": false,
+     "lemma": "music",
+     "rank": 279,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "were",
+     "norm": "were",
+     "start": 15,
+     "end": 19,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 20,
+     "end": 23,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 26,
+     "end": 30,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cried",
+     "norm": "cried",
+     "start": 31,
+     "end": 36,
+     "numeric": false,
+     "lemma": "cried",
+     "rank": 5207,
+     "zipf": 4.19,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 612,
+   "end": 635,
+   "text": "\"Very well; now dance!\"",
+   "tokens": [
+    {
+     "raw": "Very",
+     "norm": "very",
+     "start": 1,
+     "end": 5,
+     "numeric": false,
+     "lemma": "very",
+     "rank": 106,
+     "zipf": 6.0,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "well",
+     "norm": "well",
+     "start": 6,
+     "end": 10,
+     "numeric": false,
+     "lemma": "well",
+     "rank": 99,
+     "zipf": 6.03,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "now",
+     "norm": "now",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "now",
+     "rank": 72,
+     "zipf": 6.18,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "dance",
+     "norm": "dance",
+     "start": 16,
+     "end": 21,
+     "numeric": false,
+     "lemma": "dance",
+     "rank": 1246,
+     "zipf": 4.93,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 636,
+   "end": 711,
+   "text": "And\nthey turned their backs on the Grasshopper and went on with their\nwork.",
+   "tokens": [
+    {
+     "raw": "And",
+     "norm": "and",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 4,
+     "end": 8,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "turned",
+     "norm": "turned",
+     "start": 9,
+     "end": 15,
+     "numeric": false,
+     "lemma": "turn",
+     "rank": 484,
+     "zipf": 5.32,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "their",
+     "norm": "their",
+     "start": 16,
+     "end": 21,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "backs",
+     "norm": "backs",
+     "start": 22,
+     "end": 27,
+     "numeric": false,
+     "lemma": "back",
+     "rank": 93,
+     "zipf": 6.04,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 31,
+     "end": 34,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Grasshopper",
+     "norm": "grasshopper",
+     "start": 35,
+     "end": 46,
+     "numeric": false,
+     "lemma": "grasshopper",
+     "rank": 27858,
+     "zipf": 3.03,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "went",
+     "norm": "went",
+     "start": 51,
+     "end": 55,
+     "numeric": false,
+     "lemma": "go",
+     "rank": 98,
+     "zipf": 6.03,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "on",
+     "norm": "on",
+     "start": 56,
+     "end": 58,
+     "numeric": false,
+     "lemma": "on",
+     "rank": 13,
+     "zipf": 6.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "with",
+     "norm": "with",
+     "start": 59,
+     "end": 63,
+     "numeric": false,
+     "lemma": "with",
+     "rank": 14,
+     "zipf": 6.85,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "their",
+     "norm": "their",
+     "start": 64,
+     "end": 69,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "work",
+     "norm": "work",
+     "start": 70,
+     "end": 74,
+     "numeric": false,
+     "lemma": "work",
+     "rank": 116,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 713,
+   "end": 757,
+   "text": "There's a time for work and a time for play.",
+   "tokens": [
+    {
+     "raw": "There",
+     "norm": "there",
+     "lemma_override": "there",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "there",
+     "rank": 57,
+     "zipf": 6.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "'s",
+     "norm": "is",
+     "lemma_override": "is",
+     "expansion": true,
+     "start": 5,
+     "end": 7,
+     "numeric": false,
+     "lemma": "is",
+     "rank": 8,
+     "zipf": 7.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 8,
+     "end": 9,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "time",
+     "norm": "time",
+     "start": 10,
+     "end": 14,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 15,
+     "end": 18,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "work",
+     "norm": "work",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "work",
+     "rank": 116,
+     "zipf": 5.96,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 24,
+     "end": 27,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 28,
+     "end": 29,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "time",
+     "norm": "time",
+     "start": 30,
+     "end": 34,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 35,
+     "end": 38,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "play",
+     "norm": "play",
+     "start": 39,
+     "end": 43,
+     "numeric": false,
+     "lemma": "play",
+     "rank": 222,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 140,
+  "scored_tokens": 140,
+  "sentences": 9,
+  "msl": 15.56,
+  "S_long": 0.222,
+  "syn": 0.444,
+  "U_rare": 0.15,
+  "D": 0.243,
+  "C_token": 0.7286,
+  "C_lemma": 0.6463,
+  "max_unk_sent": 18,
+  "residual_per_sent_raw": {
+   "s001": 18,
+   "s002": 6,
+   "s003": 1,
+   "s004": 6,
+   "s005": 4,
+   "s006": 1,
+   "s007": 1,
+   "s008": 1
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "bright": {
+   "count": 1,
+   "zipf": 4.61,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "autumn": {
+   "count": 1,
+   "zipf": 4.26,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "ant": {
+   "count": 3,
+   "zipf": 3.86,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "bustling": {
+   "count": 1,
+   "zipf": 3.16,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "warm": {
+   "count": 1,
+   "zipf": 4.71,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sunshine": {
+   "count": 1,
+   "zipf": 4.16,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "dry": {
+   "count": 1,
+   "zipf": 4.74,
+   "band": "B2",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "grain": {
+   "count": 1,
+   "zipf": 4.18,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "store": {
+   "count": 3,
+   "zipf": 5.02,
+   "band": "B2",
+   "sents": [
+    "s001",
+    "s002",
+    "s004"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "summer": {
+   "count": 3,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s003",
+    "s004"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "starving": {
+   "count": 1,
+   "zipf": 3.79,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "grasshopper": {
+   "count": 3,
+   "zipf": 3.03,
+   "band": "B6",
+   "sents": [
+    "s001",
+    "s004",
+    "s008"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "fiddle": {
+   "count": 1,
+   "zipf": 3.43,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "arm": {
+   "count": 1,
+   "zipf": 4.73,
+   "band": "B2",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "humbly": {
+   "count": 1,
+   "zipf": 3.17,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "beg": {
+   "count": 1,
+   "zipf": 4.05,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bite": {
+   "count": 1,
+   "zipf": 4.31,
+   "band": "B4",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "eat": {
+   "count": 1,
+   "zipf": 5.13,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cried": {
+   "count": 2,
+   "zipf": 4.19,
+   "band": "B5",
+   "sents": [
+    "s002",
+    "s006"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "surprise": {
+   "count": 1,
+   "zipf": 4.75,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "haven't": {
+   "count": 1,
+   "zipf": 5.11,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "winter": {
+   "count": 1,
+   "zipf": 4.89,
+   "band": "B2",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "didn't": {
+   "count": 1,
+   "zipf": 5.68,
+   "band": "B1",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "whine": {
+   "count": 1,
+   "zipf": 3.28,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "busy": {
+   "count": 1,
+   "zipf": 4.75,
+   "band": "B2",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "shrugged": {
+   "count": 1,
+   "zipf": 3.33,
+   "band": "B6",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "shoulder": {
+   "count": 1,
+   "zipf": 4.5,
+   "band": "B4",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "disgust": {
+   "count": 1,
+   "zipf": 3.61,
+   "band": "B6",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "dance": {
+   "count": 1,
+   "zipf": 4.93,
+   "band": "B2",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "didn't",
+   "eat",
+   "haven't",
+   "dance",
+   "winter",
+   "surprise",
+   "busy",
+   "dry"
+  ],
+  "inference_targets": [
+   "summer",
+   "store",
+   "cried",
+   "ant",
+   "grasshopper"
+  ],
+  "gloss": [
+   "arm",
+   "warm",
+   "bright",
+   "shoulder",
+   "bite",
+   "autumn",
+   "grain",
+   "sunshine",
+   "beg",
+   "starving",
+   "disgust",
+   "fiddle",
+   "shrugged",
+   "whine",
+   "humbly",
+   "bustling"
+  ],
+  "controls": {
+   "C_eff": 0.7857,
+   "gloss_n": 16,
+   "gloss_cap": 5,
+   "resid_max": 16,
+   "n_infer": 5
+  },
+  "residual_per_sent": {
+   "s001": 16,
+   "s002": 3,
+   "s003": 1,
+   "s004": 4,
+   "s005": 4,
+   "s006": 1,
+   "s008": 1
+  }
+ }
+}

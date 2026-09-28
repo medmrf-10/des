@@ -137,6 +137,7 @@ async function rawiHadiths(id){say('<span class="spin"></span> أحاديث ال
   el.innerHTML=h;say(r.length+' حديثاً.')}
  catch(e){say('خطأ: '+(e&&e.message||e))}}
 /* ==== مجموعات المعنى ==== */
+function markNode(id,g){const st=Learner.mark(id,g);say('سُجّلت في ملفك: '+id+' ← '+(st.s==='mastered'?'متقنة':'تعلّم')+' · مراجعة بعد '+Math.max(1,Math.round(st.stab||0))+' يوم. افتح بطاقة «ملف المتعلم» فتجدها هناك.')}
 async function groups(){if(!await needW())return;off=+document.getElementById('goff').value||0;
  say('<span class="spin"></span> مجموعات المعنى…');
  try{const r=await q("SELECT id,nass,sahaba_qty,repeat_qty,is_qudsi FROM meaning_groups ORDER BY id LIMIT 20 OFFSET "+off);
@@ -144,7 +145,6 @@ async function groups(){if(!await needW())return;off=+document.getElementById('g
   let h='<div class="card"><b>مجموعات المعنى '+off+'–'+(off+r.length)+'</b>';
   for(const x of r)h+='<div class="hitem matn" onclick="group('+x.id+')" style="cursor:pointer"><span class="tag">#'+x.id+'</span> '+esc(String(x.nass||'').slice(0,110))+' <span class="mut">صحابة:'+(x.sahaba_qty||0)+' روايات:'+(x.repeat_qty||0)+(x.is_qudsi?' · قدسي':'')+'</span></div>';
   h+='<div class="mut">اضغط مجموعةً لرواياتها عبر الكتب</div></div>';out.innerHTML=h;say(r.length+' مجموعة.')}
-function markNode(id,g){const st=Learner.mark(id,g);say('سُجّلت في ملفك: '+id+' ← '+(st.s==='mastered'?'متقنة':'تعلّم')+' · مراجعة بعد '+Math.max(1,Math.round(st.stab||0))+' يوم. افتح بطاقة «ملف المتعلم» فتجدها هناك.')}
  catch(e){say('خطأ: '+(e&&e.message||e))}}
 function nextG(){document.getElementById('goff').value=(+document.getElementById('goff').value||0)+20;groups()}
 async function group(id){if(!await needW())return;say('<span class="spin"></span> روايات المجموعة '+id+' عبر الكتب…');Learner.see('hd:g'+id);

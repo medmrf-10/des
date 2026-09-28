@@ -23,6 +23,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .tcard:hover{border-color:var(--acc)}
 .tcard .tt{font-size:.86rem; font-weight:600; direction:ltr; text-align:left; color:var(--txt)}
 .tcard .tm{font-size:.68rem; color:var(--dim); margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.tcard .mine-c{color:var(--ok); font-weight:700}
 .badge{font-size:.64rem; font-weight:700; border-radius:99px; padding:2px 9px}
 .badge.i1{background:#1d3a2a; color:var(--ok)}
 .badge.i2{background:#3a301d; color:var(--warn)}
@@ -91,30 +92,52 @@ const $=id=>document.getElementById(id);
 const st=$('st');
 let IDX=null, CUR=null, CURTOK=null;
 let KNOWN=new Set(JSON.parse(localStorage.getItem('en_known')||'[]'));
+let TEXTDATA={};
+function mineCov(t){
+  const d=TEXTDATA[t.id]; if(!d) return null;
+  let tot=0,kn=0;
+  d.sentences.forEach(s=>s.tokens.forEach(tk=>{
+    if(!/[A-Za-z]/.test(tk.raw)) return;
+    tot++; if(tk.known||KNOWN.has(tk.lemma)) kn++;
+  }));
+  return tot?kn/tot:null;
+}
+function mineVerdict(c){ if(c==null)return null; if(c>=0.98)return'im1'; if(c>=0.95)return'i1'; if(c>=0.85)return'i2'; return'out' }
 const VC={i1:'i+1','i-1':'i-1',i2:'i+2',out:'خارج',im1:'i-1'};
 const VB={i1:'i1','i-1':'im1',i2:'i2',out:'out'};
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 fetch('./en-data/index.json').then(r=>r.json()).then(d=>{
-  IDX=d; st.textContent='٢٠ نصاً — اختر ما يناسب مستواك (i+1 = ٩٥-٩٨٪ معروفة)';
+  IDX=d; renderList();
+  const h=location.hash.slice(1); if(h) openText(h);
+  st.textContent='… يحمّل تغطيتك الشخصية';
+  Promise.all(d.texts.map(t=>fetch('./en-data/'+t.id+'.json').then(r=>r.json()).then(j=>{TEXTDATA[t.id]=j}).catch(()=>{}))).then(()=>{
+    st.textContent='٢٠ نصاً — «تغطيتك» خضراء تُحسب من كلماتك المعلَّمة على جهازك';
+    renderList();
+  });
+}).catch(e=>{st.textContent='فشل التحميل: '+e; st.className='status err'});
+
+function renderList(){
+  if(!IDX)return;
   const box=$('texts');
   box.innerHTML='';
-  d.texts.slice().sort((a,b)=>(a.C_token||0)-(b.C_token||0)).reverse().forEach(t=>{
+  IDX.texts.slice().sort((a,b)=>(mineCov(b)||b.C_token||0)-(mineCov(a)||a.C_token||0)).forEach(t=>{
+    const mc=mineCov(t), mv=mineVerdict(mc);
     const el=document.createElement('div'); el.className='tcard';
     el.innerHTML=`<div class="tt">${esc(t.title)}</div>
       <div class="tm"><span class="badge ${VB[t.verdict]||'out'}">${VC[t.verdict]||t.verdict}</span>
-      <span>تغطية ${(t.C_token*100).toFixed(0)}٪</span><span>${t.words} كلمة</span><span>${t.sentences} جملة</span>
+      ${mv?`<span class="badge ${VB[mv]||'out'}">${VC[mv]}</span><span class="mine-c">تغطيتك ${(mc*100).toFixed(0)}٪</span>`:''}
+      <span>تغطية L1 ${(t.C_token*100).toFixed(0)}٪</span><span>${t.words} كلمة</span><span>${t.sentences} جملة</span>
       <span>علّم قبلها ${t.pre_teach_count||0}</span></div>`;
     el.onclick=()=>openText(t.id);
     box.appendChild(el);
   });
-  const h=location.hash.slice(1); if(h) openText(h);
-}).catch(e=>{st.textContent='فشل التحميل: '+e; st.className='status err'});
+}
 
 function openText(id){
   st.textContent='… يحمّل النص';
-  fetch('./en-data/'+id+'.json').then(r=>r.json()).then(d=>{
-    CUR=d;
+  (TEXTDATA[id]?Promise.resolve(TEXTDATA[id]):fetch('./en-data/'+id+'.json').then(r=>r.json())).then(d=>{
+    CUR=d; TEXTDATA[id]=d;
     const t=(IDX.texts.find(x=>x.id===id))||{};
     $('rbar').innerHTML=`<span>الحكم: <b>${VC[t.verdict]||t.verdict||'؟'}</b></span><span>تغطية <b>${((t.C_token||0)*100).toFixed(1)}٪</b></span><span>طول الجملة <b>${(t.msl||0).toFixed(1)}</b></span><span>صعوبة <b>${(t.D||0).toFixed(2)}</b></span>`;
     const p=d.plan||{};
@@ -164,7 +187,7 @@ $('popKnow').onclick=()=>{
   if(!CURTOK)return;
   if(KNOWN.has(CURTOK.lemma)) KNOWN.delete(CURTOK.lemma); else KNOWN.add(CURTOK.lemma);
   localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
-  $('pop').classList.remove('show'); renderBody();
+  $('pop').classList.remove('show'); renderBody(); renderList();
 };
 $('popClose').onclick=()=>$('pop').classList.remove('show');
 $('planbtn').onclick=()=>{const p=$('plan');p.classList.toggle('show')};

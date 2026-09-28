@@ -1,0 +1,1445 @@
+{
+ "text_id": "q-saheeh-1",
+ "title": "Quran The Opener (Saheeh International)",
+ "source": "quran-json/saheeh",
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 74,
+   "text": "(1:1) In the name of Allah, the Entirely Merciful, the Especially Merciful",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "In",
+     "norm": "in",
+     "start": 6,
+     "end": 8,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 9,
+     "end": 12,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "name",
+     "norm": "name",
+     "start": 13,
+     "end": 17,
+     "numeric": false,
+     "lemma": "name",
+     "rank": 220,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 18,
+     "end": 20,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Allah",
+     "norm": "allah",
+     "start": 21,
+     "end": 26,
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 28,
+     "end": 31,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Entirely",
+     "norm": "entirely",
+     "start": 32,
+     "end": 40,
+     "numeric": false,
+     "lemma": "entirely",
+     "rank": 1937,
+     "zipf": 4.72,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Merciful",
+     "norm": "merciful",
+     "start": 41,
+     "end": 49,
+     "numeric": false,
+     "lemma": "merciful",
+     "rank": 20425,
+     "zipf": 3.27,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 51,
+     "end": 54,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Especially",
+     "norm": "especially",
+     "start": 55,
+     "end": 65,
+     "numeric": false,
+     "lemma": "especially",
+     "rank": 618,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Merciful",
+     "norm": "merciful",
+     "start": 66,
+     "end": 74,
+     "numeric": false,
+     "lemma": "merciful",
+     "rank": 20425,
+     "zipf": 3.27,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 76,
+   "end": 132,
+   "text": "(1:2) [All] praise is [due] to Allah, Lord of the worlds",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "All",
+     "norm": "all",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "praise",
+     "norm": "praise",
+     "start": 12,
+     "end": 18,
+     "numeric": false,
+     "lemma": "praise",
+     "rank": 4259,
+     "zipf": 4.31,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 19,
+     "end": 21,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "due",
+     "norm": "due",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "due",
+     "rank": 442,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Allah",
+     "norm": "allah",
+     "start": 31,
+     "end": 36,
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Lord",
+     "norm": "lord",
+     "start": 38,
+     "end": 42,
+     "numeric": false,
+     "lemma": "lord",
+     "rank": 832,
+     "zipf": 5.1,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 43,
+     "end": 45,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 46,
+     "end": 49,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "worlds",
+     "norm": "worlds",
+     "start": 50,
+     "end": 56,
+     "numeric": false,
+     "lemma": "world",
+     "rank": 136,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 134,
+   "end": 186,
+   "text": "(1:3) The Entirely Merciful, the Especially Merciful",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 6,
+     "end": 9,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Entirely",
+     "norm": "entirely",
+     "start": 10,
+     "end": 18,
+     "numeric": false,
+     "lemma": "entirely",
+     "rank": 1937,
+     "zipf": 4.72,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Merciful",
+     "norm": "merciful",
+     "start": 19,
+     "end": 27,
+     "numeric": false,
+     "lemma": "merciful",
+     "rank": 20425,
+     "zipf": 3.27,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 29,
+     "end": 32,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Especially",
+     "norm": "especially",
+     "start": 33,
+     "end": 43,
+     "numeric": false,
+     "lemma": "especially",
+     "rank": 618,
+     "zipf": 5.21,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Merciful",
+     "norm": "merciful",
+     "start": 44,
+     "end": 52,
+     "numeric": false,
+     "lemma": "merciful",
+     "rank": 20425,
+     "zipf": 3.27,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 188,
+   "end": 228,
+   "text": "(1:4) Sovereign of the Day of Recompense",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "4",
+     "norm": "4",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Sovereign",
+     "norm": "sovereign",
+     "start": 6,
+     "end": 15,
+     "numeric": false,
+     "lemma": "sovereign",
+     "rank": 7744,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 19,
+     "end": 22,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Day",
+     "norm": "day",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "day",
+     "rank": 120,
+     "zipf": 5.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 27,
+     "end": 29,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Recompense",
+     "norm": "recompense",
+     "start": 30,
+     "end": 40,
+     "numeric": false,
+     "lemma": "recompense",
+     "rank": 46135,
+     "zipf": 2.62,
+     "band": "R",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 230,
+   "end": 280,
+   "text": "(1:5) It is You we worship and You we ask for help",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "5",
+     "norm": "5",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 6,
+     "end": 8,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 9,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "You",
+     "norm": "you",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "we",
+     "norm": "we",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "worship",
+     "norm": "worship",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "worship",
+     "rank": 4423,
+     "zipf": 4.29,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 27,
+     "end": 30,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "You",
+     "norm": "you",
+     "start": 31,
+     "end": 34,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "we",
+     "norm": "we",
+     "start": 35,
+     "end": 37,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "ask",
+     "norm": "ask",
+     "start": 38,
+     "end": 41,
+     "numeric": false,
+     "lemma": "ask",
+     "rank": 453,
+     "zipf": 5.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 42,
+     "end": 45,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "help",
+     "norm": "help",
+     "start": 46,
+     "end": 50,
+     "numeric": false,
+     "lemma": "help",
+     "rank": 171,
+     "zipf": 5.75,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 282,
+   "end": 317,
+   "text": "(1:6) Guide us to the straight path",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "6",
+     "norm": "6",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Guide",
+     "norm": "guide",
+     "start": 6,
+     "end": 11,
+     "numeric": false,
+     "lemma": "guide",
+     "rank": 1829,
+     "zipf": 4.75,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "us",
+     "norm": "us",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 18,
+     "end": 21,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "straight",
+     "norm": "straight",
+     "start": 22,
+     "end": 30,
+     "numeric": false,
+     "lemma": "straight",
+     "rank": 979,
+     "zipf": 5.04,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "path",
+     "norm": "path",
+     "start": 31,
+     "end": 35,
+     "numeric": false,
+     "lemma": "path",
+     "rank": 2006,
+     "zipf": 4.71,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 319,
+   "end": 446,
+   "text": "(1:7) The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray",
+   "tokens": [
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 1,
+     "end": 2,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "7",
+     "norm": "7",
+     "start": 3,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 6,
+     "end": 9,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "path",
+     "norm": "path",
+     "start": 10,
+     "end": 14,
+     "numeric": false,
+     "lemma": "path",
+     "rank": 2006,
+     "zipf": 4.71,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "those",
+     "norm": "those",
+     "start": 18,
+     "end": 23,
+     "numeric": false,
+     "lemma": "those",
+     "rank": 133,
+     "zipf": 5.9,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "upon",
+     "norm": "upon",
+     "start": 24,
+     "end": 28,
+     "numeric": false,
+     "lemma": "upon",
+     "rank": 798,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "whom",
+     "norm": "whom",
+     "start": 29,
+     "end": 33,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "You",
+     "norm": "you",
+     "start": 34,
+     "end": 37,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 38,
+     "end": 42,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "bestowed",
+     "norm": "bestowed",
+     "start": 43,
+     "end": 51,
+     "numeric": false,
+     "lemma": "bestowed",
+     "rank": 17302,
+     "zipf": 3.39,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "favor",
+     "norm": "favor",
+     "start": 52,
+     "end": 57,
+     "numeric": false,
+     "lemma": "favor",
+     "rank": 2576,
+     "zipf": 4.58,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 59,
+     "end": 62,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 63,
+     "end": 65,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "those",
+     "norm": "those",
+     "start": 66,
+     "end": 71,
+     "numeric": false,
+     "lemma": "those",
+     "rank": 133,
+     "zipf": 5.9,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "who",
+     "norm": "who",
+     "start": 72,
+     "end": 75,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 76,
+     "end": 80,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "evoked",
+     "norm": "evoked",
+     "start": 81,
+     "end": 87,
+     "numeric": false,
+     "lemma": "evoke",
+     "rank": 20348,
+     "zipf": 3.27,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Your",
+     "norm": "your",
+     "start": 89,
+     "end": 93,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "anger",
+     "norm": "anger",
+     "start": 95,
+     "end": 100,
+     "numeric": false,
+     "lemma": "anger",
+     "rank": 3466,
+     "zipf": 4.42,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 101,
+     "end": 103,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 104,
+     "end": 106,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "those",
+     "norm": "those",
+     "start": 107,
+     "end": 112,
+     "numeric": false,
+     "lemma": "those",
+     "rank": 133,
+     "zipf": 5.9,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "who",
+     "norm": "who",
+     "start": 113,
+     "end": 116,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 117,
+     "end": 120,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "astray",
+     "norm": "astray",
+     "start": 121,
+     "end": 127,
+     "numeric": false,
+     "lemma": "astray",
+     "rank": 24383,
+     "zipf": 3.13,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 88,
+  "scored_tokens": 74,
+  "sentences": 7,
+  "msl": 10.57,
+  "S_long": 0.143,
+  "syn": 0.429,
+  "U_rare": 0.189,
+  "D": 0.271,
+  "C_token": 0.6622,
+  "C_lemma": 0.55,
+  "max_unk_sent": 7,
+  "residual_per_sent_raw": {
+   "s001": 5,
+   "s002": 3,
+   "s003": 4,
+   "s004": 2,
+   "s005": 1,
+   "s006": 3,
+   "s007": 7
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "allah": {
+   "count": 2,
+   "zipf": 3.89,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "entirely": {
+   "count": 2,
+   "zipf": 4.72,
+   "band": "B2",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "merciful": {
+   "count": 4,
+   "zipf": 3.27,
+   "band": "B6",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "especially": {
+   "count": 2,
+   "zipf": 5.21,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "praise": {
+   "count": 1,
+   "zipf": 4.31,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lord": {
+   "count": 1,
+   "zipf": 5.1,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sovereign": {
+   "count": 1,
+   "zipf": 3.95,
+   "band": "B5",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "recompense": {
+   "count": 1,
+   "zipf": 2.62,
+   "band": "R",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "worship": {
+   "count": 1,
+   "zipf": 4.29,
+   "band": "B4",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "guide": {
+   "count": 1,
+   "zipf": 4.75,
+   "band": "B2",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "straight": {
+   "count": 1,
+   "zipf": 5.04,
+   "band": "B1",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "path": {
+   "count": 2,
+   "zipf": 4.71,
+   "band": "B3",
+   "sents": [
+    "s006",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "upon": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bestowed": {
+   "count": 1,
+   "zipf": 3.39,
+   "band": "B6",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "favor": {
+   "count": 1,
+   "zipf": 4.58,
+   "band": "B3",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "evoke": {
+   "count": 1,
+   "zipf": 3.27,
+   "band": "B6",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "anger": {
+   "count": 1,
+   "zipf": 4.42,
+   "band": "B4",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "astray": {
+   "count": 1,
+   "zipf": 3.13,
+   "band": "B6",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "upon",
+   "lord",
+   "straight",
+   "guide",
+   "favor",
+   "anger",
+   "praise",
+   "worship"
+  ],
+  "inference_targets": [
+   "especially",
+   "entirely",
+   "path",
+   "allah",
+   "merciful"
+  ],
+  "gloss": [
+   "sovereign",
+   "bestowed",
+   "evoke",
+   "astray",
+   "recompense"
+  ],
+  "controls": {
+   "C_eff": 0.7703,
+   "gloss_n": 5,
+   "gloss_cap": 5,
+   "resid_max": 5,
+   "n_infer": 5
+  },
+  "residual_per_sent": {
+   "s001": 5,
+   "s002": 1,
+   "s003": 4,
+   "s004": 2,
+   "s006": 1,
+   "s007": 4
+  }
+ }
+}

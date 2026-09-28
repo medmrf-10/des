@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ملف الآية — إعراب وتفسير ومتشابهات في صفحة واحدة</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+select,button{background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:10px;font-size:15px}
+button{background:#d4a94f;color:#10151c;border:0;font-weight:700;cursor:pointer}
+button.ghost{background:none;color:#d4a94f;border:1px solid #d4a94f}
+.ayah{font-size:24px;line-height:2.2;text-align:center;border-right:3px solid #d4a94f;padding:12px 16px;background:#141a24;border-radius:8px;margin-bottom:14px}
+.sect{margin:16px 0 8px;color:#d4a94f;font-size:15px;font-weight:700;border-bottom:1px solid #2a3442;padding-bottom:6px}
+.ir{background:#141a24;border:1px solid #2a3442;border-radius:10px;margin-bottom:8px;overflow:hidden}
+.ir .h{padding:11px 13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#d4a94f}
+.ir .h .st{color:#9aa4b0;font-size:12px}
+.ir .b{padding:0 14px 14px;font-size:15.5px;line-height:2;display:none}
+.ir.open .b{display:block}
+.ir .b p{margin:8px 0}
+.ir .b h3{color:#d4a94f;font-size:14px;margin:10px 0 4px}
+.ir .b .qpc-hafs{font-family:serif}
+.nav{display:flex;gap:8px;margin:8px 0}
+.nav button{flex:1}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid #2a3442;border-top-color:#d4a94f;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.links a{background:#141a24;border:1px solid #2a3442;border-radius:8px;padding:7px 12px;font-size:13px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>ملف الآية</h1>
+<p class="sub">الآية الواحدة في ملف واحد: نصّها + إعرابها كاملاً من ٤ كتب (الدرويش، الميسّر، الجدول، الدعاس — مكتبة QUL) + تفسيرها المختصر + روابط المتشابهات والمقارن الكامل.</p>
+
+<div class="card">
+<div class="row">
+<select id="sur"></select>
+<select id="ay"></select>
+<button onclick="go()">اعرض</button>
+</div>
+<div class="nav">
+<button class="ghost" onclick="step(-1)">الآية السابقة ←</button>
+<button class="ghost" onclick="step(1)">→ الآية التالية</button>
+</div>
+<div class="ayah" id="ayTxt"></div>
+<div id="body"></div>
+</div>
+</div>
+<script>
+const $=q=>document.querySelector(q);
+let QN=null,SIDX={},IRB={},TAF={},WIDX=[];
+const IRBOOKS=[['darwish','إعراب الدرويش'],['muyassar','الإعراب الميسّر'],['jadwal','الجدول في إعراب القرآن'],['daas','إعراب الدعاس (ألرّاب)']];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const htmlSan=s=>String(s??'').replace(/<script[^>]*>[\s\S]*?<\/script>/gi,'');
+async function jget(u,gz){const r=await fetch(u);if(!r.ok)throw 0;
+ if(gz||u.endsWith('.gz'))return JSON.parse(await new Response(new Blob([await r.arrayBuffer()]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
+ return r.json()}
+Promise.all([jget('quran-data/quran.json'),jget('../wahy/data/index.json')]).then(([q,ix])=>{
+ QN=q;SIDX=q.reduce((m,v)=>((m[v.s]=m[v.s]||[]),m[v.s].push(v),m),{});
+ WIDX=ix;
+ $('#sur').innerHTML=ix.map((s,i)=>`<option value="${i+1}">${i+1}. ${s.ar}</option>`).join('');
+ $('#sur').onchange=()=>{fillAy();go()};
+ $('#ay').onchange=go;
+ fillAy();
+ const h=location.hash.match(/s=(\d+)&v=(\d+)/);if(h){$('#sur').value=h[1];fillAy();$('#ay').value=h[2]}
+ go();
+});
+function fillAy(){const s=+$('#sur').value;const n=(SIDX[s]||[]).length||1;
+ $('#ay').innerHTML=Array.from({length:n},(_,i)=>`<option>${i+1}</option>`).join('')}
+function step(d){const a=$('#ay');a.value=Math.min(Math.max(1,+a.value+d),a.options.length);go()}
+async function go(){
+ const s=+$('#sur').value,a=+$('#ay').value||1;
+ location.hash=`s=${s}&v=${a}`;
+ const v=(SIDX[s]||[]).find(x=>x.a==a);
+ $('#ayTxt').textContent=v?v.t+' ﴿'+a+'﴾':'';
+ const B=$('#body');
+ B.innerHTML='<div class="sect">الإعراب — ٤ كتب</div>'+
+   IRBOOKS.map(([k,n])=>`<div class="ir" id="ir-${k}"><div class="h" onclick="toggleIrab('${k}',${s},${a})"><span>${n}</span><span class="st">اضغط للعرض</span></div><div class="b"></div></div>`).join('')+
+   '<div class="sect">التفسير المختصر</div><div id="tafBox"><span class="spin"></span> يُحمَّل…</div>'+
+   '<div class="sect">روابط أعمق</div><div class="links">'+
+   `<a href="try-muqaran.html#s=${s}&v=${a}">مقارن التفاسير (٤٨ تفسيراً)</a>`+
+   `<a href="../wahy/mutashabih.html#s=${s}&v=${a}">المتشابهات اللفظية</a>`+
+   `<a href="../wahy/kalimat.html#s=${s}&v=${a}">غريب الكلمات</a>`+
+   `<a href="try-isnad.html">شجرة الإسناد</a></div>`;
+ // irab loaders fire lazily on click; auto-open darwish
+ toggleIrab('darwish',s,a);
+ loadTafsir(s,a);
+}
+async function toggleIrab(k,s,a){
+ const el=$('#ir-'+k);el.classList.toggle('open');
+ if(!el.classList.contains('open'))return;
+ const b=el.querySelector('.b'),st=el.querySelector('.st');
+ if(b.dataset.done)return;
+ st.innerHTML='<span class="spin"></span> يُحمَّل…';
+ try{
+  if(!IRB[k+'-'+s])IRB[k+'-'+s]=await jget(`irab/${k}/${s}.json.gz`);
+  const e=IRB[k+'-'+s][s+':'+a];
+  b.innerHTML=e&&e.t?htmlSan(e.t):'<span class="sub">لا إعراب لهذه الآية في هذا الكتاب</span>';
+  b.dataset.done=1;st.textContent='';
+ }catch(e2){b.innerHTML='<span class="sub">تعذّر التحميل</span>';st.textContent=''}
+}
+async function loadTafsir(s,a){
+ const box=$('#tafBox');
+ try{
+  if(!TAF.muyassar)TAF.muyassar=await jget('../wahy/data/tafsir/38-muyassar.json.gz');
+  const g=TAF.muyassar.vg[s+':'+a];
+  const txt=(g&&TAF.muyassar.groups[g]&&TAF.muyassar.groups[g].x)||'لا تفسير';
+  box.innerHTML=`<div class="ir open"><div class="b" style="display:block;padding:12px 14px;font-size:15.5px;line-height:2">${htmlSan(txt)}</div></div><div class="sub" style="margin-top:4px">التفسير الميسّر — وللتفسير الكامل عند كل المفسرين: مقارن التفاسير أعلاه</div>`;
+ }catch(e){box.innerHTML='<span class="sub">تعذّر تحميل التفسير</span>'}
+}
+</script>
+</body>
+</html>

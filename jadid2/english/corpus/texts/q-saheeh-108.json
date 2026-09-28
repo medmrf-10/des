@@ -1,0 +1,47 @@
+{
+ "id": "q-saheeh-108",
+ "title": "Quran The Abundance (Saheeh International)",
+ "source": {
+  "corpus": "risan/quran-json",
+  "translation": "Saheeh International",
+  "surahs": [
+   108
+  ],
+  "url": "https://raw.githubusercontent.com/risan/quran-json/main/dist/quran_en.json"
+ },
+ "text": "(108:1) Indeed, We have granted you, [O Muhammad], al-Kawthar\n\n(108:2) So pray to your Lord and sacrifice [to Him alone]\n\n(108:3) Indeed, your enemy is the one cut off",
+ "tokens": [
+  "108",
+  "1",
+  "Indeed",
+  "We",
+  "have",
+  "granted",
+  "you",
+  "O",
+  "Muhammad",
+  "al-Kawthar",
+  "108",
+  "2",
+  "So",
+  "pray",
+  "to",
+  "your",
+  "Lord",
+  "and",
+  "sacrifice",
+  "to",
+  "Him",
+  "alone",
+  "108",
+  "3",
+  "Indeed",
+  "your",
+  "enemy",
+  "is",
+  "the",
+  "one",
+  "cut",
+  "off"
+ ]
+}

@@ -33,6 +33,7 @@ button.next{background:#d4a94f;color:#10151c;border:0;border-radius:8px;padding:
 <button class="next" id="next" style="display:none">التمرين التالي ←</button>
 </div>
 </div>
+<script src="learner.js"></script>
 <script>
 let items=[],i=0,score=0;
 const $=id=>document.getElementById(id);
@@ -40,6 +41,9 @@ fetch('ex-data/cloze.json').then(r=>r.json()).then(d=>{items=d.items;show()});
 function show(){
  if(i>=items.length){$('matn').textContent='انتهت التمارين — نتيجتك: '+score+'/'+items.length;$('opts').innerHTML='';$('meta').textContent='';$('next').style.display='none';return}
  const t=items[i];
+ const widx=t.masked.split('ـ')[0].trim().split(/\s+/).filter(Boolean).length;
+ t.exid='ex:'+t.id+':'+widx;
+ if(window.Learner)Learner.see(t.exid);
  $('num').textContent='تمرين '+(i+1)+' / '+items.length;
  $('score').textContent='الصحيحة: '+score;
  $('matn').textContent=t.masked;
@@ -51,6 +55,8 @@ function show(){
   b.onclick=()=>{
    document.querySelectorAll('.opt').forEach((x,j)=>{x.onclick=null;if(j===t.ans)x.classList.add('right')});
    if(k!==t.ans)b.classList.add('wrong');else score++;
+   if(window.Learner){Learner.mark(t.exid,k===t.ans?2:0);
+    $('meta').textContent=t.book+' — ملفك: '+(k===t.ans?'أُجيب صواباً':'خطأ — تستحق مراجعة بعد ١٠ دقائق')+' ('+t.exid+')'}
    $('score').textContent='الصحيحة: '+score;
    $('next').style.display='block';
   };

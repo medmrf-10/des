@@ -25,15 +25,19 @@ function nextState(st,grade){
  }
  return st;
 }
+const DKEY='learner.v1.due';/* فهرس المستحقات: {id:dueTs} — يُحدَّث عند mark فتقرأ due() الفهرس لا المخزن كله */
+function lDue(){try{return JSON.parse(localStorage.getItem(DKEY))||{}}catch(e){return {}}}
+function sDue(x){try{localStorage.setItem(DKEY,JSON.stringify(x))}catch(e){}}
 window.Learner={
  see(id){const d=load();d[id]=d[id]||{};if(!d[id].s){d[id].s='seen';d[id].seen=Date.now();save(d)}return d[id]},
- mark(id,grade){const d=load();d[id]=nextState(d[id]||{},grade);save(d);return d[id]},
+ mark(id,grade){const d=load();d[id]=nextState(d[id]||{},grade);save(d);
+  const ix=lDue();ix[id]=d[id].due;sDue(ix);return d[id]},
  get(id){return load()[id]||null},
  all(){return load()},
- due(){const n=Date.now(),d=load();return Object.keys(d).filter(k=>d[k].due&&d[k].due<=n)},
+ due(){const n=Date.now(),ix=lDue();return Object.keys(ix).filter(k=>ix[k]&&ix[k]<=n)},
  stats(){const d=load(),o={total:0,seen:0,learning:0,mastered:0,byPrefix:{}};
   for(const k in d){o.total++;const s=d[k].s||'seen';o[s]=(o[s]||0)+1;const p=k.split(':')[0];o.byPrefix[p]=(o.byPrefix[p]||0)+1}
   return o},
- clear(){localStorage.removeItem(KEY)}
+ clear(){localStorage.removeItem(KEY);localStorage.removeItem(DKEY)}
 };
 })();

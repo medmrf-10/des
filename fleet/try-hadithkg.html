@@ -66,6 +66,11 @@ a{color:#8fbbe8}
  <div style="font-size:14px;color:#e8c877;margin-bottom:8px">حديث برقمه</div>
  <div class="row"><input id="hid" type="number" placeholder="id" value="1" style="flex:0 0 90px"><button onclick="hadith()">اعرض المتن والأسانيد</button></div>
 </div>
+<div class="card">
+ <div style="font-size:14px;color:#e8c877;margin-bottom:8px">جسر الوصول — استعلام SQL خام على القاعدة البعيدة</div>
+ <div class="row"><input id="sql" type="text" placeholder="SELECT name FROM rawis WHERE id=1" dir="ltr" style="text-align:left;font-family:monospace"><button onclick="rawq()">نفّذ</button></div>
+ <div class="mut" style="margin-top:4px">أمثلة: SELECT COUNT(*) c FROM hadiths · SELECT * FROM meaning_groups WHERE id=319 · SELECT name FROM books WHERE id=1 — يُنفَّذ على صفحات الملف البعيد مباشرة.</div>
+</div>
 <div id="out"></div>
 <script src="https://cdn.jsdelivr.net/npm/sql.js-httpvfs@0.8.12/dist/index.js"></script>
 <script>
@@ -165,6 +170,17 @@ async function hid(id){if(!await needW())return;say('<span class="spin"></span> 
    out.innerHTML=h+c+'</div>'}
   say('الحديث وسلاسله معروضة — الرواة في السلسلة بترتيب الصحابي ← المؤلف.')}
  catch(e){say('خطأ: '+(e&&e.message||e))}}
+/* ==== جسر الوصول: SQL خام ==== */
+async function rawq(){if(!await needW())return;const sql=document.getElementById('sql').value.trim();if(!sql)return;
+ say('<span class="spin"></span> يُنفَّذ على القاعدة البعيدة…');
+ try{const t=performance.now();const r=await q(sql);const ms=Math.round(performance.now()-t);
+  if(!r.length){out.innerHTML='<div class="card mut">0 صفاً ('+ms+'ms)</div>';say('0 صفاً');return}
+  const cols=Object.keys(r[0]);
+  let h='<div class="card"><b>'+r.length+' صفاً ('+ms+'ms — استعلام نطاقي على القاعدة البعيدة)</b><div style="overflow-x:auto"><table dir="ltr" style="text-align:left"><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>';
+  for(const row of r.slice(0,100)){h+='<tr>'+cols.map(c=>'<td>'+esc(String(row[c]===null?'NULL':row[c]).slice(0,300))+'</td>').join('')+'</tr>'}
+  h+='</table></div>'+(r.length>100?'<div class="mut">+ '+(r.length-100)+' صفاً إضافياً (عرض أول 100)</div>':'')+'</div>';
+  out.innerHTML=h;say(r.length+' صفاً في '+ms+'ms.')}
+ catch(e){say('خطأ SQL: '+(e&&e.message||e))}}
 /* ==== شجرة الموضوعات ==== */
 async function topics(pid){if(!await needW())return;say('<span class="spin"></span> شجرة الموضوعات…');
  try{const r=pid===0?await q("SELECT id,name,level,(SELECT COUNT(*) FROM topics c WHERE c.parent_id=topics.id) kids FROM topics WHERE parent_id IS NULL OR parent_id=0 ORDER BY id LIMIT 40")

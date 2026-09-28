@@ -92,13 +92,21 @@ const $=id=>document.getElementById(id);
 const st=$('st');
 let IDX=null, CUR=null, CURTOK=null;
 let KNOWN=new Set(JSON.parse(localStorage.getItem('en_known')||'[]'));
+// migrate legacy bare lemmas to unified IDs en:lex:<lemma> (shared learner-file convention)
+const _mig=[...KNOWN].filter(k=>!k.includes(':'));
+if(_mig.length){_mig.forEach(k=>{KNOWN.delete(k);KNOWN.add('en:lex:'+k)});localStorage.setItem('en_known',JSON.stringify([...KNOWN]));}
+const lexId=l=>'en:lex:'+l;
+const isKnown=l=>KNOWN.has(lexId(l));
+function learnerMark(lemma,on){
+  try{ if(window.Learner&&Learner.setState) Learner.setState(lexId(lemma),on?'known':'new'); }catch(e){}
+}
 let TEXTDATA={};
 function mineCov(t){
   const d=TEXTDATA[t.id]; if(!d) return null;
   let tot=0,kn=0;
   d.sentences.forEach(s=>s.tokens.forEach(tk=>{
     if(!/[A-Za-z]/.test(tk.raw)) return;
-    tot++; if(tk.known||KNOWN.has(tk.lemma)) kn++;
+    tot++; if(tk.known||isKnown(tk.lemma)) kn++;
   }));
   return tot?kn/tot:null;
 }
@@ -109,7 +117,7 @@ function projCov(t){
   let tot=0,kn=0;
   d.sentences.forEach(s=>s.tokens.forEach(tk=>{
     if(!/[A-Za-z]/.test(tk.raw)) return;
-    tot++; if(tk.known||KNOWN.has(tk.lemma)||pt.has(tk.lemma)) kn++;
+    tot++; if(tk.known||isKnown(tk.lemma)||pt.has(tk.lemma)) kn++;
   }));
   return tot?kn/tot:null;
 }
@@ -174,7 +182,7 @@ function renderBody(){
       const isWord=/[A-Za-z0-9]/.test(tk.raw);
       if(isWord){
         const el=document.createElement('span');
-        const mine=KNOWN.has(tk.lemma);
+        const mine=isKnown(tk.lemma);
         el.className='tok '+(mine?'mine':(tk.known?'known':(tk.band||'')));
         el.textContent=tk.raw;
         el.onclick=(ev)=>{ev.stopPropagation();showTok(tk)};
@@ -193,14 +201,15 @@ function showTok(tk){
   const unk=(CUR.unknowns||{})[tk.lemma];
   let d=`band: ${tk.band||'—'} · rank: ${tk.rank||'—'} · zipf: ${tk.zipf||'—'}${tk.proper?' · اسم علم':''}`;
   if(unk) d+=` · تكرار: ${unk.count} · ${unk.inferable?'قابل للاستنتاج':'يحتاج شرحاً'}`;
-  if(KNOWN.has(tk.lemma)) d+=' · علّمتَها معروفة';
+  if(isKnown(tk.lemma)) d+=' · علّمتَها معروفة';
   $('popD').textContent=d;
-  $('popKnow').textContent=KNOWN.has(tk.lemma)?'أزل من «معروفة»':'أعرف هذه الكلمة ✓';
+  $('popKnow').textContent=isKnown(tk.lemma)?'أزل من «معروفة»':'أعرف هذه الكلمة ✓';
   $('pop').classList.add('show');
 }
 $('popKnow').onclick=()=>{
   if(!CURTOK)return;
-  if(KNOWN.has(CURTOK.lemma)) KNOWN.delete(CURTOK.lemma); else KNOWN.add(CURTOK.lemma);
+  const id=lexId(CURTOK.lemma);
+  if(KNOWN.has(id)){KNOWN.delete(id);learnerMark(CURTOK.lemma,false)} else {KNOWN.add(id);learnerMark(CURTOK.lemma,true)}
   localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
   $('pop').classList.remove('show'); renderBody(); renderList();
 };

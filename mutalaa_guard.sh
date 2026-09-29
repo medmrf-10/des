@@ -12,7 +12,7 @@ while true; do
         msg="${line#data:}"
         body=$(printf '%s' "$msg" | python3 -c "import sys,json
 try:
- m=json.load(sys.stdin); print(json.dumps(m.get('message',''),ensure_ascii=False))
+ m=json.load(sys.stdin); print(m.get('message',''))
 except: print('')" 2>/dev/null)
         if [ -n "$body" ]; then
           printf '%s\n' "$body" >> "$OLOG"

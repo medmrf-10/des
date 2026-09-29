@@ -1,0 +1,580 @@
+{
+ "text_id": "q-saheeh-112",
+ "title": "Quran The Sincerity (Saheeh International)",
+ "source": "quran-json/saheeh",
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 39,
+   "text": "(112:1) Say, \"He is Allah, [who is] One",
+   "tokens": [
+    {
+     "raw": "112",
+     "norm": "112",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Say",
+     "norm": "say",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "say",
+     "rank": 135,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "He",
+     "norm": "he",
+     "start": 14,
+     "end": 16,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 17,
+     "end": 19,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Allah",
+     "norm": "allah",
+     "start": 20,
+     "end": 25,
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "who",
+     "norm": "who",
+     "start": 28,
+     "end": 31,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 32,
+     "end": 34,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "One",
+     "norm": "one",
+     "start": 36,
+     "end": 39,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 41,
+   "end": 74,
+   "text": "(112:2) Allah, the Eternal Refuge",
+   "tokens": [
+    {
+     "raw": "112",
+     "norm": "112",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Allah",
+     "norm": "allah",
+     "start": 8,
+     "end": 13,
+     "numeric": false,
+     "lemma": "allah",
+     "rank": 8384,
+     "zipf": 3.89,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 15,
+     "end": 18,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Eternal",
+     "norm": "eternal",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "eternal",
+     "rank": 5964,
+     "zipf": 4.11,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Refuge",
+     "norm": "refuge",
+     "start": 27,
+     "end": 33,
+     "numeric": false,
+     "lemma": "refuge",
+     "rank": 8193,
+     "zipf": 3.91,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 76,
+   "end": 113,
+   "text": "(112:3) He neither begets nor is born",
+   "tokens": [
+    {
+     "raw": "112",
+     "norm": "112",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "He",
+     "norm": "he",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "neither",
+     "norm": "neither",
+     "start": 11,
+     "end": 18,
+     "numeric": false,
+     "lemma": "neither",
+     "rank": 1767,
+     "zipf": 4.77,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "begets",
+     "norm": "begets",
+     "start": 19,
+     "end": 25,
+     "numeric": false,
+     "lemma": "begets",
+     "rank": 46924,
+     "zipf": 2.6,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "nor",
+     "norm": "nor",
+     "start": 26,
+     "end": 29,
+     "numeric": false,
+     "lemma": "nor",
+     "rank": 1732,
+     "zipf": 4.78,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 30,
+     "end": 32,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "born",
+     "norm": "born",
+     "start": 33,
+     "end": 37,
+     "numeric": false,
+     "lemma": "bear",
+     "rank": 1985,
+     "zipf": 4.71,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 115,
+   "end": 157,
+   "text": "(112:4) Nor is there to Him any equivalent",
+   "tokens": [
+    {
+     "raw": "112",
+     "norm": "112",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "4",
+     "norm": "4",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Nor",
+     "norm": "nor",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "nor",
+     "rank": 1732,
+     "zipf": 4.78,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "there",
+     "norm": "there",
+     "start": 15,
+     "end": 20,
+     "numeric": false,
+     "lemma": "there",
+     "rank": 57,
+     "zipf": 6.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 21,
+     "end": 23,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Him",
+     "norm": "him",
+     "start": 24,
+     "end": 27,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "any",
+     "norm": "any",
+     "start": 28,
+     "end": 31,
+     "numeric": false,
+     "lemma": "any",
+     "rank": 90,
+     "zipf": 6.07,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "equivalent",
+     "norm": "equivalent",
+     "start": 32,
+     "end": 42,
+     "numeric": false,
+     "lemma": "equivalent",
+     "rank": 2992,
+     "zipf": 4.5,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 32,
+  "scored_tokens": 24,
+  "sentences": 4,
+  "msl": 6.0,
+  "S_long": 0.0,
+  "syn": 0.25,
+  "U_rare": 0.208,
+  "D": 0.275,
+  "C_token": 0.5833,
+  "C_lemma": 0.5294,
+  "max_unk_sent": 4,
+  "residual_per_sent_raw": {
+   "s001": 1,
+   "s002": 3,
+   "s003": 4,
+   "s004": 2
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "allah": {
+   "count": 2,
+   "zipf": 3.89,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "eternal": {
+   "count": 1,
+   "zipf": 4.11,
+   "band": "B5",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "refuge": {
+   "count": 1,
+   "zipf": 3.91,
+   "band": "B5",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "neither": {
+   "count": 1,
+   "zipf": 4.77,
+   "band": "B2",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "begets": {
+   "count": 1,
+   "zipf": 2.6,
+   "band": "R",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "nor": {
+   "count": 2,
+   "zipf": 4.78,
+   "band": "B2",
+   "sents": [
+    "s003",
+    "s004"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "bear": {
+   "count": 1,
+   "zipf": 4.71,
+   "band": "B2",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "equivalent": {
+   "count": 1,
+   "zipf": 4.5,
+   "band": "B3",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "neither",
+   "bear",
+   "equivalent",
+   "eternal",
+   "refuge",
+   "begets"
+  ],
+  "inference_targets": [
+   "nor",
+   "allah"
+  ],
+  "gloss": [],
+  "controls": {
+   "C_eff": 0.8333,
+   "gloss_n": 0,
+   "gloss_cap": 5,
+   "resid_max": 1,
+   "n_infer": 2
+  },
+  "residual_per_sent": {
+   "s001": 1,
+   "s002": 1,
+   "s003": 1,
+   "s004": 1
+  }
+ }
+}

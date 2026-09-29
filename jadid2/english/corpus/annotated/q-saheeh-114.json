@@ -1,0 +1,856 @@
+{
+ "text_id": "q-saheeh-114",
+ "title": "Quran Mankind (Saheeh International)",
+ "source": "quran-json/saheeh",
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 50,
+   "text": "(114:1) Say, \"I seek refuge in the Lord of mankind",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Say",
+     "norm": "say",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "say",
+     "rank": 135,
+     "zipf": 5.89,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "I",
+     "norm": "i",
+     "start": 14,
+     "end": 15,
+     "numeric": false,
+     "lemma": "i",
+     "rank": 7,
+     "zipf": 7.09,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "seek",
+     "norm": "seek",
+     "start": 16,
+     "end": 20,
+     "numeric": false,
+     "lemma": "seek",
+     "rank": 2462,
+     "zipf": 4.61,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "refuge",
+     "norm": "refuge",
+     "start": 21,
+     "end": 27,
+     "numeric": false,
+     "lemma": "refuge",
+     "rank": 8193,
+     "zipf": 3.91,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 31,
+     "end": 34,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Lord",
+     "norm": "lord",
+     "start": 35,
+     "end": 39,
+     "numeric": false,
+     "lemma": "lord",
+     "rank": 832,
+     "zipf": 5.1,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 40,
+     "end": 42,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mankind",
+     "norm": "mankind",
+     "start": 43,
+     "end": 50,
+     "numeric": false,
+     "lemma": "mankind",
+     "rank": 8573,
+     "zipf": 3.88,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 52,
+   "end": 84,
+   "text": "(114:2) The Sovereign of mankind",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Sovereign",
+     "norm": "sovereign",
+     "start": 12,
+     "end": 21,
+     "numeric": false,
+     "lemma": "sovereign",
+     "rank": 7744,
+     "zipf": 3.95,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 22,
+     "end": 24,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mankind",
+     "norm": "mankind",
+     "start": 25,
+     "end": 32,
+     "numeric": false,
+     "lemma": "mankind",
+     "rank": 8573,
+     "zipf": 3.88,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 86,
+   "end": 112,
+   "text": "(114:3) The God of mankind",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "God",
+     "norm": "god",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "god",
+     "rank": 239,
+     "zipf": 5.57,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mankind",
+     "norm": "mankind",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "mankind",
+     "rank": 8573,
+     "zipf": 3.88,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 114,
+   "end": 163,
+   "text": "(114:4) From the evil of the retreating whisperer",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "4",
+     "norm": "4",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "From",
+     "norm": "from",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 13,
+     "end": 16,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "evil",
+     "norm": "evil",
+     "start": 17,
+     "end": 21,
+     "numeric": false,
+     "lemma": "evil",
+     "rank": 1859,
+     "zipf": 4.74,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 22,
+     "end": 24,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 25,
+     "end": 28,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "retreating",
+     "norm": "retreating",
+     "start": 29,
+     "end": 39,
+     "numeric": false,
+     "lemma": "retreat",
+     "rank": 5833,
+     "zipf": 4.13,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "whisperer",
+     "norm": "whisperer",
+     "start": 40,
+     "end": 49,
+     "numeric": false,
+     "lemma": "whisper",
+     "rank": 10637,
+     "zipf": 3.74,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 165,
+   "end": 220,
+   "text": "(114:5) Who whispers [evil] into the breasts of mankind",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "5",
+     "norm": "5",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Who",
+     "norm": "who",
+     "start": 8,
+     "end": 11,
+     "numeric": false,
+     "lemma": "who",
+     "rank": 53,
+     "zipf": 6.34,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "whispers",
+     "norm": "whispers",
+     "start": 12,
+     "end": 20,
+     "numeric": false,
+     "lemma": "whisper",
+     "rank": 10637,
+     "zipf": 3.74,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "evil",
+     "norm": "evil",
+     "start": 22,
+     "end": 26,
+     "numeric": false,
+     "lemma": "evil",
+     "rank": 1859,
+     "zipf": 4.74,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "into",
+     "norm": "into",
+     "start": 28,
+     "end": 32,
+     "numeric": false,
+     "lemma": "into",
+     "rank": 83,
+     "zipf": 6.11,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 33,
+     "end": 36,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "breasts",
+     "norm": "breasts",
+     "start": 37,
+     "end": 44,
+     "numeric": false,
+     "lemma": "breast",
+     "rank": 3927,
+     "zipf": 4.35,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 45,
+     "end": 47,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mankind",
+     "norm": "mankind",
+     "start": 48,
+     "end": 55,
+     "numeric": false,
+     "lemma": "mankind",
+     "rank": 8573,
+     "zipf": 3.88,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 222,
+   "end": 261,
+   "text": "(114:6) From among the jinn and mankind",
+   "tokens": [
+    {
+     "raw": "114",
+     "norm": "114",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "6",
+     "norm": "6",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "From",
+     "norm": "from",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "among",
+     "norm": "among",
+     "start": 13,
+     "end": 18,
+     "numeric": false,
+     "lemma": "among",
+     "rank": 486,
+     "zipf": 5.31,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 19,
+     "end": 22,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "jinn",
+     "norm": "jinn",
+     "start": 23,
+     "end": 27,
+     "numeric": false,
+     "lemma": "jinn",
+     "rank": 48302,
+     "zipf": 2.58,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 28,
+     "end": 31,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mankind",
+     "norm": "mankind",
+     "start": 32,
+     "end": 39,
+     "numeric": false,
+     "lemma": "mankind",
+     "rank": 8573,
+     "zipf": 3.88,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 50,
+  "scored_tokens": 38,
+  "sentences": 6,
+  "msl": 6.33,
+  "S_long": 0.0,
+  "syn": 0.167,
+  "U_rare": 0.316,
+  "D": 0.29,
+  "C_token": 0.5789,
+  "C_lemma": 0.5238,
+  "max_unk_sent": 4,
+  "residual_per_sent_raw": {
+   "s001": 4,
+   "s002": 2,
+   "s003": 1,
+   "s004": 3,
+   "s005": 4,
+   "s006": 2
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "seek": {
+   "count": 1,
+   "zipf": 4.61,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "refuge": {
+   "count": 1,
+   "zipf": 3.91,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lord": {
+   "count": 1,
+   "zipf": 5.1,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mankind": {
+   "count": 5,
+   "zipf": 3.88,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002",
+    "s003",
+    "s005",
+    "s006"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "sovereign": {
+   "count": 1,
+   "zipf": 3.95,
+   "band": "B5",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "evil": {
+   "count": 2,
+   "zipf": 4.74,
+   "band": "B2",
+   "sents": [
+    "s004",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "retreat": {
+   "count": 1,
+   "zipf": 4.13,
+   "band": "B5",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "whisper": {
+   "count": 2,
+   "zipf": 3.74,
+   "band": "B6",
+   "sents": [
+    "s004",
+    "s005"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "breast": {
+   "count": 1,
+   "zipf": 4.35,
+   "band": "B4",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "jinn": {
+   "count": 1,
+   "zipf": 2.58,
+   "band": "R",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "lord",
+   "seek",
+   "breast",
+   "retreat",
+   "sovereign",
+   "refuge",
+   "jinn"
+  ],
+  "inference_targets": [
+   "evil",
+   "mankind",
+   "whisper"
+  ],
+  "gloss": [],
+  "controls": {
+   "C_eff": 0.7632,
+   "gloss_n": 0,
+   "gloss_cap": 5,
+   "resid_max": 3,
+   "n_infer": 3
+  },
+  "residual_per_sent": {
+   "s001": 1,
+   "s002": 1,
+   "s003": 1,
+   "s004": 2,
+   "s005": 3,
+   "s006": 1
+  }
+ }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تتبع الحفظ FSRS — تجربة</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+.matn{font-size:17px;line-height:2;border-right:3px solid #d4a94f;padding-right:12px}
+.meta{color:#9aa4b0;font-size:12px;margin-top:8px}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.grade{border:1px solid #2a3442;border-radius:8px;padding:12px 4px;font-size:14px;cursor:pointer;text-align:center;background:#10151c;color:#e8e2d0}
+.g1{border-color:#ef4444}.g2{border-color:#f59e0b}.g3{border-color:#22c55e}.g4{border-color:#3b82f6}
+.due{color:#d4a94f;font-size:14px}
+.hidden{display:none}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:#10151c;border:1px solid #2a3442;border-radius:999px;padding:6px 12px;font-size:12px;color:#9aa4b0;cursor:pointer}
+.pill.on{color:#d4a94f;border-color:#d4a94f}
+button.add{background:#d4a94f;color:#10151c;border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>تتبع الحفظ — FSRS</h1>
+<p class="sub">تجربة: جدولة مراجعة ذكية (خوارزمية FSRS مبسطة) على متون حقيقية مقصوصة. أضف متناً، قيّم تذكرك، والموعد القادم يُحسب آليًا ويُحفظ في جهازك.</p>
+<div class="card">
+<div class="due" id="due">…</div>
+<div id="add">
+<p class="sub" style="margin:10px 0 6px">أضف متناً للحفظ:</p>
+<div class="row" id="list"></div>
+</div>
+</div>
+<div class="card hidden" id="rev">
+<div class="matn" id="rmatn"></div>
+<div class="meta" id="rmeta"></div>
+<div class="grades">
+<button class="grade g1" data-g="1">نسيت</button>
+<button class="grade g2" data-g="2">صعب</button>
+<button class="grade g3" data-g="3">جيد</button>
+<button class="grade g4" data-g="4">سهل</button>
+</div>
+</div>
+</div>
+<script>
+// FSRS مبسط: ثبات S يتحدث بالتقييم، قابلية التذكر R=0.9^(d/S)، الموعد القادم = S*ln(0.9)/ln(R_target=0.9)
+let lib=[],deck=JSON.parse(localStorage.getItem('fsrs-deck')||'{}');
+const $=id=>document.getElementById(id);
+fetch('ex-data/cloze.json').then(r=>r.json()).then(d=>{
+ fetch('hadith-data/index.json').then(r=>r.json()).then(()=>{});
+ // المتون المعروضة للإضافة: أول ١٢ حديثاً
+ Promise.all(d.items.slice(0,12).map(t=>fetch('hadith-data/'+t.id+'.json').then(r=>r.json())))
+ .then(a=>{lib=a;render()});
+});
+function days(s,g){ // FSRS-4.5 تقريب: S الجديد حسب التقييم
+ const w={1:0.5,2:1.2,3:2.5,4:4.5}[g];
+ return Math.max(0.5,s*w);
+}
+function render(){
+ const now=Date.now()/864e5;
+ const due=Object.entries(deck).filter(([id,c])=>c.next<=now);
+ $('due').textContent='مستحق الآن: '+due.length+' — في مجموعتك: '+Object.keys(deck).length+' متناً';
+ $('list').innerHTML='';
+ lib.forEach(b=>{
+  const p=document.createElement('span');p.className='pill'+(deck[b.id]?' on':'');
+  p.textContent=b.book+' · ح'+b.id;
+  p.onclick=()=>{ if(!deck[b.id]){deck[b.id]={s:1,next:now};save();render();} };
+  $('list').appendChild(p);
+ });
+ if(due.length){showRev(due[0][0]);}else{$('rev').classList.add('hidden')}
+}
+function showRev(id){
+ const b=lib.find(x=>x.id==id)||{matn:'(متن #' + id + ')',book:''};
+ $('rev').classList.remove('hidden');
+ $('rmatn').textContent=b.matn||'';
+ $('rmeta').textContent=b.book||'';
+ document.querySelectorAll('.grade').forEach(g=>g.onclick=()=>{
+  const c=deck[id];c.s=days(c.s,+g.dataset.g);c.next=Date.now()/864e5+c.s;save();
+  $('rmeta').textContent='الموعد القادم بعد '+c.s.toFixed(1)+' يوم';
+  setTimeout(render,600);
+ });
+}
+function save(){localStorage.setItem('fsrs-deck',JSON.stringify(deck))}
+</script>
+</body>
+</html>

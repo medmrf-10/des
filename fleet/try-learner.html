@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ملف المتعلم — العمود الفقري</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0f1215;color:#e8e6e0;min-height:100vh;padding:12px;max-width:760px;margin:0 auto}
+h1{font-size:20px;color:#e8c877;margin-bottom:4px}
+.sub{color:#9aa3ab;font-size:12px;margin-bottom:12px;line-height:1.7}
+.card{background:#1a1f24;border:1px solid #2a3038;border-radius:12px;padding:12px;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{background:#2b6cb0;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-size:14px;cursor:pointer;font-family:inherit}
+button.ghost{background:#242b33;border:1px solid #39414c;color:#c9d2da}
+.stat{display:inline-block;background:#253240;color:#8fbbe8;border-radius:8px;padding:6px 12px;font-size:13px;margin:2px}
+.stat b{color:#e8c877}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:7px 8px;border-bottom:1px solid #242b33;text-align:right;vertical-align:top}
+th{color:#8fbbe8;font-weight:600;font-size:12px}
+.tag{display:inline-block;background:#253240;color:#8fbbe8;border-radius:6px;padding:1px 7px;font-size:11px}
+.mut{color:#9aa3ab;font-size:12px}
+.code{direction:ltr;text-align:left;font-family:monospace;font-size:11px;color:#8fbbe8;word-break:break-all}
+.s-seen{color:#8fbbe8}.s-learning{color:#f0b45a}.s-mastered{color:#7dd08a}
+</style>
+</head>
+<body>
+<h1>ملف المتعلم</h1>
+<div class="sub">العمود الفقري للمنظومة: ملف واحد على جهازك يعرف موقعك من كل عقدة — تكتب فيه كل بطاقة (الجامع، الآية، i+1…) بمعرّفات موحدة ay:/hd:/fq:/en: وتقرأه كل بطاقة أخرى. هذه الصفحة تُثبت استمرارية الحالة: ما تعلّمته في بطاقة يظهر هنا فوراً.</div>
+<div class="card">
+ <div style="font-size:14px;color:#e8c877;margin-bottom:8px">إحصاء ملفك الآن</div>
+ <div id="stats"></div>
+ <div class="row" style="margin-top:8px"><button onclick="render()">تحديث</button><button class="ghost" onclick="demo()">سجّل عقدة تجريبية (fq:tahara)</button><a href="./try-hadithkg.html"><button class="ghost">← افتح الجامع وعلّم عقدة ثم عد</button></a></div>
+</div>
+<div class="card">
+ <div style="font-size:14px;color:#e8c877;margin-bottom:8px">مستحقة للمراجعة الآن (due ≤ الآن)</div>
+ <div id="due"></div>
+</div>
+<div class="card">
+ <div style="font-size:14px;color:#e8c877;margin-bottom:8px">كل عقد ملفك</div>
+ <div id="nodes"></div>
+</div>
+<script src="learner.js"></script>
+<script>
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+const NAMES={'seen':'شوهدت','learning':'قيد التعلم','mastered':'متقنة'};
+function fmtDue(d){if(!d)return'—';const t=d-Date.now();if(t<=0)return'مستحقة الآن';const h=Math.round(t/3600000);if(h<24)return'بعد '+h+' ساعة';return'بعد '+Math.round(h/24)+' يوم'}
+function render(){
+ const st=Learner.stats();
+ document.getElementById('stats').innerHTML='<span class="stat">العقد: <b>'+st.total+'</b></span><span class="stat">شوهدت: <b>'+st.seen+'</b></span><span class="stat">قيد التعلم: <b>'+st.learning+'</b></span><span class="stat">متقنة: <b>'+st.mastered+'</b></span>'+Object.keys(st.byPrefix).map(p=>'<span class="stat">'+esc(p)+': <b>'+st.byPrefix[p]+'</b></span>').join('');
+ const due=Learner.due();
+ document.getElementById('due').innerHTML=due.length?due.map(k=>{const n=Learner.get(k);return'<div style="margin:4px 0"><span class="tag">'+esc(k)+'</span> <span class="mut">درجة '+(n.g==null?'—':n.g)+' · '+(n.reps||0)+' مراجعة</span></div>'}).join(''):'<div class="mut">لا مستحقات الآن — علّم عقدة في أي بطاقة.</div>';
+ const all=Learner.all(),keys=Object.keys(all);
+ document.getElementById('nodes').innerHTML=keys.length?'<table><tr><th>المعرّف</th><th>الحالة</th><th>درجة</th><th>مراجعات</th><th>المراجعة القادمة</th></tr>'+keys.map(k=>{const n=all[k];return'<tr><td class="code">'+esc(k)+'</td><td class="s-'+(n.s||'seen')+'">'+(NAMES[n.s]||'شوهدت')+'</td><td>'+(n.g==null?'—':n.g)+'</td><td>'+(n.reps||0)+'</td><td>'+fmtDue(n.due)+'</td></tr>'}).join('')+'</table>':'<div class="mut">ملفك فارغ بعد — أي «أتقنت/نسيت» في بطاقة أخرى يكتب هنا.</div>';
+}
+function demo(){Learner.mark('fq:tahara',2);render()}
+render();
+</script>
+</body>
+</html>

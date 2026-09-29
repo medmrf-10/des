@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>وجبة اليوم — يقررها ملفك</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0f1215;color:#e8e6e0;min-height:100vh;padding:12px;max-width:760px;margin:0 auto}
+h1{font-size:20px;color:#e8c877;margin-bottom:4px}
+.sub{color:#9aa3ab;font-size:12px;margin-bottom:12px;line-height:1.7}
+.card{background:#1a1f24;border:1px solid #2a3038;border-radius:12px;padding:12px;margin-bottom:10px}
+h2{font-size:14px;color:#e8c877;margin-bottom:8px}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+button{background:#2b6cb0;color:#fff;border:0;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+button.ghost{background:#242b33;border:1px solid #39414c;color:#c9d2da}
+button.g0{background:#7a3a3a}button.g1{background:#7a6234}button.g2{background:#3d6ea5}button.g3{background:#3f7a52}
+.stat{display:inline-block;background:#253240;color:#8fbbe8;border-radius:8px;padding:5px 11px;font-size:12px;margin:2px}
+.stat b{color:#e8c877}
+.tag{display:inline-block;background:#253240;color:#8fbbe8;border-radius:6px;padding:1px 7px;font-size:11px;direction:ltr}
+.mut{color:#9aa3ab;font-size:12px}
+.item{border:1px solid #242b33;border-radius:10px;padding:9px;margin:6px 0}
+.item .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.code{direction:ltr;text-align:left;font-family:monospace;font-size:11px;color:#8fbbe8}
+.s-seen{color:#8fbbe8}.s-learning{color:#f0b45a}.s-mastered{color:#7dd08a}
+a{color:#8fbbe8;text-decoration:none}
+.empty{color:#9aa3ab;font-size:13px;padding:6px 0}
+</style>
+</head>
+<body>
+<h1>وجبة اليوم</h1>
+<div class="sub">الوجبة ليست قائمة ثابتة — النظام يقرأ ملف متعلمك (<span class="code">learner.v1</span> + فهرس المستحقات) ويقرر: ما يستحق مراجعة الآن يُراجع هنا مباشرة، وما البذرة التالية في كل علم يُقترح من حالته في ملفك. علّم عقدة في أي بطاقة ثم عُد — وجبتك تتغير.</div>
+
+<div class="card">
+ <h2>أولاً: يستحق مراجعة الآن</h2>
+ <div id="due"></div>
+</div>
+
+<div class="card">
+ <h2>ثانياً: وحدتك التالية — يقررها الملف</h2>
+ <div id="next"></div>
+</div>
+
+<div class="card">
+ <h2>ملفك باختصار</h2>
+ <div id="stats"></div>
+ <div class="row" style="margin-top:8px"><button class="ghost" onclick="render()">تحديث الوجبة</button></div>
+</div>
+
+<script src="learner.js"></script>
+<script>
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+const NAMES={'seen':'شوهدت','learning':'قيد التعلم','mastered':'متقنة'};
+const GRADES=[['نسيت',0],['صعب',1],['جيد',2],['سهل',3]];
+/* بذور البداية — عقدة واحدة لكل علم، كل منها تُدرَّس في بطاقتها على البوابة */
+const SEEDS=[
+ {id:'hd:g319',label:'مجموعة المعنى: «إنما الأعمال بالنيات»',sci:'الحديث',url:'./try-hadithkg.html'},
+ {id:'ay:1:1',label:'الفاتحة ١ — ملف الآية',sci:'القرآن',url:'./try-ayat.html'},
+ {id:'fq:tahara',label:'كتاب الطهارة — الفهرس الموحد',sci:'الفقه',url:'./try-fihris.html'},
+ {id:'en:lex:decree',label:'كلمة Decree — نص «Quran The Power»',sci:'الإنجليزية',url:'./try-english.html'}
+];
+function fmtDue(d){if(!d)return'—';const t=d-Date.now();if(t<=0)return'مستحقة الآن';const h=Math.round(t/3600000);if(h<24)return'بعد '+h+' ساعة';return'بعد '+Math.round(h/24)+' يوم'}
+function stateLine(n){if(!n)return'<span class="mut">لم تُفتتح بعد — بذرة جديدة</span>';
+ return'<span class="s-'+(n.s||'seen')+'">'+(NAMES[n.s]||'شوهدت')+'</span> <span class="mut">'+(n.g!=null?'درجة '+n.g+' · ':'')+'المراجعة '+fmtDue(n.due)+'</span>'}
+function review(id,g){Learner.mark(id,g);render()}
+function render(){
+ /* ١) المستحقات — من فهرس due مباشرة، بلا مسح للمخزن */
+ const due=Learner.due();
+ document.getElementById('due').innerHTML=due.length?due.map(k=>{const n=Learner.get(k)||{};
+  return'<div class="item"><div class="head"><span class="tag">'+esc(k)+'</span><span class="mut">'+fmtDue(n.due)+'</span></div>'+
+   '<div class="row" style="margin-top:7px">'+GRADES.map(x=>'<button class="g'+x[1]+'" onclick="review(\''+esc(k)+'\','+x[1]+')">'+x[0]+'</button>').join('')+'</div></div>'}).join('')
+  :'<div class="empty">لا مستحقات الآن. علّم عقدة في بطاقة أخرى ثم عُد — أول ما يستحق يظهر هنا تلقائياً.</div>';
+ /* ٢) الوحدة التالية لكل علم: أول بذرة غير متقنة في ملفك؛ إن أتقنتها كلها ← وسّع */
+ document.getElementById('next').innerHTML=SEEDS.map(sd=>{const n=Learner.get(sd.id);const done=n&&n.s==='mastered';
+  return'<div class="item"><div class="head"><b style="font-size:13px">'+esc(sd.sci)+'</b><span class="tag">'+esc(sd.id)+'</span></div>'+
+   '<div style="margin:5px 0;font-size:13px">'+esc(sd.label)+'</div>'+
+   '<div>'+stateLine(n)+'</div>'+
+   (done?'<div class="mut" style="margin-top:5px">أُتقنت — بذرتك التالية تُزرع من شجرتك لاحقاً.</div>'
+        :'<div class="row" style="margin-top:7px"><a href="'+sd.url+'"><button class="ghost">افتح بطاقتها وعلّمها ←</button></a></div>')+'</div>'}).join('');
+ /* ٣) إحصاء */
+ const st=Learner.stats();
+ document.getElementById('stats').innerHTML='<span class="stat">عقد ملفك: <b>'+st.total+'</b></span><span class="stat">قيد التعلم: <b>'+st.learning+'</b></span><span class="stat">متقنة: <b>'+st.mastered+'</b></span><span class="stat">مستحقة الآن: <b>'+due.length+'</b></span>';
+}
+render();
+</script>
+</body>
+</html>

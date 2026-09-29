@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>جرّب: قارئ i+1 الإنجليزي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9; --card:#ffffff; --card2:#f0f3f8; --border:#d7dde8; --txt:#1b2437; --dim:#5d6577; --acc:#8a6514; --acc2:#7a5a10; --ok:#1a7f37; --warn:#b35c00; --out:#6b7480}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+html,body{max-width:100vw; overflow-x:hidden}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh}
+.wrap{max-width:640px; margin:0 auto; padding:20px 14px 60px}
+h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
+.sub{color:var(--dim); font-size:.8rem; margin-bottom:16px; line-height:1.7}
+.panel{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:12px}
+.status{font-size:.74rem; color:var(--dim); min-height:1.2em; margin:6px 2px}
+.status.err{color:#ff7d7d}
+.texts{margin-top:6px}
+.tcard{background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:11px 12px; margin-bottom:8px; cursor:pointer}
+.tcard:hover{border-color:var(--acc)}
+.tcard .tt{font-size:.86rem; font-weight:600; direction:ltr; text-align:left; color:var(--txt)}
+.tcard .tm{font-size:.68rem; color:var(--dim); margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.tcard .mine-c{color:var(--ok); font-weight:700}
+.badge{font-size:.64rem; font-weight:700; border-radius:99px; padding:2px 9px}
+.badge.i1{background:#e2f4e6; color:var(--ok)}
+.badge.i2{background:#f7ecd4; color:var(--warn)}
+.badge.im1{background:#e8edf5; color:#9db4ff}
+.badge.out{background:#eef1f7; color:var(--out)}
+.reader{display:none}
+.reader.show{display:block}
+.rbar{display:flex; gap:10px; flex-wrap:wrap; font-size:.68rem; color:var(--dim); margin:8px 0 10px}
+.rbar b{color:var(--acc2)}
+.plan{display:none; margin-bottom:10px}
+.plan.show{display:block}
+.plan h3{font-size:.78rem; color:var(--acc2); margin:10px 0 4px}
+.plan .wl{display:flex; flex-wrap:wrap; gap:5px; direction:ltr; justify-content:flex-start}
+.plan .wl span{background:var(--card2); border:1px solid var(--border); border-radius:8px; font-size:.74rem; padding:3px 9px; color:var(--txt)}
+.plan .wl span.pt{border-color:var(--ok); cursor:pointer}
+.plan .wl span.pt.ptk{background:#e2f4e6; color:var(--ok); font-weight:700}
+.plan .wl span.inf{border-color:var(--warn)}
+.plan .note{font-size:.64rem; color:var(--dim); margin-top:2px}
+.body-en{direction:ltr; text-align:left; font-family:Georgia,'Times New Roman',serif; font-size:1.02rem; line-height:2.05; background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:14px 16px}
+.tok{cursor:pointer; border-radius:4px; padding:0 1px; transition:background .15s}
+.tok:active{background:#333}
+.tok.known{color:var(--txt)}
+.tok.B1,.tok.B2{color:#b9c6ff; border-bottom:1px dotted #556}
+.tok.B3,.tok.B4{color:var(--warn); border-bottom:1px solid #7a5f2a}
+.tok.B5,.tok.B6{color:#ffd97a; background:#2a2415}
+.tok.R{color:#9db4ff; font-style:italic}
+.tok.mine{color:var(--ok)!important; border-bottom:2px solid var(--ok)}
+.pop{position:fixed; left:50%; transform:translateX(-50%); bottom:14px; width:min(94vw,560px); background:#ffffff; border:1px solid var(--acc); border-radius:14px; padding:12px 14px; display:none; z-index:40; box-shadow:0 8px 30px rgba(30,40,80,.18)}
+.pop.show{display:block}
+.pop .w{font-size:1.05rem; font-weight:700; direction:ltr; text-align:left; color:var(--acc2)}
+.pop .d{font-size:.72rem; color:var(--dim); margin-top:4px; direction:ltr; text-align:left}
+.pop .act{display:flex; gap:8px; margin-top:10px}
+.pop button{flex:1; background:var(--card2); border:1px solid var(--border); color:var(--txt); border-radius:9px; font-family:inherit; font-size:.78rem; padding:9px; cursor:pointer}
+.pop button.know{border-color:var(--ok); color:var(--ok)}
+.legend{font-size:.62rem; color:var(--dim); margin-top:8px; line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>قارئ i+1 الإنجليزي</h1>
+  <div class="sub">قارئ إنجليزي مدرّج بنظام i+1: كل نص مقيس تغطيته على مفرداتك المعروفة، والكلمات الجديدة موسومة بنطاق تكرارها (B1 شائعة ← B6 نادرة) — خطة التعليم (pre-teach/استنتاج/شرح) محسوبة لكل نص. العيّنة الحقيقية: <b>٢٨ نصاً موسوماً</b> من مشروع جاديد٢/الإنجليزية (منها سور قصارى: الكوثر/الفيل/القدر — أقرب لمستوى مبتدئ) (ملخصات shortAr الـ٢٣٠٠ ليست على هذا الجهاز). المس كلمة لترى لمّتها ونطاقها، وعلّم ما تعرفه فيُحفظ على جهازك.</div>
+  <div class="panel">
+    <div class="status" id="st">… يحمّل الفهرس</div>
+    <div class="texts" id="texts"></div>
+  </div>
+  <div class="reader" id="reader">
+    <div class="panel">
+      <div class="rbar" id="rbar"></div>
+      <button id="planbtn" style="background:var(--card2);border:1px solid var(--acc);color:var(--acc2);border-radius:9px;font-family:inherit;font-size:.74rem;padding:7px 12px;cursor:pointer">خطة هذا النص (قبل القراءة)</button>
+      <div class="plan" id="plan"></div>
+      <div class="legend">الألوان: <span style="color:#9db4ff">أسماء أعلام مائلة</span> · <span style="color:#b9c6ff">B1-B2 شائعة</span> · <span style="color:var(--warn)">B3-B4 متوسطة</span> · <span style="color:#ffd97a">B5-B6 نادرة/بعيدة</span> · <span style="color:var(--ok)">أخضر = أعلّمتها معروفة</span></div>
+    </div>
+    <div class="body-en" id="bodyEn"></div>
+  </div>
+</div>
+<div class="pop" id="pop">
+  <div class="w" id="popW"></div>
+  <div class="d" id="popD"></div>
+  <div class="act">
+    <button class="know" id="popKnow">أعرف هذه الكلمة ✓</button>
+    <button id="popClose">إغلاق</button>
+  </div>
+</div>
+<script src="learner.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const st=$('st');
+let IDX=null, CUR=null, CURID=null, CURTOK=null;
+let KNOWN=new Set(JSON.parse(localStorage.getItem('en_known')||'[]'));
+// migrate legacy bare lemmas to unified IDs en:lex:<lemma> (shared learner-file convention)
+const _mig=[...KNOWN].filter(k=>!k.includes(':'));
+if(_mig.length){_mig.forEach(k=>{KNOWN.delete(k);KNOWN.add('en:lex:'+k)});localStorage.setItem('en_known',JSON.stringify([...KNOWN]));}
+const lexId=l=>'en:lex:'+l;
+const isKnown=l=>{
+  const rec=(window.Learner&&Learner.get)?Learner.get(lexId(l)):null;
+  if(rec) return rec.g>=2||rec.s==='mastered';
+  return KNOWN.has(lexId(l));
+};
+function learnerMark(lemma,on){
+  try{ if(window.Learner&&Learner.mark) Learner.mark(lexId(lemma),on?2:0); }catch(e){}
+}
+let TEXTDATA={};
+function mineCov(t){
+  const d=TEXTDATA[t.id]; if(!d) return null;
+  let tot=0,kn=0;
+  d.sentences.forEach(s=>s.tokens.forEach(tk=>{
+    if(!/[A-Za-z]/.test(tk.raw)) return;
+    tot++; if(tk.known||isKnown(tk.lemma)) kn++;
+  }));
+  return tot?kn/tot:null;
+}
+function mineVerdict(c){ if(c==null)return null; if(c>=0.98)return'im1'; if(c>=0.95)return'i1'; if(c>=0.85)return'i2'; return'out' }
+function projCov(t){
+  const d=TEXTDATA[t.id]; if(!d||!d.plan||!d.plan.preteach) return null;
+  const pt=new Set(d.plan.preteach);
+  let tot=0,kn=0;
+  d.sentences.forEach(s=>s.tokens.forEach(tk=>{
+    if(!/[A-Za-z]/.test(tk.raw)) return;
+    tot++; if(tk.known||isKnown(tk.lemma)||pt.has(tk.lemma)) kn++;
+  }));
+  return tot?kn/tot:null;
+}
+const VC={i1:'i+1','i-1':'i-1',i2:'i+2',out:'خارج',im1:'i-1'};
+const VB={i1:'i1','i-1':'im1',i2:'i2',out:'out'};
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+fetch('./en-data/index.json').then(r=>r.json()).then(d=>{
+  IDX=d; renderList();
+  const h=location.hash.slice(1); if(h) openText(h);
+  st.textContent='… يحمّل تغطيتك الشخصية';
+  Promise.all(d.texts.map(t=>fetch('./en-data/'+t.id+'.json').then(r=>r.json()).then(j=>{TEXTDATA[t.id]=j}).catch(()=>{}))).then(()=>{
+    st.textContent=IDX.texts.length+' نصاً — «تغطيتك» خضراء تُحسب من كلماتك المعلَّمة على جهازك';
+    renderList();
+  });
+}).catch(e=>{st.textContent='فشل التحميل: '+e; st.className='status err'});
+
+function renderList(){
+  if(!IDX)return;
+  const box=$('texts');
+  box.innerHTML='';
+  IDX.texts.slice().sort((a,b)=>(mineCov(b)||b.C_token||0)-(mineCov(a)||a.C_token||0)).forEach(t=>{
+    const mc=mineCov(t), mv=mineVerdict(mc), pc=projCov(t);
+    const el=document.createElement('div'); el.className='tcard';
+    el.innerHTML=`<div class="tt">${esc(t.title)}</div>
+      <div class="tm"><span class="badge ${VB[t.verdict]||'out'}">${VC[t.verdict]||t.verdict}</span>
+      ${mv?`<span class="badge ${VB[mv]||'out'}">${VC[mv]}</span><span class="mine-c">تغطيتك ${(mc*100).toFixed(0)}٪</span>`:''}
+      ${pc&&pc>mc?`<span style="color:var(--warn)">تعلّم ${t.pre_teach_count} ← تصبح ${(pc*100).toFixed(0)}٪</span>`:''}
+      <span>تغطية L1 ${(t.C_token*100).toFixed(0)}٪</span><span>${t.words} كلمة</span><span>${t.sentences} جملة</span></div>`;
+    el.onclick=()=>openText(t.id);
+    box.appendChild(el);
+  });
+}
+
+function openText(id){
+  st.textContent='… يحمّل النص';
+  (TEXTDATA[id]?Promise.resolve(TEXTDATA[id]):fetch('./en-data/'+id+'.json').then(r=>r.json())).then(d=>{
+    CUR=d; CURID=id; TEXTDATA[id]=d;
+    const t=(IDX.texts.find(x=>x.id===id))||{};
+    $('rbar').innerHTML=`<span>الحكم: <b>${VC[t.verdict]||t.verdict||'؟'}</b></span><span>تغطية <b>${((t.C_token||0)*100).toFixed(1)}٪</b></span><span>طول الجملة <b>${(t.msl||0).toFixed(1)}</b></span><span>صعوبة <b>${(t.D||0).toFixed(2)}</b></span>`;
+    $('plan').innerHTML=planHTML(d); wirePt();
+    $('plan').classList.remove('show'); $('planbtn').textContent='خطة هذا النص (قبل القراءة) ▾';
+    renderBody();
+    $('reader').classList.add('show');
+    st.textContent='';
+    location.hash=id;
+    window.scrollTo({top:$('reader').offsetTop-60});
+  }).catch(e=>{st.textContent='فشل: '+e; st.className='status err'});
+}
+
+function planHTML(d){
+  const p=d.plan||{};
+  return (p.preteach?`<h3>علّمها قبل القراءة (${p.preteach.length})</h3><div class="wl">${p.preteach.map(w=>`<span class="pt${isKnown(w)?' ptk':''}" data-pt="${esc(w)}">${esc(w)}${isKnown(w)?' ✓':''}</span>`).join('')}</div><div class="note">هذه الكلمات تُعلَّم أولاً لأنها تسد الفجوة الكبرى — انقر ما أتقنته فتُسجَّل معروفة في ملفك وتصعد تغطيتك.</div>`:'')+
+    (p.inference_targets?`<h3>خمّنها من السياق (${p.inference_targets.length})</h3><div class="wl">${p.inference_targets.map(w=>`<span class="inf">${esc(w)}</span>`).join('')}</div><div class="note">استنتاجها من السياق هو المهارة — لا تبحث عنها مسبقاً.</div>`:'')+
+    (p.gloss?`<h3>تُشرح عند النقر (${p.gloss.length})</h3><div class="wl">${p.gloss.map(w=>`<span>${esc(w)}</span>`).join('')}</div>`:'');
+}
+function wirePt(){
+  document.querySelectorAll('#plan .pt').forEach(el=>{
+    el.onclick=()=>{
+      const w=el.dataset.pt, id=lexId(w);
+      if(KNOWN.has(id)){KNOWN.delete(id);learnerMark(w,false)} else {KNOWN.add(id);learnerMark(w,true)}
+      localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
+      $('plan').innerHTML=planHTML(CUR); wirePt(); renderBody(); renderList();
+    };
+  });
+}
+
+function renderBody(){
+  const b=$('bodyEn'); b.innerHTML='';
+  CUR.sentences.forEach(s=>{
+    const sp=document.createElement('div'); sp.style.marginBottom='10px'; sp.style.whiteSpace='pre-wrap';
+    let pos=0;
+    s.tokens.slice().sort((a,b)=>a.start-b.start).forEach(tk=>{
+      if(tk.start>pos) sp.appendChild(document.createTextNode(s.text.slice(pos,tk.start)));
+      const isWord=/[A-Za-z0-9]/.test(tk.raw);
+      if(isWord){
+        const el=document.createElement('span');
+        const mine=isKnown(tk.lemma);
+        el.className='tok '+(mine?'mine':(tk.known?'known':(tk.band||'')));
+        el.textContent=tk.raw;
+        el.onclick=(ev)=>{ev.stopPropagation();showTok(tk)};
+        sp.appendChild(el);
+      } else sp.appendChild(document.createTextNode(tk.raw));
+      pos=Math.max(pos,tk.end);
+    });
+    if(pos<s.text.length) sp.appendChild(document.createTextNode(s.text.slice(pos)));
+    b.appendChild(sp);
+  });
+}
+
+function showTok(tk){
+  CURTOK=tk;
+  $('popW').textContent=tk.raw+'  ·  '+tk.lemma;
+  const unk=(CUR.unknowns||{})[tk.lemma];
+  let d=`band: ${tk.band||'—'} · rank: ${tk.rank||'—'} · zipf: ${tk.zipf||'—'}${tk.proper?' · اسم علم':''}`;
+  if(unk) d+=` · تكرار: ${unk.count} · ${unk.inferable?'قابل للاستنتاج':'يحتاج شرحاً'}`;
+  if(isKnown(tk.lemma)) d+=' · علّمتَها معروفة';
+  $('popD').textContent=d;
+  $('popKnow').textContent=isKnown(tk.lemma)?'أزل من «معروفة»':'أعرف هذه الكلمة ✓';
+  $('pop').classList.add('show');
+}
+$('popKnow').onclick=()=>{
+  if(!CURTOK)return;
+  const id=lexId(CURTOK.lemma);
+  if(KNOWN.has(id)){KNOWN.delete(id);learnerMark(CURTOK.lemma,false)} else {KNOWN.add(id);learnerMark(CURTOK.lemma,true)}
+  localStorage.setItem('en_known',JSON.stringify([...KNOWN]));
+  $('pop').classList.remove('show'); if(CUR){$('plan').innerHTML=planHTML(CUR);wirePt();} renderBody(); renderList();
+};
+$('popClose').onclick=()=>$('pop').classList.remove('show');
+$('planbtn').onclick=()=>{const p=$('plan');p.classList.toggle('show')};
+document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show')});
+window.addEventListener('hashchange',()=>{
+  const h=location.hash.slice(1);
+  if(!h){$('reader').classList.remove('show');$('pop').classList.remove('show');window.scrollTo({top:0});}
+  else if(h!==CURID) openText(h);
+});
+</script>
+</body>
+</html>

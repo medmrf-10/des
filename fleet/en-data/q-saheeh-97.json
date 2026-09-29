@@ -1,0 +1,1093 @@
+{
+ "text_id": "q-saheeh-97",
+ "title": "Quran The Power (Saheeh International)",
+ "source": {
+  "corpus": "risan/quran-json",
+  "translation": "Saheeh International",
+  "surahs": [
+   97
+  ],
+  "url": "https://raw.githubusercontent.com/risan/quran-json/main/dist/quran_en.json"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 65,
+   "text": "(97:1) Indeed, We sent the Qur'an down during the Night of Decree",
+   "tokens": [
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 1,
+     "end": 3,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 4,
+     "end": 5,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Indeed",
+     "norm": "indeed",
+     "start": 7,
+     "end": 13,
+     "numeric": false,
+     "lemma": "indeed",
+     "rank": 1697,
+     "zipf": 4.79,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "We",
+     "norm": "we",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sent",
+     "norm": "sent",
+     "start": 18,
+     "end": 22,
+     "numeric": false,
+     "lemma": "send",
+     "rank": 817,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 23,
+     "end": 26,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Qur'an",
+     "norm": "qur'an",
+     "start": 27,
+     "end": 33,
+     "numeric": false,
+     "lemma": "qur'an",
+     "rank": 21037,
+     "zipf": 3.25,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "down",
+     "norm": "down",
+     "start": 34,
+     "end": 38,
+     "numeric": false,
+     "lemma": "down",
+     "rank": 137,
+     "zipf": 5.88,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "during",
+     "norm": "during",
+     "start": 39,
+     "end": 45,
+     "numeric": false,
+     "lemma": "during",
+     "rank": 181,
+     "zipf": 5.72,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 46,
+     "end": 49,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Night",
+     "norm": "night",
+     "start": 50,
+     "end": 55,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 56,
+     "end": 58,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Decree",
+     "norm": "decree",
+     "start": 59,
+     "end": 65,
+     "numeric": false,
+     "lemma": "decree",
+     "rank": 9316,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 67,
+   "end": 128,
+   "text": "(97:2) And what can make you know what is the Night of Decree",
+   "tokens": [
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 1,
+     "end": 3,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 4,
+     "end": 5,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "And",
+     "norm": "and",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 11,
+     "end": 15,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 16,
+     "end": 19,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "make",
+     "norm": "make",
+     "start": 20,
+     "end": 24,
+     "numeric": false,
+     "lemma": "make",
+     "rank": 87,
+     "zipf": 6.08,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 25,
+     "end": 28,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "know",
+     "norm": "know",
+     "start": 29,
+     "end": 33,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 34,
+     "end": 38,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 42,
+     "end": 45,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Night",
+     "norm": "night",
+     "start": 46,
+     "end": 51,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 52,
+     "end": 54,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Decree",
+     "norm": "decree",
+     "start": 55,
+     "end": 61,
+     "numeric": false,
+     "lemma": "decree",
+     "rank": 9316,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 130,
+   "end": 189,
+   "text": "(97:3) The Night of Decree is better than a thousand months",
+   "tokens": [
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 1,
+     "end": 3,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 4,
+     "end": 5,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Night",
+     "norm": "night",
+     "start": 11,
+     "end": 16,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 17,
+     "end": 19,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Decree",
+     "norm": "decree",
+     "start": 20,
+     "end": 26,
+     "numeric": false,
+     "lemma": "decree",
+     "rank": 9316,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 27,
+     "end": 29,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "better",
+     "norm": "better",
+     "start": 30,
+     "end": 36,
+     "numeric": false,
+     "lemma": "good",
+     "rank": 78,
+     "zipf": 6.12,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 37,
+     "end": 41,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 42,
+     "end": 43,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "thousand",
+     "norm": "thousand",
+     "start": 44,
+     "end": 52,
+     "numeric": false,
+     "lemma": "thousand",
+     "rank": 2320,
+     "zipf": 4.64,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "months",
+     "norm": "months",
+     "start": 53,
+     "end": 59,
+     "numeric": false,
+     "lemma": "months",
+     "rank": 446,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 191,
+   "end": 284,
+   "text": "(97:4) The angels and the Spirit descend therein by permission of their Lord for every matter",
+   "tokens": [
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 1,
+     "end": 3,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "4",
+     "norm": "4",
+     "start": 4,
+     "end": 5,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "The",
+     "norm": "the",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "angels",
+     "norm": "angels",
+     "start": 11,
+     "end": 17,
+     "numeric": false,
+     "lemma": "angel",
+     "rank": 3277,
+     "zipf": 4.45,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 18,
+     "end": 21,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 22,
+     "end": 25,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Spirit",
+     "norm": "spirit",
+     "start": 26,
+     "end": 32,
+     "numeric": false,
+     "lemma": "spirit",
+     "rank": 1704,
+     "zipf": 4.79,
+     "band": "B2",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "descend",
+     "norm": "descend",
+     "start": 33,
+     "end": 40,
+     "numeric": false,
+     "lemma": "descend",
+     "rank": 14738,
+     "zipf": 3.51,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "therein",
+     "norm": "therein",
+     "start": 41,
+     "end": 48,
+     "numeric": false,
+     "lemma": "therein",
+     "rank": 16808,
+     "zipf": 3.42,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "by",
+     "norm": "by",
+     "start": 49,
+     "end": 51,
+     "numeric": false,
+     "lemma": "by",
+     "rank": 24,
+     "zipf": 6.66,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "permission",
+     "norm": "permission",
+     "start": 52,
+     "end": 62,
+     "numeric": false,
+     "lemma": "permission",
+     "rank": 3015,
+     "zipf": 4.5,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 63,
+     "end": 65,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "their",
+     "norm": "their",
+     "start": 66,
+     "end": 71,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Lord",
+     "norm": "lord",
+     "start": 72,
+     "end": 76,
+     "numeric": false,
+     "lemma": "lord",
+     "rank": 832,
+     "zipf": 5.1,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 77,
+     "end": 80,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "every",
+     "norm": "every",
+     "start": 81,
+     "end": 86,
+     "numeric": false,
+     "lemma": "every",
+     "rank": 158,
+     "zipf": 5.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "matter",
+     "norm": "matter",
+     "start": 87,
+     "end": 93,
+     "numeric": false,
+     "lemma": "matter",
+     "rank": 415,
+     "zipf": 5.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 286,
+   "end": 332,
+   "text": "(97:5) Peace it is until the emergence of dawn",
+   "tokens": [
+    {
+     "raw": "97",
+     "norm": "97",
+     "start": 1,
+     "end": 3,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "5",
+     "norm": "5",
+     "start": 4,
+     "end": 5,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Peace",
+     "norm": "peace",
+     "start": 7,
+     "end": 12,
+     "numeric": false,
+     "lemma": "peace",
+     "rank": 1024,
+     "zipf": 5.02,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 13,
+     "end": 15,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "until",
+     "norm": "until",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "until",
+     "rank": 223,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 25,
+     "end": 28,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "emergence",
+     "norm": "emergence",
+     "start": 29,
+     "end": 38,
+     "numeric": false,
+     "lemma": "emergence",
+     "rank": 10536,
+     "zipf": 3.74,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "dawn",
+     "norm": "dawn",
+     "start": 42,
+     "end": 46,
+     "numeric": false,
+     "lemma": "dawn",
+     "rank": 4520,
+     "zipf": 4.27,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 66,
+  "scored_tokens": 56,
+  "sentences": 5,
+  "msl": 11.2,
+  "S_long": 0.0,
+  "syn": 0.4,
+  "U_rare": 0.179,
+  "D": 0.21,
+  "C_token": 0.7321,
+  "C_lemma": 0.6579,
+  "max_unk_sent": 5,
+  "residual_per_sent_raw": {
+   "s001": 4,
+   "s002": 1,
+   "s003": 2,
+   "s004": 5,
+   "s005": 3
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "indeed": {
+   "count": 1,
+   "zipf": 4.79,
+   "band": "B2",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "send": {
+   "count": 1,
+   "zipf": 5.11,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "qur'an": {
+   "count": 1,
+   "zipf": 3.25,
+   "band": "B6",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "decree": {
+   "count": 3,
+   "zipf": 3.82,
+   "band": "B5",
+   "sents": [
+    "s001",
+    "s002",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "thousand": {
+   "count": 1,
+   "zipf": 4.64,
+   "band": "B3",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "angel": {
+   "count": 1,
+   "zipf": 4.45,
+   "band": "B4",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "descend": {
+   "count": 1,
+   "zipf": 3.51,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "therein": {
+   "count": 1,
+   "zipf": 3.42,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "permission": {
+   "count": 1,
+   "zipf": 4.5,
+   "band": "B4",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lord": {
+   "count": 1,
+   "zipf": 5.1,
+   "band": "B1",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "peace": {
+   "count": 1,
+   "zipf": 5.02,
+   "band": "B2",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "emergence": {
+   "count": 1,
+   "zipf": 3.74,
+   "band": "B6",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "dawn": {
+   "count": 1,
+   "zipf": 4.27,
+   "band": "B4",
+   "sents": [
+    "s005"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "send",
+   "lord",
+   "peace",
+   "indeed",
+   "thousand",
+   "permission",
+   "angel",
+   "dawn"
+  ],
+  "inference_targets": [
+   "decree"
+  ],
+  "gloss": [
+   "emergence",
+   "descend",
+   "therein",
+   "qur'an"
+  ],
+  "controls": {
+   "C_eff": 0.875,
+   "gloss_n": 4,
+   "gloss_cap": 5,
+   "resid_max": 2,
+   "n_infer": 1
+  },
+  "residual_per_sent": {
+   "s001": 2,
+   "s002": 1,
+   "s003": 1,
+   "s004": 2,
+   "s005": 1
+  }
+ }
+}

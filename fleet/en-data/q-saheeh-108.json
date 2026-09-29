@@ -1,0 +1,615 @@
+{
+ "text_id": "q-saheeh-108",
+ "title": "Quran The Abundance (Saheeh International)",
+ "source": {
+  "corpus": "risan/quran-json",
+  "translation": "Saheeh International",
+  "surahs": [
+   108
+  ],
+  "url": "https://raw.githubusercontent.com/risan/quran-json/main/dist/quran_en.json"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 61,
+   "text": "(108:1) Indeed, We have granted you, [O Muhammad], al-Kawthar",
+   "tokens": [
+    {
+     "raw": "108",
+     "norm": "108",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "1",
+     "norm": "1",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Indeed",
+     "norm": "indeed",
+     "start": 8,
+     "end": 14,
+     "numeric": false,
+     "lemma": "indeed",
+     "rank": 1697,
+     "zipf": 4.79,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "We",
+     "norm": "we",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "granted",
+     "norm": "granted",
+     "start": 24,
+     "end": 31,
+     "numeric": false,
+     "lemma": "grant",
+     "rank": 2157,
+     "zipf": 4.67,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "you",
+     "norm": "you",
+     "start": 32,
+     "end": 35,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "O",
+     "norm": "o",
+     "start": 38,
+     "end": 39,
+     "numeric": false,
+     "lemma": "o",
+     "rank": 790,
+     "zipf": 5.12,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "Muhammad",
+     "norm": "muhammad",
+     "start": 40,
+     "end": 48,
+     "numeric": false,
+     "lemma": "muhammad",
+     "rank": 8697,
+     "zipf": 3.87,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "al-Kawthar",
+     "norm": "al-kawthar",
+     "start": 51,
+     "end": 61,
+     "numeric": false,
+     "compound_parts": [
+      "al",
+      "kawthar"
+     ],
+     "lemma": "al-kawthar",
+     "rank": null,
+     "zipf": null,
+     "band": "R",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 63,
+   "end": 120,
+   "text": "(108:2) So pray to your Lord and sacrifice [to Him alone]",
+   "tokens": [
+    {
+     "raw": "108",
+     "norm": "108",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "2",
+     "norm": "2",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "So",
+     "norm": "so",
+     "start": 8,
+     "end": 10,
+     "numeric": false,
+     "lemma": "so",
+     "rank": 33,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "pray",
+     "norm": "pray",
+     "start": 11,
+     "end": 15,
+     "numeric": false,
+     "lemma": "pray",
+     "rank": 3648,
+     "zipf": 4.4,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "your",
+     "norm": "your",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Lord",
+     "norm": "lord",
+     "start": 24,
+     "end": 28,
+     "numeric": false,
+     "lemma": "lord",
+     "rank": 832,
+     "zipf": 5.1,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 29,
+     "end": 32,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sacrifice",
+     "norm": "sacrifice",
+     "start": 33,
+     "end": 42,
+     "numeric": false,
+     "lemma": "sacrifice",
+     "rank": 4409,
+     "zipf": 4.29,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 44,
+     "end": 46,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "Him",
+     "norm": "him",
+     "start": 47,
+     "end": 50,
+     "numeric": false,
+     "lemma": "he",
+     "rank": 22,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "alone",
+     "norm": "alone",
+     "start": 51,
+     "end": 56,
+     "numeric": false,
+     "lemma": "alone",
+     "rank": 703,
+     "zipf": 5.16,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 122,
+   "end": 167,
+   "text": "(108:3) Indeed, your enemy is the one cut off",
+   "tokens": [
+    {
+     "raw": "108",
+     "norm": "108",
+     "start": 1,
+     "end": 4,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "3",
+     "norm": "3",
+     "start": 5,
+     "end": 6,
+     "numeric": true,
+     "lemma": null,
+     "rank": null,
+     "zipf": null,
+     "band": null,
+     "known": true
+    },
+    {
+     "raw": "Indeed",
+     "norm": "indeed",
+     "start": 8,
+     "end": 14,
+     "numeric": false,
+     "lemma": "indeed",
+     "rank": 1697,
+     "zipf": 4.79,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "your",
+     "norm": "your",
+     "start": 16,
+     "end": 20,
+     "numeric": false,
+     "lemma": "you",
+     "rank": 11,
+     "zipf": 6.98,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "enemy",
+     "norm": "enemy",
+     "start": 21,
+     "end": 26,
+     "numeric": false,
+     "lemma": "enemy",
+     "rank": 2038,
+     "zipf": 4.7,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 27,
+     "end": 29,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 30,
+     "end": 33,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "one",
+     "norm": "one",
+     "start": 34,
+     "end": 37,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cut",
+     "norm": "cut",
+     "start": 38,
+     "end": 41,
+     "numeric": false,
+     "lemma": "cut",
+     "rank": 569,
+     "zipf": 5.24,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "off",
+     "norm": "off",
+     "start": 42,
+     "end": 45,
+     "numeric": false,
+     "lemma": "off",
+     "rank": 124,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 32,
+  "scored_tokens": 26,
+  "sentences": 3,
+  "msl": 8.67,
+  "S_long": 0.0,
+  "syn": 0.0,
+  "U_rare": 0.154,
+  "D": 0.262,
+  "C_token": 0.5385,
+  "C_lemma": 0.5,
+  "max_unk_sent": 5,
+  "residual_per_sent_raw": {
+   "s001": 5,
+   "s002": 4,
+   "s003": 3
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "indeed": {
+   "count": 2,
+   "zipf": 4.79,
+   "band": "B2",
+   "sents": [
+    "s001",
+    "s003"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "grant": {
+   "count": 1,
+   "zipf": 4.67,
+   "band": "B3",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "o": {
+   "count": 1,
+   "zipf": 5.12,
+   "band": "B1",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "muhammad": {
+   "count": 1,
+   "zipf": 3.87,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "al-kawthar": {
+   "count": 1,
+   "zipf": null,
+   "band": "R",
+   "sents": [
+    "s001"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "pray": {
+   "count": 1,
+   "zipf": 4.4,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "lord": {
+   "count": 1,
+   "zipf": 5.1,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "sacrifice": {
+   "count": 1,
+   "zipf": 4.29,
+   "band": "B4",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "alone": {
+   "count": 1,
+   "zipf": 5.16,
+   "band": "B1",
+   "sents": [
+    "s002"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "enemy": {
+   "count": 1,
+   "zipf": 4.7,
+   "band": "B3",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cut": {
+   "count": 1,
+   "zipf": 5.24,
+   "band": "B1",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "cut",
+   "alone",
+   "o",
+   "lord",
+   "enemy",
+   "grant",
+   "pray",
+   "sacrifice"
+  ],
+  "inference_targets": [
+   "indeed"
+  ],
+  "gloss": [
+   "muhammad",
+   "al-kawthar"
+  ],
+  "controls": {
+   "C_eff": 0.8462,
+   "gloss_n": 2,
+   "gloss_cap": 5,
+   "resid_max": 3,
+   "n_infer": 1
+  },
+  "residual_per_sent": {
+   "s001": 3,
+   "s003": 1
+  }
+ }
+}

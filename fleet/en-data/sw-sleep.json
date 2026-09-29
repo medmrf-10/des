@@ -1,0 +1,3034 @@
+{
+ "text_id": "sw-sleep",
+ "title": "Simple English Wikipedia — Sleep (lead)",
+ "source": {
+  "corpus": "Simple English Wikipedia",
+  "article": "Sleep",
+  "url": "https://simple.wikipedia.org/wiki/Sleep",
+  "license": "CC BY-SA 4.0"
+ },
+ "sentences": [
+  {
+   "id": "s001",
+   "start": 0,
+   "end": 50,
+   "text": "Sleep (also called napping) is a state of resting.",
+   "tokens": [
+    {
+     "raw": "Sleep",
+     "norm": "sleep",
+     "start": 0,
+     "end": 5,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "also",
+     "norm": "also",
+     "start": 7,
+     "end": 11,
+     "numeric": false,
+     "lemma": "also",
+     "rank": 70,
+     "zipf": 6.19,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "called",
+     "norm": "called",
+     "start": 12,
+     "end": 18,
+     "numeric": false,
+     "lemma": "called",
+     "rank": 231,
+     "zipf": 5.59,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "napping",
+     "norm": "napping",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "nap",
+     "rank": 9369,
+     "zipf": 3.82,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 28,
+     "end": 30,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 31,
+     "end": 32,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "state",
+     "norm": "state",
+     "start": 33,
+     "end": 38,
+     "numeric": false,
+     "lemma": "state",
+     "rank": 163,
+     "zipf": 5.78,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 39,
+     "end": 41,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "resting",
+     "norm": "resting",
+     "start": 42,
+     "end": 49,
+     "numeric": false,
+     "lemma": "rest",
+     "rank": 594,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "start": 51,
+   "end": 96,
+   "text": "It happens in most animals, including humans.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "happens",
+     "norm": "happens",
+     "start": 3,
+     "end": 10,
+     "numeric": false,
+     "lemma": "happen",
+     "rank": 654,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 11,
+     "end": 13,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "most",
+     "norm": "most",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "including",
+     "norm": "including",
+     "start": 28,
+     "end": 37,
+     "numeric": false,
+     "lemma": "including",
+     "rank": 278,
+     "zipf": 5.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "humans",
+     "norm": "humans",
+     "start": 38,
+     "end": 44,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "start": 97,
+   "end": 127,
+   "text": "To sleep is to be unconscious.",
+   "tokens": [
+    {
+     "raw": "To",
+     "norm": "to",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 9,
+     "end": 11,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 12,
+     "end": 14,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "be",
+     "norm": "be",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "unconscious",
+     "norm": "unconscious",
+     "start": 18,
+     "end": 29,
+     "numeric": false,
+     "lemma": "unconscious",
+     "rank": 7866,
+     "zipf": 3.94,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "start": 129,
+   "end": 283,
+   "text": "During deep sleep, most of the muscles that animals can control are not active, but resting to regain the energy they need for the next time they wake up.",
+   "tokens": [
+    {
+     "raw": "During",
+     "norm": "during",
+     "start": 0,
+     "end": 6,
+     "numeric": false,
+     "lemma": "during",
+     "rank": 181,
+     "zipf": 5.72,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "deep",
+     "norm": "deep",
+     "start": 7,
+     "end": 11,
+     "numeric": false,
+     "lemma": "deep",
+     "rank": 945,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 12,
+     "end": 17,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "most",
+     "norm": "most",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "of",
+     "norm": "of",
+     "start": 24,
+     "end": 26,
+     "numeric": false,
+     "lemma": "of",
+     "rank": 4,
+     "zipf": 7.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 27,
+     "end": 30,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "muscles",
+     "norm": "muscles",
+     "start": 31,
+     "end": 38,
+     "numeric": false,
+     "lemma": "muscle",
+     "rank": 3379,
+     "zipf": 4.44,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 39,
+     "end": 43,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 44,
+     "end": 51,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "can",
+     "norm": "can",
+     "start": 52,
+     "end": 55,
+     "numeric": false,
+     "lemma": "can",
+     "rank": 39,
+     "zipf": 6.46,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "control",
+     "norm": "control",
+     "start": 56,
+     "end": 63,
+     "numeric": false,
+     "lemma": "control",
+     "rank": 384,
+     "zipf": 5.4,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "are",
+     "norm": "are",
+     "start": 64,
+     "end": 67,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 68,
+     "end": 71,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "active",
+     "norm": "active",
+     "start": 72,
+     "end": 78,
+     "numeric": false,
+     "lemma": "active",
+     "rank": 1239,
+     "zipf": 4.93,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "but",
+     "norm": "but",
+     "start": 80,
+     "end": 83,
+     "numeric": false,
+     "lemma": "but",
+     "rank": 25,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "resting",
+     "norm": "resting",
+     "start": 84,
+     "end": 91,
+     "numeric": false,
+     "lemma": "rest",
+     "rank": 594,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 92,
+     "end": 94,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "regain",
+     "norm": "regain",
+     "start": 95,
+     "end": 101,
+     "numeric": false,
+     "lemma": "regain",
+     "rank": 10751,
+     "zipf": 3.73,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 102,
+     "end": 105,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "energy",
+     "norm": "energy",
+     "start": 106,
+     "end": 112,
+     "numeric": false,
+     "lemma": "energy",
+     "rank": 584,
+     "zipf": 5.23,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 113,
+     "end": 117,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "need",
+     "norm": "need",
+     "start": 118,
+     "end": 122,
+     "numeric": false,
+     "lemma": "need",
+     "rank": 112,
+     "zipf": 5.97,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 123,
+     "end": 126,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "the",
+     "norm": "the",
+     "start": 127,
+     "end": 130,
+     "numeric": false,
+     "lemma": "the",
+     "rank": 1,
+     "zipf": 7.73,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "next",
+     "norm": "next",
+     "start": 131,
+     "end": 135,
+     "numeric": false,
+     "lemma": "next",
+     "rank": 190,
+     "zipf": 5.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "time",
+     "norm": "time",
+     "start": 136,
+     "end": 140,
+     "numeric": false,
+     "lemma": "time",
+     "rank": 60,
+     "zipf": 6.29,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "they",
+     "norm": "they",
+     "start": 141,
+     "end": 145,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "wake",
+     "norm": "wake",
+     "start": 146,
+     "end": 150,
+     "numeric": false,
+     "lemma": "wake",
+     "rank": 1807,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 151,
+     "end": 153,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "start": 284,
+   "end": 346,
+   "text": "When asleep, humans cannot tell what is happening around them.",
+   "tokens": [
+    {
+     "raw": "When",
+     "norm": "when",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "when",
+     "rank": 48,
+     "zipf": 6.37,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "asleep",
+     "norm": "asleep",
+     "start": 5,
+     "end": 11,
+     "numeric": false,
+     "lemma": "asleep",
+     "rank": 3860,
+     "zipf": 4.36,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "humans",
+     "norm": "humans",
+     "start": 13,
+     "end": 19,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cannot",
+     "norm": "cannot",
+     "start": 20,
+     "end": 26,
+     "numeric": false,
+     "lemma": "cannot",
+     "rank": 802,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "tell",
+     "norm": "tell",
+     "start": 27,
+     "end": 31,
+     "numeric": false,
+     "lemma": "tell",
+     "rank": 277,
+     "zipf": 5.53,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "what",
+     "norm": "what",
+     "start": 32,
+     "end": 36,
+     "numeric": false,
+     "lemma": "what",
+     "rank": 46,
+     "zipf": 6.38,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 37,
+     "end": 39,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "happening",
+     "norm": "happening",
+     "start": 40,
+     "end": 49,
+     "numeric": false,
+     "lemma": "happen",
+     "rank": 654,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "around",
+     "norm": "around",
+     "start": 50,
+     "end": 56,
+     "numeric": false,
+     "lemma": "around",
+     "rank": 165,
+     "zipf": 5.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "them",
+     "norm": "them",
+     "start": 57,
+     "end": 61,
+     "numeric": false,
+     "lemma": "they",
+     "rank": 35,
+     "zipf": 6.5,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "start": 347,
+   "end": 418,
+   "text": "Like most animals, healthy sleep in humans most often happens at night.",
+   "tokens": [
+    {
+     "raw": "Like",
+     "norm": "like",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "like",
+     "rank": 42,
+     "zipf": 6.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "most",
+     "norm": "most",
+     "start": 5,
+     "end": 9,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 10,
+     "end": 17,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "healthy",
+     "norm": "healthy",
+     "start": 19,
+     "end": 26,
+     "numeric": false,
+     "lemma": "healthy",
+     "rank": 1662,
+     "zipf": 4.8,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 27,
+     "end": 32,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 33,
+     "end": 35,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "humans",
+     "norm": "humans",
+     "start": 36,
+     "end": 42,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "most",
+     "norm": "most",
+     "start": 43,
+     "end": 47,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "often",
+     "norm": "often",
+     "start": 48,
+     "end": 53,
+     "numeric": false,
+     "lemma": "often",
+     "rank": 379,
+     "zipf": 5.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "happens",
+     "norm": "happens",
+     "start": 54,
+     "end": 61,
+     "numeric": false,
+     "lemma": "happen",
+     "rank": 654,
+     "zipf": 5.19,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "at",
+     "norm": "at",
+     "start": 62,
+     "end": 64,
+     "numeric": false,
+     "lemma": "at",
+     "rank": 21,
+     "zipf": 6.7,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "night",
+     "norm": "night",
+     "start": 65,
+     "end": 70,
+     "numeric": false,
+     "lemma": "night",
+     "rank": 221,
+     "zipf": 5.61,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "start": 420,
+   "end": 492,
+   "text": "When something is asleep, it cannot react like it would if it was awake.",
+   "tokens": [
+    {
+     "raw": "When",
+     "norm": "when",
+     "start": 0,
+     "end": 4,
+     "numeric": false,
+     "lemma": "when",
+     "rank": 48,
+     "zipf": 6.37,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "something",
+     "norm": "something",
+     "start": 5,
+     "end": 14,
+     "numeric": false,
+     "lemma": "something",
+     "rank": 152,
+     "zipf": 5.81,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 15,
+     "end": 17,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "asleep",
+     "norm": "asleep",
+     "start": 18,
+     "end": 24,
+     "numeric": false,
+     "lemma": "asleep",
+     "rank": 3860,
+     "zipf": 4.36,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 26,
+     "end": 28,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "cannot",
+     "norm": "cannot",
+     "start": 29,
+     "end": 35,
+     "numeric": false,
+     "lemma": "cannot",
+     "rank": 802,
+     "zipf": 5.11,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "react",
+     "norm": "react",
+     "start": 36,
+     "end": 41,
+     "numeric": false,
+     "lemma": "react",
+     "rank": 5538,
+     "zipf": 4.16,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "like",
+     "norm": "like",
+     "start": 42,
+     "end": 46,
+     "numeric": false,
+     "lemma": "like",
+     "rank": 42,
+     "zipf": 6.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 47,
+     "end": 49,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "would",
+     "norm": "would",
+     "start": 50,
+     "end": 55,
+     "numeric": false,
+     "lemma": "would",
+     "rank": 63,
+     "zipf": 6.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "if",
+     "norm": "if",
+     "start": 56,
+     "end": 58,
+     "numeric": false,
+     "lemma": "if",
+     "rank": 37,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "it",
+     "norm": "it",
+     "start": 59,
+     "end": 61,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "was",
+     "norm": "was",
+     "start": 62,
+     "end": 65,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "awake",
+     "norm": "awake",
+     "start": 66,
+     "end": 71,
+     "numeric": false,
+     "lemma": "awake",
+     "rank": 5658,
+     "zipf": 4.14,
+     "band": "B5",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "start": 493,
+   "end": 575,
+   "text": "However, waking up from sleep is easier than waking up from hibernation or a coma.",
+   "tokens": [
+    {
+     "raw": "However",
+     "norm": "however",
+     "start": 0,
+     "end": 7,
+     "numeric": false,
+     "lemma": "however",
+     "rank": 237,
+     "zipf": 5.58,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "waking",
+     "norm": "waking",
+     "start": 9,
+     "end": 15,
+     "numeric": false,
+     "lemma": "wake",
+     "rank": 1807,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 16,
+     "end": 18,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 24,
+     "end": 29,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 30,
+     "end": 32,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "easier",
+     "norm": "easier",
+     "start": 33,
+     "end": 39,
+     "numeric": false,
+     "lemma": "easier",
+     "rank": 1790,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "than",
+     "norm": "than",
+     "start": 40,
+     "end": 44,
+     "numeric": false,
+     "lemma": "than",
+     "rank": 77,
+     "zipf": 6.13,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "waking",
+     "norm": "waking",
+     "start": 45,
+     "end": 51,
+     "numeric": false,
+     "lemma": "wake",
+     "rank": 1807,
+     "zipf": 4.76,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "up",
+     "norm": "up",
+     "start": 52,
+     "end": 54,
+     "numeric": false,
+     "lemma": "up",
+     "rank": 44,
+     "zipf": 6.39,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 55,
+     "end": 59,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "hibernation",
+     "norm": "hibernation",
+     "start": 60,
+     "end": 71,
+     "numeric": false,
+     "lemma": "hibernation",
+     "rank": 28580,
+     "zipf": 3.01,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "or",
+     "norm": "or",
+     "start": 72,
+     "end": 74,
+     "numeric": false,
+     "lemma": "or",
+     "rank": 28,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 75,
+     "end": 76,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "coma",
+     "norm": "coma",
+     "start": 77,
+     "end": 81,
+     "numeric": false,
+     "lemma": "coma",
+     "rank": 10514,
+     "zipf": 3.74,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "start": 576,
+   "end": 664,
+   "text": "All mammals and birds, as well as many reptiles, amphibians and fish have a sleep cycle.",
+   "tokens": [
+    {
+     "raw": "All",
+     "norm": "all",
+     "start": 0,
+     "end": 3,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "mammals",
+     "norm": "mammals",
+     "start": 4,
+     "end": 11,
+     "numeric": false,
+     "lemma": "mammals",
+     "rank": 11246,
+     "zipf": 3.7,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 12,
+     "end": 15,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "birds",
+     "norm": "birds",
+     "start": 16,
+     "end": 21,
+     "numeric": false,
+     "lemma": "bird",
+     "rank": 2329,
+     "zipf": 4.63,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 23,
+     "end": 25,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "well",
+     "norm": "well",
+     "start": 26,
+     "end": 30,
+     "numeric": false,
+     "lemma": "well",
+     "rank": 99,
+     "zipf": 6.03,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "as",
+     "norm": "as",
+     "start": 31,
+     "end": 33,
+     "numeric": false,
+     "lemma": "as",
+     "rank": 18,
+     "zipf": 6.77,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "many",
+     "norm": "many",
+     "start": 34,
+     "end": 38,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "reptiles",
+     "norm": "reptiles",
+     "start": 39,
+     "end": 47,
+     "numeric": false,
+     "lemma": "reptiles",
+     "rank": 18177,
+     "zipf": 3.36,
+     "band": "B6",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "amphibians",
+     "norm": "amphibians",
+     "start": 49,
+     "end": 59,
+     "numeric": false,
+     "lemma": "amphibians",
+     "rank": 31058,
+     "zipf": 2.94,
+     "band": "R",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 60,
+     "end": 63,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "fish",
+     "norm": "fish",
+     "start": 64,
+     "end": 68,
+     "numeric": false,
+     "lemma": "fish",
+     "rank": 1339,
+     "zipf": 4.9,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 69,
+     "end": 73,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "a",
+     "norm": "a",
+     "start": 74,
+     "end": 75,
+     "numeric": false,
+     "lemma": "a",
+     "rank": 5,
+     "zipf": 7.36,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 76,
+     "end": 81,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "cycle",
+     "norm": "cycle",
+     "start": 82,
+     "end": 87,
+     "numeric": false,
+     "lemma": "cycle",
+     "rank": 2477,
+     "zipf": 4.6,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "start": 665,
+   "end": 739,
+   "text": "In humans and many other animals, regular sleep is essential for survival.",
+   "tokens": [
+    {
+     "raw": "In",
+     "norm": "in",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "humans",
+     "norm": "humans",
+     "start": 3,
+     "end": 9,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 10,
+     "end": 13,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "many",
+     "norm": "many",
+     "start": 14,
+     "end": 18,
+     "numeric": false,
+     "lemma": "many",
+     "rank": 131,
+     "zipf": 5.91,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "other",
+     "norm": "other",
+     "start": 19,
+     "end": 24,
+     "numeric": false,
+     "lemma": "other",
+     "rank": 73,
+     "zipf": 6.16,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 25,
+     "end": 32,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "regular",
+     "norm": "regular",
+     "start": 34,
+     "end": 41,
+     "numeric": false,
+     "lemma": "regular",
+     "rank": 1205,
+     "zipf": 4.95,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 42,
+     "end": 47,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 48,
+     "end": 50,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "essential",
+     "norm": "essential",
+     "start": 51,
+     "end": 60,
+     "numeric": false,
+     "lemma": "essential",
+     "rank": 2440,
+     "zipf": 4.61,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "for",
+     "norm": "for",
+     "start": 61,
+     "end": 64,
+     "numeric": false,
+     "lemma": "for",
+     "rank": 9,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "survival",
+     "norm": "survival",
+     "start": 65,
+     "end": 73,
+     "numeric": false,
+     "lemma": "survival",
+     "rank": 3851,
+     "zipf": 4.37,
+     "band": "B4",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "start": 741,
+   "end": 798,
+   "text": "It seems that all animals with complex brains have sleep.",
+   "tokens": [
+    {
+     "raw": "It",
+     "norm": "it",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "it",
+     "rank": 12,
+     "zipf": 6.95,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "seems",
+     "norm": "seems",
+     "start": 3,
+     "end": 8,
+     "numeric": false,
+     "lemma": "seems",
+     "rank": 578,
+     "zipf": 5.24,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 9,
+     "end": 13,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "all",
+     "norm": "all",
+     "start": 14,
+     "end": 17,
+     "numeric": false,
+     "lemma": "all",
+     "rank": 32,
+     "zipf": 6.52,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 18,
+     "end": 25,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "with",
+     "norm": "with",
+     "start": 26,
+     "end": 30,
+     "numeric": false,
+     "lemma": "with",
+     "rank": 14,
+     "zipf": 6.85,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "complex",
+     "norm": "complex",
+     "start": 31,
+     "end": 38,
+     "numeric": false,
+     "lemma": "complex",
+     "rank": 1449,
+     "zipf": 4.86,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "brains",
+     "norm": "brains",
+     "start": 39,
+     "end": 45,
+     "numeric": false,
+     "lemma": "brain",
+     "rank": 1215,
+     "zipf": 4.94,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "have",
+     "norm": "have",
+     "start": 46,
+     "end": 50,
+     "numeric": false,
+     "lemma": "have",
+     "rank": 20,
+     "zipf": 6.71,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 51,
+     "end": 56,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    }
+   ]
+  },
+  {
+   "id": "s012",
+   "start": 799,
+   "end": 872,
+   "text": "We know that sleep is extremely important to human health and well-being.",
+   "tokens": [
+    {
+     "raw": "We",
+     "norm": "we",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "know",
+     "norm": "know",
+     "start": 3,
+     "end": 7,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "that",
+     "norm": "that",
+     "start": 8,
+     "end": 12,
+     "numeric": false,
+     "lemma": "that",
+     "rank": 10,
+     "zipf": 7.01,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 13,
+     "end": 18,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 19,
+     "end": 21,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "extremely",
+     "norm": "extremely",
+     "start": 22,
+     "end": 31,
+     "numeric": false,
+     "lemma": "extremely",
+     "rank": 1692,
+     "zipf": 4.79,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "important",
+     "norm": "important",
+     "start": 32,
+     "end": 41,
+     "numeric": false,
+     "lemma": "important",
+     "rank": 347,
+     "zipf": 5.44,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 42,
+     "end": 44,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "human",
+     "norm": "human",
+     "start": 45,
+     "end": 50,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "health",
+     "norm": "health",
+     "start": 51,
+     "end": 57,
+     "numeric": false,
+     "lemma": "health",
+     "rank": 345,
+     "zipf": 5.44,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 58,
+     "end": 61,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "well-being",
+     "norm": "well-being",
+     "start": 62,
+     "end": 72,
+     "numeric": false,
+     "compound_parts": [
+      "well",
+      "be"
+     ],
+     "lemma": "well-be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s013",
+   "start": 873,
+   "end": 934,
+   "text": "Humans and animals need sleep but we do not know exactly why.",
+   "tokens": [
+    {
+     "raw": "Humans",
+     "norm": "humans",
+     "start": 0,
+     "end": 6,
+     "numeric": false,
+     "lemma": "human",
+     "rank": 444,
+     "zipf": 5.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "and",
+     "norm": "and",
+     "start": 7,
+     "end": 10,
+     "numeric": false,
+     "lemma": "and",
+     "rank": 3,
+     "zipf": 7.41,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "animals",
+     "norm": "animals",
+     "start": 11,
+     "end": 18,
+     "numeric": false,
+     "lemma": "animals",
+     "rank": 1517,
+     "zipf": 4.84,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "need",
+     "norm": "need",
+     "start": 19,
+     "end": 23,
+     "numeric": false,
+     "lemma": "need",
+     "rank": 112,
+     "zipf": 5.97,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 24,
+     "end": 29,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "but",
+     "norm": "but",
+     "start": 30,
+     "end": 33,
+     "numeric": false,
+     "lemma": "but",
+     "rank": 25,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "we",
+     "norm": "we",
+     "start": 34,
+     "end": 36,
+     "numeric": false,
+     "lemma": "we",
+     "rank": 29,
+     "zipf": 6.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "do",
+     "norm": "do",
+     "start": 37,
+     "end": 39,
+     "numeric": false,
+     "lemma": "do",
+     "rank": 50,
+     "zipf": 6.35,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 40,
+     "end": 43,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "know",
+     "norm": "know",
+     "start": 44,
+     "end": 48,
+     "numeric": false,
+     "lemma": "know",
+     "rank": 84,
+     "zipf": 6.1,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "exactly",
+     "norm": "exactly",
+     "start": 49,
+     "end": 56,
+     "numeric": false,
+     "lemma": "exactly",
+     "rank": 733,
+     "zipf": 5.15,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "why",
+     "norm": "why",
+     "start": 57,
+     "end": 60,
+     "numeric": false,
+     "lemma": "why",
+     "rank": 125,
+     "zipf": 5.93,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    }
+   ]
+  },
+  {
+   "id": "s014",
+   "start": 935,
+   "end": 1047,
+   "text": "If one is tired (from not getting enough sleep), one will not be able to function properly in common activities.",
+   "tokens": [
+    {
+     "raw": "If",
+     "norm": "if",
+     "start": 0,
+     "end": 2,
+     "numeric": false,
+     "lemma": "if",
+     "rank": 37,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "one",
+     "norm": "one",
+     "start": 3,
+     "end": 6,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "is",
+     "norm": "is",
+     "start": 7,
+     "end": 9,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "tired",
+     "norm": "tired",
+     "start": 10,
+     "end": 15,
+     "numeric": false,
+     "lemma": "tired",
+     "rank": 2021,
+     "zipf": 4.71,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "from",
+     "norm": "from",
+     "start": 17,
+     "end": 21,
+     "numeric": false,
+     "lemma": "from",
+     "rank": 26,
+     "zipf": 6.63,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 22,
+     "end": 25,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "getting",
+     "norm": "getting",
+     "start": 26,
+     "end": 33,
+     "numeric": false,
+     "lemma": "get",
+     "rank": 61,
+     "zipf": 6.28,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "enough",
+     "norm": "enough",
+     "start": 34,
+     "end": 40,
+     "numeric": false,
+     "lemma": "enough",
+     "rank": 260,
+     "zipf": 5.54,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "sleep",
+     "norm": "sleep",
+     "start": 41,
+     "end": 46,
+     "numeric": false,
+     "lemma": "sleep",
+     "rank": 957,
+     "zipf": 5.05,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "one",
+     "norm": "one",
+     "start": 49,
+     "end": 52,
+     "numeric": false,
+     "lemma": "one",
+     "rank": 38,
+     "zipf": 6.47,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "will",
+     "norm": "will",
+     "start": 53,
+     "end": 57,
+     "numeric": false,
+     "lemma": "will",
+     "rank": 40,
+     "zipf": 6.45,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "not",
+     "norm": "not",
+     "start": 58,
+     "end": 61,
+     "numeric": false,
+     "lemma": "not",
+     "rank": 23,
+     "zipf": 6.69,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "be",
+     "norm": "be",
+     "start": 62,
+     "end": 64,
+     "numeric": false,
+     "lemma": "be",
+     "rank": 17,
+     "zipf": 6.79,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "able",
+     "norm": "able",
+     "start": 65,
+     "end": 69,
+     "numeric": false,
+     "lemma": "able",
+     "rank": 352,
+     "zipf": 5.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "to",
+     "norm": "to",
+     "start": 70,
+     "end": 72,
+     "numeric": false,
+     "lemma": "to",
+     "rank": 2,
+     "zipf": 7.43,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "function",
+     "norm": "function",
+     "start": 73,
+     "end": 81,
+     "numeric": false,
+     "lemma": "function",
+     "rank": 1720,
+     "zipf": 4.78,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "properly",
+     "norm": "properly",
+     "start": 82,
+     "end": 90,
+     "numeric": false,
+     "lemma": "properly",
+     "rank": 2307,
+     "zipf": 4.64,
+     "band": "B3",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "in",
+     "norm": "in",
+     "start": 91,
+     "end": 93,
+     "numeric": false,
+     "lemma": "in",
+     "rank": 6,
+     "zipf": 7.27,
+     "band": "B1",
+     "proper": false,
+     "known": true
+    },
+    {
+     "raw": "common",
+     "norm": "common",
+     "start": 94,
+     "end": 100,
+     "numeric": false,
+     "lemma": "common",
+     "rank": 631,
+     "zipf": 5.2,
+     "band": "B1",
+     "proper": false,
+     "known": false
+    },
+    {
+     "raw": "activities",
+     "norm": "activities",
+     "start": 101,
+     "end": 111,
+     "numeric": false,
+     "lemma": "activities",
+     "rank": 1290,
+     "zipf": 4.91,
+     "band": "B2",
+     "proper": false,
+     "known": false
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "tokens": 184,
+  "scored_tokens": 184,
+  "sentences": 14,
+  "msl": 13.14,
+  "S_long": 0.071,
+  "syn": 0.571,
+  "U_rare": 0.076,
+  "D": 0.249,
+  "C_token": 0.6685,
+  "C_lemma": 0.602,
+  "max_unk_sent": 9,
+  "residual_per_sent_raw": {
+   "s001": 3,
+   "s002": 2,
+   "s003": 2,
+   "s004": 9,
+   "s005": 3,
+   "s006": 4,
+   "s007": 4,
+   "s008": 6,
+   "s009": 7,
+   "s010": 5,
+   "s011": 5,
+   "s012": 2,
+   "s013": 3,
+   "s014": 6
+  },
+  "verdict_raw": "out",
+  "verdict": "out"
+ },
+ "unknowns": {
+  "sleep": {
+   "count": 11,
+   "zipf": 5.05,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s003",
+    "s004",
+    "s006",
+    "s008",
+    "s009",
+    "s010",
+    "s011",
+    "s012",
+    "s013",
+    "s014"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "nap": {
+   "count": 1,
+   "zipf": 3.82,
+   "band": "B5",
+   "sents": [
+    "s001"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "rest": {
+   "count": 2,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s001",
+    "s004"
+   ],
+   "def": true,
+   "inferable": true
+  },
+  "happen": {
+   "count": 3,
+   "zipf": 5.19,
+   "band": "B1",
+   "sents": [
+    "s002",
+    "s005",
+    "s006"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "animals": {
+   "count": 6,
+   "zipf": 4.84,
+   "band": "B2",
+   "sents": [
+    "s002",
+    "s004",
+    "s006",
+    "s010",
+    "s011",
+    "s013"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "unconscious": {
+   "count": 1,
+   "zipf": 3.94,
+   "band": "B5",
+   "sents": [
+    "s003"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "deep": {
+   "count": 1,
+   "zipf": 5.05,
+   "band": "B1",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "muscle": {
+   "count": 1,
+   "zipf": 4.44,
+   "band": "B4",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "active": {
+   "count": 1,
+   "zipf": 4.93,
+   "band": "B2",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "regain": {
+   "count": 1,
+   "zipf": 3.73,
+   "band": "B6",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "energy": {
+   "count": 1,
+   "zipf": 5.23,
+   "band": "B1",
+   "sents": [
+    "s004"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "wake": {
+   "count": 3,
+   "zipf": 4.76,
+   "band": "B2",
+   "sents": [
+    "s004",
+    "s008"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "asleep": {
+   "count": 2,
+   "zipf": 4.36,
+   "band": "B4",
+   "sents": [
+    "s005",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "cannot": {
+   "count": 2,
+   "zipf": 5.11,
+   "band": "B1",
+   "sents": [
+    "s005",
+    "s007"
+   ],
+   "def": false,
+   "inferable": true
+  },
+  "healthy": {
+   "count": 1,
+   "zipf": 4.8,
+   "band": "B2",
+   "sents": [
+    "s006"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "react": {
+   "count": 1,
+   "zipf": 4.16,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "awake": {
+   "count": 1,
+   "zipf": 4.14,
+   "band": "B5",
+   "sents": [
+    "s007"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "easier": {
+   "count": 1,
+   "zipf": 4.76,
+   "band": "B2",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "hibernation": {
+   "count": 1,
+   "zipf": 3.01,
+   "band": "B6",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "coma": {
+   "count": 1,
+   "zipf": 3.74,
+   "band": "B6",
+   "sents": [
+    "s008"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "mammals": {
+   "count": 1,
+   "zipf": 3.7,
+   "band": "B6",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "bird": {
+   "count": 1,
+   "zipf": 4.63,
+   "band": "B3",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "reptiles": {
+   "count": 1,
+   "zipf": 3.36,
+   "band": "B6",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "amphibians": {
+   "count": 1,
+   "zipf": 2.94,
+   "band": "R",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "fish": {
+   "count": 1,
+   "zipf": 4.9,
+   "band": "B2",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "cycle": {
+   "count": 1,
+   "zipf": 4.6,
+   "band": "B3",
+   "sents": [
+    "s009"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "regular": {
+   "count": 1,
+   "zipf": 4.95,
+   "band": "B2",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "essential": {
+   "count": 1,
+   "zipf": 4.61,
+   "band": "B3",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "survival": {
+   "count": 1,
+   "zipf": 4.37,
+   "band": "B4",
+   "sents": [
+    "s010"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "seems": {
+   "count": 1,
+   "zipf": 5.24,
+   "band": "B1",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "complex": {
+   "count": 1,
+   "zipf": 4.86,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "brain": {
+   "count": 1,
+   "zipf": 4.94,
+   "band": "B2",
+   "sents": [
+    "s011"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "extremely": {
+   "count": 1,
+   "zipf": 4.79,
+   "band": "B2",
+   "sents": [
+    "s012"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "exactly": {
+   "count": 1,
+   "zipf": 5.15,
+   "band": "B1",
+   "sents": [
+    "s013"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "tired": {
+   "count": 1,
+   "zipf": 4.71,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "function": {
+   "count": 1,
+   "zipf": 4.78,
+   "band": "B2",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "properly": {
+   "count": 1,
+   "zipf": 4.64,
+   "band": "B3",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "common": {
+   "count": 1,
+   "zipf": 5.2,
+   "band": "B1",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  },
+  "activities": {
+   "count": 1,
+   "zipf": 4.91,
+   "band": "B2",
+   "sents": [
+    "s014"
+   ],
+   "def": false,
+   "inferable": false
+  }
+ },
+ "plan": {
+  "preteach": [
+   "seems",
+   "energy",
+   "common",
+   "exactly",
+   "deep",
+   "regular",
+   "brain",
+   "active"
+  ],
+  "inference_targets": [
+   "rest",
+   "happen",
+   "cannot",
+   "sleep",
+   "animals",
+   "wake",
+   "asleep",
+   "nap"
+  ],
+  "gloss": [
+   "activities",
+   "fish",
+   "complex",
+   "healthy",
+   "extremely",
+   "function",
+   "easier",
+   "tired",
+   "properly",
+   "bird",
+   "essential",
+   "cycle",
+   "muscle",
+   "survival",
+   "react",
+   "awake",
+   "unconscious",
+   "coma",
+   "regain",
+   "mammals",
+   "reptiles",
+   "hibernation",
+   "amphibians"
+  ],
+  "controls": {
+   "C_eff": 0.712,
+   "gloss_n": 23,
+   "gloss_cap": 5,
+   "resid_max": 7,
+   "n_infer": 8
+  },
+  "residual_per_sent": {
+   "s001": 3,
+   "s002": 2,
+   "s003": 2,
+   "s004": 6,
+   "s005": 3,
+   "s006": 4,
+   "s007": 4,
+   "s008": 6,
+   "s009": 7,
+   "s010": 4,
+   "s011": 3,
+   "s012": 2,
+   "s013": 2,
+   "s014": 5
+  }
+ }
+}

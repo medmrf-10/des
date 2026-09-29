@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تفسير بالطلب</title>
+<style>
+  :root { --gold:#c9a227; --ink:#17203a; --bg:#f7f5ef; }
+  * { box-sizing: border-box; }
+  body { font-family: "Amiri", "Traditional Arabic", serif; background: var(--bg); color: var(--ink); margin:0; }
+  header { background: var(--ink); color:#fff; padding:18px 24px; display:flex; align-items:center; gap:12px; }
+  header .logo { width:36px;height:36px;border-radius:8px;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-weight:700;font-size:20px; }
+  header h1 { font-size:20px; margin:0; font-weight:600; }
+  main { max-width: 860px; margin: 24px auto; padding: 0 16px; }
+  .card { background:#fff; border:1px solid #e5e0d0; border-radius:12px; padding:20px; margin-bottom:16px; }
+  label { display:block; font-size:13px; color:#666; margin-bottom:4px; }
+  select, input { width:100%; padding:10px; font-size:16px; border:1px solid #d8d2c0; border-radius:8px; font-family:inherit; background:#fffdf8; }
+  .row { display:grid; grid-template-columns: 2fr 1fr 1fr; gap:12px; }
+  button { margin-top:14px; width:100%; padding:12px; font-size:17px; font-family:inherit; background:var(--ink); color:#fff; border:0; border-radius:8px; cursor:pointer; }
+  button:hover { background:#24304f; }
+  #result h2 { font-size:17px; margin:0 0 4px; }
+  #result .meta { font-size:13px; color:#777; margin-bottom:12px; }
+  #result .text { font-size:19px; line-height:2.1; white-space:pre-wrap; }
+  .err { color:#a33; font-size:14px; }
+  .badge { display:inline-block; background:#fdf3d7; color:#8a6d1a; border:1px solid var(--gold); border-radius:6px; font-size:12px; padding:1px 8px; margin-inline-start:6px; }
+</style>
+</head>
+<body>
+<header><div class="logo">ت</div><h1>تفسير بالطلب — مرحلة ١</h1></header>
+<main>
+  <div class="card">
+    <div class="row">
+      <div><label>التفسير</label><select id="edition"></select></div>
+      <div><label>السورة</label><input id="surah" type="number" min="1" max="114" value="2"></div>
+      <div><label>الآية</label><input id="ayah" type="number" min="1" value="255"></div>
+    </div>
+    <button id="go">أحضر التفسير</button>
+  </div>
+  <div class="card" id="result" hidden>
+    <h2 id="rtitle"></h2>
+    <div class="meta" id="rmeta"></div>
+    <div class="text" id="rtext"></div>
+  </div>
+</main>
+<script>
+const sel = document.getElementById('edition');
+fetch('/editions').then(r=>r.json()).then(eds=>{
+  for (const e of eds) {
+    const o=document.createElement('option');
+    o.value=e.slug; o.textContent=`${e.name} — ${e.author_name} (${Math.round(e.coverage*100)}%)`;
+    sel.appendChild(o);
+  }
+  sel.value='ar-tafsir-ibn-kathir';
+});
+document.getElementById('go').onclick=async()=>{
+  const s=+surah.value, a=+ayah.value, slug=sel.value;
+  const res=await fetch(`/tafsir/${slug}/${s}/${a}`);
+  const box=document.getElementById('result'); box.hidden=false;
+  if(!res.ok){ const e=await res.json(); document.getElementById('rtitle').textContent='خطأ'; document.getElementById('rmeta').innerHTML=`<span class="err">${e.detail||res.status}</span>`; document.getElementById('rtext').textContent=''; return; }
+  const d=await res.json();
+  document.getElementById('rtitle').textContent=`${sel.selectedOptions[0].textContent.split(' — ')[0]} — سورة ${d.surah}، آية ${d.ayah}`;
+  document.getElementById('rmeta').innerHTML=d.grouped?`مقطع مجمّع يغطي الآيات ${d.ayahs[0]}–${d.ayahs[d.ayahs.length-1]}<span class="badge">مجمّع</span>`:`الآية ${d.ayah}`;
+  document.getElementById('rtext').textContent=d.text;
+};
+</script>
+</body>
+</html>

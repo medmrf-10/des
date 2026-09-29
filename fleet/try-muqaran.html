@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مقارن التفاسير — آية عند كل المفسرين</title>
+<style>
+body{margin:0;background:#10151c;color:#e8e2d0;font-family:'Segoe UI',Tahoma,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px}
+a{color:#d4a94f}
+h1{color:#d4a94f;font-size:22px;margin:0 0 6px}
+.sub{color:#9aa4b0;font-size:13px;margin:0 0 16px}
+.card{background:#1a212b;border:1px solid #2a3442;border-radius:12px;padding:16px;margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+select,input{background:#10151c;color:#e8e2d0;border:1px solid #2a3442;border-radius:8px;padding:10px;font-size:15px}
+button{background:#d4a94f;color:#10151c;border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
+button.ghost{background:none;color:#d4a94f;border:1px solid #d4a94f}
+.ayah{font-size:20px;line-height:2.2;text-align:center;border-right:3px solid #d4a94f;padding:10px 14px;background:#141a24;border-radius:8px;margin-bottom:14px}
+.tf{background:#141a24;border:1px solid #2a3442;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.tf .h{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#d4a94f}
+.tf .h .st{color:#9aa4b0;font-size:12px}
+.tf .b{padding:0 14px 14px;font-size:16px;line-height:2;display:none;white-space:pre-wrap}
+.tf.open .b{display:block}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid #2a3442;border-top-color:#d4a94f;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← رجوع للبوابة</a>
+<h1>مقارن التفاسير</h1>
+<p class="sub">اختر آية فتقرأ أقوال كل مفسريها العرب — بيانات مكتبة وحي (٤٨ تفسيراً عربياً كاملاً من ١٠٥). اضغط اسم المفسر لتحميل قوله، أو «حمّل الكل».</p>
+<div class="card">
+<div class="row">
+<select id="sur"></select>
+<select id="ay"></select>
+<button onclick="renderAyah()">اعرض</button>
+<button class="ghost" onclick="loadAll()">حمّل الكل</button>
+</div>
+<div class="ayah" id="ayTxt"></div>
+<div id="list"></div>
+</div>
+</div>
+<script>
+const $=q=>document.querySelector(q);let QN=null,TAF=[],SIDX={},cache={};
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function jget(u,gz){const r=await fetch(u);if(!r.ok)throw 0;
+ if(gz)return JSON.parse(await new Response(new Blob([await r.arrayBuffer()]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
+ return r.json()}
+Promise.all([jget('quran-data/quran.json'),jget('../wahy/data/index.json'),jget('../wahy/data/tafsirs.json')]).then(([q,ix,taf])=>{
+ QN=q;SIDX=q.reduce((m,v,i)=>((m[v.s]=m[v.s]||[]),m[v.s].push(v),m),{});
+ TAF=taf.filter(t=>t.ar&&t.c);
+ $('#sur').innerHTML=ix.map((s,i)=>`<option value="${i+1}">${i+1}. ${s.ar}</option>`).join('');
+ $('#sur').onchange=fillAy;fillAy();
+ const h=location.hash.match(/s=(\d+)&v=(\d+)/);if(h){$('#sur').value=h[1];fillAy();$('#ay').value=h[2]}
+ renderAyah();
+});
+function fillAy(){const s=+$('#sur').value;const n=SIDX[s]?SIDX[s].length:1;
+ $('#ay').innerHTML=Array.from({length:n},(_,i)=>`<option>${i+1}</option>`).join('')}
+function renderAyah(){
+ const s=+$('#sur').value,a=+$('#ay').value||1;
+ const v=(SIDX[s]||[]).find(x=>x.a==a);
+ $('#ayTxt').textContent=v?v.t+' ﴿'+a+'﴾':'';
+ const box=$('#list');box.innerHTML='';
+ TAF.forEach(t=>{
+  const el=document.createElement('div');el.className='tf';
+  el.innerHTML='<div class="h"><span>'+esc(t.n)+'</span><span class="st">اضغط للعرض</span></div><div class="b"></div>';
+  el.querySelector('.h').onclick=()=>toggle(el,t.s,s,a);
+  box.appendChild(el);
+ });
+}
+async function toggle(el,slug,s,a){
+ el.classList.toggle('open');
+ const b=el.querySelector('.b'),st=el.querySelector('.st');
+ if(b.dataset.done)return;
+ st.innerHTML='<span class="spin"></span> يُحمَّل (ملف كبير قد يتأخر)…';
+ try{
+  if(!cache[slug])cache[slug]=await jget('../wahy/data/tafsir/'+slug+'.json.gz',1);
+  const key=cache[slug].vg[s+':'+a];
+  const g=key&&cache[slug].groups[key];
+  b.textContent=(g&&g.x&&g.x.trim())?g.x:'لا تفسير لهذه الآية في هذا المصدر';
+  st.textContent='—';b.dataset.done='1';
+ }catch(e){b.textContent='تعذّر التحميل';st.textContent=''}
+}
+async function loadAll(){for(const el of document.querySelectorAll('.tf')){if(!el.classList.contains('open')){el.classList.add('open');const h=el.querySelector('.h');if(!el.querySelector('.b').dataset.done)h.click()}}}
+</script>
+</body>
+</html>

@@ -24,10 +24,16 @@ body{min-height:100dvh;padding:20px clamp(10px,3vw,30px) 60px}
 .scard .sn{font-size:.84rem;line-height:1.5}
 .scard.on .sn{color:var(--acc);font-weight:700}
 .scard .sm{display:flex;gap:8px;font-size:.64rem;color:var(--dim);margin-top:3px;flex-wrap:wrap}
-.sheikh{border-radius:10px;padding:12px 14px;cursor:pointer;margin-bottom:8px;background:var(--card2);border:1px solid var(--border)}
-.sheikh:hover{border-color:var(--acc)}
-.sheikh .shn{font-size:.95rem;font-weight:700;color:var(--acc)}
-.sheikh .shm{display:flex;gap:10px;font-size:.68rem;color:var(--dim);margin-top:6px;flex-wrap:wrap}
+.sheikh{border-radius:14px;padding:14px 16px;cursor:pointer;margin-bottom:10px;background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--border);border-inline-start:3px solid var(--acc);transition:transform .15s,box-shadow .15s,border-color .15s}
+.sheikh:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.sheikh .shn{font-size:1.02rem;font-weight:800;color:var(--acc);margin-bottom:8px}
+.sheikh .shnums{display:flex;gap:14px;margin-bottom:8px}
+.sheikh .shnums .num{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:7px 10px;font-size:.66rem;color:var(--dim);text-align:center}
+.sheikh .shnums .num b{display:inline;color:var(--txt);font-size:1.05rem;font-weight:800;font-variant-numeric:tabular-nums}
+.sheikh .shnums .num span{color:var(--dim);font-size:.8rem;font-variant-numeric:tabular-nums}
+.sheikh .shm{display:flex;gap:8px;font-size:.66rem;color:var(--dim);margin-top:8px;flex-wrap:wrap;align-items:center}
+.sheikh .pb{height:5px}
+.sheikh .pb i{background:linear-gradient(90deg,var(--acc),var(--ok))}
 .pb{height:4px;background:var(--card2);border-radius:99px;margin-top:5px;overflow:hidden}
 .pb i{display:block;height:100%;background:var(--ok);border-radius:99px}
 .kt{font-size:.6rem;border-radius:99px;padding:1px 8px;border:1px solid}
@@ -77,7 +83,8 @@ async function boot(){
   SER=await(await fetch(D+'manifest.json?v='+Date.now())).json();
   document.getElementById('stats').innerHTML=
     `<div class="stat"><b>${new Set(SER.map(s=>s.sheikh)).size}</b>شيوخ</div>`+
-    `<div class="stat"><b>${SER.filter(s=>s.done>0).reduce((a,s)=>a+s.done,0)}</b>درساً مفرّغاً</div>`+
+    `<div class="stat"><b>${SER.filter(s=>s.status==='done').length}/${SER.length}</b>سلاسل منجزة</div>`+
+    `<div class="stat"><b>${SER.reduce((a,s)=>a+s.done,0)}/${SER.reduce((a,s)=>a+(s.total||0),0)}</b>حلقات منجزة</div>`+
     ORDER.map(k=>`<div class="stat"><b>${SER.filter(s=>s.status===k).length}</b>${LABEL[k]}</div>`).join('');
   render();
   document.getElementById('q').oninput=e=>{q=e.target.value.trim();render();};
@@ -124,10 +131,12 @@ function render(){
   } else if(!curSheikh){
     const m=sheikhs();
     side.innerHTML=Object.entries(m).sort((a,b)=>b[1].done-a[1].done).map(([sh,v])=>{
-      const c={done:0,prog:0,soon:0,none:0};v.ser.forEach(s=>c[s.status]++);
-      return `<div class="sheikh" data-sh="${sh}"><div class="shn">${sh}</div><div class="shm">
-        <span class="kt done">${c.done} جاهز</span>${c.prog?`<span class="kt prog">${c.prog} جاري</span>`:''}${c.soon?`<span class="kt soon">${c.soon} قريب</span>`:''}<span class="kt none">${c.none} غير مطلوب</span>
-        <span>${v.done} درساً مفرّغاً</span></div></div>`;
+      const c={done:0,prog:0,soon:0,none:0};let tot=0;v.ser.forEach(s=>{c[s.status]++;tot+=s.total||0;});
+      const pct=tot?Math.round(100*v.done/tot):0;
+      return `<div class="sheikh" data-sh="${sh}"><div class="shn">${sh}</div>
+        <div class="shnums"><div class="num">السلاسل<br><b>${c.done}</b><span>/${v.ser.length}</span></div><div class="num">الحلقات<br><b>${v.done}</b><span>/${tot||'؟'}</span></div></div>
+        <div class="pb"><i style="width:${pct}%"></i></div>
+        <div class="shm"><span>${pct}% مكتمل</span><span class="kt done">${c.done} جاهز</span>${c.prog?`<span class="kt prog">${c.prog} جاري</span>`:''}${c.soon?`<span class="kt soon">${c.soon} قريب</span>`:''}<span class="kt none">${c.none} غير مطلوب</span></div></div>`;
     }).join('');
     side.querySelectorAll('.sheikh').forEach(c=>c.onclick=()=>{curSheikh=c.dataset.sh;cur=null;render();});
   } else {

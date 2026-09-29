@@ -67,6 +67,9 @@ def apply(order,reqs):
         for s in man:
             s['ord']=ordmap.get(str(s.get('id')),999)
         json.dump(man,open(MAN,'w'),ensure_ascii=False)
+    if reqs:
+        try: subprocess.Popen(['bash','/home/ubuntu/durus/dl_requests.sh'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        except Exception: pass
     if changed:
         try:
             subprocess.run(['git','add','mutalaa/data/manifest.json','mutalaa/orders.json'],cwd=SITE,timeout=30)

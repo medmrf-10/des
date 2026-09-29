@@ -15,9 +15,11 @@ body{min-height:100dvh;padding:20px clamp(10px,3vw,30px) 60px}
 .tab{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:.8rem;color:var(--dim);cursor:pointer}
 .tab.on{border-color:var(--acc);color:var(--acc);font-weight:700}
 .tab .n{font-size:.66rem;opacity:.75}
-.bar{display:flex;gap:8px;margin-bottom:14px}
+.bar{display:flex;gap:8px;margin-bottom:14px;align-items:center}
 .bar input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.9rem;padding:10px 16px}
 .bar input:focus{outline:none;border-color:var(--acc)}
+.savebtn{background:var(--acc);color:#0b0f1a;border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;display:none}
+.savebtn.show{display:block}
 .grid{display:grid;grid-template-columns:minmax(280px,400px) 1fr;gap:14px;align-items:start}
 @media(max-width:860px){.grid{grid-template-columns:1fr}}
 .side{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;max-height:76vh;overflow:auto}
@@ -34,63 +36,128 @@ body{min-height:100dvh;padding:20px clamp(10px,3vw,30px) 60px}
 .kt.prog{color:var(--acc3);border-color:var(--acc3)}
 .kt.soon{color:var(--acc);border-color:var(--acc)}
 .kt.none{color:var(--dim);border-color:var(--border)}
+.mv{background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--dim);cursor:pointer;font-size:.7rem;padding:2px 8px;font-family:inherit}
+.mv:hover{border-color:var(--acc);color:var(--acc)}
+.reqbtn{background:var(--card2);border:1px solid var(--acc);border-radius:6px;color:var(--acc);cursor:pointer;font-size:.68rem;padding:3px 10px;font-family:inherit}
+.reqbtn.pend{border-color:var(--ok);color:var(--ok)}
+.ordnum{color:var(--acc);font-size:.72rem;font-weight:700;min-width:20px;text-align:center}
+.srow{display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid var(--border);font-size:.82rem}
 .reader{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;min-height:300px}
 .reader .nt{color:var(--acc);font-size:1.15rem;font-weight:700;margin-bottom:4px}
 .reader .nid{color:var(--dim);font-size:.68rem;margin-bottom:12px}
 .lsrow{display:flex;align-items:center;gap:8px;padding:8px 11px;cursor:pointer;border-radius:8px;font-size:.82rem;border-bottom:1px solid var(--border)}
 .lsrow:hover{background:var(--card2)}
-.lsrow.on{background:var(--card2);color:var(--acc);font-weight:700}
 .txt{font-family:var(--font-ar);font-size:1.1rem;line-height:2.2;white-space:pre-wrap;padding:8px 4px}
 .placeholder{color:var(--dim);text-align:center;padding:70px 20px;font-size:.86rem}
 .bk{color:var(--acc);font-size:.78rem;cursor:pointer;margin-bottom:10px;display:inline-block}
+.notice{position:fixed;bottom:20px;inset-inline:20px;background:var(--card);border:1px solid var(--ok);color:var(--ok);border-radius:10px;padding:10px 16px;font-size:.8rem;text-align:center;display:none;z-index:9}
 </style></head><body>
 <div class="wrap">
   <div class="hd">
     <h1>مُطالَع — قارئ التفريغات</h1>
-    <div class="sub">مكتبة الدروس المفرّغة نصياً — اختر سلسلة من القائمة فتظهر دروسها، واختر درساً فيُقرأ نصه كاملاً هنا.</div>
+    <div class="sub">مكتبة الدروس المفرّغة نصياً — «جاهز» بالشيوخ، و«قريب» تُرتّب أولويته، و«غير مطلوب» تطلب منه ما تشاء ثم اضغط حفظ.</div>
   </div>
   <div class="stats" id="stats"></div>
   <div class="tabs" id="tabs"></div>
-  <div class="bar"><input id="q" placeholder="ابحث باسم سلسلة أو شيخ…"></div>
+  <div class="bar"><input id="q" placeholder="ابحث باسم سلسلة أو شيخ…"><button class="savebtn" id="save">حفظ</button></div>
   <div class="grid">
     <div class="side" id="side"><div class="placeholder">يُحمَّل الفهرس…</div></div>
     <div class="reader" id="reader"><div class="placeholder">اختر سلسلة من اليمين لعرض دروسها.</div></div>
   </div>
 </div>
+<div class="notice" id="notice"></div>
 <script>
-const D='data/';
+const D='data/',NT='https://ntfy.sh/des_mutalaa_q9';
 const LABEL={done:'جاهز',prog:'جاري التفريغ',soon:'قريب البدء',none:'غير مطلوب'};
 const ORDER=['done','prog','soon','none'];
-let SER=[],cur=null,q='',tab='done',selFile=null;
+let SER=[],cur=null,q='',tab='done',selFile=null,curSheikh=null;
+let soonOrder=JSON.parse(localStorage.getItem('mut_soon_order')||'[]');
+let pending=JSON.parse(localStorage.getItem('mut_pending')||'[]');
 async function boot(){
   SER=await(await fetch(D+'manifest.json?v='+Date.now())).json();
   document.getElementById('stats').innerHTML=
     `<div class="stat"><b>${SER.filter(s=>s.done>0).reduce((a,s)=>a+s.done,0)}</b>درساً مفرّغاً</div>`+
     ORDER.map(k=>`<div class="stat"><b>${SER.filter(s=>s.status===k).length}</b>${LABEL[k]}</div>`).join('');
+  renderTabs();render();
+  document.getElementById('q').oninput=e=>{q=e.target.value.trim();curSheikh=null;render();};
+  document.getElementById('save').onclick=save;
+}
+function renderTabs(){
   document.getElementById('tabs').innerHTML=ORDER.map(k=>
-    `<div class="tab${k===tab?' on':''}" data-k="${k}">${LABEL[k]} <span class="n">${SER.filter(s=>s.status===k).length}</span></div>`).join('');
-  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{tab=t.dataset.k;cur=null;render();});
-  document.getElementById('q').oninput=e=>{q=e.target.value.trim();render();};
-  render();
+    `<div class="tab${k===tab?' on':''}" data-k="${k}">${LABEL[k]} <span class="n">${SER.filter(s=>s.status===k).length}${k==='soon'&&soonOrder.length?'↕':''}</span></div>`).join('');
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{tab=t.dataset.k;cur=null;curSheikh=null;render();});
+  document.getElementById('save').className='savebtn'+((tab==='soon'||tab==='none')?' show':'');
+}
+function sheikhs(){
+  const m={};
+  SER.filter(s=>s.status==='done').forEach(s=>{const sh=s.sheikh||'غير محدد';m[sh]=m[sh]||{n:0,ser:[]};m[sh].n+=s.done;m[sh].ser.push(s);});
+  return m;
 }
 function list(){
+  if(tab==='done'&&!q&&!curSheikh){
+    return Object.entries(sheikhs()).map(([sh,v])=>({isSheikh:true,name:sh,ser:v.ser,done:v.n}));
+  }
+  if(tab==='done'&&curSheikh) return sheikhs()[curSheikh].ser.sort((a,b)=>a.name.localeCompare(b.name,'ar'));
   let l=SER.filter(s=>s.status===tab);
+  if(tab==='soon'&&soonOrder.length){
+    const ord=Object.fromEntries(soonOrder.map((id,i)=>[id,i]));
+    l=[...l].sort((a,b)=>(ord[a.id]??999)-(ord[b.id]??999));
+    const extra=soonOrder.map(id=>SER.find(s=>s.id===id)).filter(s=>s&&s.status!=='soon');
+    l=l.concat(extra.filter(Boolean));
+  }
+  if(tab==='none'){
+    l=l.sort((a,b)=>pending.includes(b.id)-pending.includes(a.id)||a.name.localeCompare(b.name,'ar'));
+  }
   if(q) l=SER.filter(s=>s.name.includes(q)||(s.sheikh||'').includes(q));
-  return l.sort((a,b)=>b.done-a.done||a.name.localeCompare(b.name,'ar'));
+  else if(tab==='soon'){}
+  else l=l.sort((a,b)=>b.done-a.done||a.name.localeCompare(b.name,'ar'));
+  return l;
+}
+function moveSoon(id,dir){
+  const l=list().filter(s=>!s.isSheikh).map(s=>s.id);
+  const i=l.indexOf(id),j=i+dir;
+  if(i<0||j<0||j>=l.length)return;
+  [l[i],l[j]]=[l[j],l[i]];
+  soonOrder=l;localStorage.setItem('mut_soon_order',JSON.stringify(l));render();
+}
+function toggleReq(id){
+  const i=pending.indexOf(id);
+  if(i<0)pending.push(id);else pending.splice(i,1);
+  localStorage.setItem('mut_pending',JSON.stringify(pending));render();
 }
 function render(){
+  renderTabs();
   const l=list(),side=document.getElementById('side');
-  side.innerHTML=l.map(s=>
-    `<div class="scard${cur&&cur.id===s.id?' on':''}" data-id="${s.id}">
-      <div class="sn">${s.name.replace(/^\d+_/,'')}</div>
+  if(tab==='done'&&!curSheikh&&!q){
+    side.innerHTML=l.map(s=>`<div class="scard" data-sh="${s.name}"><div class="sn">${s.name}</div><div class="sm"><span class="kt done">جاهز</span><span>${s.ser.length} سلسلة — ${s.done} درساً</span></div></div>`).join('')||'<div class="placeholder">لا شيوخ.</div>';
+    side.querySelectorAll('.scard').forEach(c=>c.onclick=()=>{curSheikh=c.dataset.sh;cur=null;render();showSheikh();});
+    return;
+  }
+  side.innerHTML=l.map((s,ix)=>{
+    if(s.isSheikh)return '';
+    let ctl='';
+    if(tab==='soon')ctl=`<span class="ordnum">${ix+1}</span><button class="mv" data-mv="-1" data-id="${s.id}">↑</button><button class="mv" data-mv="1" data-id="${s.id}">↓</button>`;
+    if(tab==='none')ctl=`<button class="reqbtn${pending.includes(s.id)?' pend':''}" data-id="${s.id}">${pending.includes(s.id)?'✓ مطلوبة':'اطلبها'}</button>`;
+    return `<div class="scard${cur&&cur.id===s.id?' on':''}" data-id="${s.id}">
+      <div class="srow">${ctl}<span class="sn" style="flex:1">${s.name.replace(/^\d+_/,'')}</span></div>
       <div class="sm"><span class="kt ${s.status}">${LABEL[s.status]}</span>${s.sheikh?`<span>${s.sheikh}</span>`:''}<span>${s.done}/${s.total||'؟'} درساً</span></div>
       ${s.total&&s.status!=='none'?`<div class="pb"><i style="width:${Math.round(100*s.done/s.total)}%"></i></div>`:''}
-    </div>`).join('')||'<div class="placeholder">لا نتائج.</div>';
-  side.querySelectorAll('.scard').forEach(c=>c.onclick=()=>{cur=SER.find(s=>s.id===c.dataset.id);selFile=null;render();showSeries();});
+    </div>`}).join('')||'<div class="placeholder">لا نتائج.</div>';
+  side.querySelectorAll('.scard').forEach(c=>c.onclick=e=>{
+    if(e.target.closest('.mv'))return moveSoon(e.target.dataset.id,+e.target.dataset.mv);
+    if(e.target.closest('.reqbtn'))return toggleReq(e.target.closest('.reqbtn').dataset.id);
+    cur=SER.find(s=>s.id===c.dataset.id);selFile=null;render();showSeries();});
+}
+function showSheikh(){
+  const r=document.getElementById('reader');
+  const sers=sheikhs()[curSheikh].ser;
+  r.innerHTML=`<div class="nt">${curSheikh}</div><div class="nid">${sers.length} سلسلة مكتملة</div>`+
+    sers.map(s=>`<div class="lsrow" data-id="${s.id}">${s.name.replace(/^\d+_/,'')} <span style="color:var(--dim);font-size:.66rem">(${s.done} درساً)</span></div>`).join('');
+  r.querySelectorAll('.lsrow').forEach(x=>x.onclick=()=>{cur=SER.find(s=>s.id===x.dataset.id);selFile=null;showSeries();render();});
 }
 function showSeries(){
   const r=document.getElementById('reader'),s=cur;
-  if(!s.files.length){r.innerHTML=`<div class="nt">${s.name.replace(/^\d+_/,'')}</div><div class="placeholder">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':'لم تُطلب للتفريغ بعد.'}</div>`;return;}
+  if(!s.files.length){r.innerHTML=`<div class="nt">${s.name.replace(/^\d+_/,'')}</div><div class="placeholder">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':s.status==='none'?'لم تُطلب — اضغط «اطلبها» ثم حفظ.':'لا نصوص.'}</div>`;return;}
   r.innerHTML=`<div class="nt">${s.name.replace(/^\d+_/,'')}</div>
     <div class="nid">${s.done}/${s.total} درساً — ${s.sheikh||''}</div>`+
     s.files.map(f=>`<div class="lsrow" data-f="${f}">${f.replace(/\.txt$/,'')}</div>`).join('');
@@ -110,6 +177,15 @@ async function showLesson(){
     r.querySelector('.bk').onclick=showSeries;
     r.scrollTop=0;
   }catch(e){r.innerHTML=`<span class="bk">→ رجوع</span><div class="placeholder">تعذر تحميل النص.</div>`;r.querySelector('.bk').onclick=showSeries;}
+}
+async function save(){
+  const payload=tab==='soon'
+    ?{kind:'order',ids:list().filter(s=>!s.isSheikh).map(s=>s.id),t:Date.now()}
+    :{kind:'request',ids:pending,t:Date.now()};
+  try{await fetch(NT,{method:'POST',body:JSON.stringify(payload)});}catch(e){}
+  const n=document.getElementById('notice');
+  n.textContent=tab==='soon'?`حُفظ ترتيب ${payload.ids.length} سلسلة — وصل الفريق.`:`حُفظ طلب ${pending.length} سلسلة — ستُضاف للطابور.`;
+  n.style.display='block';setTimeout(()=>n.style.display='none',4000);
 }
 boot();
 </script></body></html>

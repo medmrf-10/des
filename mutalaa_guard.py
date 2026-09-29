@@ -6,7 +6,24 @@ MAN='/home/ubuntu/decisions_site/mutalaa/data/manifest.json'
 Q='/home/ubuntu/durus/agy_queue.txt'
 SITE='/home/ubuntu/decisions_site'
 TOPIC='https://ntfy.sh/des_mutalaa_q9/sse'
+POLL='https://ntfy.sh/des_mutalaa_q9/json?poll=1'
 req_ids=set()
+def backfill():
+    seen=set(l.strip() for l in open(OLOG)) if os.path.exists(OLOG) else set()
+    try:
+        for l in urllib.request.urlopen(POLL,timeout=20):
+            try: m=json.loads(l)
+            except Exception: continue
+            if m.get('event')!='message': continue
+            b=m.get('message','')
+            if not b or b in seen: continue
+            try:
+                o=json.loads(b)
+                if isinstance(o,str): o=json.loads(o)
+                if o.get('t',1e18)<1e6: continue
+            except Exception: pass
+            seen.add(b);open(OLOG,'a').write(b+'\n')
+    except Exception: pass
 def rebuild():
     global req_ids
     order=[];req=[];lst={}
@@ -64,6 +81,7 @@ def apply(order,reqs):
             except Exception: pass
 while True:
     try:
+        backfill();rebuild()
         with urllib.request.urlopen(TOPIC,timeout=55) as r:
             for raw in r:
                 line=raw.decode('utf-8','replace').strip()

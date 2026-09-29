@@ -14,6 +14,7 @@ def rebuild():
         except Exception: continue
         if o.get('kind')=='order': order=o.get('ids',[])
         elif o.get('kind')=='request': req=o.get('ids',[])
+        if o.get('requests'): req=o['requests']
     json.dump({'order':order,'requests':req},open(OJSON,'w'),ensure_ascii=False)
 while True:
     try:

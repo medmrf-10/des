@@ -58,6 +58,9 @@ body{min-height:100dvh;padding:0 0 90px}
 .ser .pb2{height:4px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:7px;max-width:280px}
 .ser .pb2 i{display:block;height:100%;background:var(--ok);border-radius:99px}
 .ser .acts{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.ybtn{display:inline-flex;align-items:center;gap:5px;background:#341a1d;color:#ff7b72;border:1px solid #6b3a3e;padding:4px 14px;border-radius:99px;font-size:.74rem;font-weight:700;text-decoration:none;transition:background .15s}
+.ybtn:hover{background:#4a2226;color:#ff958e}
+.ybtn svg{width:13px;height:13px;fill:currentColor;flex-shrink:0}
 .ser[draggable="true"]{cursor:grab}
 .ser.dragover{border-color:var(--acc);box-shadow:0 0 0 2px rgba(201,162,75,.25) inset}
 .ser.dragging{opacity:.45}
@@ -312,11 +315,12 @@ function viewSeries(id){
   const s=ser(id);if(!s)return nav('#/');
   crumb([{t:'مُطالَع',h:'#/'},{t:lat(s.sheikh||''),h:'#/sh/'+encodeURIComponent(s.sheikh||'')},{t:lat(s.name.replace(/^\d+_/,'').replace(/｜/g,' — '))}]);
   const main=document.getElementById('main');
-  if(!s.files||!s.files.length){main.innerHTML=`<div class="empty">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':s.status==='none'?'لم تُطلب — اضغط «اطلبها» ثم حفظ.':'لا نصوص بعد.'}</div>`;return;}
-  main.innerHTML=`<div class="ser" style="cursor:default"><div class="ic">${ICON[s.status]}</div>
+  const yb=s.url?`<a class="ybtn" href="${s.url}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.6 4 12 4 12 4s-4.6 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s4.6 0 7.7-.2c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.8 15.1V8.4l6.3 3.4-6.3 3.3z"/></svg> يوتيوب</a>`:'';
+  const hd=`<div class="ser" style="cursor:default"><div class="ic">${ICON[s.status]}</div>
     <div class="mid"><div class="nm">${disp(s.name)}</div>
-    <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span></div></div></div>`+
-    secT('الدروس المفرّغة',s.files.length)+
+    <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span>${yb}</div></div></div>`;
+  if(!s.files||!s.files.length){main.innerHTML=hd+`<div class="empty">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':s.status==='none'?'لم تُطلب — اضغط «اطلبها» ثم حفظ.':'لا نصوص بعد.'}</div>`;return;}
+  main.innerHTML=hd+secT('الدروس المفرّغة',s.files.length)+
     s.files.map((f,i)=>`<div class="lrow" data-f="${esc(f)}"><div class="idx">${i+1}</div><div class="ln">${disp(f)}</div><div class="go">‹</div></div>`).join('');
   main.querySelectorAll('.lrow').forEach(x=>x.onclick=()=>nav('#/l/'+id+'/'+encodeURIComponent(x.dataset.f)));
 }

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14; --card:#131a22; --card2:#1a2330; --border:#28323f; --txt:#eef3f8; --dim:#93a1b3; --acc:#c9a24b; --acc2:#e8c97a; --ok:#6fd08c; --warn:#ffb454; --out:#8b94a0}
+:root{--bg:#f6f7f9; --card:#ffffff; --card2:#f0f3f8; --border:#d7dde8; --txt:#1b2437; --dim:#5d6577; --acc:#8a6514; --acc2:#7a5a10; --ok:#1a7f37; --warn:#b35c00; --out:#6b7480}
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
 html,body{max-width:100vw; overflow-x:hidden}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh}
@@ -25,10 +25,10 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .tcard .tm{font-size:.68rem; color:var(--dim); margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
 .tcard .mine-c{color:var(--ok); font-weight:700}
 .badge{font-size:.64rem; font-weight:700; border-radius:99px; padding:2px 9px}
-.badge.i1{background:#1d3a2a; color:var(--ok)}
-.badge.i2{background:#3a301d; color:var(--warn)}
-.badge.im1{background:#263040; color:#9db4ff}
-.badge.out{background:#242a33; color:var(--out)}
+.badge.i1{background:#e2f4e6; color:var(--ok)}
+.badge.i2{background:#f7ecd4; color:var(--warn)}
+.badge.im1{background:#e8edf5; color:#9db4ff}
+.badge.out{background:#eef1f7; color:var(--out)}
 .reader{display:none}
 .reader.show{display:block}
 .rbar{display:flex; gap:10px; flex-wrap:wrap; font-size:.68rem; color:var(--dim); margin:8px 0 10px}
@@ -39,7 +39,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .plan .wl{display:flex; flex-wrap:wrap; gap:5px; direction:ltr; justify-content:flex-start}
 .plan .wl span{background:var(--card2); border:1px solid var(--border); border-radius:8px; font-size:.74rem; padding:3px 9px; color:var(--txt)}
 .plan .wl span.pt{border-color:var(--ok); cursor:pointer}
-.plan .wl span.pt.ptk{background:#1d3a2a; color:var(--ok); font-weight:700}
+.plan .wl span.pt.ptk{background:#e2f4e6; color:var(--ok); font-weight:700}
 .plan .wl span.inf{border-color:var(--warn)}
 .plan .note{font-size:.64rem; color:var(--dim); margin-top:2px}
 .body-en{direction:ltr; text-align:left; font-family:Georgia,'Times New Roman',serif; font-size:1.02rem; line-height:2.05; background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:14px 16px}
@@ -51,7 +51,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .tok.B5,.tok.B6{color:#ffd97a; background:#2a2415}
 .tok.R{color:#9db4ff; font-style:italic}
 .tok.mine{color:var(--ok)!important; border-bottom:2px solid var(--ok)}
-.pop{position:fixed; left:50%; transform:translateX(-50%); bottom:14px; width:min(94vw,560px); background:#0d1219; border:1px solid var(--acc); border-radius:14px; padding:12px 14px; display:none; z-index:40; box-shadow:0 8px 30px rgba(0,0,0,.6)}
+.pop{position:fixed; left:50%; transform:translateX(-50%); bottom:14px; width:min(94vw,560px); background:#ffffff; border:1px solid var(--acc); border-radius:14px; padding:12px 14px; display:none; z-index:40; box-shadow:0 8px 30px rgba(30,40,80,.18)}
 .pop.show{display:block}
 .pop .w{font-size:1.05rem; font-weight:700; direction:ltr; text-align:left; color:var(--acc2)}
 .pop .d{font-size:.72rem; color:var(--dim); margin-top:4px; direction:ltr; text-align:left}

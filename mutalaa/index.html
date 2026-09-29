@@ -58,6 +58,10 @@ body{min-height:100dvh;padding:0 0 90px}
 .ser .pb2{height:4px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:7px;max-width:280px}
 .ser .pb2 i{display:block;height:100%;background:var(--ok);border-radius:99px}
 .ser .acts{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.ser[draggable="true"]{cursor:grab}
+.ser.dragover{border-color:var(--acc);box-shadow:0 0 0 2px rgba(201,162,75,.25) inset}
+.ser.dragging{opacity:.45}
+.grip{color:var(--dim);font-size:1.05rem;cursor:grab;padding:4px 2px;flex-shrink:0;user-select:none}
 .abtn{border:1px solid var(--border);background:var(--card2);color:var(--dim);border-radius:9px;min-width:40px;height:40px;font-size:.85rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;padding:0 10px}
 .abtn:hover{border-color:var(--acc);color:var(--acc)}
 .abtn.gold{border-color:var(--acc);color:var(--acc)}
@@ -165,10 +169,9 @@ function sheikhs(){
   return m;
 }
 function soonList(){
-  let l=SER.filter(s=>s.status==='soon');
-  if(l.some(s=>s.ord!==undefined&&s.ord<900))return [...l].sort((a,b)=>(a.ord??999)-(b.ord??999));
-  if(soonOrder.length){const ord=Object.fromEntries(soonOrder.map((id,i)=>[id,i]));return [...l].sort((a,b)=>(ord[a.id]??999)-(ord[b.id]??999));}
-  return l;
+  const l=SER.filter(s=>s.status==='soon');
+  const loc=Object.fromEntries(soonOrder.map((id,i)=>[id,i]));
+  return [...l].sort((a,b)=>(loc[a.id]??a.ord??999)-(loc[b.id]??b.ord??999));
 }
 /* ---------- إجراءات ---------- */
 function moveSoon(id,dir){
@@ -214,18 +217,31 @@ async function save(){
 function serCard(s,opts={}){
   const pct=s.total?Math.round(100*s.done/s.total):0;
   let acts='';
-  if(s.status==='soon'){const ix=soonList().findIndex(x=>x.id===s.id);acts=`<span class="ordnum">${ix+1}</span><button class="abtn" data-mv="-1" data-id="${s.id}">↑</button><button class="abtn" data-mv="1" data-id="${s.id}">↓</button>`;}
+  if(s.status==='soon'){const ix=soonList().findIndex(x=>x.id===s.id);acts=`<span class="grip" title="اسحب للترتيب">≡</span><span class="ordnum">${ix+1}</span><button class="abtn" data-mv="-1" data-id="${s.id}">↑</button><button class="abtn" data-mv="1" data-id="${s.id}">↓</button>`;}
   if(s.status==='none')acts=`<button class="abtn req${pending.includes(s.id)?' on':''}" data-req="${s.id}">${pending.includes(s.id)?'✓ مطلوبة':'اطلبها'}</button>`;
   if(opts.rm)acts+=`<button class="abtn" data-rm="${s.id}">✕</button>`;
   acts+=`<button class="abtn gold" data-add="${s.id}" title="أضف لقائمة">+</button>`;
-  return `<div class="ser" data-id="${s.id}">
+  return `<div class="ser" data-id="${s.id}"${s.status==='soon'?' draggable="true"':''}>
     <div class="ic">${ICON[s.status]}</div>
     <div class="mid"><div class="nm">${disp(s.name)}</div>
       <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span><span>${esc(lat(s.sheikh||''))}</span></div>
       ${s.total&&s.status!=='none'?`<div class="pb2"><i style="width:${pct}%"></i></div>`:''}
     </div><div class="acts">${acts}</div></div>`;
 }
+let dragId=null;
+function bindDnD(el){
+  el.querySelectorAll('.ser[draggable="true"]').forEach(c=>{
+    c.ondragstart=e=>{dragId=c.dataset.id;c.classList.add('dragging');e.dataTransfer.effectAllowed='move';};
+    c.ondragend=()=>{c.classList.remove('dragging');el.querySelectorAll('.dragover').forEach(x=>x.classList.remove('dragover'));};
+    c.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect='move';el.querySelectorAll('.dragover').forEach(x=>x.classList.remove('dragover'));if(c.dataset.id!==dragId)c.classList.add('dragover');};
+    c.ondrop=e=>{e.preventDefault();
+      const l=soonList().map(s=>s.id).filter(x=>x!==dragId);
+      l.splice(l.indexOf(c.dataset.id),0,dragId);
+      soonOrder=l;localStorage.setItem('mut_soon_order',JSON.stringify(l));dirty=true;route();};
+  });
+}
 function bindActs(el){
+  bindDnD(el);
   el.querySelectorAll('.ser').forEach(c=>c.onclick=e=>{
     if(e.target.closest('[data-mv]')){e.stopPropagation();return moveSoon(e.target.closest('[data-mv]').dataset.id,+e.target.closest('[data-mv]').dataset.mv);}
     if(e.target.closest('[data-req]')){e.stopPropagation();return toggleReq(e.target.closest('[data-req]').dataset.req);}
@@ -241,7 +257,7 @@ function groups(sers){
     let grp=sers.filter(s=>s.status===k);
     if(!grp.length)return;
     grp.sort((a,b)=>k==='soon'?soonList().findIndex(x=>x.id===a.id)-soonList().findIndex(x=>x.id===b.id):a.name.localeCompare(b.name,'ar'));
-    const hint=k==='soon'?'رتّبها بـ ↑↓':'';
+    const hint=k==='soon'?'اسحب لإعادة الترتيب ≡':'';
     h+=secT(LABEL[k],grp.length,hint)+grp.map(s=>serCard(s)).join('');
   });
   return h;
@@ -257,7 +273,7 @@ function viewHome(){
   }
   let h='';
   const sn=soonList();
-  if(sn.length)h+=secT('قريب البدء — بالترتيب',sn.length,'↑↓ لتغيير الأولوية')+sn.map(s=>serCard(s)).join('');
+  if(sn.length)h+=secT('قريب البدء — بالترتيب',sn.length,'اسحب ≡ لإعادة الترتيب')+sn.map(s=>serCard(s)).join('');
   h+=secT('قوائمي',Object.keys(lists).length);
   h+=`<div class="newlist"><input id="nlname" placeholder="اسم قائمة جديدة…"><button id="nladd">إنشاء</button></div>`;
   h+=Object.keys(lists).map(n=>`<div class="listrow" data-ln="${esc(n)}"><span class="nm">≡ ${esc(lat(n))}</span><span class="cnt2">${lists[n].length} سلسلة</span></div>`).join('');

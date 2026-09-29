@@ -4,7 +4,7 @@ OLOG='/home/ubuntu/decisions_site/logs/mutalaa_orders.jsonl'
 OJSON='/home/ubuntu/decisions_site/mutalaa/orders.json'
 TOPIC='https://ntfy.sh/des_mutalaa_q9/sse'
 def rebuild():
-    order=[];req=[]
+    order=[];req=[];lst={}
     for l in open(OLOG):
         l=l.strip()
         if not l: continue
@@ -15,7 +15,8 @@ def rebuild():
         if o.get('kind')=='order': order=o.get('ids',[])
         elif o.get('kind')=='request': req=o.get('ids',[])
         if o.get('requests'): req=o['requests']
-    json.dump({'order':order,'requests':req},open(OJSON,'w'),ensure_ascii=False)
+        if o.get('lists'): lst=o['lists']
+    json.dump({'order':order,'requests':req,'lists':lst},open(OJSON,'w'),ensure_ascii=False)
 while True:
     try:
         with urllib.request.urlopen(TOPIC,timeout=55) as r:

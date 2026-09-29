@@ -12,7 +12,6 @@
 html,body{max-width:100vw; overflow-x:hidden}
 body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh}
 .wrap{max-width:640px; margin:0 auto; padding:20px 14px 60px}
-a.back{color:var(--acc2); font-size:.8rem; text-decoration:none}
 h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 .sub{color:var(--dim); font-size:.8rem; margin-bottom:16px; line-height:1.7}
 .panel{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:12px}
@@ -63,7 +62,6 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="./index.html">→ رجوع للبوابة</a>
   <h1>قارئ i+1 الإنجليزي</h1>
   <div class="sub">قارئ إنجليزي مدرّج بنظام i+1: كل نص مقيس تغطيته على مفرداتك المعروفة، والكلمات الجديدة موسومة بنطاق تكرارها (B1 شائعة ← B6 نادرة) — خطة التعليم (pre-teach/استنتاج/شرح) محسوبة لكل نص. العيّنة الحقيقية: <b>٢٨ نصاً موسوماً</b> من مشروع جاديد٢/الإنجليزية (منها سور قصارى: الكوثر/الفيل/القدر — أقرب لمستوى مبتدئ) (ملخصات shortAr الـ٢٣٠٠ ليست على هذا الجهاز). المس كلمة لترى لمّتها ونطاقها، وعلّم ما تعرفه فيُحفظ على جهازك.</div>
   <div class="panel">
@@ -92,7 +90,7 @@ h1{font-size:1.3rem; font-weight:700; color:var(--acc2); margin:12px 0 4px}
 <script>
 const $=id=>document.getElementById(id);
 const st=$('st');
-let IDX=null, CUR=null, CURTOK=null;
+let IDX=null, CUR=null, CURID=null, CURTOK=null;
 let KNOWN=new Set(JSON.parse(localStorage.getItem('en_known')||'[]'));
 // migrate legacy bare lemmas to unified IDs en:lex:<lemma> (shared learner-file convention)
 const _mig=[...KNOWN].filter(k=>!k.includes(':'));
@@ -161,7 +159,7 @@ function renderList(){
 function openText(id){
   st.textContent='… يحمّل النص';
   (TEXTDATA[id]?Promise.resolve(TEXTDATA[id]):fetch('./en-data/'+id+'.json').then(r=>r.json())).then(d=>{
-    CUR=d; TEXTDATA[id]=d;
+    CUR=d; CURID=id; TEXTDATA[id]=d;
     const t=(IDX.texts.find(x=>x.id===id))||{};
     $('rbar').innerHTML=`<span>الحكم: <b>${VC[t.verdict]||t.verdict||'؟'}</b></span><span>تغطية <b>${((t.C_token||0)*100).toFixed(1)}٪</b></span><span>طول الجملة <b>${(t.msl||0).toFixed(1)}</b></span><span>صعوبة <b>${(t.D||0).toFixed(2)}</b></span>`;
     $('plan').innerHTML=planHTML(d); wirePt();
@@ -235,6 +233,11 @@ $('popKnow').onclick=()=>{
 $('popClose').onclick=()=>$('pop').classList.remove('show');
 $('planbtn').onclick=()=>{const p=$('plan');p.classList.toggle('show')};
 document.addEventListener('click',e=>{if(!$('pop').contains(e.target))$('pop').classList.remove('show')});
+window.addEventListener('hashchange',()=>{
+  const h=location.hash.slice(1);
+  if(!h){$('reader').classList.remove('show');$('pop').classList.remove('show');window.scrollTo({top:0});}
+  else if(h!==CURID) openText(h);
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f1a"><title>مُطالَع — قارئ التفريغات</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+body{min-height:100dvh;padding:20px clamp(10px,3vw,30px) 60px}
+.wrap{max-width:1180px;margin:0 auto}
+.hd{text-align:center;margin:20px 0 14px}
+.hd h1{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin:0}
+.hd .sub{color:var(--dim);font-size:.84rem;margin-top:8px;line-height:1.9;max-width:760px;margin-inline:auto}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:.74rem;color:var(--dim)}
+.stat b{color:var(--acc);font-size:.95rem;display:block;text-align:center}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.tab{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:.8rem;color:var(--dim);cursor:pointer}
+.tab.on{border-color:var(--acc);color:var(--acc);font-weight:700}
+.tab .n{font-size:.66rem;opacity:.75}
+.bar{display:flex;gap:8px;margin-bottom:14px}
+.bar input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.9rem;padding:10px 16px}
+.bar input:focus{outline:none;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:minmax(280px,400px) 1fr;gap:14px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.side{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;max-height:76vh;overflow:auto}
+.scard{border-radius:8px;padding:8px 10px;cursor:pointer;margin-bottom:4px}
+.scard:hover{background:var(--card2)}
+.scard.on{background:var(--card2);outline:1px solid var(--acc)}
+.scard .sn{font-size:.84rem;line-height:1.5}
+.scard.on .sn{color:var(--acc);font-weight:700}
+.scard .sm{display:flex;gap:8px;font-size:.64rem;color:var(--dim);margin-top:3px;flex-wrap:wrap}
+.pb{height:4px;background:var(--card2);border-radius:99px;margin-top:5px;overflow:hidden}
+.pb i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.kt{font-size:.6rem;border-radius:99px;padding:1px 8px;border:1px solid}
+.kt.done{color:var(--ok);border-color:var(--ok)}
+.kt.prog{color:var(--acc3);border-color:var(--acc3)}
+.kt.soon{color:var(--acc);border-color:var(--acc)}
+.kt.none{color:var(--dim);border-color:var(--border)}
+.reader{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;min-height:300px}
+.reader .nt{color:var(--acc);font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.reader .nid{color:var(--dim);font-size:.68rem;margin-bottom:12px}
+.lsrow{display:flex;align-items:center;gap:8px;padding:8px 11px;cursor:pointer;border-radius:8px;font-size:.82rem;border-bottom:1px solid var(--border)}
+.lsrow:hover{background:var(--card2)}
+.lsrow.on{background:var(--card2);color:var(--acc);font-weight:700}
+.txt{font-family:var(--font-ar);font-size:1.1rem;line-height:2.2;white-space:pre-wrap;padding:8px 4px}
+.placeholder{color:var(--dim);text-align:center;padding:70px 20px;font-size:.86rem}
+.bk{color:var(--acc);font-size:.78rem;cursor:pointer;margin-bottom:10px;display:inline-block}
+</style></head><body>
+<div class="wrap">
+  <div class="hd">
+    <h1>مُطالَع — قارئ التفريغات</h1>
+    <div class="sub">مكتبة الدروس المفرّغة نصياً — اختر سلسلة من القائمة فتظهر دروسها، واختر درساً فيُقرأ نصه كاملاً هنا.</div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="bar"><input id="q" placeholder="ابحث باسم سلسلة أو شيخ…"></div>
+  <div class="grid">
+    <div class="side" id="side"><div class="placeholder">يُحمَّل الفهرس…</div></div>
+    <div class="reader" id="reader"><div class="placeholder">اختر سلسلة من اليمين لعرض دروسها.</div></div>
+  </div>
+</div>
+<script>
+const D='data/';
+const LABEL={done:'جاهز',prog:'جاري التفريغ',soon:'قريب البدء',none:'غير مطلوب'};
+const ORDER=['done','prog','soon','none'];
+let SER=[],cur=null,q='',tab='done',selFile=null;
+async function boot(){
+  SER=await(await fetch(D+'manifest.json?v='+Date.now())).json();
+  document.getElementById('stats').innerHTML=
+    `<div class="stat"><b>${SER.filter(s=>s.done>0).reduce((a,s)=>a+s.done,0)}</b>درساً مفرّغاً</div>`+
+    ORDER.map(k=>`<div class="stat"><b>${SER.filter(s=>s.status===k).length}</b>${LABEL[k]}</div>`).join('');
+  document.getElementById('tabs').innerHTML=ORDER.map(k=>
+    `<div class="tab${k===tab?' on':''}" data-k="${k}">${LABEL[k]} <span class="n">${SER.filter(s=>s.status===k).length}</span></div>`).join('');
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{tab=t.dataset.k;cur=null;render();});
+  document.getElementById('q').oninput=e=>{q=e.target.value.trim();render();};
+  render();
+}
+function list(){
+  let l=SER.filter(s=>s.status===tab);
+  if(q) l=SER.filter(s=>s.name.includes(q)||(s.sheikh||'').includes(q));
+  return l.sort((a,b)=>b.done-a.done||a.name.localeCompare(b.name,'ar'));
+}
+function render(){
+  const l=list(),side=document.getElementById('side');
+  side.innerHTML=l.map(s=>
+    `<div class="scard${cur&&cur.id===s.id?' on':''}" data-id="${s.id}">
+      <div class="sn">${s.name.replace(/^\d+_/,'')}</div>
+      <div class="sm"><span class="kt ${s.status}">${LABEL[s.status]}</span>${s.sheikh?`<span>${s.sheikh}</span>`:''}<span>${s.done}/${s.total||'؟'} درساً</span></div>
+      ${s.total&&s.status!=='none'?`<div class="pb"><i style="width:${Math.round(100*s.done/s.total)}%"></i></div>`:''}
+    </div>`).join('')||'<div class="placeholder">لا نتائج.</div>';
+  side.querySelectorAll('.scard').forEach(c=>c.onclick=()=>{cur=SER.find(s=>s.id===c.dataset.id);selFile=null;render();showSeries();});
+}
+function showSeries(){
+  const r=document.getElementById('reader'),s=cur;
+  if(!s.files.length){r.innerHTML=`<div class="nt">${s.name.replace(/^\d+_/,'')}</div><div class="placeholder">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':'لم تُطلب للتفريغ بعد.'}</div>`;return;}
+  r.innerHTML=`<div class="nt">${s.name.replace(/^\d+_/,'')}</div>
+    <div class="nid">${s.done}/${s.total} درساً — ${s.sheikh||''}</div>`+
+    s.files.map(f=>`<div class="lsrow" data-f="${f}">${f.replace(/\.txt$/,'')}</div>`).join('');
+  r.querySelectorAll('.lsrow').forEach(x=>x.onclick=()=>{selFile=x.dataset.f;showLesson();});
+  r.scrollTop=0;
+}
+async function showLesson(){
+  const r=document.getElementById('reader'),s=cur;
+  r.innerHTML=`<span class="bk">→ رجوع لدروس السلسلة</span><div class="placeholder">يُحمَّل النص…</div>`;
+  r.querySelector('.bk').onclick=showSeries;
+  try{
+    const t=await(await fetch(D+'txt/'+s.id+'/'+encodeURIComponent(selFile)+'?v='+Date.now())).text();
+    r.innerHTML=`<span class="bk">→ رجوع لدروس السلسلة</span>
+      <div class="nt">${selFile.replace(/\.txt$/,'')}</div>
+      <div class="nid">${s.name.replace(/^\d+_/,'')} — ${s.sheikh||''}</div>
+      <div class="txt">${t.replace(/</g,'&lt;')}</div>`;
+    r.querySelector('.bk').onclick=showSeries;
+    r.scrollTop=0;
+  }catch(e){r.innerHTML=`<span class="bk">→ رجوع</span><div class="placeholder">تعذر تحميل النص.</div>`;r.querySelector('.bk').onclick=showSeries;}
+}
+boot();
+</script></body></html>

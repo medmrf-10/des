@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-import json,urllib.request,time
+import json,urllib.request,time,os,subprocess
 OLOG='/home/ubuntu/decisions_site/logs/mutalaa_orders.jsonl'
 OJSON='/home/ubuntu/decisions_site/mutalaa/orders.json'
+MAN='/home/ubuntu/decisions_site/mutalaa/data/manifest.json'
+Q='/home/ubuntu/durus/agy_queue.txt'
+SITE='/home/ubuntu/decisions_site'
 TOPIC='https://ntfy.sh/des_mutalaa_q9/sse'
+req_ids=set()
 def rebuild():
+    global req_ids
     order=[];req=[];lst={}
     for l in open(OLOG):
         l=l.strip()
@@ -17,6 +22,46 @@ def rebuild():
         if o.get('requests'): req=o['requests']
         if o.get('lists'): lst=o['lists']
     json.dump({'order':order,'requests':req,'lists':lst},open(OJSON,'w'),ensure_ascii=False)
+    req_ids={str(x) for x in req}
+    apply(order,req_ids)
+def sid(l):
+    if '/pipeline/' not in l: return ''
+    try: return l.split('/pipeline/')[1].split('/')[1].split('_')[0]
+    except Exception: return ''
+def apply(order,reqs):
+    changed=False
+    if reqs and os.path.exists(Q):
+        lines=[l for l in open(Q) if l.strip()]
+        first=[l for l in lines if sid(l) in reqs]
+        rest=[l for l in lines if sid(l) not in reqs]
+        if first:
+            open(Q,'w').write(''.join(first+rest))
+            changed=True
+    if reqs and os.path.exists(MAN):
+        man=json.load(open(MAN));ch=False
+        for s in man:
+            if str(s.get('id')) in reqs and s.get('status')=='none':
+                s['status']='soon';ch=True
+        if ch:
+            json.dump(man,open(MAN,'w'),ensure_ascii=False)
+            changed=True
+    if order and os.path.exists(MAN):
+        man=json.load(open(MAN));ordmap={str(x):i for i,x in enumerate(order)}
+        for s in man:
+            s['ord']=ordmap.get(str(s.get('id')),999)
+        json.dump(man,open(MAN,'w'),ensure_ascii=False)
+    if changed:
+        try:
+            subprocess.run(['git','add','mutalaa/data/manifest.json','mutalaa/orders.json'],cwd=SITE,timeout=30)
+            subprocess.run(['git','commit','-qm','mutalaa: طلبات وترتيب المالك'],cwd=SITE,timeout=30)
+            subprocess.run(['git','push','origin','durus-site','-q'],cwd=SITE,timeout=60)
+            subprocess.run(['git','checkout','main','-q'],cwd=SITE,timeout=30)
+            subprocess.run(['git','merge','origin/durus-site','--no-edit','-q'],cwd=SITE,timeout=60)
+            subprocess.run(['git','push','origin','main','-q'],cwd=SITE,timeout=60)
+            subprocess.run(['git','checkout','durus-site','-q'],cwd=SITE,timeout=30)
+        except Exception:
+            try: subprocess.run(['git','checkout','durus-site','-q'],cwd=SITE,timeout=30)
+            except Exception: pass
 while True:
     try:
         with urllib.request.urlopen(TOPIC,timeout=55) as r:

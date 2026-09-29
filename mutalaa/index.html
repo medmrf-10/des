@@ -131,7 +131,8 @@ function sheikhs(){
 }
 function soonList(){
   let l=SER.filter(s=>s.status==='soon');
-  if(soonOrder.length){const ord=Object.fromEntries(soonOrder.map((id,i)=>[id,i]));l=[...l].sort((a,b)=>(ord[a.id]??999)-(ord[b.id]??999));}
+  if(l.some(s=>s.ord!==undefined&&s.ord<900)){l=[...l].sort((a,b)=>(a.ord??999)-(b.ord??999));}
+  else if(soonOrder.length){const ord=Object.fromEntries(soonOrder.map((id,i)=>[id,i]));l=[...l].sort((a,b)=>(ord[a.id]??999)-(ord[b.id]??999));}
   return l;
 }
 function moveSoon(id,dir){
@@ -192,7 +193,7 @@ function render(){
     const sers=sheikhs()[curSheikh].ser;
     let html=`<span class="bk">→ كل المشايخ</span><div class="sec" style="border:none;font-size:.9rem;color:var(--acc)">${lat(curSheikh)}</div>`;
     ORDER.forEach(k=>{
-      const grp=sers.filter(s=>s.status===k).sort((a,b)=>a.name.localeCompare(b.name,'ar'));
+      const grp=sers.filter(s=>s.status===k).sort((a,b)=>k==='soon'?(a.ord??999)-(b.ord??999):a.name.localeCompare(b.name,'ar'));
       if(!grp.length)return;
       html+=`<div class="sec">${LABEL[k]} — <b>${grp.length}</b></div>`+grp.map(serRow).join('');
     });
@@ -250,9 +251,12 @@ async function showLesson(){
 }
 async function save(){
   const payload={kind:'order',ids:soonList().map(s=>s.id),requests:pending,lists,t:Date.now()};
+  pending.forEach(id=>{const s=SER.find(x=>x.id===id);if(s&&s.status==='none')s.status='soon';});
+  pending=[];localStorage.setItem('mut_pending','[]');
   try{await fetch(NT,{method:'POST',body:JSON.stringify(payload)});}catch(e){}
+  render();
   const n=document.getElementById('notice');
-  n.textContent=`حُفظ الترتيب والطلبات والقوائم — وصل الفريق.`;
+  n.textContent=`حُفظ الترتيب والطلبات والقوائم — وصل الفريق وسيبدأ تفريغ المطلوبة.`;
   n.style.display='block';setTimeout(()=>n.style.display='none',4000);
 }
 boot();

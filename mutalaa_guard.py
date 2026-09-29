@@ -54,10 +54,11 @@ def apply(order,reqs):
         if first:
             open(Q,'w').write(''.join(first+rest))
             changed=True
-    if reqs and os.path.exists(MAN):
+    want=set(reqs)|{str(x) for x in order}
+    if want and os.path.exists(MAN):
         man=json.load(open(MAN));ch=False
         for s in man:
-            if str(s.get('id')) in reqs and s.get('status')=='none':
+            if str(s.get('id')) in want and s.get('status')=='none':
                 s['status']='soon';ch=True
         if ch:
             json.dump(man,open(MAN,'w'),ensure_ascii=False)

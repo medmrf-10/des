@@ -133,6 +133,7 @@ const ICON={done:'📖',prog:'⏳',soon:'🕐',none:'○'};
 const AR='٠١٢٣٤٥٦٧٨٩';
 const lat=s=>String(s).replace(/[٠-٩]/g,d=>AR.indexOf(d));
 const esc=s=>String(s).replace(/</g,'&lt;');
+const disp=s=>esc(lat(String(s).replace(/｜/g,' — ').replace(/\.txt$/,'').replace(/^\d+_\d+\s*-\s*/,'').replace(/^\d+_/,'')));
 let SER=[],q='';
 let soonOrder=JSON.parse(localStorage.getItem('mut_soon_order')||'[]');
 let pending=JSON.parse(localStorage.getItem('mut_pending')||'[]');
@@ -219,7 +220,7 @@ function serCard(s,opts={}){
   acts+=`<button class="abtn gold" data-add="${s.id}" title="أضف لقائمة">+</button>`;
   return `<div class="ser" data-id="${s.id}">
     <div class="ic">${ICON[s.status]}</div>
-    <div class="mid"><div class="nm">${esc(lat(s.name.replace(/^\d+_/,'')))}</div>
+    <div class="mid"><div class="nm">${disp(s.name)}</div>
       <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span><span>${esc(lat(s.sheikh||''))}</span></div>
       ${s.total&&s.status!=='none'?`<div class="pb2"><i style="width:${pct}%"></i></div>`:''}
     </div><div class="acts">${acts}</div></div>`;
@@ -293,25 +294,25 @@ function viewSheikh(sh){
 }
 function viewSeries(id){
   const s=ser(id);if(!s)return nav('#/');
-  crumb([{t:'مُطالَع',h:'#/'},{t:lat(s.sheikh||''),h:'#/sh/'+encodeURIComponent(s.sheikh||'')},{t:lat(s.name.replace(/^\d+_/,''))}]);
+  crumb([{t:'مُطالَع',h:'#/'},{t:lat(s.sheikh||''),h:'#/sh/'+encodeURIComponent(s.sheikh||'')},{t:lat(s.name.replace(/^\d+_/,'').replace(/｜/g,' — '))}]);
   const main=document.getElementById('main');
   if(!s.files||!s.files.length){main.innerHTML=`<div class="empty">${s.status==='soon'?'في الطابور — لم يبدأ تفريغها بعد.':s.status==='none'?'لم تُطلب — اضغط «اطلبها» ثم حفظ.':'لا نصوص بعد.'}</div>`;return;}
   main.innerHTML=`<div class="ser" style="cursor:default"><div class="ic">${ICON[s.status]}</div>
-    <div class="mid"><div class="nm">${esc(lat(s.name.replace(/^\d+_/,'')))}</div>
+    <div class="mid"><div class="nm">${disp(s.name)}</div>
     <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span></div></div></div>`+
     secT('الدروس المفرّغة',s.files.length)+
-    s.files.map((f,i)=>`<div class="lrow" data-f="${esc(f)}"><div class="idx">${i+1}</div><div class="ln">${esc(lat(f.replace(/\.txt$/,'')))}</div><div class="go">‹</div></div>`).join('');
+    s.files.map((f,i)=>`<div class="lrow" data-f="${esc(f)}"><div class="idx">${i+1}</div><div class="ln">${disp(f)}</div><div class="go">‹</div></div>`).join('');
   main.querySelectorAll('.lrow').forEach(x=>x.onclick=()=>nav('#/l/'+id+'/'+encodeURIComponent(x.dataset.f)));
 }
 async function viewLesson(id,file){
   const s=ser(id);if(!s)return nav('#/');
   const main=document.getElementById('main');
-  crumb([{t:'مُطالَع',h:'#/'},{t:lat(s.sheikh||''),h:'#/sh/'+encodeURIComponent(s.sheikh||'')},{t:lat(s.name.replace(/^\d+_/,'')),h:'#/s/'+id},{t:lat(file.replace(/\.txt$/,''))}]);
+  crumb([{t:'مُطالَع',h:'#/'},{t:lat(s.sheikh||''),h:'#/sh/'+encodeURIComponent(s.sheikh||'')},{t:lat(s.name.replace(/^\d+_/,'').replace(/｜/g,' — ')),h:'#/s/'+id},{t:lat(file.replace(/\.txt$/,'').replace(/^\d+_\d+\s*-\s*/,'').replace(/｜/g,' — '))}]);
   main.innerHTML='<div class="readBox"><div class="empty">يُحمَّل النص…</div></div>';
   try{
     const t=await(await fetch(D+'txt/'+s.id+'/'+encodeURIComponent(file)+'?v='+Date.now())).text();
-    main.innerHTML=`<div class="readBox"><div class="readHd"><div class="t">${esc(lat(file.replace(/\.txt$/,'')))}</div>
-      <div class="m">${esc(lat(s.name.replace(/^\d+_/,'')))} — ${esc(lat(s.sheikh||''))}</div></div>
+    main.innerHTML=`<div class="readBox"><div class="readHd"><div class="t">${disp(file)}</div>
+      <div class="m">${disp(s.name)} — ${esc(lat(s.sheikh||''))}</div></div>
       <div class="rtxt">${esc(lat(t))}</div></div>`;
     window.scrollTo(0,0);
   }catch(e){main.innerHTML='<div class="readBox"><div class="empty">تعذر تحميل النص.</div></div>';}

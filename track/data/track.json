@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:27:48Z",
+ "updated": "2026-09-30T12:28:55Z",
  "stats": {
-  "uploaded": 24,
+  "uploaded": 25,
   "uploading": 0,
-  "pending": 21,
-  "files_uploaded": 847,
+  "pending": 20,
+  "files_uploaded": 874,
   "files_total": 1305
  },
  "series": [
@@ -177,6 +177,13 @@
    "state": "done"
   },
   {
+   "id": "782",
+   "name": "دورة النحو المستوى الرابع (شرح اب",
+   "sheikh": "أدهم العاسمي",
+   "files": 27,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -195,13 +202,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "782",
-   "name": "دورة النحو المستوى الرابع (شرح اب",
-   "sheikh": "أدهم العاسمي",
-   "files": 27,
    "state": "pending"
   },
   {

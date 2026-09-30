@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:35:45Z",
+ "updated": "2026-09-30T12:35:53Z",
  "stats": {
-  "uploaded": 37,
+  "uploaded": 38,
   "uploading": 0,
-  "pending": 8,
-  "files_uploaded": 1106,
+  "pending": 7,
+  "files_uploaded": 1129,
   "files_total": 1305
  },
  "series": [
@@ -268,6 +268,13 @@
    "state": "done"
   },
   {
+   "id": "992",
+   "name": "شرح_الرسالة_العضدية",
+   "sheikh": "البردوني",
+   "files": 23,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -286,13 +293,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "992",
-   "name": "شرح_الرسالة_العضدية",
-   "sheikh": "البردوني",
-   "files": 23,
    "state": "pending"
   },
   {

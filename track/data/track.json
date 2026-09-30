@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:19:59Z",
+ "updated": "2026-09-30T12:20:56Z",
  "stats": {
-  "uploaded": 11,
-  "uploading": 1,
+  "uploaded": 12,
+  "uploading": 0,
   "pending": 33,
-  "files_uploaded": 486,
+  "files_uploaded": 592,
   "files_total": 1305
  },
  "series": [
@@ -90,7 +90,7 @@
    "name": "دروس تفسير القرآن الكريم",
    "sheikh": "محمد سعيد رمضان البوطي",
    "files": 106,
-   "state": "uploading"
+   "state": "done"
   },
   {
    "id": "1003",

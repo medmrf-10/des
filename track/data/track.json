@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:13:35Z",
+ "updated": "2026-09-30T12:13:44Z",
  "stats": {
-  "uploaded": 3,
+  "uploaded": 4,
   "uploading": 0,
-  "pending": 42,
-  "files_uploaded": 82,
+  "pending": 41,
+  "files_uploaded": 105,
   "files_total": 1305
  },
  "series": [
@@ -30,6 +30,13 @@
    "state": "done"
   },
   {
+   "id": "346",
+   "name": "برنامج رحلة الخلود",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 23,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -48,13 +55,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "346",
-   "name": "برنامج رحلة الخلود",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 23,
    "state": "pending"
   },
   {

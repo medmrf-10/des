@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:14:44Z",
+ "updated": "2026-09-30T12:14:51Z",
  "stats": {
-  "uploaded": 5,
+  "uploaded": 6,
   "uploading": 0,
-  "pending": 40,
-  "files_uploaded": 143,
+  "pending": 39,
+  "files_uploaded": 153,
   "files_total": 1305
  },
  "series": [
@@ -44,6 +44,13 @@
    "state": "done"
   },
   {
+   "id": "370",
+   "name": "دورة مختصرة في العقيدة الإسلامية",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 10,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -61,13 +68,6 @@
    "id": "1006",
    "name": "لامية_العرب",
    "sheikh": "البردوني",
-   "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "370",
-   "name": "دورة مختصرة في العقيدة الإسلامية",
-   "sheikh": "محمد سعيد رمضان البوطي",
    "files": 10,
    "state": "pending"
   },

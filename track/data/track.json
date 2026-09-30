@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:16:32Z",
+ "updated": "2026-09-30T12:16:54Z",
  "stats": {
-  "uploaded": 7,
+  "uploaded": 8,
   "uploading": 0,
-  "pending": 38,
-  "files_uploaded": 216,
+  "pending": 37,
+  "files_uploaded": 270,
   "files_total": 1305
  },
  "series": [
@@ -58,6 +58,13 @@
    "state": "done"
   },
   {
+   "id": "377",
+   "name": "كبرى اليقينيات الكونية",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 54,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -76,13 +83,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "377",
-   "name": "كبرى اليقينيات الكونية",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 54,
    "state": "pending"
   },
   {

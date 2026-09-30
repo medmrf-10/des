@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:23:52Z",
+ "updated": "2026-09-30T12:24:55Z",
  "stats": {
-  "uploaded": 21,
+  "uploaded": 22,
   "uploading": 0,
-  "pending": 24,
-  "files_uploaded": 755,
+  "pending": 23,
+  "files_uploaded": 781,
   "files_total": 1305
  },
  "series": [
@@ -156,6 +156,13 @@
    "state": "done"
   },
   {
+   "id": "777",
+   "name": "كتاب مقاصد الرعاية لحقوق الله عز",
+   "sheikh": "أدهم العاسمي",
+   "files": 26,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -174,13 +181,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "777",
-   "name": "كتاب مقاصد الرعاية لحقوق الله عز",
-   "sheikh": "أدهم العاسمي",
-   "files": 26,
    "state": "pending"
   },
   {

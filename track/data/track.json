@@ -1,9 +1,9 @@
 {
- "updated": "2026-09-30T12:19:58Z",
+ "updated": "2026-09-30T12:19:59Z",
  "stats": {
   "uploaded": 11,
-  "uploading": 0,
-  "pending": 34,
+  "uploading": 1,
+  "pending": 33,
   "files_uploaded": 486,
   "files_total": 1305
  },
@@ -86,6 +86,13 @@
    "state": "done"
   },
   {
+   "id": "414",
+   "name": "دروس تفسير القرآن الكريم",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 106,
+   "state": "uploading"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -104,13 +111,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "414",
-   "name": "دروس تفسير القرآن الكريم",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 106,
    "state": "pending"
   },
   {

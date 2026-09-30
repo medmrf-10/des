@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:44:53Z",
+ "updated": "2026-09-30T13:03:31Z",
  "stats": {
-  "uploaded": 44,
+  "uploaded": 45,
   "uploading": 0,
-  "pending": 1,
-  "files_uploaded": 1295,
+  "pending": 0,
+  "files_uploaded": 1305,
   "files_total": 1305
  },
  "series": [
@@ -27,6 +27,13 @@
    "name": "مقدمات_السنوسي",
    "sheikh": "البردوني",
    "files": 9,
+   "state": "done"
+  },
+  {
+   "id": "1006",
+   "name": "لامية_العرب",
+   "sheikh": "البردوني",
+   "files": 10,
    "state": "done"
   },
   {
@@ -315,13 +322,6 @@
    "sheikh": "البردوني",
    "files": 9,
    "state": "done"
-  },
-  {
-   "id": "1006",
-   "name": "لامية_العرب",
-   "sheikh": "البردوني",
-   "files": 10,
-   "state": "pending"
   }
  ]
 }

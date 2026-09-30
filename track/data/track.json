@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:33:56Z",
+ "updated": "2026-09-30T12:35:45Z",
  "stats": {
-  "uploaded": 36,
-  "uploading": 1,
+  "uploaded": 37,
+  "uploading": 0,
   "pending": 8,
-  "files_uploaded": 1096,
+  "files_uploaded": 1106,
   "files_total": 1305
  },
  "series": [
@@ -265,7 +265,7 @@
    "name": "نظم_الاستعارة",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "uploading"
+   "state": "done"
   },
   {
    "id": "1003",

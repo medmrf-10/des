@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:39:52Z",
+ "updated": "2026-09-30T12:40:52Z",
  "stats": {
-  "uploaded": 41,
-  "uploading": 1,
+  "uploaded": 42,
+  "uploading": 0,
   "pending": 3,
-  "files_uploaded": 1170,
+  "files_uploaded": 1179,
   "files_total": 1305
  },
  "series": [
@@ -300,7 +300,7 @@
    "name": "شرح_السلم",
    "sheikh": "البردوني",
    "files": 9,
-   "state": "uploading"
+   "state": "done"
   },
   {
    "id": "1003",

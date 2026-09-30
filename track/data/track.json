@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:23:35Z",
+ "updated": "2026-09-30T12:23:46Z",
  "stats": {
-  "uploaded": 19,
+  "uploaded": 20,
   "uploading": 0,
-  "pending": 26,
-  "files_uploaded": 720,
+  "pending": 25,
+  "files_uploaded": 744,
   "files_total": 1305
  },
  "series": [
@@ -142,6 +142,13 @@
    "state": "done"
   },
   {
+   "id": "775",
+   "name": "مصطلح الحديث المستوى الثاني",
+   "sheikh": "أدهم العاسمي",
+   "files": 24,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -160,13 +167,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "775",
-   "name": "مصطلح الحديث المستوى الثاني",
-   "sheikh": "أدهم العاسمي",
-   "files": 24,
    "state": "pending"
   },
   {

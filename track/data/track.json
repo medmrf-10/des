@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:16:54Z",
+ "updated": "2026-09-30T12:17:50Z",
  "stats": {
-  "uploaded": 8,
+  "uploaded": 9,
   "uploading": 0,
-  "pending": 37,
-  "files_uploaded": 270,
+  "pending": 36,
+  "files_uploaded": 308,
   "files_total": 1305
  },
  "series": [
@@ -65,6 +65,13 @@
    "state": "done"
   },
   {
+   "id": "379",
+   "name": "تاريخ التشريع الإسلامي",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 38,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -83,13 +90,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "379",
-   "name": "تاريخ التشريع الإسلامي",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 38,
    "state": "pending"
   },
   {

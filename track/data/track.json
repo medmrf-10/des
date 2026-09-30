@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:40:52Z",
+ "updated": "2026-09-30T12:43:51Z",
  "stats": {
-  "uploaded": 42,
+  "uploaded": 43,
   "uploading": 0,
-  "pending": 3,
-  "files_uploaded": 1179,
+  "pending": 2,
+  "files_uploaded": 1286,
   "files_total": 1305
  },
  "series": [
@@ -13,6 +13,13 @@
    "name": "الأجهوري",
    "sheikh": "البردوني",
    "files": 19,
+   "state": "done"
+  },
+  {
+   "id": "1003",
+   "name": "الشرح الثاني للرسالة",
+   "sheikh": "البردوني",
+   "files": 107,
    "state": "done"
   },
   {
@@ -301,13 +308,6 @@
    "sheikh": "البردوني",
    "files": 9,
    "state": "done"
-  },
-  {
-   "id": "1003",
-   "name": "الشرح الثاني للرسالة",
-   "sheikh": "البردوني",
-   "files": 107,
-   "state": "pending"
   },
   {
    "id": "1005",

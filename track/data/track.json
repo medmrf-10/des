@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:22:55Z",
+ "updated": "2026-09-30T12:23:35Z",
  "stats": {
-  "uploaded": 18,
+  "uploaded": 19,
   "uploading": 0,
-  "pending": 27,
-  "files_uploaded": 711,
+  "pending": 26,
+  "files_uploaded": 720,
   "files_total": 1305
  },
  "series": [
@@ -135,6 +135,13 @@
    "state": "done"
   },
   {
+   "id": "774",
+   "name": "عنوان الظرف",
+   "sheikh": "أدهم العاسمي",
+   "files": 9,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -153,13 +160,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "774",
-   "name": "عنوان الظرف",
-   "sheikh": "أدهم العاسمي",
-   "files": 9,
    "state": "pending"
   },
   {

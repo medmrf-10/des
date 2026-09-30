@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:17:50Z",
+ "updated": "2026-09-30T12:19:36Z",
  "stats": {
-  "uploaded": 9,
+  "uploaded": 10,
   "uploading": 0,
-  "pending": 36,
-  "files_uploaded": 308,
+  "pending": 35,
+  "files_uploaded": 416,
   "files_total": 1305
  },
  "series": [
@@ -72,6 +72,13 @@
    "state": "done"
   },
   {
+   "id": "386",
+   "name": "شرح الحكم العطائية للإمام البوطي",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 108,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -90,13 +97,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "386",
-   "name": "شرح الحكم العطائية للإمام البوطي",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 108,
    "state": "pending"
   },
   {

@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:21:45Z",
+ "updated": "2026-09-30T12:21:53Z",
  "stats": {
-  "uploaded": 14,
+  "uploaded": 15,
   "uploading": 0,
-  "pending": 31,
-  "files_uploaded": 630,
+  "pending": 30,
+  "files_uploaded": 653,
   "files_total": 1305
  },
  "series": [
@@ -107,6 +107,13 @@
    "state": "done"
   },
   {
+   "id": "765",
+   "name": "جواهر البلاغة المستوى الثاني",
+   "sheikh": "أدهم العاسمي",
+   "files": 23,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -125,13 +132,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "765",
-   "name": "جواهر البلاغة المستوى الثاني",
-   "sheikh": "أدهم العاسمي",
-   "files": 23,
    "state": "pending"
   },
   {

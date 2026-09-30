@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:13:44Z",
+ "updated": "2026-09-30T12:14:44Z",
  "stats": {
-  "uploaded": 4,
+  "uploaded": 5,
   "uploading": 0,
-  "pending": 41,
-  "files_uploaded": 105,
+  "pending": 40,
+  "files_uploaded": 143,
   "files_total": 1305
  },
  "series": [
@@ -37,6 +37,13 @@
    "state": "done"
   },
   {
+   "id": "369",
+   "name": "يغالطونك إذ يقولون",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 38,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -55,13 +62,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "369",
-   "name": "يغالطونك إذ يقولون",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 38,
    "state": "pending"
   },
   {

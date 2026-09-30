@@ -1,9 +1,9 @@
 {
- "updated": "2026-09-30T12:39:51Z",
+ "updated": "2026-09-30T12:39:52Z",
  "stats": {
   "uploaded": 41,
-  "uploading": 0,
-  "pending": 4,
+  "uploading": 1,
+  "pending": 3,
   "files_uploaded": 1170,
   "files_total": 1305
  },
@@ -296,6 +296,13 @@
    "state": "done"
   },
   {
+   "id": "999",
+   "name": "شرح_السلم",
+   "sheikh": "البردوني",
+   "files": 9,
+   "state": "uploading"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -314,13 +321,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "999",
-   "name": "شرح_السلم",
-   "sheikh": "البردوني",
-   "files": 9,
    "state": "pending"
   }
  ]

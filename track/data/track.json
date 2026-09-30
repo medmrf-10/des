@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:37:52Z",
+ "updated": "2026-09-30T12:38:51Z",
  "stats": {
-  "uploaded": 39,
+  "uploaded": 40,
   "uploading": 0,
-  "pending": 6,
-  "files_uploaded": 1144,
+  "pending": 5,
+  "files_uploaded": 1149,
   "files_total": 1305
  },
  "series": [
@@ -282,6 +282,13 @@
    "state": "done"
   },
   {
+   "id": "994",
+   "name": "إقبار الانتصار",
+   "sheikh": "البردوني",
+   "files": 5,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -300,13 +307,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "994",
-   "name": "إقبار الانتصار",
-   "sheikh": "البردوني",
-   "files": 5,
    "state": "pending"
   },
   {

@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:43:51Z",
+ "updated": "2026-09-30T12:44:53Z",
  "stats": {
-  "uploaded": 43,
+  "uploaded": 44,
   "uploading": 0,
-  "pending": 2,
-  "files_uploaded": 1286,
+  "pending": 1,
+  "files_uploaded": 1295,
   "files_total": 1305
  },
  "series": [
@@ -20,6 +20,13 @@
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
    "files": 107,
+   "state": "done"
+  },
+  {
+   "id": "1005",
+   "name": "مقدمات_السنوسي",
+   "sheikh": "البردوني",
+   "files": 9,
    "state": "done"
   },
   {
@@ -308,13 +315,6 @@
    "sheikh": "البردوني",
    "files": 9,
    "state": "done"
-  },
-  {
-   "id": "1005",
-   "name": "مقدمات_السنوسي",
-   "sheikh": "البردوني",
-   "files": 9,
-   "state": "pending"
   },
   {
    "id": "1006",

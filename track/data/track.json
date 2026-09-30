@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:29:56Z",
+ "updated": "2026-09-30T12:30:54Z",
  "stats": {
-  "uploaded": 27,
-  "uploading": 1,
+  "uploaded": 28,
+  "uploading": 0,
   "pending": 17,
-  "files_uploaded": 938,
+  "files_uploaded": 966,
   "files_total": 1305
  },
  "series": [
@@ -202,7 +202,7 @@
    "name": "دورة النحو المستوى الثاني",
    "sheikh": "أدهم العاسمي",
    "files": 28,
-   "state": "uploading"
+   "state": "done"
   },
   {
    "id": "1003",

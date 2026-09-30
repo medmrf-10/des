@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:38:51Z",
+ "updated": "2026-09-30T12:39:51Z",
  "stats": {
-  "uploaded": 40,
+  "uploaded": 41,
   "uploading": 0,
-  "pending": 5,
-  "files_uploaded": 1149,
+  "pending": 4,
+  "files_uploaded": 1170,
   "files_total": 1305
  },
  "series": [
@@ -289,6 +289,13 @@
    "state": "done"
   },
   {
+   "id": "997",
+   "name": "الحكم_العطائية",
+   "sheikh": "البردوني",
+   "files": 21,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -307,13 +314,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "997",
-   "name": "الحكم_العطائية",
-   "sheikh": "البردوني",
-   "files": 21,
    "state": "pending"
   },
   {

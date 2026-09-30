@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:20:56Z",
+ "updated": "2026-09-30T12:21:38Z",
  "stats": {
-  "uploaded": 12,
+  "uploaded": 13,
   "uploading": 0,
-  "pending": 33,
-  "files_uploaded": 592,
+  "pending": 32,
+  "files_uploaded": 618,
   "files_total": 1305
  },
  "series": [
@@ -93,6 +93,13 @@
    "state": "done"
   },
   {
+   "id": "418",
+   "name": "الحب في القرآن",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 26,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -111,13 +118,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "418",
-   "name": "الحب في القرآن",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 26,
    "state": "pending"
   },
   {

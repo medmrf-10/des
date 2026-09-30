@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تتبع الرفع — تفريغات old</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1419;color:#e8e8e8;min-height:100vh;padding:18px}
+h1{font-size:22px;text-align:center;margin-bottom:4px}
+.sub{text-align:center;color:#8a97a5;font-size:13px;margin-bottom:16px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.stat{background:#1a2330;border:1px solid #2a3644;border-radius:12px;padding:10px 18px;text-align:center;min-width:110px}
+.stat b{display:block;font-size:24px;color:#7cc4ff}
+.stat span{font-size:12px;color:#8a97a5}
+.bar{height:10px;background:#1a2330;border-radius:6px;overflow:hidden;margin:0 auto 20px;max-width:640px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#3a8ef7,#37d67a);transition:width .4s}
+.sec{margin:0 auto 14px;max-width:860px}
+.sec h2{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.sec h2 .pill{font-size:11px;background:#2a3644;border-radius:10px;padding:1px 9px;color:#bcd}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.card{background:#1a2330;border:1px solid #2a3644;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5}
+.card .nm{color:#eaf2f8}
+.card .mt{color:#8a97a5;font-size:11px}
+.card.done{border-right:3px solid #37d67a}
+.card.uploading{border-right:3px solid #f7b53a;animation:pulse 1.4s infinite}
+.card.pending{border-right:3px solid #4a5568;opacity:.75}
+@keyframes pulse{50%{background:#243044}}
+.upd{text-align:center;color:#5a6878;font-size:11px;margin-top:14px}
+</style>
+</head>
+<body>
+<h1>تتبع رفع التفريغات — old</h1>
+<div class="sub">إلى Google Drive: GG / تفريغات old</div>
+<div class="stats" id="stats"></div>
+<div class="bar"><i id="bar"></i></div>
+<div id="secs"></div>
+<div class="upd" id="upd"></div>
+<script>
+const AR='٠١٢٣٤٥٦٧٨٩', lat=s=>String(s).replace(/[٠-٩]/g,c=>AR.indexOf(c));
+const L={done:'مرفوع',uploading:'يرفع الآن',pending:'متبقي'};
+fetch('data/track.json?'+Date.now()).then(r=>r.json()).then(d=>{
+  const s=d.stats;
+  stats.innerHTML=[['مرفوع',s.uploaded],['يرفع الآن',s.uploading],['متبقي',s.pending],['ملفات مرفوعة',lat(s.files_uploaded)],['إجمالي الملفات',lat(s.files_total)]].map(x=>`<div class="stat"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+  bar.style.width=(100*s.uploaded/(s.uploaded+s.uploading+s.pending||1))+'%';
+  secs.innerHTML=['done','uploading','pending'].map(k=>{
+    const rs=d.series.filter(r=>r.state===k);
+    if(!rs.length)return'';
+    return `<div class="sec"><h2>${L[k]}<span class="pill">${rs.length}</span></h2><div class="grid">`+
+      rs.map(r=>`<div class="card ${k}"><div class="nm">${r.name}</div><div class="mt">${r.sheikh} · ${lat(r.files)} ملف · #${r.id}</div></div>`).join('')+'</div></div>';
+  }).join('');
+  upd.textContent='آخر تحديث: '+d.updated.replace('T',' ').replace('Z',' UTC');
+}).catch(e=>{secs.innerHTML='<div class="sec">لا بيانات بعد — أول رفع جارٍ</div>'});
+</script>
+</body>
+</html>

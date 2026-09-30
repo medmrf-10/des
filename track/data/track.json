@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:14:52Z",
+ "updated": "2026-09-30T12:16:32Z",
  "stats": {
-  "uploaded": 6,
-  "uploading": 1,
+  "uploaded": 7,
+  "uploading": 0,
   "pending": 38,
-  "files_uploaded": 153,
+  "files_uploaded": 216,
   "files_total": 1305
  },
  "series": [
@@ -55,7 +55,7 @@
    "name": "علوم القرآن الكريم",
    "sheikh": "محمد سعيد رمضان البوطي",
    "files": 63,
-   "state": "uploading"
+   "state": "done"
   },
   {
    "id": "1003",

@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:22:34Z",
+ "updated": "2026-09-30T12:22:45Z",
  "stats": {
-  "uploaded": 16,
+  "uploaded": 17,
   "uploading": 0,
-  "pending": 29,
-  "files_uploaded": 662,
+  "pending": 28,
+  "files_uploaded": 690,
   "files_total": 1305
  },
  "series": [
@@ -121,6 +121,13 @@
    "state": "done"
   },
   {
+   "id": "767",
+   "name": "دورة النحو المستوى الأول",
+   "sheikh": "أدهم العاسمي",
+   "files": 28,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -139,13 +146,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "767",
-   "name": "دورة النحو المستوى الأول",
-   "sheikh": "أدهم العاسمي",
-   "files": 28,
    "state": "pending"
   },
   {

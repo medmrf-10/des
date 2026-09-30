@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:25:51Z",
+ "updated": "2026-09-30T12:27:48Z",
  "stats": {
-  "uploaded": 23,
+  "uploaded": 24,
   "uploading": 0,
-  "pending": 22,
-  "files_uploaded": 801,
+  "pending": 21,
+  "files_uploaded": 847,
   "files_total": 1305
  },
  "series": [
@@ -170,6 +170,13 @@
    "state": "done"
   },
   {
+   "id": "781",
+   "name": "السيرة النبوية",
+   "sheikh": "أدهم العاسمي",
+   "files": 46,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -188,13 +195,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "781",
-   "name": "السيرة النبوية",
-   "sheikh": "أدهم العاسمي",
-   "files": 46,
    "state": "pending"
   },
   {

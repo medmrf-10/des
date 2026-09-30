@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:32:38Z",
+ "updated": "2026-09-30T12:32:50Z",
  "stats": {
-  "uploaded": 31,
+  "uploaded": 32,
   "uploading": 0,
-  "pending": 14,
-  "files_uploaded": 1031,
+  "pending": 13,
+  "files_uploaded": 1055,
   "files_total": 1305
  },
  "series": [
@@ -226,6 +226,13 @@
    "state": "done"
   },
   {
+   "id": "796",
+   "name": "دورة النحو المستوى الثالث (قطر ال",
+   "sheikh": "أدهم العاسمي",
+   "files": 24,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -244,13 +251,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "796",
-   "name": "دورة النحو المستوى الثالث (قطر ال",
-   "sheikh": "أدهم العاسمي",
-   "files": 24,
    "state": "pending"
   },
   {

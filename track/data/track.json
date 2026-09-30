@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:29:43Z",
+ "updated": "2026-09-30T12:29:55Z",
  "stats": {
-  "uploaded": 26,
+  "uploaded": 27,
   "uploading": 0,
-  "pending": 19,
-  "files_uploaded": 907,
+  "pending": 18,
+  "files_uploaded": 938,
   "files_total": 1305
  },
  "series": [
@@ -191,6 +191,13 @@
    "state": "done"
   },
   {
+   "id": "786",
+   "name": "خطب الجمعة 2025",
+   "sheikh": "أدهم العاسمي",
+   "files": 31,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -209,13 +216,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "786",
-   "name": "خطب الجمعة 2025",
-   "sheikh": "أدهم العاسمي",
-   "files": 31,
    "state": "pending"
   },
   {

@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:22:45Z",
+ "updated": "2026-09-30T12:22:55Z",
  "stats": {
-  "uploaded": 17,
+  "uploaded": 18,
   "uploading": 0,
-  "pending": 28,
-  "files_uploaded": 690,
+  "pending": 27,
+  "files_uploaded": 711,
   "files_total": 1305
  },
  "series": [
@@ -128,6 +128,13 @@
    "state": "done"
   },
   {
+   "id": "768",
+   "name": "عقيدة أهل السنة المستوى التمهيدي",
+   "sheikh": "أدهم العاسمي",
+   "files": 21,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -146,13 +153,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "768",
-   "name": "عقيدة أهل السنة المستوى التمهيدي",
-   "sheikh": "أدهم العاسمي",
-   "files": 21,
    "state": "pending"
   },
   {

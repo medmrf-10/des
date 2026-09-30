@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:21:53Z",
+ "updated": "2026-09-30T12:22:34Z",
  "stats": {
-  "uploaded": 15,
+  "uploaded": 16,
   "uploading": 0,
-  "pending": 30,
-  "files_uploaded": 653,
+  "pending": 29,
+  "files_uploaded": 662,
   "files_total": 1305
  },
  "series": [
@@ -114,6 +114,13 @@
    "state": "done"
   },
   {
+   "id": "766",
+   "name": "شرح متن السلم المنورق",
+   "sheikh": "أدهم العاسمي",
+   "files": 9,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -132,13 +139,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "766",
-   "name": "شرح متن السلم المنورق",
-   "sheikh": "أدهم العاسمي",
-   "files": 9,
    "state": "pending"
   },
   {

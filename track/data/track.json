@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:19:36Z",
+ "updated": "2026-09-30T12:19:58Z",
  "stats": {
-  "uploaded": 10,
+  "uploaded": 11,
   "uploading": 0,
-  "pending": 35,
-  "files_uploaded": 416,
+  "pending": 34,
+  "files_uploaded": 486,
   "files_total": 1305
  },
  "series": [
@@ -79,6 +79,13 @@
    "state": "done"
   },
   {
+   "id": "403",
+   "name": "فقه السيرة النبوية",
+   "sheikh": "محمد سعيد رمضان البوطي",
+   "files": 70,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -97,13 +104,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "403",
-   "name": "فقه السيرة النبوية",
-   "sheikh": "محمد سعيد رمضان البوطي",
-   "files": 70,
    "state": "pending"
   },
   {

@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-30T12:31:45Z",
+ "updated": "2026-09-30T12:32:38Z",
  "stats": {
-  "uploaded": 30,
+  "uploaded": 31,
   "uploading": 0,
-  "pending": 15,
-  "files_uploaded": 1011,
+  "pending": 14,
+  "files_uploaded": 1031,
   "files_total": 1305
  },
  "series": [
@@ -219,6 +219,13 @@
    "state": "done"
   },
   {
+   "id": "793",
+   "name": "شرح صغرى الصغرى",
+   "sheikh": "أدهم العاسمي",
+   "files": 20,
+   "state": "done"
+  },
+  {
    "id": "1003",
    "name": "الشرح الثاني للرسالة",
    "sheikh": "البردوني",
@@ -237,13 +244,6 @@
    "name": "لامية_العرب",
    "sheikh": "البردوني",
    "files": 10,
-   "state": "pending"
-  },
-  {
-   "id": "793",
-   "name": "شرح صغرى الصغرى",
-   "sheikh": "أدهم العاسمي",
-   "files": 20,
    "state": "pending"
   },
   {

@@ -13,14 +13,21 @@ jadid2/atoms/<series>/index.json (~35 سلسلة / ~5254 ذرة)، ويكتب:
 هوية الذرة: «سلسلة|معرّف» — معرّفات index.json ليست فريدة عالمياً
 (نفس اصطلاح selector.load_atoms ومفاتيح xlink/atom_links).
 
-قواعد الحقول الغائبة في فهارس اليوم (تحقق ميداني على 5254 ذرة):
-- `kind`       غائب في كل الذرات  → R5 (kind_anchor) تُنتج 0 حافة؛ القاعدة
-               مفعّلة في الكود وتعمل فور تعبئة الحقل.
-- `difficulty` غائب في كل الذرات  → تُشتق: رتبة السلسلة العددية (البادئة
+مصدر الحقول لكل ذرة (بأولوية تنازلية):
+- `annotations.json` بجانب index.json للسلسلة (إن وُجد) → يزوّد
+  `kind`/`main_tag`/`sub_tags`/`difficulty` الحقيقية لذراتها — اليوم
+  38 سلسلة مصنّفة بالكامل (5838 ذرة). سلسلة بلا ملف جانبي أو ذرة بلا
+  سجل فيه تبقى على الاشتقاق أدناه.
+- `kind`       حيث غاب → None (السلاسل الست الكبرى غير المصنّفة) ⇒
+               R5 (kind_anchor) لا تمسّ تلك الذرات.
+- `difficulty` حيث غاب → تُشتق: رتبة السلسلة العددية (البادئة
                الرقمية لاسمها = ترتيبها في فهرس الدروس) + الموضع النسبي
                للذرة داخل تسلسل سلسلتها ∈ [0,1). وكيل مونوتوني: «الألحق
                في المنهج أصعب» — يعطي اتجاه مثال SKILL_GRAPH الصحيح
                (نحو/إعراب في دورة النحو الأولى 767 < إعراب في أم البراهين 984).
+               تنبيه: المشتق على سلّم رتبة السلسلة (~10–10⁶) والمعلن على
+               سلّم 1–5 — لا تُقارن القيمتان عبر الحدود، لكن R4 لا ترتّب إلا
+               داخل مجموعة (main_tag, sub_tag) واحدة فالخلط مقبول.
 - `prerequisites` غائب            → R6 (manual) تقرأ jadid2/graph/manual_edges.json
                الاختياري [{from,to,confidence?}] بدلاً منها.
 
@@ -104,14 +111,29 @@ def norm_tag(tag):
     return t
 
 
+def load_annotations(idx_path):
+    """الملف الجانبي <series>/annotations.json → {معرّف_الذرة: سجل_التصنيف}.
+    يزوّد kind/main_tag/sub_tags/difficulty الحقيقية؛ غياب الملف → {}."""
+    ap = idx_path.parent / "annotations.json"
+    if not ap.exists():
+        return {}
+    data = json.loads(ap.read_text(encoding="utf-8"))
+    return data.get("atoms", {})
+
+
 def load_atoms(atoms_root):
     """كل فهارس atoms — يعيد atoms: {«سلسلة|معرّف»: سجل} + order:
-    {سلسلة: [مفاتيح بترتيب المنهج]} + بيانات مشتقة (pos, difficulty)."""
+    {سلسلة: [مفاتيح بترتيب المنهج]} + بيانات مشتقة (pos, difficulty).
+    annotations.json الجانبي (إن وُجد) يغلّب الحقول المشتقة من index.json."""
     atoms, order = {}, {}
-    stats = {"files": 0, "entries": 0, "series": 0}
+    stats = {"files": 0, "entries": 0, "series": 0,
+             "ann_series": 0, "annotated": 0}
     for idx in sorted(Path(atoms_root).glob("*/index.json")):
         data = json.loads(idx.read_text(encoding="utf-8"))
         series = data.get("series", idx.parent.name)
+        ann = load_annotations(idx)
+        if ann:
+            stats["ann_series"] += 1
         by_file = defaultdict(list)
         for e in data.get("entries", []):
             key = f"{series}|{e['id']}"
@@ -125,12 +147,23 @@ def load_atoms(atoms_root):
                 "char_start": e.get("char_start", 0),
                 "char_end": e.get("char_end", 0),
                 "tags": e.get("tags", []),
-                "kind": e.get("kind"),           # غائب في فهارس اليوم
-                "declared_difficulty": e.get("difficulty"),  # غائب اليوم
-                "declared_prereqs": e.get("prerequisites", []),  # غائب اليوم
+                "kind": e.get("kind"),
+                "declared_difficulty": e.get("difficulty"),
+                "declared_prereqs": e.get("prerequisites", []),
             }
             a["main_tag"] = a["tags"][0] if a["tags"] else "أخرى"
             a["sub_tags"] = a["tags"][1:]
+            rec = ann.get(e["id"])      # التصنيف الحقيقي يغلّب الاشتقاق
+            if rec:
+                stats["annotated"] += 1
+                if rec.get("kind") is not None:
+                    a["kind"] = rec["kind"]
+                if rec.get("main_tag"):
+                    a["main_tag"] = rec["main_tag"]
+                if rec.get("sub_tags") is not None:
+                    a["sub_tags"] = rec["sub_tags"]
+                if rec.get("difficulty") is not None:
+                    a["declared_difficulty"] = rec["difficulty"]
             atoms[key] = a
             by_file[a["file"]].append(a)
             stats["entries"] += 1
@@ -270,7 +303,8 @@ def rule_tag_chain(atoms, order, edges, seen):
 
 def rule_kind_anchor(atoms, order, edges, seen):
     """R5 (kind_anchor, 0.8): ذرة kind=مهارة تعتمد كل ذرة معلومة في نفس
-    الملف ضمن نفس sub_tag. اليوم: kind غائب في كل الفهارس → 0 حافة."""
+    الملف ضمن نفس sub_tag. kind تصل من annotations.json؛ السلاسل غير
+    المصنّفة (kind=None) لا تنتج حواف."""
     count, skipped_no_kind = 0, 0
     for series, keys in order.items():
         by_file = defaultdict(list)
@@ -386,7 +420,8 @@ def main():
 
     atoms, order, st = load_atoms(args.atoms_root)
     print(f"[graph] {st['series']} سلاسل / {st['files']} ملفات / "
-          f"{st['entries']} ذرة")
+          f"{st['entries']} ذرة — مصنّفة بـannotations: "
+          f"{st['annotated']} في {st['ann_series']} سلسلة")
 
     edges, seen = [], {}
     raw = {}
@@ -423,6 +458,11 @@ def main():
     is_prereq = set(e["from"] for e in final_edges)
     orphans = [k for k in atoms if not any(e["to"] == k for e in final_edges)]
     deepest = sorted(atoms, key=lambda k: -depth[k])[:10]
+    declared_d = sum(1 for a in atoms.values()
+                   if a["declared_difficulty"] is not None)
+    have_kind = sum(1 for a in atoms.values() if a["kind"] is not None)
+    n_skills = sum(1 for a in atoms.values() if a["kind"] == "مهارة")
+    n_infos = sum(1 for a in atoms.values() if a["kind"] == "معلومة")
 
     if args.check:
         current = Path(args.out)
@@ -441,7 +481,7 @@ def main():
                     f"{atoms[e['from']]['series']} ← {atoms[e['to']]['series']} | "
                     f"تكوّن دورة (تعطّل الترتيب الطوبولوجي)\n")
         if not dropped:
-            f.write("# (لا شيء — البناء مونوتوني على difficulty المشتق فلا دورات)\n")
+            f.write("# (لا شيء — لم تعطّل أي حافة الترتيب الطوبولوجي)\n")
 
     # أعمق سلسلة ضمن كل سلسلة دروس (أطول مسار ينتهي داخلها)
     by_series_depth = {}
@@ -475,18 +515,21 @@ def main():
     for r in sorted(desc, key=lambda x: RULE_PRIORITY.get(x, 9)):
         w(f"| `{r}` | {desc[r]} | {raw.get(r, 0)} | {per_rule.get(r, 0)} |")
     w("")
-    w("## القيود والاشتقاقات (موثقة بصراحة)\n")
-    w("- **difficulty غائب في كل الـ5254 ذرة** → مشتق: `رتبة_السلسلة "
-      "(البادئة الرقمية) + الموضع_النسبي∈[0,1)`. كل الحواف تزيده تصاعداً "
-      "⇒ الـDAG مضمون بنيوياً؛ تأكد Kahn بلا إسقاطات.")
+    w("## القيود ومصادر الحقول (موثقة بصراحة)\n")
+    w(f"- **annotations.json**: موجودة لـ**{st['ann_series']}** سلسلة من "
+      f"{st['series']}، تغطي **{st['annotated']}** ذرة من {st['entries']} — "
+      "مصدرها kind/main_tag/sub_tags/difficulty الحقيقية وتغلّب الاشتقاق.")
+    w(f"- **difficulty**: معلنة لـ**{declared_d}** ذرة (سلّم 1–5)، ومشتقة "
+      f"لـ**{len(atoms) - declared_d}** (رتبة السلسلة + الموضع_النسبي∈[0,1)). "
+      "السلّمان لا يتقاطعان إلا داخل مجموعة R4 واحدة.")
+    w(f"- **kind**: معلن لـ**{have_kind}** ذرة ({n_infos} معلومة / "
+      f"{n_skills} مهارة)، وغائب في الباقي ⇒ R5 لا تمسّه.")
     w(f"- **R4**: {r4_stats['groups']} مجموعة (main_tag, sub_tag مُطبَّعة) "
       f"متعددة السلاسل / {r4_stats['memberships']} عضوية؛ أُنتجت "
       f"{raw['tag_chain']} حافة (0.7 حرفي: {r4_stats['conf_07']}، 0.5 مُطبَّع: "
       f"{r4_stats['conf_05']})؛ رُفض أثناء المسح {r4_stats['skipped_inferred']} "
       f"مرشحاً طرفاه inferred معاً (سلامة 2) و{r4_stats['skipped_same_series']} "
       f"لانتمائهما لنفس السلسلة.")
-    w("- **R5**: `kind` غائب كلياً ⇒ 0 حافة. تُفعّل تلقائياً فور تعبئة "
-      "`kind` في فهارس atoms (الكود يقرؤه).")
     w("- **R6**: `manual_edges.json` غير موجود ⇒ 0 حافة. لإضافة حواف يدوية: "
       "`[{\"from\":\"سلسلة|id\",\"to\":\"سلسلة|id\",\"confidence\":1.0}]`.")
     w("- **لا محتوى مخترع**: كل حافة تربط «سلسلة|معرّف» موجودين فقط؛ "

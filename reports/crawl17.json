@@ -1,0 +1,1184 @@
+{
+ "generated": "2026-09-25T08:00:46.520Z",
+ "sites": {
+  "hadith-index": {
+   "url": "https://medmrf-10.github.io/des/hadith/index.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1283,
+   "taps": 26,
+   "smallTaps": 8,
+   "els": 98,
+   "bodyLen": 1223,
+   "res": 3,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 119,
+   "before": {
+    "res": 3,
+    "bodyLen": 1223,
+    "docH": 1283
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": false
+   }
+  },
+  "hadith-adhkar": {
+   "url": "https://medmrf-10.github.io/des/hadith/adhkar.html",
+   "js_errors": [
+    "ReferenceError: ADHKAR is not defined\n    at render (https://medmrf-10.github.io/des/hadith/adhkar.html:44:13)\n    at https://medmrf-10.gith",
+    "ReferenceError: ADHKAR is not defined\n    at render (https://medmrf-10.github.io/des/hadith/adhkar.html:44:13)\n    at fl.onclick (https://me"
+   ],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 6,
+   "smallTaps": 4,
+   "els": 23,
+   "bodyLen": 130,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": -1,
+   "before": {
+    "res": 0,
+    "bodyLen": 130,
+    "docH": 800
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".f",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 0,
+     "bodyLen": 130,
+     "docH": 800,
+     "url": "hadith/adhkar.html"
+    }
+   }
+  },
+  "hadith-ahkam": {
+   "url": "https://medmrf-10.github.io/des/hadith/ahkam.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 8964,
+   "taps": 136,
+   "smallTaps": 135,
+   "els": 656,
+   "bodyLen": 11297,
+   "res": 60,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 840,
+   "before": {
+    "res": 60,
+    "bodyLen": 10769,
+    "docH": 8635
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".chip",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 60,
+     "bodyLen": 11297,
+     "docH": 8964,
+     "url": "hadith/ahkam.html"
+    }
+   }
+  },
+  "hadith-alaam": {
+   "url": "https://medmrf-10.github.io/des/hadith/alaam.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1087,
+   "taps": 17,
+   "smallTaps": 2,
+   "els": 61,
+   "bodyLen": 1141,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 116,
+   "before": {
+    "res": 0,
+    "bodyLen": 67,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 1141,
+     "docH": 1087,
+     "url": "hadith/alaam.html"
+    }
+   }
+  },
+  "hadith-asma": {
+   "url": "https://medmrf-10.github.io/des/hadith/asma.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 2776,
+   "taps": 273,
+   "smallTaps": 186,
+   "els": 1168,
+   "bodyLen": 3525,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 153,
+   "before": {
+    "res": 0,
+    "bodyLen": 9167,
+    "docH": 7142
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3508,
+    "after": {
+     "res": 0,
+     "bodyLen": 3525,
+     "docH": 2776,
+     "url": "hadith/asma.html"
+    }
+   }
+  },
+  "hadith-gharib": {
+   "url": "https://medmrf-10.github.io/des/hadith/gharib.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 6701,
+   "taps": 130,
+   "smallTaps": 126,
+   "els": 438,
+   "bodyLen": 5105,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 175,
+   "before": {
+    "res": 0,
+    "bodyLen": 4473,
+    "docH": 6636
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3525,
+    "after": {
+     "res": 0,
+     "bodyLen": 5105,
+     "docH": 6701,
+     "url": "hadith/gharib.html"
+    }
+   }
+  },
+  "hadith-graded": {
+   "url": "https://medmrf-10.github.io/des/hadith/graded.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 25822,
+   "taps": 130,
+   "smallTaps": 126,
+   "els": 605,
+   "bodyLen": 22638,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 161,
+   "before": {
+    "res": 0,
+    "bodyLen": 28151,
+    "docH": 24831
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3518,
+    "after": {
+     "res": 0,
+     "bodyLen": 22638,
+     "docH": 25822,
+     "url": "hadith/graded.html"
+    }
+   }
+  },
+  "hadith-i3tilaf": {
+   "url": "https://medmrf-10.github.io/des/hadith/i3tilaf.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1423,
+   "taps": 67,
+   "smallTaps": 66,
+   "els": 163,
+   "bodyLen": 1159,
+   "res": 1,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 151,
+   "before": {
+    "res": 359,
+    "bodyLen": 43108,
+    "docH": 33413
+   },
+   "probe": {
+    "type": "click",
+    "sel": "main button, main a, .chip, .btn",
+    "found": true,
+    "ms": 3501,
+    "after": {
+     "res": 1,
+     "bodyLen": 1159,
+     "docH": 1423,
+     "url": "hadith/net.html#g21"
+    }
+   }
+  },
+  "hadith-ilal": {
+   "url": "https://medmrf-10.github.io/des/hadith/ilal.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 7639,
+   "taps": 80,
+   "smallTaps": 77,
+   "els": 460,
+   "bodyLen": 8382,
+   "res": 34,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 161,
+   "before": {
+    "res": 60,
+    "bodyLen": 15105,
+    "docH": 13864
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3511,
+    "after": {
+     "res": 34,
+     "bodyLen": 8382,
+     "docH": 7639,
+     "url": "hadith/ilal.html"
+    }
+   }
+  },
+  "hadith-kutub_index": {
+   "url": "https://medmrf-10.github.io/des/hadith/kutub_index.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 7,
+   "smallTaps": 2,
+   "els": 61,
+   "bodyLen": 278,
+   "res": 2,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 161,
+   "before": {
+    "res": 6,
+    "bodyLen": 675,
+    "docH": 1305
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 2,
+     "bodyLen": 278,
+     "docH": 800,
+     "url": "hadith/kutub_index.html"
+    }
+   }
+  },
+  "hadith-matla3": {
+   "url": "https://medmrf-10.github.io/des/hadith/matla3.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 3,
+   "smallTaps": 0,
+   "els": 20,
+   "bodyLen": 173,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 138,
+   "before": {
+    "res": 0,
+    "bodyLen": 1108,
+    "docH": 2673
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 0,
+     "bodyLen": 173,
+     "docH": 800,
+     "url": "hadith/matla3.html"
+    }
+   }
+  },
+  "hadith-matn": {
+   "url": "https://medmrf-10.github.io/des/hadith/matn.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1612,
+   "taps": 19,
+   "smallTaps": 12,
+   "els": 66,
+   "bodyLen": 2604,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 101,
+   "before": {
+    "res": 0,
+    "bodyLen": 229,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 2604,
+     "docH": 1612,
+     "url": "hadith/matn.html"
+    }
+   }
+  },
+  "hadith-misbar": {
+   "url": "https://medmrf-10.github.io/des/hadith/misbar.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 6,
+   "smallTaps": 0,
+   "els": 30,
+   "bodyLen": 224,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 114,
+   "before": {
+    "res": 0,
+    "bodyLen": 224,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 12003,
+    "after": {
+     "res": 0,
+     "bodyLen": 224,
+     "docH": 800,
+     "url": "hadith/misbar.html"
+    }
+   }
+  },
+  "hadith-muhaddith": {
+   "url": "https://medmrf-10.github.io/des/hadith/muhaddith.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 9,
+   "smallTaps": 2,
+   "els": 66,
+   "bodyLen": 437,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": -1,
+   "before": {
+    "res": 0,
+    "bodyLen": 437,
+    "docH": 800
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".chip",
+    "found": false
+   }
+  },
+  "hadith-muqaran": {
+   "url": "https://medmrf-10.github.io/des/hadith/muqaran.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1428,
+   "taps": 13,
+   "smallTaps": 0,
+   "els": 51,
+   "bodyLen": 1623,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 105,
+   "before": {
+    "res": 0,
+    "bodyLen": 112,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3523,
+    "after": {
+     "res": 0,
+     "bodyLen": 1623,
+     "docH": 1428,
+     "url": "hadith/muqaran.html"
+    }
+   }
+  },
+  "hadith-mushtarak": {
+   "url": "https://medmrf-10.github.io/des/hadith/mushtarak.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 3790,
+   "taps": 19,
+   "smallTaps": 16,
+   "els": 145,
+   "bodyLen": 5323,
+   "res": 8,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 309,
+   "before": {
+    "res": 8,
+    "bodyLen": 5323,
+    "docH": 3790
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".chip",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 8,
+     "bodyLen": 5323,
+     "docH": 3790,
+     "url": "hadith/mushtarak.html"
+    }
+   }
+  },
+  "hadith-mutadarib": {
+   "url": "https://medmrf-10.github.io/des/hadith/mutadarib.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1621,
+   "taps": 31,
+   "smallTaps": 3,
+   "els": 126,
+   "bodyLen": 1672,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 116,
+   "before": {
+    "res": 0,
+    "bodyLen": 1672,
+    "docH": 1621
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 1672,
+     "docH": 1621,
+     "url": "hadith/mutadarib.html"
+    }
+   }
+  },
+  "hadith-muwazan": {
+   "url": "https://medmrf-10.github.io/des/hadith/muwazan.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1962,
+   "taps": 22,
+   "smallTaps": 17,
+   "els": 115,
+   "bodyLen": 1241,
+   "res": 1,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 479,
+   "before": {
+    "res": 1,
+    "bodyLen": 1241,
+    "docH": 1962
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".pchip",
+    "found": true,
+    "ms": 3505,
+    "after": {
+     "res": 1,
+     "bodyLen": 1241,
+     "docH": 1962,
+     "url": "hadith/muwazan.html"
+    }
+   }
+  },
+  "hadith-naskh": {
+   "url": "https://medmrf-10.github.io/des/hadith/naskh.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 6,
+   "smallTaps": 4,
+   "els": 15,
+   "bodyLen": 95,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 161,
+   "before": {
+    "res": 0,
+    "bodyLen": 95,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 95,
+     "docH": 800,
+     "url": "hadith/naskh.html"
+    }
+   }
+  },
+  "hadith-nawawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/nawawi.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 10,
+   "smallTaps": 6,
+   "els": 31,
+   "bodyLen": 229,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 101,
+   "before": {
+    "res": 42,
+    "bodyLen": 4258,
+    "docH": 2779
+   },
+   "probe": {
+    "type": "click",
+    "sel": "a[href*=\"matn\"]",
+    "found": true,
+    "ms": 3501,
+    "after": {
+     "res": 0,
+     "bodyLen": 229,
+     "docH": 800,
+     "url": "hadith/matn.html"
+    }
+   }
+  },
+  "hadith-net": {
+   "url": "https://medmrf-10.github.io/des/hadith/net.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 28962,
+   "taps": 632,
+   "smallTaps": 631,
+   "els": 2562,
+   "bodyLen": 28042,
+   "res": 80,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 151,
+   "before": {
+    "res": 0,
+    "bodyLen": 477,
+    "docH": 891
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3518,
+    "after": {
+     "res": 80,
+     "bodyLen": 28042,
+     "docH": 28962,
+     "url": "hadith/net.html"
+    }
+   }
+  },
+  "hadith-rawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/rawi.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 9534,
+   "taps": 53,
+   "smallTaps": 0,
+   "els": 1016,
+   "bodyLen": 8326,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 103,
+   "before": {
+    "res": 0,
+    "bodyLen": 163,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 0,
+     "bodyLen": 8326,
+     "docH": 9534,
+     "url": "hadith/rawi.html"
+    }
+   }
+  },
+  "hadith-ruhawi": {
+   "url": "https://medmrf-10.github.io/des/hadith/ruhawi.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 5,
+   "smallTaps": 2,
+   "els": 31,
+   "bodyLen": 128,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 297,
+   "before": {
+    "res": 0,
+    "bodyLen": 128,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3511,
+    "after": {
+     "res": 0,
+     "bodyLen": 128,
+     "docH": 800,
+     "url": "hadith/ruhawi.html"
+    }
+   }
+  },
+  "hadith-sanad": {
+   "url": "https://medmrf-10.github.io/des/hadith/sanad.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1631,
+   "taps": 15,
+   "smallTaps": 0,
+   "els": 58,
+   "bodyLen": 1826,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 105,
+   "before": {
+    "res": 0,
+    "bodyLen": 103,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3520,
+    "after": {
+     "res": 0,
+     "bodyLen": 1826,
+     "docH": 1631,
+     "url": "hadith/sanad.html"
+    }
+   }
+  },
+  "hadith-shajara": {
+   "url": "https://medmrf-10.github.io/des/hadith/shajara.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1271,
+   "taps": 17,
+   "smallTaps": 5,
+   "els": 85,
+   "bodyLen": 953,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 163,
+   "before": {
+    "res": 0,
+    "bodyLen": 953,
+    "docH": 1271
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#num",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 953,
+     "docH": 1271,
+     "url": "hadith/shajara.html"
+    }
+   }
+  },
+  "hadith-silsila": {
+   "url": "https://medmrf-10.github.io/des/hadith/silsila.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 11,
+   "smallTaps": 10,
+   "els": 38,
+   "bodyLen": 250,
+   "res": 1,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 263,
+   "before": {
+    "res": 1,
+    "bodyLen": 250,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#num",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 1,
+     "bodyLen": 250,
+     "docH": 800,
+     "url": "hadith/silsila.html"
+    }
+   }
+  },
+  "hadith-siyar": {
+   "url": "https://medmrf-10.github.io/des/hadith/siyar.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 22147,
+   "taps": 239,
+   "smallTaps": 185,
+   "els": 1547,
+   "bodyLen": 19751,
+   "res": 113,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 116,
+   "before": {
+    "res": 261,
+    "bodyLen": 46532,
+    "docH": 51877
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3509,
+    "after": {
+     "res": 113,
+     "bodyLen": 19751,
+     "docH": 22147,
+     "url": "hadith/siyar.html"
+    }
+   }
+  },
+  "hadith-tabaqat": {
+   "url": "https://medmrf-10.github.io/des/hadith/tabaqat.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 40695,
+   "taps": 9,
+   "smallTaps": 0,
+   "els": 1096,
+   "bodyLen": 13165,
+   "res": 6,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 221,
+   "before": {
+    "res": 6,
+    "bodyLen": 11624,
+    "docH": 26656
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3504,
+    "after": {
+     "res": 6,
+     "bodyLen": 13165,
+     "docH": 40695,
+     "url": "hadith/tabaqat.html"
+    }
+   }
+  },
+  "hadith-tadlis": {
+   "url": "https://medmrf-10.github.io/des/hadith/tadlis.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1393,
+   "taps": 9,
+   "smallTaps": 5,
+   "els": 68,
+   "bodyLen": 1041,
+   "res": 2,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 231,
+   "before": {
+    "res": 1,
+    "bodyLen": 647,
+    "docH": 1121
+   },
+   "probe": {
+    "type": "click",
+    "sel": ".opt",
+    "found": true,
+    "ms": 3504,
+    "after": {
+     "res": 2,
+     "bodyLen": 1041,
+     "docH": 1393,
+     "url": "hadith/tadlis.html"
+    }
+   }
+  },
+  "hadith-takhrij": {
+   "url": "https://medmrf-10.github.io/des/hadith/takhrij.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 11,
+   "smallTaps": 8,
+   "els": 39,
+   "bodyLen": 249,
+   "res": 2,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 277,
+   "before": {
+    "res": 2,
+    "bodyLen": 249,
+    "docH": 800
+   },
+   "probe": {
+    "type": "click",
+    "sel": "button.btn",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 2,
+     "bodyLen": 249,
+     "docH": 800,
+     "url": "hadith/takhrij.html"
+    }
+   }
+  },
+  "hadith-takhsis": {
+   "url": "https://medmrf-10.github.io/des/hadith/takhsis.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 7,
+   "smallTaps": 3,
+   "els": 29,
+   "bodyLen": 83,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 116,
+   "before": {
+    "res": 0,
+    "bodyLen": 83,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 83,
+     "docH": 800,
+     "url": "hadith/takhsis.html"
+    }
+   }
+  },
+  "hadith-tarjih": {
+   "url": "https://medmrf-10.github.io/des/hadith/tarjih.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 918,
+   "taps": 9,
+   "smallTaps": 2,
+   "els": 50,
+   "bodyLen": 646,
+   "res": 1,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 294,
+   "before": {
+    "res": 1,
+    "bodyLen": 1309,
+    "docH": 1305
+   },
+   "probe": {
+    "type": "click",
+    "sel": "button.btn",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 1,
+     "bodyLen": 646,
+     "docH": 918,
+     "url": "hadith/tarjih.html"
+    }
+   }
+  },
+  "hadith-tartil": {
+   "url": "https://medmrf-10.github.io/des/hadith/tartil.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 13,
+   "smallTaps": 11,
+   "els": 25,
+   "bodyLen": 215,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 219,
+   "before": {
+    "res": 0,
+    "bodyLen": 166,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3503,
+    "after": {
+     "res": 0,
+     "bodyLen": 215,
+     "docH": 800,
+     "url": "hadith/tartil.html"
+    }
+   }
+  },
+  "hadith-tathabbut": {
+   "url": "https://medmrf-10.github.io/des/hadith/tathabbut.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 800,
+   "taps": 3,
+   "smallTaps": 1,
+   "els": 22,
+   "bodyLen": 144,
+   "res": 0,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": -1,
+   "before": {
+    "res": 0,
+    "bodyLen": 144,
+    "docH": 800
+   },
+   "probe": {
+    "type": "click",
+    "sel": "button.btn",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 0,
+     "bodyLen": 144,
+     "docH": 800,
+     "url": "hadith/tathabbut.html"
+    }
+   }
+  },
+  "hadith-topic": {
+   "url": "https://medmrf-10.github.io/des/hadith/topic.html",
+   "js_errors": [],
+   "net_err": [],
+   "sw": 360,
+   "docH": 1248,
+   "taps": 13,
+   "smallTaps": 11,
+   "els": 91,
+   "bodyLen": 1191,
+   "res": 1,
+   "bg": "rgb(11, 15, 26)",
+   "fg": "rgb(245, 241, 232)",
+   "bgL": 14.9438,
+   "fgL": 241.2006,
+   "fct": 345,
+   "before": {
+    "res": 0,
+    "bodyLen": 482,
+    "docH": 800
+   },
+   "probe": {
+    "type": "term",
+    "sel": "#q",
+    "found": true,
+    "ms": 3502,
+    "after": {
+     "res": 1,
+     "bodyLen": 1191,
+     "docH": 1248,
+     "url": "hadith/topic.html"
+    }
+   }
+  }
+ }
+}

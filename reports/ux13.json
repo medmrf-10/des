@@ -1,0 +1,1348 @@
+{
+ "generated": "2026-09-25T07:30:31.663Z",
+ "sites": {
+  "english-story": {
+   "url": "https://medmrf-10.github.io/des/english/story.html",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 1527,
+    "taps": 29,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 700,
+    "els": 110,
+    "clarity": {
+     "h1": "القصص — قارئ متدرّج",
+     "leads": [
+      "القصص — قارئ متدرّج",
+      "القصص المتدرّجة"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "الرئيسية",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "ShortForm",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الفهرس",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الإملاء",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "قلّد",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "تمرين اليوم",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "يومياتي",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "التظليل",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 272,
+       "y": 754,
+       "w": 36
+      }
+     ],
+     "covered": [
+      "DIV:A2\nA New Job — وظيفة جديدة\n20 "
+     ],
+     "bodyPadB": 0,
+     "docH": 1527
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 29,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 755,
+    "els": 110,
+    "clarity": {
+     "h1": "القصص — قارئ متدرّج",
+     "leads": [
+      "القصص — قارئ متدرّج",
+      "اقرأ جملة-جملة، اسمعها، واضغط أي كلمة لحفظها في بنكك",
+      "القصص المتدرّجة"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "الرئيسية",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "ShortForm",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الفهرس",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الإملاء",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "قلّد",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "تمرين اليوم",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "يومياتي",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "التظليل",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1312,
+       "y": 854,
+       "w": 36
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 0,
+     "docH": 900
+    }
+   }
+  },
+  "english-verb_drills": {
+   "url": "https://medmrf-10.github.io/des/english/verb_drills.html",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 27,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 501,
+    "els": 58,
+    "clarity": {
+     "h1": "الأفعال الشاذة",
+     "leads": [
+      "الأفعال الشاذة",
+      "الأفعال الشاذة"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "الرئيسية",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "ShortForm",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الفهرس",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الإملاء",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "قلّد",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "القصص",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "مفردات SRS",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "روتين اليوم",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 501
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 272,
+       "y": 754,
+       "w": 36
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 0,
+     "docH": 800
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 27,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 546,
+    "els": 58,
+    "clarity": {
+     "h1": "الأفعال الشاذة",
+     "leads": [
+      "الأفعال الشاذة",
+      "بطاقة ← كتابة ← جملة — أضعفها يعود للطابور",
+      "الأفعال الشاذة"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "الرئيسية",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "ShortForm",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الفهرس",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "الإملاء",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "قلّد",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "القصص",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "مفردات SRS",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "روتين اليوم",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 546
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1312,
+       "y": 854,
+       "w": 36
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 0,
+     "docH": 900
+    }
+   }
+  },
+  "prog-patterns": {
+   "url": "https://medmrf-10.github.io/des/prog/patterns.html",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 7,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 206,
+    "els": 44,
+    "clarity": {
+     "h1": "برمج",
+     "leads": [],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "← المنصة",
+       "type": ""
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "24",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "20",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "21",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "22",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 206
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 272,
+       "y": 754,
+       "w": 36
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 60,
+     "docH": 800
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 7,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 206,
+    "els": 44,
+    "clarity": {
+     "h1": "برمج",
+     "leads": [],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "← المنصة",
+       "type": ""
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "30",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "25",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "26",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "24",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 206
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1312,
+       "y": 854,
+       "w": 36
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 60,
+     "docH": 900
+    }
+   }
+  },
+  "mi3tab": {
+   "url": "https://medmrf-10.github.io/des/mi3tab",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 5,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 216,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِعتَب — العتبة الدنيا"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "العادة الكاملة (ورد صفحة)",
+       "type": "text"
+      },
+      {
+       "tag": "INPUT",
+       "txt": "عتبتها الدنيا (آية واحدة)",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "أضف",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 216
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 270,
+       "y": 752,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 800
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 5,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 216,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِعتَب — العتبة الدنيا"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "العادة الكاملة (ورد صفحة)",
+       "type": "text"
+      },
+      {
+       "tag": "INPUT",
+       "txt": "عتبتها الدنيا (آية واحدة)",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "أضف",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 216
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1310,
+       "y": 852,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 900
+    }
+   }
+  },
+  "miqras": {
+   "url": "https://medmrf-10.github.io/des/miqras",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 4,
+    "smallTaps": 1,
+    "smallFont": 0,
+    "bodyLen": 204,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِقرَس — القراءة المتأنية"
+     ],
+     "cta": [
+      {
+       "tag": "TEXTAREA",
+       "txt": "فصل، مقال، متن علمي…",
+       "type": "textarea"
+      },
+      {
+       "tag": "SELECT",
+       "txt": "صغيرة (18 كلمة)\nمتوسطة (30 كلمة)\nكبيرة (50 كلمة)",
+       "type": "select-one"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "ابدأ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 204
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 270,
+       "y": 752,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 800
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 4,
+    "smallTaps": 1,
+    "smallFont": 0,
+    "bodyLen": 204,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِقرَس — القراءة المتأنية"
+     ],
+     "cta": [
+      {
+       "tag": "TEXTAREA",
+       "txt": "فصل، مقال، متن علمي…",
+       "type": "textarea"
+      },
+      {
+       "tag": "SELECT",
+       "txt": "صغيرة (18 كلمة)\nمتوسطة (30 كلمة)\nكبيرة (50 كلمة)",
+       "type": "select-one"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "ابدأ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 204
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1310,
+       "y": 852,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 900
+    }
+   }
+  },
+  "mijlas": {
+   "url": "https://medmrf-10.github.io/des/mijlas",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 3,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 190,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِجلَس — مجلس المساء"
+     ],
+     "cta": [
+      {
+       "tag": "TEXTAREA",
+       "txt": "آية فهمتها، معلومة، فكرة…",
+       "type": "textarea"
+      },
+      {
+       "tag": "TEXTAREA",
+       "txt": "أعمال، عبادة، درس…",
+       "type": "textarea"
+      },
+      {
+       "tag": "TEXTAREA",
+       "txt": "أهم ثلاثة أشياء…",
+       "type": "textarea"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "سجّل المجلس",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 190
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 314,
+       "y": 754,
+       "w": 36
+      },
+      {
+       "x": 270,
+       "y": 752,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 800
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 3,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 190,
+    "els": 32,
+    "clarity": {
+     "h1": "",
+     "leads": [
+      "مِجلَس — مجلس المساء"
+     ],
+     "cta": [
+      {
+       "tag": "TEXTAREA",
+       "txt": "آية فهمتها، معلومة، فكرة…",
+       "type": "textarea"
+      },
+      {
+       "tag": "TEXTAREA",
+       "txt": "أعمال، عبادة، درس…",
+       "type": "textarea"
+      },
+      {
+       "tag": "TEXTAREA",
+       "txt": "أهم ثلاثة أشياء…",
+       "type": "textarea"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "سجّل المجلس",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "💬",
+       "type": "submit"
+      },
+      {
+       "tag": "A",
+       "txt": "≡",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 190
+    },
+    "fb": {
+     "present": true,
+     "rects": [
+      {
+       "x": 1354,
+       "y": 854,
+       "w": 36
+      },
+      {
+       "x": 1310,
+       "y": 852,
+       "w": 38
+      }
+     ],
+     "covered": [],
+     "bodyPadB": 14,
+     "docH": 900
+    }
+   }
+  },
+  "mirfaa": {
+   "url": "https://medmrf-10.github.io/des/mirfaa",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 800,
+    "taps": 2,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 122,
+    "els": 8,
+    "clarity": {
+     "h1": "مِرفأ",
+     "leads": [
+      "سجل الذمّة: لكل شخص ما عليك له وما لك عنده — الذمّة تُبرأ بالفعل لا بالنيّة",
+      "أضف أول شخص — من تدين له؟ ومن يدين لك؟"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "اسم شخص جديد…",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "+",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 122
+    },
+    "fb": {
+     "present": false
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 900,
+    "taps": 2,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 122,
+    "els": 8,
+    "clarity": {
+     "h1": "مِرفأ",
+     "leads": [
+      "سجل الذمّة: لكل شخص ما عليك له وما لك عنده — الذمّة تُبرأ بالفعل لا بالنيّة",
+      "أضف أول شخص — من تدين له؟ ومن يدين لك؟"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "اسم شخص جديد…",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "+",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 122
+    },
+    "fb": {
+     "present": false
+    }
+   }
+  },
+  "mirqam": {
+   "url": "https://medmrf-10.github.io/des/mirqam",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 981,
+    "taps": 11,
+    "smallTaps": 11,
+    "smallFont": 0,
+    "bodyLen": 450,
+    "els": 64,
+    "clarity": {
+     "h1": "مِرقَم",
+     "leads": [
+      "لوحة يومك — تجمع حالة كل أدواتك في نظرة واحدة",
+      "كل الأدوات"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 450
+    },
+    "fb": {
+     "present": false
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 981,
+    "taps": 11,
+    "smallTaps": 11,
+    "smallFont": 0,
+    "bodyLen": 450,
+    "els": 64,
+    "clarity": {
+     "h1": "مِرقَم",
+     "leads": [
+      "لوحة يومك — تجمع حالة كل أدواتك في نظرة واحدة",
+      "كل الأدوات"
+     ],
+     "cta": [
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      },
+      {
+       "tag": "A",
+       "txt": "افتح",
+       "type": ""
+      }
+     ],
+     "foldTxtChars": 450
+    },
+    "fb": {
+     "present": false
+    }
+   }
+  },
+  "tadabbur": {
+   "url": "https://medmrf-10.github.io/des/tadabbur",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 1183,
+    "taps": 3,
+    "smallTaps": 1,
+    "smallFont": 0,
+    "bodyLen": 1588,
+    "els": 19,
+    "clarity": {
+     "h1": "تدبّر",
+     "leads": [
+      "آية اليوم + تفسير ابن كثير + خواطرك التي لا يقرؤها غيرك"
+     ],
+     "cta": [
+      {
+       "tag": "BUTTON",
+       "txt": "آية عشوائية ↺",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "السابقة ←",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "→ التالية",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": false
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 1000,
+    "taps": 3,
+    "smallTaps": 1,
+    "smallFont": 0,
+    "bodyLen": 1588,
+    "els": 19,
+    "clarity": {
+     "h1": "تدبّر",
+     "leads": [
+      "آية اليوم + تفسير ابن كثير + خواطرك التي لا يقرؤها غيرك"
+     ],
+     "cta": [
+      {
+       "tag": "BUTTON",
+       "txt": "آية عشوائية ↺",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "السابقة ←",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "→ التالية",
+       "type": "submit"
+      },
+      {
+       "tag": "TEXTAREA",
+       "txt": "ماذا فهمت من هذه الآية؟ اكتب بحرّية…",
+       "type": "textarea"
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": false
+    }
+   }
+  },
+  "mihfaz": {
+   "url": "https://medmrf-10.github.io/des/mihfaz",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 7196,
+    "taps": 348,
+    "smallTaps": 5,
+    "smallFont": 0,
+    "bodyLen": 4327,
+    "els": 936,
+    "clarity": {
+     "h1": "مِحفَظ",
+     "leads": [
+      "حفظك للقرآن — سورة بسورة، وما يحتاج مراجعة اليوم"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "ابحث عن سورة…",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "الكل",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "مراجعة",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "قيد الحفظ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "متقن",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "لم يبدأ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "مراجعة",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "قيد الحف��",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": false
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 3832,
+    "taps": 348,
+    "smallTaps": 5,
+    "smallFont": 0,
+    "bodyLen": 4327,
+    "els": 936,
+    "clarity": {
+     "h1": "مِحفَظ",
+     "leads": [
+      "حفظك للقرآن — سورة بسورة، وما يحتاج مراجعة اليوم"
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "ابحث عن سورة…",
+       "type": "text"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "الكل",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "مراجعة",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "قيد الحفظ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "متقن",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "لم يبدأ",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "مراجعة",
+       "type": "submit"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "قيد الحف��",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 600
+    },
+    "fb": {
+     "present": false
+    }
+   }
+  },
+  "jadid": {
+   "url": "https://medmrf-10.github.io/des/jadid",
+   "js_errors": [],
+   "m": {
+    "vw": 360,
+    "docSW": 360,
+    "docH": 864,
+    "taps": 2,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 221,
+    "els": 43,
+    "clarity": {
+     "h1": "جديد المنظومة",
+     "leads": [
+      "جديد المنظومة",
+      "كل ما أُنجز هذه الجولة في صفحة واحدة — قيّم، اكتب ملاحظة تفصيلية، أرسل. كل تقييم يُحفظ بتاريخه: تقييمك الأولي، ثم بعد كل تحسين. يصلني لحظياً ويوجّه العمل."
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "••••",
+       "type": "password"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "فتح",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 221
+    },
+    "fb": {
+     "present": false
+    }
+   },
+   "d": {
+    "vw": 1400,
+    "docSW": 1400,
+    "docH": 982,
+    "taps": 2,
+    "smallTaps": 0,
+    "smallFont": 0,
+    "bodyLen": 221,
+    "els": 43,
+    "clarity": {
+     "h1": "جديد المنظومة",
+     "leads": [
+      "جديد المنظومة",
+      "كل ما أُنجز هذه الجولة في صفحة واحدة — قيّم، اكتب ملاحظة تفصيلية، أرسل. كل تقييم يُحفظ بتاريخه: تقييمك الأولي، ثم بعد كل تحسين. يصلني لحظياً ويوجّه العمل."
+     ],
+     "cta": [
+      {
+       "tag": "INPUT",
+       "txt": "••••",
+       "type": "password"
+      },
+      {
+       "tag": "BUTTON",
+       "txt": "فتح",
+       "type": "submit"
+      }
+     ],
+     "foldTxtChars": 221
+    },
+    "fb": {
+     "present": false
+    }
+   }
+  }
+ }
+}

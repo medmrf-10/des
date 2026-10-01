@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>كتب الشامي الأربعة — المواضع والشروح</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+*{box-sizing:border-box}
+body{max-width:1050px;margin:0 auto;background:var(--bg);color:var(--txt);font-family:var(--font-ui)}
+.top{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.top h1{margin:0;font-size:18px;background:linear-gradient(120deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.crumbs{color:var(--dim);font-size:12px}
+.crumbs a{color:var(--acc2);text-decoration:none;cursor:pointer}
+.wrap{padding:14px}
+.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.bkcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer}
+.bkcard:hover{border-color:var(--acc)}
+.bkcard b{font-size:16px;display:block;margin-bottom:4px}
+.bkcard span{color:var(--dim);font-size:12px}
+.bkcard .cnt{color:var(--acc2);font-size:20px;font-weight:800}
+.searchrow{display:flex;gap:8px;margin:10px 0}
+input[type=text],input[type=search]{flex:1;background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:14px}
+.gp{border:1px solid var(--border);border-radius:10px;margin:6px 0;overflow:hidden}
+.gp>summary{padding:9px 12px;cursor:pointer;background:var(--card);font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.gp>summary .p{color:var(--acc2)}
+.gp>summary .n{color:var(--dim);font-size:11px;white-space:nowrap}
+.gp .lst{padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px}
+.hchip{border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hchip:hover{border-color:var(--acc)}
+.hchip .no{color:var(--acc2);font-weight:800;margin-inline-end:5px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+.matn{font-size:18px;line-height:2.05;font-family:var(--font-ar);color:var(--txt)}
+.ref{display:inline-block;margin-inline-start:8px;border:1px solid #c9a24a55;color:var(--acc2);border-radius:999px;padding:2px 10px;font-size:12px}
+.hukm{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;background:#1d3b26;color:#7fd99b}
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+.tb td,.tb th{padding:7px 9px;border-bottom:1px solid var(--border);text-align:right;vertical-align:top}
+.tb th{color:var(--acc);font-size:12px}
+.babtag{display:inline-block;background:var(--card2);border-radius:6px;padding:1px 8px;margin:2px 0 2px 6px;font-size:11px;color:#9db8d4}
+.shrow{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:6px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.shrow:hover{border-color:var(--acc)}
+.shrow .t{font-size:14px;font-weight:700}
+.shrow .a{color:var(--dim);font-size:11px}
+.shrow .loc{color:var(--acc2);font-size:12px;white-space:nowrap}
+.sharhbody{font-family:var(--font-ar);font-size:17px;line-height:2.1;white-space:pre-wrap}
+.passage-hl{background:#3a2f16;border-radius:4px;padding:0 3px}
+.dim{color:var(--dim);font-size:12px}
+.btn{display:inline-block;border:1px solid var(--acc);color:var(--acc2);background:transparent;border-radius:8px;padding:5px 14px;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none}
+.err{border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;color:var(--dim)}
+.spin{color:var(--dim);text-align:center;padding:30px;font-size:14px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.stats div{font-size:12px;color:var(--dim)}
+.stats b{color:var(--acc2)}
+mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>كتب الشامي الأربعة</h1>
+  <div class="crumbs" id="crumbs"></div>
+</div>
+<div class="wrap" id="app"><div class="spin">…</div></div>
+<script src="../hadith/pako.min.js"></script>
+<script>
+const S={books:null,h:{},links:{},sharhs:null};
+const $=s=>document.querySelector(s);
+const app=$('#app');
+async function gz(u){const b=await(await fetch(u)).arrayBuffer();return JSON.parse(pako.ungzip(new Uint8Array(b),{to:'string'}))}
+async function js(u){const r=await fetch(u);return r.ok?r.json():null}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function loc(path){location.hash='#'+path}
+window.onhashchange=route;
+
+async function boot(){
+  S.books=await js('books.json');
+  S.sharhs=await js('sharh_index.json');
+  route();
+}
+async function book(slug){
+  if(!S.h[slug]){S.h[slug]=await gz('hadiths_'+slug+'.json.gz')}
+  return S.h[slug];
+}
+async function links(slug){
+  if(!S.links[slug]){S.links[slug]=(await js('links_index_'+slug+'.json'))||{}}
+  return S.links[slug];
+}
+function byId(rows){const m={};for(const r of rows)m[r.id]=r;return m}
+const HID={};
+
+async function route(){
+  const h=location.hash.slice(1).split('/').filter(Boolean);
+  const c=$('#crumbs');
+  if(h[0]==='b'&&h[1]){
+    const bk=S.books.find(b=>b.slug===h[1]);
+    if(h[2]==='h'&&h[3]){viewHadith(bk,+h[3]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › حديث ${h[3]}`;return}
+    c.innerHTML=`<a onclick="go('')">الكتب</a> › ${esc(bk.name)}`;
+    viewBook(bk);return;
+  }
+  c.innerHTML='';
+  viewBooks();
+}
+function go(p){location.hash='#'+p}
+
+function viewBooks(){
+  const tot=S.books.reduce((a,b)=>a+b.count,0);
+  app.innerHTML=`<div class="stats"><div>الأحاديث: <b>${tot}</b></div><div>الكتب: <b>4</b></div></div>
+  <div class="books">`+S.books.map(b=>`
+    <div class="bkcard" onclick="go('b/${b.slug}')">
+      <b>${esc(b.name)}</b>
+      <span class="cnt">${b.count}</span> <span>حديثاً</span>
+    </div>`).join('')+`</div>`;
+}
+
+async function viewBook(bk){
+  app.innerHTML='<div class="spin">يُحمَّل '+esc(bk.name)+' …</div>';
+  const rows=await book(bk.slug);
+  HID[bk.slug]=byId(rows);
+  let html=`<div class="searchrow"><input type=search id="q" placeholder="ابحث في متن الحديث أو الباب…"></div>`;
+  html+='<div id="res"></div><div id="tree">';
+  for(const g of bk.groups){
+    const t=g.path.join(' ‹ ');
+    html+=`<details class="gp"><summary><span class="p">${esc(t)}</span><span class="n">${g.ids.length}</span></summary><div class="lst" data-g="${g.ids.join(',')}">`+
+      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip" onclick="go('b/${bk.slug}/h/${r.no}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
+      (g.ids.length>120?`<span class="dim">+${g.ids.length-120} أخرى — وسّعها بالبحث</span>`:'')+
+      `</div></details>`;
+  }
+  app.innerHTML=html+'</div>';
+  $('#q').addEventListener('input',e=>{
+    const q=e.target.value.trim();
+    const res=$('#res'),tree=$('#tree');
+    if(q.length<2){res.innerHTML='';tree.style.display='';return}
+    tree.style.display='none';
+    const nq=q.replace(/[ً-ْٰ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+    const out=[];
+    for(const r of rows){
+      const t=r.text.replace(/[ً-ْٰ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+      if(t.includes(nq)||(r.bab||'').includes(nq))out.push(r);
+      if(out.length>=60)break;
+    }
+    res.innerHTML=out.map(r=>`<div class="hchip" style="max-width:none;white-space:normal" onclick="go('b/${bk.slug}/h/${r.no}')"><span class="no">${r.no}</span> ${esc(r.text.slice(0,110))}… <span class="dim">${esc(r.bab)}</span></div>`).join('')||'<div class="err">لا نتائج</div>';
+  });
+}
+
+async function viewHadith(bk,no){
+  app.innerHTML='<div class="spin">…</div>';
+  const rows=await book(bk.slug);
+  const r=rows.find(x=>x.no===no);
+  if(!r){app.innerHTML='<div class="err">الحديث غير موجود</div>';return}
+  const LK=await links(bk.slug);
+  const shs=(LK[String(r.id)]||[]).map(x=>({...x,info:S.sharhs.find(s=>String(s.sid)===String(x.sid))}));
+  let html=`<div class="card">
+    <div class="dim">${esc(bk.name)} — حديث ${r.no}${r.bab?' — '+esc(r.bab):''}</div>
+    <div class="matn">${esc(r.text)}</div>
+    <div style="margin-top:8px">${r.reference?`<span class="ref">${esc(r.reference)}</span>`:''}${r.hukm?`<span class="hukm">${esc(r.hukm)}</span>`:''}</div>
+  </div>`;
+  // locations
+  const labs=Object.keys(r.locs||{});
+  html+=`<div class="card"><h3 style="margin:0 0 8px;color:var(--acc2)">أماكن الورود — ${labs.length} كتاباً / ${r.occ} موضعاً</h3><table class="tb"><tr><th>الكتاب</th><th>الأبواب</th><th>الأرقام</th></tr>`;
+  for(const lb of labs){
+    const L=r.locs[lb];
+    html+=`<tr><td><b>${esc(lb)}</b></td><td>${(L.babs||[]).map(b=>`<span class="babtag">${esc(b)}</span>`).join('')}</td><td>${(L.nums||[]).join('، ')}</td></tr>`;
+  }
+  html+='</table></div>';
+  // sharhs
+  html+=`<div class="card"><h3 style="margin:0 0 8px;color:var(--acc2)">الشروح المتاحة — ${shs.length}</h3>`;
+  if(!shs.length)html+='<div class="dim">لا شرح مُوصلاً لهذا الحديث بعد في مكتبتنا المحلية.</div>';
+  for(const s of shs){
+    const i=s.info||{};
+    html+=`<div class="shrow" onclick="viewSharh('${bk.slug}',${r.id},'${s.sid}')">
+      <div><div class="t">${esc(i.title||s.sid)}</div><div class="a">${esc(i.author||'')}</div></div>
+      <div class="loc">ج ${s.j||'؟'} — ص ${s.s}</div></div>`;
+  }
+  html+='</div>';
+  app.innerHTML=html;
+}
+
+async function viewSharh(slug,hid,sid){
+  app.innerHTML='<div class="spin">يُحمَّل الشرح …</div>';
+  const d=(await gz(`sharh/${sid}_${slug}.json.gz`).catch(()=>null))||{};
+  const e=d[String(hid)];
+  const i=S.sharhs.find(s=>String(s.sid)===String(sid))||{};
+  if(!e){app.innerHTML=`<div class="err">لا مقطع محفوظ — <a class="btn" onclick="history.back()">رجوع</a></div>`;return}
+  app.innerHTML=`<div class="card">
+    <div class="dim">${esc(i.title||'')} — ${esc(i.author||'')} — جزء ${e.j||'؟'} صفحة ${e.s}${e.c?' (يتصل بالصفحة التالية)':''}</div>
+    <div class="sharhbody">${esc(e.t)}</div>
+    <div style="margin-top:10px"><a class="btn" onclick="history.back()">عودة للحديث</a></div>
+  </div>`;
+  $('#crumbs').innerHTML+=` › ${esc(i.title||'')}`;
+}
+window.go=go;window.viewSharh=viewSharh;
+boot();
+</script>
+</body>
+</html>

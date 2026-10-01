@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>كتب الشامي الأربعة — المواضع والشروح</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../shared/theme.css">
 <style>
 *{box-sizing:border-box}
@@ -92,7 +93,9 @@ async function route(){
   const c=$('#crumbs');
   if(h[0]==='b'&&h[1]){
     const bk=S.books.find(b=>b.slug===h[1]);
-    if(h[2]==='h'&&h[3]){viewHadith(bk,+h[3]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › حديث ${h[3]}`;return}
+    if(!bk){app.innerHTML='<div class="err">كتاب غير معروف — <a class="btn" onclick="go(\'\')">الكتب الأربعة</a></div>';c.innerHTML='';return}
+    if(h[2]==='h'&&h[3]){viewHadith(bk,+h[3]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › حديث`;return}
+    if(h[2]==='s'&&h[3]&&h[4]){viewSharh(bk,+h[3],+h[4]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › <a onclick="go('b/${bk.slug}/h/${h[3]}')">الحديث</a> › الشرح`;return}
     c.innerHTML=`<a onclick="go('')">الكتب</a> › ${esc(bk.name)}`;
     viewBook(bk);return;
   }
@@ -120,7 +123,7 @@ async function viewBook(bk){
   for(const g of bk.groups){
     const t=g.path.join(' ‹ ');
     html+=`<details class="gp"><summary><span class="p">${esc(t)}</span><span class="n">${g.ids.length}</span></summary><div class="lst" data-g="${g.ids.join(',')}">`+
-      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip" onclick="go('b/${bk.slug}/h/${r.no}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
+      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
       (g.ids.length>120?`<span class="dim">+${g.ids.length-120} أخرى — وسّعها بالبحث</span>`:'')+
       `</div></details>`;
   }
@@ -137,14 +140,14 @@ async function viewBook(bk){
       if(t.includes(nq)||(r.bab||'').includes(nq))out.push(r);
       if(out.length>=60)break;
     }
-    res.innerHTML=out.map(r=>`<div class="hchip" style="max-width:none;white-space:normal" onclick="go('b/${bk.slug}/h/${r.no}')"><span class="no">${r.no}</span> ${esc(r.text.slice(0,110))}… <span class="dim">${esc(r.bab)}</span></div>`).join('')||'<div class="err">لا نتائج</div>';
+    res.innerHTML=out.map(r=>`<div class="hchip" style="max-width:none;white-space:normal" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span> ${esc(r.text.slice(0,110))}… <span class="dim">${esc(r.bab)}</span></div>`).join('')||'<div class="err">لا نتائج</div>';
   });
 }
 
-async function viewHadith(bk,no){
+async function viewHadith(bk,id){
   app.innerHTML='<div class="spin">…</div>';
   const rows=await book(bk.slug);
-  const r=rows.find(x=>x.no===no);
+  const r=rows.find(x=>x.id===id);
   if(!r){app.innerHTML='<div class="err">الحديث غير موجود</div>';return}
   const LK=await links(bk.slug);
   const shs=(LK[String(r.id)]||[]).map(x=>({...x,info:S.sharhs.find(s=>String(s.sid)===String(x.sid))}));
@@ -166,7 +169,7 @@ async function viewHadith(bk,no){
   if(!shs.length)html+='<div class="dim">لا شرح مُوصلاً لهذا الحديث بعد في مكتبتنا المحلية.</div>';
   for(const s of shs){
     const i=s.info||{};
-    html+=`<div class="shrow" onclick="viewSharh('${bk.slug}',${r.id},'${s.sid}')">
+    html+=`<div class="shrow" onclick="go('b/${bk.slug}/s/${r.id}/${s.sid}')">
       <div><div class="t">${esc(i.title||s.sid)}</div><div class="a">${esc(i.author||'')}</div></div>
       <div class="loc">ج ${s.j||'؟'} — ص ${s.s}</div></div>`;
   }
@@ -174,20 +177,20 @@ async function viewHadith(bk,no){
   app.innerHTML=html;
 }
 
-async function viewSharh(slug,hid,sid){
+async function viewSharh(bk,hid,sid){
   app.innerHTML='<div class="spin">يُحمَّل الشرح …</div>';
-  const d=(await gz(`sharh/${sid}_${slug}.json.gz`).catch(()=>null))||{};
+  const d=(await gz(`sharh/${sid}_${bk.slug}.json.gz`).catch(()=>null))||{};
   const e=d[String(hid)];
   const i=S.sharhs.find(s=>String(s.sid)===String(sid))||{};
-  if(!e){app.innerHTML=`<div class="err">لا مقطع محفوظ — <a class="btn" onclick="history.back()">رجوع</a></div>`;return}
+  if(!e){app.innerHTML=`<div class="err">لا مقطع محفوظ — <a class="btn" onclick="go('b/${bk.slug}/h/${hid}')">رجوع للحديث</a></div>`;return}
+  const jp=e.j?`جزء ${e.j} — `:'';
   app.innerHTML=`<div class="card">
-    <div class="dim">${esc(i.title||'')} — ${esc(i.author||'')} — جزء ${e.j||'؟'} صفحة ${e.s}${e.c?' (يتصل بالصفحة التالية)':''}</div>
+    <div class="dim">${esc(i.title||'')} — ${esc(i.author||'')} — ${jp}صفحة ${e.s}${e.c?' (يتصل بالصفحة التالية)':''}</div>
     <div class="sharhbody">${esc(e.t)}</div>
-    <div style="margin-top:10px"><a class="btn" onclick="history.back()">عودة للحديث</a></div>
+    <div style="margin-top:10px"><a class="btn" onclick="go('b/${bk.slug}/h/${hid}')">عودة للحديث</a></div>
   </div>`;
-  $('#crumbs').innerHTML+=` › ${esc(i.title||'')}`;
 }
-window.go=go;window.viewSharh=viewSharh;
+window.go=go;
 boot();
 </script>
 </body>

@@ -171,7 +171,7 @@ async function viewHadith(bk,id){
     const i=s.info||{};
     html+=`<div class="shrow" onclick="go('b/${bk.slug}/s/${r.id}/${s.sid}')">
       <div><div class="t">${esc(i.title||s.sid)}</div><div class="a">${esc(i.author||'')}</div></div>
-      <div class="loc">ج ${s.j||'؟'} — ص ${s.s}</div></div>`;
+      <div class="loc">${s.j?'ج '+s.j+' — ':''}ص ${s.s}</div></div>`;
   }
   html+='</div>';
   app.innerHTML=html;

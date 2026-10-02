@@ -116,6 +116,7 @@ function route(){
   const h=(location.hash||'#/').slice(2).split('/').filter(x=>x!=='');
   const k=h[0]||'';
   document.querySelectorAll('.bar a.nav').forEach(a=>a.classList.toggle('on',a.dataset.k===k));
+  document.onmouseup=null;
   if(k==='') home();
   else if(k==='tafsir') h.length===1?tafsirHome():h.length===2?surahView(+h[1]):ayahView(+h[1],+h[2]);
   else if(k==='hadith') hadithHome();
@@ -251,7 +252,8 @@ async function salasilHome(){
   SIDX=SIDX||await j(MD+'series_index.json');
   app.innerHTML=crumbs([['مجلس','#/'],['السلاسل المفرغة']])+
    `<div class="searchrow"><input type=search id="q" placeholder="سلسلة أو شيخ…"></div>
-    <div class="dim" style="margin:6px 0">${SIDX.length} سلسلة · ${SIDX.reduce((a,s)=>a+s.n,0).toLocaleString('ar')} درساً مفرغاً</div><div id="lst"></div>`;
+    <div class="searchrow"><input type=search id="gx" placeholder="ابحث في نصوص كل الدروس — مثال: صلاة الفجر في المسجد"><button class="btn sec" id="gxgo">ابحث</button></div>
+    <div class="dim" id="stat" style="margin:6px 0">${SIDX.length} سلسلة · ${SIDX.reduce((a,s)=>a+s.n,0).toLocaleString('ar')} درساً مفرغاً</div><div id="lst"></div>`;
   const lst=$('#lst');
   function render(q){
     const rows=SIDX.filter(s=>!q||s.name.includes(q)||(s.sheikh||'').includes(q));
@@ -261,6 +263,23 @@ async function salasilHome(){
   }
   render('');
   $('#q').addEventListener('input',e=>render(e.target.value.trim()));
+  const stat=$('#stat');
+  const doSearch=async()=>{const q=hnorm($('#gx').value.trim());if(q.length<3)return;
+    lst.innerHTML='';const hits=[];let done=0;stat.textContent='يبحث في المفرغات…';
+    for(const s of SIDX){
+      if(!seriesCache[s.key])seriesCache[s.key]=await gz(MD+'series/'+s.key+'.json.gz').catch(()=>null);
+      const sd=seriesCache[s.key];done++;
+      if(sd)sd.lessons.forEach((l,i)=>{const ix=hnorm(l.x).indexOf(q);
+        if(ix>=0)hits.push({key:s.key,i,t:l.t,sn:s.name,x:l.x.slice(Math.max(0,ix-50),ix+90)})});
+      stat.textContent=`يفحص ${done}/${SIDX.length} سلسلة — وجد ${hits.length}`;
+    }
+    stat.textContent=`انتهى: ${hits.length} درساً يذكر العبارة في كل المفرغات`;
+    lst.innerHTML=hits.length?hits.map(h=>`<div class="lrow" onclick="go('#/salasil/${encodeURIComponent(h.key)}/${h.i}')">
+      <div><div>${esc(h.t)}</div><div class="dim">${esc(h.sn)}</div><div class="dim" style="font-size:11.5px;margin-top:3px">…${esc(h.x)}…</div></div><div class="dim">‹</div></div>`).join('')
+      :'<div class="err">لا نتائج في كل المفرغات</div>';
+  };
+  $('#gxgo').onclick=doSearch;
+  $('#gx').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});
 }
 async function seriesView(key){
   app.innerHTML='<div class="spin">يُحمَّل السلسلة…</div>';

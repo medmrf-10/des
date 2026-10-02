@@ -190,11 +190,21 @@ async function ayahView(s,a){
     const gs=groupsCovering(t,s,a);
     const name=(ar.find(x=>x.s===slug)||{}).n||slug;
     $('#tlist').innerHTML=(gs.length?gs.map((g,i)=>`<div class="tafs"><div class="head"><span class="tn">${esc(name)} — آيات ${g.f} ← ${g.t}</span>
-      <button class="btn sec small" data-i="${i}">＋ إلى مصنع الدرس</button></div><div class="tx">${esc(g.x)}</div></div>`).join('')
+      <span><button class="btn sec small" data-e="${i}">المجموعة التالية ›</button>
+      <button class="btn sec small" data-i="${i}">＋ إلى مصنع الدرس</button></span></div><div class="tx" id="tx${i}">${esc(g.x)}</div></div>`).join('')
       :'<div class="err">هذا التفسير لا يغطي هذه الآية بمجموعة مباشرة</div>');
     $('#tlist').querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{
       const g=gs[+b.dataset.i];
       BK.add({k:'tafsir',ref:`${surahCache[s].ar} ${a}`,surah:s,ayah:a,ayahText:v.t,book:name,slug,gf:g.f,gt:g.t,x:g.x});
+    });
+    $('#tlist').querySelectorAll('button[data-e]').forEach(b=>b.onclick=()=>{
+      const g=gs[+b.dataset.e];
+      const keys=Object.keys(t.groups).sort((x,y)=>{const A=x.split(':').map(Number),B=y.split(':').map(Number);return A[0]-B[0]||A[1]-B[1]});
+      let ix=keys.indexOf(`${g.f}`);if(ix<0)ix=keys.findIndex(k=>t.groups[k]===g);
+      if(ix>=0&&ix<keys.length-1){const ng=t.groups[keys[ix+1]];
+        const d=document.querySelector('#tx'+b.dataset.e);
+        d.innerHTML+='<div style="border-top:1px dashed var(--border);margin-top:10px;padding-top:8px"><span class="dim">آيات '+esc(ng.f)+' ← '+esc(ng.t)+'</span><br>'+esc(ng.x)+'</div>';
+      }else b.remove();
     });
   }
   sel.onchange=render;await render();
@@ -368,8 +378,11 @@ function factory(){
       }).join('')}
       <div style="color:#888;font-size:11px;margin-top:24px">أُنتج في مَجْلِس — ${new Date().toLocaleDateString('ar')}</div></div>
       <div class="toolbar noprint"><button class="btn" onclick="window.print()">اطبع / احفظ PDF</button>
-      <button class="btn sec" id="cp">انسخ النص</button></div>`;
+      <button class="btn sec" id="cp">انسخ النص</button>
+      <button class="btn sec" id="dl">نزّل ملف الدرس</button></div>`;
     $('#cp').onclick=()=>{navigator.clipboard.writeText($('#pdoc').innerText);toast('نُسخ')};
+    $('#dl').onclick=()=>{const html='<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"></head><body style="font-family:Tahoma">'+$('#pdoc').outerHTML+'</body></html>';
+      const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+html],{type:'application/msword'}));a.download=title+'.doc';a.click();URL.revokeObjectURL(a.href)};
     $('#doc').scrollIntoView({behavior:'smooth'});
   };
 }

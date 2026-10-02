@@ -242,8 +242,12 @@ async function hadithHome(){
 }
 
 /* ---------- sciences ---------- */
-function ilumHome(){
+async function ilumHome(){
+  SIDX=SIDX||await j(MD+'series_index.json').catch(()=>[]);
+  const tpc={};SIDX.forEach(s=>{tpc[s.t]=(tpc[s.t]||0)+1});
+  const trows=Object.entries(tpc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<span class="chip" style="font-size:12.5px;padding:4px 12px" onclick="window._SF='${t==='عام'?'':t}';go('#/salasil')">${t} · ${c}</span>`).join('');
   app.innerHTML=crumbs([['مجلس','#/'],['العلوم']])+
+  `<div class="hcard"><b>السلاسل المفرغة حسب العلم:</b><div style="margin-top:6px">${trows}</div></div>`+
   `<div class="layers" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
    <div class="lcard" onclick="location.href='../shami/'"><div class="t">شروح الحديث — الشامي</div><div class="d">72 شرحاً × مواضع الأحاديث الأربعة، مقاطع مؤكدة الحدود</div></div>
    <div class="lcard" onclick="location.href='../wahy/muqaran_tafsir.html'"><div class="t">مقارنة التفاسير</div><div class="d">105 تفاسير جنباً إلى جنب على الآية الواحدة</div></div>
@@ -266,12 +270,13 @@ async function salasilHome(){
     <div class="dim" id="stat" style="margin:6px 0">${SIDX.length} سلسلة · ${SIDX.reduce((a,s)=>a+s.n,0).toLocaleString('ar')} درساً مفرغاً</div><div id="lst"></div>`;
   const lst=$('#lst');
   function render(q){
-    const rows=SIDX.filter(s=>!q||s.name.includes(q)||(s.sheikh||'').includes(q));
+    const rows=SIDX.filter(s=>!q||s.name.includes(q)||(s.sheikh||'').includes(q)||s.t===q);
     lst.innerHTML=rows.map(s=>`<div class="srow" onclick="go('#/salasil/${encodeURIComponent(s.key)}')">
       <div><div class="nm">${esc(s.name)}</div><div class="mt">${esc(s.sheikh||'')} · ${s.n} درساً${s.ayas?` · ${s.ayas} موضع آية`:''}</div></div>
       <div class="dim">‹</div></div>`).join('')||'<div class="err">لا نتائج</div>';
   }
-  render('');
+  const sf=window._SF||'';window._SF='';
+  $('#q').value=sf;render(sf);
   $('#q').addEventListener('input',e=>render(e.target.value.trim()));
   const stat=$('#stat');
   const doSearch=async()=>{const q=hnorm($('#gx').value.trim());if(q.length<3)return;

@@ -173,10 +173,9 @@ async function ayahView(s,a){
   TAFSIRS=TAFSIRS||await j(WAHY+'tafsirs.json');
   const v=surahCache[s].verses.find(x=>x.a===a);
   const ar=TAFSIRS.filter(t=>t.ar);
-  const def=['24-tafseer-al-saadi-arabic','22-ibn-kathir','525-adwa-al-bayan'];
   app.innerHTML=crumbs([['مجلس','#/'],['التفسير','#/tafsir'],['سورة '+surahCache[s].ar,'#/tafsir/'+s],['الآية '+a]])+
    `<div class="ayah">${esc(v.t)} <span class="dim">﴿${a}﴾</span></div>
-    <div class="toolbar"><select id="tp">${ar.map(t=>`<option value="${t.s}" ${def.includes(t.s)?'':''}>${t.n} (${t.g.toLocaleString('ar')} مجموعة)</option>`).join('')}</select>
+    <div class="toolbar"><select id="tp">${ar.map(t=>`<option value="${t.s}">${t.n} (${t.g.toLocaleString('ar')} مجموعة)</option>`).join('')}</select>
     <button class="btn sec small" id="prev">‹ السابقة</button><button class="btn sec small" id="next">التالية ›</button></div>
     <div id="tlist"></div>`;
   $('#prev').onclick=()=>a>1&&go(`#/tafsir/${s}/${a-1}`);
@@ -285,6 +284,10 @@ async function lessonView(key,i){
     ${l.hd?`<div class="dim" style="margin:8px 0">${l.hd} إشارة إلى حديث داخل التفريغ — ابحث في تبويب «الحديث» عن متنها</div>`:''}
     <div class="dim">حدّد أي مقطع من التفريغ لإضافته إلى درسك:</div>
     <div class="transcript" id="tx">${esc(l.x)}</div>
+    <div class="toolbar" style="margin-top:14px">
+      ${i>0?`<a class="btn sec" href="#/salasil/${encodeURIComponent(key)}/${i-1}">‹ الدرس السابق</a>`:''}
+      ${i<s.lessons.length-1?`<a class="btn sec" href="#/salasil/${encodeURIComponent(key)}/${i+1}">الدرس التالي ›</a>`:''}
+    </div>
     <button class="btn fab noprint" id="sel" style="display:none">＋ المقطع المحدد إلى الدرس</button>`;
   const selB=$('#sel');let selTxt='';
   document.onmouseup=()=>{const t=String(window.getSelection());selTxt=t.length>30?t:'';selB.style.display=selTxt?'block':'none'};

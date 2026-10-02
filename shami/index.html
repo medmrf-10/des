@@ -29,6 +29,7 @@ input[type=text],input[type=search]{flex:1;background:var(--card);color:var(--tx
 .gp .lst{padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px}
 .hchip{border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hchip:hover{border-color:var(--acc)}
+.hchip.riv{border-style:dashed;opacity:.82}
 .hchip .no{color:var(--acc2);font-weight:800;margin-inline-end:5px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
 .matn{font-size:18px;line-height:2.05;font-family:var(--font-ar);color:var(--txt)}
@@ -123,7 +124,7 @@ async function viewBook(bk){
   for(const g of bk.groups){
     const t=g.path.join(' ‹ ');
     html+=`<details class="gp"><summary><span class="p">${esc(t)}</span><span class="n">${g.ids.length}</span></summary><div class="lst" data-g="${g.ids.join(',')}">`+
-      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
+      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip${r.riv?' riv':''}" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
       (g.ids.length>120?`<span class="dim">+${g.ids.length-120} أخرى — وسّعها بالبحث</span>`:'')+
       `</div></details>`;
   }
@@ -140,7 +141,7 @@ async function viewBook(bk){
       if(t.includes(nq)||(r.bab||'').includes(nq))out.push(r);
       if(out.length>=60)break;
     }
-    res.innerHTML=out.map(r=>`<div class="hchip" style="max-width:none;white-space:normal" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span> ${esc(r.text.slice(0,110))}… <span class="dim">${esc(r.bab)}</span></div>`).join('')||'<div class="err">لا نتائج</div>';
+    res.innerHTML=out.map(r=>`<div class="hchip${r.riv?' riv':''}" style="max-width:none;white-space:normal" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span> ${esc(r.text.slice(0,110))}… <span class="dim">${esc(r.bab)}</span></div>`).join('')||'<div class="err">لا نتائج</div>';
   });
 }
 
@@ -152,7 +153,7 @@ async function viewHadith(bk,id){
   const LK=await links(bk.slug);
   const shs=(LK[String(r.id)]||[]).map(x=>({...x,info:S.sharhs.find(s=>String(s.sid)===String(x.sid))}));
   let html=`<div class="card">
-    <div class="dim">${esc(bk.name)} — حديث ${r.no}${r.bab?' — '+esc(r.bab):''}</div>
+    <div class="dim">${esc(bk.name)} — حديث ${r.no}${r.bab?' — '+esc(r.bab):''}${r.riv?' — <b style="color:var(--acc)">رواية</b>':''}</div>
     <div class="matn">${esc(r.text)}</div>
     <div style="margin-top:8px">${r.reference?`<span class="ref">${esc(r.reference)}</span>`:''}${r.hukm?`<span class="hukm">${esc(r.hukm)}</span>`:''}</div>
   </div>`;

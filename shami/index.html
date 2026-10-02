@@ -163,7 +163,7 @@ async function viewLevel(bk,idx){
       <div class="loc">${k.ids} حديثاً</div></div>`).join('');
   }
   if(node.leaf.length){
-    html+='<div class="lst" style="margin-top:8px">'+node.leaf.map(id=>{const r=HID[bk.slug][id];return `<span class="hchip${r.riv?' riv':''}" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+'</div>';
+    html+='<div style="margin-top:8px">'+node.leaf.map(id=>{const r=HID[bk.slug][id];return `<div class="hchip${r.riv?' riv':''}" style="max-width:none;white-space:normal;margin-bottom:6px;display:block" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,90))}</div>`}).join('')+'</div>';
   }
   app.innerHTML=html+'</div>';
   $('#q').addEventListener('input',e=>{

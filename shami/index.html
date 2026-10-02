@@ -64,7 +64,7 @@ mark{background:#8a6d1f;color:#fff;border-radius:3px;padding:0 2px}
 <div class="wrap" id="app"><div class="spin">…</div></div>
 <script src="../hadith/pako.min.js"></script>
 <script>
-const S={books:null,h:{},links:{},sharhs:null};
+const S={books:null,h:{},links:{},sharhs:null,tree:{}};
 const $=s=>document.querySelector(s);
 const app=$('#app');
 async function gz(u){const b=await(await fetch(u)).arrayBuffer();return JSON.parse(pako.ungzip(new Uint8Array(b),{to:'string'}))}
@@ -97,8 +97,18 @@ async function route(){
     if(!bk){app.innerHTML='<div class="err">كتاب غير معروف — <a class="btn" onclick="go(\'\')">الكتب الأربعة</a></div>';c.innerHTML='';return}
     if(h[2]==='h'&&h[3]){viewHadith(bk,+h[3]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › حديث`;return}
     if(h[2]==='s'&&h[3]&&h[4]){viewSharh(bk,+h[3],+h[4]);c.innerHTML=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a> › <a onclick="go('b/${bk.slug}/h/${h[3]}')">الحديث</a> › الشرح`;return}
+    if(h[2]==='m'){
+      const idx=h.slice(3).map(Number);
+      const node=nodeAt(bk,idx);
+      if(node){
+        let cr=`<a onclick="go('')">الكتب</a> › <a onclick="go('b/${bk.slug}')">${esc(bk.name)}</a>`;
+        const labels=labelsAt(bk,idx);
+        labels.forEach((lb,i)=>{cr+=` › <a onclick="go('b/${bk.slug}/m/${idx.slice(0,i+1).join('/')}')">${esc(lb)}</a>`});
+        c.innerHTML=cr;viewLevel(bk,idx);return;
+      }
+    }
     c.innerHTML=`<a onclick="go('')">الكتب</a> › ${esc(bk.name)}`;
-    viewBook(bk);return;
+    viewLevel(bk,[]);return;
   }
   c.innerHTML='';
   viewBooks();
@@ -115,18 +125,45 @@ function viewBooks(){
     </div>`).join('')+`</div>`;
 }
 
-async function viewBook(bk){
+function treeOf(bk){
+  if(S.tree[bk.slug])return S.tree[bk.slug];
+  const root={label:'',children:new Map(),leaf:[],ids:0};
+  for(const g of bk.groups){
+    let node=root;root.ids+=g.ids.length;
+    for(const p of g.path){
+      if(!node.children.has(p))node.children.set(p,{label:p,children:new Map(),leaf:[],ids:0});
+      node=node.children.get(p);node.ids+=g.ids.length;
+    }
+    node.leaf=node.leaf.concat(g.ids);
+  }
+  S.tree[bk.slug]=root;return root;
+}
+function nodeAt(bk,idx){
+  let n=treeOf(bk);
+  for(const i of idx){const k=[...n.children.values()][i];if(!k)return null;n=k}
+  return n;
+}
+function labelsAt(bk,idx){
+  const out=[];let n=treeOf(bk);
+  for(const i of idx){const k=[...n.children.values()][i];if(!k)break;out.push(k.label);n=k}
+  return out;
+}
+async function viewLevel(bk,idx){
   app.innerHTML='<div class="spin">يُحمَّل '+esc(bk.name)+' …</div>';
   const rows=await book(bk.slug);
   HID[bk.slug]=byId(rows);
+  const node=nodeAt(bk,idx)||treeOf(bk);
+  const kids=[...node.children.values()];
   let html=`<div class="searchrow"><input type=search id="q" placeholder="ابحث في متن الحديث أو الباب…"></div>`;
+  html+=`<div class="stats"><div>الأحاديث تحت هذا المستوى: <b>${node.ids}</b></div></div>`;
   html+='<div id="res"></div><div id="tree">';
-  for(const g of bk.groups){
-    const t=g.path.join(' ‹ ');
-    html+=`<details class="gp"><summary><span class="p">${esc(t)}</span><span class="n">${g.ids.length}</span></summary><div class="lst" data-g="${g.ids.join(',')}">`+
-      g.ids.slice(0,120).map(id=>{const r=HID[bk.slug][id];return `<span class="hchip${r.riv?' riv':''}" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+
-      (g.ids.length>120?`<span class="dim">+${g.ids.length-120} أخرى — وسّعها بالبحث</span>`:'')+
-      `</div></details>`;
+  if(kids.length){
+    html+=kids.map((k,i)=>`<div class="shrow" onclick="go('b/${bk.slug}/m/${idx.concat(i).join('/')}')">
+      <div><div class="t">${esc(k.label)}</div></div>
+      <div class="loc">${k.ids} حديثاً</div></div>`).join('');
+  }
+  if(node.leaf.length){
+    html+='<div class="lst" style="margin-top:8px">'+node.leaf.map(id=>{const r=HID[bk.slug][id];return `<span class="hchip${r.riv?' riv':''}" onclick="go('b/${bk.slug}/h/${r.id}')"><span class="no">${r.no}</span>${esc(r.text.slice(0,60))}</span>`}).join('')+'</div>';
   }
   app.innerHTML=html+'</div>';
   $('#q').addEventListener('input',e=>{

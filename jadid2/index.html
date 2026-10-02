@@ -63,7 +63,7 @@ body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
   <div class="sec">أصول البيانات (JSON — وقود التطبيقات)</div>
   <div class="grid">
     <div class="card"><div class="top"><div class="ic">⚛️</div><div><div class="tt">فهارس الذرات</div><div class="ff">atoms/</div><span class="chip data">بيانات</span></div></div>
-      <div class="dd" id="atoms-desc">فهرس ذرة-بذرة لكل سلسلة درس مفرّغة — العنوان، الملخص، المفاهيم، المواضع… (١١٧ ملفاً لسلاسل البردوني والبوطي والسريري)</div></div>
+      <div class="dd" id="atoms-desc">فهرس ذرة-بذرة لكل سلسلة درس مفرّغة — العنوان، الملخص، المفاهيم، المواضع… (٤٣ سلسلة مفهرسة)</div></div>
     <div class="card"><div class="top"><div class="ic">📐</div><div><div class="tt">مخطط الذرة</div><div class="ff">schema/</div><span class="chip data">بيانات</span></div></div>
       <div class="dd">مواصفة الذرة الواحدة: id، kind، tags، difficulty، المدى النصي، روابط المتطلبات — العقد الذي تبنى عليه الشجرة</div></div>
     <div class="card"><div class="top"><div class="ic">🧠</div><div><div class="tt">نموذج المتعلم</div><div class="ff">learner/</div><span class="chip data">بيانات</span></div></div>
@@ -96,9 +96,9 @@ body{min-height:100dvh;padding:22px clamp(10px,3vw,34px) 60px}
 <script>
 fetch('data/surahs.json').then(r=>r.json()).then(s=>{
   // count atoms files lazily via a probe list is overkill; show static counts
-  document.getElementById('s-atoms').textContent='117';
+  document.getElementById('s-atoms').textContent='43';
   document.getElementById('s-data').textContent='13+';
-}).catch(()=>{document.getElementById('s-atoms').textContent='117';document.getElementById('s-data').textContent='13+'});
+}).catch(()=>{document.getElementById('s-atoms').textContent='43';document.getElementById('s-data').textContent='13+'});
 </script>
 </body>
 </html>

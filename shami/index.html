@@ -224,9 +224,14 @@ async function viewSharh(bk,hid,sid){
   const jp=e.j?`جزء ${e.j} — `:'';
   app.innerHTML=`<div class="card">
     <div class="dim">${esc(i.title||'')} — ${esc(i.author||'')} — ${jp}صفحة ${e.s}${e.c?' (يتصل بالصفحة التالية)':''}</div>
+    ${e.b?`<div style="text-align:left"><button class="btn sec small" id="exb">↑ اقرأ ما قبل المقطع</button><div id="cxb" class="sharhbody dim" style="display:none;border-bottom:1px dashed #444">${esc(e.b)}</div></div>`:''}
     <div class="sharhbody">${esc(e.t)}</div>
+    ${e.a?`<div id="cxa" class="sharhbody dim" style="display:none;border-top:1px dashed #444">${esc(e.a)}</div><div style="text-align:left"><button class="btn sec small" id="exa">↓ اقرأ ما بعد المقطع</button></div>`:''}
     <div style="margin-top:10px"><a class="btn" onclick="go('b/${bk.slug}/h/${hid}')">عودة للحديث</a></div>
   </div>`;
+  const xb=document.getElementById('exb'),xa=document.getElementById('exa');
+  if(xb)xb.onclick=()=>{const d=document.getElementById('cxb');d.style.display=d.style.display==='none'?'block':'none';xb.textContent=d.style.display==='none'?'↑ اقرأ ما قبل المقطع':'↑ إخفاء ما قبل'};
+  if(xa)xa.onclick=()=>{const d=document.getElementById('cxa');d.style.display=d.style.display==='none'?'block':'none';xa.textContent=d.style.display==='none'?'↓ اقرأ ما بعد المقطع':'↓ إخفاء ما بعد'};
 }
 window.go=go;
 boot();

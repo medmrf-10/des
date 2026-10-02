@@ -1,90 +1,358 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0f1a">
-<title>مجلس — القراءة والختمة</title>
-<link rel="stylesheet" href="../shared/theme.css">
+<title>مجلس — التفسير والحديث والعلوم ودروس المسجد</title>
+<script src="../hadith/pako.min.js"></script>
 <style>
-html,body{overflow-x:hidden}
-body{max-width:860px;margin:0 auto;padding:14px}
-.sur{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin:5px 0}
-.sur:hover{border-color:var(--acc)}
-.sur .n{font-family:var(--font-ar);font-size:14.5px}
-.sur .p{font-size:10px;color:var(--dim)}
-.sur.done{background:rgba(61,214,140,.08);border-color:rgba(61,214,140,.35)}
-.sur.done .n{color:#3dd68c}
-.inp{background:var(--card);border:1px solid var(--border);color:var(--txt);border-radius:10px;padding:8px 13px;font-family:var(--font-ar);font-size:13px}
-.v{font-family:var(--font-ar);font-size:21px;line-height:2.4;text-align:justify;padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-top:12px}
-.vn{display:inline-block;min-width:24px;height:24px;line-height:24px;text-align:center;border:1px solid var(--acc);border-radius:50%;font-size:11px;color:var(--acc);margin:0 4px}
-.btn{background:var(--acc);color:#14140f;border:0;border-radius:9px;padding:8px 18px;font-weight:700;cursor:pointer;font-family:var(--font-ar);font-size:12px}
-.muted{color:var(--dim);font-size:12px}
-.bar{height:8px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:8px}
-.bar b{display:block;height:100%;background:linear-gradient(90deg,#3dd68c,var(--acc));border-radius:99px;transition:width .4s}
-.pill{border:1px solid var(--border);border-radius:99px;padding:5px 13px;cursor:pointer;font-size:11.5px;color:var(--dim)}
-.pill.on{border-color:var(--acc);color:var(--acc)}
+:root{--bg:#0e1014;--card:#161a21;--card2:#1c212b;--txt:#e9e5db;--dim:#9a948a;--border:#2b303c;--acc:#c9a227;--acc2:#5aa3d9;--grn:#4da377;--quran:#d4b45a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.85;font-size:15.5px}
+a{color:var(--acc2);text-decoration:none}
+a:hover{text-decoration:underline}
+.bar{position:sticky;top:0;z-index:60;background:rgba(14,16,20,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.bar .logo{font-weight:800;font-size:17px;color:var(--acc);margin-inline-end:8px;letter-spacing:.5px}
+.bar a.nav{color:var(--txt);padding:5px 11px;border-radius:8px;font-size:13.5px;border:1px solid transparent}
+.bar a.nav:hover{border-color:var(--border);background:var(--card)}
+.bar a.nav.on{background:var(--card);border-color:var(--acc);color:var(--acc)}
+.badge{display:inline-block;min-width:18px;background:var(--acc);color:#000;border-radius:9px;font-size:11px;font-weight:800;text-align:center;padding:0 5px;margin-inline-start:4px}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px}
+.hero{text-align:center;padding:34px 12px 20px}
+.hero h1{font-size:30px;margin:0 0 6px;color:var(--quran)}
+.hero p{color:var(--dim);margin:0;font-size:14.5px}
+.layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:22px}
+.lcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 16px;cursor:pointer;transition:.15s}
+.lcard:hover{border-color:var(--acc);transform:translateY(-2px)}
+.lcard .ic{font-size:26px;margin-bottom:6px}
+.lcard .t{font-size:17px;font-weight:700;margin-bottom:4px}
+.lcard .d{color:var(--dim);font-size:13px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:12px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer}
+.scard:hover{border-color:var(--acc)}
+.scard .n{font-size:15px;font-weight:700}
+.scard .m{color:var(--dim);font-size:11px;margin-top:2px}
+.vrow{display:flex;gap:10px;padding:8px 10px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:8px}
+.vrow:hover{background:var(--card)}
+.vrow .an{color:var(--acc);font-weight:800;min-width:34px;text-align:center;border:1px solid var(--border);border-radius:8px;padding:1px 6px;height:fit-content;font-size:12px}
+.vrow .vt{font-size:17px;line-height:2}
+.searchrow{display:flex;gap:8px;margin:12px 0}
+input[type=search],input[type=text]{flex:1;background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-family:inherit;font-size:14.5px}
+select{background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-family:inherit;font-size:13.5px}
+button{cursor:pointer;font-family:inherit}
+.btn{background:var(--acc);color:#000;border:none;border-radius:9px;padding:9px 16px;font-weight:700;font-size:13.5px}
+.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--border)}
+.btn.small{padding:4px 10px;font-size:12px}
+.ayah{background:var(--card2);border:1px solid var(--quran);border-radius:12px;padding:14px 16px;font-size:19px;line-height:2.1;margin:12px 0}
+.tafs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:10px 0}
+.tafs .head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.tafs .tn{color:var(--acc2);font-weight:700;font-size:13.5px}
+.tafs .tx{white-space:pre-wrap;font-size:14.5px}
+.crumbs{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--dim);margin-bottom:12px}
+.crumbs a{color:var(--acc2)}
+.crumbs .sep{color:var(--border)}
+.srow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:8px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.srow:hover{border-color:var(--acc)}
+.srow .nm{font-weight:700;font-size:15px}
+.srow .mt{color:var(--dim);font-size:12px}
+.lrow{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:6px 0;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.lrow:hover{border-color:var(--acc2)}
+.hcard{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:6px 0}
+.hcard .hm{font-size:15.5px}
+.hcard .hmt{color:var(--dim);font-size:11.5px;margin-top:4px}
+.transcript{white-space:pre-wrap;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;font-size:15.5px;line-height:2}
+.chip{display:inline-block;border:1px solid var(--acc2);color:var(--acc2);border-radius:8px;padding:2px 9px;font-size:12px;cursor:pointer;margin:3px}
+.chip:hover{background:var(--card2)}
+.spin{color:var(--dim);text-align:center;padding:40px}
+.err{color:#d97a7a;padding:14px}
+.dim{color:var(--dim);font-size:12.5px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{background:var(--bg);border:1px solid var(--border);border-radius:14px;max-width:720px;width:100%;max-height:86vh;overflow:auto;padding:18px}
+.fab{position:fixed;bottom:24px;left:24px;z-index:90}
+.bitem{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:8px 0}
+.bitem .bt{font-size:12px;color:var(--acc2);font-weight:700}
+.bitem .bx{margin-top:4px;font-size:14px;max-height:140px;overflow:hidden;position:relative}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+@media print{.bar,.fab,.toolbar,.noprint{display:none!important}body{background:#fff;color:#000}.ayah{border-color:#999}.doc{max-width:100%}}
+.doc{background:#fdfdf8;color:#1a1a1a;border-radius:12px;padding:30px}
+.doc h1,.doc h2{color:#222}
+.doc .qa{border-right:4px solid #8a6d1d;padding:8px 14px;background:#faf6e8;border-radius:8px;margin:14px 0;font-size:18px}
+.doc .tf{background:#f4f4f4;border-radius:8px;padding:12px 14px;margin:10px 0;white-space:pre-wrap}
+.doc .ex{background:#eef4fa;border-radius:8px;padding:12px 14px;margin:10px 0;white-space:pre-wrap}
 </style>
 </head>
 <body>
-<div style="display:flex;justify-content:space-between;align-items:center">
-<h2 style="font-family:var(--font-ar);margin:6px 0">مجلس <span class="muted" style="font-weight:400;font-size:12px">— القراءة وتتبّع الختمة</span></h2>
-<span class="pill" id="flt">المتبقي فقط</span>
+<div class="bar">
+  <span class="logo">مَجْلِس</span>
+  <a class="nav" href="#/" data-k="">المدخل</a>
+  <a class="nav" href="#/tafsir" data-k="tafsir">التفسير</a>
+  <a class="nav" href="#/hadith" data-k="hadith">الحديث</a>
+  <a class="nav" href="#/ilum" data-k="ilum">العلوم</a>
+  <a class="nav" href="#/salasil" data-k="salasil">السلاسل المفرغة</a>
+  <a class="nav" href="#/factory" data-k="factory">مصنع الدرس<span class="badge" id="bc">0</span></a>
 </div>
-<div class="muted" id="stats">…</div>
-<div class="bar"><b id="bar" style="width:0%"></b></div>
-<input class="inp" id="q" placeholder="سورة…" style="width:100%;margin-top:10px">
-<div id="list"></div>
-<div id="reader" style="display:none"></div>
+<div class="wrap" id="app"><div class="spin">يُحمَّل…</div></div>
 <script>
-const $=q=>document.querySelector(q[0]==='#'?q:'#'+q);
-const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let IX=null,ST=JSON.parse(localStorage.majlis||'{}');
-let onlyLeft=false;
-async function ix(){if(!IX)IX=await(await fetch('../wahy/data/index.json')).json();return IX}
-const SD={};
-async function surah(n){if(!SD[n])SD[n]=await(await fetch('../wahy/data/surah/'+n+'.json')).json();return SD[n]}
-function save(){localStorage.majlis=JSON.stringify(ST)}
-function stats(){
- ix().then(I=>{
-  const tot=I.reduce((a,s)=>a+s.ayahs,0);
-  const done=Object.keys(ST).reduce((a,s)=>a+ST[s],0);
-  const doneS=I.filter(s=>(ST[s.n]||0)>=s.ayahs).length;
-  $('stats').textContent='قرأت '+done.toLocaleString('ar-EG')+' آية من '+tot.toLocaleString('ar-EG')+' · '+doneS+'/'+I.length+' سورة خُتمت';
-  $('bar').style.width=(done/tot*100).toFixed(1)+'%'})}
-function list(){
- ix().then(I=>{
-  const q=$('q').value.trim();
-  $('#list').innerHTML=I.filter(s=>{
-   if(onlyLeft&&(ST[s.n]||0)>=s.ayahs)return false;
-   return !q||s.ar.includes(q)||(''+s.n).includes(q)||(s.en||'').toLowerCase().includes(q.toLowerCase())})
-  .map(s=>{const d=ST[s.n]||0,pc=Math.round(d/s.ayahs*100);
-   return `<div class="sur ${d>=s.ayahs?'done':''}" data-n="${s.n}">
-   <span class="n">${s.n}. ${s.ar} ${d>=s.ayahs?'✓':''}</span>
-   <span class="p">${s.ayahs} آية · ${pc}%</span></div>`}).join('')})}
-async function read(n){
- const s=await surah(n);const I=await ix();const sm=I.find(x=>x.n===+n);
- const done=ST[n]||0;
- $('#list').style.display='none';
- $('#reader').style.display='block';
- $('#reader').innerHTML=`<button class="btn" id="bk" style="margin-bottom:8px">→ السور</button>
- <h3 style="font-family:var(--font-ar);margin:4px 0">${s.n}. ${s.ar} <span class="muted" style="font-size:11px">${s.place==='Makkiyah'?'مكية':'مدنية'}</span></h3>
- <div class="v">${s.bismillah?'<div style="text-align:center;color:var(--acc);margin-bottom:10px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>':''}
- ${s.verses.map(v=>`<span class="vs" data-a="${v.a}">${esc(v.t)}</span><span class="vn">${v.a.toLocaleString('ar-EG')}</span>`).join(' ')}</div>
- <div style="display:flex;gap:8px;margin-top:12px">
- <button class="btn" id="all">${sm&&done>=sm.ayahs?'✓ مقروءة':'قرأتُها كلها'}</button>
- <button class="btn" id="mark" style="background:var(--card2);color:var(--txt)">علّمتُ حتى آية…</button>
- <a class="btn" style="background:var(--card2);color:var(--txt);text-decoration:none;display:inline-block;padding:8px 14px" href="../wahy/mishkat.html#${n}:1">تفاسيرها</a></div>`;
- $('#bk').onclick=()=>{$('#reader').style.display='none';$('#list').style.display='';list()};
- $('#all').onclick=()=>{ST[n]=s.verses.length;save();$('#reader').style.display='none';$('#list').style.display='';stats();list()};
- $('#mark').onclick=()=>{const a=+prompt('حتى آية رقم؟',''+((done||0)+1))||0;if(a>0){ST[n]=Math.min(a,s.verses.length);save();stats();list();$('#reader').style.display='none';$('#list').style.display=''}};
- $('#reader').scrollIntoView()}
-$('#list').onclick=e=>{const s=e.target.closest('.sur');if(s)read(s.dataset.n)};
-$('q').addEventListener('input',list);
-$('flt').onclick=()=>{onlyLeft=!onlyLeft;$('flt').classList.toggle('on',onlyLeft);list()};
-stats();list();
+const $=s=>document.querySelector(s), app=$('#app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function gz(u){const b=await(await fetch(u)).arrayBuffer();return JSON.parse(pako.ungzip(new Uint8Array(b),{to:'string'}))}
+async function j(u){const r=await fetch(u);if(!r.ok)throw 0;return r.json()}
+const WAHY='../wahy/data/', MD='./data/';
+
+/* ---------- basket (مصنع الدرس) ---------- */
+const BK={get(){try{return JSON.parse(localStorage.majlis_basket||'[]')}catch(e){return[]}},
+  set(b){localStorage.majlis_basket=JSON.stringify(b);$('#bc').textContent=b.length},
+  add(it){const b=BK.get();b.push(it);BK.set(b);toast('أُضيف إلى مصنع الدرس')}};
+BK.set(BK.get());
+function toast(m){const d=document.createElement('div');d.style.cssText='position:fixed;bottom:20px;right:20px;background:var(--acc);color:#000;padding:9px 18px;border-radius:10px;font-weight:700;z-index:200';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
+
+/* ---------- caches ---------- */
+let SURAHS=null, TAFSIRS=null, SIDX=null;
+const surahCache={}, tafsirCache={}, hadCache={}, seriesCache={};
+
+/* ---------- router ---------- */
+function route(){
+  const h=(location.hash||'#/').slice(2).split('/').filter(x=>x!=='');
+  const k=h[0]||'';
+  document.querySelectorAll('.bar a.nav').forEach(a=>a.classList.toggle('on',a.dataset.k===k));
+  if(k==='') home();
+  else if(k==='tafsir') h.length===1?tafsirHome():h.length===2?surahView(+h[1]):ayahView(+h[1],+h[2]);
+  else if(k==='hadith') hadithHome();
+  else if(k==='ilum') ilumHome();
+  else if(k==='salasil') h.length===1?salasilHome():h.length===2?seriesView(decodeURIComponent(h[1])):lessonView(decodeURIComponent(h[1]),+h[2]);
+  else if(k==='factory') factory();
+  else home();
+}
+addEventListener('hashchange',route);
+function go(h){location.hash=h}
+function crumbs(list){return '<div class="crumbs">'+list.map((c,i)=>i<list.length-1?`<a href="${c[1]}">${esc(c[0])}</a><span class="sep">‹</span>`:`<b>${esc(c[0])}</b>`).join('')+'</div>'}
+
+/* ---------- home ---------- */
+function home(){
+  app.innerHTML=`<div class="hero"><h1>مَجْلِس</h1><p>خدمة متكاملة: من التفسير إلى الحديث إلى العلوم إلى السلاسل المفرغة — حتى درس المسجد</p></div>
+  <div class="layers">
+   <div class="lcard" onclick="go('#/tafsir')"><div class="ic">﴾</div><div class="t">التفسير</div><div class="d">114 سورة، 105 تفاسير — من الآية إلى شرحها عند ابن كثير والطبري والسعدي وغيرهم</div></div>
+   <div class="lcard" onclick="go('#/hadith')"><div class="ic">ق</div><div class="t">الحديث</div><div class="d">متون الكتب الستة + خدمة شروح الشامي (72 شرحاً، ~100 ألف مقطع مؤكد)</div></div>
+   <div class="lcard" onclick="go('#/ilum')"><div class="ic">ع</div><div class="t">العلوم الأخرى</div><div class="d">الفقه المقارن، العقيدة والتصوف (صوفيا)، المتون</div></div>
+   <div class="lcard" onclick="go('#/salasil')"><div class="ic">س</div><div class="t">السلاسل المفرغة</div><div class="d">88 سلسلة مفرغة (2,504 دروس) — نصوص الدروس مع الآيات المذكورة فيها</div></div>
+   <div class="lcard" onclick="go('#/factory')"><div class="ic">✎</div><div class="t">مصنع الدرس</div><div class="d">اجمع آيةً وتفسيرها وحديثاً ومقطعاً من درس — وأنتج ورقة درس جاهزة للمسجد</div></div>
+  </div>`;
+}
+
+/* ---------- tafsir ---------- */
+async function tafsirHome(){
+  app.innerHTML='<div class="spin">يُحمَّل فهرس السور…</div>';
+  SURAHS=SURAHS||await j(WAHY+'index.json');
+  app.innerHTML=crumbs([['مجلس','#/'],['التفسير']])+
+   '<div class="searchrow"><input type=search id="q" placeholder="سورة…"></div><div class="grid" id="g">'+
+   SURAHS.map(s=>`<div class="scard" data-n="${s.ar}" onclick="go('#/tafsir/${s.n}')"><div class="n">${s.ar}</div><div class="m">${s.n} · ${s.ayahs} آية · ${s.place}</div></div>`).join('')+'</div>';
+  $('#q').addEventListener('input',e=>{const q=e.target.value.trim();
+    document.querySelectorAll('.scard').forEach(c=>c.style.display=(!q||c.dataset.n.includes(q))?'':'none')});
+}
+async function surahView(n){
+  app.innerHTML='<div class="spin">يُحمَّل السورة…</div>';
+  if(!surahCache[n])surahCache[n]=await j(WAHY+'surah/'+n+'.json');
+  const s=surahCache[n];
+  app.innerHTML=crumbs([['مجلس','#/'],['التفسير','#/tafsir'],['سورة '+s.ar]])+
+   `<div class="searchrow"><input type=search id="q" placeholder="ابحث في آيات السورة…"></div>`+
+   (s.bismillah?'<div class="ayah" style="text-align:center">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>':'')+
+   s.verses.map(v=>`<div class="vrow" data-t="${esc(v.t)}" onclick="go('#/tafsir/${n}/${v.a}')"><span class="an">${v.a}</span><span class="vt">${esc(v.t)}</span></div>`).join('');
+  $('#q').addEventListener('input',e=>{const q=e.target.value.trim();
+    document.querySelectorAll('.vrow').forEach(c=>c.style.display=(!q||c.dataset.t.includes(q))?'':'none')});
+}
+function groupsCovering(t,s,a){
+  const out=[];const g=t.groups||{};
+  for(const k in g){const gr=g[k];const[fs,fa]=gr.f.split(':').map(Number);const[ts,ta]=gr.t.split(':').map(Number);
+    if(fs<s||(fs===s&&fa<=a)){if(ts>s||(ts===s&&ta>=a))out.push(gr)}}
+  return out;
+}
+async function ayahView(s,a){
+  app.innerHTML='<div class="spin">يُحمَّل الآية والتفسير…</div>';
+  if(!surahCache[s])surahCache[s]=await j(WAHY+'surah/'+s+'.json');
+  TAFSIRS=TAFSIRS||await j(WAHY+'tafsirs.json');
+  const v=surahCache[s].verses.find(x=>x.a===a);
+  const ar=TAFSIRS.filter(t=>t.ar);
+  const def=['24-tafseer-al-saadi-arabic','22-ibn-kathir','525-adwa-al-bayan'];
+  app.innerHTML=crumbs([['مجلس','#/'],['التفسير','#/tafsir'],['سورة '+surahCache[s].ar,'#/tafsir/'+s],['الآية '+a]])+
+   `<div class="ayah">${esc(v.t)} <span class="dim">﴿${a}﴾</span></div>
+    <div class="toolbar"><select id="tp">${ar.map(t=>`<option value="${t.s}" ${def.includes(t.s)?'':''}>${t.n} (${t.g.toLocaleString('ar')} مجموعة)</option>`).join('')}</select>
+    <button class="btn sec small" id="prev">‹ السابقة</button><button class="btn sec small" id="next">التالية ›</button></div>
+    <div id="tlist"></div>`;
+  $('#prev').onclick=()=>a>1&&go(`#/tafsir/${s}/${a-1}`);
+  $('#next').onclick=()=>a<surahCache[s].verses.length&&go(`#/tafsir/${s}/${a+1}`);
+  const sel=$('#tp');sel.value='24-tafseer-al-saadi-arabic';
+  async function render(){
+    const slug=sel.value;$('#tlist').innerHTML='<div class="spin">يُحمَّل التفسير…</div>';
+    if(!tafsirCache[slug])tafsirCache[slug]=await gz(WAHY+'tafsir/'+slug+'.json.gz').catch(()=>null);
+    const t=tafsirCache[slug];
+    if(!t){$('#tlist').innerHTML='<div class="err">تعذر تحميل التفسير</div>';return}
+    const gs=groupsCovering(t,s,a);
+    const name=(ar.find(x=>x.s===slug)||{}).n||slug;
+    $('#tlist').innerHTML=(gs.length?gs.map((g,i)=>`<div class="tafs"><div class="head"><span class="tn">${esc(name)} — آيات ${g.f} ← ${g.t}</span>
+      <button class="btn sec small" data-i="${i}">＋ إلى مصنع الدرس</button></div><div class="tx">${esc(g.x)}</div></div>`).join('')
+      :'<div class="err">هذا التفسير لا يغطي هذه الآية بمجموعة مباشرة</div>');
+    $('#tlist').querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{
+      const g=gs[+b.dataset.i];
+      BK.add({k:'tafsir',ref:`${surahCache[s].ar} ${a}`,surah:s,ayah:a,ayahText:v.t,book:name,slug,gf:g.f,gt:g.t,x:g.x});
+    });
+  }
+  sel.onchange=render;await render();
+}
+
+/* ---------- hadith ---------- */
+const HBOOKS=['bukhari','muslim','abi-dawud','tirmidhi','nasai','ibn-majah'];
+const HNAMES={bukhari:'صحيح البخاري',muslim:'صحيح مسلم','abi-dawud':'سنن أبي داود',tirmidhi:'جامع الترمذي',nasai:'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
+function hnorm(t){return t.replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')}
+async function hadithHome(){
+  app.innerHTML=crumbs([['مجلس','#/'],['الحديث']])+
+   `<div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px">
+    <b>خدمة الشروح الكاملة:</b> <a href="../shami/">موقع شروح الشامي ←</a> 72 شرحاً و100,706 مقاطع مؤكدة بفهرس هرمي. هنا: بحث سريع في متون الكتب الستة.</div>
+   <div class="searchrow"><input type=search id="q" placeholder="ابحث في متن الحديث — مثال: إنما الأعمال بالنيات"></div>
+   <div class="toolbar">${HBOOKS.map(b=>`<label class="chip" style="cursor:default"><input type=checkbox class="hb" value="${b}" checked style="vertical-align:middle"> ${HNAMES[b]}</label>`).join('')}</div>
+   <div id="res"></div>`;
+  $('#q').addEventListener('input',async e=>{
+    const q=hnorm(e.target.value.trim());const res=$('#res');
+    if(q.length<3){res.innerHTML='';return}
+    const books=[...document.querySelectorAll('.hb:checked')].map(x=>x.value);
+    res.innerHTML='<div class="spin">يبحث…</div>';
+    const out=[];
+    for(const b of books){
+      if(!hadCache[b])hadCache[b]=await gz(`${WAHY}hadith/${b}-det.json.gz`).catch(()=>null);
+      const d=hadCache[b];if(!d)continue;
+      for(const id in d.d){const m=d.d[id].m;
+        if(hnorm(m).includes(q))out.push({b,id,m:m,g:d.d[id].g});
+        if(out.length>=120)break}
+      if(out.length>=120)break}
+    res.innerHTML=out.length?out.map((r,i)=>`<div class="hcard"><div class="hm">${esc(r.m.slice(0,300))}${r.m.length>300?'…':''}</div>
+      <div class="hmt">${HNAMES[r.b]} · رقم ${r.id} · مجموعة ${r.g} <button class="btn sec small" data-i="${i}" style="margin-inline-start:8px">＋ إلى الدرس</button></div></div>`).join(''):'<div class="err">لا نتائج</div>';
+    res.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{const r=out[+b.dataset.i];
+      BK.add({k:'hadith',ref:`${HNAMES[r.b]} ${r.id}`,book:HNAMES[r.b],x:r.m})});
+  });
+}
+
+/* ---------- sciences ---------- */
+function ilumHome(){
+  app.innerHTML=crumbs([['مجلس','#/'],['العلوم']])+
+  `<div class="layers" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+   <div class="lcard" onclick="location.href='../shami/'"><div class="t">شروح الحديث — الشامي</div><div class="d">72 شرحاً × مواضع الأحاديث الأربعة، مقاطع مؤكدة الحدود</div></div>
+   <div class="lcard" onclick="location.href='../wahy/muqaran_tafsir.html'"><div class="t">مقارنة التفاسير</div><div class="d">105 تفاسير جنباً إلى جنب على الآية الواحدة</div></div>
+   <div class="lcard" onclick="location.href='../mufassir/'"><div class="t">مِفسّر — مدرّب التفسير</div><div class="d">تدرّب على تفسير الآيات بنفسك</div></div>
+   <div class="lcard" onclick="location.href='../fiqh_reader/'"><div class="t">قارئ الفقه</div><div class="d">فهرس فقهي 55 كتاباً — المسألة إلى مقطعها</div></div>
+   <div class="lcard" onclick="location.href='../fiqh/'"><div class="t">فهرس الفقه المقارن</div><div class="d">مصفوفة الأبواب × الكتب</div></div>
+   <div class="lcard" onclick="location.href='../akida/'"><div class="t">العقيدة والتصوف</div><div class="d">75 كتاباً من صوفيا — فهرس موحّد ونصوص مقطّعة</div></div>
+   <div class="lcard" onclick="location.href='../durus/'"><div class="t">مكتبة الدروس</div><div class="d">الدروس الصوتية والمقاطع</div></div>
+   <div class="lcard" onclick="location.href='../manzuma/'"><div class="t">المنظومة</div><div class="d">لوحة المنهج والمقررات والسلاسل</div></div>
+  </div>`;
+}
+
+/* ---------- salasil ---------- */
+async function salasilHome(){
+  app.innerHTML='<div class="spin">يُحمَّل السلاسل…</div>';
+  SIDX=SIDX||await j(MD+'series_index.json');
+  app.innerHTML=crumbs([['مجلس','#/'],['السلاسل المفرغة']])+
+   `<div class="searchrow"><input type=search id="q" placeholder="سلسلة أو شيخ…"></div>
+    <div class="dim" style="margin:6px 0">${SIDX.length} سلسلة · ${SIDX.reduce((a,s)=>a+s.n,0).toLocaleString('ar')} درساً مفرغاً</div><div id="lst"></div>`;
+  const lst=$('#lst');
+  function render(q){
+    const rows=SIDX.filter(s=>!q||s.name.includes(q)||(s.sheikh||'').includes(q));
+    lst.innerHTML=rows.map(s=>`<div class="srow" onclick="go('#/salasil/${encodeURIComponent(s.key)}')">
+      <div><div class="nm">${esc(s.name)}</div><div class="mt">${esc(s.sheikh||'')} · ${s.n} درساً${s.ayas?` · ${s.ayas} موضع آية`:''}</div></div>
+      <div class="dim">‹</div></div>`).join('')||'<div class="err">لا نتائج</div>';
+  }
+  render('');
+  $('#q').addEventListener('input',e=>render(e.target.value.trim()));
+}
+async function seriesView(key){
+  app.innerHTML='<div class="spin">يُحمَّل السلسلة…</div>';
+  if(!seriesCache[key])seriesCache[key]=await gz(MD+'series/'+key+'.json.gz').catch(()=>null);
+  const s=seriesCache[key];
+  if(!s){app.innerHTML='<div class="err">تعذر تحميل السلسلة</div>';return}
+  app.innerHTML=crumbs([['مجلس','#/'],['السلاسل','#/salasil'],[s.name]])+
+   `<div class="hcard"><b>${esc(s.name)}</b><div class="mt">${esc(s.sheikh)} · ${s.n} درساً مفرغاً</div></div>`+
+   s.lessons.map((l,i)=>`<div class="lrow" onclick="go('#/salasil/${encodeURIComponent(key)}/${i}')">
+     <div><div>${esc(l.t)}</div><div class="dim">${l.ayas.length?l.ayas.length+' آية مذكورة · ':''}${l.hd} إشارة حديث</div></div><div class="dim">‹</div></div>`).join('');
+}
+async function lessonView(key,i){
+  app.innerHTML='<div class="spin">يُحمَّل الدرس…</div>';
+  if(!seriesCache[key])seriesCache[key]=await gz(MD+'series/'+key+'.json.gz');
+  const s=seriesCache[key],l=s.lessons[i];
+  if(!l){app.innerHTML='<div class="err">الدرس غير موجود</div>';return}
+  if(!surahCache._idx)surahCache._idx=await j(WAHY+'index.json');
+  app.innerHTML=crumbs([['مجلس','#/'],['السلاسل','#/salasil'],[s.name,'#/salasil/'+encodeURIComponent(key)],[l.t]])+
+   `<div class="hcard"><b>${esc(l.t)}</b><div class="hmt">${esc(l.sh||s.sheikh)}${l.u?` · <a href="${l.u}" target="_blank">الفيديو الأصلي</a>`:''}</div></div>
+    ${l.ayas.length?`<div class="hcard"><b>الآيات المذكورة في الدرس (${l.ayas.length}):</b><div>${l.ayas.map(k=>`<span class="chip" data-a="${k}">${k} ${esc((surahCache._idx[+k.split(':')[0]-1]||{}).ar||'')}</span>`).join('')}</div></div>`:''}
+    ${l.hd?`<div class="dim" style="margin:8px 0">${l.hd} إشارة إلى حديث داخل التفريغ — ابحث في تبويب «الحديث» عن متنها</div>`:''}
+    <div class="dim">حدّد أي مقطع من التفريغ لإضافته إلى درسك:</div>
+    <div class="transcript" id="tx">${esc(l.x)}</div>
+    <button class="btn fab noprint" id="sel" style="display:none">＋ المقطع المحدد إلى الدرس</button>`;
+  const selB=$('#sel');let selTxt='';
+  document.onmouseup=()=>{const t=String(window.getSelection());selTxt=t.length>30?t:'';selB.style.display=selTxt?'block':'none'};
+  selB.onclick=()=>{if(selTxt){BK.add({k:'excerpt',ref:`${s.name} — ${l.t}`,x:selTxt,url:l.u});selB.style.display='none';window.getSelection().empty()}};
+  document.querySelectorAll('.chip[data-a]').forEach(c=>c.onclick=()=>showAyah(c.dataset.a));
+}
+async function showAyah(k){
+  const [s,a]=k.split(':').map(Number);
+  if(!surahCache[s])surahCache[s]=await j(WAHY+'surah/'+s+'.json');
+  TAFSIRS=TAFSIRS||await j(WAHY+'tafsirs.json');
+  const v=surahCache[s].verses.find(x=>x.a===a);
+  const m=document.createElement('div');m.className='modal';
+  m.innerHTML=`<div class="box"><div class="ayah" style="font-size:17px">${esc(v?v.t:'')} <span class="dim">﴿${k}﴾</span></div>
+    <div class="toolbar"><select id="mtp">${TAFSIRS.filter(t=>t.ar).map(t=>`<option value="${t.s}">${t.n}</option>`).join('')}</select></div>
+    <div id="mtx"><div class="spin">…</div></div>
+    <div class="toolbar"><button class="btn" id="madd">＋ الآية + التفسير إلى الدرس</button><button class="btn sec" id="mclose">إغلاق</button>
+    <a class="btn sec" href="#/tafsir/${s}/${a}" style="padding:9px 16px">افتح في التفسير ‹</a></div></div>`;
+  document.body.appendChild(m);
+  const sel=m.querySelector('#mtp');sel.value='24-tafseer-al-saadi-arabic';
+  let cur=null;
+  async function rr(){
+    const slug=sel.value;
+    if(!tafsirCache[slug])tafsirCache[slug]=await gz(WAHY+'tafsir/'+slug+'.json.gz').catch(()=>null);
+    const t=tafsirCache[slug];cur=t?groupsCovering(t,s,a)[0]:null;
+    m.querySelector('#mtx').innerHTML=cur?`<div class="tafs"><div class="tx">${esc(cur.x)}</div></div>`:'<div class="err">لا تغطية لهذه الآية في هذا التفسير</div>';
+  }
+  sel.onchange=rr;await rr();
+  m.querySelector('#mclose').onclick=()=>m.remove();
+  m.onclick=e=>{if(e.target===m)m.remove()};
+  m.querySelector('#madd').onclick=()=>{BK.add({k:'tafsir',ref:`${surahCache[s].ar} ${a}`,surah:s,ayah:a,ayahText:v?v.t:'',book:(TAFSIRS.find(t=>t.s===sel.value)||{}).n,slug:sel.value,gf:cur?cur.f:k,gt:cur?cur.t:k,x:cur?cur.x:''});m.remove()};
+}
+
+/* ---------- factory ---------- */
+function factory(){
+  const b=BK.get();
+  app.innerHTML=crumbs([['مجلس','#/'],['مصنع الدرس']])+
+   `<div class="dim">اجمع فيه: آية + تفسيرها (من تبويب التفسير أو من درس مفرّغ) + حديث (من تبويب الحديث) + مقاطع محددة من التفريغات. ثم «أنتج الدرس» لورقة جاهزة للطباعة.</div>
+    <div class="toolbar noprint">
+     <input type=text id="dt" placeholder="عنوان الدرس — مثال: درس الجمعة عن الإخلاص" style="flex:2">
+     <button class="btn" id="mk">أنتج الدرس</button>
+     <button class="btn sec" id="clr">أفرغ</button></div>
+    <div id="bl">${b.length?b.map((it,i)=>`<div class="bitem"><div class="bt">${{tafsir:'تفسير',hadith:'حديث',excerpt:'مقطع تفريغ'}[it.k]||it.k} — ${esc(it.ref||'')}</div>
+      <div class="bx">${esc((it.k==='tafsir'?it.ayahText+'\n——\n'+it.x:it.x).slice(0,400))}</div>
+      <div class="toolbar"><button class="btn sec small" data-u="${i}">↑</button><button class="btn sec small" data-d="${i}">↓</button><button class="btn sec small" data-x="${i}">حذف</button></div></div>`).join('')
+     :'<div class="err">المصنع فارغ — أضف من التفسير أو الحديث أو السلاسل</div>'}</div>
+    <div id="doc"></div>`;
+  app.querySelectorAll('[data-u]').forEach(bn=>bn.onclick=()=>{const i=+bn.dataset.u;if(i>0){const b=BK.get();[b[i-1],b[i]]=[b[i],b[i-1]];BK.set(b);factory()}});
+  app.querySelectorAll('[data-d]').forEach(bn=>bn.onclick=()=>{const i=+bn.dataset.d;const b=BK.get();if(i<b.length-1){[b[i+1],b[i]]=[b[i],b[i+1]];BK.set(b);factory()}});
+  app.querySelectorAll('[data-x]').forEach(bn=>bn.onclick=()=>{const b=BK.get();b.splice(+bn.dataset.x,1);BK.set(b);factory()});
+  $('#clr').onclick=()=>{BK.set([]);factory()};
+  $('#mk').onclick=()=>{
+    const title=$('#dt').value.trim()||'درس';
+    const b=BK.get();
+    $('#doc').innerHTML=`<div class="doc" id="pdoc"><h1>${esc(title)}</h1>
+      ${b.map(it=>{
+        if(it.k==='tafsir')return `<div class="qa">${esc(it.ayahText)} ﴿${esc(it.ref)}﴾</div><div class="tf">${esc(it.x)}<div style="color:#666;font-size:12px;margin-top:6px">${esc(it.book||'')}</div></div>`;
+        if(it.k==='hadith')return `<div class="qa" style="border-color:#3a6ea5;background:#eef3fa">قال رسول الله ﷺ: ${esc(it.x)}<div style="color:#666;font-size:12px;margin-top:6px">${esc(it.ref||it.book||'')}</div></div>`;
+        return `<div class="ex">${esc(it.x)}<div style="color:#666;font-size:12px;margin-top:6px">${esc(it.ref||'')}${it.url?` — ${esc(it.url)}`:''}</div></div>`;
+      }).join('')}
+      <div style="color:#888;font-size:11px;margin-top:24px">أُنتج في مَجْلِس — ${new Date().toLocaleDateString('ar')}</div></div>
+      <div class="toolbar noprint"><button class="btn" onclick="window.print()">اطبع / احفظ PDF</button>
+      <button class="btn sec" id="cp">انسخ النص</button></div>`;
+    $('#cp').onclick=()=>{navigator.clipboard.writeText($('#pdoc').innerText);toast('نُسخ')};
+    $('#doc').scrollIntoView({behavior:'smooth'});
+  };
+}
+
+route();
 </script>
-<script src="../shared/palette.js"></script>
-<script src="../shared/feedback.js" data-pid="majlis" data-title="مجلس"></script>
 </body>
 </html>

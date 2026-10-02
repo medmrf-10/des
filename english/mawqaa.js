@@ -114,7 +114,8 @@ function view(){
   </div></div>
 
   ${weak.length?`<div class="head"><h2>كلمات تحتاج عملاً</h2></div>
-  <div class="card"><div class="body" dir="ltr" style="text-align:left">${weak.map(x=>`<span class="fc-chip" style="margin:2px">${esc(x.w)} <i style="color:var(--muted)">${esc(x.ar)}</i></span>`).join('')}</div></div>`:''}
+  <div class="card"><div class="body" dir="ltr" style="text-align:left">${weak.map(x=>`<a href="qamusi.html#${x.w}" style="text-decoration:none"><span class="fc-chip" style="margin:2px">${esc(x.w)} <i style="color:var(--muted)">${esc(x.ar)}</i></span></a>`).join('')}</div>
+  <div class="meta" style="text-align:left;direction:rtl">اضغط كلمة لتراها في <a href="qamusi.html" style="color:var(--gold)">قاموسك</a></div></div>`:''}
 
   <div class="head"><h2>أسبوعك</h2></div>
   <div class="card"><div class="body">

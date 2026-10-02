@@ -62,7 +62,8 @@ function viewHome(){
     ${card('١ · رتّب القصة','جمل قصة مبعثرة — أعدها لترتيبها بالضغط على جملتين للتبديل.','order','startOrder()')}
     ${card('٢ · ترجم القطع','قطعة من جملة حقيقية ← اختر معناها العربي من 3.','chunk','startChunk()')}
     ${card('٣ · الأنماط','أكمل بداية الجملة بنمطها الصحيح — ثم اعرض جملاً أخرى بنفس النمط.','pat','startPat()')}
-  </div>`;
+  </div>
+  <div class="meta" style="text-align:center;margin-top:8px">كلماتك الضعيفة في <a href="qamusi.html" style="color:var(--gold)">قاموسك ←</a></div>`;
 }
 
 /* ---------- ١ · رتّب القصة ---------- */

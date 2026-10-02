@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تسليم الخدمات — أين وصلنا</title>
+<style>
+:root{--bg:#0f1115;--card:#171a21;--txt:#e8e4da;--dim:#9a948a;--border:#2a2e38;--acc:#c9a227;--acc2:#5aa3d9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.9;font-size:16px}
+.wrap{max-width:840px;margin:0 auto;padding:24px 18px 60px}
+h1{font-size:26px;margin:8px 0 4px}
+.sub{color:var(--dim);font-size:14px;margin-bottom:28px}
+h2{font-size:20px;color:var(--acc);border-right:4px solid var(--acc);padding-right:12px;margin-top:36px}
+h3{font-size:16px;color:var(--acc2)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0}
+ul{padding-right:20px;margin:8px 0}
+li{margin:5px 0}
+code{background:#0b0d11;border:1px solid var(--border);border-radius:6px;padding:1px 7px;font-size:13px;color:#e8c96a;font-family:monospace,direction:ltr;unicode-bidi:embed}
+a{color:var(--acc2);text-decoration:none}
+a:hover{text-decoration:underline}
+.gap{background:#1d1410;border:1px solid #5a3a1a;border-radius:10px;padding:12px 16px;margin:10px 0}
+.gap b{color:#e8a24a}
+.num{display:inline-block;min-width:22px;text-align:center;background:var(--acc);color:#000;border-radius:6px;font-weight:800;font-size:13px;padding:0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>تسليم الخدمات — أين وصلنا</h1>
+<div class="sub">2026-10-02 · الحالة بعد آخر نشر على الموقع · <a href="https://github.com/medmrf-10/des/blob/durus-site/handover/SERVICES_2026-10-02.md">المصدر</a></div>
+
+<h2><span class="num">1</span> خدمة الحديث — الأنضج حالياً</h2>
+<div class="card"><ul>
+<li><b>المحتوى:</b> 4 مجموعات مصادر الشامي (أصول السنة، المعالم، الوجيز، الكليات) ← <b>72 كتاب شرح</b> مربوطة بالمواضع.</li>
+<li><b>المقاطع:</b> <b>100,706 مقطع شرح مؤكد</b> بحدود حقيقية (بداية اقتباس الحديث ← ما قبل الوحدة التالية)، و<b>2,725 «غير موجود»</b> = غياب أمين موثّق لا تخمين.</li>
+<li><b>الفهرس:</b> هرمي فعلي: مقصد → كتاب → باب → قائمة أحاديث عمودية.</li>
+<li><b>الجودة:</b> إعادة محاذاة كل الـ75 مجلداً؛ قصّ بدايات/نهايات، لا مقطع فوق 112 ألف حرف، الأقواس مصححة، وسوم HTML مزالة، شارة «رواية» للروايات الفرعية، وبوابة تحقق: لا مقطع يُعرض إلا ونصف مفردات الحديث المميزة فيه (الفاشل → غياب أمين).</li>
+</ul></div>
+<div class="gap"><b>الفجوة الكبرى:</b> فتح الباري لابن حجر غير موجود في المكتبة أصلاً — مؤجل لحديث لاحق.</div>
+<div class="gap"><b>قرار معلّق:</b> علامات <code>&lt;تنبيه&gt;</code>/<code>&lt;فائدة&gt;</code> التحريرية داخل النصوص — تبقى أم تُحوّل؟</div>
+<p style="color:var(--dim);font-size:13px">خط الإنتاج: <code>/home/ubuntu/shami/</code> — reanchor.py · merge_parts.py · validate_giants.py · validate_nones.py · export_sharh2.py</p>
+
+<h2><span class="num">2</span> خدمة التفسير</h2>
+<div class="card"><ul>
+<li><b>الأصل:</b> ريبو <code>wahy</code> — 106 تفاسير مطبّعة + <code>hadith-kg.db</code> (425 كتاباً، 715 ألف ورودة، 20,745 مجموعة معنى).</li>
+<li><b>المنشور:</b> <a href="https://medmrf-10.github.io/des/wahy/muqaran_tafsir.html">مقارنة التفاسير</a> و<a href="https://medmrf-10.github.io/des/mufassir/">مِفسّر (مدرّب التفسير)</a>.</li>
+<li><b>الجاري:</b> مُرجِع التفسير (آية ← مقطع تفسير) وذرات التفسير (جلالين + طبري) — مخرجات وكلاء تحتاج جرداً ودمجاً.</li>
+</ul></div>
+
+<h2><span class="num">3</span> العلوم الشرعية (فقه/أصول)</h2>
+<div class="card"><ul>
+<li>ريبو <code>rlg</code>: فهرس فقهي 55 كتاباً ← ~800K ذرة، مصفوفة 35×55 = 31,068 موضعاً، قارئ منشور. <b>قرار المالك: لا توسعة كمية.</b></li>
+<li>داخل <code>des</code>: صفحات <code>fiqh/</code> و<code>fiqh_reader/</code> و<code>mutalaa/</code> تعمل.</li>
+</ul></div>
+
+<h2><span class="num">4</span> العقيدة والتصوف — مصادر بديلة عن الشاملة</h2>
+<div class="card"><ul>
+<li><b>المصدر:</b> مكتبة <b>صوفيا</b> (معرّفات <code>soufia-*</code>/<code>suf-*</code>) — فُصلت لأن محتوى الشاملة هنا لم يُرضِ المالك.</li>
+<li><b>المنشور:</b> <a href="https://medmrf-10.github.io/des/akida/">قسم العقيدة</a> — 75 كتاباً بفهرس موحّد وذرات مقطّعة (تشمل تصوفاً: الإحياء، القشيرية، التعرف لمذهب أهل التصوف، الاقتصاد في الاعتقاد…).</li>
+<li><b>مكمّل صوتي:</b> تفريغات تصوف/عقيدة جاهزة (الحبيب عمر: مادة التصوف 456، قواعد التصوف 431، عقيدة أهل السنة…).</li>
+</ul></div>
+<div class="gap"><b>الفجوة:</b> التغطية التصوفية الكتبية أضيق من الشاملة — لم يُتخذ قرار توسعة المصدر بعد.</div>
+
+<h2><span class="num">5</span> البنية العرضية</h2>
+<div class="card"><ul>
+<li><b>التفريغ (agy):</b> 2,155+ / 4,590 منجز؛ كوتة Gemini تُستأنف ~10:30 UTC يومياً؛ حرّاس الطابور يحمون من الانقطاعات.</li>
+<li><b>التعلّم:</b> نواة jadid2 (حلقة FSRS-مهارات) مندمجة؛ مجموعات ذرات جزئية؛ الإنجليزية i+1 وبنك تمارين البرمجة جاهزة غير مُطلقة.</li>
+<li><b>موقع القرارات:</b> des v3 على GitHub Pages.</li>
+</ul></div>
+
+<h2>ما لم يُنجز / ينتظر قراراً</h2>
+<div class="card"><ul>
+<li>فتح الباري ابن حجر للحديث.</li>
+<li>علامات <code>&lt;تنبيه&gt;</code>/<code>&lt;فائدة&gt;</code>: إبقاء أو تحويل.</li>
+<li>بقية مجموعات الذرات (2،3،4،5) ونقد المدير المؤجل.</li>
+</ul></div>
+</div>
+</body>
+</html>

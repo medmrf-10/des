@@ -119,7 +119,7 @@ function route(){
   document.onmouseup=null;
   if(k==='') home();
   else if(k==='tafsir') h.length===1?tafsirHome():h.length===2?surahView(+h[1]):ayahView(+h[1],+h[2]);
-  else if(k==='hadith') hadithHome();
+  else if(k==='hadith') hadithHome(h[1]?decodeURIComponent(h[1]):null);
   else if(k==='ilum') ilumHome();
   else if(k==='salasil') h.length===1?salasilHome():h.length===2?seriesView(decodeURIComponent(h[1])):lessonView(decodeURIComponent(h[1]),+h[2]);
   else if(k==='factory') factory();
@@ -214,15 +214,15 @@ async function ayahView(s,a){
 const HBOOKS=['bukhari','muslim','abi-dawud','tirmidhi','nasai','ibn-majah'];
 const HNAMES={bukhari:'صحيح البخاري',muslim:'صحيح مسلم','abi-dawud':'سنن أبي داود',tirmidhi:'جامع الترمذي',nasai:'سنن النسائي','ibn-majah':'سنن ابن ماجه'};
 function hnorm(t){return t.replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')}
-async function hadithHome(){
+async function hadithHome(q0){
   app.innerHTML=crumbs([['مجلس','#/'],['الحديث']])+
    `<div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px">
     <b>خدمة الشروح الكاملة:</b> <a href="../shami/">موقع شروح الشامي ←</a> 72 شرحاً و100,706 مقاطع مؤكدة بفهرس هرمي. هنا: بحث سريع في متون الكتب الستة.</div>
    <div class="searchrow"><input type=search id="q" placeholder="ابحث في متن الحديث — مثال: إنما الأعمال بالنيات"></div>
    <div class="toolbar">${HBOOKS.map(b=>`<label class="chip" style="cursor:default"><input type=checkbox class="hb" value="${b}" checked style="vertical-align:middle"> ${HNAMES[b]}</label>`).join('')}</div>
    <div id="res"></div>`;
-  $('#q').addEventListener('input',async e=>{
-    const q=hnorm(e.target.value.trim());const res=$('#res');
+  const doH=async q=>{
+    const res=$('#res');
     if(q.length<3){res.innerHTML='';return}
     const books=[...document.querySelectorAll('.hb:checked')].map(x=>x.value);
     res.innerHTML='<div class="spin">يبحث…</div>';
@@ -238,7 +238,9 @@ async function hadithHome(){
       <div class="hmt">${HNAMES[r.b]} · رقم ${r.id} · مجموعة ${r.g} <button class="btn sec small" data-i="${i}" style="margin-inline-start:8px">＋ إلى الدرس</button></div></div>`).join(''):'<div class="err">لا نتائج</div>';
     res.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{const r=out[+b.dataset.i];
       BK.add({k:'hadith',ref:`${HNAMES[r.b]} ${r.id}`,book:HNAMES[r.b],x:r.m})});
-  });
+  };
+  $('#q').addEventListener('input',e=>doH(hnorm(e.target.value.trim())));
+  if(q0){$('#q').value=q0;doH(hnorm(q0))}
 }
 
 /* ---------- sciences ---------- */
@@ -315,7 +317,7 @@ async function lessonView(key,i){
   app.innerHTML=crumbs([['مجلس','#/'],['السلاسل','#/salasil'],[s.name,'#/salasil/'+encodeURIComponent(key)],[l.t]])+
    `<div class="hcard"><b>${esc(l.t)}</b><div class="hmt">${esc(l.sh||s.sheikh)}${l.u?` · <a href="${l.u}" target="_blank">الفيديو الأصلي</a>`:''}</div></div>
     ${l.ayas.length?`<div class="hcard"><b>الآيات المذكورة في الدرس (${l.ayas.length}):</b><div>${l.ayas.map(k=>`<span class="chip" data-a="${k}">${k} ${esc((surahCache._idx[+k.split(':')[0]-1]||{}).ar||'')}</span>`).join('')}</div></div>`:''}
-    ${l.hd?`<div class="dim" style="margin:8px 0">${l.hd} إشارة إلى حديث داخل التفريغ — ابحث في تبويب «الحديث» عن متنها</div>`:''}
+    ${l.hdc&&l.hdc.length?`<div class="hcard"><b>إشارات الحديث في الدرس (${l.hd}):</b><div>${l.hdc.map(c=>`<span class="chip" onclick="go('#/hadith/${encodeURIComponent(c.slice(0,45))}')">${esc(c)}</span>`).join('')}</div><div class="dim">اضغط الإشارة للبحث عن متنها في الكتب الستة</div></div>`:(l.hd?`<div class="dim" style="margin:8px 0">${l.hd} إشارة إلى حديث داخل التفريغ — ابحث في تبويب «الحديث» عن متنها</div>`:'')}
     <div class="dim">حدّد أي مقطع من التفريغ لإضافته إلى درسك:</div>
     <div class="transcript" id="tx">${esc(l.x)}</div>
     <div class="toolbar" style="margin-top:14px">

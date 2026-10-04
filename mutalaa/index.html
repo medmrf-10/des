@@ -66,6 +66,12 @@ body{min-height:100dvh;padding:0 0 90px}
 .ser.dragging{opacity:.45}
 .grip{color:var(--dim);font-size:1.05rem;cursor:grab;padding:4px 2px;flex-shrink:0;user-select:none}
 .abtn{border:1px solid var(--border);background:var(--card2);color:var(--dim);border-radius:9px;min-width:40px;height:40px;font-size:.85rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;padding:0 10px}
+.wsel{display:inline-block;min-width:22px;text-align:center;border:1px solid var(--border);border-radius:99px;padding:1px 7px;font-size:.7rem;cursor:pointer;color:var(--dim);margin-inline-start:6px;user-select:none;vertical-align:2px}
+.wsel:hover{border-color:var(--acc)}
+.wsel.w1{color:#7fd4a0;border-color:#2e6b46}
+.wsel.w2{color:#c9a24b;border-color:#8a6d1a}
+.wsel.w3{color:#ff9d5c;border-color:#a05a1a}
+.wsel.wbad{color:#ff5f57;border-color:#7c2f2a;text-decoration:line-through}
 .abtn:hover{border-color:var(--acc);color:var(--acc)}
 .abtn.gold{border-color:var(--acc);color:var(--acc)}
 .abtn.on{border-color:var(--ok);color:var(--ok)}
@@ -145,6 +151,7 @@ let SER=[],q='';
 let soonOrder=JSON.parse(localStorage.getItem('mut_soon_order')||'[]');
 let pending=JSON.parse(localStorage.getItem('mut_pending')||'[]');
 let lists=JSON.parse(localStorage.getItem('mut_lists')||'{}');
+let wantMap=JSON.parse(localStorage.getItem('mut_want')||'{}');
 let addTarget=null,dirty=false;
 const saveLists=()=>localStorage.setItem('mut_lists',JSON.stringify(lists));
 const ser=id=>SER.find(s=>s.id===id);
@@ -206,8 +213,15 @@ function rmFromList(name,id){
   if(!lists[name].length){delete lists[name];nav('#/');}
   saveLists();dirty=true;route();
 }
+function setWant(id,d){
+  d=+d;
+  if(d===0)delete wantMap[id];else wantMap[id]=d;
+  localStorage.setItem('mut_want',JSON.stringify(wantMap));dirty=true;route();
+}
+const WANT_LBL={'-1':'غير مرغوب','0':'محايد','1':'مرغوب','2':'مرغوب جدًا','3':'أولوية قصوى'};
+const WANT_CLS={'-1':'wbad','0':'','1':'w1','2':'w2','3':'w3'};
 async function save(){
-  const payload={kind:'order',ids:soonList().map(s=>s.id),requests:pending,lists,t:Date.now()};
+  const payload={kind:'order',ids:soonList().map(s=>s.id),requests:pending,lists,want:wantMap,t:Date.now()};
   pending.forEach(id=>{const s=ser(id);if(s&&s.status==='none')s.status='soon';});
   pending=[];localStorage.setItem('mut_pending','[]');dirty=false;
   try{await fetch(NT,{method:'POST',body:JSON.stringify(payload)});}catch(e){}
@@ -224,9 +238,11 @@ function serCard(s,opts={}){
   if(s.status==='none')acts=`<button class="abtn req${pending.includes(s.id)?' on':''}" data-req="${s.id}">${pending.includes(s.id)?'✓ مطلوبة':'اطلبها'}</button>`;
   if(opts.rm)acts+=`<button class="abtn" data-rm="${s.id}">✕</button>`;
   acts+=`<button class="abtn gold" data-add="${s.id}" title="أضف لقائمة">+</button>`;
+  const wd=wantMap[s.id]||0;
+  const wsel=`<span class="wsel ${WANT_CLS[wd]}" data-want="${s.id}" title="درجة الرغبة: ${WANT_LBL[wd]}">${wd===0?'◌':wd<0?'✗':'♥'+wd}</span>`;
   return `<div class="ser" data-id="${s.id}"${s.status==='soon'?' draggable="true"':''}>
     <div class="ic">${ICON[s.status]}</div>
-    <div class="mid"><div class="nm">${disp(s.name)}</div>
+    <div class="mid"><div class="nm">${disp(s.name)} ${wsel}</div>
       <div class="mt"><span class="chip ${s.status}">${LABEL[s.status]}</span><span>${s.done}/${s.total||'؟'} حلقة</span><span>${esc(lat(s.sheikh||''))}</span></div>
       ${s.total&&s.status!=='none'?`<div class="pb2"><i style="width:${pct}%"></i></div>`:''}
     </div><div class="acts">${acts}</div></div>`;
@@ -249,6 +265,9 @@ function bindActs(el){
     if(e.target.closest('[data-mv]')){e.stopPropagation();return moveSoon(e.target.closest('[data-mv]').dataset.id,+e.target.closest('[data-mv]').dataset.mv);}
     if(e.target.closest('[data-req]')){e.stopPropagation();return toggleReq(e.target.closest('[data-req]').dataset.req);}
     if(e.target.closest('[data-add]')){e.stopPropagation();return openAdd(e.target.closest('[data-add]').dataset.add);}
+    if(e.target.closest('[data-want]')){e.stopPropagation();
+      const w=e.target.closest('[data-want]'),cur=wantMap[w.dataset.want]||0;
+      const seq=[0,1,2,3,-1];return setWant(w.dataset.want,seq[(seq.indexOf(cur)+1)%seq.length]);}
     if(e.target.closest('[data-rm]')){e.stopPropagation();return rmFromList(decodeURIComponent(location.hash.slice(7)),e.target.closest('[data-rm]').dataset.rm);}
     nav('#/s/'+c.dataset.id);
   });

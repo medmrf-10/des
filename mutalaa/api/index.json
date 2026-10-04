@@ -1,0 +1,12 @@
+{
+ "series": 1006,
+ "sheikhs": 11,
+ "t": 0,
+ "endpoints": {
+  "series.json": "كل السلاسل مصغّرة",
+  "series/<id>.json": "سلسلة كاملة + ملفاتها",
+  "sheikhs.json": "مجمّعة حسب الشيخ",
+  "next.json": "السلسلة التالية + الطابور"
+ },
+ "writes": "POST ntfy.sh/des_mutalaa_q9 — {kind:'order',ids,requests,lists,want,t}"
+}
